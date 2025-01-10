@@ -109,6 +109,22 @@ const variants = getInteractiveVariants('#FC72A7');
 Create interactive variants (hovered, active...) for the given color. You can specify as an additional parameter the
 type of variation to use for the interactive colors (lighten or darken the color, default = lighten).
 
+### fullyColorSVG
+```tsx
+import { useCallback } from 'react';
+import { fullyColorSVG } from '@monkvision/common';
+import { DynamicSVG } from '@monkvision/common-ui-web';
+
+function TestComponent() {
+  const getAttributes = useCallback((element: Element) => fullyColorSVG(element, '#FFFFFF'), []);
+  return (
+    <DynamicSVG svg={logoSVG} getAttributes={getAttributes} />
+  );
+}
+```
+This utility function can be passed to the `DynamicSVG` component's `getAttributes` prop to completely color an SVG
+with the given color. This is useful when wanting to color a single-color icon or logo.
+
 ---
 
 # Config Utils
@@ -119,7 +135,7 @@ import { getAvailableVehicleTypes } from '@monkvision/common';
 console.log(getAvailableVehicleTypes(config));
 // Output : [VehicleType.CITY, VehicleType.SUV]
 ```
-Returns the list of available vehicle types based on the `sights` property of a `CaptureAppConfig` object.
+Returns the list of available vehicle types based on the `sights` property of a `PhotoCaptureAppConfig` object.
 
 # Environment Utils
 ### getEnvOrThrow

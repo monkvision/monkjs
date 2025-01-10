@@ -12,3 +12,4 @@ export * from './useAsyncInterval';
 export * from './useObjectMemo';
 export * from './useForm';
 export * from './useIsMounted';
+export * from './useDeviceOrientation';

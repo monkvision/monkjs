@@ -1,4 +1,4 @@
-import { CaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
+import { PhotoCaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
 import { useResponsiveStyle } from '@monkvision/common';
 import { CSSProperties } from 'react';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
@@ -8,7 +8,10 @@ import { TutorialSteps } from '../../hooks';
  * Props of the PhotoCaptureHUDElementsSight component.
  */
 export interface PhotoCaptureHUDElementsSightProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'> {
+  extends Pick<
+    PhotoCaptureAppConfig,
+    'enableSightGuidelines' | 'sightGuidelines' | 'enableAddDamage'
+  > {
   /**
    * The list of sights provided to the PhotoCapture component.
    */

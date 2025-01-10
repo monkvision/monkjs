@@ -18,11 +18,13 @@ import { createFakePromise } from '@monkvision/test-utils';
 
 function renderUseUserMedia(initialProps: {
   constraints: MediaStreamConstraints;
-  videoRef: RefObject<HTMLVideoElement>;
+  videoRef: RefObject<HTMLVideoElement> | null;
 }) {
   return renderHook(
-    (props: { constraints: MediaStreamConstraints; videoRef: RefObject<HTMLVideoElement> }) =>
-      useUserMedia(props.constraints, props.videoRef),
+    (props: {
+      constraints: MediaStreamConstraints;
+      videoRef: RefObject<HTMLVideoElement> | null;
+    }) => useUserMedia(props.constraints, props.videoRef),
     { initialProps },
   );
 }
@@ -45,6 +47,17 @@ describe('useUserMedia hook', () => {
     jest.clearAllMocks();
   });
 
+  it('should not call getUserMedia if the videoRef is null', async () => {
+    const constraints: MediaStreamConstraints = {
+      audio: false,
+      video: { width: 123, height: 456 },
+    };
+    const { unmount } = renderUseUserMedia({ constraints, videoRef: null });
+    expect(analyzeCameraDevices).not.toHaveBeenCalled();
+    expect(gumMock?.getUserMediaSpy).not.toHaveBeenCalled();
+    unmount();
+  });
+
   it('should make a call to the getUserMedia with the given constraints', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const constraints: MediaStreamConstraints = {
@@ -52,6 +65,32 @@ describe('useUserMedia hook', () => {
       video: { width: 123, height: 456 },
     };
     const { unmount } = renderUseUserMedia({ constraints, videoRef });
+    await waitFor(() => {
+      expect(analyzeCameraDevices).toHaveBeenCalled();
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledTimes(1);
+      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith({
+        ...constraints,
+        video: {
+          ...(constraints?.video as any),
+          deviceId: { exact: validDeviceIds },
+        },
+      });
+    });
+    unmount();
+  });
+
+  it('should make a call to the getUserMedia with the given constraints (case when videoRef null)', async () => {
+    const constraints: MediaStreamConstraints = {
+      audio: false,
+      video: { width: 123, height: 456 },
+    };
+    const { result, unmount } = renderUseUserMedia({ constraints, videoRef: null });
+    expect(analyzeCameraDevices).not.toHaveBeenCalled();
+    expect(gumMock?.getUserMediaSpy).not.toHaveBeenCalled();
+    await act(async () => {
+      const stream = await result.current.getUserMedia();
+      expect(stream).toEqual(gumMock?.stream);
+    });
     await waitFor(() => {
       expect(analyzeCameraDevices).toHaveBeenCalled();
       expect(gumMock?.getUserMediaSpy).toHaveBeenCalledTimes(1);
@@ -76,6 +115,7 @@ describe('useUserMedia hook', () => {
     const settings = gumMock?.tracks[0].getSettings();
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: gumMock?.stream,
         dimensions: { width: settings?.width, height: settings?.height },
         error: null,
@@ -117,6 +157,7 @@ describe('useUserMedia hook', () => {
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {
@@ -143,6 +184,7 @@ describe('useUserMedia hook', () => {
     const { result } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {
@@ -168,6 +210,7 @@ describe('useUserMedia hook', () => {
     const { result } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {
@@ -188,6 +231,7 @@ describe('useUserMedia hook', () => {
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {
@@ -223,6 +267,7 @@ describe('useUserMedia hook', () => {
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {
@@ -257,6 +302,7 @@ describe('useUserMedia hook', () => {
       // eslint-disable-next-line no-await-in-loop
       await waitFor(() => {
         expect(result.current).toEqual({
+          getUserMedia: expect.any(Function),
           stream: null,
           dimensions: null,
           error: {
@@ -282,6 +328,7 @@ describe('useUserMedia hook', () => {
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
       expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
         stream: null,
         dimensions: null,
         error: {

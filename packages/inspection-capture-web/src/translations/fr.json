@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Veuillez tourner votre appareil.",
-      "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
-    },
     "badConnectionWarning": {
       "message": "Il semble que votre connexion soit instable. Les téléchargements d'images peuvent être longs ou impossibles.",
       "confirm": "J'ai compris"
@@ -44,5 +40,63 @@
         "next": "Suivant"
       }
     }
+  },
+  "video": {
+    "introduction": {
+      "title": "Enregistrer une vidéo d'inspection du véhicule"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Caméra",
+        "description": "Pour enregistrer une vidéo, vous devez autoriser l'accès à la caméra de l'appareil"
+      },
+      "compass": {
+        "title": "Boussole",
+        "description": "Pour détecter une circulation complète à 360° du véhicule, vous devez autoriser l'accès à la boussole de l'appareil"
+      },
+      "confirm": "Gérer les autorisations"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Commencez par l'avant",
+        "description": "Gardez une distance d'un mètre et faites lentement le tour du véhicule, en capturant la ligne de toit jusqu'au sol."
+      },
+      "finish": {
+        "title": "Terminez là où vous avez commencé",
+        "description": "L'enregistrement devrait être terminé au bout d'environ 45 secondes."
+      },
+      "photos": {
+        "title": "Prenez des photos si nécessaire",
+        "description": "Appuyez sur le bouton de capture pour prendre des photos de remarketing ou de dommages pendant l'enregistrement."
+      },
+      "confirm": "Enregistrer une vidéo"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Voulez-vous annuler la vidéo ? Vous n'avez pas fait le tour complet du véhicule.",
+        "keepRecording": "Continuer l'enregistrement",
+        "discardVideo": "Annuler la vidéo"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Vous allez trop vite ! Ralentissez un peu. Il devrait vous falloir environ une minute pour faire le tour du véhicule.",
+        "phoneShaking": "Votre appareil tremble trop ! Essayez de garder l'appareil photo stable pendant l'enregistrement de votre véhicule.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Une fois devant le véhicule, appuyez sur le bouton pour commencer à enregistrer la vidéo.",
+        "end": "Une fois le tour du véhicule terminé, appuyez sur le bouton pour arrêter l'enregistrement."
+      }
+    },
+    "processing": {
+      "processing": "Traitement de la vidéo...",
+      "uploading": "Téléchargement de la vidéo...",
+      "success": "Traitement de la vidéo terminé !",
+      "error": "Une erreur s'est produite lors de la finalisation de l'inspection. ID d'inspection :",
+      "done": "Terminé"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Veuillez tourner votre appareil.",
+    "description": "Il vous faudra peut-être débloquer l'orientation de votre appareil dans les paramètres de votre téléphone."
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@monkvision/common-ui-web';
-import { CaptureAppConfig } from '@monkvision/types';
+import { PhotoCaptureAppConfig } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { getLanguage } from '@monkvision/common';
 import { usePhotoCaptureHUDButtonBackground } from '../../hooks';
@@ -10,7 +10,10 @@ import { styles } from './SightGuideline.styles';
  * Props of the SightGuideline component.
  */
 export interface SightGuidelineProps
-  extends Pick<CaptureAppConfig, 'enableAddDamage' | 'sightGuidelines' | 'enableSightGuidelines'> {
+  extends Pick<
+    PhotoCaptureAppConfig,
+    'enableAddDamage' | 'sightGuidelines' | 'enableSightGuidelines'
+  > {
   /**
    * The id of the sight.
    */

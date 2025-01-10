@@ -27,6 +27,24 @@ export enum DeviceOrientation {
 }
 
 /**
+ * Object containing the current 3D rotation of a device on the 3 main rotation axis.
+ */
+export interface DeviceRotation {
+  /**
+   * The device orientation around the Z axis (yaw).
+   */
+  alpha: number;
+  /**
+   * The device orientation around the X axis (pitch).
+   */
+  beta: number;
+  /**
+   * The device orientation around the Y axis (roll).
+   */
+  gamma: number;
+}
+
+/**
  * Enumeration of the possible sort orders.
  */
 export enum SortOrder {

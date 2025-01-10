@@ -1,15 +1,8 @@
 import { useAnalytics } from '@monkvision/analytics';
-import { Camera, CameraHUDProps, CameraProps } from '@monkvision/camera-web';
-import {
-  useI18nSync,
-  useLoadingState,
-  useObjectMemo,
-  usePreventExit,
-  useWindowDimensions,
-} from '@monkvision/common';
+import { Camera, CameraHUDProps } from '@monkvision/camera-web';
+import { useI18nSync, useLoadingState, useObjectMemo, usePreventExit } from '@monkvision/common';
 import {
   BackdropDialog,
-  Icon,
   InspectionGallery,
   NavigateToCaptureOptions,
   NavigateToCaptureReason,
@@ -18,11 +11,9 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from '@monkvision/network';
 import {
   CameraConfig,
-  CaptureAppConfig,
   ComplianceOptions,
-  CompressionOptions,
-  DeviceOrientation,
   MonkPicture,
+  PhotoCaptureAppConfig,
   PhotoCaptureTutorialOption,
   Sight,
 } from '@monkvision/types';
@@ -30,6 +21,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
+import { useStartTasksOnComplete } from '../hooks';
 import {
   useAdaptiveCameraConfig,
   useAddDamageMode,
@@ -39,7 +31,6 @@ import {
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
   usePictureTaken,
-  useStartTasksOnComplete,
   useTracking,
   useUploadQueue,
 } from './hooks';
@@ -48,9 +39,8 @@ import {
  * Props of the PhotoCapture component.
  */
 export interface PhotoCaptureProps
-  extends Pick<CameraProps<PhotoCaptureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
-    Pick<
-      CaptureAppConfig,
+  extends Pick<
+      PhotoCaptureAppConfig,
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
@@ -67,7 +57,6 @@ export interface PhotoCaptureProps
       | 'allowSkipTutorial'
       | 'enableSightTutorial'
     >,
-    Partial<CompressionOptions>,
     Partial<ComplianceOptions> {
   /**
    * The list of sights to take pictures of. The values in this array should be retreived from the `@monkvision/sights`
@@ -160,7 +149,6 @@ export function PhotoCapture({
   const { t } = useTranslation();
   const monitoring = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
-  const dimensions = useWindowDimensions();
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const addDamageHandle = useAddDamageMode();
@@ -255,9 +243,6 @@ export function PhotoCapture({
         monitoring.handleError(err);
       });
   };
-  const isViolatingEnforcedOrientation =
-    enforceOrientation &&
-    (enforceOrientation === DeviceOrientation.PORTRAIT) !== dimensions.isPortrait;
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {
     sights,
     selectedSight: sightState.selectedSight,
@@ -282,22 +267,12 @@ export function PhotoCapture({
     onNextTutorialStep: goToNextTutorialStep,
     onCloseTutorial: closeTutorial,
     allowSkipTutorial,
+    enforceOrientation,
   };
 
   return (
     <div style={styles['container']}>
-      {currentScreen === PhotoCaptureScreen.CAMERA && isViolatingEnforcedOrientation && (
-        <div style={styles['orientationErrorContainer']}>
-          <div style={styles['orientationErrorTitleContainer']}>
-            <Icon icon='rotate' primaryColor='text-primary' size={30} />
-            <div style={styles['orientationErrorTitle']}>{t('photo.orientationError.title')}</div>
-          </div>
-          <div style={styles['orientationErrorDescription']}>
-            {t('photo.orientationError.description')}
-          </div>
-        </div>
-      )}
-      {currentScreen === PhotoCaptureScreen.CAMERA && !isViolatingEnforcedOrientation && (
+      {currentScreen === PhotoCaptureScreen.CAMERA && (
         <Camera
           HUDComponent={PhotoCaptureHUD}
           onPictureTaken={handlePictureTaken}

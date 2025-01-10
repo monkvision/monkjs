@@ -187,5 +187,18 @@ describe('useCompression hook', () => {
       );
       unmount();
     });
+
+    it('should work properly without any monitoring parameter', async () => {
+      const canvasRef = {} as RefObject<HTMLCanvasElement>;
+      const options = { format: CompressionFormat.JPEG, quality: 0.6 };
+
+      const { result, unmount } = renderHook(useCompression, {
+        initialProps: { canvasRef, options },
+      });
+
+      const value = await result.current(mockImageData);
+      expect(value.blob).toBeDefined();
+      unmount();
+    });
   });
 });

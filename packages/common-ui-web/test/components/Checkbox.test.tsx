@@ -1,13 +1,12 @@
-import { changeAlpha } from '@monkvision/common';
-
 jest.mock('../../src/icons', () => ({
   Icon: jest.fn(() => <></>),
 }));
 
 import '@testing-library/jest-dom';
+import { changeAlpha } from '@monkvision/common';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { Checkbox, Icon } from '../../src';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { Checkbox, Icon } from '../../src';
 
 const CHECKBOX_TEST_ID = 'checkbox-btn';
 

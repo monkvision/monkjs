@@ -1,4 +1,4 @@
-import { CaptureAppConfig, Sight, TaskName } from '@monkvision/types';
+import { PhotoCaptureAppConfig, Sight, TaskName } from '@monkvision/types';
 import { flatMap, LoadingState, uniq } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -8,15 +8,11 @@ import { useCallback } from 'react';
  * Parameters of the useStartTasksOnComplete hook.
  */
 export interface UseStartTasksOnCompleteParams
-  extends Pick<CaptureAppConfig, 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'> {
+  extends Pick<PhotoCaptureAppConfig, 'additionalTasks' | 'tasksBySight' | 'startTasksOnComplete'> {
   /**
    * The inspection ID.
    */
   inspectionId: string;
-  /**
-   * The list of sights passed to the PhotoCapture component.
-   */
-  sights: Sight[];
   /**
    * The api config used to communicate with the API.
    */
@@ -25,6 +21,10 @@ export interface UseStartTasksOnCompleteParams
    * Global loading state of the PhotoCapture component.
    */
   loading: LoadingState;
+  /**
+   * The list of sights passed to the PhotoCapture component.
+   */
+  sights?: Sight[];
 }
 
 /**
@@ -47,7 +47,9 @@ function getTasksToStart({
   if (Array.isArray(startTasksOnComplete)) {
     tasks = startTasksOnComplete;
   } else {
-    tasks = uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks));
+    tasks = sights
+      ? uniq(flatMap(sights, (sight) => tasksBySight?.[sight.id] ?? sight.tasks))
+      : [TaskName.DAMAGE_DETECTION];
     additionalTasks?.forEach((additionalTask) => {
       if (!tasks.includes(additionalTask)) {
         tasks.push(additionalTask);

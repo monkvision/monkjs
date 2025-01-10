@@ -6,6 +6,20 @@ import { DeviceOrientation } from './utils';
 import { CreateInspectionOptions, MonkApiPermission } from './api';
 
 /**
+ * The types of insepction capture workflow.
+ */
+export enum CaptureWorkflow {
+  /**
+   * PhotoCapture workflow.
+   */
+  PHOTO = 'photo',
+  /**
+   * VideoCapture workflow.
+   */
+  VIDEO = 'video',
+}
+
+/**
  * Enumeration of the tutorial options.
  */
 export enum PhotoCaptureTutorialOption {
@@ -52,39 +66,93 @@ export type CameraConfig = Partial<CompressionOptions> & {
 };
 
 /**
- * The configuration options for inspection capture applications.
+ * Shared config used by both PhotoCapture and VideoCapture apps.
  */
-export type CaptureAppConfig = CameraConfig &
+export type SharedCaptureAppConfig = CameraConfig & {
+  /**
+   * An optional list of additional tasks to run on every image of the inspection.
+   */
+  additionalTasks?: TaskName[];
+  /**
+   * Value indicating if tasks should be started at the end of the inspection :
+   * - If not provided or if value is set to `false`, no tasks will be started.
+   * - If set to `true`, for photo capture apps : the tasks described by the `tasksBySight` param (or, if not provided,
+   * the default tasks of each sight) will be started.
+   * - If set to `true`, for video capture apps : the default tasks of each sight (and also optionally the ones
+   *   described by the `additionalTasks` param) will be started.
+   * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
+   *
+   * @default true
+   */
+  startTasksOnComplete?: boolean | TaskName[];
+  /**
+   * Use this prop to enforce a specific device orientation for the Camera screen.
+   */
+  enforceOrientation?: DeviceOrientation;
+  /**
+   * Boolean indicating if manual login and logout in the app should be enabled or not.
+   */
+  allowManualLogin: boolean;
+  /**
+   * Boolean indicating if the application state (such as auth token, inspection ID etc.) should be fetched from the
+   * URL search params or not.
+   */
+  fetchFromSearchParams: boolean;
+  /**
+   * The API domain used to communicate with the API.
+   */
+  apiDomain: string;
+  /**
+   * The API domain used to communicate with the resize microservice.
+   */
+  thumbnailDomain: string;
+  /**
+   * Required API permissions to use the app.
+   */
+  requiredApiPermissions?: MonkApiPermission[];
+  /**
+   * Optional color palette to extend the default Monk palette.
+   */
+  palette?: Partial<MonkPalette>;
+} & (
+    | {
+        /**
+         * Boolean indicating if automatic inspection creation should be allowed or not.
+         */
+        allowCreateInspection: false;
+      }
+    | {
+        /**
+         * Boolean indicating if automatic inspection creation should be allowed or not.
+         */
+        allowCreateInspection: true;
+        /**
+         * Options used when automatically creating an inspection.
+         */
+        createInspectionOptions: CreateInspectionOptions;
+      }
+  );
+
+/**
+ * The configuration options for inspection capture applications using the PhotoCapture workflow.
+ */
+export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
   ComplianceOptions & {
     /**
-     * An optional list of additional tasks to run on every Sight of the inspection.
+     * The capture workflow of the capture app.
      */
-    additionalTasks?: TaskName[];
+    workflow: CaptureWorkflow.PHOTO;
     /**
      * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
      * sight will be used.
      */
     tasksBySight?: Record<string, TaskName[]>;
     /**
-     * Value indicating if tasks should be started at the end of the inspection :
-     * - If not provided or if value is set to `false`, no tasks will be started.
-     * - If set to `true`, the tasks described by the `tasksBySight` param (or, if not provided, the default tasks of
-     * each sight) will be started.
-     * - If an array of tasks is provided, the tasks started will be the ones contained in the array.
-     *
-     * @default true
-     */
-    startTasksOnComplete?: boolean | TaskName[];
-    /**
      * Boolean indicating if the close button should be displayed in the HUD on top of the Camera preview.
      *
      * @default false
      */
     showCloseButton?: boolean;
-    /**
-     * Use this prop to enforce a specific device orientation for the Camera screen.
-     */
-    enforceOrientation?: DeviceOrientation;
     /**
      * A number indicating the maximum allowed duration in milliseconds for an upload before raising a "Bad Connection"
      * warning to the user. Set this value to -1 to never show this warning to the user.
@@ -128,26 +196,9 @@ export type CaptureAppConfig = CameraConfig &
      */
     defaultVehicleType: VehicleType;
     /**
-     * Boolean indicating if manual login and logout in the app should be enabled or not.
-     */
-    allowManualLogin: boolean;
-    /**
      * Boolean indicating if vehicle type selection should be enabled if the vehicle type is not defined.
      */
     allowVehicleTypeSelection: boolean;
-    /**
-     * Boolean indicating if the application state (such as auth token, inspection ID etc.) should be fetched from the
-     * URL search params or not.
-     */
-    fetchFromSearchParams: boolean;
-    /**
-     * The API domain used to communicate with the API.
-     */
-    apiDomain: string;
-    /**
-     * The API domain used to communicate with the resize micro service.
-     */
-    thumbnailDomain: string;
     /**
      * Options for displaying the photo capture tutorial.
      *
@@ -167,14 +218,6 @@ export type CaptureAppConfig = CameraConfig &
      * @default true
      */
     enableSightTutorial?: boolean;
-    /**
-     * Required API permissions to use the app.
-     */
-    requiredApiPermissions?: MonkApiPermission[];
-    /**
-     * Optional color palette to extend the default Monk palette.
-     */
-    palette?: Partial<MonkPalette>;
   } & (
     | {
         /**
@@ -200,30 +243,60 @@ export type CaptureAppConfig = CameraConfig &
          */
         sights: Record<SteeringWheelPosition, Partial<Record<VehicleType, string[]>>>;
       }
-  ) &
-  (
-    | {
-        /**
-         * Boolean indicating if automatic inspection creation should be allowed or not.
-         */
-        allowCreateInspection: false;
-      }
-    | {
-        /**
-         * Boolean indicating if automatic inspection creation should be allowed or not.
-         */
-        allowCreateInspection: true;
-        /**
-         * Options used when automatically creating an inspection.
-         */
-        createInspectionOptions: CreateInspectionOptions;
-      }
   );
+
+/**
+ * The configuration options for inspection capture applications using the VideoCapture workflow.
+ */
+export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
+  /**
+   * The capture workflow of the capture app.
+   */
+  workflow: CaptureWorkflow.VIDEO;
+  /**
+   * The minimum duration of a recording in milliseconds.
+   *
+   * @default 15000
+   */
+  minRecordingDuration?: number;
+  /**
+   * The maximum number of retries for failed image uploads.
+   *
+   * @default 3
+   */
+  maxRetryCount?: number;
+  /**
+   * Boolean indicating if a warning should be shown to the user when they are walking too fast around the vehicle.
+   *
+   * @default true
+   */
+  enableFastWalkingWarning?: boolean;
+  /**
+   * Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.
+   *
+   * @default true
+   */
+  enablePhoneShakingWarning?: boolean;
+  /**
+   * The duration (in milliseconds) to wait between fast walking warnings. We recommend setting this value to at least
+   * 1000.
+   *
+   * @default 4000
+   */
+  fastWalkingWarningCooldown?: number;
+  /**
+   * The duration (in milliseconds) to wait between phone shaking warnings. We recommend setting this value to at least
+   * 1000.
+   *
+   * @default 4000
+   */
+  phoneShakingWarningCooldown?: number;
+};
 
 /**
  * Live configuration used to configure Monk apps on the go.
  */
-export type LiveConfig = CaptureAppConfig & {
+export type LiveConfig = (PhotoCaptureAppConfig | VideoCaptureAppConfig) & {
   /**
    * The ID of the live config, used to fetch it from the API.
    */

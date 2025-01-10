@@ -351,7 +351,7 @@ for more details.
 | Prop        | Type                            | Description                                                           | Required | Default Value |
 |-------------|---------------------------------|-----------------------------------------------------------------------|----------|---------------|
 | id          | string                          | The ID of the application Live Config.                                | ✔️       |               |
-| localConfig | CaptureAppConfig                | Use this prop to configure a configuration on your local environment. |          |               |
+| localConfig | PhotoCaptureAppConfig           | Use this prop to configure a configuration on your local environment. |          |               |
 | lang        | <code>string &#124; null</code> | The language used by this component.                                  |          | `en`          |
 
 ---
@@ -386,6 +386,31 @@ function LoginPage() {
 | lang                | <code>string &#124; null</code> | The language used by this component.                                                                                                           |          | `en`          |
 | requiredPermissions | MonkApiPermission[]             | A list of required permissions to access the application.                                                                                      |          |               |
 | style               | CSSProperties                   | Custom styles applied to the main container of the page.                                                                                       |          |               |
+
+---
+
+## RecordVideoButton
+### Description
+Button used on the VideoCapture component, displayed on top of the camera preview to allow the user to record a video.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { RecordVideoButton } from '@monkvision/common-ui-web';
+
+function App() {
+  const [isRecording, setIsRecording] = useState(false);
+  return <RecordVideoButton isRecording={isRecording} onClick={() => setIsRecording((v) => !v)} />;
+}
+```
+
+### Props
+| Prop            | Type                                              | Description                                                           | Required | Default Value |
+|-----------------|---------------------------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| size            | number                                            | The size of the button in pixels.                                     |          | `80`          |
+| isRecording     | boolean                                           | Boolean indicating if the user is currently recording a video or not. |          | `false`       |
+| tooltip         | string                                            | Optional tooltip that will be displayed around the button.            |          |               |
+| tooltipPosition | `'up' &#124; 'down' &#124; 'right' &#124; 'left'` | The position of the tooltip around the button.                        |          | `'up'`        |
 
 ---
 
@@ -624,22 +649,8 @@ function VehicleSelectionPage() {
 | inspectionId          | string                      | The ID of the inspection.                                                                                                |          |                                                      |
 | apiDomain             | string                      | The domain of the Monk API.                                                                                              |          |                                                      |
 | authToken             | string                      | The authentication token used to communicate with the API.                                                               |          |                                                      |
-## VehiclePartSelection
-I shows the collections of VehicleDynamicWireframe and we can switch between 4 different views front left, front right, rear left and rear right.
-### Example
-```tsx
-function Component() {
-  return <VehiclePartSelection
-    vehicleModel={VehicleModel.FESC20}
-    onPartsSelected={(p) => console.log(p)} />
-}
-```
-### Props
-| Prop            | Type                           | Description                                                                             | Required| Default Value|
-|-----------------|--------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
-| vehicleModel    | VehicleModel                   | Initial vehicle model.                                                                  | ✔️       |              |
-| orientation     | PartSelectionOrientation       | Orientation where the vehicle want to face.                                             |         | front-left   |
-| onPartsSelected | (parts: VehiclePart[]) => void | Callback called when update selected parts.                                             |         |              |
+
+---
 
 ## VehicleDynamicWireframe
 For the given Vehicle Model and orientation. It shows the wireframe on the view and we can able to select it.
@@ -675,3 +686,40 @@ getPartAttributes
 | onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                 |         |              |
 | getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                  |         |              |
 
+---
+
+## VehicleWalkaroundIndicator
+Component used to display a position indicator to the user when they are walking around their vehicle in the
+VideoCapture process.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { useDeviceOrientation } from '@monkvision/common';
+import { Button, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
+
+function TestComponent() {
+  const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
+  const { alpha, requestCompassPermission, isPermissionGranted } = useDeviceOrientation();
+
+  if (!isPermissionGranted) {
+    return <Button onClick={requestCompassPermission}>Grant Compass Permission</Button>;
+  }
+
+  if (startingAlpha === null) {
+    return <button onClick={() => setStartingAlpha(alpha)}>Start</button>;
+  }
+
+  const diff = startingAlpha - alpha;
+  const rotation = diff < 0 ? 360 + diff : diff;
+
+  return (
+    <VehicleWalkaroundIndicator alpha={rotation} />
+  );
+}
+```
+### Props
+| Prop  | Type   | Description                                                      | Required | Default Value |
+|-------|--------|------------------------------------------------------------------|----------|---------------|
+| alpha | number | The rotation of the user around the vehicle (between 0 and 359). | ✔️       |               |
+| size  | number | The size of the indicator in pixels.                             |          | 60            |

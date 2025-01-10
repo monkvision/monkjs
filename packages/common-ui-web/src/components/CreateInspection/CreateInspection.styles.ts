@@ -11,6 +11,7 @@ export const styles: Styles = {
   },
   errorMessage: {
     textAlign: 'center',
+    padding: '0 16px 16px 16px',
   },
   retryButtonContainer: {
     paddingTop: 20,

@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Bitte drehen Sie Ihr Gerät.",
-      "description": "Möglicherweise müssen Sie die Ausrichtung Ihres Geräts über die Telefoneinstellungen entsperren."
-    },
     "badConnectionWarning": {
       "message": "Es scheint, dass Ihre Verbindung instabil ist. Das Hochladen von Bildern kann lange dauern oder unmöglich sein.",
       "confirm": "Ich verstehe"
@@ -44,5 +40,63 @@
         "next": "Weiter"
       }
     }
+  },
+  "video": {
+    "introduction": {
+      "title": "Aufzeichnung eines Videos zur Fahrzeugbegehung"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Um Videos aufzunehmen, müssen Sie den Zugriff auf die Kamera des Geräts erlauben"
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "Um einen vollständigen 360°-Umlauf des Fahrzeugs zu erfassen, müssen Sie den Zugriff auf den Kompass des Geräts erlauben"
+      },
+      "confirm": "Berechtigungen verwalten"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Beginnen Sie an der Vorderseite",
+        "description": "Halten Sie einen Abstand von 1 Meter und gehen Sie langsam um das Fahrzeug herum, indem Sie es von der Dachlinie bis zum Boden aufnehmen."
+      },
+      "finish": {
+        "title": "Beenden Sie die Aufnahme dort, wo Sie begonnen haben.",
+        "description": "Sie sollten die Aufnahme in etwa 45 Sekunden beenden."
+      },
+      "photos": {
+        "title": "Machen Sie nach Bedarf Fotos",
+        "description": "Drücken Sie den Auslöser, um während der Aufnahme Fotos von der Wiedervermarktung oder von Schäden zu machen."
+      },
+      "confirm": "Ein Video aufnehmen"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Möchten Sie das Video verwerfen? Sie sind noch nicht ganz um das Fahrzeug herumgekommen.",
+        "keepRecording": "Aufnahme beibehalten",
+        "discardVideo": "Video verwerfen"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Sie sind zu schnell unterwegs! Fahren Sie etwas langsamer, es sollte etwa eine Minute dauern, bis Sie das Fahrzeug umrundet haben.",
+        "phoneShaking": "Ihr Gerät wackelt zu stark! Versuchen Sie, die Kamera ruhig zu halten, während Sie Ihr Fahrzeug aufnehmen.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Sobald Sie sich vor dem Fahrzeug befinden, drücken Sie die Taste, um die Videoaufnahme zu starten.",
+        "end": "Drücken Sie nach Abschluss der Fahrzeugumrundung die Taste, um die Aufnahme zu beenden."
+      }
+    },
+    "processing": {
+      "processing": "Bearbeitung des Videos...",
+      "uploading": "Hochladen des Videos...",
+      "success": "Videobearbeitung abgeschlossen!",
+      "error": "Beim Abschluss der Inspektion ist ein Fehler aufgetreten. Inspektion ID :",
+      "done": "Erledigt"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Bitte drehen Sie Ihr Gerät.",
+    "description": "Möglicherweise müssen Sie die Ausrichtung Ihres Geräts über die Telefoneinstellungen entsperren."
   }
 }

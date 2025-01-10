@@ -1,9 +1,5 @@
 {
   "photo": {
-    "orientationError": {
-      "title": "Please rotate your device.",
-      "description": "You may need to unlock your device orientation through your phone settings."
-    },
     "badConnectionWarning": {
       "message": "It seems like your connection is unstable. Picture uploads might be long or impossible.",
       "confirm": "I Understand"
@@ -44,5 +40,63 @@
         "next": "Next"
       }
     }
+  },
+  "video": {
+    "introduction": {
+      "title": "Record a vehicle walkaround video"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Camera",
+        "description": "To record video, you need to allow access to the device's camera"
+      },
+      "compass": {
+        "title": "Compass",
+        "description": "To detect a full 360° circulation of the vehicle, you need to allow access to the device's compass"
+      },
+      "confirm": "Manage Permissions"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Start at the Front",
+        "description": "Keep a 3 to 4-foot distance and walk slowly around the vehicle, capturing from the roofline to the ground."
+      },
+      "finish": {
+        "title": "Finish where you began",
+        "description": "You should be done recording in about 45 seconds."
+      },
+      "photos": {
+        "title": "Take photos as needed",
+        "description": "Press the shutter button to capture remarketing or damage photos while you're recording."
+      },
+      "confirm": "Record a Video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Do you want to discard the video? You haven' t gone all the way around the vehicle.",
+        "keepRecording": "Keep Recording",
+        "discardVideo": "Discard Video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "You're moving too fast! Slow down a bit, it should take you around one minute to complete the vehicle walkaround.",
+        "phoneShaking": "Your device is shaking too much! Try to keep the camera steady while recording your vehicle.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Once in front of the vehicle, press the button to start recording the video.",
+        "end": "Once the vehicle walkaround is completed, press the button to stop the recording."
+      }
+    },
+    "processing": {
+      "processing": "Processing the video...",
+      "uploading": "Uploading the video...",
+      "success": "Video processing completed!",
+      "error": "An error occurred when finalizing the inspection. Inspection ID :",
+      "done": "Done"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Please rotate your device.",
+    "description": "You may need to unlock your device orientation through your phone settings."
   }
 }

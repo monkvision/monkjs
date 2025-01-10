@@ -1,16 +1,21 @@
-import { CaptureAppConfig, Sight, SteeringWheelPosition, VehicleType } from '@monkvision/types';
+import {
+  CaptureWorkflow,
+  PhotoCaptureAppConfig,
+  Sight,
+  SteeringWheelPosition,
+  VehicleType,
+  VideoCaptureAppConfig,
+} from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { useLoadingState, useObjectMemo, useIsMounted } from '../hooks';
+import React, { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { useIsMounted, useLoadingState } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
-import { MonkAppState, MonkAppStateContext } from './appState';
+import {
+  MonkAppState,
+  MonkAppStateContext,
+  PhotoCaptureAppState,
+  VideoCaptureAppState,
+} from './appState';
 import { useAppStateMonitoring } from './monitoring';
 import { useAppStateAnalytics } from './analytics';
 import { getAvailableVehicleTypes } from '../utils';
@@ -27,7 +32,7 @@ export type MonkAppStateProviderProps = {
   /**
    * The current configuration of the application.
    */
-  config: CaptureAppConfig;
+  config: PhotoCaptureAppConfig | VideoCaptureAppConfig;
   /**
    * Callback called when an authentication token has successfully been fetched from either the local storage, or the
    * URL search params.
@@ -40,7 +45,7 @@ export type MonkAppStateProviderProps = {
 };
 
 function getSights(
-  config: CaptureAppConfig,
+  config: PhotoCaptureAppConfig,
   vehicleType: VehicleType | null,
   steeringWheel: SteeringWheelPosition | null,
 ): Sight[] {
@@ -85,7 +90,11 @@ export function MonkAppStateProvider({
   const [inspectionId, setInspectionId] = useState<string | null>(null);
   const [vehicleType, setVehicleType] = useState<VehicleType | null>(null);
   const [steeringWheel, setSteeringWheel] = useState<SteeringWheelPosition | null>(null);
-  const availableVehicleTypes = useMemo(() => getAvailableVehicleTypes(config), [config]);
+  const availableVehicleTypes = useMemo(
+    () =>
+      config.workflow === CaptureWorkflow.PHOTO ? getAvailableVehicleTypes(config) : undefined,
+    [config],
+  );
   const monkSearchParams = useMonkSearchParams({ availableVehicleTypes });
   const isMounted = useIsMounted();
   useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
@@ -112,25 +121,54 @@ export function MonkAppStateProvider({
     }
   }, [monkSearchParams, config]);
 
-  const getCurrentSights = useCallback(
-    () => getSights(config, vehicleType, steeringWheel),
+  const getCurrentSights = useMemo(
+    () =>
+      config.workflow === CaptureWorkflow.PHOTO
+        ? () => getSights(config, vehicleType, steeringWheel)
+        : undefined,
     [config, vehicleType, steeringWheel],
   );
 
-  const appState = useObjectMemo({
-    loading,
-    config,
-    authToken,
-    inspectionId,
-    vehicleType,
-    availableVehicleTypes,
-    steeringWheel,
-    getCurrentSights,
-    setAuthToken,
-    setInspectionId,
-    setVehicleType,
-    setSteeringWheel,
-  });
+  const appState: MonkAppState = useMemo(
+    () =>
+      config.workflow === CaptureWorkflow.VIDEO
+        ? {
+            loading,
+            config,
+            authToken,
+            inspectionId,
+            setAuthToken,
+            setInspectionId,
+          }
+        : {
+            loading,
+            config,
+            authToken,
+            inspectionId,
+            vehicleType,
+            availableVehicleTypes: availableVehicleTypes as VehicleType[],
+            steeringWheel,
+            getCurrentSights: getCurrentSights as () => Sight[],
+            setAuthToken,
+            setInspectionId,
+            setVehicleType,
+            setSteeringWheel,
+          },
+    [
+      loading,
+      config,
+      authToken,
+      inspectionId,
+      vehicleType,
+      availableVehicleTypes,
+      steeringWheel,
+      getCurrentSights,
+      setAuthToken,
+      setInspectionId,
+      setVehicleType,
+      setSteeringWheel,
+    ],
+  );
 
   return <MonkAppStateContext.Provider value={appState}>{children}</MonkAppStateContext.Provider>;
 }
@@ -145,6 +183,26 @@ export interface UseMonkAppStateOptions {
    * params, at the cost of throwing an error if either one of these param is `null`.
    */
   requireInspection?: boolean;
+  /**
+   * The required capture workflow. If this option is passed, the hook will return a MonkState value already type
+   * checked and cast into the proper capture workflo, at the cost of throwing an error if the required worfklow does
+   * not match the one in the current state config.
+   */
+  requireWorkflow?: CaptureWorkflow;
+}
+
+/**
+ * Custom type used when using the `requireInspection` option with the `useMonkAppState` hook.
+ */
+export interface RequiredInspectionAppState {
+  /**
+   * The authentication token representing the currently logged-in user.
+   */
+  authToken: string;
+  /**
+   * The ID of the current inspection being handled (picture taking, report viewing...) by the application.
+   */
+  inspectionId: string;
 }
 
 /**
@@ -156,10 +214,42 @@ export interface UseMonkAppStateOptions {
  * @see MonkAppStateProvider
  */
 export function useMonkAppState(): MonkAppState;
+export function useMonkAppState(o: Record<string, never>): MonkAppState;
 export function useMonkAppState(o: { requireInspection: false | undefined }): MonkAppState;
 export function useMonkAppState(o: {
   requireInspection: true;
-}): MonkAppState & { authToken: string; inspectionId: string };
+}): MonkAppState & RequiredInspectionAppState;
+export function useMonkAppState(o: { requireWorkflow: undefined }): MonkAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: undefined;
+  requireInspection: false | undefined;
+}): MonkAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: undefined;
+  requireInspection: true;
+}): MonkAppState & RequiredInspectionAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.PHOTO;
+}): PhotoCaptureAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.PHOTO;
+  requireInspection: false | undefined;
+}): PhotoCaptureAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.PHOTO;
+  requireInspection: true;
+}): PhotoCaptureAppState & RequiredInspectionAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.VIDEO;
+}): VideoCaptureAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.VIDEO;
+  requireInspection: false | undefined;
+}): VideoCaptureAppState;
+export function useMonkAppState(o: {
+  requireWorkflow: CaptureWorkflow.VIDEO;
+  requireInspection: true;
+}): VideoCaptureAppState & RequiredInspectionAppState;
 export function useMonkAppState(options?: UseMonkAppStateOptions): MonkAppState {
   const value = useContext(MonkAppStateContext);
   if (!value) {
@@ -172,6 +262,11 @@ export function useMonkAppState(options?: UseMonkAppStateOptions): MonkAppState 
   }
   if (options?.requireInspection && !value.inspectionId) {
     throw new Error('Inspection ID is null but was required by the current component.');
+  }
+  if (options?.requireWorkflow && value.config.workflow !== options?.requireWorkflow) {
+    throw new Error(
+      'The capture workflow is different than the one required by the current component.',
+    );
   }
   return value;
 }
