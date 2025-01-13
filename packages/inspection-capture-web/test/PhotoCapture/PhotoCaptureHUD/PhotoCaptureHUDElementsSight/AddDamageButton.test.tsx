@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button } from '@monkvision/common-ui-web';
 import { AddDamageButton } from '../../../../src';
+import { AddDamage } from '@monkvision/types';
 
 describe('AddDamageButton component', () => {
-  it('should not render when enableAddDamage is false', () => {
+  it('should not render when addDamage is disabled', () => {
     const onAddDamage = jest.fn();
     const { unmount } = render(
-      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={false} />,
+      <AddDamageButton onAddDamage={onAddDamage} addDamage={AddDamage.DISABLED} />,
     );
     expect(Button).not.toHaveBeenCalled();
 
@@ -18,7 +19,7 @@ describe('AddDamageButton component', () => {
   it('should pass the onAddDamage callback to the onClick event of the Button', () => {
     const onAddDamage = jest.fn();
     const { unmount } = render(
-      <AddDamageButton onAddDamage={onAddDamage} enableAddDamage={true} />,
+      <AddDamageButton onAddDamage={onAddDamage} addDamage={AddDamage.PART_SELECT} />,
     );
 
     expectPropsOnChildMock(Button, { onClick: onAddDamage });
@@ -30,7 +31,7 @@ describe('AddDamageButton component', () => {
     const label = 'test-label-ok';
     const tMock = jest.fn(() => label);
     (useTranslation as jest.Mock).mockImplementationOnce(() => ({ t: tMock }));
-    const { unmount } = render(<AddDamageButton enableAddDamage={true} />);
+    const { unmount } = render(<AddDamageButton addDamage={AddDamage.PART_SELECT} />);
 
     expect(tMock).toHaveBeenCalledWith('photo.hud.sight.addDamageBtn');
     expectPropsOnChildMock(Button, { children: label });

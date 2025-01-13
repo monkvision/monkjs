@@ -8,6 +8,8 @@ import {
   VehicleTypeSelectionPage,
 } from '../pages';
 import { App } from './App';
+import { CaptureSelectionPage } from '../pages/CaptureSelectionPage';
+import { DamageDisclosurePage } from '../pages/DamageDisclosurePage';
 
 export function AppRouter() {
   return (
@@ -35,10 +37,28 @@ export function AppRouter() {
             index
           />
           <Route
+            path={Page.CAPTURE_SELECTION}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <CaptureSelectionPage />
+              </AuthGuard>
+            }
+            index
+          />
+          <Route
             path={Page.PHOTO_CAPTURE}
             element={
               <AuthGuard redirectTo={Page.LOG_IN}>
                 <PhotoCapturePage />
+              </AuthGuard>
+            }
+            index
+          />
+          <Route
+            path={Page.DAMAGE_DISCLOSURE}
+            element={
+              <AuthGuard redirectTo={Page.LOG_IN}>
+                <DamageDisclosurePage />
               </AuthGuard>
             }
             index

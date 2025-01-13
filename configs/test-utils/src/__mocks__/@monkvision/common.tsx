@@ -37,6 +37,8 @@ const {
   mergeValidationFunctions,
   required,
   email,
+  getVehicleModel,
+  getAspectRatio,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -67,6 +69,8 @@ export = {
   mergeValidationFunctions,
   required,
   email,
+  getVehicleModel,
+  getAspectRatio,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

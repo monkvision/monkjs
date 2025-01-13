@@ -10,29 +10,33 @@ import {
 import { useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from '@monkvision/network';
 import {
+  AddDamage,
   CameraConfig,
   ComplianceOptions,
   MonkPicture,
   PhotoCaptureAppConfig,
   PhotoCaptureTutorialOption,
   Sight,
+  VehicleType,
 } from '@monkvision/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
-import { useStartTasksOnComplete } from '../hooks';
 import {
-  useAdaptiveCameraConfig,
+  useStartTasksOnComplete,
+  usePictureTaken,
   useAddDamageMode,
-  useBadConnectionWarning,
-  useComplianceAnalytics,
+  useUploadQueue,
   usePhotoCaptureImages,
+  useAdaptiveCameraConfig,
+  useBadConnectionWarning,
+  useTracking,
+} from '../hooks';
+import {
+  useComplianceAnalytics,
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
-  usePictureTaken,
-  useTracking,
-  useUploadQueue,
 } from './hooks';
 
 /**
@@ -50,7 +54,7 @@ export interface PhotoCaptureProps
       | 'showCloseButton'
       | 'enforceOrientation'
       | 'allowSkipRetake'
-      | 'enableAddDamage'
+      | 'addDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
       | 'enableTutorial'
@@ -73,6 +77,10 @@ export interface PhotoCaptureProps
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType?: VehicleType;
   /**
    * Callback called when the user clicks on the Close button. If this callback is not provided, the button will not be
    * displayed on the screen.
@@ -124,7 +132,7 @@ export function PhotoCapture({
   customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
-  enableAddDamage = true,
+  addDamage = AddDamage.PART_SELECT,
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
@@ -134,6 +142,7 @@ export function PhotoCapture({
   lang,
   enforceOrientation,
   validateButtonLabel,
+  vehicleType = VehicleType.SEDAN,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -151,7 +160,14 @@ export function PhotoCapture({
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
   const analytics = useAnalytics();
   const loading = useLoadingState();
-  const addDamageHandle = useAddDamageMode();
+  const handleOpenGallery = () => {
+    setCurrentScreen(PhotoCaptureScreen.GALLERY);
+    analytics.trackEvent('Gallery Opened');
+  };
+  const addDamageHandle = useAddDamageMode({
+    addDamage,
+    handleOpenGallery,
+  });
   useTracking({ inspectionId, authToken: apiConfig.authToken });
   const { setIsInitialInspectionFetched } = useComplianceAnalytics({ inspectionId, sights });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
@@ -200,16 +216,12 @@ export function PhotoCapture({
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
-    sightState,
+    captureState: sightState,
     addDamageHandle,
     uploadQueue,
     tasksBySight,
     onPictureTaken,
   });
-  const handleOpenGallery = () => {
-    setCurrentScreen(PhotoCaptureScreen.GALLERY);
-    analytics.trackEvent('Gallery Opened');
-  };
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
@@ -249,10 +261,12 @@ export function PhotoCapture({
     sightsTaken: sightState.sightsTaken,
     lastPictureTakenUri: sightState.lastPictureTakenUri,
     mode: addDamageHandle.mode,
+    vehicleParts: addDamageHandle.vehicleParts,
     onOpenGallery: handleOpenGallery,
     onSelectSight: sightState.selectSight,
     onRetakeSight: sightState.retakeSight,
     onAddDamage: addDamageHandle.handleAddDamage,
+    onAddDamagePartsSelected: addDamageHandle.handleAddDamagePartsSelected,
     onCancelAddDamage: addDamageHandle.handleCancelAddDamage,
     onRetry: sightState.retryLoadingInspection,
     loading,
@@ -260,7 +274,8 @@ export function PhotoCapture({
     inspectionId,
     showCloseButton,
     images,
-    enableAddDamage,
+    addDamage,
+    onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
     sightGuidelines,
     enableSightGuidelines,
     currentTutorialStep,
@@ -268,6 +283,7 @@ export function PhotoCapture({
     onCloseTutorial: closeTutorial,
     allowSkipTutorial,
     enforceOrientation,
+    vehicleType,
   };
 
   return (
@@ -292,7 +308,7 @@ export function PhotoCapture({
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleGalleryValidate}
-          enableAddDamage={enableAddDamage}
+          addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}
           {...complianceOptions}

@@ -20,3 +20,4 @@ export * from './VehiclePartSelection';
 export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
 export * from './VehicleWalkaroundIndicator';
+export * from './CaptureSelection';

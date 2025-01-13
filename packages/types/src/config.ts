@@ -28,13 +28,33 @@ export enum PhotoCaptureTutorialOption {
    */
   DISABLED = 'disabled',
   /**
-   * Photo capture is enable.
+   * Photo capture is enabled.
    */
   ENABLED = 'enabled',
   /**
-   * Photo capture is enable only time.
+   * Photo capture is enabled only time.
    */
   FIRST_TIME_ONLY = 'first_time_only',
+}
+
+/**
+ * Enumeration of the Add Damage options.
+ */
+export enum AddDamage {
+  /**
+   * Add Damage is disabled.
+   */
+  DISABLED = 'disabled',
+  /**
+   * Add Damage is enabled with Two Shot:
+   * First shot for the zoom out image and second for the close up. The vehicle part will be infered.
+   */
+  TWO_SHOT = 'two_shot',
+  /**
+   * Add Damage is enabled with Part select:
+   * Parts must be selected before taken a single close up shot.
+   */
+  PART_SELECT = 'part_select',
 }
 
 /**
@@ -174,12 +194,11 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     allowSkipRetake?: boolean;
     /**
-     * Boolean indicating if `Add Damage` feature should be enabled or not. If disabled, the `Add Damage` button will
-     * be hidden.
+     * Options for Add Damage. If disabled, the `Add Damage` button will be hidden.
      *
-     * @default true
+     * @default AddDamage.PART_SELECT.
      */
-    enableAddDamage?: boolean;
+    addDamage?: AddDamage;
     /**
      * A collection of sight guidelines in different language with a list of sightIds associate to it.
      */

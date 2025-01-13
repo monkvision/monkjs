@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@monkvision/common-ui-web';
-import { PhotoCaptureAppConfig } from '@monkvision/types';
+import { AddDamage, PhotoCaptureAppConfig } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { getLanguage } from '@monkvision/common';
-import { usePhotoCaptureHUDButtonBackground } from '../../hooks';
 import { styles } from './SightGuideline.styles';
+import { useColorBackground } from '../../../../hooks';
 
 /**
  * Props of the SightGuideline component.
  */
 export interface SightGuidelineProps
-  extends Pick<
-    PhotoCaptureAppConfig,
-    'enableAddDamage' | 'sightGuidelines' | 'enableSightGuidelines'
-  > {
+  extends Pick<PhotoCaptureAppConfig, 'addDamage' | 'sightGuidelines' | 'enableSightGuidelines'> {
   /**
    * The id of the sight.
    */
@@ -33,14 +30,14 @@ export function SightGuideline({
   sightId,
   sightGuidelines,
   enableSightGuidelines,
-  enableAddDamage,
+  addDamage,
   enableDefaultMessage = false,
 }: SightGuidelineProps) {
   const [showGuideline, setShowGuideline] = useState(true);
-  const primaryColor = usePhotoCaptureHUDButtonBackground();
+  const primaryColor = useColorBackground();
   const { i18n, t } = useTranslation();
 
-  const style = enableAddDamage ? styles['container'] : styles['containerWide'];
+  const style = addDamage === AddDamage.DISABLED ? styles['containerWide'] : styles['container'];
 
   const guidelineFound = sightGuidelines?.find((value) => value.sightIds.includes(sightId));
 

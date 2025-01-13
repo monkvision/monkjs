@@ -1,11 +1,13 @@
 import { sights } from '@monkvision/sights';
 import {
+  AddDamage,
   CameraResolution,
   ComplianceIssue,
   CompressionFormat,
   DeviceOrientation,
   PhotoCaptureTutorialOption,
   TaskName,
+  VehicleType,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
 import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
@@ -14,27 +16,20 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render, waitFor } from '@testing-library/react';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import { usePhotoCaptureSightState, usePhotoCaptureTutorial } from '../../src/PhotoCapture/hooks';
 import {
+  useStartTasksOnComplete,
   useAdaptiveCameraConfig,
   useAddDamageMode,
   useBadConnectionWarning,
   usePhotoCaptureImages,
-  usePhotoCaptureSightState,
-  usePhotoCaptureTutorial,
   usePictureTaken,
   useUploadQueue,
-} from '../../src/PhotoCapture/hooks';
-import { useStartTasksOnComplete } from '../../src/hooks';
+} from '../../src/hooks';
 
-const { PhotoCaptureMode } = jest.requireActual('../../src/PhotoCapture/hooks');
+const { CaptureMode } = jest.requireActual('../../src/types');
 
 jest.mock('../../src/PhotoCapture/hooks', () => ({
-  useAddDamageMode: jest.fn(() => ({
-    mode: PhotoCaptureMode.SIGHT,
-    handleAddDamage: jest.fn(),
-    updatePhotoCaptureModeAfterPictureTaken: jest.fn(),
-    handleCancelAddDamage: jest.fn(),
-  })),
   usePhotoCaptureSightState: jest.fn(() => ({
     selectedSight: sights['test-sight-2'],
     sightsTaken: [sights['test-sight-1']],
@@ -44,14 +39,28 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     setLastPictureTakenUri: jest.fn(),
     retryLoadingInspection: jest.fn(),
   })),
+  useComplianceAnalytics: jest.fn(() => ({
+    isInitialInspectionFetched: jest.fn(),
+  })),
+  usePhotoCaptureTutorial: jest.fn(() => ({
+    currentTutorialStep: 'welcome',
+    goToNextTutorialStep: jest.fn(),
+    closeTutorial: jest.fn(),
+  })),
+}));
+
+jest.mock('../../src/hooks', () => ({
+  useStartTasksOnComplete: jest.fn(() => jest.fn()),
+  useAddDamageMode: jest.fn(() => ({
+    mode: CaptureMode.SIGHT,
+    handleAddDamage: jest.fn(),
+    updatePhotoCaptureModeAfterPictureTaken: jest.fn(),
+    handleCancelAddDamage: jest.fn(),
+  })),
+  usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
   usePictureTaken: jest.fn(() => jest.fn()),
   useUploadQueue: jest.fn(() => ({
     length: 3,
-  })),
-  useStartTasksOnComplete: jest.fn(() => jest.fn()),
-  usePhotoCaptureImages: jest.fn(() => [{ id: 'test' }]),
-  useComplianceAnalytics: jest.fn(() => ({
-    isInitialInspectionFetched: jest.fn(),
   })),
   useBadConnectionWarning: jest.fn(() => ({
     isBadConnectionWarningDialogDisplayed: true,
@@ -74,15 +83,6 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     },
   })),
   useTracking: jest.fn(),
-  usePhotoCaptureTutorial: jest.fn(() => ({
-    currentTutorialStep: 'welcome',
-    goToNextTutorialStep: jest.fn(),
-    closeTutorial: jest.fn(),
-  })),
-}));
-
-jest.mock('../../src/hooks', () => ({
-  useStartTasksOnComplete: jest.fn(() => jest.fn()),
 }));
 
 function createProps(): PhotoCaptureProps {
@@ -116,7 +116,7 @@ function createProps(): PhotoCaptureProps {
     allowImageUpscaling: true,
     useAdaptiveImageQuality: false,
     allowSkipRetake: true,
-    enableAddDamage: true,
+    addDamage: AddDamage.PART_SELECT,
     maxUploadDurationWarning: 456,
     enableSightGuidelines: true,
     sightGuidelines: [
@@ -131,6 +131,7 @@ function createProps(): PhotoCaptureProps {
     enableTutorial: PhotoCaptureTutorialOption.ENABLED,
     allowSkipTutorial: true,
     enableSightTutorial: true,
+    vehicleType: VehicleType.SEDAN,
   };
 }
 
@@ -266,12 +267,12 @@ describe('PhotoCapture component', () => {
     expect(useAddDamageMode).toHaveBeenCalled();
     const addDamageHandle = (useAddDamageMode as jest.Mock).mock.results[0].value;
     expect(usePhotoCaptureSightState).toHaveBeenCalled();
-    const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
+    const captureState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
     expect(useUploadQueue).toHaveBeenCalled();
     const uploadQueue = (useUploadQueue as jest.Mock).mock.results[0].value;
     expect(usePictureTaken).toHaveBeenCalledWith({
       addDamageHandle,
-      sightState,
+      captureState,
       uploadQueue,
       tasksBySight: props.tasksBySight,
       onPictureTaken: props.onPictureTaken,
@@ -341,7 +342,7 @@ describe('PhotoCapture component', () => {
         showCloseButton: props.showCloseButton,
         onOpenGallery: expect.any(Function),
         images,
-        enableAddDamage: props.enableAddDamage,
+        addDamage: props.addDamage,
         enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
         currentTutorialStep: tutorial.currentTutorialStep,
@@ -349,6 +350,7 @@ describe('PhotoCapture component', () => {
         onCloseTutorial: tutorial.closeTutorial,
         allowSkipTutorial: props.allowSkipRetake,
         enforceOrientation: props.enforceOrientation,
+        vehicleType: props.vehicleType,
       },
     });
 

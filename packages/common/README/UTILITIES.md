@@ -45,6 +45,29 @@ method, available on all versions of JavaScript.
 
 ---
 
+# Browser Utils
+### isMobileDevice
+
+```typescript
+import { isMobileDevice } from "@monkvision/common";
+
+console.log(isMobileDevice());
+// Output : true or false
+```
+Checks if the current device is a mobile device.
+
+### getAspectRatio
+```typescript
+import { getAspectRatio } from "@monkvision/common";
+
+const streamDimensions = {width: 1920, height: 1080}
+console.log(getAspectRatio(streamDimensions));
+// Output : '1920/1080'
+```
+Returns the aspect ratio of the stream. If not a mobile device, it will return 16/9 by default.
+
+---
+
 # Color Utils
 ### getRGBAFromString
 ```typescript
@@ -299,6 +322,19 @@ console.log(toCamelCase('My-str-test'));
 // Output : 'myStrTest'
 ```
 Converts a string to camel case.
+
+---
+
+# Vehicle
+### getVehicleModel
+```typescript
+import { getVehicleModel } from '@monkvision/common'
+import { VehicleType } from '@monkvision/types'
+
+console.log(getVehicleModel(VehicleType.SUV))
+output : 'fesc20'
+```
+Returns the vehicle model corresponding to the given vehicle type.
 
 ---
 

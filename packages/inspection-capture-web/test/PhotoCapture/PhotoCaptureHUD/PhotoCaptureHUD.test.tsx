@@ -1,4 +1,16 @@
-import { DeviceOrientation, Image, ImageStatus } from '@monkvision/types';
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
+  ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
+  useComplianceNotification: jest.fn(() => false),
+}));
+jest.mock('../../../src/components', () => ({
+  HUDButtons: jest.fn(() => <></>),
+  HUDOverlay: jest.fn(() => <></>),
+  OrientationEnforcer: jest.fn(() => <></>),
+}));
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElements', () => ({
+  PhotoCaptureHUDElements: jest.fn(() => <></>),
+}));
+
 import { useTranslation } from 'react-i18next';
 import { act, render, screen } from '@testing-library/react';
 import { sights } from '@monkvision/sights';
@@ -6,32 +18,10 @@ import { LoadingState } from '@monkvision/common';
 import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { BackdropDialog } from '@monkvision/common-ui-web';
-import {
-  PhotoCaptureHUD,
-  PhotoCaptureHUDButtons,
-  PhotoCaptureHUDElements,
-  PhotoCaptureHUDOverlay,
-  PhotoCaptureHUDProps,
-} from '../../../src';
-import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
-import { OrientationEnforcer } from '../../../src/components';
-
-jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
-  ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
-  useComplianceNotification: jest.fn(() => false),
-}));
-jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDButtons', () => ({
-  PhotoCaptureHUDButtons: jest.fn(() => <></>),
-}));
-jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDOverlay', () => ({
-  PhotoCaptureHUDOverlay: jest.fn(() => <></>),
-}));
-jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElements', () => ({
-  PhotoCaptureHUDElements: jest.fn(() => <></>),
-}));
-jest.mock('../../../src/components', () => ({
-  OrientationEnforcer: jest.fn(() => <></>),
-}));
+import { PhotoCaptureHUD, PhotoCaptureHUDElements, PhotoCaptureHUDProps } from '../../../src';
+import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../../src/components';
+import { CaptureMode } from '../../../src/types';
+import { ImageStatus, Image, DeviceOrientation, VehicleType } from '@monkvision/types';
 
 const cameraTestId = 'camera-test-id';
 
@@ -47,7 +37,7 @@ function createProps(): PhotoCaptureHUDProps {
     selectedSight: sights['test-sight-2'],
     sightsTaken: [sights['test-sight-1']],
     lastPictureTakenUri: 'test-last-pic-taken',
-    mode: PhotoCaptureMode.SIGHT,
+    mode: CaptureMode.SIGHT,
     loading: { isLoading: false, error: null } as unknown as LoadingState,
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
@@ -70,6 +60,9 @@ function createProps(): PhotoCaptureHUDProps {
     onNextTutorialStep: jest.fn(),
     onCloseTutorial: jest.fn(),
     enforceOrientation: DeviceOrientation.PORTRAIT,
+    onValidateVehicleParts: jest.fn(),
+    vehicleParts: [],
+    vehicleType: VehicleType.SEDAN,
   };
 }
 
@@ -112,7 +105,7 @@ describe('PhotoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, {
+    expectPropsOnChildMock(HUDButtons, {
       onTakePicture: props.handle?.takePicture,
       galleryPreview: props.lastPictureTakenUri ?? undefined,
       closeDisabled: !!props.loading.error || !!props.handle.error,
@@ -125,11 +118,11 @@ describe('PhotoCaptureHUD component', () => {
     unmount();
   });
 
-  it('should display the PhotoCaptureHUDOverlay component with the proper props', () => {
+  it('should display the HUDOverlay component with the proper props', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDOverlay, {
+    expectPropsOnChildMock(HUDOverlay, {
       inspectionId: props.inspectionId,
       handle: props.handle,
       isCaptureLoading: props.loading.isLoading,
@@ -158,7 +151,7 @@ describe('PhotoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    const { onClose } = (PhotoCaptureHUDButtons as jest.Mock).mock.calls[0][0];
+    const { onClose } = (HUDButtons as jest.Mock).mock.calls[0][0];
     expectPropsOnChildMock(BackdropDialog, { show: false });
     jest.clearAllMocks();
 
@@ -187,7 +180,7 @@ describe('PhotoCaptureHUD component', () => {
       props.images = [{ status }, { status }, { status: 'test' }] as Image[];
       const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-      expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: true, retakeCount: 2 });
+      expectPropsOnChildMock(HUDButtons, { showGalleryBadge: true, retakeCount: 2 });
 
       unmount();
     });
@@ -200,7 +193,7 @@ describe('PhotoCaptureHUD component', () => {
       .map((status) => ({ status } as Image));
     const { unmount } = render(<PhotoCaptureHUD {...props} />);
 
-    expectPropsOnChildMock(PhotoCaptureHUDButtons, { showGalleryBadge: false, retakeCount: 0 });
+    expectPropsOnChildMock(HUDButtons, { showGalleryBadge: false, retakeCount: 0 });
 
     unmount();
   });

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMonkAppState } from '@monkvision/common';
 import { PhotoCapture } from '@monkvision/inspection-capture-web';
-import { CaptureWorkflow } from '@monkvision/types';
+import { CaptureWorkflow, VehicleType } from '@monkvision/types';
 import styles from './PhotoCapturePage.module.css';
 import { createInspectionReportLink } from './inspectionReport';
 
@@ -36,6 +36,7 @@ export function PhotoCapturePage() {
         sights={currentSights}
         onComplete={handleComplete}
         lang={i18n.language}
+        vehicleType={vehicleType ?? VehicleType.SEDAN}
       />
     </div>
   );

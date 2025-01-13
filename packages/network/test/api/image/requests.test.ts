@@ -11,13 +11,21 @@ jest.mock('../../../src/api/image/mappers', () => ({
 
 import { labels, sights } from '@monkvision/sights';
 import ky from 'ky';
-import { ComplianceIssue, ImageStatus, ImageSubtype, ImageType, TaskName } from '@monkvision/types';
-import { getFileExtensions, MonkActionType } from '@monkvision/common';
+import {
+  ComplianceIssue,
+  ImageStatus,
+  ImageSubtype,
+  ImageType,
+  TaskName,
+  VehiclePart,
+} from '@monkvision/types';
+import { getFileExtensions, MonkActionType, vehiclePartLabels } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
 import {
   Add2ShotCloseUpImageOptions,
   AddBeautyShotImageOptions,
   addImage,
+  AddPartSelectCloseUpImageOptions,
   AddVideoFrameOptions,
   AddVideoManualPhotoOptions,
   ImageUploadType,
@@ -51,7 +59,7 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
   };
 }
 
-function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
+function create2ShotCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
   return {
     uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
     picture: {
@@ -64,6 +72,26 @@ function createCloseUpImageOptions(): Add2ShotCloseUpImageOptions {
     inspectionId: 'test-inspection-id',
     siblingKey: 'test-sibling-key',
     firstShot: true,
+    compliance: {
+      enableCompliance: true,
+      complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
+    },
+    useThumbnailCaching: true,
+  };
+}
+
+function createPartSelectCloseUpImageOptions(): AddPartSelectCloseUpImageOptions {
+  return {
+    uploadType: ImageUploadType.PART_SELECT_SHOT,
+    picture: {
+      blob: { size: 424 } as Blob,
+      uri: 'test-uri',
+      height: 720,
+      width: 1280,
+      mimetype: 'image/jpeg',
+    },
+    inspectionId: 'test-inspection-id',
+    vehicleParts: [VehiclePart.HEAD_LIGHT_RIGHT],
     compliance: {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
@@ -291,8 +319,8 @@ describe('Image requests', () => {
       );
     });
 
-    it('should properly create the formdata for a closeup', async () => {
-      const options = createCloseUpImageOptions();
+    it('should properly create the formdata for a 2Shot closeup', async () => {
+      const options = create2ShotCloseUpImageOptions();
       await addImage(options, apiConfig);
 
       expect(ky.post).toHaveBeenCalled();
@@ -322,6 +350,45 @@ describe('Image requests', () => {
       expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
       const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
       const prefix = options.firstShot ? 'closeup-part' : 'closeup-damage';
+      expect(fileConstructorSpy).toHaveBeenCalledWith(
+        [options.picture.blob],
+        expect.stringMatching(new RegExp(`${prefix}-${options.inspectionId}-\\d{13}.${filetype}`)),
+        { type: filetype },
+      );
+    });
+
+    it('should properly create the formdata for a part select closeup', async () => {
+      const options = createPartSelectCloseUpImageOptions();
+      await addImage(options, apiConfig);
+
+      expect(ky.post).toHaveBeenCalled();
+      const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+      expect(typeof formData?.get('json')).toBe('string');
+
+      const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
+      expect(JSON.parse(formData.get('json') as string)).toEqual({
+        acquisition: {
+          strategy: 'upload_multipart_form_keys',
+          file_key: 'image',
+        },
+        image_type: ImageType.CLOSE_UP,
+        tasks: [TaskName.DAMAGE_DETECTION, { name: TaskName.COMPLIANCES }],
+        additional_data: {
+          label: {
+            en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
+            de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
+            nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
+          },
+          created_at: expect.any(String),
+        },
+        detailed_viewpoint: {
+          centers_on: options.vehicleParts,
+        },
+      });
+      expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);
+      const filetype = (getFileExtensions as jest.Mock).mock.results[0].value[0];
+      const prefix = 'part-select';
       expect(fileConstructorSpy).toHaveBeenCalledWith(
         [options.picture.blob],
         expect.stringMatching(new RegExp(`${prefix}-${options.inspectionId}-\\d{13}.${filetype}`)),

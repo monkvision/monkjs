@@ -5,6 +5,9 @@ There are two main workflows for capturing pictures of a vehicle for a Monk insp
   to take pictures of the vehicle by aligning the vehicle with the Sight overlays.
 - The **VideoCapture** workflow : the user is asked to record a quick video of their vehicle by filming it and rotating
   in a full circle around it.
+- The **DamageDisclosure** workflow : The user is guided to capture close-up pictures of specific damaged parts of the vehicle. There are 2 workflows available:
+  - Part-selection: Before taking the picture, the user must first select the damaged part on the vehicle wireframe then a close-up picture of the damage.
+  - Two-shot: The user is asked to take, first a wide picture of the vehicle, then a close-up picture of the damage.
 
 # Installing
 To install the package, you can run the following command :
@@ -95,6 +98,7 @@ export function MonkPhotoCapturePage({ authToken }) {
 | validateButtonLabel                | `string`                                     | Custom label for validate button in gallery view.                                                                                                                                                |          |                                              |
 | maxUploadDurationWarning           | `number`                                     | Max upload duration in milliseconds before showing a bad connection warning to the user. Use `-1` to never display the warning.                                                                  |          | `15000`                                      |
 | useAdaptiveImageQuality            | `boolean`                                    | Boolean indicating if the image quality should be downgraded automatically in case of low connection.                                                                                            |          | `true`                                       |
+| vehicleType                        | `VehicleType`                                | The vehicle type of the inspection.                                                                                                                                                              |          | `VehicleType.SEDAN`                          |
 
 # VideoCapture
 The VideoCapture workflow is aimed at asking users to record a walkaround video of their vehicle (around ~1min per
@@ -130,6 +134,8 @@ export function MonkVideoCapturePage({ authToken }) {
 }
 ```
 
+Props
+
 | Prop                         | Type                                     | Description                                                                                                                                                                                      | Required | Default Value             |
 |------------------------------|------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------|
 | format                       | `CompressionFormat`                      | The output format of the compression.                                                                                                                                                            |          | `CompressionFormat.JPEG`  |
@@ -149,3 +155,58 @@ export function MonkVideoCapturePage({ authToken }) {
 | enablePhoneShakingWarning    | `boolean`                                | Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.                                                                                          |          | `true`                    |
 | fastWalkingWarningCooldown   | `number`                                 | The duration (in milliseconds) to wait between fast walking warnings.                                                                                                                            |          | `4000`                    |
 | phoneShakingWarningCooldown  | `number`                                 | The duration (in milliseconds) to wait between phone shaking warnings.                                                                                                                           |          | `4000`                    |
+
+# DamageDisclosure
+
+The DamageDisclosure workflow is designed to guide users in documenting and disclosing damage to their vehicles during a Monk inspection.
+This workflow is ideal for capturing detailed images of specific damages such as dents, scratches, or other issues that need to be highlighted in the inspection report.
+There are 2 workflows available.
+
+Please refer to the [official MonkJs documentation](https://monkvision.github.io/monkjs/docs/photo-capture-workflow) for a comprehensive overview of the Add damage workflow.
+
+## DamageDisclosure component
+
+This package exports a ready-to-use single-page component called DamageDisclosure that implements the DamageDisclosure workflow. You can integrate it into your application by creating a new page containing only this component. Before using it, you must generate an Auth0 authentication token and create a new inspection using the Monk API. Ensure that all task statuses in the inspection are set to NOT_STARTED.
+
+You can then pass the inspection ID, API configuration (including the auth token). Once the user completes the workflow, the onComplete callback is triggered, allowing you to navigate to another page or perform additional actions.
+
+The following example demonstrates how to use the DamageDisclosure component:
+
+```tsx
+import { DamageDisclosure } from '@monkvision/inspection-capture-web';
+
+const apiDomain = 'api.preview.monk.ai/v1';
+
+export function MonkDamageDisclosurePage({ authToken }) {
+  return (
+    <DamageDisclosure
+      inspectionId={inspectionId}
+      apiConfig={{ apiDomain, authToken }}
+      onComplete={() => { /* Navigate to another page */ }}
+    />
+  );
+}
+```
+
+Props
+
+| Prop                       | Type                                         | Description                                                                                                                                                                                      | Required | Default Value                                |
+|----------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------------------------------------------|
+| inspectionId               | string                                       | The ID of the inspection to add images to. Make sure that the user that created the inspection if the same one as the one described in the auth token in the `apiConfig` prop.                   | ✔️       |                                              |
+| apiConfig                  | ApiConfig                                    | The api config used to communicate with the API. Make sure that the user described in the auth token is the same one as the one that created the inspection provided in the `inspectionId` prop. | ✔️       |                                              |
+| onClose                    | `() => void`                                 | Callback called when the user clicks on the Close button. If this callback is not provided, the button will not be displayed on the screen.                                                      |          |                                              |
+| onComplete                 | `() => void`                                 | Callback called when inspection capture is complete.                                                                                                                                             |          |                                              |
+| onPictureTaken             | `(picture: MonkPicture) => void`             | Callback called when the user has taken a picture in the Capture process.                                                                                                                        |          |                                              |
+| lang                       | <code>string &#124; null</code>              | The language to be used by this component.                                                                                                                                                       |          | `'en'`                                       |
+| enforceOrientation         | `DeviceOrientation`                          | Use this prop to enforce a specific device orientation for the Camera screen.                                                                                                                    |          |                                              |
+| maxUploadDurationWarning   | `number`                                     | Max upload duration in milliseconds before showing a bad connection warning to the user. Use `-1` to never display the warning.                                                                  |          | `15000`                                      |
+| useAdaptiveImageQuality    | `boolean`                                    | Boolean indicating if the image quality should be downgraded automatically in case of low connection.                                                                                            |          | `true`                                       |
+| showCloseButton            | `boolean`                                    | Indicates if the close button should be displayed in the HUD on top of the Camera preview.                                                                                                       |          | `false`                                      |
+| format                     | `CompressionFormat`                          | The output format of the compression.                                                                                                                                                            |          | `CompressionFormat.JPEG`                     |
+| quality                    | `number`                                     | Value indicating image quality for the compression output.                                                                                                                                       |          | `0.6`                                        |
+| resolution                 | `CameraResolution`                           | Indicates the resolution of the pictures taken by the Camera.                                                                                                                                    |          | `CameraResolution.UHD_4K`                    |
+| allowImageUpscaling        | `boolean`                                    | Allow images to be scaled up if the device does not support the specified resolution in the `resolution` prop.                                                                                   |          | `false`                                      |
+| useLiveCompliance          | `boolean`                                    | Indicates if live compliance should be enabled or not.                                                                                                                                           |          | `false`                                      |
+| validateButtonLabel        | `string`                                     | Custom label for validate button in gallery view.                                                                                                                                                |          |                                              |
+| thumbnailDomain            | `string`                                     | The API domain used to communicate with the resize micro service.                                                                                                                                | ✔️       |                                              |
+| vehicleType                | `VehicleType`                                | The vehicle type of the inspection.                                                                                                                                                              |          | `VehicleType.SEDAN`                          |

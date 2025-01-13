@@ -100,6 +100,9 @@ export interface PhotoCaptureSightsParams {
    * The options for the compliance conf
    */
   complianceOptions: ComplianceOptions;
+  /**
+   * Callback used to manually update the completion state of the inspection.
+   */
   setIsInitialInspectionFetched: (state: boolean) => void;
   /**
    * Record associating each sight with a list of tasks to execute for it. If not provided, the default tasks of the
@@ -223,7 +226,7 @@ export function usePhotoCaptureSightState({
         const notCompliantSights = captureSights
           .map((s) => ({
             sight: s,
-            image: getInspectionImages(inspectionId, state.images, true).find(
+            image: getInspectionImages(inspectionId, state.images, undefined, true).find(
               (i) => i.inspectionId === inspectionId && i.sightId === s.id,
             ),
           }))

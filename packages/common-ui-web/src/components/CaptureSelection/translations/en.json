@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Report Damage",
+    "description": "Add photos of dents, scratches or other damages present on the vehicle.",
+    "button": "Add Damage Photos"
+  },
+  "capture": {
+    "title": "Capture Condition",
+    "description": "No dents or scratches? Walk around the vehicle and take photos.",
+    "button": "Take Photos"
+  }
+}

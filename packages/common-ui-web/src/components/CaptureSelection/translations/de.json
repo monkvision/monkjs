@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Schaden melden",
+    "description": "Fügen Sie Fotos von Dellen, Kratzern oder anderen Schäden am Fahrzeug hinzu.",
+    "button": "Schadensfotos hinzufügen"
+  },
+  "capture": {
+    "title": "Zustand erfassen",
+    "description": "Keine Dellen oder Kratzer? Gehen Sie um das Fahrzeug herum und machen Sie Fotos.",
+    "button": "Fotos machen"
+  }
+}

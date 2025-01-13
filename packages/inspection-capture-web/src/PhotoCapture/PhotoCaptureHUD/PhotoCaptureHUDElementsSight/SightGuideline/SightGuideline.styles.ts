@@ -1,5 +1,5 @@
 import { Styles } from '@monkvision/types';
-import { PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH } from '../../PhotoCaptureHUDButtons/PhotoCaptureHUDButtons.styles';
+import { PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH } from '../../../../components/HUDButtons/HUDButtons.styles';
 
 export const styles: Styles = {
   container: {

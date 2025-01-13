@@ -13,7 +13,9 @@
         "damagedPartCounter": "1 / 2 • Beschädigtes Teil",
         "closeupPictureCounter": "2 / 2 • Nahaufnahme-Vorschau",
         "infoBtn": "Richte das Ziel auf den beschädigten Teil aus und tippe dann auf den Auslöserknopf",
-        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen"
+        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen",
+        "selectPart": "Wählen Sie auf den beschädigten Teil. Verwenden Sie die Pfeile, um das Fahrzeug zu drehen und die andere Seite zu sehen.",
+        "selectParts": "Wählen Sie auf die beschädigten Teile. Verwenden Sie die Pfeile, um das Fahrzeug zu drehen und die andere Seite zu sehen."
       },
       "error": {
         "retry": "Erneut versuchen",
@@ -39,6 +41,9 @@
         "sight": "Richten Sie das Fahrzeug so gut wie möglich an den Linien aus, um das beste Foto zu erhalten.<br>Drücken Sie den Auslöser, um das Foto aufzunehmen.",
         "next": "Weiter"
       }
+    },
+    "gallery": {
+      "next": "Weiter: fahrzeugfotos"
     }
   },
   "video": {
