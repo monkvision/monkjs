@@ -11,12 +11,13 @@ import { MonkApiConfig } from '@monkvision/network';
 import {
   AddDamage,
   CameraConfig,
-  CaptureAppConfig,
+  PhotoCaptureAppConfig,
   ComplianceOptions,
   CompressionOptions,
   DeviceOrientation,
   ImageType,
   MonkPicture,
+  VehicleType,
 } from '@monkvision/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +41,7 @@ import { CaptureScreen } from '../types';
 export interface DamageDisclosureProps
   extends Pick<CameraProps<DamageDisclosureHUDProps>, 'resolution' | 'allowImageUpscaling'>,
     Pick<
-      CaptureAppConfig,
+      PhotoCaptureAppConfig,
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
@@ -60,6 +61,10 @@ export interface DamageDisclosureProps
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType?: VehicleType;
   /**
    * Callback called when the user clicks on the Close button. If this callback is not provided, the button will not be
    * displayed on the screen.
@@ -98,6 +103,7 @@ export function DamageDisclosure({
   useAdaptiveImageQuality = true,
   lang,
   enforceOrientation,
+  vehicleType = VehicleType.SEDAN,
   ...initialCameraConfig
 }: DamageDisclosureProps) {
   useI18nSync(lang);
@@ -174,6 +180,7 @@ export function DamageDisclosure({
     images,
     addDamage,
     onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
+    vehicleType,
   };
 
   return (

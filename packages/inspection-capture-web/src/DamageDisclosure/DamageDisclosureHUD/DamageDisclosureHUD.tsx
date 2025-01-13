@@ -1,5 +1,12 @@
 import { useMemo, useState } from 'react';
-import { CaptureAppConfig, Image, ImageStatus, ImageType, VehiclePart } from '@monkvision/types';
+import {
+  PhotoCaptureAppConfig,
+  Image,
+  ImageStatus,
+  ImageType,
+  VehiclePart,
+  VehicleType,
+} from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -16,7 +23,7 @@ import { HUDOverlay } from '../../components/HUDOverlay';
  */
 export interface DamageDisclosureHUDProps
   extends CameraHUDProps,
-    Pick<CaptureAppConfig, 'addDamage' | 'showCloseButton'> {
+    Pick<PhotoCaptureAppConfig, 'addDamage' | 'showCloseButton'> {
   /**
    * The inspection ID.
    */
@@ -70,6 +77,10 @@ export interface DamageDisclosureHUDProps
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType: VehicleType;
 }
 
 /**
@@ -82,6 +93,7 @@ export function DamageDisclosureHUD({
   lastPictureTakenUri,
   mode,
   vehicleParts,
+  addDamage,
   onAddDamage,
   onAddDamagePartsSelected,
   onValidateVehicleParts,
@@ -94,6 +106,7 @@ export function DamageDisclosureHUD({
   handle,
   cameraPreview,
   images,
+  vehicleType,
 }: DamageDisclosureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -122,6 +135,7 @@ export function DamageDisclosureHUD({
         {
           <DamageDisclosureHUDElements
             mode={mode}
+            addDamage={addDamage}
             vehicleParts={vehicleParts}
             onAddDamage={onAddDamage}
             onCancelAddDamage={onCancelAddDamage}
@@ -130,6 +144,7 @@ export function DamageDisclosureHUD({
             isLoading={loading.isLoading}
             error={loading.error ?? handle.error}
             previewDimensions={handle.previewDimensions}
+            vehicleType={vehicleType}
           />
         }
       </div>

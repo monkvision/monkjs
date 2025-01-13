@@ -1,21 +1,3 @@
-import { DeviceOrientation, Image, ImageStatus } from '@monkvision/types';
-import { useTranslation } from 'react-i18next';
-import { act, render, screen } from '@testing-library/react';
-import { sights } from '@monkvision/sights';
-import { LoadingState } from '@monkvision/common';
-import { CameraHandle } from '@monkvision/camera-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { BackdropDialog } from '@monkvision/common-ui-web';
-import {
-  PhotoCaptureHUD,
-  PhotoCaptureHUDButtons,
-  PhotoCaptureHUDElements,
-  PhotoCaptureHUDOverlay,
-  PhotoCaptureHUDProps,
-} from '../../../src';
-import { PhotoCaptureMode } from '../../../src/PhotoCapture/hooks';
-import { OrientationEnforcer } from '../../../src/components';
-
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
   ...jest.requireActual('../../../src/PhotoCapture/PhotoCaptureHUD/hooks'),
   useComplianceNotification: jest.fn(() => false),
@@ -23,12 +5,10 @@ jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/hooks', () => ({
 jest.mock('../../../src/components', () => ({
   HUDButtons: jest.fn(() => <></>),
   HUDOverlay: jest.fn(() => <></>),
+  OrientationEnforcer: jest.fn(() => <></>),
 }));
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElements', () => ({
   PhotoCaptureHUDElements: jest.fn(() => <></>),
-}));
-jest.mock('../../../src/components', () => ({
-  OrientationEnforcer: jest.fn(() => <></>),
 }));
 
 import { useTranslation } from 'react-i18next';
@@ -39,8 +19,9 @@ import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { PhotoCaptureHUD, PhotoCaptureHUDElements, PhotoCaptureHUDProps } from '../../../src';
-import { HUDButtons, HUDOverlay } from '../../../src/components';
+import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../../src/components';
 import { CaptureMode } from '../../../src/types';
+import { ImageStatus, Image, DeviceOrientation, VehicleType } from '@monkvision/types';
 
 const cameraTestId = 'camera-test-id';
 
@@ -81,6 +62,7 @@ function createProps(): PhotoCaptureHUDProps {
     enforceOrientation: DeviceOrientation.PORTRAIT,
     onValidateVehicleParts: jest.fn(),
     vehicleParts: [],
+    vehicleType: VehicleType.SEDAN,
   };
 }
 

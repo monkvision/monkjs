@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
-import { AddDamage, CaptureAppConfig, VehiclePart } from '@monkvision/types';
+import { AddDamage, PhotoCaptureAppConfig, VehiclePart } from '@monkvision/types';
 import { CaptureMode, CaptureScreen } from '../types';
 
 /**
  * Parameters of the useAddDamageMode hook.
  */
-export interface AddDamageModeParams extends Pick<CaptureAppConfig, 'addDamage'> {
+export interface AddDamageModeParams extends Pick<PhotoCaptureAppConfig, 'addDamage'> {
   /**
    * The current screen of the Capture component.
    */

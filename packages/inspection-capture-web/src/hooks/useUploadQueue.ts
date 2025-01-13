@@ -1,7 +1,7 @@
 import { Queue, uniq, useQueue } from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
-  CaptureAppConfig,
+  PhotoCaptureAppConfig,
   ComplianceOptions,
   MonkPicture,
   TaskName,

@@ -1,4 +1,4 @@
-import { Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, VehicleType } from '@monkvision/types';
 
 jest.mock('../../../src/components/HUDButtons', () => ({
   HUDButtons: jest.fn(() => <></>),
@@ -45,6 +45,7 @@ function createProps(): DamageDisclosureHUDProps {
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     onValidateVehicleParts: jest.fn(),
     vehicleParts: [],
+    vehicleType: VehicleType.SEDAN,
   };
 }
 

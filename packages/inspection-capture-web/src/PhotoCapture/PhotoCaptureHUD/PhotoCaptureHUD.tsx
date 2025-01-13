@@ -1,5 +1,12 @@
 import { useMemo, useState } from 'react';
-import { CaptureAppConfig, Image, ImageStatus, Sight, VehiclePart } from '@monkvision/types';
+import {
+  PhotoCaptureAppConfig,
+  Image,
+  ImageStatus,
+  Sight,
+  VehiclePart,
+  VehicleType,
+} from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { CameraHUDProps } from '@monkvision/camera-web';
@@ -10,7 +17,7 @@ import { TutorialSteps } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';
-import { HUDButtons, HUDOverlay } from '../../components';
+import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../components';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -111,6 +118,10 @@ export interface PhotoCaptureHUDProps
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType: VehicleType;
 }
 
 /**
@@ -148,6 +159,7 @@ export function PhotoCaptureHUD({
   onNextTutorialStep,
   onCloseTutorial,
   enforceOrientation,
+  vehicleType,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -193,6 +205,7 @@ export function PhotoCaptureHUD({
           sightGuidelines={sightGuidelines}
           enableSightGuidelines={enableSightGuidelines}
           tutorialStep={currentTutorialStep}
+          vehicleType={vehicleType}
         />
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (

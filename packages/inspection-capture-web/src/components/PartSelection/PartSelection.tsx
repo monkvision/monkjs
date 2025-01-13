@@ -1,6 +1,6 @@
-import { useMonkAppState, useMonkTheme, vehiclePartLabels, getLanguage } from '@monkvision/common';
+import { useMonkTheme, vehiclePartLabels, getLanguage } from '@monkvision/common';
 import { VehiclePartSelection, Button } from '@monkvision/common-ui-web';
-import { VehiclePart } from '@monkvision/types';
+import { VehiclePart, VehicleType } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PartSelection.styles';
 import { useColorBackground } from '../../hooks';
@@ -9,6 +9,10 @@ import { useColorBackground } from '../../hooks';
  * Props of PartSelection component.
  */
 export interface PartSelectionProps {
+  /**
+   * Vehicle type of the wireframe to display.
+   */
+  vehicleType: VehicleType;
   /**
    * Current vehicle parts selected to take a picture of.
    */
@@ -40,6 +44,7 @@ export interface PartSelectionProps {
  * to select the parts of the vehicle that the user wants to take a picture of.
  */
 export function PartSelection({
+  vehicleType,
   vehicleParts,
   disabled = false,
   onCancel = () => {},
@@ -47,7 +52,6 @@ export function PartSelection({
   onValidateVehicleParts = () => {},
   maxSelectableParts = 1,
 }: PartSelectionProps) {
-  const { vehicleType } = useMonkAppState();
   const { palette } = useMonkTheme();
   const { i18n, t } = useTranslation();
   const backgroundColor = useColorBackground(0.9);

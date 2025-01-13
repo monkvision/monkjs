@@ -1,5 +1,3 @@
-import { AddDamage } from '@monkvision/types';
-
 jest.mock('../../../src/components', () => ({
   ZoomOutShot: jest.fn(() => <></>),
   CloseUpShot: jest.fn(() => <></>),
@@ -9,6 +7,7 @@ jest.mock('../../../src/components', () => ({
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
+import { AddDamage, VehicleType } from '@monkvision/types';
 import { CaptureMode } from '../../../src/types';
 import { DamageDisclosureHUDElements, DamageDisclosureHUDElementsProps } from '../../../src';
 import { ZoomOutShot, CloseUpShot, PartSelection } from '../../../src/components';
@@ -24,6 +23,7 @@ function createProps(): DamageDisclosureHUDElementsProps {
     onValidateVehicleParts: jest.fn(),
     vehicleParts: [],
     addDamage: AddDamage.PART_SELECT,
+    vehicleType: VehicleType.SEDAN,
   };
 }
 

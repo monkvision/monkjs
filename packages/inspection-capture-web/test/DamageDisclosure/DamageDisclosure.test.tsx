@@ -5,6 +5,7 @@ import {
   CompressionFormat,
   ImageType,
   TaskName,
+  VehicleType,
 } from '@monkvision/types';
 
 const { CaptureMode } = jest.requireActual('../../src/types');
@@ -91,6 +92,7 @@ function createProps(): DamageDisclosureProps {
     useAdaptiveImageQuality: false,
     addDamage: AddDamage.PART_SELECT,
     maxUploadDurationWarning: 456,
+    vehicleType: VehicleType.SEDAN,
   };
 }
 
@@ -272,6 +274,7 @@ describe('DamageDisclosure component', () => {
         addDamage: props.addDamage,
         onRetry: disclosureState.retryLoadingInspection,
         onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
+        vehicleType: props.vehicleType,
       },
     });
 

@@ -7,6 +7,7 @@ import {
   DeviceOrientation,
   PhotoCaptureTutorialOption,
   TaskName,
+  VehicleType,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
 import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
@@ -15,17 +16,16 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render, waitFor } from '@testing-library/react';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
+import { usePhotoCaptureSightState, usePhotoCaptureTutorial } from '../../src/PhotoCapture/hooks';
 import {
+  useStartTasksOnComplete,
   useAdaptiveCameraConfig,
   useAddDamageMode,
   useBadConnectionWarning,
   usePhotoCaptureImages,
-  usePhotoCaptureSightState,
-  usePhotoCaptureTutorial,
   usePictureTaken,
   useUploadQueue,
-} from '../../src/PhotoCapture/hooks';
-import { useStartTasksOnComplete } from '../../src/hooks';
+} from '../../src/hooks';
 
 const { CaptureMode } = jest.requireActual('../../src/types');
 
@@ -39,7 +39,6 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     setLastPictureTakenUri: jest.fn(),
     retryLoadingInspection: jest.fn(),
   })),
-  useStartTasksOnComplete: jest.fn(() => jest.fn()),
   useComplianceAnalytics: jest.fn(() => ({
     isInitialInspectionFetched: jest.fn(),
   })),
@@ -51,6 +50,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
 }));
 
 jest.mock('../../src/hooks', () => ({
+  useStartTasksOnComplete: jest.fn(() => jest.fn()),
   useAddDamageMode: jest.fn(() => ({
     mode: CaptureMode.SIGHT,
     handleAddDamage: jest.fn(),
@@ -83,10 +83,6 @@ jest.mock('../../src/hooks', () => ({
     },
   })),
   useTracking: jest.fn(),
-}));
-
-jest.mock('../../src/hooks', () => ({
-  useStartTasksOnComplete: jest.fn(() => jest.fn()),
 }));
 
 function createProps(): PhotoCaptureProps {
@@ -135,6 +131,7 @@ function createProps(): PhotoCaptureProps {
     enableTutorial: PhotoCaptureTutorialOption.ENABLED,
     allowSkipTutorial: true,
     enableSightTutorial: true,
+    vehicleType: VehicleType.SEDAN,
   };
 }
 
@@ -353,6 +350,7 @@ describe('PhotoCapture component', () => {
         onCloseTutorial: tutorial.closeTutorial,
         allowSkipTutorial: props.allowSkipRetake,
         enforceOrientation: props.enforceOrientation,
+        vehicleType: props.vehicleType,
       },
     });
 

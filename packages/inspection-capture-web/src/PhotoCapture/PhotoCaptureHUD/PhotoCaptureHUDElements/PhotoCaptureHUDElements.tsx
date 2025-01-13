@@ -1,4 +1,11 @@
-import { CaptureAppConfig, Image, PixelDimensions, Sight, VehiclePart } from '@monkvision/types';
+import {
+  PhotoCaptureAppConfig,
+  Image,
+  PixelDimensions,
+  Sight,
+  VehiclePart,
+  VehicleType,
+} from '@monkvision/types';
 import { TutorialSteps } from '../../hooks';
 import { PhotoCaptureHUDElementsSight } from '../PhotoCaptureHUDElementsSight';
 import { CloseUpShot, ZoomOutShot, PartSelection } from '../../../components';
@@ -8,7 +15,7 @@ import { CaptureMode } from '../../../types';
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<CaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -73,6 +80,10 @@ export interface PhotoCaptureHUDElementsProps
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType: VehicleType;
 }
 
 /**
@@ -118,6 +129,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
     <PartSelection
       onCancel={params.onCancelAddDamage}
       vehicleParts={params.vehicleParts}
+      vehicleType={params.vehicleType}
       onValidateVehicleParts={params.onValidateVehicleParts}
       onAddDamagePartsSelected={params.onAddDamagePartsSelected}
     />

@@ -206,8 +206,8 @@ export type AddImageOptions =
   | AddBeautyShotImageOptions
   | Add2ShotCloseUpImageOptions
   | AddVideoFrameOptions
-  | AddVideoManualPhotoOptions;
-  | AddPartSelectCloseUpImageOptions
+  | AddVideoManualPhotoOptions
+  | AddPartSelectCloseUpImageOptions;
 
 interface AddImageData {
   filename: string;
@@ -241,6 +241,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       fr: `Photo Manuelle Vidéo`,
       de: `Foto Manuell Video`,
       nl: `Foto-handleiding Video`,
+    };
+  }
   if (options.uploadType === ImageUploadType.PART_SELECT_SHOT) {
     const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
     return {

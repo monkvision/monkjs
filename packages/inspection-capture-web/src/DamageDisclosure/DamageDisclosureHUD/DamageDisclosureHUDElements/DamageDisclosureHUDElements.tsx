@@ -1,10 +1,15 @@
-import { CaptureAppConfig, PixelDimensions, VehiclePart } from '@monkvision/types';
+import {
+  PhotoCaptureAppConfig,
+  PixelDimensions,
+  VehiclePart,
+  VehicleType,
+} from '@monkvision/types';
 import { CaptureMode } from '../../../types';
 import { CloseUpShot, PartSelection, ZoomOutShot } from '../../../components';
 /**
  * Props of the DamageDisclosureHUDElements component.
  */
-export interface DamageDisclosureHUDElementsProps extends Pick<CaptureAppConfig, 'addDamage'> {
+export interface DamageDisclosureHUDElementsProps extends Pick<PhotoCaptureAppConfig, 'addDamage'> {
   /**
    * The current mode of the component.
    */
@@ -41,6 +46,10 @@ export interface DamageDisclosureHUDElementsProps extends Pick<CaptureAppConfig,
    * The error that occurred in the DamageDisclosure component. Set this value to `null` if there is no error.
    */
   error?: unknown | null;
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType: VehicleType;
 }
 
 /**
@@ -66,6 +75,7 @@ export function DamageDisclosureHUDElements(params: DamageDisclosureHUDElementsP
   }
   return (
     <PartSelection
+      vehicleType={params.vehicleType}
       onCancel={params.onCancelAddDamage}
       vehicleParts={params.vehicleParts}
       onValidateVehicleParts={params.onValidateVehicleParts}

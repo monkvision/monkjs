@@ -17,19 +17,14 @@ import {
   PhotoCaptureAppConfig,
   PhotoCaptureTutorialOption,
   Sight,
+  VehicleType,
 } from '@monkvision/types';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
-import { useStartTasksOnComplete } from '../hooks';
 import {
-  useComplianceAnalytics,
-  usePhotoCaptureSightState,
-  usePhotoCaptureTutorial,
   useStartTasksOnComplete,
-} from './hooks';
-import {
   usePictureTaken,
   useAddDamageMode,
   useUploadQueue,
@@ -38,6 +33,11 @@ import {
   useBadConnectionWarning,
   useTracking,
 } from '../hooks';
+import {
+  useComplianceAnalytics,
+  usePhotoCaptureSightState,
+  usePhotoCaptureTutorial,
+} from './hooks';
 
 /**
  * Props of the PhotoCapture component.
@@ -77,6 +77,10 @@ export interface PhotoCaptureProps
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * The vehicle type of the inspection.
+   */
+  vehicleType?: VehicleType;
   /**
    * Callback called when the user clicks on the Close button. If this callback is not provided, the button will not be
    * displayed on the screen.
@@ -138,6 +142,7 @@ export function PhotoCapture({
   lang,
   enforceOrientation,
   validateButtonLabel,
+  vehicleType = VehicleType.SEDAN,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -278,6 +283,7 @@ export function PhotoCapture({
     onCloseTutorial: closeTutorial,
     allowSkipTutorial,
     enforceOrientation,
+    vehicleType,
   };
 
   return (

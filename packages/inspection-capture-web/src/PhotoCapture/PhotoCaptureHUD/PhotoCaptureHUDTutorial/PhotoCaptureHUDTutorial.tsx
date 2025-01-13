@@ -13,7 +13,7 @@ import { useColorBackground } from '../../../hooks';
  * Props of the PhotoCaptureHUDTutorial component.
  */
 export interface PhotoCaptureHUDTutorialProps
-  extends Pick<CaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'allowSkipTutorial' | 'sightGuidelines' | 'addDamage'> {
   /**
    * The id of the sight.
    */

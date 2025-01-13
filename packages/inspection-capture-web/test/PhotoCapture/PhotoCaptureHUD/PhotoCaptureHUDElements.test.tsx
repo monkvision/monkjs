@@ -1,4 +1,4 @@
-import { AddDamage, Image, ImageStatus } from '@monkvision/types';
+import { AddDamage, Image, ImageStatus, VehicleType } from '@monkvision/types';
 
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElementsSight', () => ({
   PhotoCaptureHUDElementsSight: jest.fn(() => <></>),
@@ -41,6 +41,7 @@ function createProps(): PhotoCaptureHUDElementsProps {
     onValidateVehicleParts: jest.fn(),
     vehicleParts: [],
     addDamage: AddDamage.PART_SELECT,
+    vehicleType: VehicleType.SEDAN,
   };
 }
 
