@@ -6,10 +6,10 @@ import {
   Page,
   PhotoCapturePage,
   VehicleTypeSelectionPage,
+  CaptureSelectionPage,
+  DamageDisclosurePage,
 } from '../pages';
 import { App } from './App';
-import { CaptureSelectionPage } from '../pages/CaptureSelectionPage';
-import { DamageDisclosurePage } from '../pages/DamageDisclosurePage';
 
 export function AppRouter() {
   return (
