@@ -8,6 +8,7 @@ import { SightGuideline } from '../PhotoCaptureHUDElementsSight';
 import { ArrowIcon } from './ArrowIcon';
 import { DisplayText } from './DisplayText';
 import { useColorBackground } from '../../../hooks';
+import { usePhotoCaptureHUDTutorialStyle } from './hooks';
 
 /**
  * Props of the PhotoCaptureHUDTutorial component.
@@ -50,10 +51,11 @@ export function PhotoCaptureHUDTutorial({
 }: PhotoCaptureHUDTutorialProps) {
   const { t } = useTranslation();
   const primaryColor = useColorBackground();
+  const style = usePhotoCaptureHUDTutorialStyle();
 
   return currentTutorialStep ? (
     <div style={styles['backdropContainer']} data-testid='backdrop'>
-      <div style={styles['elementsContainer']}>
+      <div style={style.elementsContainer}>
         <div style={styles['topContainer']}>
           <div style={styles['buttonsContainer']}>
             <div style={styles['closeButtonTwin']} />

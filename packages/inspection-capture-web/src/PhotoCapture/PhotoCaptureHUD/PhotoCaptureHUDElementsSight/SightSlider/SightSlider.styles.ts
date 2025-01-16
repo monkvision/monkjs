@@ -19,6 +19,7 @@ export const styles: Styles = {
     __media: { portrait: true },
     bottom: `${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 1.5}px`,
     right: 0,
+    paddingLeft: '30%',
     paddingRight: '45%',
   },
   button: {

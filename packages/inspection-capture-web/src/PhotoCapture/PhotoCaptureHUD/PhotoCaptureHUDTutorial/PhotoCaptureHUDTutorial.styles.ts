@@ -22,6 +22,13 @@ export const styles: Styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  elementsContainerPortrait: {
+    __media: { portrait: true },
+    width: 'auto',
+    right: '10px',
+    left: '10px',
+    bottom: `${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 1.8}px`,
+  },
   topContainer: {
     width: '100%',
     display: 'flex',
