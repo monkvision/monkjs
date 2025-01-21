@@ -18,6 +18,7 @@ const vehicleModelDisplayOverlays: Record<Exclude<VehicleModel, VehicleModel.ALL
   [VehicleModel.TSIENNA20]: sights['tsienna20-jY3cR5vy'].overlay,
   [VehicleModel.VWTROC]: sights['vwtroc-IzMR_OzQ'].overlay,
   [VehicleModel.MAN12]: sights['man12-u8GNhGqe'].overlay,
+  [VehicleModel.TESLAM3]: sights['teslam3-Bt4VnLRj'].overlay,
 };
 
 export interface SightCardProps {
