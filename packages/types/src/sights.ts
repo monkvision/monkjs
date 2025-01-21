@@ -120,6 +120,10 @@ export enum VehicleModel {
    * Man 12 (HGV)
    */
   MAN12 = 'man12',
+  /**
+   * Tesla Model 3 (sedan)
+   */
+  TESLAM3 = 'teslam3',
 }
 
 /**

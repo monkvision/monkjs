@@ -65,5 +65,11 @@
     "make": "MAN",
     "model": "TGL 12.250",
     "type": "hgv"
+  },
+  "teslam3": {
+    "id": "teslam3",
+    "make": "Tesla",
+    "model": "Model 3",
+    "type": "sedan"
   }
 }
