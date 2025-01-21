@@ -17,13 +17,14 @@ import { CaptureMode } from '../../types';
 import { HUDButtons } from '../../components/HUDButtons';
 import { DamageDisclosureHUDElements } from './DamageDisclosureHUDElements';
 import { HUDOverlay } from '../../components/HUDOverlay';
+import { OrientationEnforcer } from '../../components';
 
 /**
  * Props of the DamageDisclosureHUD component.
  */
 export interface DamageDisclosureHUDProps
   extends CameraHUDProps,
-    Pick<PhotoCaptureAppConfig, 'addDamage' | 'showCloseButton'> {
+    Pick<PhotoCaptureAppConfig, 'addDamage' | 'showCloseButton' | 'enforceOrientation'> {
   /**
    * The inspection ID.
    */
@@ -105,6 +106,7 @@ export function DamageDisclosureHUD({
   loading,
   handle,
   cameraPreview,
+  enforceOrientation,
   images,
   vehicleType,
 }: DamageDisclosureHUDProps) {
@@ -179,6 +181,7 @@ export function DamageDisclosureHUD({
         onCancel={() => setShowCloseModal(false)}
         onConfirm={handleCloseConfirm}
       />
+      <OrientationEnforcer orientation={enforceOrientation} />
     </div>
   );
 }

@@ -1,12 +1,7 @@
 import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps, CameraProps } from '@monkvision/camera-web';
-import {
-  useI18nSync,
-  useLoadingState,
-  useObjectMemo,
-  useWindowDimensions,
-} from '@monkvision/common';
-import { BackdropDialog, Icon, InspectionGallery } from '@monkvision/common-ui-web';
+import { useI18nSync, useLoadingState, useObjectMemo } from '@monkvision/common';
+import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { MonkApiConfig } from '@monkvision/network';
 import {
   AddDamage,
@@ -14,7 +9,6 @@ import {
   PhotoCaptureAppConfig,
   ComplianceOptions,
   CompressionOptions,
-  DeviceOrientation,
   ImageType,
   MonkPicture,
   VehicleType,
@@ -115,7 +109,6 @@ export function DamageDisclosure({
   });
   const { t } = useTranslation();
   const [currentScreen, setCurrentScreen] = useState(CaptureScreen.CAMERA);
-  const dimensions = useWindowDimensions();
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const handleOpenGallery = () => {
@@ -161,9 +154,6 @@ export function DamageDisclosure({
   const handleGalleryBack = () => {
     setCurrentScreen(CaptureScreen.CAMERA);
   };
-  const isViolatingEnforcedOrientation =
-    enforceOrientation &&
-    (enforceOrientation === DeviceOrientation.PORTRAIT) !== dimensions.isPortrait;
   const hudProps: Omit<DamageDisclosureHUDProps, keyof CameraHUDProps> = {
     inspectionId,
     mode: addDamageHandle.mode,
@@ -181,22 +171,12 @@ export function DamageDisclosure({
     addDamage,
     onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
     vehicleType,
+    enforceOrientation,
   };
 
   return (
     <div style={styles['container']}>
-      {currentScreen === CaptureScreen.CAMERA && isViolatingEnforcedOrientation && (
-        <div style={styles['orientationErrorContainer']}>
-          <div style={styles['orientationErrorTitleContainer']}>
-            <Icon icon='rotate' primaryColor='text-primary' size={30} />
-            <div style={styles['orientationErrorTitle']}>{t('photo.orientationError.title')}</div>
-          </div>
-          <div style={styles['orientationErrorDescription']}>
-            {t('photo.orientationError.description')}
-          </div>
-        </div>
-      )}
-      {currentScreen === CaptureScreen.CAMERA && !isViolatingEnforcedOrientation && (
+      {currentScreen === CaptureScreen.CAMERA && (
         <Camera
           HUDComponent={DamageDisclosureHUD}
           onPictureTaken={handlePictureTaken}
