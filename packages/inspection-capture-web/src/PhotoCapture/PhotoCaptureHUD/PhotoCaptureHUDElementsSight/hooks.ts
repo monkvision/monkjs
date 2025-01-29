@@ -8,7 +8,7 @@ import { TutorialSteps } from '../../hooks';
  * Props of the PhotoCaptureHUDElementsSight component.
  */
 export interface PhotoCaptureHUDElementsSightProps
-  extends Pick<PhotoCaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage'> {
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -34,6 +34,10 @@ export interface PhotoCaptureHUDElementsSightProps
    */
   onAddDamage?: () => void;
   /**
+   * Callback called when the user clicks on both: 'disable' checkbox and 'okay' button.
+   */
+  onDisableSightGuidelines?: () => void;
+  /**
    * Array containing the list of sights that the user has already captured.
    */
   sightsTaken: Sight[];
@@ -45,6 +49,10 @@ export interface PhotoCaptureHUDElementsSightProps
    * The current images taken by the user (ignoring retaken pictures etc.).
    */
   images: Image[];
+  /**
+   * Boolean indicating whether the sight guidelines should be displayed.
+   */
+  showSightGuidelines?: boolean;
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
