@@ -3,6 +3,7 @@ import { SharedCaptureAppConfigSchema } from '@site/src/utils/schemas/sharedConf
 import { ComplianceOptionsSchema } from '@site/src/utils/schemas/compliance.schema';
 import {
   CaptureWorkflow,
+  PhotoCaptureSightGuidelinesOption,
   PhotoCaptureTutorialOption,
   TaskName,
   VehicleType,
@@ -27,12 +28,13 @@ export const PhotoCaptureAppConfigSchema = z
     maxUploadDurationWarning: z.number().optional(),
     useAdaptiveImageQuality: z.boolean().optional(),
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
-    enableSightGuidelines: z.boolean().optional(),
+    enableSightGuidelines: z.nativeEnum(PhotoCaptureSightGuidelinesOption).optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),
     allowVehicleTypeSelection: z.boolean(),
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
     enableSightTutorial: z.boolean().optional(),
+    enableAutoComplete: z.boolean().optional(),
   })
   .and(SharedCaptureAppConfigSchema)
   .and(ComplianceOptionsSchema)

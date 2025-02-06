@@ -9,10 +9,12 @@ import { useMonitoring } from '@monkvision/monitoring';
 import {
   getInspectionImages,
   LoadingState,
+  MonkState,
   uniq,
   useAsyncEffect,
   useMonkState,
   useObjectMemo,
+  usePreventExit,
 } from '@monkvision/common';
 import {
   ComplianceOptions,
@@ -25,6 +27,7 @@ import {
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
 import { PhotoCaptureErrorName } from '../errors';
+import { StartTasksFunction } from '../../hooks';
 
 /**
  * Object containing state management utilities for the PhotoCapture sights.
@@ -70,6 +73,10 @@ export interface PhotoCaptureSightState {
    * Callback used to manually update the completion state of the inspection.
    */
   setIsInspectionCompleted: Dispatch<SetStateAction<boolean>>;
+  /**
+   * Callback called when the inspection capture is complete.
+   */
+  handleInspectionCompleted: () => void;
 }
 
 /**
@@ -109,6 +116,18 @@ export interface PhotoCaptureSightsParams {
    * sight will be used.
    */
   tasksBySight?: Record<string, TaskName[]>;
+  /**
+   * Callback called when the PhotoCapture inspection is complete in order to start (or not) to inspection tasks.
+   */
+  startTasks: StartTasksFunction;
+  /**
+   * Callback called when inspection capture is complete.
+   */
+  onComplete?: () => void;
+  /**
+   * Boolean indicating whether the inspection should be automatically completed when all sights are compliant.
+   */
+  enableAutoComplete?: boolean;
 }
 
 function getCaptureTasks(
@@ -174,6 +193,21 @@ function getLastPictureTakenUri(
   return images && images.length > 0 ? images[images.length - 1].path : null;
 }
 
+function getNotCompliantSights(inspectionId: string, captureSights: Sight[], entities: MonkState) {
+  return captureSights
+    .map((s) => ({
+      sight: s,
+      image: getInspectionImages(inspectionId, entities.images, undefined, true).find(
+        (i) => i.inspectionId === inspectionId && i.sightId === s.id,
+      ),
+    }))
+    .filter(
+      ({ image }) =>
+        !!image && [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
+    )
+    .map(({ sight }) => sight);
+}
+
 /**
  * Custom hook used to manage the state of the PhotoCapture sights. This state is automatically fetched from the API at
  * the start of the PhotoCapture process in order to allow users to start the inspection where they left it before.
@@ -187,6 +221,9 @@ export function usePhotoCaptureSightState({
   tasksBySight,
   setIsInitialInspectionFetched,
   complianceOptions,
+  startTasks,
+  onComplete,
+  enableAutoComplete,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -200,6 +237,25 @@ export function usePhotoCaptureSightState({
   const { handleError } = useMonitoring();
   const { state } = useMonkState();
   const analytics = useAnalytics();
+  const { allowRedirect } = usePreventExit(sightsTaken.length !== 0);
+
+  const handleInspectionCompleted = useCallback(() => {
+    startTasks()
+      .then(() => {
+        analytics.trackEvent('Capture Completed');
+        analytics.setUserProperties({
+          captureCompleted: true,
+          sightSelected: 'inspection-completed',
+        });
+        allowRedirect();
+        onComplete?.();
+        setIsInspectionCompleted(true);
+      })
+      .catch((err) => {
+        loading.onError(err);
+        handleError(err);
+      });
+  }, []);
 
   const onFetchInspection = (response: MonkApiResponse<GetInspectionResponse>) => {
     try {
@@ -223,19 +279,7 @@ export function usePhotoCaptureSightState({
         setSelectedSight(notCapturedSights[0]);
       } else {
         onLastSightTaken();
-        const notCompliantSights = captureSights
-          .map((s) => ({
-            sight: s,
-            image: getInspectionImages(inspectionId, state.images, undefined, true).find(
-              (i) => i.inspectionId === inspectionId && i.sightId === s.id,
-            ),
-          }))
-          .filter(
-            ({ image }) =>
-              !!image &&
-              [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
-          )
-          .map(({ sight }) => sight);
+        const notCompliantSights = getNotCompliantSights(inspectionId, captureSights, state);
         const sightToRetake =
           notCompliantSights.length > 0
             ? notCompliantSights[0]
@@ -303,7 +347,13 @@ export function usePhotoCaptureSightState({
     if (nextSight) {
       setSelectedSight(nextSight);
     } else {
-      onLastSightTaken();
+      const notCompliantSights = getNotCompliantSights(inspectionId, captureSights, state);
+      console.log(!notCompliantSights.length);
+      if (enableAutoComplete && !notCompliantSights.length) {
+        handleInspectionCompleted();
+      } else {
+        onLastSightTaken();
+      }
     }
   }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
 
@@ -341,5 +391,6 @@ export function usePhotoCaptureSightState({
     setLastPictureTakenUri,
     retryLoadingInspection,
     retakeSight,
+    handleInspectionCompleted,
   });
 }

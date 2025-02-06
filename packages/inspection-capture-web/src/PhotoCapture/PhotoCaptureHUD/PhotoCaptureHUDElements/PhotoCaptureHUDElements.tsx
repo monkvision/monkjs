@@ -15,7 +15,7 @@ import { CaptureMode } from '../../../types';
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<PhotoCaptureAppConfig, 'enableSightGuidelines' | 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -65,6 +65,10 @@ export interface PhotoCaptureHUDElementsProps
    */
   onValidateVehicleParts: () => void;
   /**
+   * Callback called when the user clicks on both: 'disable' checkbox and 'okay' button.
+   */
+  onDisableSightGuidelines?: () => void;
+  /**
    * The effective pixel dimensions of the Camera video stream on the screen.
    */
   previewDimensions: PixelDimensions | null;
@@ -84,6 +88,10 @@ export interface PhotoCaptureHUDElementsProps
    * The vehicle type of the inspection.
    */
   vehicleType: VehicleType;
+  /**
+   * Boolean indicating whether the sight guidelines should be displayed.
+   */
+  showSightGuidelines?: boolean;
 }
 
 /**
@@ -106,8 +114,9 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         images={params.images}
         addDamage={params.addDamage}
         sightGuidelines={params.sightGuidelines}
-        enableSightGuidelines={params.enableSightGuidelines}
+        showSightGuidelines={params.showSightGuidelines}
         tutorialStep={params.tutorialStep}
+        onDisableSightGuidelines={params.onDisableSightGuidelines}
       />
     );
   }

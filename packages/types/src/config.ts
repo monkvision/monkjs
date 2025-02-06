@@ -20,19 +20,36 @@ export enum CaptureWorkflow {
 }
 
 /**
+ * Enumeration of the Sight guidelines options.
+ */
+export enum PhotoCaptureSightGuidelinesOption {
+  /**
+   * Sight guidelines disabled.
+   */
+  DISABLED = 'disabled',
+  /**
+   * Sight guidelines enabled.
+   */
+  ENABLED = 'enabled',
+  /**
+   * Sight guidelines is enabled only during ephemeral time.
+   */
+  EPHEMERAL = 'ephemeral',
+}
+/**
  * Enumeration of the tutorial options.
  */
 export enum PhotoCaptureTutorialOption {
   /**
-   * Photo capture is disabled.
+   * Photo capture tutorial is disabled.
    */
   DISABLED = 'disabled',
   /**
-   * Photo capture is enabled.
+   * Photo capture tutorial is enabled.
    */
   ENABLED = 'enabled',
   /**
-   * Photo capture is enabled only time.
+   * Photo capture tutorial is enabled only time.
    */
   FIRST_TIME_ONLY = 'first_time_only',
 }
@@ -204,12 +221,11 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     sightGuidelines?: SightGuideline[];
     /**
-     * Boolean indicating whether the sight guideline feature is enabled. If disabled, the guideline text will be
-     * hidden.
+     * Option for displaying the Sight guidelines. If disabled, the guideline text will be hidden.
      *
-     * @default true
+     * @default SightGuidelinesOption.EPHMERAL.
      */
-    enableSightGuidelines?: boolean;
+    enableSightGuidelines?: PhotoCaptureSightGuidelinesOption;
     /**
      * The default vehicle type used if no vehicle type is defined.
      */
@@ -237,6 +253,12 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * @default true
      */
     enableSightTutorial?: boolean;
+    /**
+     * Boolean indicating whether the inspection should be automatically completed when all sights are compliant.
+     *
+     * @default false
+     */
+    enableAutoComplete?: boolean;
   } & (
     | {
         /**

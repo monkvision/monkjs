@@ -48,6 +48,9 @@ function createParams(): PhotoCaptureSightsParams {
       useLiveCompliance: true,
     },
     setIsInitialInspectionFetched: jest.fn(),
+    startTasks: jest.fn(() => Promise.resolve()),
+    onComplete: jest.fn(),
+    enableAutoComplete: false,
   };
 }
 
@@ -328,6 +331,27 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
     act(() => result.current.takeSelectedSight());
     expect(initialProps.onLastSightTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should call handleInspectionCompleted when the last sight is taken, enableAutoComplete is true, and every pictures are compliants', async () => {
+    const initialProps = { ...createParams(), enableAutoComplete: true };
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    act(() => result.current.takeSelectedSight());
+    act(() => result.current.takeSelectedSight());
+    act(() => result.current.takeSelectedSight());
+    expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
+    // act(() => result.current.takeSelectedSight());
+
+    await act(async () => {
+      result.current.takeSelectedSight(); // Take Sight 4
+    });
+    expect(initialProps.startTasks).toHaveBeenCalled(); // Ensure startTasks was called
+    expect(initialProps.onComplete).toHaveBeenCalled(); // Ensure onComplete was called
+    expect(result.current.isInspectionCompleted).toBe(true);
+    expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
 
     unmount();
   });

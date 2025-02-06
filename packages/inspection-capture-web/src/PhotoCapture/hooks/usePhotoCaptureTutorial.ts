@@ -40,11 +40,26 @@ function getTutorialState(
 /**
  * Parameters of the usePhotoCaptureTutorial hook.
  */
-export interface PhotoCaptureTutorial
+export interface PhotoCaptureTutorialParams
   extends Pick<
     PhotoCaptureAppConfig,
     'enableTutorial' | 'enableSightTutorial' | 'enableSightGuidelines'
   > {}
+
+export interface HandlePhotoCaptureTutorial {
+  /**
+   * The current tutorial step in PhotoCapture component.
+   */
+  currentTutorialStep: TutorialSteps | null;
+  /**
+   * Callback called when the user clicks on the "Next" button in PhotoCapture tutorial.
+   */
+  goToNextTutorialStep: () => void;
+  /**
+   * Callback called when the user clicks on the "Close" button in PhotoCapture tutorial.
+   */
+  closeTutorial: () => void;
+}
 
 /**
  * Custom hook used to manage the state of photo capture tutorial.
@@ -53,7 +68,7 @@ export function usePhotoCaptureTutorial({
   enableTutorial,
   enableSightTutorial,
   enableSightGuidelines,
-}: PhotoCaptureTutorial) {
+}: PhotoCaptureTutorialParams): HandlePhotoCaptureTutorial {
   const [currentTutorialStep, setCurrentTutorialStep] = useState<TutorialSteps | null>(
     getTutorialState(enableTutorial),
   );

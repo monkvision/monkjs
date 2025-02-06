@@ -31,7 +31,9 @@
         "confirm": "Ja"
       },
       "guidelines": {
-        "defaultGuideline": "Blickwinkelanzeigen für Bilder können hier angezeigt werden."
+        "defaultGuideline": "Blickwinkelanzeigen für Bilder können hier angezeigt werden.",
+        "disable": "Nicht mehr anzeigen",
+        "validate": "Okay"
       },
       "tutorial": {
         "welcome": "Willkommen zu Ihrer ersten Inspektion!",

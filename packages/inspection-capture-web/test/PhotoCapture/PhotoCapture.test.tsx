@@ -6,17 +6,21 @@ import {
   CompressionFormat,
   DeviceOrientation,
   PhotoCaptureTutorialOption,
+  PhotoCaptureSightGuidelinesOption,
   TaskName,
   VehicleType,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
-import { useI18nSync, useLoadingState, usePreventExit } from '@monkvision/common';
+import { useI18nSync, useLoadingState } from '@monkvision/common';
 import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { act, render, waitFor } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
-import { usePhotoCaptureSightState, usePhotoCaptureTutorial } from '../../src/PhotoCapture/hooks';
+import {
+  usePhotoCaptureSightState,
+  usePhotoCaptureTutorial,
+  usePhotoCaptureSightGuidelines,
+} from '../../src/PhotoCapture/hooks';
 import {
   useStartTasksOnComplete,
   useAdaptiveCameraConfig,
@@ -38,6 +42,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     lastPictureTakenUri: 'test-uri-test',
     setLastPictureTakenUri: jest.fn(),
     retryLoadingInspection: jest.fn(),
+    handleInspectionCompleted: jest.fn(),
   })),
   useComplianceAnalytics: jest.fn(() => ({
     isInitialInspectionFetched: jest.fn(),
@@ -46,6 +51,9 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     currentTutorialStep: 'welcome',
     goToNextTutorialStep: jest.fn(),
     closeTutorial: jest.fn(),
+  })),
+  usePhotoCaptureSightGuidelines: jest.fn(() => ({
+    showSightGuidelines: true,
   })),
 }));
 
@@ -118,7 +126,7 @@ function createProps(): PhotoCaptureProps {
     allowSkipRetake: true,
     addDamage: AddDamage.PART_SELECT,
     maxUploadDurationWarning: 456,
-    enableSightGuidelines: true,
+    enableSightGuidelines: PhotoCaptureSightGuidelinesOption.ENABLED,
     sightGuidelines: [
       {
         en: 'en-test',
@@ -132,6 +140,7 @@ function createProps(): PhotoCaptureProps {
     allowSkipTutorial: true,
     enableSightTutorial: true,
     vehicleType: VehicleType.SEDAN,
+    enableAutoComplete: false,
   };
 }
 
@@ -196,6 +205,7 @@ describe('PhotoCapture component', () => {
 
     expect(useLoadingState).toHaveBeenCalled();
     const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    const startTasks = (useStartTasksOnComplete as jest.Mock).mock.results[0].value;
     expect(usePhotoCaptureSightState).toHaveBeenCalledWith({
       inspectionId: props.inspectionId,
       captureSights: props.sights,
@@ -203,6 +213,9 @@ describe('PhotoCapture component', () => {
       loading,
       onLastSightTaken: expect.any(Function),
       tasksBySight: props.tasksBySight,
+      startTasks,
+      onComplete: props.onComplete,
+      enableAutoComplete: props.enableAutoComplete,
       complianceOptions: {
         enableCompliance: props.enableCompliance,
         enableCompliancePerSight: props.enableCompliancePerSight,
@@ -325,6 +338,7 @@ describe('PhotoCapture component', () => {
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
+    const sightGuidelines = (usePhotoCaptureSightGuidelines as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -343,7 +357,6 @@ describe('PhotoCapture component', () => {
         onOpenGallery: expect.any(Function),
         images,
         addDamage: props.addDamage,
-        enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
         currentTutorialStep: tutorial.currentTutorialStep,
         onNextTutorialStep: tutorial.goToNextTutorialStep,
@@ -351,6 +364,7 @@ describe('PhotoCapture component', () => {
         allowSkipTutorial: props.allowSkipRetake,
         enforceOrientation: props.enforceOrientation,
         vehicleType: props.vehicleType,
+        showSightGuidelines: sightGuidelines.showSightGuidelines,
       },
     });
 
@@ -408,55 +422,6 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
-  it('should call start tasks on gallery validate', async () => {
-    const startTasksMock = jest.fn(() => Promise.resolve());
-    (useStartTasksOnComplete as jest.Mock).mockImplementation(() => startTasksMock);
-    const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
-
-    expect(InspectionGallery).not.toHaveBeenCalled();
-    expectPropsOnChildMock(Camera, {
-      hudProps: expect.objectContaining({ onOpenGallery: expect.any(Function) }),
-    });
-    const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
-    expect(InspectionGallery).not.toHaveBeenCalled();
-    act(() => onOpenGallery());
-    expectPropsOnChildMock(InspectionGallery, {
-      onValidate: expect.any(Function),
-    });
-    const { onValidate } = (InspectionGallery as unknown as jest.Mock).mock.calls[0][0];
-
-    expect(useMonitoring).toHaveBeenCalled();
-    const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
-    expect(useLoadingState).toHaveBeenCalled();
-    const loadingMock = (useLoadingState as jest.Mock).mock.results[0].value;
-
-    expect(startTasksMock).not.toHaveBeenCalled();
-    expect(props.onComplete).not.toHaveBeenCalled();
-    onValidate();
-
-    await waitFor(() => {
-      expect(startTasksMock).toHaveBeenCalled();
-      expect(props.onComplete).toHaveBeenCalled();
-      expect(loadingMock.onError).not.toHaveBeenCalled();
-      expect(handleErrorMock).not.toHaveBeenCalled();
-    });
-
-    startTasksMock.mockClear();
-    (props.onComplete as jest.Mock).mockClear();
-    const err = 'hello';
-    startTasksMock.mockImplementation(() => Promise.reject(err));
-    onValidate();
-
-    await waitFor(() => {
-      expect(startTasksMock).toHaveBeenCalled();
-      expect(props.onComplete).not.toHaveBeenCalled();
-    });
-
-    unmount();
-    (useStartTasksOnComplete as jest.Mock).mockClear();
-  });
-
   it('should pass the proper params to the BackdropDialog component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
@@ -478,13 +443,6 @@ describe('PhotoCapture component', () => {
     onConfirm();
     expect(closeBadConnectionWarningDialog).toHaveBeenCalled();
 
-    unmount();
-  });
-
-  it('should ask the user for confirmation before exit', () => {
-    const props = createProps();
-    const { unmount } = render(<PhotoCapture {...props} />);
-    expect(usePreventExit).toHaveBeenCalled();
     unmount();
   });
 });

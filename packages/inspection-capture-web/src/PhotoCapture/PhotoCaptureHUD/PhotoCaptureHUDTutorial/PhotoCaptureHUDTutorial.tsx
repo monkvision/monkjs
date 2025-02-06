@@ -62,7 +62,7 @@ export function PhotoCaptureHUDTutorial({
             <SightGuideline
               sightId={sightId}
               sightGuidelines={sightGuidelines}
-              enableSightGuidelines={currentTutorialStep === TutorialSteps.GUIDELINE}
+              disabled={currentTutorialStep !== TutorialSteps.GUIDELINE}
               addDamage={addDamage}
               enableDefaultMessage={true}
             />

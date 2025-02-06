@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@monkvision/common-ui-web';
-import { AddDamage, PhotoCaptureAppConfig } from '@monkvision/types';
+import { PhotoCaptureAppConfig } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { getLanguage } from '@monkvision/common';
 import { styles } from './SightGuideline.styles';
-import { useColorBackground } from '../../../../hooks';
+import { useSightGuidelineStyle } from './hooks';
 
 /**
  * Props of the SightGuideline component.
  */
 export interface SightGuidelineProps
-  extends Pick<PhotoCaptureAppConfig, 'addDamage' | 'sightGuidelines' | 'enableSightGuidelines'> {
+  extends Pick<PhotoCaptureAppConfig, 'addDamage' | 'sightGuidelines'> {
   /**
    * The id of the sight.
    */
@@ -21,6 +20,16 @@ export interface SightGuidelineProps
    * @default false
    */
   enableDefaultMessage?: boolean;
+  /**
+   * Boolean indicating if the sight guidelines are enabled.
+   *
+   * @default true
+   */
+  disabled?: boolean;
+  /**
+   * Callback called when the user clicks on both: 'disable' checkbox and 'okay' button.
+   */
+  onDisableSightGuidelines?: () => void;
 }
 
 /**
@@ -29,15 +38,16 @@ export interface SightGuidelineProps
 export function SightGuideline({
   sightId,
   sightGuidelines,
-  enableSightGuidelines,
   addDamage,
   enableDefaultMessage = false,
+  disabled = false,
+  onDisableSightGuidelines = () => {},
 }: SightGuidelineProps) {
   const [showGuideline, setShowGuideline] = useState(true);
-  const primaryColor = useColorBackground();
-  const { i18n, t } = useTranslation();
+  const [checked, setChecked] = useState(false);
 
-  const style = addDamage === AddDamage.DISABLED ? styles['containerWide'] : styles['container'];
+  const { i18n, t } = useTranslation();
+  const style = useSightGuidelineStyle({ addDamage });
 
   const guidelineFound = sightGuidelines?.find((value) => value.sightIds.includes(sightId));
 
@@ -47,19 +57,46 @@ export function SightGuideline({
 
   const guideline = guidelineFound ? guidelineFound[getLanguage(i18n.language)] : defaultMessage;
 
+  const handleShowSightGuidelines = () => {
+    if (checked) {
+      onDisableSightGuidelines();
+    }
+    setShowGuideline(false);
+  };
+
   useEffect(() => setShowGuideline(true), [sightId]);
 
   return (
-    <div style={style}>
-      {enableSightGuidelines && showGuideline && guideline && (
-        <Button
-          icon='close'
-          primaryColor={primaryColor}
-          style={styles['button']}
-          onClick={() => setShowGuideline(false)}
-        >
+    <div style={style.container} data-testid='container'>
+      {!disabled && showGuideline && guideline && (
+        <div style={style.guideline} data-testid='guideline'>
           {guideline}
-        </Button>
+          <div style={styles['buttonContainer']}>
+            <div
+              style={styles['checkbox']}
+              role='checkbox'
+              aria-checked={checked}
+              tabIndex={0}
+              onClick={() => setChecked(!checked)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  setChecked(!checked);
+                }
+              }}
+              data-testid='checkbox-container'
+            >
+              <input type='checkbox' checked={checked} onChange={(e) => e.stopPropagation()} />
+              <span>{t('photo.hud.guidelines.disable')}</span>
+            </div>
+            <button
+              style={styles['button']}
+              onClick={handleShowSightGuidelines}
+              data-testid='button'
+            >
+              {t('photo.hud.guidelines.validate')}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
