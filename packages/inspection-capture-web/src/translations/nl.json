@@ -31,7 +31,9 @@
         "confirm": "Ja"
       },
       "guidelines": {
-        "defaultGuideline": "Afbeeldingsstandpuntaanwijzingen kunnen hier worden weergegeven."
+        "defaultGuideline": "Afbeeldingsstandpuntaanwijzingen kunnen hier worden weergegeven.",
+        "disable": "Niet meer tonen",
+        "validate": "Oké"
       },
       "tutorial": {
         "welcome": "Welkom bij uw eerste inspectie!",

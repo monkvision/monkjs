@@ -6,6 +6,7 @@ import {
   CompressionFormat,
   DeviceOrientation,
   PhotoCaptureTutorialOption,
+  PhotoCaptureSightGuidelinesOption,
   TaskName,
   VehicleType,
 } from '@monkvision/types';
@@ -16,7 +17,11 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render, waitFor } from '@testing-library/react';
 import { PhotoCapture, PhotoCaptureHUD, PhotoCaptureProps } from '../../src';
-import { usePhotoCaptureSightState, usePhotoCaptureTutorial } from '../../src/PhotoCapture/hooks';
+import {
+  usePhotoCaptureSightState,
+  usePhotoCaptureTutorial,
+  usePhotoCaptureSightGuidelines,
+} from '../../src/PhotoCapture/hooks';
 import {
   useStartTasksOnComplete,
   useAdaptiveCameraConfig,
@@ -46,6 +51,9 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
     currentTutorialStep: 'welcome',
     goToNextTutorialStep: jest.fn(),
     closeTutorial: jest.fn(),
+  })),
+  usePhotoCaptureSightGuidelines: jest.fn(() => ({
+    showSightGuidelines: true,
   })),
 }));
 
@@ -118,7 +126,7 @@ function createProps(): PhotoCaptureProps {
     allowSkipRetake: true,
     addDamage: AddDamage.PART_SELECT,
     maxUploadDurationWarning: 456,
-    enableSightGuidelines: true,
+    enableSightGuidelines: PhotoCaptureSightGuidelinesOption.ENABLED,
     sightGuidelines: [
       {
         en: 'en-test',
@@ -325,6 +333,7 @@ describe('PhotoCapture component', () => {
     expect(usePhotoCaptureImages).toHaveBeenCalledWith(props.inspectionId);
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
+    const sightGuidelines = (usePhotoCaptureSightGuidelines as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -343,7 +352,6 @@ describe('PhotoCapture component', () => {
         onOpenGallery: expect.any(Function),
         images,
         addDamage: props.addDamage,
-        enableSightGuidelines: props.enableSightGuidelines,
         sightGuidelines: props.sightGuidelines,
         currentTutorialStep: tutorial.currentTutorialStep,
         onNextTutorialStep: tutorial.goToNextTutorialStep,
@@ -351,6 +359,7 @@ describe('PhotoCapture component', () => {
         allowSkipTutorial: props.allowSkipRetake,
         enforceOrientation: props.enforceOrientation,
         vehicleType: props.vehicleType,
+        showSightGuidelines: sightGuidelines.showSightGuidelines,
       },
     });
 

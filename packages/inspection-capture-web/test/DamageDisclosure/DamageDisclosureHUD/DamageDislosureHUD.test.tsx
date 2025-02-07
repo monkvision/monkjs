@@ -1,5 +1,3 @@
-import { Image, ImageStatus, VehicleType } from '@monkvision/types';
-
 jest.mock('../../../src/components/HUDButtons', () => ({
   HUDButtons: jest.fn(() => <></>),
 }));
@@ -10,6 +8,7 @@ jest.mock('../../../src/DamageDisclosure/DamageDisclosureHUD/DamageDisclosureHUD
 import { useTranslation } from 'react-i18next';
 import { act, render, screen } from '@testing-library/react';
 import { LoadingState } from '@monkvision/common';
+import { Image, ImageStatus, VehicleType } from '@monkvision/types';
 import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { BackdropDialog } from '@monkvision/common-ui-web';
