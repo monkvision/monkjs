@@ -56,7 +56,11 @@ function getTasksToStart({
       }
     });
   }
-  return tasks.filter((task) => !TASKS_NOT_TO_START.includes(task));
+  return tasks.filter(
+    (task) =>
+      !TASKS_NOT_TO_START.includes(task) &&
+      !(task === TaskName.COMPLIANCES && tasks.includes(TaskName.DAMAGE_DETECTION)),
+  );
 }
 
 /**
@@ -81,8 +85,8 @@ export function useStartTasksOnComplete({
     }
     const names = getTasksToStart({ sights, additionalTasks, tasksBySight, startTasksOnComplete });
 
-    loading.start();
     try {
+      loading.start();
       await startInspectionTasks({ inspectionId, names });
       loading.onSuccess();
     } catch (err) {

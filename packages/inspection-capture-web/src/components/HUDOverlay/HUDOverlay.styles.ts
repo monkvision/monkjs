@@ -2,7 +2,7 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   overlay: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
     width: '100%',

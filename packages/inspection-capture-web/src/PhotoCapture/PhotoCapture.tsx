@@ -1,13 +1,12 @@
 import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
-import { useI18nSync, useLoadingState, useObjectMemo, usePreventExit } from '@monkvision/common';
+import { useI18nSync, useLoadingState, useObjectMemo } from '@monkvision/common';
 import {
   BackdropDialog,
   InspectionGallery,
   NavigateToCaptureOptions,
   NavigateToCaptureReason,
 } from '@monkvision/common-ui-web';
-import { useMonitoring } from '@monkvision/monitoring';
 import { MonkApiConfig } from '@monkvision/network';
 import {
   AddDamage,
@@ -39,6 +38,7 @@ import {
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
   usePhotoCaptureSightGuidelines,
+  useInspectionComplete,
 } from './hooks';
 
 /**
@@ -158,7 +158,6 @@ export function PhotoCapture({
     customComplianceThresholdsPerSight,
   });
   const { t } = useTranslation();
-  const monitoring = useMonitoring();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
   const analytics = useAnalytics();
   const loading = useLoadingState();
@@ -198,6 +197,8 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
     setIsInitialInspectionFetched,
+    startTasksOnComplete,
+    onComplete,
   });
   const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
     enableTutorial,
@@ -227,6 +228,13 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
+  const { handleInspectionCompleted } = useInspectionComplete({
+    startTasks,
+    sightState,
+    loading,
+    startTasksOnComplete,
+    onComplete,
+  });
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
@@ -241,24 +249,6 @@ export function PhotoCapture({
       sightState.retakeSight(options.sightId);
     }
     setCurrentScreen(PhotoCaptureScreen.CAMERA);
-  };
-  const { allowRedirect } = usePreventExit(sightState.sightsTaken.length !== 0);
-  const handleGalleryValidate = () => {
-    startTasks()
-      .then(() => {
-        analytics.trackEvent('Capture Completed');
-        analytics.setUserProperties({
-          captureCompleted: true,
-          sightSelected: 'inspection-completed',
-        });
-        allowRedirect();
-        onComplete?.();
-        sightState.setIsInspectionCompleted(true);
-      })
-      .catch((err) => {
-        loading.onError(err);
-        monitoring.handleError(err);
-      });
   };
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {
     sights,
@@ -313,7 +303,7 @@ export function PhotoCapture({
           allowSkipRetake={allowSkipRetake}
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
-          onValidate={handleGalleryValidate}
+          onValidate={handleInspectionCompleted}
           addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}

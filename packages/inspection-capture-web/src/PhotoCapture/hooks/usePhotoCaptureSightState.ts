@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 import {
   GetInspectionResponse,
   MonkApiConfig,
@@ -9,6 +9,7 @@ import { useMonitoring } from '@monkvision/monitoring';
 import {
   getInspectionImages,
   LoadingState,
+  MonkState,
   uniq,
   useAsyncEffect,
   useMonkState,
@@ -21,6 +22,7 @@ import {
   TaskName,
   ImageStatus,
   ProgressStatus,
+  PhotoCaptureAppConfig,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
@@ -70,12 +72,17 @@ export interface PhotoCaptureSightState {
    * Callback used to manually update the completion state of the inspection.
    */
   setIsInspectionCompleted: Dispatch<SetStateAction<boolean>>;
+  /**
+   * Boolean indicating if the inspection is compliant or not.
+   */
+  isInspectionCompliant: boolean;
 }
 
 /**
  * Parameters of the usePhotoCaptureSightState hook.
  */
-export interface PhotoCaptureSightsParams {
+export interface PhotoCaptureSightsParams
+  extends Pick<PhotoCaptureAppConfig, 'startTasksOnComplete'> {
   /**
    * The inspection ID.
    */
@@ -109,6 +116,10 @@ export interface PhotoCaptureSightsParams {
    * sight will be used.
    */
   tasksBySight?: Record<string, TaskName[]>;
+  /**
+   * Callback called when inspection capture is complete.
+   */
+  onComplete?: () => void;
 }
 
 function getCaptureTasks(
@@ -174,6 +185,23 @@ function getLastPictureTakenUri(
   return images && images.length > 0 ? images[images.length - 1].path : null;
 }
 
+function getNotCompliantSights(
+  inspectionId: string,
+  captureSights: Sight[],
+  entities: MonkState,
+  notCompliantStatus = [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED],
+) {
+  return captureSights
+    .map((s) => ({
+      sight: s,
+      image: getInspectionImages(inspectionId, entities.images, undefined, true).find(
+        (i) => i.inspectionId === inspectionId && i.sightId === s.id,
+      ),
+    }))
+    .filter(({ image }) => !!image && notCompliantStatus.includes(image.status))
+    .map(({ sight }) => sight);
+}
+
 /**
  * Custom hook used to manage the state of the PhotoCapture sights. This state is automatically fetched from the API at
  * the start of the PhotoCapture process in order to allow users to start the inspection where they left it before.
@@ -187,6 +215,8 @@ export function usePhotoCaptureSightState({
   tasksBySight,
   setIsInitialInspectionFetched,
   complianceOptions,
+  startTasksOnComplete,
+  onComplete,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -223,19 +253,7 @@ export function usePhotoCaptureSightState({
         setSelectedSight(notCapturedSights[0]);
       } else {
         onLastSightTaken();
-        const notCompliantSights = captureSights
-          .map((s) => ({
-            sight: s,
-            image: getInspectionImages(inspectionId, state.images, undefined, true).find(
-              (i) => i.inspectionId === inspectionId && i.sightId === s.id,
-            ),
-          }))
-          .filter(
-            ({ image }) =>
-              !!image &&
-              [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED].includes(image.status),
-          )
-          .map(({ sight }) => sight);
+        const notCompliantSights = getNotCompliantSights(inspectionId, captureSights, state);
         const sightToRetake =
           notCompliantSights.length > 0
             ? notCompliantSights[0]
@@ -281,6 +299,16 @@ export function usePhotoCaptureSightState({
     setRetryCount((value) => value + 1);
   }, []);
 
+  const isInspectionCompliant = useMemo(() => {
+    const notCapturedSights = captureSights.filter((s) => !sightsTaken.includes(s));
+    const notCompliantSights = getNotCompliantSights(inspectionId, captureSights, state, [
+      ImageStatus.UPLOADING,
+      ImageStatus.NOT_COMPLIANT,
+      ImageStatus.UPLOAD_FAILED,
+    ]);
+    return !notCapturedSights.length && !notCompliantSights.length;
+  }, [state.images]);
+
   const takeSelectedSight = useCallback(() => {
     const isRetake = sightsTaken.includes(selectedSight);
     const updatedSightsTaken = isRetake ? sightsTaken : [...sightsTaken, selectedSight];
@@ -302,7 +330,7 @@ export function usePhotoCaptureSightState({
     });
     if (nextSight) {
       setSelectedSight(nextSight);
-    } else {
+    } else if (!startTasksOnComplete || !onComplete) {
       onLastSightTaken();
     }
   }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
@@ -341,5 +369,6 @@ export function usePhotoCaptureSightState({
     setLastPictureTakenUri,
     retryLoadingInspection,
     retakeSight,
+    isInspectionCompliant,
   });
 }

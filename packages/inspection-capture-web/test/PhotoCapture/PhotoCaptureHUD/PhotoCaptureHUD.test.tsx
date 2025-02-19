@@ -94,7 +94,6 @@ describe('PhotoCaptureHUD component', () => {
       onAddDamage: props.onAddDamage,
       onCancelAddDamage: props.onCancelAddDamage,
       onSelectSight: props.onSelectSight,
-      isLoading: props.loading.isLoading || props.handle.isLoading,
       error: props.loading.error ?? props.handle.error,
       previewDimensions: props.handle.previewDimensions,
       images: props.images,

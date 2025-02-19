@@ -114,7 +114,7 @@ export type SharedCaptureAppConfig = CameraConfig & {
    * Value indicating if tasks should be started at the end of the inspection :
    * - If not provided or if value is set to `false`, no tasks will be started.
    * - If set to `true`, for photo capture apps : the tasks described by the `tasksBySight` param (or, if not provided,
-   * the default tasks of each sight) will be started.
+   * the default tasks of each sight) will be started, but only if all images are compliant.
    * - If set to `true`, for video capture apps : the default tasks of each sight (and also optionally the ones
    *   described by the `additionalTasks` param) will be started.
    * - If an array of tasks is provided, the tasks started will be the ones contained in the array.

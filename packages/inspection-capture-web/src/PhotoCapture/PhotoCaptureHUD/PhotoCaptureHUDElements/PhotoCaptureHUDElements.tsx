@@ -73,10 +73,6 @@ export interface PhotoCaptureHUDElementsProps
    */
   previewDimensions: PixelDimensions | null;
   /**
-   * Boolean indicating if the global loading state of the PhotoCapture component is loading or not.
-   */
-  isLoading?: boolean;
-  /**
    * The error that occurred in the PhotoCapture component. Set this value to `null` if there is no error.
    */
   error?: unknown | null;
@@ -98,7 +94,7 @@ export interface PhotoCaptureHUDElementsProps
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process.
  */
 export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
-  if (params.isLoading || !!params.error) {
+  if (params.error) {
     return null;
   }
   if (params.mode === CaptureMode.SIGHT) {
