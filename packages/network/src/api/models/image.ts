@@ -3,7 +3,12 @@ import type { ApiAdditionalData, ApiCenterOnElement, ApiLabelPrediction } from '
 import type { ApiRenderedOutputs } from './renderedOutput';
 import type { ApiImageComplianceResults } from './compliance';
 import type { ApiViews } from './view';
-import { ApiBusinessTaskName, ApiHinlTaskPost, ApiImageCompliancesTaskPost } from './task';
+import {
+  ApiBusinessTaskName,
+  ApiHinlTaskPost,
+  ApiImageCompliancesTaskPost,
+  ApiImagesOCRTaskPost,
+} from './task';
 
 export type ApiImageType = 'unknown' | 'beauty_shot' | 'close_up';
 
@@ -79,7 +84,22 @@ export interface ApiCompliance {
   zoom_level?: ApiComplianceParameters;
 }
 
-export type ApiImagePostTask = ApiBusinessTaskName | ApiImageCompliancesTaskPost | ApiHinlTaskPost;
+export type ApiImagePostTask =
+  | Omit<
+      ApiBusinessTaskName,
+      | 'repair_estimate'
+      | 'images_ocr'
+      | 'image_editing'
+      | 'inspection_pdf'
+      | 'pricing'
+      | 'zoom_level'
+      | 'coverage_360'
+      | 'iqa_compliance'
+      | 'human_in_the_loop'
+    >
+  | ApiImageCompliancesTaskPost
+  | ApiHinlTaskPost
+  | ApiImagesOCRTaskPost;
 
 export interface ApiImagePost {
   acquisition: ApiAcquisition;

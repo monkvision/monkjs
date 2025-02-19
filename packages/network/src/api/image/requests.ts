@@ -284,7 +284,8 @@ function createBeautyShotImageData(
 ): AddImageData {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
   const tasks = options.tasks.filter(
-    (task) => ![TaskName.COMPLIANCES, TaskName.HUMAN_IN_THE_LOOP].includes(task),
+    (task) =>
+      ![TaskName.COMPLIANCES, TaskName.HUMAN_IN_THE_LOOP, TaskName.IMAGES_OCR].includes(task),
   ) as ApiImagePostTask[];
   tasks.push({
     name: TaskName.COMPLIANCES,
@@ -296,6 +297,12 @@ function createBeautyShotImageData(
     tasks.push({
       name: TaskName.HUMAN_IN_THE_LOOP,
       image_details: { sight_label: sights[options.sightId].label },
+    });
+  }
+  if (options.tasks.includes(TaskName.IMAGES_OCR)) {
+    tasks.push({
+      name: TaskName.IMAGES_OCR,
+      image_details: { image_type: 'VIN' },
     });
   }
 

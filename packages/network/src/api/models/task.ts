@@ -16,7 +16,8 @@ export type ApiBusinessTaskName =
   | 'zoom_level'
   | 'coverage_360'
   | 'iqa_compliance'
-  | 'compliances';
+  | 'compliances'
+  | 'human_in_the_loop';
 
 export interface ApiImageCompliancesDetails {
   sight_id: string;
@@ -35,6 +36,15 @@ export interface ApiHinlImageDetails {
 export interface ApiHinlTaskPost {
   name: 'human_in_the_loop';
   image_details: ApiHinlImageDetails;
+}
+
+export interface ApiImagesOCRImageDetails {
+  image_type: 'VIN';
+}
+
+export interface ApiImagesOCRTaskPost {
+  name: 'images_ocr';
+  image_details: ApiImagesOCRImageDetails;
 }
 
 export type ApiTaskProgressStatus =
