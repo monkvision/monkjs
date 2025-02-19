@@ -7,10 +7,6 @@ export const TTL_MS = 48 * 60 * 60 * 1000;
 
 function isTTLExpired(): boolean {
   const timestamp = localStorage.getItem(STORAGE_KEY_PHOTO_CAPTURE_GUIDELINES);
-  if (timestamp) {
-    console.log(Date.now() - parseInt(timestamp, 10) > TTL_MS);
-  }
-
   return !timestamp || Date.now() - parseInt(timestamp, 10) > TTL_MS;
 }
 

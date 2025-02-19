@@ -48,6 +48,8 @@ function createParams(): PhotoCaptureSightsParams {
       useLiveCompliance: true,
     },
     setIsInitialInspectionFetched: jest.fn(),
+    onComplete: jest.fn(),
+    startTasksOnComplete: false,
   };
 }
 

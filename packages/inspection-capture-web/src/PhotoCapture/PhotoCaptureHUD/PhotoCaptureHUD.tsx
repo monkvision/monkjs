@@ -205,7 +205,6 @@ export function PhotoCaptureHUD({
           onSelectSight={onSelectSight}
           onRetakeSight={onRetakeSight}
           onValidateVehicleParts={onValidateVehicleParts}
-          isLoading={loading.isLoading}
           error={loading.error ?? handle.error}
           previewDimensions={handle.previewDimensions}
           images={images}

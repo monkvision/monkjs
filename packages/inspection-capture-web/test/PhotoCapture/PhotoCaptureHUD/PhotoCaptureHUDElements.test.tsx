@@ -34,7 +34,6 @@ function createProps(): PhotoCaptureHUDElementsProps {
     onSelectSight: jest.fn(),
     onRetakeSight: jest.fn(),
     previewDimensions: { height: 1234, width: 45678 },
-    isLoading: false,
     error: null,
     images: [{ sightId: 'test-sight-1', status: ImageStatus.NOT_COMPLIANT }] as Image[],
     tutorialStep: null,
@@ -48,16 +47,6 @@ function createProps(): PhotoCaptureHUDElementsProps {
 describe('PhotoCaptureHUDElements component', () => {
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('should return null if the capture is loading', () => {
-    const props = createProps();
-    props.isLoading = true;
-    const { container, unmount } = render(<PhotoCaptureHUDElements {...props} />);
-
-    expect(container).toBeEmptyDOMElement();
-
-    unmount();
   });
 
   it('should return null if the capture is in error', () => {

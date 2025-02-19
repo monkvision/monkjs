@@ -60,7 +60,7 @@ describe('HUDOverlay component', () => {
     const { unmount } = render(<HUDOverlay {...props} />);
 
     expect(screen.getByTestId(OVERLAY_TEST_ID)).toHaveStyle({
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       width: '100%',
