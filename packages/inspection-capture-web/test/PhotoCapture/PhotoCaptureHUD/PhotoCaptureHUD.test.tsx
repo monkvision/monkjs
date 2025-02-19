@@ -63,6 +63,8 @@ function createProps(): PhotoCaptureHUDProps {
     onValidateVehicleParts: jest.fn(),
     vehicleParts: [],
     vehicleType: VehicleType.SEDAN,
+    showSightGuidelines: true,
+    onDisableSightGuidelines: jest.fn(),
   };
 }
 

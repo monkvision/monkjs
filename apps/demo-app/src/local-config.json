@@ -4,7 +4,7 @@
   "workflow": "photo",
   "allowSkipRetake": true,
   "addDamage": "part_select",
-  "enableSightGuidelines": true,
+  "enableSightGuidelines": "ephemeral",
   "allowVehicleTypeSelection": true,
   "allowManualLogin": true,
   "fetchFromSearchParams": true,

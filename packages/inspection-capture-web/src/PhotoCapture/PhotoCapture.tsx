@@ -15,6 +15,7 @@ import {
   ComplianceOptions,
   MonkPicture,
   PhotoCaptureAppConfig,
+  PhotoCaptureSightGuidelinesOption,
   PhotoCaptureTutorialOption,
   Sight,
   VehicleType,
@@ -37,6 +38,7 @@ import {
   useComplianceAnalytics,
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
+  usePhotoCaptureSightGuidelines,
 } from './hooks';
 
 /**
@@ -137,7 +139,7 @@ export function PhotoCapture({
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
   enableSightTutorial = true,
-  enableSightGuidelines = true,
+  enableSightGuidelines = PhotoCaptureSightGuidelinesOption.EPHEMERAL,
   useAdaptiveImageQuality = true,
   lang,
   enforceOrientation,
@@ -201,6 +203,9 @@ export function PhotoCapture({
     enableTutorial,
     enableSightGuidelines,
     enableSightTutorial,
+  });
+  const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
+    enableSightGuidelines,
   });
   const {
     isBadConnectionWarningDialogDisplayed,
@@ -277,10 +282,11 @@ export function PhotoCapture({
     addDamage,
     onValidateVehicleParts: addDamageHandle.handleValidateVehicleParts,
     sightGuidelines,
-    enableSightGuidelines,
+    showSightGuidelines,
     currentTutorialStep,
     onNextTutorialStep: goToNextTutorialStep,
     onCloseTutorial: closeTutorial,
+    onDisableSightGuidelines: handleDisableSightGuidelines,
     allowSkipTutorial,
     enforceOrientation,
     vehicleType,

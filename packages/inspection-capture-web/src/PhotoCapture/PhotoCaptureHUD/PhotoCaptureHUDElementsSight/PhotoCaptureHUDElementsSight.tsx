@@ -18,12 +18,13 @@ export function PhotoCaptureHUDElementsSight({
   onSelectedSight = () => {},
   onRetakeSight = () => {},
   onAddDamage = () => {},
+  onDisableSightGuidelines = () => {},
   sightsTaken,
   previewDimensions,
   images,
   addDamage,
   sightGuidelines,
-  enableSightGuidelines,
+  showSightGuidelines,
   tutorialStep,
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
@@ -39,8 +40,9 @@ export function PhotoCaptureHUDElementsSight({
             <SightGuideline
               sightId={selectedSight.id}
               sightGuidelines={sightGuidelines}
-              enableSightGuidelines={enableSightGuidelines}
+              disabled={!showSightGuidelines}
               addDamage={addDamage}
+              onDisableSightGuidelines={onDisableSightGuidelines}
             />
             <AddDamageButton onAddDamage={onAddDamage} addDamage={addDamage} />
           </div>

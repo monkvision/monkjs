@@ -31,7 +31,9 @@
         "confirm": "Oui"
       },
       "guidelines": {
-        "defaultGuideline": "Les indications de point de vue de l'image peuvent être affichées ici."
+        "defaultGuideline": "Les indications de point de vue de l'image peuvent être affichées ici.",
+        "disable": "Ne plus afficher",
+        "validate": "D'accord"
       },
       "tutorial": {
         "welcome": "Bienvenue à votre première inspection!",

@@ -26,7 +26,6 @@ export interface PhotoCaptureHUDProps
   extends CameraHUDProps,
     Pick<
       PhotoCaptureAppConfig,
-      | 'enableSightGuidelines'
       | 'sightGuidelines'
       | 'addDamage'
       | 'showCloseButton'
@@ -110,6 +109,10 @@ export interface PhotoCaptureHUDProps
    */
   onValidateVehicleParts: () => void;
   /**
+   * Callback called when the user clicks on both: 'disable' checkbox and 'okay' button.
+   */
+  onDisableSightGuidelines: () => void;
+  /**
    * Callback called when the user clicks on the close button. If this callback is not provided, the close button is not
    * displayed.
    */
@@ -122,6 +125,10 @@ export interface PhotoCaptureHUDProps
    * The vehicle type of the inspection.
    */
   vehicleType: VehicleType;
+  /**
+   * Boolean indicating whether the sight guidelines should be displayed.
+   */
+  showSightGuidelines: boolean;
 }
 
 /**
@@ -153,13 +160,14 @@ export function PhotoCaptureHUD({
   images,
   addDamage,
   sightGuidelines,
-  enableSightGuidelines,
+  showSightGuidelines,
   currentTutorialStep,
   allowSkipTutorial,
   onNextTutorialStep,
   onCloseTutorial,
   enforceOrientation,
   vehicleType,
+  onDisableSightGuidelines,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -203,9 +211,10 @@ export function PhotoCaptureHUD({
           images={images}
           addDamage={addDamage}
           sightGuidelines={sightGuidelines}
-          enableSightGuidelines={enableSightGuidelines}
+          showSightGuidelines={showSightGuidelines}
           tutorialStep={currentTutorialStep}
           vehicleType={vehicleType}
+          onDisableSightGuidelines={onDisableSightGuidelines}
         />
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (

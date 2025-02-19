@@ -14,13 +14,29 @@ export const styles: Styles = {
     width: `calc(98% - (${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 4}px))`,
     justifyContent: 'center',
   },
-  button: {
-    textAlign: 'start',
+  guideline: {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: '12px',
-    fontSize: 14,
-    flexDirection: 'row-reverse',
-    paddingRight: 0,
-    alignItems: 'start',
-    gap: 10,
+    justifyContent: 'start',
+    padding: '10px',
+    gap: '8px',
+    letterSpacing: '0.15px',
+    fontSize: '14',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0px 10px 0px',
+  },
+  checkbox: {
+    display: 'flex',
+    cursor: 'pointer',
+    gap: '5px',
+  },
+  button: {
+    all: 'unset',
+    cursor: 'pointer',
   },
 };

@@ -58,7 +58,7 @@ describe('PhotoCaptureHUDTutorial component', () => {
     expectPropsOnChildMock(SightGuideline, {
       sightId: props.sightId,
       sightGuidelines: props.sightGuidelines,
-      enableSightGuidelines: props.currentTutorialStep === TutorialSteps.GUIDELINE,
+      disabled: props.currentTutorialStep !== TutorialSteps.GUIDELINE,
       addDamage: AddDamage.PART_SELECT,
     });
 
@@ -74,20 +74,20 @@ describe('PhotoCaptureHUDTutorial component', () => {
       const props = createProps();
       const { unmount, rerender } = render(<PhotoCaptureHUDTutorial {...props} />);
 
-      expectPropsOnChildMock(SightGuideline, { enableSightGuidelines: false });
+      expectPropsOnChildMock(SightGuideline, { disabled: true });
 
       rerender(
         <PhotoCaptureHUDTutorial {...props} currentTutorialStep={TutorialSteps.GUIDELINE} />,
       );
-      expectPropsOnChildMock(SightGuideline, { enableSightGuidelines: true });
+      expectPropsOnChildMock(SightGuideline, { disabled: false });
 
       rerender(
         <PhotoCaptureHUDTutorial {...props} currentTutorialStep={TutorialSteps.SIGHT_TUTORIAL} />,
       );
-      expectPropsOnChildMock(SightGuideline, { enableSightGuidelines: false });
+      expectPropsOnChildMock(SightGuideline, { disabled: true });
 
       rerender(<PhotoCaptureHUDTutorial {...props} currentTutorialStep={TutorialSteps.SIGHT} />);
-      expectPropsOnChildMock(SightGuideline, { enableSightGuidelines: false });
+      expectPropsOnChildMock(SightGuideline, { disabled: true });
 
       unmount();
     });
