@@ -301,11 +301,12 @@ export function usePhotoCaptureSightState({
 
   const isInspectionCompliant = useMemo(() => {
     const notCapturedSights = captureSights.filter((s) => !sightsTaken.includes(s));
-    const notCompliantSights = getNotCompliantSights(inspectionId, captureSights, state, [
-      ImageStatus.UPLOADING,
-      ImageStatus.NOT_COMPLIANT,
-      ImageStatus.UPLOAD_FAILED,
-    ]);
+    const notCompliantSights = getNotCompliantSights(
+      inspectionId,
+      captureSights,
+      state,
+      Object.values(ImageStatus).filter((status) => status !== ImageStatus.SUCCESS),
+    );
     return !notCapturedSights.length && !notCompliantSights.length;
   }, [state.images]);
 
