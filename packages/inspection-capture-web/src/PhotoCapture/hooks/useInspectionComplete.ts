@@ -1,4 +1,4 @@
-import { LoadingState, useObjectMemo, usePreventExit } from '@monkvision/common';
+import { LoadingState, useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect } from 'react';
 import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -51,7 +51,6 @@ export function useInspectionComplete({
 }: InspectionCompleteParams): InspectionCompleteHandle {
   const analytics = useAnalytics();
   const monitoring = useMonitoring();
-  const { allowRedirect } = usePreventExit(sightState.sightsTaken.length !== 0);
 
   const handleInspectionCompleted = useCallback(() => {
     startTasks()
@@ -61,7 +60,6 @@ export function useInspectionComplete({
           captureCompleted: true,
           sightSelected: 'inspection-completed',
         });
-        allowRedirect();
         onComplete?.();
         sightState.setIsInspectionCompleted(true);
       })

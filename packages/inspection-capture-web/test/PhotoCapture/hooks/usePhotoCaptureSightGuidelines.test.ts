@@ -10,6 +10,9 @@ describe('usePhotoCaptureSightGuidelines', () => {
   beforeEach(() => {
     localStorage.clear();
   });
+  afterEach(() => {
+    localStorage.clear();
+  });
 
   it('should return showSightGuidelines as true when enableSightGuidelines is ENABLED', () => {
     const { result } = renderHook(() =>
@@ -44,7 +47,10 @@ describe('usePhotoCaptureSightGuidelines', () => {
   });
 
   it('should return showSightGuidelines as true when enableSightGuidelines is EPHEMERAL and TTL is expired', () => {
-    localStorage.setItem(STORAGE_KEY_PHOTO_CAPTURE_GUIDELINES, (Date.now() - TTL_MS).toString());
+    localStorage.setItem(
+      STORAGE_KEY_PHOTO_CAPTURE_GUIDELINES,
+      (Date.now() - TTL_MS - 1).toString(),
+    );
 
     const { result } = renderHook(() =>
       usePhotoCaptureSightGuidelines({
