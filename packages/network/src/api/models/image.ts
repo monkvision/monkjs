@@ -85,17 +85,9 @@ export interface ApiCompliance {
 }
 
 export type ApiImagePostTask =
-  | Omit<
+  | Extract<
       ApiBusinessTaskName,
-      | 'repair_estimate'
-      | 'images_ocr'
-      | 'image_editing'
-      | 'inspection_pdf'
-      | 'pricing'
-      | 'zoom_level'
-      | 'coverage_360'
-      | 'iqa_compliance'
-      | 'human_in_the_loop'
+      'damage_detection' | 'wheel_analysis' | 'dashboard_ocr' | 'compliances'
     >
   | ApiImageCompliancesTaskPost
   | ApiHinlTaskPost

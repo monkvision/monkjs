@@ -579,6 +579,16 @@ function getImagesOCROptions(
     : undefined;
 }
 
+function getDashboardOCROptions(
+  options: CreateInspectionOptions,
+): ApiImagesOCRTaskPostComponent | undefined {
+  return options.tasks.includes(TaskName.DASHBOARD_OCR)
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+      }
+    : undefined;
+}
+
 function getPricingOptions(
   options: CreateInspectionOptions,
 ): ApiPricingTaskPostComponent | undefined {
@@ -608,6 +618,7 @@ function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
     images_ocr: getImagesOCROptions(options),
     human_in_the_loop: getHumanInTheLoopOptions(options),
     pricing: getPricingOptions(options),
+    dashboard_ocr: getDashboardOCROptions(options),
   };
 }
 

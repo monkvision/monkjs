@@ -114,6 +114,11 @@ export interface ApiImagesOCRTaskPostComponent {
   callbacks?: ApiCallbacks;
 }
 
+export interface ApiDashboardOCRTaskPostComponent {
+  status?: ApiTaskPostProgressStatus;
+  callbacks?: ApiCallbacks;
+}
+
 export interface ApiHinlTaskPostComponent {
   status?: ApiTaskPostProgressStatus;
   callbacks?: ApiCallbacks;
@@ -133,4 +138,5 @@ export interface ApiTasksComponent {
   images_ocr?: ApiImagesOCRTaskPostComponent;
   human_in_the_loop?: ApiHinlTaskPostComponent;
   pricing?: ApiPricingTaskPostComponent;
+  dashboard_ocr?: ApiDashboardOCRTaskPostComponent;
 }
