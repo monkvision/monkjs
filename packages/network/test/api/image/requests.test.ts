@@ -50,7 +50,14 @@ function createBeautyShotImageOptions(): AddBeautyShotImageOptions {
     },
     inspectionId: 'test-inspection-id',
     sightId: 'test-sight-1',
-    tasks: [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS, TaskName.HUMAN_IN_THE_LOOP],
+    tasks: [
+      TaskName.DAMAGE_DETECTION,
+      TaskName.WHEEL_ANALYSIS,
+      TaskName.HUMAN_IN_THE_LOOP,
+      TaskName.IMAGES_OCR,
+      TaskName.ODOMETER,
+      TaskName.WARNING_LIGHTS,
+    ],
     compliance: {
       enableCompliance: true,
       complianceIssues: [ComplianceIssue.INTERIOR_NOT_SUPPORTED],
@@ -292,7 +299,15 @@ describe('Image requests', () => {
         },
         image_type: ImageType.BEAUTY_SHOT,
         tasks: [
-          ...options.tasks.filter((task) => task !== TaskName.HUMAN_IN_THE_LOOP),
+          ...options.tasks.filter(
+            (task) =>
+              ![
+                TaskName.HUMAN_IN_THE_LOOP,
+                TaskName.IMAGES_OCR,
+                TaskName.ODOMETER,
+                TaskName.WARNING_LIGHTS,
+              ].includes(task),
+          ),
           {
             name: TaskName.COMPLIANCES,
             image_details: { sight_id: options.sightId },
@@ -300,6 +315,18 @@ describe('Image requests', () => {
           {
             name: TaskName.HUMAN_IN_THE_LOOP,
             image_details: { sight_label: sights[options.sightId].label },
+          },
+          {
+            name: TaskName.IMAGES_OCR,
+            image_details: { image_type: 'VIN' },
+          },
+          {
+            name: TaskName.ODOMETER,
+            wait_for_result: true,
+          },
+          {
+            name: TaskName.WARNING_LIGHTS,
+            wait_for_result: true,
           },
         ],
         additional_data: {

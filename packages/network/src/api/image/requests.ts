@@ -285,7 +285,13 @@ function createBeautyShotImageData(
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
   const tasks = options.tasks.filter(
     (task) =>
-      ![TaskName.COMPLIANCES, TaskName.HUMAN_IN_THE_LOOP, TaskName.IMAGES_OCR].includes(task),
+      ![
+        TaskName.COMPLIANCES,
+        TaskName.HUMAN_IN_THE_LOOP,
+        TaskName.IMAGES_OCR,
+        TaskName.ODOMETER,
+        TaskName.WARNING_LIGHTS,
+      ].includes(task),
   ) as ApiImagePostTask[];
   tasks.push({
     name: TaskName.COMPLIANCES,
@@ -303,6 +309,18 @@ function createBeautyShotImageData(
     tasks.push({
       name: TaskName.IMAGES_OCR,
       image_details: { image_type: 'VIN' },
+    });
+  }
+  if (options.tasks.includes(TaskName.ODOMETER)) {
+    tasks.push({
+      name: TaskName.ODOMETER,
+      wait_for_result: true,
+    });
+  }
+  if (options.tasks.includes(TaskName.WARNING_LIGHTS)) {
+    tasks.push({
+      name: TaskName.WARNING_LIGHTS,
+      wait_for_result: true,
     });
   }
 

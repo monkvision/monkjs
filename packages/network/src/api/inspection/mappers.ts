@@ -43,6 +43,7 @@ import {
   ApiImagesOCRTaskPostComponent,
   ApiInspectionGet,
   ApiInspectionPost,
+  ApiOdometerTaskPostComponent,
   ApiPartSeverityValue,
   ApiPricingTaskPostComponent,
   ApiPricingV2,
@@ -54,6 +55,7 @@ import {
   ApiTasksComponent,
   ApiView,
   type ApiViews,
+  ApiWarningLightsTaskPostComponent,
   ApiWheelAnalysisTaskPostComponent,
 } from '../models';
 import { mapApiImage } from '../image/mappers';
@@ -601,6 +603,26 @@ function getPricingOptions(
     : undefined;
 }
 
+function getOdometerOptions(
+  options: CreateInspectionOptions,
+): ApiOdometerTaskPostComponent | undefined {
+  return options.tasks.includes(TaskName.ODOMETER)
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+      }
+    : undefined;
+}
+
+function getWarningLightsOptions(
+  options: CreateInspectionOptions,
+): ApiWarningLightsTaskPostComponent | undefined {
+  return options.tasks.includes(TaskName.WARNING_LIGHTS)
+    ? {
+        status: ProgressStatus.NOT_STARTED,
+      }
+    : undefined;
+}
+
 function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
   return {
     damage_detection: getDamageDetectionOptions(options),
@@ -608,6 +630,8 @@ function getTasksOptions(options: CreateInspectionOptions): ApiTasksComponent {
     images_ocr: getImagesOCROptions(options),
     human_in_the_loop: getHumanInTheLoopOptions(options),
     pricing: getPricingOptions(options),
+    odometer: getOdometerOptions(options),
+    warning_lights: getWarningLightsOptions(options),
   };
 }
 

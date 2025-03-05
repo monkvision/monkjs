@@ -103,6 +103,32 @@ export interface Viewpoint {
   centersOn?: (VehiclePart | CentersOnElement)[];
 }
 
+export const WARNING_LIGHTS = {
+  CEL: 'CEL',
+  AIRBAGS: 'Airbags',
+  ABS: 'ABS',
+  TCS: 'TCS',
+  BATTERY: 'Battery',
+  TPMS: 'TPMS',
+  MAINT: 'Maint',
+  INFO: 'Info',
+  BRAKE: 'brake',
+  OTHER: 'Other',
+  DRIVETRAIN: 'DriveTrain',
+  LIGHTS: 'Lights',
+  STEERING: 'Steering',
+  OIL: 'oil',
+  COOLANT: 'Coolant',
+  SECONDARY: 'Secondary',
+  SUSPENSION: 'Suspension',
+  TRANSMISSION: 'Transmission',
+} as const;
+
+/**
+ * Enumeration of the warning lights that can be detected in an image.
+ */
+export type WarningLights = (typeof WARNING_LIGHTS)[keyof typeof WARNING_LIGHTS];
+
 /**
  * Enumeration of the possible statuses of an inspection image.
  */
@@ -513,4 +539,12 @@ export interface Image extends MonkEntity {
    * Additional data added during the upload of the image.
    */
   additionalData?: ImageAdditionalData;
+  /**
+   * The odometer value of the vehicle in the image.
+   */
+  odometer?: number;
+  /**
+   * The warning lights detected in the image.
+   */
+  warningLights?: WarningLights[];
 }

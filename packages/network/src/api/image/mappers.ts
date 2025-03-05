@@ -217,5 +217,7 @@ export function mapApiImage(
     additionalData: image.additional_data,
     renderedOutputs: [],
     views: [],
+    odometer: image.odometer?.value,
+    warningLights: image.warning_lights?.activated_warning_lights,
   };
 }
