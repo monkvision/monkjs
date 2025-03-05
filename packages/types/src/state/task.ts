@@ -50,6 +50,14 @@ export enum TaskName {
    * damages are detected they are sent to an annotator that will review them and edit them if needed.
    */
   HUMAN_IN_THE_LOOP = 'human_in_the_loop',
+  /**
+   * The odometer task is used to estimate the mileage of the vehicle.
+   */
+  ODOMETER = 'odometer',
+  /**
+   * The warning lights task is used to detect the presence of warning lights on the vehicle.
+   */
+  WARNING_LIGHTS = 'warning_lights',
 }
 
 /**

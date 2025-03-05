@@ -47,6 +47,16 @@ export interface ApiImagesOCRTaskPost {
   image_details: ApiImagesOCRImageDetails;
 }
 
+export interface ApiImagesOdometerTaskPost {
+  name: 'odometer';
+  wait_for_result?: boolean;
+}
+
+export interface ApiImagesWarningLightsTaskPost {
+  name: 'warning_lights';
+  wait_for_result?: boolean;
+}
+
 export type ApiTaskProgressStatus =
   | 'NOT_STARTED'
   | 'TODO'
@@ -127,10 +137,20 @@ export interface ApiPricingTaskPostComponent {
   methodology?: ApiPricingMethodology;
 }
 
+export interface ApiOdometerTaskPostComponent {
+  status?: ApiTaskPostProgressStatus;
+}
+
+export interface ApiWarningLightsTaskPostComponent {
+  status?: ApiTaskPostProgressStatus;
+}
+
 export interface ApiTasksComponent {
   damage_detection?: ApiDamageDetectionTaskPostComponent;
   wheel_analysis?: ApiWheelAnalysisTaskPostComponent;
   images_ocr?: ApiImagesOCRTaskPostComponent;
   human_in_the_loop?: ApiHinlTaskPostComponent;
   pricing?: ApiPricingTaskPostComponent;
+  odometer?: ApiOdometerTaskPostComponent;
+  warning_lights?: ApiWarningLightsTaskPostComponent;
 }

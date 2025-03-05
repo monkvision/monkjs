@@ -1,4 +1,4 @@
-import { TranslationObject } from '@monkvision/types';
+import { MileageUnit, TranslationObject, WarningLights } from '@monkvision/types';
 import type { ApiAdditionalData, ApiCenterOnElement, ApiLabelPrediction } from './common';
 import type { ApiRenderedOutputs } from './renderedOutput';
 import type { ApiImageComplianceResults } from './compliance';
@@ -8,6 +8,8 @@ import {
   ApiHinlTaskPost,
   ApiImageCompliancesTaskPost,
   ApiImagesOCRTaskPost,
+  ApiImagesOdometerTaskPost,
+  ApiImagesWarningLightsTaskPost,
 } from './task';
 
 export type ApiImageType = 'unknown' | 'beauty_shot' | 'close_up';
@@ -35,6 +37,20 @@ export interface ApiImageAdditionalData extends ApiAdditionalData {
   label?: TranslationObject;
 }
 
+export interface ApiImageOdometer {
+  unit?: MileageUnit;
+  value?: number;
+  confidence_score?: number;
+  error?: string;
+  rotation?: string;
+  visualization_url?: string;
+}
+
+export interface ApiImageWarningLights {
+  activated_warning_lights: WarningLights[];
+  light_to_score: Record<WarningLights, number>;
+}
+
 export interface ApiImage {
   additional_data?: ApiImageAdditionalData;
   binary_size: number;
@@ -51,6 +67,8 @@ export interface ApiImage {
   name?: string;
   path: string;
   viewpoint?: ApiLabelPrediction;
+  odometer?: ApiImageOdometer;
+  warning_lights?: ApiImageWarningLights;
 }
 
 export interface ApiImageWithViews extends ApiImage {
@@ -85,21 +103,15 @@ export interface ApiCompliance {
 }
 
 export type ApiImagePostTask =
-  | Omit<
+  | Extract<
       ApiBusinessTaskName,
-      | 'repair_estimate'
-      | 'images_ocr'
-      | 'image_editing'
-      | 'inspection_pdf'
-      | 'pricing'
-      | 'zoom_level'
-      | 'coverage_360'
-      | 'iqa_compliance'
-      | 'human_in_the_loop'
+      'damage_detection' | 'wheel_analysis' | 'dashboard_ocr' | 'compliances'
     >
   | ApiImageCompliancesTaskPost
   | ApiHinlTaskPost
-  | ApiImagesOCRTaskPost;
+  | ApiImagesOCRTaskPost
+  | ApiImagesOdometerTaskPost
+  | ApiImagesWarningLightsTaskPost;
 
 export interface ApiImagePost {
   acquisition: ApiAcquisition;
