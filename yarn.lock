@@ -4164,6 +4164,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nrwl/nx-cloud@npm:19.1.0":
+  version: 19.1.0
+  resolution: "@nrwl/nx-cloud@npm:19.1.0"
+  dependencies:
+    nx-cloud: 19.1.0
+  checksum: 185459710d05e31a59b3d9244e54e5a03ea87ad241a6a930aa87fa87cc1fbf9f2b3edd36e8c61010d24a3aed45662b4b7640aa988b21d51632ce40d5f67a6ae4
+  languageName: node
+  linkType: hard
+
 "@nrwl/tao@npm:16.10.0":
   version: 16.10.0
   resolution: "@nrwl/tao@npm:16.10.0"
@@ -6859,6 +6868,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^1.6.0":
+  version: 1.7.7
+  resolution: "axios@npm:1.7.7"
+  dependencies:
+    follow-redirects: ^1.15.6
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 882d4fe0ec694a07c7f5c1f68205eb6dc5a62aecdb632cc7a4a3d0985188ce3030e0b277e1a8260ac3f194d314ae342117660a151fabffdc5081ca0b5a8b47fe
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^3.1.1":
   version: 3.2.1
   resolution: "axobject-query@npm:3.2.1"
@@ -9389,7 +9409,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^10.0.0":
+"dotenv@npm:^10.0.0, dotenv@npm:~10.0.0":
   version: 10.0.0
   resolution: "dotenv@npm:10.0.0"
   checksum: f412c5fe8c24fbe313d302d2500e247ba8a1946492db405a4de4d30dd0eb186a88a43f13c958c5a7de303938949c4231c56994f97d05c4bc1f22478d631b4005
@@ -10741,6 +10761,16 @@ __metadata:
     debug:
       optional: true
   checksum: 584da22ec5420c837bd096559ebfb8fe69d82512d5585004e36a3b4a6ef6d5905780e0c74508c7b72f907d1fa2b7bd339e613859e9c304d0dc96af2027fd0231
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.9
+  resolution: "follow-redirects@npm:1.15.9"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 859e2bacc7a54506f2bf9aacb10d165df78c8c1b0ceb8023f966621b233717dab56e8d08baadc3ad3b9db58af290413d585c999694b7c146aaf2616340c3d2a6
   languageName: node
   linkType: hard
 
@@ -12103,6 +12133,13 @@ __metadata:
   version: 2.0.0
   resolution: "ini@npm:2.0.0"
   checksum: e7aadc5fb2e4aefc666d74ee2160c073995a4061556b1b5b4241ecb19ad609243b9cceafe91bae49c219519394bbd31512516cb22a3b1ca6e66d869e0447e84e
+  languageName: node
+  linkType: hard
+
+"ini@npm:4.1.3":
+  version: 4.1.3
+  resolution: "ini@npm:4.1.3"
+  checksum: 004b2be42388877c58add606149f1a0c7985c90a0ba5dbf45a4738fdc70b0798d922caecaa54617029626505898ac451ff0537a08b949836b49d3267f66542c9
   languageName: node
   linkType: hard
 
@@ -15566,6 +15603,8 @@ __metadata:
   resolution: "monkjs@workspace:."
   dependencies:
     lerna: ^7.1.4
+    nx: 16.10.0
+    nx-cloud: latest
     react: ^17.0.2
     react-dom: ^17.0.2
     rimraf: ^3.0.2
@@ -15789,7 +15828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-machine-id@npm:1.1.12":
+"node-machine-id@npm:1.1.12, node-machine-id@npm:^1.1.12":
   version: 1.1.12
   resolution: "node-machine-id@npm:1.1.12"
   checksum: e23088a0fb4a77a1d6484b7f09a22992fd3e0054d4f2e427692b4c7081e6cf30118ba07b6113b6c89f1ce46fd26ec5ab1d76dcaf6c10317717889124511283a5
@@ -16042,6 +16081,26 @@ __metadata:
   version: 2.2.7
   resolution: "nwsapi@npm:2.2.7"
   checksum: cab25f7983acec7e23490fec3ef7be608041b460504229770e3bfcf9977c41d6fe58f518994d3bd9aa3a101f501089a3d4a63536f4ff8ae4b8c4ca23bdbfda4e
+  languageName: node
+  linkType: hard
+
+"nx-cloud@npm:19.1.0, nx-cloud@npm:latest":
+  version: 19.1.0
+  resolution: "nx-cloud@npm:19.1.0"
+  dependencies:
+    "@nrwl/nx-cloud": 19.1.0
+    axios: ^1.6.0
+    chalk: ^4.1.0
+    dotenv: ~10.0.0
+    fs-extra: ^11.1.0
+    ini: 4.1.3
+    node-machine-id: ^1.1.12
+    open: ~8.4.0
+    tar: 6.2.1
+    yargs-parser: ">=21.1.1"
+  bin:
+    nx-cloud: bin/nx-cloud.js
+  checksum: e76899f2f833c1518d0dc361052fd5913d2140866cce10146fe13b340d40ad6095733fe5319f009cd31a10e4e601fca58a3a3f954a339ba98d9f060c641f405f
   languageName: node
   linkType: hard
 
@@ -16306,7 +16365,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^8.0.9, open@npm:^8.4.0":
+"open@npm:^8.0.9, open@npm:^8.4.0, open@npm:~8.4.0":
   version: 8.4.2
   resolution: "open@npm:8.4.2"
   dependencies:
@@ -20544,6 +20603,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tar@npm:6.2.1":
+  version: 6.2.1
+  resolution: "tar@npm:6.2.1"
+  dependencies:
+    chownr: ^2.0.0
+    fs-minipass: ^2.0.0
+    minipass: ^5.0.0
+    minizlib: ^2.1.1
+    mkdirp: ^1.0.3
+    yallist: ^4.0.0
+  checksum: f1322768c9741a25356c11373bce918483f40fa9a25c69c59410c8a1247632487edef5fe76c5f12ac51a6356d2f1829e96d2bc34098668a2fc34d76050ac2b6c
+  languageName: node
+  linkType: hard
+
 "tar@npm:^6.1.11, tar@npm:^6.1.2":
   version: 6.2.0
   resolution: "tar@npm:6.2.0"
@@ -22703,7 +22776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:21.1.1, yargs-parser@npm:^21.0.1, yargs-parser@npm:^21.1.1":
+"yargs-parser@npm:21.1.1, yargs-parser@npm:>=21.1.1, yargs-parser@npm:^21.0.1, yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
   checksum: ed2d96a616a9e3e1cc7d204c62ecc61f7aaab633dcbfab2c6df50f7f87b393993fe6640d017759fe112d0cb1e0119f2b4150a87305cc873fd90831c6a58ccf1c
