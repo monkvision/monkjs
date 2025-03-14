@@ -3564,8 +3564,8 @@ __metadata:
     "@types/css": ^0.0.34
     "@types/jest": ^27.5.2
     "@types/node": ^16.18.18
-    "@types/react": ^17.0.2
-    "@types/react-dom": ^17.0.2
+    "@types/react": ^18.3.1
+    "@types/react-dom": ^18.3.1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     css: ^3.0.0
@@ -3585,14 +3585,14 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     react-i18next: ^13.2.0
+    react-router-dom: ^6.22.3
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
     "@auth0/auth0-react": ^2.2.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
-    react-router-dom: ^6.22.3
+    react: ^18.3.1
+    react-dom: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -3803,6 +3803,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/network@workspace:packages/network"
   dependencies:
+    "@auth0/auth0-react": ^2.2.4
     "@monkvision/common": 5.0.7
     "@monkvision/eslint-config-base": 5.0.7
     "@monkvision/eslint-config-typescript": 5.0.7
@@ -5640,6 +5641,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-dom@npm:^18.3.1":
+  version: 18.3.5
+  resolution: "@types/react-dom@npm:18.3.5"
+  peerDependencies:
+    "@types/react": ^18.0.0
+  checksum: 95c757684f71e761515c5a11299e5feec550c72bb52975487f360e6f0d359b26454c26eaf2ce45dd22748205aa9b2c2fe0abe7005ebcbd233a7615283ac39a7d
+  languageName: node
+  linkType: hard
+
 "@types/react-router-config@npm:*, @types/react-router-config@npm:^5.0.6":
   version: 5.0.8
   resolution: "@types/react-router-config@npm:5.0.8"
@@ -5691,6 +5701,16 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: c6ca4415b53b1abe91162b29af541a1797a56a6f462ef796e8ebda3eaa4d0609205f4f17b3fce8d9a12235d4ffd8a67c47b5e018ed85c2f3bee0fba8f54638c1
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.3.1":
+  version: 18.3.18
+  resolution: "@types/react@npm:18.3.18"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.0.2
+  checksum: 5933597bc9f53e282f0438f0bb76d0f0fab60faabe760ea806e05ffe6f5c61b9b4d363e1a03a8fea47c510d493c6cf926cdeeba9f7074fa97b61940c350245e7
   languageName: node
   linkType: hard
 
@@ -15473,8 +15493,8 @@ __metadata:
     "@types/babel__core": ^7
     "@types/jest": ^27.5.2
     "@types/node": ^16.18.18
-    "@types/react": ^17.0.2
-    "@types/react-dom": ^17.0.2
+    "@types/react": ^18.3.1
+    "@types/react-dom": ^18.3.1
     "@types/react-router-dom": ^5.3.3
     "@types/sort-by": ^1
     "@typescript-eslint/eslint-plugin": ^5.43.0
@@ -15501,8 +15521,8 @@ __metadata:
     localforage: ^1.10.0
     match-sorter: ^6.3.4
     prettier: ^2.7.1
-    react: ^17.0.2
-    react-dom: ^17.0.2
+    react: ^18.3.1
+    react-dom: ^18.3.1
     react-i18next: ^13.2.0
     react-router-dom: ^6.22.3
     react-scripts: 5.0.1
@@ -15566,8 +15586,8 @@ __metadata:
   resolution: "monkjs@workspace:."
   dependencies:
     lerna: ^7.1.4
-    react: ^17.0.2
-    react-dom: ^17.0.2
+    react: ^18.3.1
+    react-dom: ^18.3.1
     rimraf: ^3.0.2
   languageName: unknown
   linkType: soft
@@ -18268,6 +18288,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18.3.1":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.2
+  peerDependencies:
+    react: ^18.3.1
+  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
+  languageName: node
+  linkType: hard
+
 "react-error-boundary@npm:^3.1.0":
   version: 3.1.4
   resolution: "react-error-boundary@npm:3.1.4"
@@ -18548,6 +18580,15 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  languageName: node
+  linkType: hard
+
+"react@npm:^18.3.1":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
   languageName: node
   linkType: hard
 
@@ -19341,6 +19382,15 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
   languageName: node
   linkType: hard
 

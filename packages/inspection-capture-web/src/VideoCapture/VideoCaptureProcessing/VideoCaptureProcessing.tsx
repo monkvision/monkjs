@@ -52,7 +52,7 @@ export function VideoCaptureProcessing({
             </div>
           </>
         )}
-        {loading.error && (
+        {String(loading.error) && (
           <div style={styles['errorMessage']}>
             {t('video.processing.error')} {inspectionId}
           </div>

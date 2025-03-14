@@ -12,6 +12,7 @@ export const VEHICLE_TYPE_ORDER = [
   VehicleType.VAN,
   VehicleType.LARGE_SUV,
   VehicleType.CITY,
+  VehicleType.HGV,
 ];
 
 export const DEFAULT_AVAILABLE_VEHICLE_TYPES = [

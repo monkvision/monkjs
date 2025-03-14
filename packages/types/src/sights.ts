@@ -19,112 +19,228 @@ export enum SightCategory {
   MISC = 'misc',
 }
 
+// /**
+//  * The different types of vehicle available in the Sights package.
+//  */
+// export enum VehicleType {
+//   /**
+//    * A compact or subcompact sedan with a squared-off roof and a rear flip-up hatch door that provides access to the
+//    * vehicle's cargo area instead of a conventional trunk.
+//    */
+//   HATCHBACK = 'hatchback',
+//   /**
+//    * A vehicle that is built on a car platform but has an increased ride height with a higher ground clearance like an
+//    * SUV, that can handle any terrain.
+//    */
+//   CUV = 'cuv',
+//   /**
+//    * A light-duty truck that has an enclosed cabin, and a back end made up of a cargo bed that is enclosed by three low
+//    * walls with no roof.
+//    */
+//   PICKUP = 'pickup',
+//   /**
+//    * A small car designed to be used primarily in urban areas and conurbations.
+//    */
+//   CITY = 'city',
+//   /**
+//    * A type of road vehicle used for transporting goods or people.
+//    */
+//   VAN = 'van',
+//   /**
+//    * A 4-door passenger car with a trunk that is separate from the passengers with a three-box body: the engine, the
+//    * area for passengers, and the trunk.
+//    */
+//   SEDAN = 'sedan',
+//   /**
+//    * A large SUV, distinguishable by its ability to tow large items, handle rough terrain, contain plenty of space for
+//    * passengers and cargo, and has 3 rows of seats.
+//    */
+//   LARGE_SUV = 'large-suv',
+//   /**
+//    * A vehicle designed to transport passengers in the rear seating row(s), with reconfigurable seats in two or three
+//    * rows.
+//    */
+//   MINIVAN = 'minivan',
+//   /**
+//    * "Sports Utility Vehicle" : A sleek looking vehicles that offer elegant city driving but also handle rugged terrain
+//    * thanks to a typical 4x4 capability.
+//    */
+//   SUV = 'suv',
+//   /**
+//    * Huge transportation trucks.
+//    */
+//   HGV = 'hgv',
+// }
+//
 /**
  * The different types of vehicle available in the Sights package.
  */
-export enum VehicleType {
+export const VehicleType = {
   /**
    * A compact or subcompact sedan with a squared-off roof and a rear flip-up hatch door that provides access to the
    * vehicle's cargo area instead of a conventional trunk.
    */
-  HATCHBACK = 'hatchback',
+  HATCHBACK: 'hatchback',
   /**
    * A vehicle that is built on a car platform but has an increased ride height with a higher ground clearance like an
    * SUV, that can handle any terrain.
    */
-  CUV = 'cuv',
+  CUV: 'cuv',
   /**
    * A light-duty truck that has an enclosed cabin, and a back end made up of a cargo bed that is enclosed by three low
    * walls with no roof.
    */
-  PICKUP = 'pickup',
+  PICKUP: 'pickup',
   /**
    * A small car designed to be used primarily in urban areas and conurbations.
    */
-  CITY = 'city',
+  CITY: 'city',
   /**
    * A type of road vehicle used for transporting goods or people.
    */
-  VAN = 'van',
+  VAN: 'van',
   /**
    * A 4-door passenger car with a trunk that is separate from the passengers with a three-box body: the engine, the
    * area for passengers, and the trunk.
    */
-  SEDAN = 'sedan',
+  SEDAN: 'sedan',
   /**
    * A large SUV, distinguishable by its ability to tow large items, handle rough terrain, contain plenty of space for
    * passengers and cargo, and has 3 rows of seats.
    */
-  LARGE_SUV = 'large-suv',
+  LARGE_SUV: 'large-suv',
   /**
    * A vehicle designed to transport passengers in the rear seating row(s), with reconfigurable seats in two or three
    * rows.
    */
-  MINIVAN = 'minivan',
+  MINIVAN: 'minivan',
   /**
    * "Sports Utility Vehicle" : A sleek looking vehicles that offer elegant city driving but also handle rugged terrain
    * thanks to a typical 4x4 capability.
    */
-  SUV = 'suv',
+  SUV: 'suv',
   /**
    * Huge transportation trucks.
    */
-  HGV = 'hgv',
-}
+  HGV: 'hgv',
+} as const;
 
+/**
+ * A type representing the different types of vehicle available in the Sights package.
+ */
+export type VehicleType = (typeof VehicleType)[keyof typeof VehicleType];
+
+// /**
+//  * The different vehicle models used in the Sights package.
+//  */
+// export enum VehicleModel {
+//   /**
+//    * All vehicle types. This vehicle type is used by sights that can be used in any vehicle.
+//    */
+//   ALL = 'all',
+//   /**
+//    * Audi A7 (Hatchback)
+//    */
+//   AUDIA7 = 'audia7',
+//   /**
+//    * Ford Escape SE 2020 (CUV)
+//    */
+//   FESC20 = 'fesc20',
+//   /**
+//    * Ford F-150 Super Cab XL 2014 (Pickup)
+//    */
+//   FF150 = 'ff150',
+//   /**
+//    * Ford Focus (City)
+//    */
+//   FFOCUS18 = 'ffocus18',
+//   /**
+//    * Ford Transit Fourgon L3H2 Trendline 2018 (Van)
+//    */
+//   FTRANSIT18 = 'ftransit18',
+//   /**
+//    * Honda Accord Sedan Sport US spec 2018 (Sedan)
+//    */
+//   HACCORD = 'haccord',
+//   /**
+//    * Jeep Grand Cherokee L Summit 2021 (Large SUV)
+//    */
+//   JGC21 = 'jgc21',
+//   /**
+//    * Toyota Sienna Limited 2020 (Minivan)
+//    */
+//   TSIENNA20 = 'tsienna20',
+//   /**
+//    * Volkswagen T-Roc (SUV)
+//    */
+//   VWTROC = 'vwtroc',
+//   /**
+//    * Man 12 (HGV)
+//    */
+//   MAN12 = 'man12',
+//   /**
+//    * Tesla Model 3 (sedan)
+//    */
+//   TESLAM3 = 'teslam3',
+// }
 /**
  * The different vehicle models used in the Sights package.
  */
-export enum VehicleModel {
+export const VehicleModel = {
   /**
    * All vehicle types. This vehicle type is used by sights that can be used in any vehicle.
    */
-  ALL = 'all',
+  ALL: 'all',
   /**
    * Audi A7 (Hatchback)
    */
-  AUDIA7 = 'audia7',
+  AUDIA7: 'audia7',
   /**
    * Ford Escape SE 2020 (CUV)
    */
-  FESC20 = 'fesc20',
+  FESC20: 'fesc20',
   /**
    * Ford F-150 Super Cab XL 2014 (Pickup)
    */
-  FF150 = 'ff150',
+  FF150: 'ff150',
   /**
    * Ford Focus (City)
    */
-  FFOCUS18 = 'ffocus18',
+  FFOCUS18: 'ffocus18',
   /**
    * Ford Transit Fourgon L3H2 Trendline 2018 (Van)
    */
-  FTRANSIT18 = 'ftransit18',
+  FTRANSIT18: 'ftransit18',
   /**
    * Honda Accord Sedan Sport US spec 2018 (Sedan)
    */
-  HACCORD = 'haccord',
+  HACCORD: 'haccord',
   /**
    * Jeep Grand Cherokee L Summit 2021 (Large SUV)
    */
-  JGC21 = 'jgc21',
+  JGC21: 'jgc21',
   /**
    * Toyota Sienna Limited 2020 (Minivan)
    */
-  TSIENNA20 = 'tsienna20',
+  TSIENNA20: 'tsienna20',
   /**
    * Volkswagen T-Roc (SUV)
    */
-  VWTROC = 'vwtroc',
+  VWTROC: 'vwtroc',
   /**
    * Man 12 (HGV)
    */
-  MAN12 = 'man12',
+  MAN12: 'man12',
   /**
    * Tesla Model 3 (sedan)
    */
-  TESLAM3 = 'teslam3',
-}
+  TESLAM3: 'teslam3',
+} as const;
+
+/**
+ * A type representing the different vehicle models used in the Sights package.
+ */
+export type VehicleModel = (typeof VehicleModel)[keyof typeof VehicleModel];
 
 /**
  * Interface describing the sight guideline.
@@ -155,24 +271,34 @@ export interface SightGuideline {
 /**
  * The different orientations of a part selection wireframe.
  */
-export enum PartSelectionOrientation {
-  /**
-   * Wireframe of the vehicle when looking at its front left side.
-   */
-  FRONT_LEFT = 'front-left',
-  /**
-   * Wireframe of the vehicle when looking at its front right side.
-   */
-  FRONT_RIGHT = 'front-right',
-  /**
-   * Wireframe of the vehicle when looking at its rear left side.
-   */
-  REAR_LEFT = 'rear-left',
-  /**
-   * Wireframe of the vehicle when looking at its rear right side.
-   */
-  REAR_RIGHT = 'rear-right',
-}
+// export enum PartSelectionOrientation {
+//   /**
+//    * Wireframe of the vehicle when looking at its front left side.
+//    */
+//   FRONT_LEFT = 'front-left',
+//   /**
+//    * Wireframe of the vehicle when looking at its front right side.
+//    */
+//   FRONT_RIGHT = 'front-right',
+//   /**
+//    * Wireframe of the vehicle when looking at its rear left side.
+//    */
+//   REAR_LEFT = 'rear-left',
+//   /**
+//    * Wireframe of the vehicle when looking at its rear right side.
+//    */
+//   REAR_RIGHT = 'rear-right',
+// }
+
+export const PartSelectionOrientation = {
+  FRONT_LEFT: 'front-left',
+  FRONT_RIGHT: 'front-right',
+  REAR_LEFT: 'rear-left',
+  REAR_RIGHT: 'rear-right',
+} as const;
+
+export type PartSelectionOrientation =
+  (typeof PartSelectionOrientation)[keyof typeof PartSelectionOrientation];
 
 /**
  * Details of a sight with its overlay as an SVG string.
@@ -211,7 +337,7 @@ export interface VehicleDetails {
   /**
    * The ID of the vehicle.
    */
-  id: Exclude<VehicleModel, VehicleModel.ALL>;
+  id: Exclude<VehicleModel, typeof VehicleModel.ALL>;
   /**
    * The make of the vehicle.
    */
@@ -250,7 +376,10 @@ export interface LabelTranslation extends TranslationObject {
 /**
  * A dictionary that maps vehicle types to vehicle details objects.
  */
-export type VehicleDictionary = Record<Exclude<VehicleModel, VehicleModel.ALL>, VehicleDetails>;
+export type VehicleDictionary = Record<
+  Exclude<VehicleModel, typeof VehicleModel.ALL>,
+  VehicleDetails
+>;
 
 /**
  * A dictionary that maps translation keys (strings) to label translations objects.

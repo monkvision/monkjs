@@ -85,7 +85,7 @@ export function i18nWrap<T, P>(
   return forwardRef<T, P>(function I18nWrappedComponent(props, ref) {
     return (
       <I18nextProvider i18n={instance}>
-        <Component ref={ref} {...props} />
+        <Component ref={ref} {...(props as P)} />
       </I18nextProvider>
     );
   });

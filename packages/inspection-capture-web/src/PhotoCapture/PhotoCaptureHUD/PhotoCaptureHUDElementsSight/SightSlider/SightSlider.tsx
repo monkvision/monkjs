@@ -42,6 +42,7 @@ const scrollToSelectedSight = (
 ): void => {
   if (ref.current && ref.current.children.length > index) {
     ref.current.children[index].scrollIntoView({
+      // behavior: smooth ? 'smooth' : 'auto',
       behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
       inline: 'center',
     });

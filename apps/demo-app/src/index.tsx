@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { MonitoringProvider } from '@monkvision/monitoring';
 import { AnalyticsProvider } from '@monkvision/analytics';
 import { Auth0Provider } from '@auth0/auth0-react';
@@ -9,7 +9,9 @@ import { AppRouter } from './components';
 import './index.css';
 import './i18n';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
   <MonitoringProvider adapter={sentryMonitoringAdapter}>
     <AnalyticsProvider adapter={posthogAnalyticsAdapter}>
       <Auth0Provider
@@ -25,5 +27,4 @@ ReactDOM.render(
       </Auth0Provider>
     </AnalyticsProvider>
   </MonitoringProvider>,
-  document.getElementById('root'),
 );

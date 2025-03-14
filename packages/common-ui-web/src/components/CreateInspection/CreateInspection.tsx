@@ -92,9 +92,9 @@ export const CreateInspection = i18nWrap(function CreateInspection({
   return (
     <div style={styles['container']}>
       {loading.isLoading && <Spinner size={80} />}
-      {!loading.isLoading && loading.error && (
+      {!loading.isLoading && String(loading.error) && (
         <>
-          <div style={styles['errorMessage']}>{t(loading.error)}</div>
+          <div style={styles['errorMessage']}>{t(String(loading.error))}</div>
           {loading.error === CreateInspectionError.CREATE_INSPECTION && (
             <div style={styles['retryBtnContainer']}>
               <Button
