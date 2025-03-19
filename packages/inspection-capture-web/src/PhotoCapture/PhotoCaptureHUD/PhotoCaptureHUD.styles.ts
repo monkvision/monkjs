@@ -2,14 +2,15 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    width: '100%',
-    height: '100%',
+    height: '100vh',
+    width: '100vw',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
     position: 'relative',
     alignSelf: 'stretch',
+    overflow: 'auto',
   },
   containerPortrait: {
     __media: { portrait: true },
@@ -17,7 +18,7 @@ export const styles: Styles = {
   },
   previewContainer: {
     position: 'relative',
-    width: '100%',
-    height: '100%',
+    height: '100vh',
+    width: '100vw',
   },
 };

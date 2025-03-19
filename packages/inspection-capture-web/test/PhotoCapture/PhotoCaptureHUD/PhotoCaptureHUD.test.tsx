@@ -10,6 +10,12 @@ jest.mock('../../../src/components', () => ({
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDElements', () => ({
   PhotoCaptureHUDElements: jest.fn(() => <></>),
 }));
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDSightTutorial/', () => ({
+  PhotoCaptureHUDSightTutorial: jest.fn(() => <></>),
+}));
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDTutorial/', () => ({
+  PhotoCaptureHUDTutorial: jest.fn(() => <></>),
+}));
 
 import { useTranslation } from 'react-i18next';
 import { act, render, screen } from '@testing-library/react';
@@ -65,6 +71,8 @@ function createProps(): PhotoCaptureHUDProps {
     vehicleType: VehicleType.SEDAN,
     showSightGuidelines: true,
     onDisableSightGuidelines: jest.fn(),
+    showSightTutorial: true,
+    toggleSightTutorial: jest.fn(),
   };
 }
 

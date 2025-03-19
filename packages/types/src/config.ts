@@ -1,5 +1,5 @@
 import { CameraResolution, CompressionOptions } from './camera';
-import { SightGuideline, SteeringWheelPosition, VehicleType } from './sights';
+import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
 import { DeviceOrientation } from './utils';
@@ -217,15 +217,15 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     addDamage?: AddDamage;
     /**
-     * A collection of sight guidelines in different language with a list of sightIds associate to it.
-     */
-    sightGuidelines?: SightGuideline[];
-    /**
      * Option for displaying the Sight guidelines. If disabled, the guideline text will be hidden.
      *
      * @default SightGuidelinesOption.EPHMERAL.
      */
     enableSightGuidelines?: PhotoCaptureSightGuidelinesOption;
+    /**
+     * A collection of sight guidelines in different language with a list of sightIds associate to it.
+     */
+    sightGuidelines?: SightGuideline[];
     /**
      * The default vehicle type used if no vehicle type is defined.
      */
@@ -253,6 +253,10 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * @default true
      */
     enableSightTutorial?: boolean;
+    /**
+     * A collection of sight tutorial in different language with a list of sightIds associate to it.
+     */
+    sightTutorial?: SightTutorial[];
   } & (
     | {
         /**
