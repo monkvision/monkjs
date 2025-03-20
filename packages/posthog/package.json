@@ -33,7 +33,7 @@
   "dependencies": {
     "@monkvision/analytics": "5.0.7",
     "@monkvision/types": "5.0.7",
-    "posthog-js": "^1.139.1"
+    "posthog-js": "^1.232.0"
   },
   "peerDependencies": {
     "react": "^17.0.2",
