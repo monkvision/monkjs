@@ -13,6 +13,9 @@
     },
     "Task": {
       "$ref": "subschemas/task.schema"
+    },
+    "Positioning": {
+      "$ref": "subschemas/positioning.schema"
     }
   },
   "type": "object",
@@ -43,6 +46,12 @@
     },
     "tasks": {
       "$ref": "#/definitions/Task"
+    },
+    "referencePicture": {
+      "type": "string"
+    },
+    "positioning": {
+      "$ref": "#/definitions/Positioning"
     }
   },
   "required": ["category", "label", "overlay", "vehicle", "tasks"]

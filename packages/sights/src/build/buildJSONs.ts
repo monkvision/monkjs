@@ -64,6 +64,8 @@ function mapSights(
         overlay: readOverlay(join(overlaysPath, sight.overlay)),
         tasks: sight.tasks,
         vehicle,
+        referencePicture: sight?.referencePicture,
+        positioning: sight?.positioning,
       },
     }),
     {},

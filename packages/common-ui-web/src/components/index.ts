@@ -21,3 +21,5 @@ export * from './VehicleTypeAsset';
 export * from './VehicleTypeSelection';
 export * from './VehicleWalkaroundIndicator';
 export * from './CaptureSelection';
+export * from './IconAroundVehicle';
+export * from './IconVerticalPosition';

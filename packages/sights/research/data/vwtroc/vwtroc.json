@@ -12,7 +12,12 @@
     "overlay": "vwtroc-0U14gFyk.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-zjAIjUgU",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 79,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-0U14gFyk.jpeg"
   },
   "vwtroc-1-gwCM0m": {
     "id": "vwtroc-1-gwCM0m",
@@ -27,7 +32,12 @@
     "overlay": "vwtroc-1-gwCM0m.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-6MR5C13s",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-1-gwCM0m.jpeg"
   },
   "vwtroc-2RFF3Uf8": {
     "id": "vwtroc-2RFF3Uf8",
@@ -42,7 +52,12 @@
     "overlay": "vwtroc-2RFF3Uf8.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-OOJDJ7go",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-2RFF3Uf8.jpeg"
   },
   "vwtroc-2wVqenwP": {
     "id": "vwtroc-2wVqenwP",
@@ -57,7 +72,12 @@
     "overlay": "vwtroc-2wVqenwP.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-T24v9XS8",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-2wVqenwP.jpeg"
   },
   "vwtroc-36qmcrgr": {
     "id": "vwtroc-36qmcrgr",
@@ -71,7 +91,12 @@
     "label": "rear-roof-right",
     "overlay": "vwtroc-36qmcrgr.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 75,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-36qmcrgr.jpeg"
   },
   "vwtroc-3a3OheoD": {
     "id": "vwtroc-3a3OheoD",
@@ -85,7 +110,12 @@
     "label": "rear-fender-left",
     "overlay": "vwtroc-3a3OheoD.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-3a3OheoD.jpeg"
   },
   "vwtroc-3vKXafwc": {
     "id": "vwtroc-3vKXafwc",
@@ -100,7 +130,12 @@
     "overlay": "vwtroc-3vKXafwc.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-Cce1KCd3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-3vKXafwc.jpeg"
   },
   "vwtroc-6MR5C13s": {
     "id": "vwtroc-6MR5C13s",
@@ -115,7 +150,12 @@
     "overlay": "vwtroc-6MR5C13s.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-1-gwCM0m",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-6MR5C13s.jpeg"
   },
   "vwtroc-8_W2PO8L": {
     "id": "vwtroc-8_W2PO8L",
@@ -130,7 +170,12 @@
     "overlay": "vwtroc-8_W2PO8L.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-rN39Y3HR",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-8_W2PO8L.jpeg"
   },
   "vwtroc-AEc967h1": {
     "id": "vwtroc-AEc967h1",
@@ -144,7 +189,12 @@
     "label": "doors-left",
     "overlay": "vwtroc-AEc967h1.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 70,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-AEc967h1.jpeg"
   },
   "vwtroc-AoO-nOoM": {
     "id": "vwtroc-AoO-nOoM",
@@ -159,7 +209,12 @@
     "overlay": "vwtroc-AoO-nOoM.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GvCtVnoD",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-AoO-nOoM.jpeg"
   },
   "vwtroc-B5s1CWT-": {
     "id": "vwtroc-B5s1CWT-",
@@ -174,7 +229,12 @@
     "overlay": "vwtroc-B5s1CWT-.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-UHZkpCuK",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 95,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-B5s1CWT-.jpeg"
   },
   "vwtroc-CELBsvYD": {
     "id": "vwtroc-CELBsvYD",
@@ -189,7 +249,12 @@
     "overlay": "vwtroc-CELBsvYD.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xfbBpq3Q",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 73,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-CELBsvYD.jpeg"
   },
   "vwtroc-Cce1KCd3": {
     "id": "vwtroc-Cce1KCd3",
@@ -204,7 +269,12 @@
     "overlay": "vwtroc-Cce1KCd3.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-3vKXafwc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-Cce1KCd3.jpeg"
   },
   "vwtroc-ClEZSucK": {
     "id": "vwtroc-ClEZSucK",
@@ -219,7 +289,12 @@
     "overlay": "vwtroc-ClEZSucK.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-QqBpHiVP",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-ClEZSucK.jpeg"
   },
   "vwtroc-D4r9OKHt": {
     "id": "vwtroc-D4r9OKHt",
@@ -234,7 +309,12 @@
     "overlay": "vwtroc-D4r9OKHt.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-TDLex8-D",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-D4r9OKHt.jpeg"
   },
   "vwtroc-EqLDVYj3": {
     "id": "vwtroc-EqLDVYj3",
@@ -249,7 +329,12 @@
     "overlay": "vwtroc-EqLDVYj3.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-PLh198NC",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-EqLDVYj3.jpeg"
   },
   "vwtroc-Fh972HlF": {
     "id": "vwtroc-Fh972HlF",
@@ -263,7 +348,12 @@
     "label": "front-undercarriage",
     "overlay": "vwtroc-Fh972HlF.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 115,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-Fh972HlF.jpeg"
   },
   "vwtroc-GHbWVnMB": {
     "id": "vwtroc-GHbWVnMB",
@@ -278,7 +368,12 @@
     "overlay": "vwtroc-GHbWVnMB.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-j3E2UHFc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-GHbWVnMB.jpeg"
   },
   "vwtroc-GOQq1-nN": {
     "id": "vwtroc-GOQq1-nN",
@@ -293,7 +388,12 @@
     "overlay": "vwtroc-GOQq1-nN.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-QJ_yOnBl",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-GOQq1-nN.jpeg"
   },
   "vwtroc-GvCtVnoD": {
     "id": "vwtroc-GvCtVnoD",
@@ -308,7 +408,12 @@
     "overlay": "vwtroc-GvCtVnoD.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-AoO-nOoM",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-GvCtVnoD.jpeg"
   },
   "vwtroc-IVcF1dOP": {
     "id": "vwtroc-IVcF1dOP",
@@ -323,7 +428,12 @@
     "overlay": "vwtroc-IVcF1dOP.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-Pzgw0WGe",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-IVcF1dOP.jpeg"
   },
   "vwtroc-IzMR_OzQ": {
     "id": "vwtroc-IzMR_OzQ",
@@ -337,7 +447,12 @@
     "label": "front-fender-left",
     "overlay": "vwtroc-IzMR_OzQ.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-IzMR_OzQ.jpeg"
   },
   "vwtroc-LDRoAPnk": {
     "id": "vwtroc-LDRoAPnk",
@@ -352,7 +467,12 @@
     "overlay": "vwtroc-LDRoAPnk.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-j8YHvnDP",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 74,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-LDRoAPnk.jpeg"
   },
   "vwtroc-LE9h1xh0": {
     "id": "vwtroc-LE9h1xh0",
@@ -367,7 +487,12 @@
     "overlay": "vwtroc-LE9h1xh0.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jqJOb6Ov",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-LE9h1xh0.jpeg"
   },
   "vwtroc-OOJDJ7go": {
     "id": "vwtroc-OOJDJ7go",
@@ -382,7 +507,12 @@
     "overlay": "vwtroc-OOJDJ7go.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-2RFF3Uf8",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-OOJDJ7go.jpeg"
   },
   "vwtroc-PLh198NC": {
     "id": "vwtroc-PLh198NC",
@@ -397,7 +527,12 @@
     "overlay": "vwtroc-PLh198NC.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-EqLDVYj3",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-PLh198NC.jpeg"
   },
   "vwtroc-PuIw17h0": {
     "id": "vwtroc-PuIw17h0",
@@ -412,7 +547,12 @@
     "overlay": "vwtroc-PuIw17h0.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xQKQ0bXS",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-PuIw17h0.jpeg"
   },
   "vwtroc-Pzgw0WGe": {
     "id": "vwtroc-Pzgw0WGe",
@@ -427,7 +567,12 @@
     "overlay": "vwtroc-Pzgw0WGe.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-IVcF1dOP",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-Pzgw0WGe.jpeg"
   },
   "vwtroc-QJ_yOnBl": {
     "id": "vwtroc-QJ_yOnBl",
@@ -442,7 +587,12 @@
     "overlay": "vwtroc-QJ_yOnBl.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GOQq1-nN",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-QJ_yOnBl.jpeg"
   },
   "vwtroc-QqBpHiVP": {
     "id": "vwtroc-QqBpHiVP",
@@ -457,7 +607,12 @@
     "overlay": "vwtroc-QqBpHiVP.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-ClEZSucK",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-QqBpHiVP.jpeg"
   },
   "vwtroc-RMeCZRbd": {
     "id": "vwtroc-RMeCZRbd",
@@ -471,7 +626,12 @@
     "label": "hood-windshield",
     "overlay": "vwtroc-RMeCZRbd.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 60,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-RMeCZRbd.jpeg"
   },
   "vwtroc-T24v9XS8": {
     "id": "vwtroc-T24v9XS8",
@@ -486,7 +646,12 @@
     "overlay": "vwtroc-T24v9XS8.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-2wVqenwP",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-T24v9XS8.jpeg"
   },
   "vwtroc-TDLex8-D": {
     "id": "vwtroc-TDLex8-D",
@@ -501,7 +666,12 @@
     "overlay": "vwtroc-TDLex8-D.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-D4r9OKHt",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-TDLex8-D.jpeg"
   },
   "vwtroc-UHZkpCuK": {
     "id": "vwtroc-UHZkpCuK",
@@ -516,7 +686,12 @@
     "overlay": "vwtroc-UHZkpCuK.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-B5s1CWT-",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 95,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-UHZkpCuK.jpeg"
   },
   "vwtroc-VmFL3v2A": {
     "id": "vwtroc-VmFL3v2A",
@@ -531,7 +706,12 @@
     "overlay": "vwtroc-VmFL3v2A.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-enHQTFae",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-VmFL3v2A.jpeg"
   },
   "vwtroc-WWZsroCu": {
     "id": "vwtroc-WWZsroCu",
@@ -546,7 +726,12 @@
     "overlay": "vwtroc-WWZsroCu.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-eOkUJUBk",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 115,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-WWZsroCu.jpeg"
   },
   "vwtroc-XyeyZlaU": {
     "id": "vwtroc-XyeyZlaU",
@@ -560,7 +745,12 @@
     "label": "rear",
     "overlay": "vwtroc-XyeyZlaU.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-XyeyZlaU.jpeg"
   },
   "vwtroc-dQOmxo13": {
     "id": "vwtroc-dQOmxo13",
@@ -575,7 +765,12 @@
     "overlay": "vwtroc-dQOmxo13.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-eWZsEThb",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 115,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-dQOmxo13.jpeg"
   },
   "vwtroc-eOkUJUBk": {
     "id": "vwtroc-eOkUJUBk",
@@ -590,7 +785,12 @@
     "overlay": "vwtroc-eOkUJUBk.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-WWZsroCu",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 115,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-eOkUJUBk.jpeg"
   },
   "vwtroc-eWZsEThb": {
     "id": "vwtroc-eWZsEThb",
@@ -605,7 +805,12 @@
     "overlay": "vwtroc-eWZsEThb.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-dQOmxo13",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 115,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-eWZsEThb.jpeg"
   },
   "vwtroc-enHQTFae": {
     "id": "vwtroc-enHQTFae",
@@ -620,7 +825,12 @@
     "overlay": "vwtroc-enHQTFae.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-VmFL3v2A",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 80,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-enHQTFae.jpeg"
   },
   "vwtroc-j3E2UHFc": {
     "id": "vwtroc-j3E2UHFc",
@@ -635,7 +845,12 @@
     "overlay": "vwtroc-j3E2UHFc.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-GHbWVnMB",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-j3E2UHFc.jpeg"
   },
   "vwtroc-j8YHvnDP": {
     "id": "vwtroc-j8YHvnDP",
@@ -650,7 +865,12 @@
     "overlay": "vwtroc-j8YHvnDP.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-LDRoAPnk",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 74,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-j8YHvnDP.jpeg"
   },
   "vwtroc-jgB-cu5G": {
     "id": "vwtroc-jgB-cu5G",
@@ -665,7 +885,12 @@
     "overlay": "vwtroc-jgB-cu5G.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-xsuH1g5T",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-jgB-cu5G.jpeg"
   },
   "vwtroc-jqJOb6Ov": {
     "id": "vwtroc-jqJOb6Ov",
@@ -680,7 +905,12 @@
     "overlay": "vwtroc-jqJOb6Ov.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-LE9h1xh0",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-jqJOb6Ov.jpeg"
   },
   "vwtroc-m1rhrZ88": {
     "id": "vwtroc-m1rhrZ88",
@@ -694,7 +924,12 @@
     "label": "front-roof-left",
     "overlay": "vwtroc-m1rhrZ88.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 75,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-m1rhrZ88.jpeg"
   },
   "vwtroc-oIk8RQ3w": {
     "id": "vwtroc-oIk8RQ3w",
@@ -708,7 +943,12 @@
     "label": "windshield",
     "overlay": "vwtroc-oIk8RQ3w.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 58,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-oIk8RQ3w.jpeg"
   },
   "vwtroc-rN39Y3HR": {
     "id": "vwtroc-rN39Y3HR",
@@ -723,7 +963,12 @@
     "overlay": "vwtroc-rN39Y3HR.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-8_W2PO8L",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-rN39Y3HR.jpeg"
   },
   "vwtroc-vLcBGkeh": {
     "id": "vwtroc-vLcBGkeh",
@@ -737,7 +982,12 @@
     "label": "front",
     "overlay": "vwtroc-vLcBGkeh.svg",
     "vehicle": "vwtroc",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-vLcBGkeh.jpeg"
   },
   "vwtroc-xQKQ0bXS": {
     "id": "vwtroc-xQKQ0bXS",
@@ -752,7 +1002,12 @@
     "overlay": "vwtroc-xQKQ0bXS.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-PuIw17h0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 85,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-xQKQ0bXS.jpeg"
   },
   "vwtroc-xfbBpq3Q": {
     "id": "vwtroc-xfbBpq3Q",
@@ -767,7 +1022,12 @@
     "overlay": "vwtroc-xfbBpq3Q.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-CELBsvYD",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 73,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-xfbBpq3Q.jpeg"
   },
   "vwtroc-xsuH1g5T": {
     "id": "vwtroc-xsuH1g5T",
@@ -782,7 +1042,12 @@
     "overlay": "vwtroc-xsuH1g5T.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-jgB-cu5G",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-xsuH1g5T.jpeg"
   },
   "vwtroc-zjAIjUgU": {
     "id": "vwtroc-zjAIjUgU",
@@ -797,6 +1062,11 @@
     "overlay": "vwtroc-zjAIjUgU.svg",
     "vehicle": "vwtroc",
     "mirror_sight": "vwtroc-0U14gFyk",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 79,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/vwtroc-zjAIjUgU.jpeg"
   }
 }
