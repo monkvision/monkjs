@@ -25,7 +25,6 @@ export function useTracking({ inspectionId, authToken }: TrackingParams) {
   const monitoring = useMonitoring();
 
   useEffect(() => {
-    analytics.setUserId(inspectionId);
     monitoring.setTags({
       inspectionId,
     });

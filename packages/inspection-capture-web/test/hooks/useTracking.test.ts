@@ -24,7 +24,6 @@ describe('useTracking hook', () => {
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 
-    expect(analytics.setUserId).toBeCalledWith(initialProps.inspectionId);
     expect(monitoring.setTags).toBeCalledWith({ inspectionId: initialProps.inspectionId });
 
     expect(analytics.setUserProperties).toBeCalledWith({ authToken: monkJwtPayloadMock.sub });
@@ -40,7 +39,6 @@ describe('useTracking hook', () => {
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 
-    expect(analytics.setUserId).toBeCalledWith(initialProps.inspectionId);
     expect(monitoring.setTags).toBeCalledWith({ inspectionId: initialProps.inspectionId });
 
     expect(analytics.setUserProperties).not.toBeCalled();

@@ -3872,7 +3872,7 @@ __metadata:
     eslint-utils: ^3.0.0
     jest: ^29.3.1
     mkdirp: ^1.0.4
-    posthog-js: ^1.139.1
+    posthog-js: ^1.232.0
     prettier: ^2.7.1
     regexpp: ^3.2.0
     rimraf: ^3.0.2
@@ -8321,6 +8321,13 @@ __metadata:
   version: 3.33.0
   resolution: "core-js@npm:3.33.0"
   checksum: dd62217935ac281faf6f833bb306fb891162919fcf9c1f0c975b1b91e82ac09a940f5deb5950bbb582739ceef716e8bd7e4f9eab8328932fb029d3bc2ecb2881
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.38.1":
+  version: 3.41.0
+  resolution: "core-js@npm:3.41.0"
+  checksum: 05331e92f354d3b92fa296fb3fc90c7b25d1a65230046c68651be29d67245bb156bdde7bf5c8cf8b3ecddfff93273a9ba6567f5e4ee6ceb70f39cee430693509
   languageName: node
   linkType: hard
 
@@ -17797,13 +17804,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.139.1":
-  version: 1.139.1
-  resolution: "posthog-js@npm:1.139.1"
+"posthog-js@npm:^1.232.0":
+  version: 1.232.0
+  resolution: "posthog-js@npm:1.232.0"
   dependencies:
+    core-js: ^3.38.1
     fflate: ^0.4.8
     preact: ^10.19.3
-  checksum: 365f0aac0d7db27530bf58737211f9fc222c5ef81b34c9ab9a9c76f85877f8def3bb8630da7a2b6688fd961b6b4388902f189611e156cc11248ab88cdf1a3393
+    web-vitals: ^4.2.4
+  peerDependencies:
+    "@rrweb/types": 2.0.0-alpha.17
+    rrweb-snapshot: 2.0.0-alpha.17
+  peerDependenciesMeta:
+    "@rrweb/types":
+      optional: true
+    rrweb-snapshot:
+      optional: true
+  checksum: 8883b920aafc581c42c8cfd3f3d025755a4029e34fe8b4989932124fda07f34bdca6a7ed4dba1de744425e2ef98fdd8e94a76ddf626be3ff5c8c416398ff4891
   languageName: node
   linkType: hard
 
@@ -21807,6 +21824,13 @@ __metadata:
   version: 2.1.4
   resolution: "web-vitals@npm:2.1.4"
   checksum: 03d3f47dbf55c3dce07beb0ff5de8ddd52e2d0a53a8df5c84e7a16dda93543341d67231fa79b1d9772b091419af4ec0fd395b8bcf451a0e26846e3f76b3d0efc
+  languageName: node
+  linkType: hard
+
+"web-vitals@npm:^4.2.4":
+  version: 4.2.4
+  resolution: "web-vitals@npm:4.2.4"
+  checksum: 5b3ffe1db33f23aebf8cc8560ac574401a95939baafde5841835c1bb1c01f9a2478442f319f77aa0d7914739fc2f6b020c5d5b128c16c5c77ca6be2f9dfbbde6
   languageName: node
   linkType: hard
 
