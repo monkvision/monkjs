@@ -13,6 +13,7 @@ export const styles: Styles = {
     outline: 'none',
     padding: 0,
     backgroundColor: 'transparent',
+    fontFamily: 'inherit',
   },
   preview: {
     position: 'relative',

@@ -25,6 +25,7 @@ export const styles: Styles = {
     letterSpacing: 0.15,
     cursor: 'pointer',
     borderWidth: 0,
+    fontFamily: 'inherit',
   },
   buttonIconOnly: {
     padding: 16,

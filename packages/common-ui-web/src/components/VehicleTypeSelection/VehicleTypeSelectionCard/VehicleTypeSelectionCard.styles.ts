@@ -14,6 +14,7 @@ export const styles: Styles = {
     backgroundColor: 'transparent',
     padding: 0,
     margin: 14,
+    fontFamily: 'inherit',
   },
   containerSelected: {
     width: 192,
