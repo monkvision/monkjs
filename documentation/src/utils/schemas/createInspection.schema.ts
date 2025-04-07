@@ -28,11 +28,18 @@ export const CreatePricingTaskOptionsSchema = z.object({
   methodology: z.string().optional(),
 });
 
+export const CreateWheelAnalysisTaskOptionsSchema = z.object({
+  name: z.literal(TaskName.WHEEL_ANALYSIS),
+  useLongShots: z.boolean(),
+  callbacks: z.array(TaskCallbackOptionsSchema).optional(),
+});
+
 export const InspectionCreateTaskSchema = z
   .nativeEnum(TaskName)
   .or(CreateDamageDetectionTaskOptionsSchema)
   .or(CreateHinlTaskOptionsSchema)
-  .or(CreatePricingTaskOptionsSchema);
+  .or(CreatePricingTaskOptionsSchema)
+  .or(CreateWheelAnalysisTaskOptionsSchema);
 
 export const AdditionalDataSchema = z.record(z.string(), z.unknown());
 

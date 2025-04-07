@@ -1,4 +1,4 @@
-import { TaskName } from './state';
+import { TaskName, WheelName } from './state';
 import { TranslationObject } from './i18n';
 
 /**
@@ -202,6 +202,10 @@ export interface Sight {
    * The list of tasks that must be run on this sight.
    */
   tasks: TaskName[];
+  /**
+   * The name of the wheel used for wheel analysis task.
+   */
+  wheelName?: WheelName;
 }
 
 /**

@@ -175,6 +175,7 @@
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-Eo0jqD_a",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "ffocus18-L2UM_68Q": {
@@ -230,6 +231,7 @@
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-JFX8WF9P",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "ffocus18-QKfhXU7o": {
@@ -272,6 +274,7 @@
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-tufa4FoL",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "ffocus18-U3Bcfc2Q": {
@@ -543,6 +546,7 @@
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jkSlWpql",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "ffocus18-yo9eBDW6": {

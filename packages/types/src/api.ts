@@ -98,6 +98,27 @@ export interface CreateHinlTaskOptions {
 }
 
 /**
+ * Additional options that you can specify when adding the wheel analysis task to an inspection.
+ */
+export interface CreateWheelAnalysisTaskOptions {
+  /**
+   * The name of the task : `TaskName.WHEEL_ANALYSIS`.
+   */
+  name: TaskName.WHEEL_ANALYSIS;
+  /**
+   * A boolean flag that determines whether wheel analysis should be performed on long shots.
+   * - When true: The system will generate cropped images of wheels to perform the analysis.
+   * - When false: The analysis will only run on sights that have the 'wheelName' field specified;
+   *  otherwise, wheel analysis will be skipped for that sight.
+   */
+  useLongShots: boolean;
+  /**
+   * The callbacks called at the end of the wheel analysis task.
+   */
+  callbacks?: TaskCallbackOptions[];
+}
+
+/**
  * The different methodologies that can be used to calculate pricing values.
  */
 export enum PricingMethodology {
@@ -146,7 +167,8 @@ export type InspectionCreateTask =
   | TaskName
   | CreateDamageDetectionTaskOptions
   | CreateHinlTaskOptions
-  | CreatePricingTaskOptions;
+  | CreatePricingTaskOptions
+  | CreateWheelAnalysisTaskOptions;
 
 /**
  * Options that can be specified when creating a new inspection.

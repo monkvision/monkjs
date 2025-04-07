@@ -2,9 +2,12 @@ import {
   LabelDictionary,
   PartSelectionOrientation,
   PartSelectionWireframes,
+  Sight,
   SightDictionary,
+  VehicleDetails,
   VehicleDictionary,
   VehicleModel,
+  WheelName,
   WireframeDictionary,
 } from '@monkvision/types';
 import { existsSync, readFileSync } from 'fs';
@@ -31,16 +34,20 @@ function mapLabels(labels: LabelDictionary): LabelDictionary {
 
 function mapVehicles(vehicles: VehicleDictionary): VehicleDictionary {
   return Object.entries(vehicles).reduce(
-    (prev: Partial<VehicleDictionary>, [model, vehicleDetails]) => ({
-      ...prev,
-      [model]: {
-        id: model,
-        make: vehicleDetails.make,
-        model: vehicleDetails.model,
-        type: vehicleDetails.type,
-        dimensionsXYZ: vehicleDetails.dimensionsXYZ,
-      },
-    }),
+    (prev: Partial<VehicleDictionary>, [model, vehicleDetails]) => {
+      const apiVehicleDetails = vehicleDetails as VehicleDetails & { dimensions_xyz?: number[] };
+
+      return {
+        ...prev,
+        [model]: {
+          id: model,
+          make: vehicleDetails.make,
+          model: vehicleDetails.model,
+          type: vehicleDetails.type,
+          dimensionsXYZ: apiVehicleDetails.dimensions_xyz,
+        },
+      };
+    },
     {},
   ) as VehicleDictionary;
 }
@@ -54,8 +61,9 @@ function mapSights(
   vehicle: VehicleModel,
   overlaysPath: string,
 ): SightDictionary {
-  return Object.entries(sights).reduce(
-    (prev: SightDictionary, [id, sight]) => ({
+  return Object.entries(sights).reduce((prev: SightDictionary, [id, sight]) => {
+    const apiSight = sight as Sight & { wheel_name?: WheelName };
+    return {
       ...prev,
       [id]: {
         id,
@@ -64,10 +72,10 @@ function mapSights(
         overlay: readOverlay(join(overlaysPath, sight.overlay)),
         tasks: sight.tasks,
         vehicle,
+        wheelName: apiSight.wheel_name,
       },
-    }),
-    {},
-  );
+    };
+  }, {});
 }
 
 function mapWireframes(vehicles: VehicleDictionary): WireframeDictionary {

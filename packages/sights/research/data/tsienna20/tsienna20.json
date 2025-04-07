@@ -85,6 +85,7 @@
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-K0ThKmue",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "tsienna20-670P2H2V": {
@@ -111,6 +112,7 @@
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-RP6TzN4w",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "tsienna20-D6pPBrXx": {
@@ -258,6 +260,7 @@
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-2Zz6SEaI",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "tsienna20-TI4TVvT9": {
@@ -376,6 +379,7 @@
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uz29ILgw",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "tsienna20-g2uWI1l8": {
