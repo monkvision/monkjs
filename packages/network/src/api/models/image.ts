@@ -10,6 +10,7 @@ import {
   ApiImagesOCRTaskPost,
   ApiImagesOdometerTaskPost,
   ApiImagesWarningLightsTaskPost,
+  ApiImagesWheelAnalysisTaskPost,
 } from './task';
 
 export type ApiImageType = 'unknown' | 'beauty_shot' | 'close_up';
@@ -111,7 +112,8 @@ export type ApiImagePostTask =
   | ApiHinlTaskPost
   | ApiImagesOCRTaskPost
   | ApiImagesOdometerTaskPost
-  | ApiImagesWarningLightsTaskPost;
+  | ApiImagesWarningLightsTaskPost
+  | ApiImagesWheelAnalysisTaskPost;
 
 export interface ApiImagePost {
   acquisition: ApiAcquisition;

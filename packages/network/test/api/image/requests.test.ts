@@ -306,6 +306,7 @@ describe('Image requests', () => {
                 TaskName.IMAGES_OCR,
                 TaskName.ODOMETER,
                 TaskName.WARNING_LIGHTS,
+                TaskName.WHEEL_ANALYSIS,
               ].includes(task),
           ),
           {
@@ -328,6 +329,7 @@ describe('Image requests', () => {
             name: TaskName.WARNING_LIGHTS,
             wait_for_result: true,
           },
+          TaskName.WHEEL_ANALYSIS,
         ],
         additional_data: {
           sight_id: options.sightId,

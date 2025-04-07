@@ -3,10 +3,12 @@ jest.mock('../../src/io');
 
 import {
   PartSelectionOrientation,
+  Sight,
   SightCategory,
   SightDictionary,
   TaskName,
   VehicleModel,
+  WheelName,
 } from '@monkvision/types';
 import fs from 'fs';
 import { join, resolve } from 'path';
@@ -24,13 +26,13 @@ describe('JSON builder module', () => {
       make: 'make',
       model: 'model',
       type: 'type',
-      dimensionsXYZ: [1, 2, 3],
+      dimensions_xyz: [1, 2, 3],
     },
     'vehicle-key-2': {
       make: 'make 2',
       model: 'model 2',
       type: 'type 2',
-      dimensionsXYZ: [4, 5, 6],
+      dimensions_xyz: [4, 5, 6],
       extra: 'extra',
     },
   };
@@ -44,6 +46,7 @@ describe('JSON builder module', () => {
         overlay: 'overlay1.svg',
         tasks: [TaskName.DAMAGE_DETECTION],
         vehicle,
+        wheel_name: WheelName.FRONT_LEFT,
       },
       [`${vehicle}-dos`]: {
         id: `${vehicle}-dos`,
@@ -151,7 +154,7 @@ describe('JSON builder module', () => {
             make: value.make,
             model: value.model,
             type: value.type,
-            dimensionsXYZ: value.dimensionsXYZ,
+            dimensionsXYZ: value.dimensions_xyz,
           },
         }),
         {},
@@ -173,19 +176,24 @@ describe('JSON builder module', () => {
     it('should properly map the sights and write them in the lib directory', () => {
       const saveLibJSONSpy = jest.spyOn(io, 'saveLibJSON');
       const properlyMappedSights = Object.entries(sights).reduce(
-        (prev: SightDictionary, [id, value]) => ({
-          ...prev,
-          [id]: {
-            id,
-            category: value.category,
-            label: value.label,
-            tasks: value.tasks,
-            overlay: resolve(
-              join(__dirname, `../../research/data/${value.vehicle}/overlays/${value.overlay}`),
-            ),
-            vehicle: value.vehicle,
-          },
-        }),
+        (prev: SightDictionary, [id, value]) => {
+          const apiSight = value as Sight & { wheel_name?: WheelName };
+
+          return {
+            ...prev,
+            [id]: {
+              id,
+              category: value.category,
+              label: value.label,
+              tasks: value.tasks,
+              overlay: resolve(
+                join(__dirname, `../../research/data/${value.vehicle}/overlays/${value.overlay}`),
+              ),
+              vehicle: value.vehicle,
+              wheelName: apiSight.wheel_name,
+            },
+          };
+        },
         {} as SightDictionary,
       );
 

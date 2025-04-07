@@ -70,6 +70,7 @@
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-raHPDUNm",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "fesc20-5Ts1UkPT": {
@@ -96,6 +97,7 @@
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-Tlu3sz8A",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "fesc20-6GPUkfYn": {
@@ -335,6 +337,7 @@
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-W6XrryMO",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "fesc20-WMUaKDp1": {
@@ -419,6 +422,7 @@
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-YPcJPAZE",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "fesc20-dfICsfSV": {

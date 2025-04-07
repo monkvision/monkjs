@@ -86,6 +86,8 @@ export interface AddBeautyShotImageOptions {
    * Additional options used to configure the compliance locally.
    */
   compliance?: ComplianceOptions;
+
+  wheelAnalysisCloseUp?: boolean;
 }
 
 /**
@@ -291,6 +293,7 @@ function createBeautyShotImageData(
         TaskName.IMAGES_OCR,
         TaskName.ODOMETER,
         TaskName.WARNING_LIGHTS,
+        TaskName.WHEEL_ANALYSIS,
       ].includes(task),
   ) as ApiImagePostTask[];
   tasks.push({
@@ -322,6 +325,25 @@ function createBeautyShotImageData(
       name: TaskName.WARNING_LIGHTS,
       wait_for_result: true,
     });
+  }
+  if (options.tasks.includes(TaskName.WHEEL_ANALYSIS)) {
+    const sightName = sights[options.sightId].wheelName;
+    if (options.wheelAnalysisCloseUp && !sightName) {
+      throw new Error('Wheel analysis task close-up requires a sight name.');
+    }
+    if (!options.wheelAnalysisCloseUp && sightName) {
+      throw new Error(
+        "Wheel analysis task long shoot can't be run on sight that contains sightName.",
+      );
+    }
+    if (options.wheelAnalysisCloseUp && sightName) {
+      tasks.push({
+        name: TaskName.WHEEL_ANALYSIS,
+        image_details: { wheel_name: sightName },
+      });
+    } else {
+      tasks.push(TaskName.WHEEL_ANALYSIS);
+    }
   }
 
   const body: ApiImagePost = {
