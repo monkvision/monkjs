@@ -84,6 +84,7 @@
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-xwYV3_Hz",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "jgc21-5lovhZgA": {
@@ -259,6 +260,7 @@
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-2bGeRS3I",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "jgc21-RE3li6rE": {
@@ -470,6 +472,7 @@
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-nVbhsBaQ",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "jgc21-tbF2Ax8v": {
@@ -510,6 +513,7 @@
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-S8sE69on",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "jgc21-zCrDwYWE": {

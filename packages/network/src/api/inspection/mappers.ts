@@ -5,6 +5,7 @@ import {
   CreateHinlTaskOptions,
   CreateInspectionOptions,
   CreatePricingTaskOptions,
+  CreateWheelAnalysisTaskOptions,
   CurrencyCode,
   CustomSeverityValue,
   Damage,
@@ -326,6 +327,11 @@ function mapTasks(response: ApiInspectionGet): { tasks: Task[]; taskIds: string[
       name: task.name as TaskName,
       status: task.status as ProgressStatus,
       images: task.images?.map((image) => image.image_id) ?? [],
+      ...(task.arguments?.['use_longshots'] !== undefined
+        ? {
+            wheelAnalysisCloseUp: !task.arguments['use_longshots'] as boolean,
+          }
+        : {}),
     });
   });
 
@@ -563,10 +569,20 @@ function getDamageDetectionOptions(
 function getWheelAnalysisOptions(
   options: CreateInspectionOptions,
 ): ApiWheelAnalysisTaskPostComponent | undefined {
-  return options.tasks.includes(TaskName.WHEEL_ANALYSIS)
+  if (options.tasks.includes(TaskName.WHEEL_ANALYSIS)) {
+    return {
+      status: ProgressStatus.NOT_STARTED,
+      use_longshots: true,
+    };
+  }
+  const taskOptions = options.tasks.find(
+    (task) => typeof task === 'object' && task.name === TaskName.WHEEL_ANALYSIS,
+  ) as CreateWheelAnalysisTaskOptions | undefined;
+  return taskOptions
     ? {
         status: ProgressStatus.NOT_STARTED,
-        use_longshots: true,
+        use_longshots: taskOptions.useLongShots,
+        callbacks: taskOptions.callbacks,
       }
     : undefined;
 }

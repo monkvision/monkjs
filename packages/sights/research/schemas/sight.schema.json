@@ -13,6 +13,9 @@
     },
     "Task": {
       "$ref": "subschemas/task.schema"
+    },
+    "WheelName": {
+      "$ref": "subschemas/wheelName.schema"
     }
   },
   "type": "object",
@@ -40,6 +43,9 @@
     },
     "vehicle": {
       "$ref": "#/definitions/Vehicle"
+    },
+    "wheel_name": {
+      "$ref": "#/definitions/WheelName"
     },
     "tasks": {
       "$ref": "#/definitions/Task"

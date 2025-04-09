@@ -1,4 +1,5 @@
 import { ApiPricingMethodology } from './pricingV2';
+import { ApiWheelType } from './wheelAnalysis';
 
 export interface ApiImageInTask {
   image_id: string;
@@ -57,6 +58,15 @@ export interface ApiImagesWarningLightsTaskPost {
   wait_for_result?: boolean;
 }
 
+export interface ApiWheelAnalysisImageDetails {
+  wheel_name: ApiWheelType;
+}
+
+export interface ApiImagesWheelAnalysisTaskPost {
+  name: 'wheel_analysis';
+  image_details: ApiWheelAnalysisImageDetails;
+}
+
 export type ApiTaskProgressStatus =
   | 'NOT_STARTED'
   | 'TODO'
@@ -71,6 +81,7 @@ export interface ApiTaskGet {
   images: ApiImageInTask[];
   name: ApiBusinessTaskName;
   status: ApiTaskProgressStatus;
+  arguments?: Record<string, unknown>;
 }
 
 export type ApiTasks = ApiTaskGet[];
