@@ -114,6 +114,7 @@
     "vehicle": "ff150",
     "mirror_sight": "ff150-7vyfzrVQ",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "ff150-7UI3m9B3": {
@@ -155,6 +156,7 @@
     "vehicle": "ff150",
     "mirror_sight": "ff150-pNO26q4D",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "ff150-BmXfb-qD": {
@@ -197,6 +199,7 @@
     "vehicle": "ff150",
     "mirror_sight": "ff150-jUBEKij0",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "ff150-GOx2s_9L": {
@@ -419,6 +422,7 @@
     "vehicle": "ff150",
     "mirror_sight": "ff150-H3MCPESJ",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "ff150-phbX7Bef": {

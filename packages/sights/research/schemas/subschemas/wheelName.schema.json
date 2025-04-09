@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subschemas/wheelName.schema",
+  "type": "string",
+  "enum": ["wheel_front_left", "wheel_front_right", "wheel_back_left", "wheel_back_right"]
+}

@@ -112,6 +112,7 @@
     "vehicle": "haccord",
     "mirror_sight": "haccord-boMeNVsC",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "haccord-GdWvsqrm": {
@@ -184,6 +185,7 @@
     "vehicle": "haccord",
     "mirror_sight": "haccord-2v-2_QD5",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "haccord-KvP-pm8L": {
@@ -226,6 +228,7 @@
     "vehicle": "haccord",
     "mirror_sight": "haccord-H_eRrLBl",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "haccord-PGr3RzzP": {
@@ -299,6 +302,7 @@
     "vehicle": "haccord",
     "mirror_sight": "haccord-9fxMGSs6",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "haccord-Z84erkMb": {

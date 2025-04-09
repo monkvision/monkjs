@@ -84,4 +84,10 @@ export interface Task extends MonkEntity {
    * The IDs of the images on which the task is being performed.
    */
   images: string[];
+  /**
+   * Boolean indicing if the wheel analysis task should be run on:
+   * - True: Close up mode ( only on sight that have wheelName field )
+   * - False: Long shot mode ( only on sight that have wheel present and doesn't have wheelName field)
+   */
+  wheelAnalysisCloseUp?: boolean;
 }

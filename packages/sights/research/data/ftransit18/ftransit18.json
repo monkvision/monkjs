@@ -39,6 +39,7 @@
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-AuCXxG5o",
     "dev": true,
+    "wheel_name": "wheel_back_left",
     "tasks": ["wheel_analysis"]
   },
   "ftransit18-3dkU10af": {
@@ -96,6 +97,7 @@
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-mGSvkRHz",
     "dev": true,
+    "wheel_name": "wheel_front_right",
     "tasks": ["wheel_analysis"]
   },
   "ftransit18-5SiNC94w": {
@@ -243,6 +245,7 @@
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-yxw9gmyL",
     "dev": true,
+    "wheel_name": "wheel_back_right",
     "tasks": ["wheel_analysis"]
   },
   "ftransit18-TkXihCj4": {
@@ -299,6 +302,7 @@
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-7qLSCnFP",
     "dev": true,
+    "wheel_name": "wheel_front_left",
     "tasks": ["wheel_analysis"]
   },
   "ftransit18-aA2K898S": {

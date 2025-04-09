@@ -1,4 +1,4 @@
-import { Queue, uniq, useQueue } from '@monkvision/common';
+import { Queue, uniq, useMonkState, useQueue } from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
   PhotoCaptureAppConfig,
@@ -133,6 +133,7 @@ function createAddImageOptions(
   enableThumbnail: boolean,
   additionalTasks?: PhotoCaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
+  wheelAnalysisCloseUp?: boolean,
 ): AddImageOptions {
   if (upload.mode === CaptureMode.SIGHT) {
     return {
@@ -143,6 +144,7 @@ function createAddImageOptions(
       inspectionId,
       compliance,
       useThumbnailCaching: enableThumbnail,
+      wheelAnalysisCloseUp,
     };
   }
   if (upload.mode === CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT) {
@@ -179,6 +181,11 @@ export function useUploadQueue({
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
   const { addImage } = useMonkApi(apiConfig);
+  const { state } = useMonkState();
+
+  const wheelAnalysisCloseUp = state.tasks.find(
+    (task) => task.name === TaskName.WHEEL_ANALYSIS && task.wheelAnalysisCloseUp,
+  )?.wheelAnalysisCloseUp;
 
   return useQueue<PictureUpload>(async (upload: PictureUpload) => {
     if (upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT) {
@@ -194,6 +201,7 @@ export function useUploadQueue({
           true,
           additionalTasks,
           complianceOptions,
+          wheelAnalysisCloseUp,
         ),
       );
       const uploadDurationMs = Date.now() - startTs;

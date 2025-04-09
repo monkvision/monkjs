@@ -946,6 +946,7 @@ export default {
       name: 'wheel_analysis',
       status: 'DONE',
       images: ['6a5e9a4c-8752-c1e6-6a34-38338074eda1'],
+      wheelAnalysisCloseUp: false,
     },
   ],
   vehicles: [
