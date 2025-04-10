@@ -11,7 +11,12 @@
     "label": "hood",
     "overlay": "ffocus18-3TiCVAaN.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-3TiCVAaN.jpeg"
   },
   "ffocus18-43ljK5xC": {
     "id": "ffocus18-43ljK5xC",
@@ -26,7 +31,12 @@
     "overlay": "ffocus18-43ljK5xC.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-lRDlWiwR",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-43ljK5xC.jpeg"
   },
   "ffocus18-6FX31ty1": {
     "id": "ffocus18-6FX31ty1",
@@ -42,7 +52,12 @@
     "overlay": "ffocus18-6FX31ty1.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-FdsQDaTW",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 89,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-6FX31ty1.jpeg"
   },
   "ffocus18-8WjvbtMD": {
     "id": "ffocus18-8WjvbtMD",
@@ -58,7 +73,12 @@
     "overlay": "ffocus18-8WjvbtMD.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-IoqRrmlA",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 216,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-8WjvbtMD.jpeg"
   },
   "ffocus18-9MeSIqp7": {
     "id": "ffocus18-9MeSIqp7",
@@ -74,7 +94,12 @@
     "overlay": "ffocus18-9MeSIqp7.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jWOq2CNN",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 151,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-9MeSIqp7.jpeg"
   },
   "ffocus18-D_QaaCTd": {
     "id": "ffocus18-D_QaaCTd",
@@ -88,7 +113,12 @@
     "label": "lateral-left",
     "overlay": "ffocus18-D_QaaCTd.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 265,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-D_QaaCTd.jpeg"
   },
   "ffocus18-FdsQDaTW": {
     "id": "ffocus18-FdsQDaTW",
@@ -104,7 +134,12 @@
     "overlay": "ffocus18-FdsQDaTW.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-6FX31ty1",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 271,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-FdsQDaTW.jpeg"
   },
   "ffocus18-GgOSpLl6": {
     "id": "ffocus18-GgOSpLl6",
@@ -118,7 +153,12 @@
     "label": "beauty-shot-left",
     "overlay": "ffocus18-GgOSpLl6.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 35,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-GgOSpLl6.jpeg"
   },
   "ffocus18-GiTxaJUq": {
     "id": "ffocus18-GiTxaJUq",
@@ -133,7 +173,12 @@
     "overlay": "ffocus18-GiTxaJUq.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-zgLKB-Do",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-GiTxaJUq.jpeg"
   },
   "ffocus18-IoqRrmlA": {
     "id": "ffocus18-IoqRrmlA",
@@ -149,7 +194,12 @@
     "overlay": "ffocus18-IoqRrmlA.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-8WjvbtMD",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 144,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-IoqRrmlA.jpeg"
   },
   "ffocus18-KkeGvT-F": {
     "id": "ffocus18-KkeGvT-F",
@@ -165,7 +215,13 @@
     "overlay": "ffocus18-KkeGvT-F.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-x_1SE7X-",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-KkeGvT-F.jpeg"
   },
   "ffocus18-jkSlWpql": {
     "id": "ffocus18-jkSlWpql",
@@ -176,7 +232,14 @@
     "mirror_sight": "ffocus18-Eo0jqD_a",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-jkSlWpql.jpeg"
   },
   "ffocus18-L2UM_68Q": {
     "id": "ffocus18-L2UM_68Q",
@@ -191,7 +254,12 @@
     "label": "rear-low",
     "overlay": "ffocus18-L2UM_68Q.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-L2UM_68Q.jpeg"
   },
   "ffocus18-L_oZ0LyK": {
     "id": "ffocus18-L_oZ0LyK",
@@ -205,7 +273,12 @@
     "label": "lateral-left",
     "overlay": "ffocus18-L_oZ0LyK.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 95,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-L_oZ0LyK.jpeg"
   },
   "ffocus18-P2jFq1Ea": {
     "id": "ffocus18-P2jFq1Ea",
@@ -221,7 +294,13 @@
     "overlay": "ffocus18-P2jFq1Ea.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-S3kgFOBb",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-P2jFq1Ea.jpeg"
   },
   "ffocus18-tufa4FoL": {
     "id": "ffocus18-tufa4FoL",
@@ -232,7 +311,14 @@
     "mirror_sight": "ffocus18-JFX8WF9P",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-tufa4FoL.jpeg"
   },
   "ffocus18-QKfhXU7o": {
     "id": "ffocus18-QKfhXU7o",
@@ -248,7 +334,12 @@
     "overlay": "ffocus18-QKfhXU7o.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-cXSAj2ez",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 57,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-QKfhXU7o.jpeg"
   },
   "ffocus18-S3kgFOBb": {
     "id": "ffocus18-S3kgFOBb",
@@ -264,7 +355,13 @@
     "overlay": "ffocus18-S3kgFOBb.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-P2jFq1Ea",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-S3kgFOBb.jpeg"
   },
   "ffocus18-JFX8WF9P": {
     "id": "ffocus18-JFX8WF9P",
@@ -275,7 +372,14 @@
     "mirror_sight": "ffocus18-tufa4FoL",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-JFX8WF9P.jpeg"
   },
   "ffocus18-U3Bcfc2Q": {
     "id": "ffocus18-U3Bcfc2Q",
@@ -291,7 +395,12 @@
     "overlay": "ffocus18-U3Bcfc2Q.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-cPUyM28L",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-U3Bcfc2Q.jpeg"
   },
   "ffocus18-UBB7HoxF": {
     "id": "ffocus18-UBB7HoxF",
@@ -306,7 +415,12 @@
     "label": "rear-zoomed",
     "overlay": "ffocus18-UBB7HoxF.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-UBB7HoxF.jpeg"
   },
   "ffocus18-Wo8PkcLF": {
     "id": "ffocus18-Wo8PkcLF",
@@ -321,7 +435,12 @@
     "overlay": "ffocus18-Wo8PkcLF.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-vFR9PKjB",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 234,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-Wo8PkcLF.jpeg"
   },
   "ffocus18-X2LDjCvr": {
     "id": "ffocus18-X2LDjCvr",
@@ -336,7 +455,12 @@
     "label": "rear",
     "overlay": "ffocus18-X2LDjCvr.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-X2LDjCvr.jpeg"
   },
   "ffocus18-XlfgjQb9": {
     "id": "ffocus18-XlfgjQb9",
@@ -350,7 +474,12 @@
     "label": "front-low",
     "overlay": "ffocus18-XlfgjQb9.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-XlfgjQb9.jpeg"
   },
   "ffocus18-ZXKOomlv": {
     "id": "ffocus18-ZXKOomlv",
@@ -365,7 +494,12 @@
     "label": "front-roof-left",
     "overlay": "ffocus18-ZXKOomlv.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 63,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-ZXKOomlv.jpeg"
   },
   "ffocus18-cPUyM28L": {
     "id": "ffocus18-cPUyM28L",
@@ -381,7 +515,12 @@
     "overlay": "ffocus18-cPUyM28L.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-U3Bcfc2Q",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-cPUyM28L.jpeg"
   },
   "ffocus18-cXSAj2ez": {
     "id": "ffocus18-cXSAj2ez",
@@ -397,7 +536,12 @@
     "overlay": "ffocus18-cXSAj2ez.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-QKfhXU7o",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 303,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-cXSAj2ez.jpeg"
   },
   "ffocus18-e5netaNs": {
     "id": "ffocus18-e5netaNs",
@@ -412,7 +556,12 @@
     "label": "rear",
     "overlay": "ffocus18-e5netaNs.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-e5netaNs.jpeg"
   },
   "ffocus18-iQvwc6wa": {
     "id": "ffocus18-iQvwc6wa",
@@ -427,7 +576,12 @@
     "label": "rear-roof-right",
     "overlay": "ffocus18-iQvwc6wa.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 201,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-iQvwc6wa.jpeg"
   },
   "ffocus18-jWOq2CNN": {
     "id": "ffocus18-jWOq2CNN",
@@ -443,7 +597,12 @@
     "overlay": "ffocus18-jWOq2CNN.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-9MeSIqp7",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 209,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-jWOq2CNN.jpeg"
   },
   "ffocus18-lRDlWiwR": {
     "id": "ffocus18-lRDlWiwR",
@@ -459,7 +618,12 @@
     "overlay": "ffocus18-lRDlWiwR.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-43ljK5xC",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-lRDlWiwR.jpeg"
   },
   "ffocus18-p6mBZGcW": {
     "id": "ffocus18-p6mBZGcW",
@@ -474,7 +638,12 @@
     "label": "rear-roof",
     "overlay": "ffocus18-p6mBZGcW.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-p6mBZGcW.jpeg"
   },
   "ffocus18-seOy3jwd": {
     "id": "ffocus18-seOy3jwd",
@@ -489,7 +658,12 @@
     "label": "front-lateral-full-right",
     "overlay": "ffocus18-seOy3jwd.svg",
     "vehicle": "ffocus18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 325,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-seOy3jwd.jpeg"
   },
   "ffocus18-ts3buSD1": {
     "id": "ffocus18-ts3buSD1",
@@ -505,7 +679,12 @@
     "overlay": "ffocus18-ts3buSD1.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-yo9eBDW6",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-ts3buSD1.jpeg"
   },
   "ffocus18-vFR9PKjB": {
     "id": "ffocus18-vFR9PKjB",
@@ -520,7 +699,12 @@
     "overlay": "ffocus18-vFR9PKjB.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-Wo8PkcLF",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 126,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-vFR9PKjB.jpeg"
   },
   "ffocus18-x_1SE7X-": {
     "id": "ffocus18-x_1SE7X-",
@@ -536,7 +720,13 @@
     "overlay": "ffocus18-x_1SE7X-.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-KkeGvT-F",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-x_1SE7X-.jpeg"
   },
   "ffocus18-Eo0jqD_a": {
     "id": "ffocus18-Eo0jqD_a",
@@ -547,7 +737,14 @@
     "mirror_sight": "ffocus18-jkSlWpql",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-Eo0jqD_a.jpeg"
   },
   "ffocus18-yo9eBDW6": {
     "id": "ffocus18-yo9eBDW6",
@@ -563,7 +760,12 @@
     "overlay": "ffocus18-yo9eBDW6.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-ts3buSD1",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-yo9eBDW6.jpeg"
   },
   "ffocus18-zgLKB-Do": {
     "id": "ffocus18-zgLKB-Do",
@@ -578,6 +780,11 @@
     "overlay": "ffocus18-zgLKB-Do.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-GiTxaJUq",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 318,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ffocus18-zgLKB-Do.jpeg"
   }
 }

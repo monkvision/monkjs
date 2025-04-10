@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subschemas/positioning.schema",
+  "definitions": {
+    "CameraHeight": {
+      "$ref": "cameraHeight.schema"
+    },
+    "CameraDistance": {
+      "$ref": "cameraDistance.schema"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "position": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "orientation": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "height": {
+      "$ref": "#/definitions/CameraHeight"
+    },
+    "distance": {
+      "$ref": "#/definitions/CameraDistance"
+    }
+  },
+  "required": ["position", "height"]
+}
