@@ -283,6 +283,30 @@ function App() {
 
 ---
 
+## IconAroundVehicle
+### Description
+Component used to display an icon representing a vehicle and a point of view (POV) indicator.
+
+### Example
+```tsx
+import { useState } from 'react';
+import { IconAroundVehicle } from '@monkvision/common-ui-web';
+
+function MyComponent() {
+
+  return <IconAroundVehicle positionAroundVehicle={90}/>;
+}
+```
+
+### Props
+| Prop                  | Type     | Description                                                                                               | Required | Default Value |
+|-----------------------|----------|-----------------------------------------------------------------------------------------------------------|----------|---------------|
+| size                  | number   | The size (width and height, in pixels) of the icon..                                                      |          | `50`          |
+| positionAroundVehicle | number   | Pov position angle to the north (0: POV in the front of the car / 180: POV is behind the back of the car) |          | `0`           |
+| orientationAngle      | number   | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                               |          |               |
+| showCircle            | boolean  | Boolean indicating if the circle should be visible.                                                       |          | `true`        |
+| isPovClose            | boolean  | Boolean indicating if the POV should be closer to the center.                                             |          | `true`        |
+
 ## ImageDetailedView
 ### Description
 This component is used to display the preview of an inspection image, as well as additional data such as its label etc.
