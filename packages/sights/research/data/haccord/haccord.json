@@ -12,7 +12,12 @@
     "overlay": "haccord-2a8VfA8m.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-EfRIciFr",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-2a8VfA8m.jpeg"
   },
   "haccord-5LlCuIfL": {
     "id": "haccord-5LlCuIfL",
@@ -28,7 +33,12 @@
     "overlay": "haccord-5LlCuIfL.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-bSAv3Hrj",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-5LlCuIfL.jpeg"
   },
   "haccord-6kYUBv_e": {
     "id": "haccord-6kYUBv_e",
@@ -43,7 +53,12 @@
     "label": "rear-low",
     "overlay": "haccord-6kYUBv_e.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-6kYUBv_e.jpeg"
   },
   "haccord-8YjMcu0D": {
     "id": "haccord-8YjMcu0D",
@@ -57,7 +72,12 @@
     "label": "front-low",
     "overlay": "haccord-8YjMcu0D.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-8YjMcu0D.jpeg"
   },
   "haccord-DUPnw5jj": {
     "id": "haccord-DUPnw5jj",
@@ -71,7 +91,12 @@
     "label": "hood",
     "overlay": "haccord-DUPnw5jj.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-DUPnw5jj.jpeg"
   },
   "haccord-EfRIciFr": {
     "id": "haccord-EfRIciFr",
@@ -86,7 +111,12 @@
     "overlay": "haccord-EfRIciFr.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-2a8VfA8m",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 318,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-EfRIciFr.jpeg"
   },
   "haccord-GQcZz48C": {
     "id": "haccord-GQcZz48C",
@@ -102,7 +132,13 @@
     "overlay": "haccord-GQcZz48C.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-KN23XXkX",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-GQcZz48C.jpeg"
   },
   "haccord-2v-2_QD5": {
     "id": "haccord-2v-2_QD5",
@@ -113,7 +149,14 @@
     "mirror_sight": "haccord-boMeNVsC",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-2v-2_QD5.jpeg"
   },
   "haccord-GdWvsqrm": {
     "id": "haccord-GdWvsqrm",
@@ -128,7 +171,12 @@
     "overlay": "haccord-GdWvsqrm.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-Jq65fyD4",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-GdWvsqrm.jpeg"
   },
   "haccord-Gtt0JNQl": {
     "id": "haccord-Gtt0JNQl",
@@ -144,7 +192,12 @@
     "overlay": "haccord-Gtt0JNQl.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-mdZ7optI",
-    "tasks": ["damage_detection"]
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-Gtt0JNQl.jpeg",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "low"
+    }
   },
   "haccord-Jq65fyD4": {
     "id": "haccord-Jq65fyD4",
@@ -159,7 +212,12 @@
     "overlay": "haccord-Jq65fyD4.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-GdWvsqrm",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-Jq65fyD4.jpeg"
   },
   "haccord-KN23XXkX": {
     "id": "haccord-KN23XXkX",
@@ -175,7 +233,13 @@
     "overlay": "haccord-KN23XXkX.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-GQcZz48C",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-KN23XXkX.jpeg"
   },
   "haccord-boMeNVsC": {
     "id": "haccord-boMeNVsC",
@@ -186,7 +250,14 @@
     "mirror_sight": "haccord-2v-2_QD5",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-boMeNVsC.jpeg"
   },
   "haccord-KvP-pm8L": {
     "id": "haccord-KvP-pm8L",
@@ -202,7 +273,12 @@
     "overlay": "haccord-KvP-pm8L.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-huAZfQJA",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 325,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-KvP-pm8L.jpeg"
   },
   "haccord-OXYy5gET": {
     "id": "haccord-OXYy5gET",
@@ -218,7 +294,13 @@
     "overlay": "haccord-OXYy5gET.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-W-Bn3bU1",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-OXYy5gET.jpeg"
   },
   "haccord-9fxMGSs6": {
     "id": "haccord-9fxMGSs6",
@@ -229,7 +311,14 @@
     "mirror_sight": "haccord-H_eRrLBl",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-9fxMGSs6.jpeg"
   },
   "haccord-PGr3RzzP": {
     "id": "haccord-PGr3RzzP",
@@ -245,7 +334,12 @@
     "overlay": "haccord-PGr3RzzP.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-_YnTubBA",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-PGr3RzzP.jpeg"
   },
   "haccord-QKfhXU7o": {
     "id": "haccord-QKfhXU7o",
@@ -261,7 +355,12 @@
     "overlay": "haccord-QKfhXU7o.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-cXSAj2ez",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 57,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-QKfhXU7o.jpeg"
   },
   "haccord-Qel0qUky": {
     "id": "haccord-Qel0qUky",
@@ -276,7 +375,12 @@
     "overlay": "haccord-Qel0qUky.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-sorgeRJ7",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-Qel0qUky.jpeg"
   },
   "haccord-W-Bn3bU1": {
     "id": "haccord-W-Bn3bU1",
@@ -292,7 +396,13 @@
     "overlay": "haccord-W-Bn3bU1.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-OXYy5gET",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-W-Bn3bU1.jpeg"
   },
   "haccord-H_eRrLBl": {
     "id": "haccord-H_eRrLBl",
@@ -303,7 +413,14 @@
     "mirror_sight": "haccord-9fxMGSs6",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-W-Bn3bU1.jpeg"
   },
   "haccord-Z84erkMb": {
     "id": "haccord-Z84erkMb",
@@ -318,7 +435,12 @@
     "overlay": "haccord-Z84erkMb.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-hsCc_Nct",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-Z84erkMb.jpeg"
   },
   "haccord-_YnTubBA": {
     "id": "haccord-_YnTubBA",
@@ -334,7 +456,12 @@
     "overlay": "haccord-_YnTubBA.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-PGr3RzzP",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-_YnTubBA.jpeg"
   },
   "haccord-bSAv3Hrj": {
     "id": "haccord-bSAv3Hrj",
@@ -350,7 +477,12 @@
     "overlay": "haccord-bSAv3Hrj.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-5LlCuIfL",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-bSAv3Hrj.jpeg"
   },
   "haccord-bg-RFHl_": {
     "id": "haccord-bg-RFHl_",
@@ -364,7 +496,12 @@
     "label": "lateral-left",
     "overlay": "haccord-bg-RFHl_.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 94,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-bg-RFHl_.jpeg"
   },
   "haccord-cXSAj2ez": {
     "id": "haccord-cXSAj2ez",
@@ -380,7 +517,12 @@
     "overlay": "haccord-cXSAj2ez.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-QKfhXU7o",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 303,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-cXSAj2ez.jpeg"
   },
   "haccord-d3VJTvYw": {
     "id": "haccord-d3VJTvYw",
@@ -394,7 +536,12 @@
     "label": "lateral-left",
     "overlay": "haccord-d3VJTvYw.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 266,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-d3VJTvYw.jpeg"
   },
   "haccord-d_u3qyQ-": {
     "id": "haccord-d_u3qyQ-",
@@ -409,7 +556,12 @@
     "label": "rear-roof-right",
     "overlay": "haccord-d_u3qyQ-.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 205,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-d_u3qyQ-.jpeg"
   },
   "haccord-hsCc_Nct": {
     "id": "haccord-hsCc_Nct",
@@ -424,7 +576,12 @@
     "overlay": "haccord-hsCc_Nct.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-Z84erkMb",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-hsCc_Nct.jpeg"
   },
   "haccord-huAZfQJA": {
     "id": "haccord-huAZfQJA",
@@ -439,7 +596,12 @@
     "overlay": "haccord-huAZfQJA.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-KvP-pm8L",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 35,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-huAZfQJA.jpeg"
   },
   "haccord-k6MiX2MR": {
     "id": "haccord-k6MiX2MR",
@@ -455,7 +617,12 @@
     "overlay": "haccord-k6MiX2MR.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-zNA0vVT0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 147,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-k6MiX2MR.jpeg"
   },
   "haccord-mdZ7optI": {
     "id": "haccord-mdZ7optI",
@@ -471,7 +638,12 @@
     "overlay": "haccord-mdZ7optI.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-Gtt0JNQl",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-mdZ7optI.jpeg"
   },
   "haccord-oiY_yPTR": {
     "id": "haccord-oiY_yPTR",
@@ -485,7 +657,12 @@
     "label": "front-roof-left",
     "overlay": "haccord-oiY_yPTR.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 61,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-oiY_yPTR.jpeg"
   },
   "haccord-pplCo6sV": {
     "id": "haccord-pplCo6sV",
@@ -500,7 +677,12 @@
     "label": "rear-roof",
     "overlay": "haccord-pplCo6sV.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-pplCo6sV.jpeg"
   },
   "haccord-ps7cWy6K": {
     "id": "haccord-ps7cWy6K",
@@ -514,7 +696,12 @@
     "label": "rear",
     "overlay": "haccord-ps7cWy6K.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-ps7cWy6K.jpeg"
   },
   "haccord-sorgeRJ7": {
     "id": "haccord-sorgeRJ7",
@@ -529,7 +716,12 @@
     "overlay": "haccord-sorgeRJ7.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-Qel0qUky",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-sorgeRJ7.jpeg"
   },
   "haccord-t5sLlmfv": {
     "id": "haccord-t5sLlmfv",
@@ -544,7 +736,12 @@
     "label": "rear",
     "overlay": "haccord-t5sLlmfv.svg",
     "vehicle": "haccord",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-t5sLlmfv.jpeg"
   },
   "haccord-zNA0vVT0": {
     "id": "haccord-zNA0vVT0",
@@ -560,6 +757,11 @@
     "overlay": "haccord-zNA0vVT0.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-k6MiX2MR",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 213,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-zNA0vVT0.jpeg"
   }
 }

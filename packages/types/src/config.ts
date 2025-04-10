@@ -1,5 +1,5 @@
 import { CameraResolution, CompressionOptions } from './camera';
-import { SightGuideline, SteeringWheelPosition, VehicleType } from './sights';
+import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
 import { DeviceOrientation } from './utils';
@@ -36,6 +36,7 @@ export enum PhotoCaptureSightGuidelinesOption {
    */
   EPHEMERAL = 'ephemeral',
 }
+
 /**
  * Enumeration of the tutorial options.
  */
@@ -52,6 +53,26 @@ export enum PhotoCaptureTutorialOption {
    * Photo capture tutorial is enabled only time.
    */
   FIRST_TIME_ONLY = 'first_time_only',
+}
+
+/**
+ * Enumeration of available tutorial layout styles for photo capture sight tutorial.
+ * - CLASSIC: Traditional design.
+ * - MODERN: Contemporary design.
+ */
+export enum PhotoCaptureSightTutorialOption {
+  /**
+   * No tutorial will be shown.
+   */
+  DISABLED = 'disabled',
+  /**
+   * Classic tutorial layout (traditional design).
+   */
+  CLASSIC = 'classic',
+  /**
+   * Modern tutorial layout (updated design).
+   */
+  MODERN = 'modern',
 }
 
 /**
@@ -217,15 +238,15 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     addDamage?: AddDamage;
     /**
-     * A collection of sight guidelines in different language with a list of sightIds associate to it.
-     */
-    sightGuidelines?: SightGuideline[];
-    /**
      * Option for displaying the Sight guidelines. If disabled, the guideline text will be hidden.
      *
      * @default SightGuidelinesOption.EPHMERAL.
      */
     enableSightGuidelines?: PhotoCaptureSightGuidelinesOption;
+    /**
+     * A collection of sight guidelines in different language with a list of sightIds associate to it.
+     */
+    sightGuidelines?: SightGuideline[];
     /**
      * The default vehicle type used if no vehicle type is defined.
      */
@@ -250,9 +271,13 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * Boolean indicating whether the sight tutorial feature is enabled. If disabled, the sight tutorial icon displayed
      * on the bottom left will be hidden.
      *
-     * @default true
+     * @default PhotoCaptureSightTutorial.DISABLED
      */
-    enableSightTutorial?: boolean;
+    enableSightTutorial?: PhotoCaptureSightTutorialOption;
+    /**
+     * A collection of sight tutorial in different language with a list of sightIds associate to it.
+     */
+    sightTutorial?: SightTutorial[];
   } & (
     | {
         /**

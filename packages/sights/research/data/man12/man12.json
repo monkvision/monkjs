@@ -5,7 +5,12 @@
     "label": "rear-right",
     "overlay": "man12-2VHq5s6d.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 225,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-2VHq5s6d.jpeg"
   },
   "man12-aOHkUnUo": {
     "id": "man12-aOHkUnUo",
@@ -13,7 +18,12 @@
     "label": "rear-left",
     "overlay": "man12-aOHkUnUo.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 135,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-aOHkUnUo.jpeg"
   },
   "man12-AUlxkp6e": {
     "id": "man12-AUlxkp6e",
@@ -21,7 +31,12 @@
     "label": "front-low",
     "overlay": "man12-AUlxkp6e.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-AUlxkp6e.jpeg"
   },
   "man12-cjam9ZnA": {
     "id": "man12-cjam9ZnA",
@@ -29,7 +44,12 @@
     "label": "lateral-full-right",
     "overlay": "man12-cjam9ZnA.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-cjam9ZnA.jpeg"
   },
   "man12-E3yAloDS": {
     "id": "man12-E3yAloDS",
@@ -37,7 +57,12 @@
     "label": "rear-low",
     "overlay": "man12-E3yAloDS.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-cjam9ZnA.jpeg"
   },
   "man12-iNR6WXR_": {
     "id": "man12-iNR6WXR_",
@@ -45,7 +70,12 @@
     "label": "lateral-full-left",
     "overlay": "man12-iNR6WXR_.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-iNR6WXR_.jpeg"
   },
   "man12-u8GNhGqe": {
     "id": "man12-u8GNhGqe",
@@ -53,7 +83,12 @@
     "label": "front-fender-left",
     "overlay": "man12-u8GNhGqe.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 45,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-u8GNhGqe.jpeg"
   },
   "man12-YIhu2ntW": {
     "id": "man12-YIhu2ntW",
@@ -61,6 +96,11 @@
     "label": "front-fender-right",
     "overlay": "man12-YIhu2ntW.svg",
     "vehicle": "man12",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 315,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/man12-YIhu2ntW.jpeg"
   }
 }
