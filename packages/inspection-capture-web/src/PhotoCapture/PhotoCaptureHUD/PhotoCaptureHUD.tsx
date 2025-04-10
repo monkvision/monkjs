@@ -18,6 +18,7 @@ import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../components';
+import { PhotoCaptureHUDSightTutorial } from './PhotoCaptureHUDSightTutorial';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -31,6 +32,8 @@ export interface PhotoCaptureHUDProps
       | 'showCloseButton'
       | 'allowSkipTutorial'
       | 'enforceOrientation'
+      | 'enableSightTutorial'
+      | 'sightTutorial'
     > {
   /**
    * The inspection ID.
@@ -129,6 +132,14 @@ export interface PhotoCaptureHUDProps
    * Boolean indicating whether the sight guidelines should be displayed.
    */
   showSightGuidelines: boolean;
+  /**
+   * Boolean indicating whether the sight tutorial should be displayed.
+   */
+  showSightTutorial: boolean;
+  /**
+   * Callback called when the user clicks on the "help" button in PhotoCapture.
+   */
+  toggleSightTutorial: () => void;
 }
 
 /**
@@ -168,6 +179,10 @@ export function PhotoCaptureHUD({
   enforceOrientation,
   vehicleType,
   onDisableSightGuidelines,
+  sightTutorial,
+  enableSightTutorial,
+  showSightTutorial,
+  toggleSightTutorial,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -214,6 +229,8 @@ export function PhotoCaptureHUD({
           tutorialStep={currentTutorialStep}
           vehicleType={vehicleType}
           onDisableSightGuidelines={onDisableSightGuidelines}
+          enableSightTutorial={enableSightTutorial}
+          toggleSightTutorial={toggleSightTutorial}
         />
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
@@ -255,6 +272,14 @@ export function PhotoCaptureHUD({
         sightId={selectedSight.id}
         sightGuidelines={sightGuidelines}
         addDamage={addDamage}
+        toggleSightTutorial={toggleSightTutorial}
+      />
+      <PhotoCaptureHUDSightTutorial
+        show={showSightTutorial}
+        sightTutorial={sightTutorial}
+        selectedSight={selectedSight}
+        onClose={toggleSightTutorial}
+        enableSightTutorial={enableSightTutorial}
       />
       <OrientationEnforcer orientation={enforceOrientation} />
     </div>

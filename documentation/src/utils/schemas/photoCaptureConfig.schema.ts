@@ -4,6 +4,7 @@ import { ComplianceOptionsSchema } from '@site/src/utils/schemas/compliance.sche
 import {
   CaptureWorkflow,
   PhotoCaptureSightGuidelinesOption,
+  PhotoCaptureSightTutorialOption,
   PhotoCaptureTutorialOption,
   TaskName,
   VehicleType,
@@ -33,7 +34,7 @@ export const PhotoCaptureAppConfigSchema = z
     allowVehicleTypeSelection: z.boolean(),
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
-    enableSightTutorial: z.boolean().optional(),
+    enableSightTutorial: z.nativeEnum(PhotoCaptureSightTutorialOption).optional(),
   })
   .and(SharedCaptureAppConfigSchema)
   .and(ComplianceOptionsSchema)

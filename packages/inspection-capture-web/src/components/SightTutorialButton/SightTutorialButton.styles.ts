@@ -1,8 +1,5 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  container: {
-    height: '100dvh',
-    width: '100%',
-  },
+  sightTutorialButton: { padding: '8px' },
 };

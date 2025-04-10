@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { PhotoCaptureAppConfig, PhotoCaptureTutorialOption } from '@monkvision/types';
+import {
+  PhotoCaptureAppConfig,
+  PhotoCaptureSightTutorialOption,
+  PhotoCaptureTutorialOption,
+} from '@monkvision/types';
 import { useObjectMemo } from '@monkvision/common';
 
 export const STORAGE_KEY_PHOTO_CAPTURE_TUTORIAL = '@monk_photoCaptureTutorial';
@@ -78,7 +82,7 @@ export function usePhotoCaptureTutorial({
     if (!enableSightGuidelines) {
       steps = steps.filter((v) => v !== TutorialSteps.GUIDELINE);
     }
-    if (!enableSightTutorial) {
+    if (enableSightTutorial === PhotoCaptureSightTutorialOption.DISABLED) {
       steps = steps.filter((v) => v !== TutorialSteps.SIGHT_TUTORIAL);
     }
     if (currentTutorialStep === steps.at(-1)) {

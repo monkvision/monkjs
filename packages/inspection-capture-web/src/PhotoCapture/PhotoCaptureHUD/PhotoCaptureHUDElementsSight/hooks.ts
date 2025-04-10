@@ -8,7 +8,7 @@ import { TutorialSteps } from '../../hooks';
  * Props of the PhotoCaptureHUDElementsSight component.
  */
 export interface PhotoCaptureHUDElementsSightProps
-  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage' | 'enableSightTutorial'> {
   /**
    * The list of sights provided to the PhotoCapture component.
    */
@@ -53,6 +53,10 @@ export interface PhotoCaptureHUDElementsSightProps
    * Boolean indicating whether the sight guidelines should be displayed.
    */
   showSightGuidelines?: boolean;
+  /**
+   * Callback called when the user clicks on the "help" button in PhotoCapture.
+   */
+  toggleSightTutorial?: () => void;
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
