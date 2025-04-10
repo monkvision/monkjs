@@ -42,6 +42,10 @@
         "sightTutorial": "Verwenden Sie das Bild unten links, um sich bei der Rahmung führen zu lassen.<br>Tippen Sie darauf, um eine detaillierte Erklärung zu erhalten.",
         "sight": "Richten Sie das Fahrzeug so gut wie möglich an den Linien aus, um das beste Foto zu erhalten.<br>Drücken Sie den Auslöser, um das Foto aufzunehmen.",
         "next": "Weiter"
+      },
+      "sightTutorial": {
+        "tip": "Tipp",
+        "defaultTutorial": "Positionieren Sie sich wie im linken Diagramm gezeigt und stellen Sie sicher, dass die Kamera auf der richtigen Höhe ist.\nFalls ein Referenzfoto vorhanden ist, versuchen Sie, Ihren Bildausschnitt entsprechend anzupassen."
       }
     },
     "gallery": {

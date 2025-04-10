@@ -36,4 +36,5 @@ export const styles: Styles = {
     zIndex: 9,
     paddingBottom: '12px',
   },
+  sightTutorialButton: { padding: '8px' },
 };

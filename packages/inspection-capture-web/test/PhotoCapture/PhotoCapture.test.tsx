@@ -9,6 +9,7 @@ import {
   PhotoCaptureSightGuidelinesOption,
   TaskName,
   VehicleType,
+  PhotoCaptureSightTutorialOption,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
 import { useI18nSync, useLoadingState } from '@monkvision/common';
@@ -21,6 +22,7 @@ import {
   usePhotoCaptureTutorial,
   usePhotoCaptureSightGuidelines,
   useInspectionComplete,
+  usePhotoCaptureSightTutorial,
 } from '../../src/PhotoCapture/hooks';
 import {
   useStartTasksOnComplete,
@@ -57,6 +59,10 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   })),
   useInspectionComplete: jest.fn(() => ({
     handleInspectionCompleted: jest.fn(),
+  })),
+  usePhotoCaptureSightTutorial: jest.fn(() => ({
+    showSightTutorial: false,
+    toggleSightTutorial: jest.fn(),
   })),
 }));
 
@@ -141,8 +147,17 @@ function createProps(): PhotoCaptureProps {
     ],
     enableTutorial: PhotoCaptureTutorialOption.ENABLED,
     allowSkipTutorial: true,
-    enableSightTutorial: true,
     vehicleType: VehicleType.SEDAN,
+    enableSightTutorial: PhotoCaptureSightTutorialOption.MODERN,
+    sightTutorial: [
+      {
+        en: 'en-test',
+        fr: 'fr-test',
+        de: 'de-test',
+        nl: 'nl-test',
+        imageReferenceBySightId: { keySight1: 'valueSight1' },
+      },
+    ],
   };
 }
 
@@ -360,6 +375,7 @@ describe('PhotoCapture component', () => {
     const images = (usePhotoCaptureImages as jest.Mock).mock.results[0].value;
     const tutorial = (usePhotoCaptureTutorial as jest.Mock).mock.results[0].value;
     const sightGuidelines = (usePhotoCaptureSightGuidelines as jest.Mock).mock.results[0].value;
+    const sightTutorial = (usePhotoCaptureSightTutorial as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, {
       hudProps: {
         sights: props.sights,
@@ -386,6 +402,10 @@ describe('PhotoCapture component', () => {
         enforceOrientation: props.enforceOrientation,
         vehicleType: props.vehicleType,
         showSightGuidelines: sightGuidelines.showSightGuidelines,
+        enableSightTutorial: props.enableSightTutorial,
+        sightTutorial: props.sightTutorial,
+        showSightTutorial: sightTutorial.showSightTutorial,
+        toggleSightTutorial: sightTutorial.toggleSightTutorial,
       },
     });
 
