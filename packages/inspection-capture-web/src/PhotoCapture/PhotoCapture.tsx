@@ -16,6 +16,7 @@ import {
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
   PhotoCaptureTutorialOption,
+  PhotoCaptureSightTutorialOption,
   Sight,
   VehicleType,
 } from '@monkvision/types';
@@ -38,6 +39,7 @@ import {
   usePhotoCaptureSightState,
   usePhotoCaptureTutorial,
   usePhotoCaptureSightGuidelines,
+  usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
 
@@ -62,6 +64,7 @@ export interface PhotoCaptureProps
       | 'enableTutorial'
       | 'allowSkipTutorial'
       | 'enableSightTutorial'
+      | 'sightTutorial'
     >,
     Partial<ComplianceOptions> {
   /**
@@ -138,7 +141,8 @@ export function PhotoCapture({
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
   allowSkipTutorial = true,
-  enableSightTutorial = true,
+  enableSightTutorial = PhotoCaptureSightTutorialOption.DISABLED,
+  sightTutorial,
   enableSightGuidelines = PhotoCaptureSightGuidelinesOption.EPHEMERAL,
   useAdaptiveImageQuality = true,
   lang,
@@ -205,6 +209,7 @@ export function PhotoCapture({
     enableSightGuidelines,
     enableSightTutorial,
   });
+  const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
     enableSightGuidelines,
   });
@@ -280,6 +285,10 @@ export function PhotoCapture({
     allowSkipTutorial,
     enforceOrientation,
     vehicleType,
+    sightTutorial,
+    enableSightTutorial,
+    showSightTutorial,
+    toggleSightTutorial,
   };
 
   return (

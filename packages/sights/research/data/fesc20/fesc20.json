@@ -13,7 +13,12 @@
     "overlay": "fesc20-0mJeXBDf.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-bD8CBhYZ",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 326,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-0mJeXBDf.jpeg"
   },
   "fesc20-26n47kaO": {
     "id": "fesc20-26n47kaO",
@@ -29,7 +34,12 @@
     "overlay": "fesc20-26n47kaO.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-HYz5ziHi",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 90,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-26n47kaO.jpeg"
   },
   "fesc20-2bLRuhEQ": {
     "id": "fesc20-2bLRuhEQ",
@@ -44,7 +54,12 @@
     "label": "rear-roof",
     "overlay": "fesc20-2bLRuhEQ.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-2bLRuhEQ.jpeg"
   },
   "fesc20-4Wqx52oU": {
     "id": "fesc20-4Wqx52oU",
@@ -60,7 +75,13 @@
     "overlay": "fesc20-4Wqx52oU.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-5Ts1UkPT",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-4Wqx52oU.jpeg"
   },
   "fesc20-Tlu3sz8A": {
     "id": "fesc20-Tlu3sz8A",
@@ -71,7 +92,14 @@
     "mirror_sight": "fesc20-raHPDUNm",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-Tlu3sz8A.jpeg"
   },
   "fesc20-5Ts1UkPT": {
     "id": "fesc20-5Ts1UkPT",
@@ -87,7 +115,13 @@
     "overlay": "fesc20-5Ts1UkPT.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-4Wqx52oU",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-5Ts1UkPT.jpeg"
   },
   "fesc20-raHPDUNm": {
     "id": "fesc20-raHPDUNm",
@@ -98,7 +132,14 @@
     "mirror_sight": "fesc20-Tlu3sz8A",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-raHPDUNm.jpeg"
   },
   "fesc20-6GPUkfYn": {
     "id": "fesc20-6GPUkfYn",
@@ -112,7 +153,12 @@
     "label": "front-roof-left",
     "overlay": "fesc20-6GPUkfYn.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 68,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-6GPUkfYn.jpeg"
   },
   "fesc20-CEGtqHkk": {
     "id": "fesc20-CEGtqHkk",
@@ -127,7 +173,12 @@
     "overlay": "fesc20-CEGtqHkk.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-GdIxD-_N",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 318,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-CEGtqHkk.jpeg"
   },
   "fesc20-DBLpo-52": {
     "id": "fesc20-DBLpo-52",
@@ -142,7 +193,12 @@
     "label": "rear-roof-right",
     "overlay": "fesc20-DBLpo-52.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 203,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-DBLpo-52.jpeg"
   },
   "fesc20-EJ0tXYBW": {
     "id": "fesc20-EJ0tXYBW",
@@ -158,7 +214,12 @@
     "overlay": "fesc20-EJ0tXYBW.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-T4dIGLgy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 215,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-EJ0tXYBW.jpeg"
   },
   "fesc20-GdIxD-_N": {
     "id": "fesc20-GdIxD-_N",
@@ -173,7 +234,12 @@
     "overlay": "fesc20-GdIxD-_N.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-CEGtqHkk",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-GdIxD-_N.jpeg"
   },
   "fesc20-H1dfdfvH": {
     "id": "fesc20-H1dfdfvH",
@@ -187,7 +253,12 @@
     "label": "front-low",
     "overlay": "fesc20-H1dfdfvH.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-H1dfdfvH.jpeg"
   },
   "fesc20-HYz5ziHi": {
     "id": "fesc20-HYz5ziHi",
@@ -203,7 +274,12 @@
     "overlay": "fesc20-HYz5ziHi.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-26n47kaO",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 270,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-HYz5ziHi.jpeg"
   },
   "fesc20-LTe3X2bg": {
     "id": "fesc20-LTe3X2bg",
@@ -218,7 +294,12 @@
     "overlay": "fesc20-LTe3X2bg.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-Wzdtgqqz",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 26,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-LTe3X2bg.jpeg"
   },
   "fesc20-LZc7p2kK": {
     "id": "fesc20-LZc7p2kK",
@@ -233,7 +314,12 @@
     "overlay": "fesc20-LZc7p2kK.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-dfICsfSV",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 207,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-LZc7p2kK.jpeg"
   },
   "fesc20-NLdqASzl": {
     "id": "fesc20-NLdqASzl",
@@ -249,7 +335,12 @@
     "overlay": "fesc20-NLdqASzl.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-gg1Xyrpu",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 128,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-NLdqASzl.jpeg"
   },
   "fesc20-P0oSEh8p": {
     "id": "fesc20-P0oSEh8p",
@@ -265,7 +356,12 @@
     "overlay": "fesc20-P0oSEh8p.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-fOt832UV",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-P0oSEh8p.jpeg"
   },
   "fesc20-P470Q-jm": {
     "id": "fesc20-P470Q-jm",
@@ -280,7 +376,12 @@
     "overlay": "fesc20-P470Q-jm.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-r_UeXQRO",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 128,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-P470Q-jm.jpeg"
   },
   "fesc20-T4dIGLgy": {
     "id": "fesc20-T4dIGLgy",
@@ -296,7 +397,12 @@
     "overlay": "fesc20-T4dIGLgy.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-EJ0tXYBW",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 145,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-T4dIGLgy.jpeg"
   },
   "fesc20-UjtbRtJS": {
     "id": "fesc20-UjtbRtJS",
@@ -311,7 +417,12 @@
     "label": "rear",
     "overlay": "fesc20-UjtbRtJS.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-UjtbRtJS.jpeg"
   },
   "fesc20-WIQsf_gX": {
     "id": "fesc20-WIQsf_gX",
@@ -327,7 +438,13 @@
     "overlay": "fesc20-WIQsf_gX.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-dKVLig1i",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-WIQsf_gX.jpeg"
   },
   "fesc20-YPcJPAZE": {
     "id": "fesc20-YPcJPAZE",
@@ -338,7 +455,14 @@
     "mirror_sight": "fesc20-W6XrryMO",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-YPcJPAZE.jpeg"
   },
   "fesc20-WMUaKDp1": {
     "id": "fesc20-WMUaKDp1",
@@ -352,7 +476,12 @@
     "label": "hood",
     "overlay": "fesc20-WMUaKDp1.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-WMUaKDp1.jpeg"
   },
   "fesc20-Wzdtgqqz": {
     "id": "fesc20-Wzdtgqqz",
@@ -367,7 +496,12 @@
     "overlay": "fesc20-Wzdtgqqz.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-LTe3X2bg",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 334,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-Wzdtgqqz.jpeg"
   },
   "fesc20-X8k7UFGf": {
     "id": "fesc20-X8k7UFGf",
@@ -381,7 +515,12 @@
     "label": "rear",
     "overlay": "fesc20-X8k7UFGf.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-X8k7UFGf.jpeg"
   },
   "fesc20-bD8CBhYZ": {
     "id": "fesc20-bD8CBhYZ",
@@ -396,7 +535,12 @@
     "overlay": "fesc20-bD8CBhYZ.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-0mJeXBDf",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 34,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-bD8CBhYZ.jpeg"
   },
   "fesc20-dKVLig1i": {
     "id": "fesc20-dKVLig1i",
@@ -412,7 +556,13 @@
     "overlay": "fesc20-dKVLig1i.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-WIQsf_gX",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-dKVLig1i.jpeg"
   },
   "fesc20-W6XrryMO": {
     "id": "fesc20-W6XrryMO",
@@ -423,7 +573,14 @@
     "mirror_sight": "fesc20-YPcJPAZE",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-W6XrryMO.jpeg"
   },
   "fesc20-dfICsfSV": {
     "id": "fesc20-dfICsfSV",
@@ -438,7 +595,12 @@
     "overlay": "fesc20-dfICsfSV.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-LZc7p2kK",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 153,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-dfICsfSV.jpeg"
   },
   "fesc20-fOt832UV": {
     "id": "fesc20-fOt832UV",
@@ -454,7 +616,12 @@
     "overlay": "fesc20-fOt832UV.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-P0oSEh8p",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-fOt832UV.jpeg"
   },
   "fesc20-gg1Xyrpu": {
     "id": "fesc20-gg1Xyrpu",
@@ -470,7 +637,12 @@
     "overlay": "fesc20-gg1Xyrpu.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-NLdqASzl",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 232,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-gg1Xyrpu.jpeg"
   },
   "fesc20-hp3Tk53x": {
     "id": "fesc20-hp3Tk53x",
@@ -486,7 +658,12 @@
     "overlay": "fesc20-hp3Tk53x.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-j3H8Z415",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 57,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-hp3Tk53x.jpeg"
   },
   "fesc20-iUN0g_Zn": {
     "id": "fesc20-iUN0g_Zn",
@@ -500,7 +677,12 @@
     "label": "lateral-left",
     "overlay": "fesc20-iUN0g_Zn.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 93,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-iUN0g_Zn.jpeg"
   },
   "fesc20-j3H8Z415": {
     "id": "fesc20-j3H8Z415",
@@ -516,7 +698,12 @@
     "overlay": "fesc20-j3H8Z415.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-hp3Tk53x",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 303,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-j3H8Z415.jpeg"
   },
   "fesc20-r_UeXQRO": {
     "id": "fesc20-r_UeXQRO",
@@ -531,7 +718,12 @@
     "overlay": "fesc20-r_UeXQRO.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-P470Q-jm",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 232,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-r_UeXQRO.jpeg"
   },
   "fesc20-xBFiEy-_": {
     "id": "fesc20-xBFiEy-_",
@@ -546,7 +738,12 @@
     "label": "rear-low",
     "overlay": "fesc20-xBFiEy-_.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-xBFiEy-_.jpeg"
   },
   "fesc20-xDFQNR3C": {
     "id": "fesc20-xDFQNR3C",
@@ -560,6 +757,11 @@
     "label": "lateral-left",
     "overlay": "fesc20-xDFQNR3C.svg",
     "vehicle": "fesc20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 267,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/fesc20-xDFQNR3C.jpeg"
   }
 }

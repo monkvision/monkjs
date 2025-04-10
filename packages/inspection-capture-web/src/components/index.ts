@@ -6,3 +6,4 @@ export * from './PartSelection';
 export * from './Counter';
 export * from './ZoomOutShot';
 export * from './HUDOverlay';
+export * from './SightTutorialButton';
