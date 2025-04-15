@@ -1,7 +1,7 @@
 {
   "photo": {
     "badConnectionWarning": {
-      "message": "It seems like your connection is unstable. Picture uploads might be long or impossible.",
+      "message": "We are experiencing connectivity issues. Picture uploads might take longer than usual.",
       "confirm": "I Understand"
     },
     "hud": {

@@ -1,7 +1,7 @@
 {
   "photo": {
     "badConnectionWarning": {
-      "message": "Il semble que votre connexion soit instable. Les téléchargements d'images peuvent être longs ou impossibles.",
+      "message": "Nous rencontrons des problèmes de connexion. Le téléchargement des photos pourrait prendre plus de temps que d'habitude.",
       "confirm": "J'ai compris"
     },
     "hud": {
