@@ -128,7 +128,7 @@ function getCaptureTasks(
 ): TaskName[] {
   const tasks: TaskName[] = [];
   captureSights.forEach((sight) => {
-    const sightTasks = tasksBySight ? tasksBySight[sight.id] : sight.tasks;
+    const sightTasks = tasksBySight?.[sight.id] ?? sight.tasks;
     sightTasks.forEach((task) => {
       if (!tasks.includes(task)) {
         tasks.push(task);
