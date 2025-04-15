@@ -5,7 +5,7 @@
     "button": "Ajouter des photos de dégâts"
   },
   "capture": {
-    "title": "Capturer l'état",
+    "title": "Démarrer l’inspection",
     "description": "Pas d'enfoncements ni de rayures ? Faites le tour du véhicule et prenez des photos.",
     "button": "Prendre des photos"
   }

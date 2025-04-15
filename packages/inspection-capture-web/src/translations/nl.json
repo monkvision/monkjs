@@ -1,7 +1,7 @@
 {
   "photo": {
     "badConnectionWarning": {
-      "message": "Het lijkt erop dat je verbinding instabiel is. Het uploaden van afbeeldingen kan lang duren of onmogelijk zijn.",
+      "message": "Er zijn momenteel verbindingsproblemen. Het uploaden van foto's kan langer duren dan normaal.",
       "confirm": "Ik begrijp het"
     },
     "hud": {
