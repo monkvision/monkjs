@@ -5,7 +5,7 @@
     "button": "Add Damage Photos"
   },
   "capture": {
-    "title": "Capture Condition",
+    "title": "Start Inspection",
     "description": "No dents or scratches? Walk around the vehicle and take photos.",
     "button": "Take Photos"
   }
