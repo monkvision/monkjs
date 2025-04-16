@@ -196,7 +196,8 @@
   "all-9cw4tn4s": {
     "id": "all-9cw4tn4s",
     "category": "misc",
-    "label": "tire",
+    "label": "front-left-tire",
+    "wheel_name": "wheel_front_left",
     "overlay": "all-9cw4tn4s.svg",
     "vehicle": "all",
     "tasks": ["compliances", "wheel_analysis"]
@@ -204,8 +205,27 @@
   "all-Pj-K822I": {
     "id": "all-Pj-K822I",
     "category": "misc",
-    "label": "tire",
+    "label": "front-right-tire",
+    "wheel_name": "wheel_front_right",
     "overlay": "all-Pj-K822I.svg",
+    "vehicle": "all",
+    "tasks": ["compliances", "wheel_analysis"]
+  },
+  "all-1pqg1sU3": {
+    "id": "all-1pqg1sU3",
+    "category": "misc",
+    "label": "rear-right-tire",
+    "wheel_name": "wheel_back_right",
+    "overlay": "all-1pqg1sU3.svg",
+    "vehicle": "all",
+    "tasks": ["compliances", "wheel_analysis"]
+  },
+  "all-HWSQ9Svy": {
+    "id": "all-HWSQ9Svy",
+    "category": "misc",
+    "label": "rear-left-tire",
+    "wheel_name": "wheel_back_left",
+    "overlay": "all-HWSQ9Svy.svg",
     "vehicle": "all",
     "tasks": ["compliances", "wheel_analysis"]
   },
@@ -236,9 +256,37 @@
   "all-8jdq7f5m": {
     "id": "all-8jdq7f5m",
     "category": "misc",
-    "label": "penny-test",
+    "label": "front-left-penny-test",
     "overlay": "all-8jdq7f5m.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "wheel_name": "wheel_front_left",
+    "tasks": ["compliances", "wheel_analysis"]
+  },
+  "all-HpolaMLT": {
+    "id": "all-HpolaMLT",
+    "category": "misc",
+    "label": "front-right-penny-test",
+    "overlay": "all-HpolaMLT.svg",
+    "vehicle": "all",
+    "wheel_name": "wheel_front_right",
+    "tasks": ["compliances", "wheel_analysis"]
+  },
+  "all-9U3Vyzhp": {
+    "id": "all-9U3Vyzhp",
+    "category": "misc",
+    "label": "rear-left-penny-test",
+    "overlay": "all-9U3Vyzhp.svg",
+    "vehicle": "all",
+    "wheel_name": "wheel_back_right",
+    "tasks": ["compliances", "wheel_analysis"]
+  },
+  "all-mLhPZl0Y": {
+    "id": "all-mLhPZl0Y",
+    "category": "misc",
+    "label": "rear-right-penny-test",
+    "overlay": "all-mLhPZl0Y.svg",
+    "vehicle": "all",
+    "wheel_name": "wheel_back_right",
+    "tasks": ["compliances", "wheel_analysis"]
   }
 }

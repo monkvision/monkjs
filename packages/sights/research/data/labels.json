@@ -559,12 +559,33 @@
     "de": "HGV",
     "nl": "HGV"
   },
-  "tire": {
-    "key": "tire",
-    "en": "Tire",
-    "fr": "Pneu",
-    "de": "Reifen",
-    "nl": "Band"
+  "front-left-tire": {
+    "key": "front-left-tire",
+    "en": "Front left tire",
+    "fr": "Pneu avant gauche",
+    "de": "Vorderer linker Reifen",
+    "nl": "Voorband links"
+  },
+  "front-right-tire": {
+    "key": "front-right-tire",
+    "en": "Front right tire",
+    "fr": "Pneu avant droit",
+    "de": "Vorderer rechter Reifen",
+    "nl": "Voorband rechts"
+  },
+  "rear-left-tire": {
+    "key": "rear-left-tire",
+    "en": "Rear left tire",
+    "fr": "Pneu arrière gauche",
+    "de": "Hinterer linker Reifen",
+    "nl": "Achterband links"
+  },
+  "rear-right-tire": {
+    "key": "rear-right-tire",
+    "en": "Rear right tire",
+    "fr": "Pneu arrière droit",
+    "de": "Hinterer rechter Reifen",
+    "nl": "Achterband rechts"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -587,11 +608,32 @@
     "de": "Kartenschlüssel",
     "nl": "Kaartsleutels"
   },
-  "penny-test": {
-    "key": "penny-test",
-    "en": "Penny Test",
-    "fr": "Test de Penny",
-    "de": "Penny-Test",
-    "nl": "Penny Test"
+  "front-left-penny-test": {
+    "key": "front-left-penny-test",
+    "en": "Front left Penny Test",
+    "fr": "Test de Penny avant gauche",
+    "de": "Penny-Test vorne links",
+    "nl": "Penny Test vooraan links"
+  },
+  "front-right-penny-test": {
+    "key": "front-right-penny-test",
+    "en": "Front right Penny Test",
+    "fr": "Test de Penny avant droit",
+    "de": "Penny-Test vorne rechts",
+    "nl": "Penny Test vooraan rechts"
+  },
+  "rear-left-penny-test": {
+    "key": "rear-left-penny-test",
+    "en": "Rear left Penny Test",
+    "fr": "Test de Penny arrière gauche",
+    "de": "Penny-Test hinten links",
+    "nl": "Penny Test achteraan links"
+  },
+  "rear-right-penny-test": {
+    "key": "rear-right-penny-test",
+    "en": "Rear right Penny Test",
+    "fr": "Test de Penny arrière droit",
+    "de": "Penny-Test hinten rechts",
+    "nl": "Penny Test achteraan rechts"
   }
 }
