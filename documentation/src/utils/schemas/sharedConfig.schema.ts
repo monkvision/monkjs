@@ -7,15 +7,15 @@ import { CreateInspectionDiscriminatedUnionSchema } from '@site/src/utils/schema
 const domainsByEnv = {
   staging: {
     api: 'api.staging.monk.ai/v1',
-    thumbnail: 'europe-west1-monk-staging-321715.cloudfunctions.net/image_resize',
+    thumbnail: 'api.staging.monk.ai/image_resize',
   },
   preview: {
     api: 'api.preview.monk.ai/v1',
-    thumbnail: 'europe-west1-monk-preview-321715.cloudfunctions.net/image_resize',
+    thumbnail: 'api.preview.monk.ai/image_resize',
   },
   production: {
     api: 'api.monk.ai/v1',
-    thumbnail: 'europe-west1-monk-prod.cloudfunctions.net/image_resize',
+    thumbnail: 'api.monk.ai/image_resize',
   },
 };
 
