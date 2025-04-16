@@ -42,6 +42,10 @@
         "sightTutorial": "Utilisez l'image en bas à gauche pour vous guider dans le cadrage.<br>Appuyez dessus pour voir une explication détaillée.",
         "sight": "Alignez le véhicule avec les lignes autant que possible pour obtenir la meilleure photo.<br>Appuyez sur le déclencheur pour prendre la photo.",
         "next": "Suivant"
+      },
+      "sightTutorial": {
+        "tip": "Conseil",
+        "defaultTutorial": "Placez-vous comme indiqué dans le schéma de gauche en veillant à ce que la caméra soit à la bonne hauteur.\nSi une photo de référence est fournie, essayez d’adapter votre cadrage en conséquence."
       }
     },
     "gallery": {

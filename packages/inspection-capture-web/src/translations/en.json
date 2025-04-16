@@ -42,6 +42,10 @@
         "sightTutorial": "Use bottom left image to guide you with the framing.<br>Tap it to see a detailed explanation.",
         "sight": "Align the vehicle with the lines as much as possible to get the best shot.<br>Press the shutter button to take the photo.",
         "next": "Next"
+      },
+      "sightTutorial": {
+        "tip": "Tip",
+        "defaultTutorial": "Position yourself as shown in the left diagram, ensuring the camera is at the correct height.\nIf a reference photo is provided, try to match your framing accordingly."
       }
     },
     "gallery": {

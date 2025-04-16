@@ -12,7 +12,12 @@
     "overlay": "audia7-5CFsFvj7.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-cDe2q69X",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-5CFsFvj7.jpeg"
   },
   "audia7-7bTC-nGS": {
     "id": "audia7-7bTC-nGS",
@@ -27,7 +32,12 @@
     "overlay": "audia7-7bTC-nGS.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-e_QIW30o",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 68,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-7bTC-nGS.jpeg"
   },
   "audia7-I0cOpT1e": {
     "id": "audia7-I0cOpT1e",
@@ -41,7 +51,12 @@
     "label": "front",
     "overlay": "audia7-I0cOpT1e.svg",
     "vehicle": "audia7",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 65,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-I0cOpT1e.jpeg"
   },
   "audia7-McR3TJK0": {
     "id": "audia7-McR3TJK0",
@@ -56,7 +71,12 @@
     "overlay": "audia7-McR3TJK0.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-fDo5M0Fp",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 68,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-McR3TJK0.jpeg"
   },
   "audia7-R_f4g8MN": {
     "id": "audia7-R_f4g8MN",
@@ -71,7 +91,12 @@
     "overlay": "audia7-R_f4g8MN.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-fDKWkHHp",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-R_f4g8MN.jpeg"
   },
   "audia7-WKJlxkiF": {
     "id": "audia7-WKJlxkiF",
@@ -85,7 +110,12 @@
     "label": "front-fender-left",
     "overlay": "audia7-WKJlxkiF.svg",
     "vehicle": "audia7",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-WKJlxkiF.jpeg"
   },
   "audia7-cDe2q69X": {
     "id": "audia7-cDe2q69X",
@@ -100,7 +130,12 @@
     "overlay": "audia7-cDe2q69X.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-5CFsFvj7",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-cDe2q69X.jpeg"
   },
   "audia7-e_QIW30o": {
     "id": "audia7-e_QIW30o",
@@ -115,7 +150,12 @@
     "overlay": "audia7-e_QIW30o.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-7bTC-nGS",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 68,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-e_QIW30o.jpeg"
   },
   "audia7-fDKWkHHp": {
     "id": "audia7-fDKWkHHp",
@@ -130,7 +170,12 @@
     "overlay": "audia7-fDKWkHHp.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-R_f4g8MN",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 67,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-fDKWkHHp.jpeg"
   },
   "audia7-fDo5M0Fp": {
     "id": "audia7-fDo5M0Fp",
@@ -145,7 +190,12 @@
     "overlay": "audia7-fDo5M0Fp.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-McR3TJK0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 68,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-fDo5M0Fp.jpeg"
   },
   "audia7-g30kyiVH": {
     "id": "audia7-g30kyiVH",
@@ -160,7 +210,12 @@
     "overlay": "audia7-g30kyiVH.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-vxRr9chD",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 73,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-g30kyiVH.jpeg"
   },
   "audia7-hhCBI9oZ": {
     "id": "audia7-hhCBI9oZ",
@@ -174,7 +229,12 @@
     "label": "rear",
     "overlay": "audia7-hhCBI9oZ.svg",
     "vehicle": "audia7",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-hhCBI9oZ.jpeg"
   },
   "audia7-vedHBC2n": {
     "id": "audia7-vedHBC2n",
@@ -188,7 +248,12 @@
     "label": "front-roof-left",
     "overlay": "audia7-vedHBC2n.svg",
     "vehicle": "audia7",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 60,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-vedHBC2n.jpeg"
   },
   "audia7-vxRr9chD": {
     "id": "audia7-vxRr9chD",
@@ -203,6 +268,11 @@
     "overlay": "audia7-vxRr9chD.svg",
     "vehicle": "audia7",
     "mirror_sight": "audia7-g30kyiVH",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 73,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/audia7-vxRr9chD.jpeg"
   }
 }

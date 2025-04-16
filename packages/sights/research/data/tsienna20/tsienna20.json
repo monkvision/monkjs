@@ -12,7 +12,12 @@
     "overlay": "tsienna20--a2RmRcs.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-1n_z8bYy",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20--a2RmRcs.jpeg"
   },
   "tsienna20-1LNxhgCR": {
     "id": "tsienna20-1LNxhgCR",
@@ -28,7 +33,12 @@
     "overlay": "tsienna20-1LNxhgCR.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-Rw0Gtt7O",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 88,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-1LNxhgCR.jpeg"
   },
   "tsienna20-1n_z8bYy": {
     "id": "tsienna20-1n_z8bYy",
@@ -43,7 +53,12 @@
     "overlay": "tsienna20-1n_z8bYy.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20--a2RmRcs",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-1n_z8bYy.jpeg"
   },
   "tsienna20-4ihRwDkS": {
     "id": "tsienna20-4ihRwDkS",
@@ -59,7 +74,12 @@
     "overlay": "tsienna20-4ihRwDkS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uIHdpQ9y",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 91,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-4ihRwDkS.jpeg"
   },
   "tsienna20-65mfPdRD": {
     "id": "tsienna20-65mfPdRD",
@@ -75,7 +95,13 @@
     "overlay": "tsienna20-65mfPdRD.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-cI285Gon",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-65mfPdRD.jpeg"
   },
   "tsienna20-uz29ILgw": {
     "id": "tsienna20-uz29ILgw",
@@ -86,7 +112,14 @@
     "mirror_sight": "tsienna20-K0ThKmue",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-uz29ILgw.jpeg"
   },
   "tsienna20-670P2H2V": {
     "id": "tsienna20-670P2H2V",
@@ -102,7 +135,13 @@
     "overlay": "tsienna20-670P2H2V.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-SebsoqJm",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-670P2H2V.jpeg"
   },
   "tsienna20-2Zz6SEaI": {
     "id": "tsienna20-2Zz6SEaI",
@@ -113,7 +152,14 @@
     "mirror_sight": "tsienna20-RP6TzN4w",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-2Zz6SEaI.jpeg"
   },
   "tsienna20-D6pPBrXx": {
     "id": "tsienna20-D6pPBrXx",
@@ -127,7 +173,12 @@
     "label": "lateral-left",
     "overlay": "tsienna20-D6pPBrXx.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-D6pPBrXx.jpeg"
   },
   "tsienna20-HykkFbXf": {
     "id": "tsienna20-HykkFbXf",
@@ -141,7 +192,12 @@
     "label": "hood",
     "overlay": "tsienna20-HykkFbXf.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-HykkFbXf.jpeg"
   },
   "tsienna20-Ia0SGJ6z": {
     "id": "tsienna20-Ia0SGJ6z",
@@ -157,7 +213,12 @@
     "overlay": "tsienna20-Ia0SGJ6z.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-TibS83Qr",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 55,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-Ia0SGJ6z.jpeg"
   },
   "tsienna20-KHB_Cd9k": {
     "id": "tsienna20-KHB_Cd9k",
@@ -172,7 +233,12 @@
     "overlay": "tsienna20-KHB_Cd9k.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-TI4TVvT9",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 334,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-KHB_Cd9k.jpeg"
   },
   "tsienna20-MPCqHzeH": {
     "id": "tsienna20-MPCqHzeH",
@@ -188,7 +254,12 @@
     "overlay": "tsienna20-MPCqHzeH.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-jY3cR5vy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 325,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-MPCqHzeH.jpeg"
   },
   "tsienna20-OxFWgEPk": {
     "id": "tsienna20-OxFWgEPk",
@@ -203,7 +274,12 @@
     "label": "rear-roof",
     "overlay": "tsienna20-OxFWgEPk.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-OxFWgEPk.jpeg"
   },
   "tsienna20-QIMXlb0L": {
     "id": "tsienna20-QIMXlb0L",
@@ -218,7 +294,12 @@
     "overlay": "tsienna20-QIMXlb0L.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-ouPvuX-j",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 232,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-QIMXlb0L.jpeg"
   },
   "tsienna20-Rw0Gtt7O": {
     "id": "tsienna20-Rw0Gtt7O",
@@ -234,7 +315,12 @@
     "overlay": "tsienna20-Rw0Gtt7O.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-1LNxhgCR",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 272,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-Rw0Gtt7O.jpeg"
   },
   "tsienna20-SebsoqJm": {
     "id": "tsienna20-SebsoqJm",
@@ -250,7 +336,13 @@
     "overlay": "tsienna20-SebsoqJm.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-670P2H2V",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-SebsoqJm.jpeg"
   },
   "tsienna20-RP6TzN4w": {
     "id": "tsienna20-RP6TzN4w",
@@ -261,7 +353,14 @@
     "mirror_sight": "tsienna20-2Zz6SEaI",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-RP6TzN4w.jpeg"
   },
   "tsienna20-TI4TVvT9": {
     "id": "tsienna20-TI4TVvT9",
@@ -276,7 +375,12 @@
     "overlay": "tsienna20-TI4TVvT9.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-KHB_Cd9k",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 26,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-TI4TVvT9.jpeg"
   },
   "tsienna20-TibS83Qr": {
     "id": "tsienna20-TibS83Qr",
@@ -292,7 +396,12 @@
     "overlay": "tsienna20-TibS83Qr.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-Ia0SGJ6z",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 305,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-TibS83Qr.jpeg"
   },
   "tsienna20-U_FqYq-a": {
     "id": "tsienna20-U_FqYq-a",
@@ -308,7 +417,12 @@
     "overlay": "tsienna20-U_FqYq-a.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-u57qDaN_",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 125,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-U_FqYq-a.jpeg"
   },
   "tsienna20-V2jVo2wV": {
     "id": "tsienna20-V2jVo2wV",
@@ -323,7 +437,12 @@
     "label": "rear-roof-right",
     "overlay": "tsienna20-V2jVo2wV.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 200,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-V2jVo2wV.jpeg"
   },
   "tsienna20-YwrRNr9n": {
     "id": "tsienna20-YwrRNr9n",
@@ -337,7 +456,12 @@
     "label": "front-low",
     "overlay": "tsienna20-YwrRNr9n.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-YwrRNr9n.jpeg"
   },
   "tsienna20-ZlRQXL-j": {
     "id": "tsienna20-ZlRQXL-j",
@@ -353,7 +477,12 @@
     "overlay": "tsienna20-ZlRQXL-j.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-wlbzVAxz",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 146,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-ZlRQXL-j.jpeg"
   },
   "tsienna20-cI285Gon": {
     "id": "tsienna20-cI285Gon",
@@ -369,7 +498,13 @@
     "overlay": "tsienna20-cI285Gon.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-65mfPdRD",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-cI285Gon.jpeg"
   },
   "tsienna20-K0ThKmue": {
     "id": "tsienna20-K0ThKmue",
@@ -380,7 +515,14 @@
     "mirror_sight": "tsienna20-uz29ILgw",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-K0ThKmue.jpeg"
   },
   "tsienna20-g2uWI1l8": {
     "id": "tsienna20-g2uWI1l8",
@@ -394,7 +536,12 @@
     "label": "lateral-left",
     "overlay": "tsienna20-g2uWI1l8.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-g2uWI1l8.jpeg"
   },
   "tsienna20-gkvZE2c7": {
     "id": "tsienna20-gkvZE2c7",
@@ -409,7 +556,12 @@
     "overlay": "tsienna20-gkvZE2c7.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-xtDcn3GS",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 41,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-gkvZE2c7.jpeg"
   },
   "tsienna20-is1tpnqR": {
     "id": "tsienna20-is1tpnqR",
@@ -423,7 +575,12 @@
     "label": "front-roof-left",
     "overlay": "tsienna20-is1tpnqR.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 54,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-is1tpnqR.jpeg"
   },
   "tsienna20-jY3cR5vy": {
     "id": "tsienna20-jY3cR5vy",
@@ -438,7 +595,12 @@
     "overlay": "tsienna20-jY3cR5vy.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-MPCqHzeH",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 35,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-jY3cR5vy.jpeg"
   },
   "tsienna20-ouPvuX-j": {
     "id": "tsienna20-ouPvuX-j",
@@ -453,7 +615,12 @@
     "overlay": "tsienna20-ouPvuX-j.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-QIMXlb0L",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 128,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-ouPvuX-j.jpeg"
   },
   "tsienna20-qA3aAUUq": {
     "id": "tsienna20-qA3aAUUq",
@@ -467,7 +634,12 @@
     "label": "rear-low",
     "overlay": "tsienna20-qA3aAUUq.svg",
     "vehicle": "tsienna20",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-qA3aAUUq.jpeg"
   },
   "tsienna20-u57qDaN_": {
     "id": "tsienna20-u57qDaN_",
@@ -483,7 +655,12 @@
     "overlay": "tsienna20-u57qDaN_.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-U_FqYq-a",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 235,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-u57qDaN_.jpeg"
   },
   "tsienna20-uIHdpQ9y": {
     "id": "tsienna20-uIHdpQ9y",
@@ -499,7 +676,12 @@
     "overlay": "tsienna20-uIHdpQ9y.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-4ihRwDkS",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 269,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-uIHdpQ9y.jpeg"
   },
   "tsienna20-wlbzVAxz": {
     "id": "tsienna20-wlbzVAxz",
@@ -515,7 +697,12 @@
     "overlay": "tsienna20-wlbzVAxz.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-ZlRQXL-j",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 214,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-wlbzVAxz.jpeg"
   },
   "tsienna20-xtDcn3GS": {
     "id": "tsienna20-xtDcn3GS",
@@ -530,6 +717,11 @@
     "overlay": "tsienna20-xtDcn3GS.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-gkvZE2c7",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 319,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/tsienna20-xtDcn3GS.jpeg"
   }
 }

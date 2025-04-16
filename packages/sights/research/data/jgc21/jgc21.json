@@ -11,7 +11,12 @@
     "label": "lateral-left",
     "overlay": "jgc21-0QM-q8k5.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-0QM-q8k5.jpeg",
+    "positioning": {
+      "position": 266,
+      "height": "mid"
+    }
   },
   "jgc21-1j-oTPag": {
     "id": "jgc21-1j-oTPag",
@@ -27,7 +32,12 @@
     "overlay": "jgc21-1j-oTPag.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-TEoi50Ff",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-1j-oTPag.jpeg",
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    }
   },
   "jgc21-2_5eHL-F": {
     "id": "jgc21-2_5eHL-F",
@@ -43,7 +53,12 @@
     "overlay": "jgc21-2_5eHL-F.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-Emzc8jJA",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 213,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-2_5eHL-F.jpeg"
   },
   "jgc21-3JJvM7_B": {
     "id": "jgc21-3JJvM7_B",
@@ -58,7 +73,12 @@
     "overlay": "jgc21-3JJvM7_B.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-ezXzTRkj",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-3JJvM7_B.jpeg"
   },
   "jgc21-3gjMwvQG": {
     "id": "jgc21-3gjMwvQG",
@@ -74,7 +94,13 @@
     "overlay": "jgc21-3gjMwvQG.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-RAVpqaE4",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-3gjMwvQG.jpeg"
   },
   "jgc21-2bGeRS3I": {
     "id": "jgc21-2bGeRS3I",
@@ -85,7 +111,14 @@
     "mirror_sight": "jgc21-xwYV3_Hz",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-2bGeRS3I.jpeg"
   },
   "jgc21-5lovhZgA": {
     "id": "jgc21-5lovhZgA",
@@ -99,7 +132,12 @@
     "label": "lateral-left",
     "overlay": "jgc21-5lovhZgA.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 94,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-5lovhZgA.jpeg"
   },
   "jgc21-ESc0HCzy": {
     "id": "jgc21-ESc0HCzy",
@@ -114,7 +152,12 @@
     "overlay": "jgc21-ESc0HCzy.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-JerG7oW5",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-ESc0HCzy.jpeg"
   },
   "jgc21-Emzc8jJA": {
     "id": "jgc21-Emzc8jJA",
@@ -130,7 +173,12 @@
     "overlay": "jgc21-Emzc8jJA.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-2_5eHL-F",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 147,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-Emzc8jJA.jpeg"
   },
   "jgc21-F-PPd4qN": {
     "id": "jgc21-F-PPd4qN",
@@ -146,7 +194,12 @@
     "overlay": "jgc21-F-PPd4qN.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-m2dDoMup",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-F-PPd4qN.jpeg"
   },
   "jgc21-J1Ezdyar": {
     "id": "jgc21-J1Ezdyar",
@@ -161,7 +214,12 @@
     "label": "rear-roof-right",
     "overlay": "jgc21-J1Ezdyar.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 201,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-J1Ezdyar.jpeg"
   },
   "jgc21-JerG7oW5": {
     "id": "jgc21-JerG7oW5",
@@ -176,7 +234,12 @@
     "overlay": "jgc21-JerG7oW5.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-ESc0HCzy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-JerG7oW5.jpeg"
   },
   "jgc21-KyUUVU2P": {
     "id": "jgc21-KyUUVU2P",
@@ -190,7 +253,12 @@
     "label": "hood",
     "overlay": "jgc21-KyUUVU2P.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-KyUUVU2P.jpeg"
   },
   "jgc21-QIkcNhc_": {
     "id": "jgc21-QIkcNhc_",
@@ -205,7 +273,12 @@
     "overlay": "jgc21-QIkcNhc_.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-QwNQX0Cr",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 43,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-QIkcNhc_.jpeg"
   },
   "jgc21-QIvfeg0X": {
     "id": "jgc21-QIvfeg0X",
@@ -219,7 +292,12 @@
     "label": "front-low",
     "overlay": "jgc21-QIvfeg0X.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-QIvfeg0X.jpeg",
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    }
   },
   "jgc21-QwNQX0Cr": {
     "id": "jgc21-QwNQX0Cr",
@@ -234,7 +312,12 @@
     "overlay": "jgc21-QwNQX0Cr.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-QIkcNhc_",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 317,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-QwNQX0Cr.jpeg"
   },
   "jgc21-RAVpqaE4": {
     "id": "jgc21-RAVpqaE4",
@@ -250,7 +333,13 @@
     "overlay": "jgc21-RAVpqaE4.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-3gjMwvQG",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-RAVpqaE4.jpeg"
   },
   "jgc21-xwYV3_Hz": {
     "id": "jgc21-xwYV3_Hz",
@@ -261,7 +350,14 @@
     "mirror_sight": "jgc21-2bGeRS3I",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-xwYV3_Hz.jpeg"
   },
   "jgc21-RE3li6rE": {
     "id": "jgc21-RE3li6rE",
@@ -277,7 +373,12 @@
     "overlay": "jgc21-RE3li6rE.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-TRN9Des4",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 58,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-RE3li6rE.jpeg"
   },
   "jgc21-TEoi50Ff": {
     "id": "jgc21-TEoi50Ff",
@@ -293,7 +394,12 @@
     "overlay": "jgc21-TEoi50Ff.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-1j-oTPag",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-TEoi50Ff.jpeg"
   },
   "jgc21-TRN9Des4": {
     "id": "jgc21-TRN9Des4",
@@ -309,7 +415,12 @@
     "overlay": "jgc21-TRN9Des4.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-RE3li6rE",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 302,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-TRN9Des4.jpeg"
   },
   "jgc21-TyJPUs8E": {
     "id": "jgc21-TyJPUs8E",
@@ -324,7 +435,12 @@
     "label": "rear-low",
     "overlay": "jgc21-TyJPUs8E.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-TyJPUs8E.jpeg"
   },
   "jgc21-VHq_6BM-": {
     "id": "jgc21-VHq_6BM-",
@@ -339,7 +455,12 @@
     "overlay": "jgc21-VHq_6BM-.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-zkvFMHnS",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 36,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-VHq_6BM-.jpeg"
   },
   "jgc21-XXh8GWm8": {
     "id": "jgc21-XXh8GWm8",
@@ -355,7 +476,12 @@
     "overlay": "jgc21-XXh8GWm8.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-omlus7Ui",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 270,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-XXh8GWm8.jpeg"
   },
   "jgc21-ZubJ48-U": {
     "id": "jgc21-ZubJ48-U",
@@ -370,7 +496,12 @@
     "label": "rear-roof",
     "overlay": "jgc21-ZubJ48-U.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-ZubJ48-U.jpeg"
   },
   "jgc21-__JKllz9": {
     "id": "jgc21-__JKllz9",
@@ -385,7 +516,12 @@
     "overlay": "jgc21-__JKllz9.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-zCrDwYWE",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-__JKllz9.jpeg"
   },
   "jgc21-ezXzTRkj": {
     "id": "jgc21-ezXzTRkj",
@@ -400,7 +536,12 @@
     "overlay": "jgc21-ezXzTRkj.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-3JJvM7_B",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-ezXzTRkj.jpeg"
   },
   "jgc21-imomJ2V0": {
     "id": "jgc21-imomJ2V0",
@@ -414,7 +555,12 @@
     "label": "front-roof-left",
     "overlay": "jgc21-imomJ2V0.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 66,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-imomJ2V0.jpeg"
   },
   "jgc21-m2dDoMup": {
     "id": "jgc21-m2dDoMup",
@@ -430,7 +576,12 @@
     "overlay": "jgc21-m2dDoMup.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-F-PPd4qN",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-m2dDoMup.jpeg"
   },
   "jgc21-omlus7Ui": {
     "id": "jgc21-omlus7Ui",
@@ -446,7 +597,12 @@
     "overlay": "jgc21-omlus7Ui.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-XXh8GWm8",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 90,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-omlus7Ui.jpeg"
   },
   "jgc21-s7WDTRmE": {
     "id": "jgc21-s7WDTRmE",
@@ -462,7 +618,13 @@
     "overlay": "jgc21-s7WDTRmE.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-z15ZdJL6",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-s7WDTRmE.jpeg"
   },
   "jgc21-S8sE69on": {
     "id": "jgc21-S8sE69on",
@@ -473,7 +635,14 @@
     "mirror_sight": "jgc21-nVbhsBaQ",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-S8sE69on.jpeg"
   },
   "jgc21-tbF2Ax8v": {
     "id": "jgc21-tbF2Ax8v",
@@ -487,7 +656,12 @@
     "label": "rear",
     "overlay": "jgc21-tbF2Ax8v.svg",
     "vehicle": "jgc21",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-tbF2Ax8v.jpeg"
   },
   "jgc21-z15ZdJL6": {
     "id": "jgc21-z15ZdJL6",
@@ -503,7 +677,13 @@
     "overlay": "jgc21-z15ZdJL6.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-s7WDTRmE",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-z15ZdJL6.jpeg"
   },
   "jgc21-nVbhsBaQ": {
     "id": "jgc21-nVbhsBaQ",
@@ -514,7 +694,14 @@
     "mirror_sight": "jgc21-S8sE69on",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-nVbhsBaQ.jpeg"
   },
   "jgc21-zCrDwYWE": {
     "id": "jgc21-zCrDwYWE",
@@ -529,7 +716,12 @@
     "overlay": "jgc21-zCrDwYWE.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-__JKllz9",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-zCrDwYWE.jpeg"
   },
   "jgc21-zkvFMHnS": {
     "id": "jgc21-zkvFMHnS",
@@ -545,6 +737,11 @@
     "overlay": "jgc21-zkvFMHnS.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-VHq_6BM-",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 324,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/jgc21-zkvFMHnS.jpeg"
   }
 }
