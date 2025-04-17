@@ -34,6 +34,12 @@ import vwtrocSightsJSON from './data/sights/vwtroc.json';
 import man12SightsJSON from './data/sights/man12.json';
 // @ts-ignore
 import teslam3SightsJSON from './data/sights/teslam3.json';
+// @ts-ignore
+import teslamySightsJSON from './data/sights/teslamy.json';
+// @ts-ignore
+import teslamxSightsJSON from './data/sights/teslamx.json';
+// @ts-ignore
+import teslamsSightsJSON from './data/sights/teslams.json';
 
 /**
  * Object map associating translation keys to sight labels translations.
@@ -61,6 +67,9 @@ const sights = {
   ...vwtrocSightsJSON,
   ...man12SightsJSON,
   ...teslam3SightsJSON,
+  ...teslamySightsJSON,
+  ...teslamxSightsJSON,
+  ...teslamsSightsJSON,
 } as SightDictionary;
 
 /**
