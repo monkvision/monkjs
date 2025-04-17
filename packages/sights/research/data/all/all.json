@@ -277,7 +277,7 @@
     "label": "rear-left-penny-test",
     "overlay": "all-9U3Vyzhp.svg",
     "vehicle": "all",
-    "wheel_name": "wheel_back_right",
+    "wheel_name": "wheel_back_left",
     "tasks": ["compliances", "wheel_analysis"]
   },
   "all-mLhPZl0Y": {
