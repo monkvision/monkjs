@@ -7,38 +7,6 @@
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
-  "teslam3-Nz8TqfJh": {
-    "id": "teslam3-Nz8TqfJh",
-    "category": "exterior",
-    "label": "rear-left",
-    "overlay": "teslam3-Nz8TqfJh.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Xm7BvKRp": {
-    "id": "teslam3-Xm7BvKRp",
-    "category": "exterior",
-    "label": "front-low",
-    "overlay": "teslam3-Xm7BvKRp.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Wq9LkZhF": {
-    "id": "teslam3-Wq9LkZhF",
-    "category": "exterior",
-    "label": "lateral-full-right",
-    "overlay": "teslam3-Wq9LkZhF.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Mk2YpVjX": {
-    "id": "teslam3-Mk2YpVjX",
-    "category": "exterior",
-    "label": "rear-low",
-    "overlay": "teslam3-Mk2YpVjX.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
   "teslam3-Ap6NqYJh": {
     "id": "teslam3-Ap6NqYJh",
     "category": "exterior",
@@ -55,19 +23,11 @@
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
-  "teslam3-Rn6VqLtY": {
-    "id": "teslam3-Rn6VqLtY",
+  "teslam3-Fm7NpRtK": {
+    "id": "teslam3-Fm7NpRtK",
     "category": "exterior",
-    "label": "front-fender-right",
-    "overlay": "teslam3-Rn6VqLtY.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Vn8FpRkY": {
-    "id": "teslam3-Vn8FpRkY",
-    "category": "exterior",
-    "label": "front-bumper-side-right",
-    "overlay": "teslam3-Vn8FpRkY.svg",
+    "label": "front-roof-left",
+    "overlay": "teslam3-Fm7NpRtK.svg",
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
@@ -79,11 +39,35 @@
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
+  "teslam3-Mk2YpVjX": {
+    "id": "teslam3-Mk2YpVjX",
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "teslam3-Mk2YpVjX.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"]
+  },
+  "teslam3-Nz8TqfJh": {
+    "id": "teslam3-Nz8TqfJh",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "teslam3-Nz8TqfJh.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"]
+  },
   "teslam3-Qp9NrLfY": {
     "id": "teslam3-Qp9NrLfY",
     "category": "exterior",
     "label": "rear-lateral-right",
     "overlay": "teslam3-Qp9NrLfY.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"]
+  },
+  "teslam3-Rn6VqLtY": {
+    "id": "teslam3-Rn6VqLtY",
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "teslam3-Rn6VqLtY.svg",
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
@@ -95,11 +79,27 @@
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   },
-  "teslam3-Fm7NpRtK": {
-    "id": "teslam3-Fm7NpRtK",
+  "teslam3-Vn8FpRkY": {
+    "id": "teslam3-Vn8FpRkY",
     "category": "exterior",
-    "label": "front-roof-left",
-    "overlay": "teslam3-Fm7NpRtK.svg",
+    "label": "front-bumper-side-right",
+    "overlay": "teslam3-Vn8FpRkY.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"]
+  },
+  "teslam3-Wq9LkZhF": {
+    "id": "teslam3-Wq9LkZhF",
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "teslam3-Wq9LkZhF.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"]
+  },
+  "teslam3-Xm7BvKRp": {
+    "id": "teslam3-Xm7BvKRp",
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "teslam3-Xm7BvKRp.svg",
     "vehicle": "teslam3",
     "tasks": ["damage_detection"]
   }
