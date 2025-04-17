@@ -124,6 +124,18 @@ export enum VehicleModel {
    * Tesla Model 3 (sedan)
    */
   TESLAM3 = 'teslam3',
+  /**
+   * Tesla Model Y (CUV)
+   */
+  TESLAMY = 'teslamy',
+  /**
+   * Tesla Model S (sedan)
+   */
+  TESLAMS = 'teslams',
+  /**
+   * Tesla Model X (CUV)
+   */
+  TESLAMX = 'teslamx',
 }
 
 /**

@@ -71,5 +71,23 @@
     "make": "Tesla",
     "model": "Model 3",
     "type": "sedan"
+  },
+  "teslamy": {
+    "id": "teslamy",
+    "make": "Tesla",
+    "model": "Model Y",
+    "type": "cuv"
+  },
+  "teslams": {
+    "id": "teslams",
+    "make": "Tesla",
+    "model": "Model S",
+    "type": "sedan"
+  },
+  "teslamx": {
+    "id": "teslamx",
+    "make": "Tesla",
+    "model": "Model X",
+    "type": "cuv"
   }
 }
