@@ -214,8 +214,8 @@
   "all-1pqg1sU3": {
     "id": "all-1pqg1sU3",
     "category": "misc",
-    "label": "rear-right-tire",
-    "wheel_name": "wheel_back_right",
+    "label": "rear-left-tire",
+    "wheel_name": "wheel_back_left",
     "overlay": "all-1pqg1sU3.svg",
     "vehicle": "all",
     "tasks": ["compliances", "wheel_analysis"]
@@ -223,8 +223,8 @@
   "all-HWSQ9Svy": {
     "id": "all-HWSQ9Svy",
     "category": "misc",
-    "label": "rear-left-tire",
-    "wheel_name": "wheel_back_left",
+    "label": "rear-right-tire",
+    "wheel_name": "wheel_back_right",
     "overlay": "all-HWSQ9Svy.svg",
     "vehicle": "all",
     "tasks": ["compliances", "wheel_analysis"]
