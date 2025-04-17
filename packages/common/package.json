@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/common",
-  "version": "5.0.14",
+  "version": "5.0.15",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs common logic package",
@@ -28,10 +28,10 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/analytics": "5.0.14",
-    "@monkvision/monitoring": "5.0.14",
-    "@monkvision/sights": "5.0.14",
-    "@monkvision/types": "5.0.14",
+    "@monkvision/analytics": "5.0.15",
+    "@monkvision/monitoring": "5.0.15",
+    "@monkvision/sights": "5.0.15",
+    "@monkvision/types": "5.0.15",
     "i18next": "^23.4.5",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
@@ -47,13 +47,13 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "5.0.14",
-    "@monkvision/eslint-config-typescript": "5.0.14",
-    "@monkvision/eslint-config-typescript-react": "5.0.14",
-    "@monkvision/jest-config": "5.0.14",
-    "@monkvision/prettier-config": "5.0.14",
-    "@monkvision/test-utils": "5.0.14",
-    "@monkvision/typescript-config": "5.0.14",
+    "@monkvision/eslint-config-base": "5.0.15",
+    "@monkvision/eslint-config-typescript": "5.0.15",
+    "@monkvision/eslint-config-typescript-react": "5.0.15",
+    "@monkvision/jest-config": "5.0.15",
+    "@monkvision/prettier-config": "5.0.15",
+    "@monkvision/test-utils": "5.0.15",
+    "@monkvision/typescript-config": "5.0.15",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.2.2",
