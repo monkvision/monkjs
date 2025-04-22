@@ -104,6 +104,18 @@ describe('pdf requests', () => {
         { type: filetype },
       );
     });
+
+    it('should properly use the timeout if defined', async () => {
+      const timeout = 60000;
+      const dispatch = jest.fn();
+      const options = { ...createPdfMock(), timeout };
+      await uploadPdf(options, apiConfig, dispatch);
+      await (ky.post as jest.Mock).mock.results[0].value;
+      expect(ky.post).toHaveBeenCalledWith(
+        `inspections/${options.id}/pdf`,
+        expect.objectContaining({ ...getDefaultOptions(apiConfig), timeout }),
+      );
+    });
   });
 
   describe('getPdf request', () => {
