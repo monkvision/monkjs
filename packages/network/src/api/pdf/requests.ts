@@ -21,6 +21,12 @@ export interface UploadPdfOptions {
    * The PDF file to upload.
    */
   pdf: Blob;
+  /**
+   * The timeout in milliseconds for the request.
+   *
+   * @default 30000
+   */
+  timeout?: number;
 }
 
 /**
@@ -80,7 +86,10 @@ export async function uploadPdf(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkGotOneInspectionPdfAction>,
 ): Promise<MonkApiResponse> {
-  const kyOptions = getDefaultOptions(config);
+  const kyOptions = {
+    ...getDefaultOptions(config),
+    ...(!!options.timeout && { timeout: options.timeout }),
+  };
   const formData = await createPdfData(options);
   await ky.post(`inspections/${options.id}/pdf`, {
     ...kyOptions,
