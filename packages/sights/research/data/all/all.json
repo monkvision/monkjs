@@ -53,7 +53,17 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-602375f5.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "mirror_sight": "all-602375f6"
+  },
+  "all-602375f6": {
+    "id": "all-602375f6",
+    "category": "interior",
+    "label": "dashboard-from-back-seat",
+    "overlay": "all-602375f6.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "mirror_sight": "all-602375f5"
   },
   "all-6f747948": {
     "id": "all-6f747948",
