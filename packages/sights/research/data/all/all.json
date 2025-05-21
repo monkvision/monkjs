@@ -270,7 +270,7 @@
     "overlay": "all-8jdq7f5m.svg",
     "vehicle": "all",
     "wheel_name": "wheel_front_left",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances"]
   },
   "all-HpolaMLT": {
     "id": "all-HpolaMLT",
@@ -279,7 +279,7 @@
     "overlay": "all-HpolaMLT.svg",
     "vehicle": "all",
     "wheel_name": "wheel_front_right",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances"]
   },
   "all-9U3Vyzhp": {
     "id": "all-9U3Vyzhp",
@@ -288,7 +288,7 @@
     "overlay": "all-9U3Vyzhp.svg",
     "vehicle": "all",
     "wheel_name": "wheel_back_left",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances"]
   },
   "all-mLhPZl0Y": {
     "id": "all-mLhPZl0Y",
@@ -297,6 +297,6 @@
     "overlay": "all-mLhPZl0Y.svg",
     "vehicle": "all",
     "wheel_name": "wheel_back_right",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances"]
   }
 }
