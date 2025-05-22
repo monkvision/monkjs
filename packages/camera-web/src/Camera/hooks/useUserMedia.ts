@@ -1,6 +1,6 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { isMobileDevice, useIsMounted, useObjectMemo } from '@monkvision/common';
 import { analyzeCameraDevices } from './utils';
@@ -211,6 +211,7 @@ export function useUserMedia(
   const [selectedCameraDeviceId, setSelectedCameraDeviceId] = useState<string | null>(null);
   const [lastConstraintsApplied, setLastConstraintsApplied] =
     useState<MediaStreamConstraints | null>(null);
+  const lastGetUserMediaTimeRef = useRef<number | null>(null);
   const { handleError } = useMonitoring();
   const isMounted = useIsMounted();
 
@@ -218,10 +219,10 @@ export function useUserMedia(
     let type = UserMediaErrorType.OTHER;
     if (err instanceof Error && err.name === 'NotAllowedError') {
       switch (permissionState) {
-        case 'denied':
+        case 'prompt':
           type = UserMediaErrorType.WEBPAGE_NOT_ALLOWED;
           break;
-        case 'granted':
+        case 'denied':
           type = UserMediaErrorType.BROWSER_NOT_ALLOWED;
           break;
         default:
@@ -302,9 +303,14 @@ export function useUserMedia(
 
       const effect = async () => {
         try {
+          lastGetUserMediaTimeRef.current = Date.now();
           await getUserMedia();
         } catch (err) {
-          const permissionState = (await getCameraPermissionState())?.state ?? null;
+          const isCameraPermissionDenied =
+            lastGetUserMediaTimeRef.current && Date.now() - lastGetUserMediaTimeRef.current < 100;
+          const permissionState = isCameraPermissionDenied
+            ? 'denied'
+            : (await getCameraPermissionState())?.state ?? null;
           if (err && isMounted()) {
             handleGetUserMediaError(err, permissionState);
             throw err;
