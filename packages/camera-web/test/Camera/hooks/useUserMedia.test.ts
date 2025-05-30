@@ -149,37 +149,13 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
-  it('should return a NotAllowed error in case of camera permission error', async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    const nativeError = new Error();
-    nativeError.name = 'NotAllowedError';
-    mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
-    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
-    await waitFor(() => {
-      expect(result.current).toEqual({
-        getUserMedia: expect.any(Function),
-        stream: null,
-        dimensions: null,
-        error: {
-          type: UserMediaErrorType.NOT_ALLOWED,
-          nativeError,
-        },
-        isLoading: false,
-        retry: expect.any(Function),
-        availableCameraDevices: [],
-        selectedCameraDeviceId: null,
-      });
-    });
-    unmount();
-  });
-
-  it('should return a NotAllowed for webpage error in case of camera permission error', async () => {
+  it('should return a UserMediaErrorType.BROWSER_NOT_ALLOWED error in case of immediate rejection', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const nativeError = new Error();
     nativeError.name = 'NotAllowedError';
     mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
     navigator.permissions.query = jest.fn(() =>
-      Promise.resolve({ state: 'granted' } as PermissionStatus),
+      Promise.resolve({ state: 'denied' } as PermissionStatus),
     );
     const { result } = renderUseUserMedia({ constraints: {}, videoRef });
     await waitFor(() => {
@@ -199,11 +175,85 @@ describe('useUserMedia hook', () => {
     });
   });
 
-  it('should return a NotAllowed for browser error in case of camera permission error', async () => {
+  it('should return a UserMediaErrorType.NOT_ALLOWED error in case of camera permission error', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const nativeError = new Error();
     nativeError.name = 'NotAllowedError';
-    mockGetUserMedia({ createMock: () => jest.fn(() => Promise.reject(nativeError)) });
+    mockGetUserMedia({
+      createMock: () =>
+        jest.fn(
+          () =>
+            new Promise((_resolve, reject) => {
+              setTimeout(() => reject(nativeError), 150);
+            }),
+        ),
+    });
+    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.NOT_ALLOWED,
+          nativeError,
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
+      });
+    });
+    unmount();
+  });
+
+  it('should return a UserMediaErrorType.WEBPAGE_NOT_ALLOWED for webpage error in case of camera permission error', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const nativeError = new Error();
+    nativeError.name = 'NotAllowedError';
+    mockGetUserMedia({
+      createMock: () =>
+        jest.fn(
+          () =>
+            new Promise((_resolve, reject) => {
+              setTimeout(() => reject(nativeError), 150);
+            }),
+        ),
+    });
+    navigator.permissions.query = jest.fn(() =>
+      Promise.resolve({ state: 'prompt' } as PermissionStatus),
+    );
+    const { result } = renderUseUserMedia({ constraints: {}, videoRef });
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        getUserMedia: expect.any(Function),
+        stream: null,
+        dimensions: null,
+        error: {
+          type: UserMediaErrorType.WEBPAGE_NOT_ALLOWED,
+          nativeError,
+        },
+        isLoading: false,
+        retry: expect.any(Function),
+        availableCameraDevices: [],
+        selectedCameraDeviceId: null,
+      });
+    });
+  });
+
+  it('should return a UserMediaErrorType.BROWSER_NOT_ALLOWED for browser error in case of camera permission error', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const nativeError = new Error();
+    nativeError.name = 'NotAllowedError';
+    mockGetUserMedia({
+      createMock: () =>
+        jest.fn(
+          () =>
+            new Promise((_resolve, reject) => {
+              setTimeout(() => reject(nativeError), 150);
+            }),
+        ),
+    });
     navigator.permissions.query = jest.fn(() =>
       Promise.resolve({ state: 'denied' } as PermissionStatus),
     );
@@ -214,7 +264,7 @@ describe('useUserMedia hook', () => {
         stream: null,
         dimensions: null,
         error: {
-          type: UserMediaErrorType.WEBPAGE_NOT_ALLOWED,
+          type: UserMediaErrorType.BROWSER_NOT_ALLOWED,
           nativeError,
         },
         isLoading: false,
