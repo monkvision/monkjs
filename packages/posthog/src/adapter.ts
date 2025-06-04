@@ -98,4 +98,8 @@ export class PosthogAnalyticsAdapter implements AnalyticsAdapter {
   setEventsProperties(context: Record<string, Primitive>): void {
     posthog.register(context);
   }
+
+  getUserId(): string {
+    return posthog.get_distinct_id();
+  }
 }

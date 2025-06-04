@@ -88,4 +88,14 @@ export class EmptyAnalyticsAdapter implements AnalyticsAdapter {
       );
     }
   }
+
+  getUserId(): string {
+    if (this.options.showUnsupportedMethodWarnings) {
+      console.warn(
+        'Application users are not supported by the current Monk Analytics Adapter and calling getUserId will have no effect.',
+      );
+    }
+
+    return '[UserId]';
+  }
 }

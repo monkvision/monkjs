@@ -10,7 +10,6 @@ import { AllOrNone, VehicleType } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { decodeMonkJwt, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './VehicleTypeSelection.styles';
 import { i18nVehicleTypeSelection } from './i18n';
 import { Button } from '../Button';
@@ -88,7 +87,6 @@ export const VehicleTypeSelection = i18nWrap(function VehicleTypeSelection(
   });
   const loading = useLoadingState();
   const { handleError, setTags, setUserId } = useMonitoring();
-  const analytics = useAnalytics();
   const [initialScroll, setInitialScroll] = useState(true);
   const vehicleTypes = useMemo(
     () => getVehicleTypes(props.availableVehicleTypes),
@@ -105,14 +103,12 @@ export const VehicleTypeSelection = i18nWrap(function VehicleTypeSelection(
   useEffect(() => {
     if (props.inspectionId) {
       setTags({ inspectionId: props.inspectionId });
-      analytics.setUserId(props.inspectionId);
     }
     const userId = props.authToken ? decodeMonkJwt(props.authToken) : undefined;
     if (userId?.sub) {
       setUserId(userId.sub);
-      analytics.setUserProperties({ authToken: userId.sub });
     }
-  }, [props.inspectionId, props.authToken, analytics, setTags, setUserId]);
+  }, [props.inspectionId, props.authToken, setTags, setUserId]);
 
   useEffect(() => {
     loading.start();

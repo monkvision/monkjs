@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { AnalyticsAdapter, AnalyticsProvider, useAnalytics } from '../../src';
 
 function TestComponent() {
-  const { setUserId, setUserProperties, trackEvent, resetUser, setEventsProperties } =
+  const { setUserId, setUserProperties, trackEvent, resetUser, setEventsProperties, getUserId } =
     useAnalytics();
 
   return (
@@ -29,7 +29,10 @@ function TestComponent() {
         data-testid='set-events-properties-btn'
         onClick={() => setEventsProperties({ test: 'test' })}
       >
-        trackEvent
+        setEventsProperties
+      </button>
+      <button data-testid='get-user-id-btn' onClick={() => getUserId()}>
+        setEventsProperties
       </button>
     </div>
   );
@@ -43,12 +46,14 @@ describe('AnalyticsProvider component', () => {
       resetUser: jest.fn(),
       trackEvent: jest.fn(),
       setEventsProperties: jest.fn(),
+      getUserId: jest.fn(() => 'test-user-id'),
     };
     const setUserIdSpy = jest.spyOn(adapter, 'setUserId');
     const setUserPropertiesSpy = jest.spyOn(adapter, 'setUserProperties');
     const resetUserSpy = jest.spyOn(adapter, 'resetUser');
     const trackEventSpy = jest.spyOn(adapter, 'trackEvent');
     const setEventsPropertiesSpy = jest.spyOn(adapter, 'setEventsProperties');
+    const getUserId = jest.spyOn(adapter, 'getUserId');
 
     const { unmount } = render(
       <AnalyticsProvider adapter={adapter}>
@@ -66,6 +71,8 @@ describe('AnalyticsProvider component', () => {
     expect(trackEventSpy).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByTestId('set-events-properties-btn'));
     expect(setEventsPropertiesSpy).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByTestId('get-user-id-btn'));
+    expect(getUserId).toHaveBeenCalledTimes(1);
     unmount();
   });
 });
