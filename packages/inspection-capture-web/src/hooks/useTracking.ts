@@ -25,9 +25,17 @@ export function useTracking({ inspectionId, authToken }: TrackingParams) {
   const monitoring = useMonitoring();
 
   useEffect(() => {
+    const currentAnalyticsUserId = analytics.getUserId();
+    let newAnalyticsUserId = `${inspectionId}:${currentAnalyticsUserId}`;
+    if (currentAnalyticsUserId.includes(':')) {
+      newAnalyticsUserId = `${inspectionId}:${currentAnalyticsUserId.split(':')[1]}`;
+    }
+    analytics.setUserId(newAnalyticsUserId);
+    console.log('posthog id  : ', newAnalyticsUserId, ', inspectionId: ', inspectionId);
     monitoring.setTags({
       inspectionId,
     });
+
     const userId = decodeMonkJwt(authToken)?.sub;
     if (userId) {
       monitoring.setUserId(userId);

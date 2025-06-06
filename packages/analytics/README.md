@@ -56,6 +56,7 @@ function MyCustomComponent() {
     resetUser,
     trackEvent,
     setEventsProperties,
+    getUserId,
   } = useAnalytics();
 }
 ```
@@ -88,6 +89,10 @@ class MyCustomAnalyticsAdapter implements AnalyticsAdapter {
 
   setEventsProperties(context: Record<string, Primitive>): void {
     // Set properties for every events
+  }
+
+  getUserId(): string {
+    // Get the current user ID
   }
 }
 ```
@@ -142,12 +147,12 @@ trackEvent: (name: string, context?: Record<string, Primitive>) => void
 
 This method track a event and send it to the analytics tool. The name of the event is required and an optional context can be provided that can contain tags or properties associated to the event.
 
-#### setEventsProperties
+#### getUserId 
 ```typescript
-trackEvent: (context: Record<string, Primitive>) => void
+getUserId: () => string 
 ```
 
-This method set properties that will be sent with every `trackEvent`.
+This method retrieves the current user ID.
 
 ## Analytics Adapters
 ### EmptyAnalyticsAdapter

@@ -38,4 +38,8 @@ export interface AnalyticsAdapter {
    * @param context context of every event.
    */
   setEventsProperties: (context: Record<string, Primitive>) => void;
+  /**
+   * Get the ID of the user currently using the application.
+   */
+  getUserId: () => string;
 }

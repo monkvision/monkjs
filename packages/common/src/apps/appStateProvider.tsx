@@ -7,7 +7,7 @@ import {
   VideoCaptureAppConfig,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import React, { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useIsMounted, useLoadingState } from '../hooks';
 import { MonkSearchParam, useMonkSearchParams } from './searchParams';
 import {
@@ -17,7 +17,6 @@ import {
   VideoCaptureAppState,
 } from './appState';
 import { useAppStateMonitoring } from './monitoring';
-import { useAppStateAnalytics } from './analytics';
 import { getAvailableVehicleTypes } from '../utils';
 
 /**
@@ -98,7 +97,6 @@ export function MonkAppStateProvider({
   const monkSearchParams = useMonkSearchParams({ availableVehicleTypes });
   const isMounted = useIsMounted();
   useAppStateMonitoring({ authToken, inspectionId, vehicleType, steeringWheel });
-  useAppStateAnalytics({ inspectionId });
 
   useEffect(() => {
     loading.onSuccess();

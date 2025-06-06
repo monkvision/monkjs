@@ -15,6 +15,7 @@ export function useAnalytics(): AnalyticsAdapter {
       resetUser: adapter.resetUser.bind(adapter),
       trackEvent: adapter.trackEvent.bind(adapter),
       setEventsProperties: adapter.setEventsProperties.bind(adapter),
+      getUserId: adapter.getUserId.bind(adapter),
     }),
     [],
   );

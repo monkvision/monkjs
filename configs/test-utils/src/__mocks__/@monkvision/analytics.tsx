@@ -4,6 +4,7 @@ class AnalyticsAdapterMock {
   resetUser = jest.fn();
   trackEvent = jest.fn();
   setEventsProperties = jest.fn();
+  getUserId = jest.fn(() => 'test-user-id');
 }
 
 export = {
@@ -18,6 +19,7 @@ export = {
     resetUser: jest.fn(),
     trackEvent: jest.fn(),
     setEventsProperties: jest.fn(),
+    getUserId: jest.fn(() => 'test-user-id'),
   })),
   AnalyticsProvider: jest.fn(({ children }) => <>{children}</>),
 };
