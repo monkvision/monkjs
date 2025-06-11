@@ -9,5 +9,8 @@ export function useColorBackground(opacity = 0.64) {
 
   const clampedOpacity = Math.max(0, Math.min(opacity, 1));
 
-  return useMemo(() => changeAlpha(palette.background.base, opacity), [palette, clampedOpacity]);
+  return useMemo(
+    () => changeAlpha(palette.background.base, clampedOpacity),
+    [palette, clampedOpacity],
+  );
 }
