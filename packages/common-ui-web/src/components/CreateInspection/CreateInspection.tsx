@@ -9,7 +9,6 @@ import {
   useMonkAppState,
 } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
-import { useAnalytics } from '@monkvision/analytics';
 import { styles } from './CreateInspection.styles';
 import { i18nCreateInspection } from './i18n';
 import { Spinner } from '../Spinner';
@@ -57,7 +56,6 @@ export const CreateInspection = i18nWrap(function CreateInspection({
     apiDomain: config.apiDomain,
     thumbnailDomain: config.thumbnailDomain,
   });
-  const analytics = useAnalytics();
   const isMounted = useIsMounted();
 
   useEffect(() => {
@@ -84,10 +82,9 @@ export const CreateInspection = i18nWrap(function CreateInspection({
       }
     } else {
       setTags({ inspectionId });
-      analytics.setUserId(inspectionId);
       onInspectionCreated?.();
     }
-  }, [inspectionId, setTags, analytics, retry, isMounted]);
+  }, [inspectionId, setTags, retry, isMounted]);
 
   return (
     <div style={styles['container']}>
