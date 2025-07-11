@@ -31,7 +31,6 @@ export function useTracking({ inspectionId, authToken }: TrackingParams) {
       newAnalyticsUserId = `${inspectionId}:${currentAnalyticsUserId.split(':')[1]}`;
     }
     analytics.setUserId(newAnalyticsUserId);
-    console.log('posthog id  : ', newAnalyticsUserId, ', inspectionId: ', inspectionId);
     monitoring.setTags({
       inspectionId,
     });
