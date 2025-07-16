@@ -201,8 +201,6 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
     setIsInitialInspectionFetched,
-    startTasksOnComplete,
-    onComplete,
   });
   const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
     enableTutorial,

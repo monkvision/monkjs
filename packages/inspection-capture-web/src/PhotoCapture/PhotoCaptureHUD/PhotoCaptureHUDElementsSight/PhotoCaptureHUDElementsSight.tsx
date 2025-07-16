@@ -40,7 +40,10 @@ export function PhotoCaptureHUDElementsSight({
       {!tutorialStep && (
         <div style={style.elementsContainer}>
           <div style={style.top}>
-            {enableSightTutorial !== PhotoCaptureSightTutorialOption.DISABLED && (
+            {[
+              PhotoCaptureSightTutorialOption.CLASSIC,
+              PhotoCaptureSightTutorialOption.MODERN,
+            ].includes(enableSightTutorial as PhotoCaptureSightTutorialOption) && (
               <SightTutorialButton toggleSightTutorial={toggleSightTutorial} />
             )}
             <SightGuideline

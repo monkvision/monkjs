@@ -229,8 +229,6 @@ describe('PhotoCapture component', () => {
       loading,
       onLastSightTaken: expect.any(Function),
       tasksBySight: props.tasksBySight,
-      startTasksOnComplete: props.startTasksOnComplete,
-      onComplete: props.onComplete,
       complianceOptions: {
         enableCompliance: props.enableCompliance,
         enableCompliancePerSight: props.enableCompliancePerSight,

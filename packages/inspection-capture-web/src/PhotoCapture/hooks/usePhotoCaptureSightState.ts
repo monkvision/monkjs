@@ -22,7 +22,6 @@ import {
   TaskName,
   ImageStatus,
   ProgressStatus,
-  PhotoCaptureAppConfig,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
@@ -81,8 +80,7 @@ export interface PhotoCaptureSightState {
 /**
  * Parameters of the usePhotoCaptureSightState hook.
  */
-export interface PhotoCaptureSightsParams
-  extends Pick<PhotoCaptureAppConfig, 'startTasksOnComplete'> {
+export interface PhotoCaptureSightsParams {
   /**
    * The inspection ID.
    */
@@ -116,10 +114,6 @@ export interface PhotoCaptureSightsParams
    * sight will be used.
    */
   tasksBySight?: Record<string, TaskName[]>;
-  /**
-   * Callback called when inspection capture is complete.
-   */
-  onComplete?: () => void;
 }
 
 function getCaptureTasks(
@@ -215,8 +209,6 @@ export function usePhotoCaptureSightState({
   tasksBySight,
   setIsInitialInspectionFetched,
   complianceOptions,
-  startTasksOnComplete,
-  onComplete,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -331,7 +323,7 @@ export function usePhotoCaptureSightState({
     });
     if (nextSight) {
       setSelectedSight(nextSight);
-    } else if (!startTasksOnComplete || !onComplete) {
+    } else {
       onLastSightTaken();
     }
   }, [sightsTaken, selectedSight, captureSights, onLastSightTaken]);
