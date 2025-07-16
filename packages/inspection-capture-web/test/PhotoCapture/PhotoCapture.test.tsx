@@ -32,6 +32,7 @@ import {
   usePhotoCaptureImages,
   usePictureTaken,
   useUploadQueue,
+  useCaptureDuration,
 } from '../../src/hooks';
 
 const { CaptureMode } = jest.requireActual('../../src/types');
@@ -100,6 +101,9 @@ jest.mock('../../src/hooks', () => ({
     },
   })),
   useTracking: jest.fn(),
+  useCaptureDuration: jest.fn(() => ({
+    updateDuration: jest.fn(),
+  })),
 }));
 
 function createProps(): PhotoCaptureProps {
@@ -317,10 +321,13 @@ describe('PhotoCapture component', () => {
     const sightState = (usePhotoCaptureSightState as jest.Mock).mock.results[0].value;
     expect(useLoadingState).toHaveBeenCalled();
     const loading = (useLoadingState as jest.Mock).mock.results[0].value;
+    expect(useCaptureDuration).toHaveBeenCalled();
+    const duration = (useCaptureDuration as jest.Mock).mock.results[0].value;
     expect(useInspectionComplete).toHaveBeenCalledWith({
       startTasksOnComplete: props.startTasksOnComplete,
       startTasks,
       sightState,
+      onUpdateDuration: duration.updateDuration,
       loading,
       onComplete: props.onComplete,
     });
