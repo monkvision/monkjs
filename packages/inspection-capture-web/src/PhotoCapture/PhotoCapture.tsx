@@ -33,6 +33,7 @@ import {
   useAdaptiveCameraConfig,
   useBadConnectionWarning,
   useTracking,
+  useCaptureDuration,
 } from '../hooks';
 import {
   useComplianceAnalytics,
@@ -42,6 +43,7 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
+// import { SessionTimeTrackerDemo } from '../components/SessionTimeTrackerDemo';
 
 /**
  * Props of the PhotoCapture component.
@@ -231,11 +233,17 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
+  const { updateDuration } = useCaptureDuration({
+    inspectionId,
+    apiConfig,
+    isInspectionCompleted: sightState.isInspectionCompleted,
+  });
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
     sightState,
     loading,
     startTasksOnComplete,
+    onUpdateDuration: updateDuration,
     onComplete,
   });
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);

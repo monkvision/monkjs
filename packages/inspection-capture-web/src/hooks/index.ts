@@ -8,3 +8,4 @@ export * from './usePhotoCaptureImages';
 export * from './useBadConnectionWarning';
 export * from './useAdaptiveCameraConfig';
 export * from './useTracking';
+export * from './useCaptureDuration';

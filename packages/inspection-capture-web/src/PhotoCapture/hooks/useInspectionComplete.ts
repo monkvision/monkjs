@@ -24,6 +24,10 @@ export interface InspectionCompleteParams
    */
   loading: LoadingState;
   /**
+   * Callback called when the user updates the duration of the inspection capture.
+   */
+  onUpdateDuration: (forceUpdate?: boolean) => Promise<number>;
+  /**
    * Callback called when the user clicks on the "Complete" button in the HUD.
    */
   onComplete?: () => void;
@@ -47,15 +51,19 @@ export function useInspectionComplete({
   sightState,
   loading,
   startTasksOnComplete,
+  onUpdateDuration,
   onComplete,
 }: InspectionCompleteParams): InspectionCompleteHandle {
   const analytics = useAnalytics();
   const monitoring = useMonitoring();
 
-  const handleInspectionCompleted = useCallback(() => {
+  const handleInspectionCompleted = useCallback(async () => {
+    const updatedDuration = await onUpdateDuration(true);
     startTasks()
       .then(() => {
-        analytics.trackEvent('Capture Completed');
+        analytics.trackEvent('Capture Completed', {
+          capture_duration: updatedDuration,
+        });
         analytics.setUserProperties({
           captureCompleted: true,
           sightSelected: 'inspection-completed',
