@@ -141,27 +141,79 @@ export enum VehicleModel {
 /**
  * Interface describing the sight guideline.
  */
-export interface SightGuideline {
+export interface SightGuideline extends TranslationObject {
   /**
    * The list of sight IDs associated with this guideline.
    */
   sightIds: string[];
+}
+
+/**
+ * Interface describing the sight tutorial.
+ */
+export interface SightTutorial extends TranslationObject {
   /**
-   * The guideline text in English.
+   * The image reference for each sight.
    */
-  en: string;
+  imageReferenceBySightId: Record<string, string | null>;
+}
+
+/**
+ * The different heights of the camera in the Sight Tutorial.
+ */
+export enum CameraHeight {
   /**
-   * The guideline text in French.
+   * The camera is at a high height.
    */
-  fr: string;
+  HIGH = 'high',
   /**
-   * The guideline text in German.
+   * The camera is at a medium height.
    */
-  de: string;
+  MID = 'mid',
   /**
-   * The guideline text in Dutch.
+   * The camera is at a low height.
    */
-  nl: string;
+  LOW = 'low',
+}
+
+/**
+ * Recommended camera distances for capturing vehicle photos.
+ */
+export enum CameraDistance {
+  /**
+   * Inside vehicle for interior shots.
+   */
+  INTERIOR = 'interior',
+  /**
+   * Close to vehicle (0.5-1m) for detail shots.
+   */
+  CLOSE = 'close',
+  /**
+   * Standard distance (1-2m) for wide vehicle shots.
+   */
+  STANDARD = 'standard',
+}
+
+/**
+ * Interface describing the sight tutorial details.
+ */
+export interface SightPositioning {
+  /**
+   * The position around the vehicle of the user needs to be to take the picture.
+   */
+  position: number;
+  /**
+   * The height of the camera.
+   */
+  height: CameraHeight;
+  /**
+   * The orientation of the camera.
+   */
+  orientation?: number;
+  /**
+   * Camera distance for capturing vehicle photos.
+   */
+  distance?: CameraDistance;
 }
 
 /**
@@ -218,6 +270,14 @@ export interface Sight {
    * The name of the wheel used for wheel analysis task.
    */
   wheelName?: WheelName;
+  /**
+   * The reference picture for this sight.
+   */
+  referencePicture?: string;
+  /**
+   * The positioning details for this sight (used in Sight Tutorial).
+   */
+  positioning?: SightPositioning;
 }
 
 /**

@@ -13,7 +13,12 @@
     "overlay": "ftransit18--w_ir_yH.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-ffghVsNz",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 325,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18--w_ir_yH.jpeg"
   },
   "ftransit18-3Sbfx_KZ": {
     "id": "ftransit18-3Sbfx_KZ",
@@ -29,7 +34,13 @@
     "overlay": "ftransit18-3Sbfx_KZ.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-RJ2D7DNz",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-3Sbfx_KZ.jpeg"
   },
   "ftransit18-yxw9gmyL": {
     "id": "ftransit18-yxw9gmyL",
@@ -40,7 +51,14 @@
     "mirror_sight": "ftransit18-AuCXxG5o",
     "dev": true,
     "wheel_name": "wheel_back_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 110,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-yxw9gmyL.jpeg"
   },
   "ftransit18-3dkU10af": {
     "id": "ftransit18-3dkU10af",
@@ -55,7 +73,12 @@
     "label": "rear-low",
     "overlay": "ftransit18-3dkU10af.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-3dkU10af.jpeg"
   },
   "ftransit18-3fnjrISV": {
     "id": "ftransit18-3fnjrISV",
@@ -71,7 +94,12 @@
     "overlay": "ftransit18-3fnjrISV.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-eXJDDYmE",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 238,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-3fnjrISV.jpeg"
   },
   "ftransit18-4NMPqEV6": {
     "id": "ftransit18-4NMPqEV6",
@@ -87,7 +115,13 @@
     "overlay": "ftransit18-4NMPqEV6.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-Y0vPhBVF",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-4NMPqEV6.jpeg"
   },
   "ftransit18-7qLSCnFP": {
     "id": "ftransit18-7qLSCnFP",
@@ -98,7 +132,14 @@
     "mirror_sight": "ftransit18-mGSvkRHz",
     "dev": true,
     "wheel_name": "wheel_front_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 290,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-7qLSCnFP.jpeg"
   },
   "ftransit18-5SiNC94w": {
     "id": "ftransit18-5SiNC94w",
@@ -113,7 +154,12 @@
     "overlay": "ftransit18-5SiNC94w.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-IIVI_pnX",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 24,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-5SiNC94w.jpeg"
   },
   "ftransit18-6X8IAjy0": {
     "id": "ftransit18-6X8IAjy0",
@@ -128,7 +174,12 @@
     "overlay": "ftransit18-6X8IAjy0.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-E7DAv47J",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 60,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-6X8IAjy0.jpeg"
   },
   "ftransit18-6khKhof0": {
     "id": "ftransit18-6khKhof0",
@@ -144,7 +195,12 @@
     "overlay": "ftransit18-6khKhof0.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-eztNpSRX",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 88,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-6khKhof0.jpeg"
   },
   "ftransit18-E7DAv47J": {
     "id": "ftransit18-E7DAv47J",
@@ -159,7 +215,12 @@
     "overlay": "ftransit18-E7DAv47J.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-6X8IAjy0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 300,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-E7DAv47J.jpeg"
   },
   "ftransit18-FFP5b34o": {
     "id": "ftransit18-FFP5b34o",
@@ -174,7 +235,12 @@
     "overlay": "ftransit18-FFP5b34o.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-iu1Vj2Oa",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-FFP5b34o.jpeg"
   },
   "ftransit18-G24AdP6r": {
     "id": "ftransit18-G24AdP6r",
@@ -190,7 +256,12 @@
     "overlay": "ftransit18-G24AdP6r.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-rsXWUN8X",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 269,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-G24AdP6r.jpeg"
   },
   "ftransit18-IIVI_pnX": {
     "id": "ftransit18-IIVI_pnX",
@@ -205,7 +276,12 @@
     "overlay": "ftransit18-IIVI_pnX.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-5SiNC94w",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 336,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-IIVI_pnX.jpeg"
   },
   "ftransit18-NwBMLo3Z": {
     "id": "ftransit18-NwBMLo3Z",
@@ -219,7 +295,12 @@
     "label": "rear",
     "overlay": "ftransit18-NwBMLo3Z.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-NwBMLo3Z.jpeg"
   },
   "ftransit18-RJ2D7DNz": {
     "id": "ftransit18-RJ2D7DNz",
@@ -235,7 +316,13 @@
     "overlay": "ftransit18-RJ2D7DNz.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-3Sbfx_KZ",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-RJ2D7DNz.jpeg"
   },
   "ftransit18-AuCXxG5o": {
     "id": "ftransit18-AuCXxG5o",
@@ -246,7 +333,14 @@
     "mirror_sight": "ftransit18-yxw9gmyL",
     "dev": true,
     "wheel_name": "wheel_back_right",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 250,
+      "height": "low",
+      "orientation": 270,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-AuCXxG5o.jpeg"
   },
   "ftransit18-TkXihCj4": {
     "id": "ftransit18-TkXihCj4",
@@ -262,7 +356,12 @@
     "overlay": "ftransit18-TkXihCj4.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-xyp1rU0h",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 302,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-TkXihCj4.jpeg"
   },
   "ftransit18-UNAZWJ-r": {
     "id": "ftransit18-UNAZWJ-r",
@@ -276,7 +375,12 @@
     "label": "hood",
     "overlay": "ftransit18-UNAZWJ-r.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-UNAZWJ-r.jpeg"
   },
   "ftransit18-Y0vPhBVF": {
     "id": "ftransit18-Y0vPhBVF",
@@ -292,7 +396,13 @@
     "overlay": "ftransit18-Y0vPhBVF.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-4NMPqEV6",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-Y0vPhBVF.jpeg"
   },
   "ftransit18-mGSvkRHz": {
     "id": "ftransit18-mGSvkRHz",
@@ -303,7 +413,14 @@
     "mirror_sight": "ftransit18-7qLSCnFP",
     "dev": true,
     "wheel_name": "wheel_front_left",
-    "tasks": ["wheel_analysis"]
+    "tasks": ["wheel_analysis"],
+    "positioning": {
+      "position": 70,
+      "height": "low",
+      "orientation": 90,
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-mGSvkRHz.jpeg"
   },
   "ftransit18-aA2K898S": {
     "id": "ftransit18-aA2K898S",
@@ -318,7 +435,12 @@
     "overlay": "ftransit18-aA2K898S.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-cf0e-pcB",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-aA2K898S.jpeg"
   },
   "ftransit18-cf0e-pcB": {
     "id": "ftransit18-cf0e-pcB",
@@ -333,7 +455,12 @@
     "overlay": "ftransit18-cf0e-pcB.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-aA2K898S",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-cf0e-pcB.jpeg"
   },
   "ftransit18-eXJDDYmE": {
     "id": "ftransit18-eXJDDYmE",
@@ -349,7 +476,12 @@
     "overlay": "ftransit18-eXJDDYmE.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-3fnjrISV",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 122,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-eXJDDYmE.jpeg"
   },
   "ftransit18-eztNpSRX": {
     "id": "ftransit18-eztNpSRX",
@@ -365,7 +497,12 @@
     "overlay": "ftransit18-eztNpSRX.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-6khKhof0",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 272,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-eztNpSRX.jpeg"
   },
   "ftransit18-f2W6pHaR": {
     "id": "ftransit18-f2W6pHaR",
@@ -381,7 +518,12 @@
     "overlay": "ftransit18-f2W6pHaR.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-y_wTc7ED",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 215,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-f2W6pHaR.jpeg"
   },
   "ftransit18-ffghVsNz": {
     "id": "ftransit18-ffghVsNz",
@@ -396,7 +538,12 @@
     "overlay": "ftransit18-ffghVsNz.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18--w_ir_yH",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 35,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-ffghVsNz.jpeg"
   },
   "ftransit18-iu1Vj2Oa": {
     "id": "ftransit18-iu1Vj2Oa",
@@ -411,7 +558,12 @@
     "overlay": "ftransit18-iu1Vj2Oa.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-FFP5b34o",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-iu1Vj2Oa.jpeg"
   },
   "ftransit18-klUp8BS4": {
     "id": "ftransit18-klUp8BS4",
@@ -426,7 +578,12 @@
     "overlay": "ftransit18-klUp8BS4.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-qmLP7A-b",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 122,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-klUp8BS4.jpeg"
   },
   "ftransit18-pd2Q_O9P": {
     "id": "ftransit18-pd2Q_O9P",
@@ -440,7 +597,12 @@
     "label": "lateral-left",
     "overlay": "ftransit18-pd2Q_O9P.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 89,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-pd2Q_O9P.jpeg"
   },
   "ftransit18-qmLP7A-b": {
     "id": "ftransit18-qmLP7A-b",
@@ -455,7 +617,12 @@
     "overlay": "ftransit18-qmLP7A-b.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-klUp8BS4",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 238,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-qmLP7A-b.jpeg"
   },
   "ftransit18-rsXWUN8X": {
     "id": "ftransit18-rsXWUN8X",
@@ -471,7 +638,12 @@
     "overlay": "ftransit18-rsXWUN8X.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-G24AdP6r",
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 91,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-rsXWUN8X.jpeg"
   },
   "ftransit18-sLAPXyG8": {
     "id": "ftransit18-sLAPXyG8",
@@ -485,7 +657,12 @@
     "label": "lateral-left",
     "overlay": "ftransit18-sLAPXyG8.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 271,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-sLAPXyG8.jpeg"
   },
   "ftransit18-wyXf7MTv": {
     "id": "ftransit18-wyXf7MTv",
@@ -499,7 +676,12 @@
     "label": "front-low",
     "overlay": "ftransit18-wyXf7MTv.svg",
     "vehicle": "ftransit18",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-wyXf7MTv.jpeg"
   },
   "ftransit18-xyp1rU0h": {
     "id": "ftransit18-xyp1rU0h",
@@ -515,7 +697,12 @@
     "overlay": "ftransit18-xyp1rU0h.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-TkXihCj4",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 58,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-xyp1rU0h.jpeg"
   },
   "ftransit18-y_wTc7ED": {
     "id": "ftransit18-y_wTc7ED",
@@ -531,6 +718,11 @@
     "overlay": "ftransit18-y_wTc7ED.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-f2W6pHaR",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 145,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/ftransit18-y_wTc7ED.jpeg"
   }
 }

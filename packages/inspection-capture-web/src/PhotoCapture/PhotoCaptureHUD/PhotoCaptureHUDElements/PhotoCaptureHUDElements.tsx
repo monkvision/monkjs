@@ -15,7 +15,7 @@ import { CaptureMode } from '../../../types';
  * Props of the PhotoCaptureHUDElements component.
  */
 export interface PhotoCaptureHUDElementsProps
-  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage'> {
+  extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage' | 'enableSightTutorial'> {
   /**
    * The currently selected sight in the PhotoCapture component : the sight that the user needs to capture.
    */
@@ -88,6 +88,10 @@ export interface PhotoCaptureHUDElementsProps
    * Boolean indicating whether the sight guidelines should be displayed.
    */
   showSightGuidelines?: boolean;
+  /**
+   * Callback called when the user clicks on the "help" button in PhotoCapture.
+   */
+  toggleSightTutorial?: () => void;
 }
 
 /**
@@ -113,6 +117,8 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         showSightGuidelines={params.showSightGuidelines}
         tutorialStep={params.tutorialStep}
         onDisableSightGuidelines={params.onDisableSightGuidelines}
+        enableSightTutorial={params.enableSightTutorial}
+        toggleSightTutorial={params.toggleSightTutorial}
       />
     );
   }

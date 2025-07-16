@@ -73,6 +73,8 @@ function mapSights(
         tasks: sight.tasks,
         vehicle,
         wheelName: apiSight.wheel_name,
+        referencePicture: sight?.referencePicture,
+        positioning: sight?.positioning,
       },
     };
   }, {});

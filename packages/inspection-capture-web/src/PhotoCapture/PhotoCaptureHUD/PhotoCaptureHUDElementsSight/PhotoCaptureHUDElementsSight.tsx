@@ -1,11 +1,12 @@
 import { SightOverlay } from '@monkvision/common-ui-web';
+import { PhotoCaptureSightTutorialOption } from '@monkvision/types';
 import { SightSlider } from './SightSlider';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
 import { AddDamageButton } from './AddDamageButton';
 import { PhotoCaptureHUDElementsSightProps, usePhotoCaptureHUDSightPreviewStyle } from './hooks';
 import { TutorialSteps } from '../../hooks';
 import { SightGuideline } from './SightGuideline';
-import { Counter } from '../../../components';
+import { Counter, SightTutorialButton } from '../../../components';
 import { CaptureMode } from '../../../types';
 
 /**
@@ -26,6 +27,8 @@ export function PhotoCaptureHUDElementsSight({
   sightGuidelines,
   showSightGuidelines,
   tutorialStep,
+  enableSightTutorial,
+  toggleSightTutorial,
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
@@ -37,6 +40,9 @@ export function PhotoCaptureHUDElementsSight({
       {!tutorialStep && (
         <div style={style.elementsContainer}>
           <div style={style.top}>
+            {enableSightTutorial !== PhotoCaptureSightTutorialOption.DISABLED && (
+              <SightTutorialButton toggleSightTutorial={toggleSightTutorial} />
+            )}
             <SightGuideline
               sightId={selectedSight.id}
               sightGuidelines={sightGuidelines}

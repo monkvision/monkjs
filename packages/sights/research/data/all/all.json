@@ -5,7 +5,13 @@
     "label": "rear-seats",
     "overlay": "all-1c89235c.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 120,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-1c89235c.jpeg"
   },
   "all-35104fb6": {
     "id": "all-35104fb6",
@@ -13,7 +19,14 @@
     "label": "left-front-door",
     "overlay": "all-35104fb6.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "orientation": 0,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-35104fb6.jpeg"
   },
   "all-356a10ca": {
     "id": "all-356a10ca",
@@ -21,7 +34,13 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-356a10ca.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-356a10ca.jpeg"
   },
   "all-50eebfb7": {
     "id": "all-50eebfb7",
@@ -29,7 +48,13 @@
     "label": "rear-seats",
     "overlay": "all-50eebfb7.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 120,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-50eebfb7.jpeg"
   },
   "all-526bc540": {
     "id": "all-526bc540",
@@ -37,7 +62,13 @@
     "label": "engine-right-side",
     "overlay": "all-526bc540.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 0,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-526bc540.jpeg"
   },
   "all-545d81e5": {
     "id": "all-545d81e5",
@@ -45,7 +76,13 @@
     "label": "dashboard-from-back-seat",
     "overlay": "all-545d81e5.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-545d81e5.jpeg"
   },
   "all-602375f5": {
     "id": "all-602375f5",
@@ -54,7 +91,13 @@
     "overlay": "all-602375f5.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
-    "mirror_sight": "all-602375f6"
+    "mirror_sight": "all-602375f6",
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-602375f5.jpeg"
   },
   "all-602375f6": {
     "id": "all-602375f6",
@@ -63,7 +106,13 @@
     "overlay": "all-602375f6.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
-    "mirror_sight": "all-602375f5"
+    "mirror_sight": "all-602375f5",
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-602375f6.jpeg"
   },
   "all-6f747948": {
     "id": "all-6f747948",
@@ -71,7 +120,13 @@
     "label": "front-seats",
     "overlay": "all-6f747948.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-6f747948.jpeg"
   },
   "all-76822eac": {
     "id": "all-76822eac",
@@ -79,7 +134,13 @@
     "label": "trunk-right-side",
     "overlay": "all-76822eac.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-76822eac.jpeg"
   },
   "all-7af3fb1f": {
     "id": "all-7af3fb1f",
@@ -87,7 +148,13 @@
     "label": "dashboard",
     "overlay": "all-7af3fb1f.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-7af3fb1f.jpeg"
   },
   "all-96fee1d8": {
     "id": "all-96fee1d8",
@@ -95,7 +162,13 @@
     "label": "trunk-left-side",
     "overlay": "all-96fee1d8.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-96fee1d8.jpeg"
   },
   "all-98d26745": {
     "id": "all-98d26745",
@@ -103,7 +176,13 @@
     "label": "engine-left-side",
     "overlay": "all-98d26745.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 0,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-98d26745.jpeg"
   },
   "all-9c2d7b19": {
     "id": "all-9c2d7b19",
@@ -111,7 +190,13 @@
     "label": "open-trunk",
     "overlay": "all-9c2d7b19.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-9c2d7b19.jpeg"
   },
   "all-IqwSM3": {
     "id": "all-IqwSM3",
@@ -120,7 +205,13 @@
     "overlay": "all-IqwSM3.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
-    "mirror_sight": "all-T4HrF8KA"
+    "mirror_sight": "all-T4HrF8KA",
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-IqwSM3.jpeg"
   },
   "all-T4HrF8KA": {
     "id": "all-T4HrF8KA",
@@ -129,7 +220,13 @@
     "overlay": "all-T4HrF8KA.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
-    "mirror_sight": "all-IqwSM3"
+    "mirror_sight": "all-IqwSM3",
+    "positioning": {
+      "position": 270,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-T4HrF8KA.jpeg"
   },
   "all-ad16621c": {
     "id": "all-ad16621c",
@@ -137,7 +234,13 @@
     "label": "interior-roof",
     "overlay": "all-ad16621c.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-ad16621c.jpeg"
   },
   "all-e7663823": {
     "id": "all-e7663823",
@@ -145,7 +248,13 @@
     "label": "front-seats",
     "overlay": "all-e7663823.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-e7663823.jpeg"
   },
   "all-y6329hj8": {
     "id": "all-y6329hj8",
@@ -153,7 +262,13 @@
     "label": "front-seats",
     "overlay": "all-y6329hj8.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 270,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-y6329hj8.jpeg"
   },
   "all-ed8a75b6": {
     "id": "all-ed8a75b6",
@@ -161,7 +276,13 @@
     "label": "dashboard-from-driver-seat",
     "overlay": "all-ed8a75b6.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-ed8a75b6.jpeg"
   },
   "all-ff87ff59": {
     "id": "all-ff87ff59",
@@ -169,7 +290,13 @@
     "label": "front-seats",
     "overlay": "all-ff87ff59.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-ff87ff59.jpeg"
   },
   "all-qhKA2z": {
     "id": "all-qhKA2z",
@@ -177,7 +304,13 @@
     "label": "trunk",
     "overlay": "all-qhKA2z.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-qhKA2z.jpeg"
   },
   "all-rSvk2C": {
     "id": "all-rSvk2C",
@@ -185,7 +318,13 @@
     "label": "dashboard",
     "overlay": "all-rSvk2C.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-rSvk2C.jpeg"
   },
   "all-rj5mhm": {
     "id": "all-rj5mhm",
@@ -193,7 +332,13 @@
     "label": "back-seats",
     "overlay": "all-rj5mhm.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-rj5mhm.jpeg"
   },
   "all-sLu0CfOt": {
     "id": "all-sLu0CfOt",
@@ -201,7 +346,13 @@
     "label": "vin",
     "overlay": "all-sLu0CfOt.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 0,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-sLu0CfOt.jpeg"
   },
   "all-9cw4tn4s": {
     "id": "all-9cw4tn4s",
@@ -210,7 +361,13 @@
     "wheel_name": "wheel_front_left",
     "overlay": "all-9cw4tn4s.svg",
     "vehicle": "all",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances", "wheel_analysis"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-9cw4tn4s.jpeg"
   },
   "all-Pj-K822I": {
     "id": "all-Pj-K822I",
@@ -219,7 +376,13 @@
     "wheel_name": "wheel_front_right",
     "overlay": "all-Pj-K822I.svg",
     "vehicle": "all",
-    "tasks": ["compliances", "wheel_analysis"]
+    "tasks": ["compliances", "wheel_analysis"],
+    "positioning": {
+      "position": 270,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-Pj-K822I.jpeg"
   },
   "all-1pqg1sU3": {
     "id": "all-1pqg1sU3",
@@ -245,7 +408,13 @@
     "label": "dashboard-screen",
     "overlay": "all-11w-_e9c.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-11w-_e9c.jpeg"
   },
   "all-mdwq0pl4": {
     "id": "all-mdwq0pl4",
@@ -253,7 +422,13 @@
     "label": "card-keys",
     "overlay": "all-mdwq0pl4.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-mdwq0pl4.jpeg"
   },
   "all-hJLGOqvb": {
     "id": "all-hJLGOqvb",
@@ -261,7 +436,13 @@
     "label": "card-keys",
     "overlay": "all-hJLGOqvb.svg",
     "vehicle": "all",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "interior"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-hJLGOqvb.jpeg"
   },
   "all-8jdq7f5m": {
     "id": "all-8jdq7f5m",
@@ -297,6 +478,12 @@
     "overlay": "all-mLhPZl0Y.svg",
     "vehicle": "all",
     "wheel_name": "wheel_back_right",
-    "tasks": ["compliances"]
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-8jdq7f5m.jpeg"
   }
 }

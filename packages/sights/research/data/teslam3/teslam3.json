@@ -5,47 +5,12 @@
     "label": "rear-right",
     "overlay": "teslam3-5RtYpLwQ.svg",
     "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Ap6NqYJh": {
-    "id": "teslam3-Ap6NqYJh",
-    "category": "exterior",
-    "label": "lateral-full-left",
-    "overlay": "teslam3-Ap6NqYJh.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Bt4VnLRj": {
-    "id": "teslam3-Bt4VnLRj",
-    "category": "exterior",
-    "label": "front-fender-left",
-    "overlay": "teslam3-Bt4VnLRj.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Fm7NpRtK": {
-    "id": "teslam3-Fm7NpRtK",
-    "category": "exterior",
-    "label": "front-roof-left",
-    "overlay": "teslam3-Fm7NpRtK.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Lm6TpFjX": {
-    "id": "teslam3-Lm6TpFjX",
-    "category": "exterior",
-    "label": "front-bumper-side-left",
-    "overlay": "teslam3-Lm6TpFjX.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Mk2YpVjX": {
-    "id": "teslam3-Mk2YpVjX",
-    "category": "exterior",
-    "label": "rear-low",
-    "overlay": "teslam3-Mk2YpVjX.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-5RtYpLwQ.jpeg"
   },
   "teslam3-Nz8TqfJh": {
     "id": "teslam3-Nz8TqfJh",
@@ -53,7 +18,116 @@
     "label": "rear-left",
     "overlay": "teslam3-Nz8TqfJh.svg",
     "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-GdWvsqrm.jpeg"
+  },
+  "teslam3-Xm7BvKRp": {
+    "id": "teslam3-Xm7BvKRp",
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "teslam3-Xm7BvKRp.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Xm7BvKRp.jpeg"
+  },
+  "teslam3-Wq9LkZhF": {
+    "id": "teslam3-Wq9LkZhF",
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "teslam3-Wq9LkZhF.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Wq9LkZhF.jpeg"
+  },
+  "teslam3-Mk2YpVjX": {
+    "id": "teslam3-Mk2YpVjX",
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "teslam3-Mk2YpVjX.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Mk2YpVjX.jpeg"
+  },
+  "teslam3-Ap6NqYJh": {
+    "id": "teslam3-Ap6NqYJh",
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "teslam3-Ap6NqYJh.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Ap6NqYJh.jpeg"
+  },
+  "teslam3-Bt4VnLRj": {
+    "id": "teslam3-Bt4VnLRj",
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "teslam3-Bt4VnLRj.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Bt4VnLRj.jpeg"
+  },
+  "teslam3-Fm7NpRtK": {
+    "id": "teslam3-Fm7NpRtK",
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "teslam3-Fm7NpRtK.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 61,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Fm7NpRtK.jpeg"
+  },
+  "teslam3-Vn8FpRkY": {
+    "id": "teslam3-Vn8FpRkY",
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "teslam3-Vn8FpRkY.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Vn8FpRkY.jpeg"
+  },
+  "teslam3-Lm6TpFjX": {
+    "id": "teslam3-Lm6TpFjX",
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "teslam3-Lm6TpFjX.svg",
+    "vehicle": "teslam3",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Lm6TpFjX.jpeg"
   },
   "teslam3-Qp9NrLfY": {
     "id": "teslam3-Qp9NrLfY",
@@ -61,7 +135,12 @@
     "label": "rear-lateral-right",
     "overlay": "teslam3-Qp9NrLfY.svg",
     "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Qp9NrLfY.jpeg"
   },
   "teslam3-Rn6VqLtY": {
     "id": "teslam3-Rn6VqLtY",
@@ -77,30 +156,11 @@
     "label": "rear-lateral-left",
     "overlay": "teslam3-Tk3LpRfJ.svg",
     "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Vn8FpRkY": {
-    "id": "teslam3-Vn8FpRkY",
-    "category": "exterior",
-    "label": "front-bumper-side-right",
-    "overlay": "teslam3-Vn8FpRkY.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Wq9LkZhF": {
-    "id": "teslam3-Wq9LkZhF",
-    "category": "exterior",
-    "label": "lateral-full-right",
-    "overlay": "teslam3-Wq9LkZhF.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
-  },
-  "teslam3-Xm7BvKRp": {
-    "id": "teslam3-Xm7BvKRp",
-    "category": "exterior",
-    "label": "front-low",
-    "overlay": "teslam3-Xm7BvKRp.svg",
-    "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Tk3LpRfJ.jpeg"
   }
 }

@@ -4,7 +4,7 @@ import {
   TutorialSteps,
   usePhotoCaptureTutorial,
 } from '../../../src/PhotoCapture/hooks';
-import { PhotoCaptureTutorialOption } from '@monkvision/types';
+import { PhotoCaptureSightTutorialOption, PhotoCaptureTutorialOption } from '@monkvision/types';
 
 describe('usePhotoCaptureTutorial', () => {
   beforeEach(() => {
@@ -29,7 +29,10 @@ describe('usePhotoCaptureTutorial', () => {
 
   it('should set localStorage item if tutorial option is FIRST_TIME_ONLY', () => {
     const { result } = renderHook(() =>
-      usePhotoCaptureTutorial({ enableTutorial: PhotoCaptureTutorialOption.FIRST_TIME_ONLY }),
+      usePhotoCaptureTutorial({
+        enableTutorial: PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
+        enableSightTutorial: PhotoCaptureSightTutorialOption.MODERN,
+      }),
     );
 
     expect(localStorage.getItem(STORAGE_KEY_PHOTO_CAPTURE_TUTORIAL)).toBe(
@@ -50,7 +53,10 @@ describe('usePhotoCaptureTutorial', () => {
 
   it('should allow changing the tutorial step', () => {
     const { result } = renderHook(() =>
-      usePhotoCaptureTutorial({ enableTutorial: PhotoCaptureTutorialOption.ENABLED }),
+      usePhotoCaptureTutorial({
+        enableTutorial: PhotoCaptureTutorialOption.ENABLED,
+        enableSightTutorial: PhotoCaptureSightTutorialOption.DISABLED,
+      }),
     );
 
     act(() => {

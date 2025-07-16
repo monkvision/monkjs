@@ -105,6 +105,14 @@ export const SightGuidelineSchema = z.object({
   nl: z.string(),
 });
 
+export const SightTutorialSchema = z.object({
+  imageReferenceBySightId: z.record(z.string().nullable()),
+  en: z.string(),
+  fr: z.string(),
+  de: z.string(),
+  nl: z.string(),
+});
+
 export const AccentColorVariantsSchema = z.object({
   xdark: z.string(),
   dark: z.string(),
@@ -322,6 +330,7 @@ export const LiveConfigSchema = z
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
     enableSightTutorial: z.boolean().optional(),
+    sightTutorial: z.array(SightGuidelineSchema).optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),

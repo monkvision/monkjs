@@ -9,6 +9,7 @@ import { ArrowIcon } from './ArrowIcon';
 import { DisplayText } from './DisplayText';
 import { useColorBackground } from '../../../hooks';
 import { usePhotoCaptureHUDTutorialStyle } from './hooks';
+import { SightTutorialButton } from '../../../components';
 
 /**
  * Props of the PhotoCaptureHUDTutorial component.
@@ -31,6 +32,10 @@ export interface PhotoCaptureHUDTutorialProps
    * Callback called when the user clicks on "Close" button in PhotoCapture tutorial.
    */
   onCloseTutorial: () => void;
+  /**
+   * Callback called when the user clicks on the "help" button in PhotoCapture.
+   */
+  toggleSightTutorial?: () => void;
 }
 
 function getButtonStyle(enableAddDamage?: boolean): CSSProperties {
@@ -48,6 +53,7 @@ export function PhotoCaptureHUDTutorial({
   onNextTutorialStep,
   onCloseTutorial,
   addDamage,
+  toggleSightTutorial,
 }: PhotoCaptureHUDTutorialProps) {
   const { t } = useTranslation();
   const primaryColor = useColorBackground();
@@ -66,6 +72,12 @@ export function PhotoCaptureHUDTutorial({
               addDamage={addDamage}
               enableDefaultMessage={true}
             />
+            {currentTutorialStep === TutorialSteps.SIGHT_TUTORIAL && (
+              <SightTutorialButton
+                toggleSightTutorial={toggleSightTutorial}
+                style={styles['sightTutorialBtn']}
+              />
+            )}
             <Button
               style={{ ...styles['closeButton'], ...getButtonStyle(allowSkipTutorial) }}
               disabled={!allowSkipTutorial}

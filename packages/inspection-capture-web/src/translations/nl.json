@@ -42,6 +42,10 @@
         "sightTutorial": "Gebruik het plaatje linksonder om je te leiden bij het kadreren.<br>Klik erop voor een gedetailleerde uitleg.",
         "sight": "Richt het voertuig zo goed mogelijk uit op de lijnen om de beste foto te krijgen.<br>Druk op de knop om de foto te nemen.",
         "next": "Volgende"
+      },
+      "sightTutorial": {
+        "tip": "Tip",
+        "defaultTutorial": "Plaats jezelf zoals aangegeven in het linkerschema en zorg ervoor dat de camera op de juiste hoogte staat.\nAls er een referentiefoto is, probeer dan je kader hierop af te stemmen."
       }
     },
     "gallery": {

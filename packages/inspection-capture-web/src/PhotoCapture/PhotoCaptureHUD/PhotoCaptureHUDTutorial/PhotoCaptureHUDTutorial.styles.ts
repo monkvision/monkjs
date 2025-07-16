@@ -17,10 +17,11 @@ export const styles: Styles = {
     flexDirection: 'column',
     position: 'fixed',
     width: `calc(98% - (${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 4}px))`,
-    top: '10px',
+    top: 0,
     bottom: '40px',
     justifyContent: 'space-between',
     alignItems: 'center',
+    margin: '10px',
   },
   elementsContainerPortrait: {
     __media: { portrait: true },
@@ -68,8 +69,13 @@ export const styles: Styles = {
   },
   arrowSightTutorial: {
     position: 'fixed',
-    bottom: '60px',
-    left: `calc((${PHOTO_CAPTURE_HUD_BUTTONS_BAR_WIDTH * 2}px))`,
+    top: '30px',
+    left: '80px',
     width: '40px',
+  },
+  sightTutorialBtn: {
+    position: 'fixed',
+    left: '10px',
+    padding: '8px',
   },
 };
