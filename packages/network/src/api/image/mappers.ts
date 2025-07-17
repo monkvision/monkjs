@@ -10,6 +10,7 @@ import {
   ImageSubtype,
   ImageType,
   MonkEntityType,
+  PixelDimensions,
   VehiclePart,
 } from '@monkvision/types';
 import { ApiImage, ApiImageComplianceResults } from '../models';
@@ -134,6 +135,13 @@ function applyCustomComplianceThresholds(
   return complianceIssues;
 }
 
+function applyCustomCompliances(issues: string[], imageDimensions?: PixelDimensions) {
+  if (imageDimensions && imageDimensions.height > imageDimensions.width) {
+    return [...issues, ComplianceIssue.PORTRAIT_IMAGE];
+  }
+  return issues;
+}
+
 function filterCompliances(issues: string[], validIssues: ComplianceIssue[]): ComplianceIssue[] {
   return (issues as ComplianceIssue[]).filter((issue) => validIssues.includes(issue));
 }
@@ -146,6 +154,7 @@ function mapCompliance(
   sightId?: string,
   complianceResult?: ApiImageComplianceResults,
   complianceOptions?: ComplianceOptions,
+  imageDimensions?: PixelDimensions,
 ): {
   status: ImageStatus;
   complianceIssues?: ComplianceIssue[];
@@ -163,7 +172,11 @@ function mapCompliance(
     complianceResult,
     customComplianceThresholds,
   );
-  const filteredCompliances = filterCompliances(newIssuesAfterCustomThresholds, complianceIssues);
+  const newIssuesAfterCustomCompliances = applyCustomCompliances(
+    newIssuesAfterCustomThresholds,
+    imageDimensions,
+  );
+  const filteredCompliances = filterCompliances(newIssuesAfterCustomCompliances, complianceIssues);
   if (filteredCompliances.length === 0) {
     return { status: ImageStatus.SUCCESS };
   }
@@ -180,7 +193,12 @@ export function mapApiImage(
   complianceOptions?: ComplianceOptions,
 ): Image {
   const sightId = image.additional_data?.sight_id;
-  const { status, complianceIssues } = mapCompliance(sightId, image.compliances, complianceOptions);
+  const { status, complianceIssues } = mapCompliance(
+    sightId,
+    image.compliances,
+    complianceOptions,
+    { width: image.image_width, height: image.image_height },
+  );
   return {
     id: image.id,
     entityType: MonkEntityType.IMAGE,

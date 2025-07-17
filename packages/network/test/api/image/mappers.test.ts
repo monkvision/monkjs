@@ -25,6 +25,7 @@ const EXPECTED_DEFAULT_COMPLIANCE_ISSUES = [
   ComplianceIssue.TOO_ZOOMED,
   ComplianceIssue.NOT_ZOOMED_ENOUGH,
   ComplianceIssue.MISSING,
+  ComplianceIssue.PORTRAIT_IMAGE,
 ];
 
 const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
@@ -39,6 +40,7 @@ const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
   ComplianceIssue.HIDDEN_PARTS,
   ComplianceIssue.MISSING_PARTS,
   ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.REFLECTIONS,
   ComplianceIssue.SNOWNESS,
   ComplianceIssue.WETNESS,
@@ -320,6 +322,17 @@ describe('Image API Mappers', () => {
         });
         expect(result.status).toEqual(ImageStatus.NOT_COMPLIANT);
         expect(result.complianceIssues).toEqual(EXPECTED_COMPLIANCE_ISSUES_ORDER);
+      });
+
+      it('should properly apply custom compliances', () => {
+        const apiImage = createApiImage();
+        apiImage.image_height = 2000;
+        apiImage.image_width = 500;
+
+        const result = mapApiImage(apiImage, '', '', { enableCompliance: true });
+        console.log('result:', result);
+
+        expect(result.status).toEqual(ImageStatus.NOT_COMPLIANT);
       });
 
       it('should properly apply custom thresholds', () => {

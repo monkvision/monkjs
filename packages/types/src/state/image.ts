@@ -189,6 +189,9 @@ export enum ComplianceIssue {
   INTERIOR_NOT_SUPPORTED = 'interior_not_supported',
   MISSING = 'missing',
   LOW_QUALITY = 'low_quality',
+
+  // Custom issue(s)
+  PORTRAIT_IMAGE = 'portrait_image',
 }
 
 /**
@@ -196,6 +199,7 @@ export enum ComplianceIssue {
  * smaller the index, the higher the priority of the compliance issue.
  */
 export const COMPLIANCE_ISSUES_PRIORITY = [
+  // TODO: remove before release
   ComplianceIssue.NO_VEHICLE,
 
   ComplianceIssue.BLURRINESS,
@@ -209,6 +213,7 @@ export const COMPLIANCE_ISSUES_PRIORITY = [
   ComplianceIssue.HIDDEN_PARTS,
   ComplianceIssue.MISSING_PARTS,
   ComplianceIssue.WRONG_CENTER_PART,
+  ComplianceIssue.PORTRAIT_IMAGE,
 
   ComplianceIssue.REFLECTIONS,
   ComplianceIssue.SNOWNESS,
@@ -254,6 +259,7 @@ export const DEFAULT_COMPLIANCE_ISSUES = [
   // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
   ComplianceIssue.MISSING,
   // ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.PORTRAIT_IMAGE,
 ];
 
 /**
