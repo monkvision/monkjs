@@ -416,4 +416,18 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       nl: 'Zorg ervoor dat de foto van goede kwaliteit is.',
     },
   },
+  [ComplianceIssue.PORTRAIT_IMAGE]: {
+    title: {
+      en: 'Portrait Image',
+      fr: 'Image en mode portrait',
+      de: 'Hochformatbild',
+      nl: 'Portretfoto',
+    },
+    description: {
+      en: 'The picture is in portrait mode, please take it in landscape',
+      fr: 'L’image est en mode portrait, veuillez la prendre en mode paysage',
+      de: 'Das Bild ist im Hochformat, bitte fotografieren Sie im Querformat',
+      nl: 'De foto is in portretstand, neem deze alstublieft in landschapmodus',
+    },
+  },
 };
