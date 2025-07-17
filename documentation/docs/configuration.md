@@ -3,6 +3,7 @@ sidebar_position: 3
 ---
 
 # Configuration
+
 Most of the web applications integrating the MonkJs SDK will need the same configuration properties. To simplify the
 syntax when configuring your app, we provide a TypeScript interfaces called (`PhotoCaptureAppConfig` and
 `VideoCaptureAppConfig`) that contains the usual configuration properties needed for both the PhotoCapture and
@@ -21,6 +22,7 @@ export const MonkJsConfig: PhotoCaptureAppConfig = {
 This configuration object can then be passed to components like `<MonkAppStateProvider>` or `<PhotoCapture>`.
 
 ## Available Configuration Options
+
 The following table lists the available configuration options in the `CaptureAppConfig` interface :
 
 | Name                               | Type                                         | Description                                                                                                                                                                                          | Required                                          | Default Value               |
@@ -59,6 +61,7 @@ The following table lists the available configuration options in the `CaptureApp
 | customComplianceThresholdsPerSight | `Record<string, CustomComplianceThresholds>` | A map associating Sight IDs to custom compliance thresholds.                                                                                                                                         |                                                   |                             |
 
 ## Live Configs
+
 MonkJs now also offers a way to configure Live Configurations for your web applications. This allows MonkJs apps to
 fetch their configurations (`PhotoCaptureAppConfig` or `VideoCaptureAppConfig`) from a GCP Bucket on startup. By doing
 this, the configurations of the applications can be modified without having to re-deploy the apps. Each live
@@ -66,6 +69,7 @@ configuration consists of a JSON file stored in a public bucket on Monk's Google
 ID. It is not possible for now to set up a custom hosting service for the live configs, but this feature should arrive
 soon. In order to set up a live configuration on one of your apps, you can simply use the following provider in your
 app :
+
 ```tsx
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
 
@@ -84,30 +88,32 @@ This component will automatically fetch the given live configuration from one of
 ## Available Configuration Options
 
 ### Shared Configuration Options
+
 The following table lists the options available in both the PhotoCapture and VideoCapture configurations :
 
-| Name                     | Type                                     | Description                                                                                                                           | Required                                    | Default Value             |
-|--------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|---------------------------|
-| workflow                 | `CaptureWorkflow`                        | Specifies which capture workflow this app is meant to be used for. The config options available change based on this param.           | ✔️                                          |                           |
-| format                   | `CompressionFormat`                      | The output format of the compression.                                                                                                 |                                             | `CompressionFormat.JPEG`  |
-| quality                  | `number`                                 | Value indicating image quality for the compression output.                                                                            |                                             | `0.6`                     |
-| resolution               | `CameraResolution`                       | Indicates the resolution of the pictures taken by the Camera.                                                                         |                                             | `CameraResolution.UHD_4K` |
-| allowImageUpscaling      | `boolean`                                | Allow images to be scaled up if the device does not support the specified resolution in the `resolution` prop.                        |                                             | `false`                   |
-| additionalTasks          | `TaskName[]`                             | An optional list of additional tasks to run on every image of the inspection.                                                         |                                             |                           |
-| startTasksOnComplete     | `<code>boolean &#124; TaskName[]</code>` | Value indicating if tasks should be started at the end of the inspection. See the `inspection-capture-web` package doc for more info. |                                             | `true`                    |
-| allowManualLogin         | `boolean`                                | Indicates if manual login and logout should be enabled or not.                                                                        | ✔️                                          |                           |
-| fetchFromSearchParams    | `boolean`                                | Indicates if the app state (auth token, inspection ID etc.) should be fetched from the URL search params.                             | ✔️                                          |                           |
-| apiDomain                | `string`                                 | The API domain used to communicate with the API.                                                                                      | ✔️                                          |                           |
-| thumbnailDomain          | `string`                                 | The API domain used to communicate with the resize microservice.                                                                      | ✔️                                          |                           |
-| requiredApiPermissions   | `MonkApiPermission[]`                    | Required API permission that the user must have to use the current app.                                                               |                                             |                           |
-| palette                  | `Partial<MonkPalette>`                   | Custom color palette to use in the app.                                                                                               |                                             |                           |
-| allowCreateInspection    | `boolean`                                | Indicates if automatic inspection creation should be enabled in the app.                                                              | ✔️                                          |                           |
-| createInspectionOptions  | `CreateInspectionOptions`                | Options used when automatically creating an inspection.                                                                               | if `allowCreateInspection` is set to `true` |                           |
+| Name                    | Type                                     | Description                                                                                                                           | Required                                    | Default Value             |
+|-------------------------|------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|---------------------------|
+| workflow                | `CaptureWorkflow`                        | Specifies which capture workflow this app is meant to be used for. The config options available change based on this param.           | ✔️                                          |                           |
+| format                  | `CompressionFormat`                      | The output format of the compression.                                                                                                 |                                             | `CompressionFormat.JPEG`  |
+| quality                 | `number`                                 | Value indicating image quality for the compression output.                                                                            |                                             | `0.6`                     |
+| resolution              | `CameraResolution`                       | Indicates the resolution of the pictures taken by the Camera.                                                                         |                                             | `CameraResolution.UHD_4K` |
+| allowImageUpscaling     | `boolean`                                | Allow images to be scaled up if the device does not support the specified resolution in the `resolution` prop.                        |                                             | `false`                   |
+| additionalTasks         | `TaskName[]`                             | An optional list of additional tasks to run on every image of the inspection.                                                         |                                             |                           |
+| startTasksOnComplete    | `<code>boolean &#124; TaskName[]</code>` | Value indicating if tasks should be started at the end of the inspection. See the `inspection-capture-web` package doc for more info. |                                             | `true`                    |
+| allowManualLogin        | `boolean`                                | Indicates if manual login and logout should be enabled or not.                                                                        | ✔️                                          |                           |
+| fetchFromSearchParams   | `boolean`                                | Indicates if the app state (auth token, inspection ID etc.) should be fetched from the URL search params.                             | ✔️                                          |                           |
+| apiDomain               | `string`                                 | The API domain used to communicate with the API.                                                                                      | ✔️                                          |                           |
+| thumbnailDomain         | `string`                                 | The API domain used to communicate with the resize microservice.                                                                      | ✔️                                          |                           |
+| requiredApiPermissions  | `MonkApiPermission[]`                    | Required API permission that the user must have to use the current app.                                                               |                                             |                           |
+| palette                 | `Partial<MonkPalette>`                   | Custom color palette to use in the app.                                                                                               |                                             |                           |
+| allowCreateInspection   | `boolean`                                | Indicates if automatic inspection creation should be enabled in the app.                                                              | ✔️                                          |                           |
+| createInspectionOptions | `CreateInspectionOptions`                | Options used when automatically creating an inspection.                                                                               | if `allowCreateInspection` is set to `true` |                           |
 
 ## PhotoCapture Configuration Options
+
 The following table lists the available configuration options in the `PhotoCaptureAppConfig` interface.
 
-*Note : PhotoCapture configurations must have their `workflow` property set to `CaptureWorkflow.PHOTO`.*
+_Note : PhotoCapture configurations must have their `workflow` property set to `CaptureWorkflow.PHOTO`._
 
 | Name                               | Type                                         | Description                                                                                                                                                                                          | Required                                          | Default Value                                |
 |------------------------------------|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|----------------------------------------------|
@@ -131,15 +137,17 @@ The following table lists the available configuration options in the `PhotoCaptu
 | allowVehicleTypeSelection          | `boolean`                                    | Indicates if manual vehicle type selection should be enabled if the vehicle type is not defined.                                                                                                     | ✔️                                                |                                              |
 | enableTutorial                     | `PhotoCaptureTutorialOption`                 | Options for displaying the photo capture tutorial.                                                                                                                                                   |                                                   | `PhotoCaptureTutorialOption.FIRST_TIME_ONLY` |
 | allowSkipTutorial                  | `boolean`                                    | Boolean indicating if the user can skip the PhotoCapture tutorial.                                                                                                                                   |                                                   | `true`                                       |
-| enableSightTutorial                | `boolean`                                    | Boolean indicating whether the sight tutorial feature is enabled.                                                                                                                                    |                                                   | `true`                                       |
+| enableSightTutorial                | `PhotoCaptureSightTutorialOption`            | Options for displaying the photo capture sight tutorial.                                                                                                                                             |                                                   | `PhotoCaptureSightTutorialOption.DISABLED`   |
+| sightTutorial                      | `SightTutorial[]`                            | A collection of sight tutorial in different language with a list of sightIds associate to it.                                                                                                        |                                                   |                                              |
 | enableSteeringWheelPosition        | `boolean`                                    | Indicates if the capture Sights should vary based on the steering wheel position (right or left).                                                                                                    | ✔️                                                |                                              |
 | sights                             | `Record<..., string[]>`                      | A map associating each vehicle type supported by the app to a list of sight IDs. If `enableSteeringWheelPosition` is set to `true`, it's a map associating each steering wheel position to this map. | ✔️                                                |                                              |
 | defaultSteeringWheelPosition       | `SteeringWheelPosition`                      | Default steering wheel position to use if no steering wheel position has been specified.                                                                                                             | if `enableSteeringWheelPosition` is set to `true` |                                              |
 
 ## VideoCapture Configuration Options
+
 The following table lists the available configuration options in the `VideoCaptureAppConfig` interface.
 
-*Note : PhotoCapture configurations must have their `workflow` property set to `CaptureWorkflow.VIDEO`.*
+_Note : PhotoCapture configurations must have their `workflow` property set to `CaptureWorkflow.VIDEO`._
 
 | Name                        | Type      | Description                                                                                                    | Required | Default Value |
 |-----------------------------|-----------|----------------------------------------------------------------------------------------------------------------|----------|---------------|

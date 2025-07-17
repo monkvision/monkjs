@@ -268,8 +268,8 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     allowSkipTutorial?: boolean;
     /**
-     * Boolean indicating whether the sight tutorial feature is enabled. If disabled, the sight tutorial icon displayed
-     * on the bottom left will be hidden.
+     * Options for displaying the Sight Tutorial. If disabled, the sight tutorial icon displayed
+     * on the top left will be hidden.
      *
      * @default PhotoCaptureSightTutorial.DISABLED
      */
