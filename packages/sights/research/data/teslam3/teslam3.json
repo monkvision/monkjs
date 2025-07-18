@@ -148,7 +148,12 @@
     "label": "front-fender-right",
     "overlay": "teslam3-Rn6VqLtY.svg",
     "vehicle": "teslam3",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 317,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslam3-Rn6VqLtY.jpeg"
   },
   "teslam3-Tk3LpRfJ": {
     "id": "teslam3-Tk3LpRfJ",

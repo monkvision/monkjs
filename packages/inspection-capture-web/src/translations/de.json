@@ -45,7 +45,8 @@
       },
       "sightTutorial": {
         "tip": "Tipp",
-        "defaultTutorial": "Positionieren Sie sich wie im linken Diagramm gezeigt und stellen Sie sicher, dass die Kamera auf der richtigen Höhe ist.\nFalls ein Referenzfoto vorhanden ist, versuchen Sie, Ihren Bildausschnitt entsprechend anzupassen."
+        "defaultTutorialWithImage": "Hier sehen Sie ein Referenzbild.\nBitte versuchen Sie, den Bildausschnitt möglichst genau nachzustellen.",
+        "defaultTutorialWithoutImage": "Bitte positionieren Sie sich wie in der Abbildung links gezeigt\nund achten Sie darauf, dass sich die Kamera in der richtigen Höhe befindet."
       }
     },
     "gallery": {

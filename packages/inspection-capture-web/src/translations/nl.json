@@ -45,7 +45,8 @@
       },
       "sightTutorial": {
         "tip": "Tip",
-        "defaultTutorial": "Plaats jezelf zoals aangegeven in het linkerschema en zorg ervoor dat de camera op de juiste hoogte staat.\nAls er een referentiefoto is, probeer dan je kader hierop af te stemmen."
+        "defaultTutorialWithImage": "Hier ziet u een referentieafbeelding.\nProbeer uw kadrering hier zo goed mogelijk op af te stemmen.",
+        "defaultTutorialWithoutImage": "Positioneer uzelf zoals aangegeven in het diagram aan de linkerkant\nen zorg ervoor dat de camera zich op de juiste hoogte bevindt."
       }
     },
     "gallery": {

@@ -29,6 +29,7 @@ const EXPECTED_DEFAULT_COMPLIANCE_ISSUES = [
 ];
 
 const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
+  ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.NO_VEHICLE,
   ComplianceIssue.BLURRINESS,
   ComplianceIssue.OVEREXPOSURE,
@@ -40,7 +41,6 @@ const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
   ComplianceIssue.HIDDEN_PARTS,
   ComplianceIssue.MISSING_PARTS,
   ComplianceIssue.WRONG_CENTER_PART,
-  ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.REFLECTIONS,
   ComplianceIssue.SNOWNESS,
   ComplianceIssue.WETNESS,
