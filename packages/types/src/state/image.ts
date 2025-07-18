@@ -199,7 +199,7 @@ export enum ComplianceIssue {
  * smaller the index, the higher the priority of the compliance issue.
  */
 export const COMPLIANCE_ISSUES_PRIORITY = [
-  // TODO: remove before release
+  ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.NO_VEHICLE,
 
   ComplianceIssue.BLURRINESS,
@@ -213,7 +213,6 @@ export const COMPLIANCE_ISSUES_PRIORITY = [
   ComplianceIssue.HIDDEN_PARTS,
   ComplianceIssue.MISSING_PARTS,
   ComplianceIssue.WRONG_CENTER_PART,
-  ComplianceIssue.PORTRAIT_IMAGE,
 
   ComplianceIssue.REFLECTIONS,
   ComplianceIssue.SNOWNESS,
