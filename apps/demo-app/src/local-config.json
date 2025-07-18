@@ -15,7 +15,7 @@
   "apiDomain": "api.preview.monk.ai/v1",
   "thumbnailDomain": "api.preview.monk.ai/image_resize",
   "enableTutorial": "first_time_only",
-  "enableSightTutorial": "classic",
+  "enableSightTutorial": "modern",
   "startTasksOnComplete": true,
   "showCloseButton": false,
   "enforceOrientation": "landscape",
@@ -205,6 +205,23 @@
         "fesc20-H1dfdfvH",
         "haccord-8YjMcu0D"
       ]
+    }
+  ],
+  "sightTutorial": [
+    {
+      "en": "Kneel or bend low in front of the car, aligned with the grille. Centre the car in the frame, ensuring the front grille, headlights, and registration plate are fully visible. Include the top of the car and the bottom of the bumper in the shot.",
+      "fr": "Agenouillez-vous ou penchez-vous devant la voiture, aligné avec la calandre. Centrez la voiture dans le cadre, en vous assurant que la calandre avant, les phares et la plaque d'immatriculation soient bien visibles. Veillez à inclure le toit de la voiture et le bas du pare-chocs dans la photo.",
+      "nl": "Kniel of buk laag voor de auto, uitgelijnd met het rooster. Centreer de auto in het frame, zorg ervoor dat het voorrooster, de koplampen en het kenteken volledig zichtbaar zijn. Zorg ervoor dat de bovenkant van de auto en de onderkant van de bumper in de foto zichtbaar zijn.",
+      "de": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stoßstange im Bild zu sehen sind.",
+      "imageReferenceBySightId": {
+        "ffocus18-XlfgjQb9": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "jgc21-QIvfeg0X": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "ff150-zXbg0l3z": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "ftransit18-wyXf7MTv": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "tsienna20-YwrRNr9n": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "fesc20-H1dfdfvH": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
+        "haccord-8YjMcu0D": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg"
+      }
     }
   ],
   "requiredApiPermissions": [
