@@ -83,8 +83,6 @@ export const styles: Styles = {
     fontWeight: 700,
   },
   guidelineContainer: {
-    height: '40%',
-    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
     padding: '0 30px',
@@ -96,8 +94,6 @@ export const styles: Styles = {
     lineHeight: '24px',
   },
   classicGuidelineContainer: {
-    height: '40%',
-    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
     padding: '0 30px',
@@ -116,14 +112,16 @@ export const styles: Styles = {
   },
   closeButtonFiller: { visibility: 'hidden', padding: '0px 20px', height: '100%', borderRadius: 0 },
   imageContainer: {
-    height: '60%',
+    flexGrow: 1,
+    overflow: 'hidden',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   classicImageContainer: {
-    height: '50%',
+    flexGrow: 1,
+    overflow: 'hidden',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',

@@ -45,7 +45,8 @@
       },
       "sightTutorial": {
         "tip": "Conseil",
-        "defaultTutorial": "Placez-vous comme indiqué dans le schéma de gauche en veillant à ce que la caméra soit à la bonne hauteur.\nSi une photo de référence est fournie, essayez d’adapter votre cadrage en conséquence."
+        "defaultTutorialWithImage": "Voici une image de référence.\nVeuillez essayer de reproduire le cadrage le plus fidèlement possible.",
+        "defaultTutorialWithoutImage": "Veuillez vous positionner comme indiqué sur le schéma de gauche,\nen vous assurant que la caméra est à la bonne hauteur."
       }
     },
     "gallery": {

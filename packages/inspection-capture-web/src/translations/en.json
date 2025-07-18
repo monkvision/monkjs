@@ -45,7 +45,8 @@
       },
       "sightTutorial": {
         "tip": "Tip",
-        "defaultTutorial": "Position yourself as shown in the left diagram, ensuring the camera is at the correct height.\nIf a reference photo is provided, try to match your framing accordingly."
+        "defaultTutorialWithImage": "Here’s a reference image\nTry to match your framing as closely as possible.",
+        "defaultTutorialWithoutImage": "Position yourself as shown in the left diagram\nEnsuring the camera is at the correct height."
       }
     },
     "gallery": {

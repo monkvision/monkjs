@@ -123,7 +123,13 @@ export function PhotoCaptureHUDSightTutorial({
           </div>
           <div style={style.classicGuidelineContainer}>
             <span style={style.classicGuideline}>
-              {tutorialGuideline ?? t('photo.hud.sightTutorial.defaultTutorial')}
+              {tutorialGuideline?.length
+                ? tutorialGuideline
+                : t(
+                    tutorialImage
+                      ? 'photo.hud.sightTutorial.defaultTutorialWithImage'
+                      : 'photo.hud.sightTutorial.defaultTutorialWithoutImage',
+                  )}
             </span>
           </div>
           {tutorialImage && (
@@ -148,7 +154,13 @@ export function PhotoCaptureHUDSightTutorial({
           </div>
           <div style={style.classicGuidelineContainer}>
             <span style={style.guideline}>
-              {tutorialGuideline ?? t('photo.hud.sightTutorial.defaultTutorial')}
+              {tutorialGuideline?.length
+                ? tutorialGuideline
+                : t(
+                    tutorialImage
+                      ? 'photo.hud.sightTutorial.defaultTutorialWithImage'
+                      : 'photo.hud.sightTutorial.defaultTutorialWithoutImage',
+                  )}
             </span>
           </div>
           {tutorialImage && (
