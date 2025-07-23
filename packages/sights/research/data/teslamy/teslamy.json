@@ -5,7 +5,12 @@
     "label": "rear-low",
     "overlay": "teslamy-A6Tp9FjX.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-A6Tp9FjX.jpeg"
   },
   "teslamy-B2Rp5LqJ": {
     "id": "teslamy-B2Rp5LqJ",
@@ -13,7 +18,12 @@
     "label": "lateral-full-left",
     "overlay": "teslamy-B2Rp5LqJ.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-B2Rp5LqJ.jpeg"
   },
   "teslamy-F9Nr3VtK": {
     "id": "teslamy-F9Nr3VtK",
@@ -21,7 +31,12 @@
     "label": "front-fender-left",
     "overlay": "teslamy-F9Nr3VtK.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-F9Nr3VtK.jpeg"
   },
   "teslamy-K3Lp5FtJ": {
     "id": "teslamy-K3Lp5FtJ",
@@ -29,7 +44,12 @@
     "label": "front-bumper-side-left",
     "overlay": "teslamy-K3Lp5FtJ.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-K3Lp5FtJ.jpeg"
   },
   "teslamy-L8Tq7FkR": {
     "id": "teslamy-L8Tq7FkR",
@@ -37,7 +57,12 @@
     "label": "front-roof-left",
     "overlay": "teslamy-L8Tq7FkR.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 61,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-L8Tq7FkR.jpeg"
   },
   "teslamy-M7Np3RzQ": {
     "id": "teslamy-M7Np3RzQ",
@@ -45,7 +70,12 @@
     "label": "rear-left",
     "overlay": "teslamy-M7Np3RzQ.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-M7Np3RzQ.jpeg"
   },
   "teslamy-Q4Lp8FvK": {
     "id": "teslamy-Q4Lp8FvK",
@@ -53,7 +83,12 @@
     "label": "front-low",
     "overlay": "teslamy-Q4Lp8FvK.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-Q4Lp8FvK.jpeg"
   },
   "teslamy-R4Lp6TqY": {
     "id": "teslamy-R4Lp6TqY",
@@ -61,7 +96,12 @@
     "label": "front-fender-right",
     "overlay": "teslamy-R4Lp6TqY.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 317,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-R4Lp6TqY.jpeg"
   },
   "teslamy-T5Rq8LkX": {
     "id": "teslamy-T5Rq8LkX",
@@ -69,7 +109,12 @@
     "label": "rear-lateral-right",
     "overlay": "teslamy-T5Rq8LkX.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-T5Rq8LkX.jpeg"
   },
   "teslamy-V2Np4FqY": {
     "id": "teslamy-V2Np4FqY",
@@ -77,7 +122,12 @@
     "label": "rear-lateral-left",
     "overlay": "teslamy-V2Np4FqY.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-V2Np4FqY.jpeg"
   },
   "teslamy-W8Vq2LkF": {
     "id": "teslamy-W8Vq2LkF",
@@ -85,7 +135,12 @@
     "label": "lateral-full-right",
     "overlay": "teslamy-W8Vq2LkF.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-W8Vq2LkF.jpeg"
   },
   "teslamy-X9Tk4LwY": {
     "id": "teslamy-X9Tk4LwY",
@@ -93,7 +148,12 @@
     "label": "rear-right",
     "overlay": "teslamy-X9Tk4LwY.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-X9Tk4LwY.jpeg"
   },
   "teslamy-Z7Tp9VkY": {
     "id": "teslamy-Z7Tp9VkY",
@@ -101,6 +161,11 @@
     "label": "front-bumper-side-right",
     "overlay": "teslamy-Z7Tp9VkY.svg",
     "vehicle": "teslamy",
-    "tasks": ["damage_detection"]
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslamy-Z7Tp9VkY.jpeg"
   }
 }
