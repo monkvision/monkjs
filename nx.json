@@ -1,0 +1,91 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build:development",
+          "build:staging",
+          "build:preview",
+          "build:backend-staging-qa",
+          "test",
+          "test:coverage",
+          "prettier",
+          "prettier:fix",
+          "eslint",
+          "eslint:fix",
+          "lint",
+          "lint:fix",
+          "build",
+          "deploy",
+          "typecheck",
+          "svgo",
+          "build:production",
+          "compile",
+          "validate",
+          "svgo:wireframe",
+          "svgo:all"
+        ],
+        "accessToken": "NjI2ZmRiNTYtNjRiOS00Zjc4LWFkN2YtNWM4MTMwYWY3MDk5fHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDefaults": {
+    "build:development": {
+      "dependsOn": ["^build:development"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "build:staging": {
+      "dependsOn": ["^build:staging"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "build:preview": {
+      "dependsOn": ["^build:preview"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "build:backend-staging-qa": {
+      "dependsOn": ["^build:backend-staging-qa"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "start": {
+      "dependsOn": ["^build"]
+    },
+    "serve": {
+      "dependsOn": ["^serve"]
+    },
+    "deploy": {
+      "dependsOn": ["^deploy"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "build:production": {
+      "dependsOn": ["^build:production"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/lib"]
+    },
+    "compile": {
+      "dependsOn": ["^compile"]
+    },
+    "svgo:wireframe": {
+      "dependsOn": ["^svgo:wireframe"],
+      "outputs": ["{projectRoot}/src/lib/data"]
+    },
+    "svgo:all": {
+      "dependsOn": ["^svgo:all"],
+      "outputs": ["{projectRoot}/src/lib/data"]
+    },
+    "svgo": {
+      "outputs": ["{projectRoot}/src/lib/data"]
+    }
+  },
+  "affected": {
+    "defaultBase": "main"
+  }
+}
