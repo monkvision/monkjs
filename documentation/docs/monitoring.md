@@ -70,7 +70,7 @@ import { EmptyMonitoringAdapter } from '@monkvision/monitoring';
 
 const adapter = new EmptyMonitoringAdapter();
 ```
-This Monitoring Adapter does nothing. It is basically an ampty adapter with empty callbacks for every monitoring
+This Monitoring Adapter does nothing. It is basically an empty adapter with empty callbacks for every monitoring
 utility. It is the default monitoring adapter that is returned and used if you use the `useMonitoring` hook in a
 component that is not a child of a `MonitoringProvider` component.
 
