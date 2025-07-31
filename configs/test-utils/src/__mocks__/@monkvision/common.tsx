@@ -147,4 +147,5 @@ export = {
     alpha: 0,
     requestCompassPermission: jest.fn(() => Promise.resolve()),
   })),
+  useSafeTimeout: jest.fn(() => jest.fn()),
 };

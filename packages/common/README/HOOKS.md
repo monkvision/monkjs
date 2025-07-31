@@ -265,6 +265,19 @@ This hook returns takes a `ResponsiveStyleProperties` declarations object (see t
 `@monkvision/types` package for more details) containing a media query and returns either the CSSProperties contained in
 the type, or `null` if the query conditions are not met. Note that if there are no query, the style will be applied.
 
+
+### useSafeTimeout
+```tsx
+import { sights } from '@monkvision/sights';
+import { useSafeTimeout } from '@monkvision/common';
+
+function TestComponent() {
+  const setSafeTimeout = useSafeTimeout();
+  setSafeTimeout(() => console.log('test'), 1000);
+}
+```
+Custom hook that provides a safe way to use setTimeout.
+
 ### useSearchParams
 ```tsx
 import { sights } from '@monkvision/sights';
