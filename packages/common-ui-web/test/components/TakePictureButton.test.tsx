@@ -1,3 +1,5 @@
+jest.mock('@monkvision/common');
+
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   expectComponentToPassDownClassNameToHTMLElement,

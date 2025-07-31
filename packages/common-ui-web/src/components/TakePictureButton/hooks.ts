@@ -1,5 +1,6 @@
 import { InteractiveStatus } from '@monkvision/types';
 import { CSSProperties, useState } from 'react';
+import { useSafeTimeout } from '@monkvision/common';
 import { styles, TAKE_PICTURE_BUTTON_COLORS } from './TakePictureButton.styles';
 
 /**
@@ -33,11 +34,12 @@ export function useTakePictureButtonStyle(
   params: MonkTakePictureButtonStyleParams,
 ): TakePictureButtonStyles {
   const [isPressed, setIsPressed] = useState(false);
+  const setSafeTimeout = useSafeTimeout();
   const borderWidth = (params.size * (1 - INNER_BUTTON_SIZE_RATIO)) / 4;
 
   const animateClick = () => {
     setIsPressed(true);
-    setTimeout(() => setIsPressed(false), PRESS_ANIMATION_DURATION_MS);
+    setSafeTimeout(() => setIsPressed(false), PRESS_ANIMATION_DURATION_MS);
   };
 
   const buttonStyles = {
