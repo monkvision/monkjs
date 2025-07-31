@@ -528,4 +528,64 @@ describe('useUserMedia hook', () => {
     });
     unmount();
   });
+
+  it('should stop all tracks when the component unmounts', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
+
+    await waitFor(() => {
+      expect(result.current.stream).toEqual(gumMock?.stream);
+    });
+
+    expect(gumMock?.tracks).toHaveLength(1);
+    expect(gumMock?.tracks[0].stop).toBeDefined();
+
+    unmount();
+
+    gumMock?.tracks.forEach((track) => {
+      expect(track.stop).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should stop tracks when unmounting even if stream is null', () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+
+    // Create a mock stream that returns null for getTracks
+    const nullStreamMock = {
+      getTracks: jest.fn(() => null),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    } as unknown as MediaStream;
+
+    mockGetUserMedia({
+      createMock: () => jest.fn(() => Promise.resolve(nullStreamMock)),
+    });
+
+    const { unmount } = renderUseUserMedia({ constraints: {}, videoRef });
+
+    // Unmount should not throw even with null tracks
+    expect(() => unmount()).not.toThrow();
+  });
+
+  it('should call stop on each track exactly once during cleanup', async () => {
+    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
+    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
+
+    await waitFor(() => {
+      expect(result.current.stream).toEqual(gumMock?.stream);
+    });
+
+    // Verify initial state - no tracks stopped yet
+    gumMock?.tracks.forEach((track) => {
+      expect(track.stop).not.toHaveBeenCalled();
+    });
+
+    // Unmount the component
+    unmount();
+
+    // Verify each track was stopped exactly once
+    gumMock?.tracks.forEach((track) => {
+      expect(track.stop).toHaveBeenCalledTimes(1);
+    });
+  });
 });

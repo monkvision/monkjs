@@ -203,6 +203,7 @@ export function useUserMedia(
   constraints: MediaStreamConstraints,
   videoRef: RefObject<HTMLVideoElement> | null,
 ): UserMediaResult {
+  const streamRef = useRef<MediaStream | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -276,6 +277,7 @@ export function useUserMedia(
     str?.addEventListener('inactive', onStreamInactive);
     if (isMounted()) {
       setStream(str);
+      streamRef.current = str;
       setDimensions(getStreamDimensions(str, true));
       setIsLoading(false);
       setAvailableCameraDevices(deviceDetails.availableDevices);
@@ -331,6 +333,14 @@ export function useUserMedia(
       };
     }
   }, [stream, videoRef]);
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => {
+        track.stop();
+      });
+    };
+  }, []);
 
   return useObjectMemo({
     getUserMedia,
