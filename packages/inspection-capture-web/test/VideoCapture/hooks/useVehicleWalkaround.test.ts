@@ -1,11 +1,14 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { useVehicleWalkaround } from '../../../src/VideoCapture/hooks';
 
 describe('useVehicleWalkaround hook', () => {
   it('should return 0 when the walkaround has not been started', () => {
-    const { result, rerender, unmount } = renderHook(useVehicleWalkaround, {
-      initialProps: { alpha: 35 },
-    });
+    const { result, rerender, unmount } = renderHook(
+      (props: { alpha: number }) => useVehicleWalkaround(props),
+      {
+        initialProps: { alpha: 35 },
+      },
+    );
 
     expect(result.current.walkaroundPosition).toEqual(0);
     rerender({ alpha: 30 });
@@ -17,9 +20,12 @@ describe('useVehicleWalkaround hook', () => {
   });
 
   it('should start updating the position with the proper values after the walkaround has started', () => {
-    const { result, rerender, unmount } = renderHook(useVehicleWalkaround, {
-      initialProps: { alpha: 67 },
-    });
+    const { result, rerender, unmount } = renderHook(
+      (props: { alpha: number }) => useVehicleWalkaround(props),
+      {
+        initialProps: { alpha: 67 },
+      },
+    );
 
     expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());
@@ -57,9 +63,12 @@ describe('useVehicleWalkaround hook', () => {
   });
 
   it('should return 0 if the user rotates past the next checkpoint', () => {
-    const { result, rerender, unmount } = renderHook(useVehicleWalkaround, {
-      initialProps: { alpha: 50 },
-    });
+    const { result, rerender, unmount } = renderHook(
+      (props: { alpha: number }) => useVehicleWalkaround(props),
+      {
+        initialProps: { alpha: 50 },
+      },
+    );
 
     expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());
@@ -79,9 +88,12 @@ describe('useVehicleWalkaround hook', () => {
   });
 
   it('should reset the position and checkpoints on start', () => {
-    const { result, rerender, unmount } = renderHook(useVehicleWalkaround, {
-      initialProps: { alpha: 67 },
-    });
+    const { result, rerender, unmount } = renderHook(
+      (props: { alpha: number }) => useVehicleWalkaround(props),
+      {
+        initialProps: { alpha: 67 },
+      },
+    );
 
     expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());

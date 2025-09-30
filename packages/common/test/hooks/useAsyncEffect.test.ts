@@ -1,7 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { useAsyncEffect } from '../../src';
 import { createFakePromise } from '@monkvision/test-utils';
-import { waitFor } from '@testing-library/react';
 
 describe('useAsyncEffect hook', () => {
   afterEach(() => {

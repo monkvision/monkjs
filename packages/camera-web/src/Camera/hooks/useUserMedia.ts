@@ -201,7 +201,7 @@ function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): Pi
  */
 export function useUserMedia(
   constraints: MediaStreamConstraints,
-  videoRef: RefObject<HTMLVideoElement> | null,
+  videoRef: RefObject<HTMLVideoElement | null> | null,
 ): UserMediaResult {
   const streamRef = useRef<MediaStream | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -261,10 +261,6 @@ export function useUserMedia(
 
   const getUserMedia = useCallback(async () => {
     setIsLoading(true);
-    if (stream) {
-      stream.removeEventListener('inactive', onStreamInactive);
-      stream.getTracks().forEach((track) => track.stop());
-    }
     const deviceDetails = await analyzeCameraDevices(constraints);
     const updatedConstraints = {
       ...constraints,
@@ -336,6 +332,7 @@ export function useUserMedia(
 
   useEffect(() => {
     return () => {
+      streamRef.current?.removeEventListener('inactive', onStreamInactive);
       streamRef.current?.getTracks().forEach((track) => {
         track.stop();
       });
