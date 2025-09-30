@@ -1,5 +1,4 @@
-import { waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { waitFor, renderHook } from '@testing-library/react';
 import { LoadingState } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
 import { useMonitoring } from '@monkvision/monitoring';

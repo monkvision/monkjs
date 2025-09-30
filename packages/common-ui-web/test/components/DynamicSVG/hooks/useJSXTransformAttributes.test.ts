@@ -2,7 +2,7 @@ jest.mock('../../../../src/components/DynamicSVG/hooks/utils', () => ({
   transformInlineCss: jest.fn(() => ({ height: '34px' })),
 }));
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { CSSProperties } from 'react';
 import { useJSXTransformAttributes } from '../../../../src/components/DynamicSVG/hooks';
 import { transformInlineCss } from '../../../../src/components/DynamicSVG/hooks/utils';

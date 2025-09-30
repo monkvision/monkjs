@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useObjectMemo } from '../../src';
 
 describe('useObjectMemo hook', () => {

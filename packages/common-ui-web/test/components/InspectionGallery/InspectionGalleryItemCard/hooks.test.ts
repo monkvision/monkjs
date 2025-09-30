@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useObjectTranslation, useSightLabel } from '@monkvision/common';
 import { labels, sights } from '@monkvision/sights';
 import { useTranslation } from 'react-i18next';

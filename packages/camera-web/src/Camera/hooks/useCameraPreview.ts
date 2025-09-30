@@ -16,7 +16,7 @@ export interface CameraPreviewHandle extends UserMediaResult {
   /**
    * React MutableRefObject referencing the video element displaying the camera preview.
    */
-  ref: RefObject<HTMLVideoElement>;
+  ref: RefObject<HTMLVideoElement | null>;
 }
 
 /**

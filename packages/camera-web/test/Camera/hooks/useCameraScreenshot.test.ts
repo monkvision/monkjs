@@ -8,7 +8,7 @@ jest.mock('../../../src/Camera/hooks/utils/getCanvasHandle', () => ({
 }));
 
 import { TransactionStatus } from '@monkvision/monitoring';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { RefObject } from 'react';
 import { getCanvasHandle } from '../../../src/Camera/hooks/utils';
 import { useCameraScreenshot } from '../../../src/Camera/hooks';

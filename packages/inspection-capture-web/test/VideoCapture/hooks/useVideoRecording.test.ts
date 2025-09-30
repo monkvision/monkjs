@@ -3,9 +3,8 @@ import {
   UseVideoRecordingParams,
   VideoRecordingTooltip,
 } from '../../../src/VideoCapture/hooks';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useInterval } from '@monkvision/common';
-import { act } from '@testing-library/react';
 
 function createProps(): UseVideoRecordingParams {
   let isRecording = false;
@@ -34,7 +33,10 @@ describe('useVideoRecording hook', () => {
 
   it('should start with the proper initial state', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     expect(result.current).toEqual(
       expect.objectContaining({
@@ -54,7 +56,9 @@ describe('useVideoRecording hook', () => {
 
   it('should not be taking screenshots when the video is not recording', () => {
     const initialProps = createProps();
-    const { unmount } = renderHook(useVideoRecording, { initialProps });
+    const { unmount } = renderHook((props: UseVideoRecordingParams) => useVideoRecording(props), {
+      initialProps,
+    });
 
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
 
@@ -63,11 +67,15 @@ describe('useVideoRecording hook', () => {
 
   it('should start taking screenshots when the user clicks on the recording button', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
     });
+    expect(initialProps.setIsRecording).toHaveBeenCalledWith(true);
     expect(initialProps.isRecording).toBe(true);
     expect(result.current.isRecordingPaused).toBe(false);
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), initialProps.screenshotInterval);
@@ -83,7 +91,10 @@ describe('useVideoRecording hook', () => {
 
   it('should keep track of the recording length', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
@@ -91,7 +102,7 @@ describe('useVideoRecording hook', () => {
     expect(result.current.recordingDurationMs).toEqual(0);
     const time = 2547;
     jest.advanceTimersByTime(time);
-    rerender();
+    rerender(initialProps);
     expect(result.current.recordingDurationMs).toEqual(time);
 
     unmount();
@@ -99,13 +110,16 @@ describe('useVideoRecording hook', () => {
 
   it('should display the discard warning and pause the recording when stopping the video too soon based on the recording time', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
     });
     jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
-    rerender();
+    rerender(initialProps);
     (useInterval as jest.Mock).mockClear();
     expect(result.current.isDiscardDialogDisplayed).toBe(false);
     act(() => {
@@ -117,7 +131,7 @@ describe('useVideoRecording hook', () => {
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration - 1);
     jest.advanceTimersByTime(4500);
-    rerender();
+    rerender(initialProps);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration - 1);
 
     unmount();
@@ -126,13 +140,16 @@ describe('useVideoRecording hook', () => {
   it('should display the discard warning and pause the recording when stopping the video too soon based on the walkaround position', () => {
     const initialProps = createProps();
     initialProps.walkaroundPosition = 269;
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
     });
     jest.advanceTimersByTime(initialProps.minRecordingDuration + 1);
-    rerender();
+    rerender(initialProps);
     (useInterval as jest.Mock).mockClear();
     expect(result.current.isDiscardDialogDisplayed).toBe(false);
     act(() => {
@@ -144,7 +161,7 @@ describe('useVideoRecording hook', () => {
     expect(useInterval).toHaveBeenCalledWith(expect.anything(), null);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration + 1);
     jest.advanceTimersByTime(4500);
-    rerender();
+    rerender(initialProps);
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration + 1);
 
     unmount();
@@ -152,17 +169,20 @@ describe('useVideoRecording hook', () => {
 
   it('should resume the recording when the user presses on the keep recording button', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
     });
     jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
-    rerender();
+    rerender(initialProps);
     act(() => {
       result.current.onClickRecordVideo();
     });
-    rerender();
+    rerender(initialProps);
     (useInterval as jest.Mock).mockClear();
     act(() => {
       result.current.onDiscardDialogKeepRecording();
@@ -174,7 +194,7 @@ describe('useVideoRecording hook', () => {
     expect(result.current.recordingDurationMs).toEqual(initialProps.minRecordingDuration - 1);
     const time = 4500;
     jest.advanceTimersByTime(time);
-    rerender();
+    rerender(initialProps);
     expect(result.current.recordingDurationMs).toEqual(
       time + initialProps.minRecordingDuration - 1,
     );
@@ -184,17 +204,20 @@ describe('useVideoRecording hook', () => {
 
   it('should stop the recording when the user presses on the discard video button', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
     });
     jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
-    rerender();
+    rerender(initialProps);
     act(() => {
       result.current.onClickRecordVideo();
     });
-    rerender();
+    rerender(initialProps);
     (useInterval as jest.Mock).mockClear();
     act(() => {
       result.current.onDiscardDialogDiscardVideo();
@@ -205,7 +228,7 @@ describe('useVideoRecording hook', () => {
     expect(initialProps.isRecording).toBe(false);
     expect(result.current.isRecordingPaused).toBe(false);
     jest.advanceTimersByTime(4500);
-    rerender();
+    rerender(initialProps);
     expect(result.current.recordingDurationMs).toEqual(0);
 
     unmount();
@@ -213,7 +236,10 @@ describe('useVideoRecording hook', () => {
 
   it('should return the start tooltip initially', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     expect(result.current.tooltip).toEqual(VideoRecordingTooltip.START);
 
@@ -222,7 +248,10 @@ describe('useVideoRecording hook', () => {
 
   it('should dismiss the initial tooltip once the user starts recording the video', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();
@@ -234,7 +263,10 @@ describe('useVideoRecording hook', () => {
 
   it('should show the end tooltip once the compass reaches the end', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoRecording, { initialProps });
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
 
     act(() => {
       result.current.onClickRecordVideo();

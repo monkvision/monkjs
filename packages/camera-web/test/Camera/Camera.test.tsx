@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 
 Object.defineProperty(HTMLMediaElement.prototype, 'muted', {
   set: () => {},
