@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { sights } from '@monkvision/sights';
 import { ComplianceIssue, ComplianceOptions, Image, ImageStatus } from '@monkvision/types';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
@@ -43,8 +43,8 @@ describe('useInspectionGalleryItems hook', () => {
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
     );
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: false, sightId: 'test-sight-1' },
@@ -82,8 +82,8 @@ describe('useInspectionGalleryItems hook', () => {
         status: ImageStatus.SUCCESS,
       } as unknown as Image,
     );
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state: entitiesMock1 }));
-    const { result, unmount, rerender } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state: entitiesMock1 }));
+    const { result, unmount, rerender } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: entitiesMock1.images[0] },
@@ -92,8 +92,8 @@ describe('useInspectionGalleryItems hook', () => {
       { isAddDamage: true },
     ]);
 
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state: entitiesMock2 }));
-    rerender();
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state: entitiesMock2 }));
+    rerender(initialProps);
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: entitiesMock2.images[0] },
       { isAddDamage: false, isTaken: true, image: entitiesMock2.images[1] },
@@ -126,8 +126,8 @@ describe('useInspectionGalleryItems hook', () => {
         status: ImageStatus.NOT_COMPLIANT,
       } as unknown as Image,
     );
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: state.images[2] },
@@ -161,8 +161,8 @@ describe('useInspectionGalleryItems hook', () => {
         sightId: 'test-sight-3',
       } as unknown as Image,
     );
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: state.images[0] },
@@ -176,7 +176,8 @@ describe('useInspectionGalleryItems hook', () => {
   it('should not add untaken items if not in capture mode', () => {
     const initialProps = createProps();
     initialProps.captureMode = false;
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state: createEmptyMonkState() }));
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([]);
 
@@ -207,8 +208,8 @@ describe('useInspectionGalleryItems hook', () => {
         createdAt: Date.parse('2023-01-01T01:01:01.001Z'),
       } as unknown as Image,
     );
-    (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: state.images[2] },
@@ -239,7 +240,7 @@ describe('useInspectionGalleryItems hook', () => {
       } as unknown as Image,
     );
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { result, unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    const { result, unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(result.current).toEqual([
       { isAddDamage: false, isTaken: true, image: state.images[0] },
@@ -252,7 +253,7 @@ describe('useInspectionGalleryItems hook', () => {
   it('should pass the id, apiConfig and compliance to the useInspectionPoll hook', () => {
     const initialProps = createProps();
     initialProps.captureMode = true;
-    const { unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    const { unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(useInspectionPoll).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -270,7 +271,7 @@ describe('useInspectionGalleryItems hook', () => {
 
   it('should stop refreshing the inspection poll when all image statuses are done', () => {
     const initialProps = createProps();
-    const { unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    const { unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(useInspectionPoll).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -291,7 +292,7 @@ describe('useInspectionGalleryItems hook', () => {
       status: ImageStatus.UPLOADING,
     } as unknown as Image);
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({ state }));
-    const { unmount } = renderHook(useInspectionGalleryItems, { initialProps });
+    const { unmount } = renderHook((props: InspectionGalleryProps) => useInspectionGalleryItems(props), { initialProps });
 
     expect(useInspectionPoll).toHaveBeenCalledWith(
       expect.objectContaining({

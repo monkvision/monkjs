@@ -15,11 +15,11 @@ export interface CameraScreenshotConfig {
   /**
    * The ref to the video element to take screenshots of.
    */
-  videoRef: RefObject<HTMLVideoElement>;
+  videoRef: RefObject<HTMLVideoElement | null>;
   /**
    * The ref to the canvas element used to draw the screenshots
    */
-  canvasRef: RefObject<HTMLCanvasElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   /**
    * The dimensions of the screenshot.
    */

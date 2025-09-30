@@ -1,6 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useBadConnectionWarning } from '../../src/hooks';
-import { act } from '@testing-library/react';
 import { createFakePromise } from '@monkvision/test-utils';
 
 describe('useBadConnectionWarning hook', () => {

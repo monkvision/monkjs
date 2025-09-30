@@ -8,7 +8,7 @@ Object.defineProperty(global, 'DOMParser', {
   writable: true,
 });
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useXMLParser } from '../../../../src/components/DynamicSVG/hooks';
 
 describe('useXMLParser hook', () => {

@@ -28,7 +28,7 @@ export interface CameraCanvasHandle {
   /**
    * The ref to the canvas element. Forward this ref to the <canvas> tag to set it up.
    */
-  ref: RefObject<HTMLCanvasElement>;
+  ref: RefObject<HTMLCanvasElement | null>;
   /**
    * The dimensions of the canvas.
    */

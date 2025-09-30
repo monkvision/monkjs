@@ -17,7 +17,7 @@ jest.mock('../../src/Camera/hooks/utils', () => ({
 }));
 
 import { CameraResolution } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { isMobileDevice } from '@monkvision/common';
 import { CameraFacingMode, useCameraPermission } from '../../src';
 import { useUserMedia } from '../../src/Camera/hooks';

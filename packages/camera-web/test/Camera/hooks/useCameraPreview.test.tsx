@@ -12,8 +12,7 @@ jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
 }));
 
 import { CameraResolution } from '@monkvision/types';
-import { render, waitFor, act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { render, waitFor, act, renderHook } from '@testing-library/react';
 import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
 import { useWindowDimensions } from '@monkvision/common';

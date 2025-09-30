@@ -82,14 +82,14 @@ function getFastMovementsWarningMessage(type: FastMovementType | null): string {
   }
 }
 
-function getTooltipLabel(tooltip: VideoRecordingTooltip | null): string | undefined {
+function getTooltipLabel(tooltip: VideoRecordingTooltip | null): string {
   switch (tooltip) {
     case VideoRecordingTooltip.START:
       return 'video.recording.tooltip.start';
     case VideoRecordingTooltip.END:
       return 'video.recording.tooltip.end';
     default:
-      return undefined;
+      return '';
   }
 }
 
@@ -187,7 +187,7 @@ export function VideoCaptureHUD({
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
-            tooltip={t(getTooltipLabel(tooltip))}
+            tooltip={tooltip ? t(getTooltipLabel(tooltip)) : undefined}
           />
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (

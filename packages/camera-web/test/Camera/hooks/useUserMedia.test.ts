@@ -5,8 +5,8 @@ jest.mock('../../../src/Camera/hooks/utils/analyzeCameraDevices', () => ({
   analyzeCameraDevices: jest.fn(() => ({ validDeviceIds, availableDevices })),
 }));
 
-import { act, waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, waitFor, renderHook } from '@testing-library/react';
+import { isMobileDevice } from '@monkvision/common';
 import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
@@ -19,13 +19,9 @@ function renderUseUserMedia(initialProps: {
   constraints: MediaStreamConstraints;
   videoRef: RefObject<HTMLVideoElement> | null;
 }) {
-  return renderHook(
-    (props: {
-      constraints: MediaStreamConstraints;
-      videoRef: RefObject<HTMLVideoElement> | null;
-    }) => useUserMedia(props.constraints, props.videoRef),
-    { initialProps },
-  );
+  return renderHook(() => useUserMedia(initialProps.constraints, initialProps.videoRef), {
+    initialProps,
+  });
 }
 
 describe('useUserMedia hook', () => {

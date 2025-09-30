@@ -102,7 +102,7 @@ describe('VideoCaptureProcessing component', () => {
     props.totalProcessingFrames = 1;
     props.uploadedFrames = 1;
     props.totalUploadingFrames = 1;
-    props.loading.error = { test: 'error' };
+    props.loading.error = 'test error';
     const { unmount } = render(<VideoCaptureProcessing {...props} />);
 
     expect(screen.queryByText(`video.processing.error ${props.inspectionId}`)).not.toBeNull();

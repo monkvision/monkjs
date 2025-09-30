@@ -61,7 +61,7 @@ export type VehicleTypeSelectionProps = {
 } & AllOrNone<MonkApiProps>;
 
 function scrollToSelectedVehicleType(
-  ref: RefObject<HTMLDivElement>,
+  ref: RefObject<HTMLDivElement | null>,
   index: number,
   smooth: boolean,
 ): void {

@@ -112,7 +112,7 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
       props.filterByImageType,
     ],
   );
-  const shouldFetch = useMemo(() => shouldContinueToFetch(items), items);
+  const shouldFetch = useMemo(() => shouldContinueToFetch(items), [items]);
 
   useInspectionPoll({
     id: props.inspectionId,

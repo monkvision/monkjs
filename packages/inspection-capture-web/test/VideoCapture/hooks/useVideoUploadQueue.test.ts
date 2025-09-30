@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
@@ -25,7 +25,7 @@ describe('useVideoUploadQueue hook', () => {
 
   it('should push items to the queue with the proper params', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(useVideoUploadQueue, { initialProps });
+    const { result, rerender, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
     expect(useQueue).toHaveBeenCalled();
     let { push } = (useQueue as jest.Mock).mock.results[0].value;
@@ -66,7 +66,7 @@ describe('useVideoUploadQueue hook', () => {
 
   it('should upload the image to the API when adding the item to the queue', () => {
     const initialProps = createProps();
-    const { unmount } = renderHook(useVideoUploadQueue, { initialProps });
+    const { unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
     expect(useMonkApi).toHaveBeenCalledWith(initialProps.apiConfig);
     const { addImage } = (useMonkApi as jest.Mock).mock.results[0].value;
@@ -95,7 +95,7 @@ describe('useVideoUploadQueue hook', () => {
 
   it('should retry the failed items until they reach the retry limit', () => {
     const initialProps = createProps();
-    const { unmount } = renderHook(useVideoUploadQueue, { initialProps });
+    const { unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
     expect(useQueue).toHaveBeenCalledWith(
       expect.any(Function),
@@ -142,7 +142,7 @@ describe('useVideoUploadQueue hook', () => {
       processingCount,
     }));
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useVideoUploadQueue, { initialProps });
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
     expect(result.current.uploadedFrames).toEqual(totalItems - processingCount);
     expect(result.current.totalUploadingFrames).toEqual(totalItems);

@@ -12,7 +12,7 @@ const testUrl = 'test-url-test-test';
 global.URL.createObjectURL = jest.fn(() => testUrl);
 
 import { TransactionStatus } from '@monkvision/monitoring';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { RefObject } from 'react';
 import { CompressionFormat } from '@monkvision/types';
 import { getCanvasHandle } from '../../../src/Camera/hooks/utils';

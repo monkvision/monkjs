@@ -30,9 +30,14 @@ describe('VehicleDynamicWireframe component', () => {
   it('should update the overlay while changing the orientation', () => {
     const { rerender } = render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
-    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.FRONT_LEFT],
-    });
+    {
+      const lastCall = (dynamicSVGModuleMock.DynamicSVG as jest.Mock).mock.calls.at(-1);
+      expect(lastCall?.[0]).toEqual(
+        expect.objectContaining({
+          svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.FRONT_LEFT],
+        }),
+      );
+    }
     rerender(
       <VehicleDynamicWireframe
         vehicleType={VehicleType.CUV}
@@ -40,9 +45,14 @@ describe('VehicleDynamicWireframe component', () => {
       />,
     );
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(2);
-    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.REAR_LEFT],
-    });
+    {
+      const lastCall = (dynamicSVGModuleMock.DynamicSVG as jest.Mock).mock.calls.at(-1);
+      expect(lastCall?.[0]).toEqual(
+        expect.objectContaining({
+          svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.REAR_LEFT],
+        }),
+      );
+    }
   });
 
   it('should trigger onClickPart when part is clicked', () => {

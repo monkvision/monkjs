@@ -106,7 +106,9 @@ export const Login = i18nWrap(function Login({ onLoginSuccessful, lang, style = 
   return (
     <div style={{ ...rootStyles, ...styles['container'], ...style }}>
       {isExpired && <div style={styles['errorMessage']}>{t('errors.token-expired')}</div>}
-      {loading.error && <div style={styles['errorMessage']}>{t(loading.error)}</div>}
+      {typeof loading.error === 'string' && (
+        <div style={styles['errorMessage']}>{t(loading.error)}</div>
+      )}
       {authToken && config?.allowManualLogin && (
         <Button primaryColor='alert' loading={loading} onClick={logout}>
           {t('actions.log-out')}

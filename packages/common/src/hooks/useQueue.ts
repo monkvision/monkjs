@@ -176,7 +176,7 @@ export function useQueue<T>(
   const [failedItems, setFailedItems] = useState<QueueFailedItem<T>[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const options = useMemo(() => ({ ...defaultOptions, ...(optionsParams ?? {}) }), [optionsParams]);
-  const stateRef = useRef<QueueState<T>>();
+  const stateRef = useRef<QueueState<T>>(null);
   stateRef.current = { processedItems, itemsOnHold, canceledItems, options };
 
   const clear = useCallback((cancelProcessing = false) => {

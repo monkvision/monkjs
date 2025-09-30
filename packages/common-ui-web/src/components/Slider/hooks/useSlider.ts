@@ -12,7 +12,7 @@ function getFirstThumbPosition(min: number, max: number, value: number): number 
 
 function getThumbPosition(
   event: MouseEvent | TouchEvent,
-  sliderRef: RefObject<HTMLDivElement>,
+  sliderRef: RefObject<HTMLDivElement | null>,
   step: number,
   min: number,
   max: number,
@@ -49,7 +49,7 @@ function getNewSliderValue(
 }
 
 export interface UseSliderParams {
-  sliderRef: RefObject<HTMLDivElement>;
+  sliderRef: RefObject<HTMLDivElement | null>;
   value: number;
   min: number;
   max: number;

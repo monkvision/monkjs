@@ -16,7 +16,7 @@ export interface UseCompressionParams {
   /**
    * The ref to the canvas element used to draw and compress the image.
    */
-  canvasRef: RefObject<HTMLCanvasElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   /**
    * The compression options.
    */
@@ -72,7 +72,7 @@ function setCustomMeasurements(
 
 function compressUsingBrowser(
   image: ImageData,
-  canvasRef: RefObject<HTMLCanvasElement>,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
   options: CompressionOptions,
 ): Promise<MonkPicture> {
   const { canvas, context } = getCanvasHandle(canvasRef);

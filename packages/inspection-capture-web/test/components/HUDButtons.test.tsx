@@ -54,17 +54,20 @@ describe('CaptureHUDButtons component', () => {
       unmount();
     });
 
-    it('should display an image icon when no galleryPreview is provided', () => {
-      const expectedIcon = 'gallery';
+    it('should display a gallery icon when no galleryPreview is provided', () => {
       const { unmount } = render(<HUDButtons />);
 
-      expect((Icon as jest.Mock).mock.calls).toContainEqual([
+      const galleryIconCall = (Icon as jest.Mock).mock.calls.find(
+        (call) => call[0]?.icon === 'gallery',
+      );
+
+      expect(galleryIconCall).toEqual([
         {
-          icon: expectedIcon,
+          icon: 'gallery',
           size: 30,
           primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
-        expect.anything(),
+        undefined,
       ]);
 
       unmount();
@@ -199,13 +202,17 @@ describe('CaptureHUDButtons component', () => {
       const expectedIcon = 'close';
       const { unmount } = render(<HUDButtons showCloseButton />);
 
-      expect((Icon as jest.Mock).mock.calls).toContainEqual([
+      const closeIconCall = (Icon as jest.Mock).mock.calls.find(
+        (call) => call[0]?.icon === expectedIcon,
+      );
+
+      expect(closeIconCall).toEqual([
         {
           icon: expectedIcon,
           size: 30,
           primaryColor: captureButtonForegroundColors[InteractiveStatus.DEFAULT],
         },
-        expect.anything(),
+        undefined,
       ]);
 
       unmount();

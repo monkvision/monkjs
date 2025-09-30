@@ -4,7 +4,7 @@ jest.mock('../../../src/api/react', () => ({
 
 import { useAsyncInterval } from '@monkvision/common';
 import { ComplianceIssue } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useInspectionPoll, UseInspectionPollParams, useMonkApi } from '../../../src';
 

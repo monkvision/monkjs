@@ -35,7 +35,7 @@ describe('VehicleTypeSelection component', () => {
   });
 
   it('should display a card for each vehicle type', () => {
-    const availableVehicleTypes = [VehicleType.HATCHBACK, VehicleType.CITY];
+    const availableVehicleTypes: VehicleType[] = [VehicleType.HATCHBACK, VehicleType.CITY];
     const { unmount } = render(
       <VehicleTypeSelection availableVehicleTypes={availableVehicleTypes} />,
     );
@@ -45,8 +45,8 @@ describe('VehicleTypeSelection component', () => {
         vehicleType,
       });
     });
-    Object.values(VehicleType)
-      .filter((vehicleType) => !availableVehicleTypes.includes(vehicleType))
+    (Object.values(VehicleType) as unknown as VehicleType[])
+      .filter((vehicleType: VehicleType) => !(availableVehicleTypes as VehicleType[]).includes(vehicleType))
       .forEach((vehicleType) => {
         expect(VehicleTypeSelectionCard).not.toHaveBeenCalledWith(
           expect.objectContaining({
