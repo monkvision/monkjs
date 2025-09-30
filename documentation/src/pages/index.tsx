@@ -1,9 +1,8 @@
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import React, { JSX } from 'react';
 import { HomeFeatures, HomeHeader } from '@site/src/components';
 
-export default function Home(): JSX.Element {
+export default function Home() {
   const { siteConfig } = useDocusaurusContext();
 
   return (
