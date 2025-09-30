@@ -7,7 +7,10 @@ import { DynamicSVGCustomizationFunctions } from '@monkvision/common-ui-web';
 import { DynamicSVG } from '../../domOnly';
 import styles from './SightCard.module.css';
 
-const vehicleModelDisplayOverlays: Record<Exclude<VehicleModel, VehicleModel.ALL>, string> = {
+const vehicleModelDisplayOverlays: Record<
+  Exclude<VehicleModel, typeof VehicleModel.ALL>,
+  string
+> = {
   [VehicleModel.AUDIA7]: sights['audia7-WKJlxkiF'].overlay,
   [VehicleModel.FESC20]: sights['fesc20-bD8CBhYZ'].overlay,
   [VehicleModel.FF150]: sights['ff150-7UI3m9B3'].overlay,
