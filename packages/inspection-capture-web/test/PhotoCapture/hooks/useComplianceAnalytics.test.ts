@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { sights } from '@monkvision/sights';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
 import { ComplianceIssue, Image, ImageStatus, Inspection } from '@monkvision/types';

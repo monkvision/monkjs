@@ -1,5 +1,5 @@
 import { useWindowDimensions } from '@monkvision/common';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useItemListFillers } from '../../../../src/components/InspectionGallery/hooks';
 
 describe('useItemListFillers hook', () => {

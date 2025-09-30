@@ -18,7 +18,7 @@ export interface CanvasHandle {
  * Utility function used to retreive a canvas handle or throw if it is not available.
  */
 export function getCanvasHandle(
-  ref: RefObject<HTMLCanvasElement>,
+  ref: RefObject<HTMLCanvasElement | null>,
   onError?: (err: Error) => void,
 ): CanvasHandle {
   if (!ref.current) {

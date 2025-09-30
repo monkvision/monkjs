@@ -1,5 +1,5 @@
-const base = require('./base');
-const react = require('./react');
+const base = require("./base");
+const react = require("./react");
 
 module.exports = {
   base,

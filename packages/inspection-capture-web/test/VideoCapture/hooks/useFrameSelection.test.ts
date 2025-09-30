@@ -2,7 +2,7 @@ jest.mock('../../../src/VideoCapture/hooks/useFrameSelection/laplaceScores', () 
   calculateLaplaceScores: jest.fn(() => ({ mean: 0, std: 0 })),
 }));
 
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { useInterval, useQueue } from '@monkvision/common';
 import { useFrameSelection, UseFrameSelectionParams } from '../../../src/VideoCapture/hooks';
 import { calculateLaplaceScores } from '../../../src/VideoCapture/hooks/useFrameSelection/laplaceScores';
@@ -25,7 +25,10 @@ describe('useFrameSelection hook', () => {
 
   it('should return an onCaptureVideoFrame callback', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useFrameSelection, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseFrameSelectionParams) => useFrameSelection(props),
+      { initialProps },
+    );
 
     expect(typeof result.current.onCaptureVideoFrame).toBe('function');
 
@@ -34,7 +37,9 @@ describe('useFrameSelection hook', () => {
 
   it('should not select any frames if no screenshot has been taken', () => {
     const initialProps = createProps();
-    const { unmount } = renderHook(useFrameSelection, { initialProps });
+    const { unmount } = renderHook((props: UseFrameSelectionParams) => useFrameSelection(props), {
+      initialProps,
+    });
 
     expect(useQueue).toHaveBeenCalled();
     const { push } = (useQueue as jest.Mock).mock.results[0].value;
@@ -49,7 +54,10 @@ describe('useFrameSelection hook', () => {
 
   it('should push the image to the processing queue when a screenshot is taken', () => {
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useFrameSelection, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseFrameSelectionParams) => useFrameSelection(props),
+      { initialProps },
+    );
 
     expect(useQueue).toHaveBeenCalled();
     const { push } = (useQueue as jest.Mock).mock.results[0].value;
@@ -68,7 +76,7 @@ describe('useFrameSelection hook', () => {
 
   it('should select the best frame using the laplace scoring function by making copies with the array.slice method', async () => {
     const initialProps = createProps();
-    const { rerender, unmount } = renderHook(useFrameSelection, { initialProps });
+    const { rerender, unmount } = renderHook(() => useFrameSelection(initialProps));
 
     expect(useQueue).toHaveBeenCalledWith(
       expect.any(Function),
@@ -162,7 +170,10 @@ describe('useFrameSelection hook', () => {
       processingCount,
     }));
     const initialProps = createProps();
-    const { result, unmount } = renderHook(useFrameSelection, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: UseFrameSelectionParams) => useFrameSelection(props),
+      { initialProps },
+    );
 
     expect(result.current.processedFrames).toEqual(totalItems - processingCount);
     expect(result.current.totalProcessingFrames).toEqual(totalItems);

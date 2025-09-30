@@ -109,29 +109,44 @@ function applyCustomComplianceThresholds(
   if (!customComplianceThresholds) {
     return complianceIssues;
   }
-  Object.keys(customComplianceThresholds).forEach((key) => {
-    const thresholdName = key as keyof CustomComplianceThresholds;
-    const complianceScore = getComplianceScore(thresholdName, complianceResult);
-    if (thresholdName === 'zoom' && complianceScore && customComplianceThresholds.zoom) {
-      complianceIssues = (complianceIssues as ComplianceIssue[]).filter(
-        (issue) => ![ComplianceIssue.TOO_ZOOMED, ComplianceIssue.NOT_ZOOMED_ENOUGH].includes(issue),
-      );
-      if (complianceScore < customComplianceThresholds.zoom.min) {
-        complianceIssues.push(ComplianceIssue.TOO_ZOOMED);
-      } else if (complianceScore > customComplianceThresholds.zoom.max) {
-        complianceIssues.push(ComplianceIssue.NOT_ZOOMED_ENOUGH);
+
+  (Object.keys(customComplianceThresholds) as (keyof CustomComplianceThresholds)[]).forEach(
+    (thresholdName) => {
+      const complianceScore = getComplianceScore(thresholdName, complianceResult);
+
+      // Special case for zoom
+      if (thresholdName === 'zoom' && complianceScore && customComplianceThresholds.zoom) {
+        complianceIssues = (complianceIssues as ComplianceIssue[]).filter(
+          (issue) =>
+            ![ComplianceIssue.TOO_ZOOMED, ComplianceIssue.NOT_ZOOMED_ENOUGH].includes(issue),
+        );
+
+        if (complianceScore < customComplianceThresholds.zoom.min) {
+          complianceIssues.push(ComplianceIssue.TOO_ZOOMED);
+        } else if (complianceScore > customComplianceThresholds.zoom.max) {
+          complianceIssues.push(ComplianceIssue.NOT_ZOOMED_ENOUGH);
+        }
+        return;
       }
-      return;
-    }
-    const customThreshold = customComplianceThresholds[thresholdName];
-    const complianceIssue = getComplianceIssue(thresholdName);
-    if (complianceScore && complianceIssue && customThreshold !== undefined) {
-      complianceIssues = complianceIssues.filter((issue) => issue !== complianceIssue);
-      if (complianceScore < customThreshold) {
-        complianceIssues.push(complianceIssue);
+
+      const customThreshold = customComplianceThresholds[thresholdName];
+      const complianceIssue = getComplianceIssue(thresholdName);
+
+      if (complianceScore && complianceIssue && customThreshold !== undefined) {
+        complianceIssues = complianceIssues.filter((issue) => issue !== complianceIssue);
+
+        if (typeof customThreshold === 'number' && complianceScore < customThreshold) {
+          complianceIssues.push(complianceIssue);
+        } else if (
+          typeof customThreshold === 'object' &&
+          (complianceScore < customThreshold.min || complianceScore > customThreshold.max)
+        ) {
+          complianceIssues.push(complianceIssue);
+        }
       }
-    }
-  });
+    },
+  );
+
   return complianceIssues;
 }
 

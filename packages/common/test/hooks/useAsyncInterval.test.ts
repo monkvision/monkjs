@@ -1,5 +1,5 @@
 import { PromiseHandlers } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { flushPromises } from '@monkvision/test-utils';
 import { useAsyncInterval } from '../../src';
 
