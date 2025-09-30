@@ -1,5 +1,5 @@
 import { DeviceOrientation } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useEnforceOrientation } from '../../src/hooks';
 import { useWindowDimensions } from '@monkvision/common';
 
@@ -9,7 +9,7 @@ describe('useEnforceOrientation hook', () => {
   });
 
   it('should return false when the orientation is not specified', () => {
-    const { result, unmount } = renderHook(useEnforceOrientation);
+    const { result, unmount } = renderHook(() => useEnforceOrientation());
 
     expect(result.current).toBe(false);
 
@@ -21,7 +21,10 @@ describe('useEnforceOrientation hook', () => {
       (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
         isPortrait: orientation === DeviceOrientation.PORTRAIT,
       }));
-      const { result, unmount } = renderHook(useEnforceOrientation, { initialProps: orientation });
+      const { result, unmount } = renderHook(
+        (props: DeviceOrientation) => useEnforceOrientation(props),
+        { initialProps: orientation },
+      );
 
       expect(result.current).toBe(false);
 
@@ -32,7 +35,10 @@ describe('useEnforceOrientation hook', () => {
       (useWindowDimensions as jest.Mock).mockImplementationOnce(() => ({
         isPortrait: orientation === DeviceOrientation.LANDSCAPE,
       }));
-      const { result, unmount } = renderHook(useEnforceOrientation, { initialProps: orientation });
+      const { result, unmount } = renderHook(
+        (props: DeviceOrientation) => useEnforceOrientation(props),
+        { initialProps: orientation },
+      );
 
       expect(result.current).toBe(true);
 

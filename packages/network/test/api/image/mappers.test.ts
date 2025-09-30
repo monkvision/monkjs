@@ -331,7 +331,6 @@ describe('Image API Mappers', () => {
         apiImage.image_width = 500;
 
         const result = mapApiImage(apiImage, '', '', { enableCompliance: true });
-        console.log('result:', result);
 
         expect(result.status).toEqual(ImageStatus.NOT_COMPLIANT);
       });

@@ -66,10 +66,11 @@ describe('VideoCapturePageLayout component', () => {
   });
 
   it('should display a confirm button on the screen and pass it down the props', () => {
-    const confirmButtonProps = { children: 'hello', onClick: () => {} };
+    const onClick = jest.fn();
+    const confirmButtonProps = { onClick, inverse: false, sample: {} };
     const { unmount } = render(<VideoCapturePageLayout confirmButtonProps={confirmButtonProps} />);
 
-    expectPropsOnChildMock(Button, confirmButtonProps);
+    expect(Button).toHaveBeenCalledWith(expect.objectContaining(confirmButtonProps), undefined);
 
     unmount();
   });

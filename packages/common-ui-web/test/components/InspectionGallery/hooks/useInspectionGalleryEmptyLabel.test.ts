@@ -1,5 +1,5 @@
 import { useInspectionGalleryEmptyLabel } from '../../../../src/components/InspectionGallery/hooks';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
 
 describe('useInspectionGalleryEmptyLabel hook', () => {

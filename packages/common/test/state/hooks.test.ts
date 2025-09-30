@@ -21,6 +21,6 @@ describe('useMonkState hook', () => {
   it('should throw an error if the MonkContext is not initialized', () => {
     (React.useContext as jest.Mock).mockImplementation(() => null);
 
-    expect(() => useMonkState()).toThrowError();
+    expect(() => useMonkState()).toThrow();
   });
 });

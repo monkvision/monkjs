@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useTracking, TrackingParams } from '../../src/hooks';
 import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -20,7 +20,7 @@ describe('useTracking hook', () => {
     const initialProps = createParams();
     const monkJwtPayloadMock = { sub: 'test-sub-auth-token' };
     (decodeMonkJwt as jest.Mock).mockImplementationOnce(() => monkJwtPayloadMock);
-    const { unmount } = renderHook(useTracking, { initialProps });
+    const { unmount } = renderHook((props) => useTracking(props as any), { initialProps });
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 
@@ -35,7 +35,7 @@ describe('useTracking hook', () => {
   it('should partially set analytics and monitoring if authToken is not decoded properly', () => {
     const initialProps = createParams();
     (decodeMonkJwt as jest.Mock).mockImplementationOnce(() => undefined);
-    const { unmount } = renderHook(useTracking, { initialProps });
+    const { unmount } = renderHook((props) => useTracking(props as any), { initialProps });
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 

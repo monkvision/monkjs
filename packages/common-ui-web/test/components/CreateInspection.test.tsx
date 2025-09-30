@@ -6,7 +6,7 @@ jest.mock('../../src/components/Spinner', () => ({
 }));
 
 import { render, screen, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
 import { useLoadingState, useMonkAppState } from '@monkvision/common';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useMonkApi } from '@monkvision/network';
