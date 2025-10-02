@@ -11,6 +11,7 @@ import {
   mapApiAllInspectionsVerboseGet,
   mapApiInspectionGet,
   mapApiInspectionPost,
+  mapApiInspectionUrlParamsGet,
 } from '../../../src/api/inspection/mappers';
 import { sdkVersion } from '../../../src/api/config';
 import { CreateInspectionOptions, SortOrder } from '@monkvision/types';
@@ -90,6 +91,23 @@ describe('Inspection API Mappers', () => {
 
       result = mapApiAllInspectionsUrlParamsGet({}, null, false);
       expect(result).toEqual('?show_deleted=false');
+    });
+  });
+
+  describe('mapApiInspectionUrlParamsGet mapper', () => {
+    it('should properly map the verbose param to light', () => {
+      const result = mapApiInspectionUrlParamsGet(true);
+      expect(result).toEqual('?verbose=light');
+    });
+
+    it('should not include verbose', () => {
+      const result = mapApiInspectionUrlParamsGet(false);
+      expect(result).toEqual('');
+    });
+
+    it('should not include verbose - undefined case', () => {
+      const result = mapApiInspectionUrlParamsGet(undefined);
+      expect(result).toEqual('');
     });
   });
 });

@@ -789,3 +789,11 @@ export function mapApiAllInspectionsUrlParamsGet(
   const paramsStr = params.toString();
   return `${paramsStr.length > 0 ? '?' : ''}${paramsStr}`;
 }
+
+export function mapApiInspectionUrlParamsGet(light?: boolean): string {
+  if (!light) {
+    return '';
+  }
+
+  return '?verbose=light';
+}

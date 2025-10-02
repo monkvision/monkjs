@@ -22,6 +22,7 @@ import {
   mapApiAllInspectionsVerboseGet,
   mapApiInspectionGet,
   mapApiInspectionPost,
+  mapApiInspectionUrlParamsGet,
 } from './mappers';
 import { MonkApiResponse, PaginationResponse } from '../types';
 
@@ -37,6 +38,13 @@ export interface GetInspectionOptions {
    * Additional options used to configure the compliance locally.
    */
   compliance?: ComplianceOptions;
+  /**
+   * If true, polygons are excluded from the inspection response,
+   * reducing payload size and improving request speed.
+   *
+   * @default false
+   */
+  light?: boolean;
 }
 
 /**
@@ -73,7 +81,10 @@ export async function getInspection(
   dispatch?: Dispatch<MonkGotOneInspectionAction>,
 ): Promise<MonkApiResponse<GetInspectionResponse, ApiInspectionGet>> {
   const kyOptions = getDefaultOptions(config);
-  const response = await ky.get(`inspections/${options.id}`, kyOptions);
+  const response = await ky.get(
+    `inspections/${options.id}${mapApiInspectionUrlParamsGet(options.light)}`,
+    kyOptions,
+  );
   const body = await response.json<ApiInspectionGet>();
   const entities = mapApiInspectionGet(body, config.thumbnailDomain, options.compliance);
   dispatch?.({
