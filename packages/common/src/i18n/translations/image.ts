@@ -430,4 +430,46 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       nl: 'De foto is in portretstand, neem deze alstublieft in landschapmodus',
     },
   },
+  [ComplianceIssue.CONTAIN_FORBIDDEN_PARTS]: {
+    title: {
+      en: 'Contain forbidden parts',
+      fr: 'Contient des parties interdites',
+      de: 'Enthält verbotene Teile',
+      nl: 'Bevat verboden onderdelen',
+    },
+    description: {
+      en: 'Make sure to properly align the vehicle with the guides.',
+      fr: 'Assurez-vous de bien aligner le véhicule avec les guides.',
+      de: 'Achten Sie darauf, dass das Fahrzeug richtig an den Führungen ausgerichtet ist.',
+      nl: 'Zorg ervoor dat het voertuig goed is uitgelijnd met de gidsen.',
+    },
+  },
+  [ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME]: {
+    title: {
+      en: 'Vehicle not fully in frame',
+      fr: 'Véhicule pas entièrement dans le cadre',
+      de: 'Fahrzeug nicht vollständig im Bild',
+      nl: 'Voertuig niet volledig in beeld',
+    },
+    description: {
+      en: 'Make sure that the entire vehicle is visible in the photo.',
+      fr: "Assurez-vous que l'intégralité du véhicule soit visible sur la photo.",
+      de: 'Stellen Sie sicher, dass das gesamte Fahrzeug auf dem Foto sichtbar ist.',
+      nl: 'Zorg ervoor dat het hele voertuig op de foto zichtbaar is.',
+    },
+  },
+  [ComplianceIssue.FINGER_ON_LENS]: {
+    title: {
+      en: 'Finger on lens',
+      fr: "Doigt sur l'objectif",
+      de: 'Finger auf dem Objektiv',
+      nl: 'Vinger op de lens',
+    },
+    description: {
+      en: 'Make sure that there is no finger on the camera lens.',
+      fr: "Assurez-vous qu'il n'y ait pas de doigt sur l'objectif de l'appareil photo.",
+      de: 'Stellen Sie sicher, dass kein Finger auf dem Kameraobjektiv liegt.',
+      nl: 'Zorg ervoor dat er geen vinger op de cameralens zit.',
+    },
+  },
 };
