@@ -16,6 +16,7 @@ import {
   ImageStatus,
   ImageSubtype,
   ImageType,
+  ProgressStatus,
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
@@ -25,10 +26,12 @@ import {
   Add2ShotCloseUpImageOptions,
   AddBeautyShotImageOptions,
   addImage,
+  deleteImage,
   AddPartSelectCloseUpImageOptions,
   AddVideoFrameOptions,
   AddVideoManualPhotoOptions,
   ImageUploadType,
+  DeleteImageOptions,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
@@ -134,6 +137,13 @@ function createVideoManualPhotoOptions(): AddVideoManualPhotoOptions {
       mimetype: 'image/jpeg',
     },
     inspectionId: 'test-inspection-id',
+  };
+}
+
+function createDeleteImageOptions(): DeleteImageOptions {
+  return {
+    id: 'test-inspection-id',
+    imageId: 'test-image-id',
   };
 }
 
@@ -553,6 +563,40 @@ describe('Image requests', () => {
       await addImage({ ...options, useThumbnailCaching: false }, apiConfig);
 
       expect(ky.get).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deleteImage request', () => {
+    it('should properly create the formdata for a delete request', async () => {
+      const options = createDeleteImageOptions();
+      const dispatch = jest.fn();
+      await deleteImage(options, apiConfig, dispatch);
+
+      expect(ky.delete).toHaveBeenCalled();
+      const formData = (ky.delete as jest.Mock).mock.calls[0][1].body as string;
+      expect(typeof formData).toBe('string');
+      expect(JSON.parse(formData)).toEqual({
+        authorized_tasks_statuses: [ProgressStatus.NOT_STARTED],
+      });
+    });
+
+    it('should make a request to the proper URL', async () => {
+      const options = createDeleteImageOptions();
+      const dispatch = jest.fn();
+      await deleteImage(options, apiConfig, dispatch);
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      expect(ky.delete).toHaveBeenCalledWith(
+        `inspections/${options.id}/images/${options.imageId}`,
+        expect.objectContaining(getDefaultOptions(apiConfig)),
+      );
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.DELETED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.id,
+          imageId: options.imageId,
+        },
+      });
     });
   });
 });

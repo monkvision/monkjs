@@ -5,6 +5,7 @@ import {
   MonkActionType,
   MonkCreatedOneImageAction,
   vehiclePartLabels,
+  MonkDeletedOneImageAction,
 } from '@monkvision/common';
 import {
   ComplianceOptions,
@@ -15,6 +16,7 @@ import {
   ImageType,
   MonkEntityType,
   MonkPicture,
+  ProgressStatus,
   TaskName,
   TranslationObject,
   VehiclePart,
@@ -22,7 +24,13 @@ import {
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import { ApiCenterOnElement, ApiImage, ApiImagePost, ApiImagePostTask } from '../models';
+import {
+  ApiCenterOnElement,
+  ApiIdColumn,
+  ApiImage,
+  ApiImagePost,
+  ApiImagePostTask,
+} from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
@@ -590,6 +598,54 @@ export async function addImage(
         },
       },
     });
+    throw err;
+  }
+}
+
+export interface DeleteImageOptions {
+  /**
+   * The ID of the inspection to update via the API.
+   */
+  id: string;
+  /**
+   * Image ID that will be deleted.
+   */
+  imageId: string;
+}
+
+export async function deleteImage(
+  options: DeleteImageOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkDeletedOneImageAction>,
+): Promise<MonkApiResponse> {
+  const formData = JSON.stringify({
+    authorized_tasks_statuses: [ProgressStatus.NOT_STARTED],
+  });
+  const kyOptions = getDefaultOptions(config);
+  kyOptions.headers = {
+    ...kyOptions.headers,
+    'Content-Type': 'application/json',
+  };
+  try {
+    const response = await ky.delete(`inspections/${options.id}/images/${options.imageId}`, {
+      ...kyOptions,
+      body: formData,
+    });
+    const body = await response.json<ApiIdColumn>();
+    dispatch?.({
+      type: MonkActionType.DELETED_ONE_IMAGE,
+      payload: {
+        inspectionId: options.id,
+        imageId: options.imageId,
+      },
+    });
+    return {
+      id: body.id,
+      response,
+      body,
+    };
+  } catch (err) {
+    console.error(`Failed to delete image: ${(err as Error).message}`);
     throw err;
   }
 }

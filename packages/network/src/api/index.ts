@@ -18,6 +18,7 @@ export {
   type AddBeautyShotImageOptions,
   type Add2ShotCloseUpImageOptions,
   type AddImageOptions,
+  type DeleteImageOptions,
   type AddVideoFrameOptions,
   ImageUploadType,
 } from './image';
