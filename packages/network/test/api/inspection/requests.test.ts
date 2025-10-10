@@ -44,6 +44,7 @@ jest.mock('../../../src/api/inspection/mappers', () => ({
   })),
   mapApiInspectionPost: jest.fn(() => ({ test: 'ok-ok-ok' })),
   mapApiAllInspectionsUrlParamsGet: jest.fn(() => mockUrlParams),
+  mapApiInspectionUrlParamsGet: jest.fn((light?: string) => (light ? `?verbose=light` : '')),
 }));
 
 import { getDefaultOptions } from '../../../src/api/config';
@@ -59,6 +60,7 @@ import {
   mapApiAllInspectionsVerboseGet,
   mapApiInspectionGet,
   mapApiInspectionPost,
+  mapApiInspectionUrlParamsGet,
 } from '../../../src/api/inspection/mappers';
 import { ApiAllInspectionsVerboseGet, ApiPaginatedResponse } from '../../../src/api/models';
 
@@ -89,6 +91,32 @@ describe('Inspection requests', () => {
       const entities = (mapApiInspectionGet as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.get).toHaveBeenCalledWith(`inspections/${id}`, getDefaultOptions(apiConfig));
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.GOT_ONE_INSPECTION,
+        payload: entities,
+      });
+      expect(result).toEqual({
+        entities,
+        response,
+        body,
+      });
+    });
+
+    it('should make the proper API call and map the resulting response with light parameter', async () => {
+      const id = 'test-inspection-id';
+      const light = true;
+      const dispatch = jest.fn();
+      const result = await getInspection({ id, light }, apiConfig, dispatch);
+      const response = await (ky.get as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      const entities = (mapApiInspectionGet as jest.Mock).mock.results[0].value;
+      const mockedLightParam = (mapApiInspectionUrlParamsGet as jest.Mock).mock.results[0].value;
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      expect(ky.get).toHaveBeenCalledWith(
+        `inspections/${id}${mockedLightParam}`,
+        getDefaultOptions(apiConfig),
+      );
       expect(dispatch).toHaveBeenCalledWith({
         type: MonkActionType.GOT_ONE_INSPECTION,
         payload: entities,
