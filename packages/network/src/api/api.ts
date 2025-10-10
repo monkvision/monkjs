@@ -5,7 +5,7 @@ import {
   getAllInspections,
   getAllInspectionsCount,
 } from './inspection';
-import { addImage } from './image';
+import { addImage, deleteImage } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
 import { getLiveConfig } from './liveConfigs';
 import { updateInspectionVehicle } from './vehicle';
@@ -23,6 +23,7 @@ export const MonkApi = {
   getAllInspectionsCount,
   createInspection,
   addImage,
+  deleteImage,
   updateTaskStatus,
   startInspectionTasks,
   getLiveConfig,

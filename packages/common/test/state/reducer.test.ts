@@ -1,5 +1,6 @@
 jest.mock('../../src/state/actions', () => ({
   isCreatedOneImageAction: jest.fn(() => false),
+  isDeletedOneImageAction: jest.fn(() => false),
   isGotOneInspectionAction: jest.fn(() => false),
   isResetStateAction: jest.fn(() => false),
   isUpdatedManyTasksAction: jest.fn(() => false),
@@ -12,6 +13,7 @@ jest.mock('../../src/state/actions', () => ({
   isUpdatedVehicleAction: jest.fn(() => false),
   isGotOneInspectionPdfAction: jest.fn(() => false),
   createdOneImage: jest.fn(() => null),
+  deletedOneImage: jest.fn(() => null),
   gotOneInspection: jest.fn(() => null),
   resetState: jest.fn(() => null),
   updatedManyTasks: jest.fn(() => null),
@@ -27,6 +29,7 @@ jest.mock('../../src/state/actions', () => ({
 
 import {
   createdOneImage,
+  deletedOneImage,
   gotOneInspection,
   createdOnePricing,
   deletedOnePricing,
@@ -37,6 +40,7 @@ import {
   updatedVehicle,
   gotOneInspectionPdf,
   isCreatedOneImageAction,
+  isDeletedOneImageAction,
   isGotOneInspectionAction,
   isResetStateAction,
   isUpdatedManyTasksAction,
@@ -59,6 +63,7 @@ const actions = [
   { matcher: isResetStateAction, handler: resetState, noParams: true },
   { matcher: isGotOneInspectionAction, handler: gotOneInspection },
   { matcher: isCreatedOneImageAction, handler: createdOneImage },
+  { matcher: isDeletedOneImageAction, handler: deletedOneImage },
   { matcher: isUpdatedManyTasksAction, handler: updatedManyTasks },
   { matcher: isCreatedOnePricingAction, handler: createdOnePricing },
   { matcher: isDeletedOnePricingAction, handler: deletedOnePricing },
