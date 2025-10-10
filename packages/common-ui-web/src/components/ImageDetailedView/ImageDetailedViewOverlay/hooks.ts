@@ -145,7 +145,7 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
     },
     complianceMessageStyle: {
       ...styles['complianceMessage'],
-      color: palette.text.primary,
+      color: palette.text.white,
     },
     complianceTitleStyle: styles['complianceTitle'],
     complianceDescriptionStyle: styles['complianceDescription'],
