@@ -104,11 +104,11 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     },
     closeButton: {
       primaryColor: colors.darkButtonBackground,
-      secondaryColor: palette.text.primary,
+      secondaryColor: palette.text.white,
     },
     galleryButton: {
       primaryColor: colors.darkButtonBackground,
-      secondaryColor: palette.text.primary,
+      secondaryColor: palette.text.white,
       style: {
         visibility: props.showGalleryButton ?? true ? 'visible' : 'hidden',
       } as CSSProperties,
