@@ -24,6 +24,7 @@ export const styles: Styles = {
     gap: '8px',
     letterSpacing: '0.15px',
     fontSize: '14',
+    whiteSpace: 'pre-line',
   },
   buttonContainer: {
     display: 'flex',
