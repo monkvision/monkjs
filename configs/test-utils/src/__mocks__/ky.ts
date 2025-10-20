@@ -28,4 +28,5 @@ export = {
   get: createMockKyRequestFn(),
   post: createMockKyRequestFn(),
   patch: createMockKyRequestFn(),
+  delete: createMockKyRequestFn(),
 };

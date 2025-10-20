@@ -70,6 +70,21 @@ been created in the API.
 |-----------|-----------------|----------------------------------------------------------|----------|
 | options   | AddImageOptions | The options used to specify how to upload the image.     | ✔️       |
 
+### deleteImage
+
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.deleteImage(options,apiConfig, dispatch);
+```
+
+Delete an image from an inspection. The resulting action of this request will contain the ID of the image that has
+been deleted in the API.
+
+| Parameter | Type               | Description                                        | Required |
+| ----------|--------------------|----------------------------------------------------|----------|
+| options   | DeleteImageOptions | The options used to specify which image to delete. | ✔️       |
+
 ### updateTaskStatus
 ```typescript
 import { MonkApi } from '@monkvision/network';

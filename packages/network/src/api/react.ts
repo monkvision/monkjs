@@ -82,6 +82,12 @@ export function useMonkApi(config: MonkApiConfig) {
      */
     addImage: reactify(MonkApi.addImage, config, dispatch, handleError),
     /**
+     * Delete an image from an inspection.
+     *
+     * @param options The options of the request.
+     */
+    deleteImage: reactify(MonkApi.deleteImage, config, dispatch, handleError),
+    /**
      * Update the progress status of an inspection task.
      *
      * **Note : This API call is known to sometimes fail for unknown reasons. In order to fix this, we added a retry

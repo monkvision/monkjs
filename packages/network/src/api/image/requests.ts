@@ -5,6 +5,7 @@ import {
   MonkActionType,
   MonkCreatedOneImageAction,
   vehiclePartLabels,
+  MonkDeletedOneImageAction,
 } from '@monkvision/common';
 import {
   ComplianceOptions,
@@ -15,6 +16,7 @@ import {
   ImageType,
   MonkEntityType,
   MonkPicture,
+  ProgressStatus,
   TaskName,
   TranslationObject,
   VehiclePart,
@@ -22,7 +24,13 @@ import {
 import { v4 } from 'uuid';
 import { labels, sights } from '@monkvision/sights';
 import { getDefaultOptions, MonkApiConfig } from '../config';
-import { ApiCenterOnElement, ApiImage, ApiImagePost, ApiImagePostTask } from '../models';
+import {
+  ApiCenterOnElement,
+  ApiIdColumn,
+  ApiImage,
+  ApiImagePost,
+  ApiImagePostTask,
+} from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
 
@@ -590,6 +598,58 @@ export async function addImage(
         },
       },
     });
+    throw err;
+  }
+}
+
+/**
+ * Options specified when deleting an image from an inspection.
+ */
+export interface DeleteImageOptions {
+  /**
+   * The ID of the inspection to update via the API.
+   */
+  id: string;
+  /**
+   * Image ID that will be deleted.
+   */
+  imageId: string;
+}
+
+/**
+ * Delete an image from an inspection.
+ *
+ * @param options Deletion options for the image.
+ * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
+ */
+export async function deleteImage(
+  options: DeleteImageOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkDeletedOneImageAction>,
+): Promise<MonkApiResponse> {
+  const kyOptions = getDefaultOptions(config);
+  try {
+    const response = await ky.delete(`inspections/${options.id}/images/${options.imageId}`, {
+      ...kyOptions,
+      json: { authorized_tasks_statuses: [ProgressStatus.NOT_STARTED] },
+    });
+    const body = await response.json<ApiIdColumn>();
+    dispatch?.({
+      type: MonkActionType.DELETED_ONE_IMAGE,
+      payload: {
+        inspectionId: options.id,
+        imageId: body.id,
+      },
+    });
+    return {
+      id: body.id,
+      response,
+      body,
+    };
+  } catch (err) {
+    console.error(`Failed to delete image: ${(err as Error).message}`);
     throw err;
   }
 }

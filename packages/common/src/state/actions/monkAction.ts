@@ -15,6 +15,10 @@ export enum MonkActionType {
    */
   CREATED_ONE_IMAGE = 'created_one_image',
   /**
+   * An image has been deleted.
+   */
+  DELETED_ONE_IMAGE = 'deleted_one_image',
+  /**
    * One or more tasks have been updated.
    */
   UPDATED_MANY_TASKS = 'updated_many_tasks',
