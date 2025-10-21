@@ -27,7 +27,7 @@
       },
       "closeConfirm": {
         "message": "Sind Sie sicher, dass Sie das Erfassungstool schließen wollen?",
-        "cancel": "Abbrechen",
+        "cancel": "Nein",
         "confirm": "Ja"
       },
       "guidelines": {
