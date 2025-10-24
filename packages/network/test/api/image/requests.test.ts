@@ -9,6 +9,17 @@ jest.mock('../../../src/api/image/mappers', () => ({
   mapApiImage: jest.fn(() => ({ test: 'hello' })),
 }));
 
+jest.mock('ky', () => ({
+  get: jest.fn(() => Promise.resolve({ json: jest.fn(() => Promise.resolve({ id: 'test-id' })) })),
+  post: jest.fn(() => Promise.resolve({ json: jest.fn(() => Promise.resolve({ id: 'test-id' })) })),
+  delete: jest.fn(() =>
+    Promise.resolve({ json: jest.fn(() => Promise.resolve({ id: 'delete-test-fake-id' })) }),
+  ),
+  patch: jest.fn(() =>
+    Promise.resolve({ json: jest.fn(() => Promise.resolve({ id: 'patch-test-fake-id' })) }),
+  ),
+}));
+
 import { labels, sights } from '@monkvision/sights';
 import ky from 'ky';
 import {
@@ -16,6 +27,7 @@ import {
   ImageStatus,
   ImageSubtype,
   ImageType,
+  ProgressStatus,
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
@@ -25,10 +37,12 @@ import {
   Add2ShotCloseUpImageOptions,
   AddBeautyShotImageOptions,
   addImage,
+  deleteImage,
   AddPartSelectCloseUpImageOptions,
   AddVideoFrameOptions,
   AddVideoManualPhotoOptions,
   ImageUploadType,
+  DeleteImageOptions,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
@@ -134,6 +148,13 @@ function createVideoManualPhotoOptions(): AddVideoManualPhotoOptions {
       mimetype: 'image/jpeg',
     },
     inspectionId: 'test-inspection-id',
+  };
+}
+
+function createDeleteImageOptions(): DeleteImageOptions {
+  return {
+    id: 'test-inspection-id',
+    imageId: 'test-image-id',
   };
 }
 
@@ -553,6 +574,48 @@ describe('Image requests', () => {
       await addImage({ ...options, useThumbnailCaching: false }, apiConfig);
 
       expect(ky.get).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deleteImage request', () => {
+    it('should properly make a request to the proper URL', async () => {
+      const options = createDeleteImageOptions();
+      const dispatch = jest.fn();
+      const result = await deleteImage(options, apiConfig, dispatch);
+      const response = await (ky.delete as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      const kyOptions = getDefaultOptions(apiConfig);
+      expect(ky.delete).toHaveBeenCalledWith(
+        `inspections/${options.id}/images/${options.imageId}`,
+        expect.objectContaining({
+          ...kyOptions,
+          json: { authorized_tasks_statuses: [ProgressStatus.NOT_STARTED] },
+        }),
+      );
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.DELETED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.id,
+          imageId: body.id,
+        },
+      });
+      expect(result).toEqual({
+        id: body.id,
+        response,
+        body,
+      });
+    });
+
+    it('should display an error if deletion fails', async () => {
+      const err = new Error('test-delete-error');
+      jest.spyOn(ky, 'delete').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createDeleteImageOptions();
+      const dispatch = jest.fn();
+      await expect(deleteImage(options, apiConfig, dispatch)).rejects.toThrow(err);
     });
   });
 });
