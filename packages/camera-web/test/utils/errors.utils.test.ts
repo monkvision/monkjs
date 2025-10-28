@@ -9,6 +9,7 @@ describe('Camera error utils', () => {
           fr: expect.any(String),
           de: expect.any(String),
           nl: expect.any(String),
+          it: expect.any(String),
         });
       });
     });
@@ -19,6 +20,7 @@ describe('Camera error utils', () => {
         fr: expect.any(String),
         de: expect.any(String),
         nl: expect.any(String),
+        it: expect.any(String),
       });
     });
 
@@ -28,6 +30,7 @@ describe('Camera error utils', () => {
         fr: expect.any(String),
         de: expect.any(String),
         nl: expect.any(String),
+        it: expect.any(String),
       });
     });
   });

@@ -1,0 +1,10 @@
+{
+  "actions": { "log-in": "Accedi", "log-out": "Disconnetti" },
+  "errors": {
+    "popup-closed": "Ops! Non siamo riusciti a collegarti perché il pop-up è stato chiuso. Proviamo di nuovo!",
+    "token-expired": "Il tuo token di autenticazione è scaduto. Effettua nuovamente l'accesso.",
+    "insufficient-authorization": "Non hai le autorizzazioni necessarie per utilizzare questa applicazione. Disconnettiti e usa un altro account.",
+    "unknown": "Ops! Si è verificato un errore imprevisto durante la connessione. Proviamo di nuovo!",
+    "missing-token": "L'URL a cui stai tentando di accedere non è valido."
+  }
+}

@@ -113,5 +113,9 @@ describe('Monkvision i18n utils', () => {
     it("should return 'en' prefix by default if langage is not found in monkLangages types package", () => {
       expect(getLanguage('es-TEST')).toEqual('en');
     });
+
+    it("should return 'it' if italian is selected", () => {
+      expect(getLanguage('it-IT')).toEqual('it');
+    });
   });
 });

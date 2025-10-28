@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Aggiungi un danno"
+  },
+  "topBar": {
+    "submit": "Conferma",
+    "title": "Foto",
+    "retakeFilter": "Riprese",
+    "approvedFilter": "Scattate e approvate",
+    "completed": "Questa ispezione è terminata"
+  },
+  "list": {
+    "empty": {
+      "capture": "Nessuna foto. Le foto scattate appariranno qui.",
+      "nonCapture": "Non ci sono foto in questa ispezione.",
+      "filter": "Nessun risultato per il filtro selezionato."
+    }
+  }
+}
