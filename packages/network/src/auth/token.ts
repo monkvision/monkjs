@@ -1,6 +1,8 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { jwtDecode } from 'jwt-decode';
 import { MonkApiPermission } from '@monkvision/types';
+import { STORAGE_KEY_AUTH_TOKEN, useMonkSearchParams, MonkSearchParam } from '@monkvision/common';
+import { AuthConfig } from './authProvider.types';
 
 /**
  * The payload of the authentication token used with the Monk API.
@@ -52,4 +54,30 @@ export function isTokenExpired(tokenOrPayload: MonkJwtPayload | string | null): 
   const payload =
     typeof tokenOrPayload === 'object' ? tokenOrPayload : decodeMonkJwt(tokenOrPayload);
   return !payload.exp || Math.round(Date.now() / 1000) >= payload.exp;
+}
+
+/**
+ * Utility function that checks if the stored auth token is valid for the given Auth0 Client ID.
+ */
+export function isTokenValid(clientID: string): boolean {
+  const fetchedToken = localStorage.getItem(STORAGE_KEY_AUTH_TOKEN);
+  const fetchedTokenDecoded = fetchedToken ? decodeMonkJwt(fetchedToken).azp : null;
+  return fetchedTokenDecoded === clientID;
+}
+
+/**
+ * Utility function that retrieves the appropriate AuthConfig based on the URL search params
+ * (ie. MonkSearchParam.CLIENT_ID).
+ */
+export function getApiConfigOrThrow(configs: AuthConfig[]): AuthConfig {
+  const { get } = useMonkSearchParams();
+
+  if (!configs.length) {
+    throw new Error('No authentication configurations provided');
+  }
+
+  const defaultClientId = configs[0];
+  const clientId = get(MonkSearchParam.CLIENT_ID);
+  const authConfig = configs.find((config) => config.clientId === clientId);
+  return authConfig ?? defaultClientId;
 }

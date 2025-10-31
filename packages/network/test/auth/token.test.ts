@@ -4,9 +4,26 @@ jest.mock('jwt-decode', () => ({
   })),
 }));
 
+jest.mock('@monkvision/common', () => {
+  const actual = jest.requireActual('@monkvision/common');
+  return {
+    ...actual,
+    useMonkSearchParams: jest.fn(),
+  };
+});
+
 import { MonkApiPermission } from '@monkvision/types';
 import { jwtDecode } from 'jwt-decode';
-import { decodeMonkJwt, isTokenExpired, isUserAuthorized, MonkJwtPayload } from '../../src';
+import {
+  decodeMonkJwt,
+  isTokenExpired,
+  isUserAuthorized,
+  MonkJwtPayload,
+  isTokenValid,
+  getApiConfigOrThrow,
+} from '../../src';
+import { STORAGE_KEY_AUTH_TOKEN, useMonkSearchParams } from '@monkvision/common';
+import { AuthConfig } from '../../src/auth/authProvider.types';
 
 describe('Network package JWT utils', () => {
   afterEach(() => {
@@ -118,6 +135,72 @@ describe('Network package JWT utils', () => {
           exp: Date.now() / 1000 + 10000,
         }),
       ).toBe(false);
+    });
+  });
+
+  describe('isTokenValid function', () => {
+    beforeEach(() => {
+      localStorage.clear();
+      (jwtDecode as jest.Mock).mockReset();
+    });
+
+    it('should return false when no token is stored', () => {
+      expect(isTokenValid('client-123')).toBe(false);
+    });
+
+    it('should return true when stored token azp matches client ID', () => {
+      localStorage.setItem(STORAGE_KEY_AUTH_TOKEN, 'encoded-token');
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => ({ azp: 'client-123' }));
+      expect(isTokenValid('client-123')).toBe(true);
+      expect(jwtDecode).toHaveBeenCalledWith('encoded-token');
+    });
+
+    it('should return false when stored token azp differs from client ID', () => {
+      localStorage.setItem(STORAGE_KEY_AUTH_TOKEN, 'encoded-token');
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => ({ azp: 'client-XYZ' }));
+      expect(isTokenValid('client-123')).toBe(false);
+    });
+  });
+
+  describe('getApiConfigOrThrow function', () => {
+    const mockUseSearchParams = useMonkSearchParams as unknown as jest.Mock;
+
+    beforeEach(() => {
+      mockUseSearchParams.mockReset();
+    });
+
+    const configs: AuthConfig[] = [
+      {
+        clientId: 'client-A',
+        domain: 'a.auth0.com',
+        authorizationParams: { redirect_uri: 'https://a.example.com' },
+        context: undefined,
+      },
+      {
+        clientId: 'client-B',
+        domain: 'b.auth0.com',
+        authorizationParams: { redirect_uri: 'https://b.example.com' },
+        context: undefined,
+      },
+    ];
+
+    it('should throw when no authentication configurations are provided', () => {
+      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue(undefined) });
+      expect(() => getApiConfigOrThrow([] as AuthConfig[])).toThrow(
+        'No authentication configurations provided',
+      );
+    });
+
+    it('should return first config when no matching clientId in params', () => {
+      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue(undefined) });
+      const result = getApiConfigOrThrow(configs);
+      expect(result).toBe(configs[0]);
+    });
+
+    it('should return matching config when clientId is present in params', () => {
+      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue('client-B') });
+      const result = getApiConfigOrThrow(configs);
+      expect(result).toBe(configs[1]);
     });
   });
 });

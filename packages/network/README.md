@@ -349,6 +349,39 @@ function MyAuthComponent() {
 }
 ```
 
+## AuthProvider
+
+### Description
+This component is a Authentication provider that selects the appropriate Auth0 configuration based on URL parameters (MonkSearchParam.CLIENT_ID).
+
+### Example
+
+```tsx
+import { AuthProvider } from '@monkvision/network';
+
+const configs = [
+  {
+    clientId: 'CID_EU',
+    domain: 'eu.auth0.com',
+    authorizationParams: { redirect_uri: 'https://eu.monk.ai' },
+  },
+  {
+    clientId: 'CID_US',
+    domain: 'us.auth0.com',
+    authorizationParams: { redirect_uri: 'https://us.monk.ai' },
+  },
+];
+
+function App() {
+  return (
+    <AuthProvider configs={configs} >
+      ...
+    </AuthProvider>
+  );
+}
+```
+
+
 ## JWT Utils
 ### Token decoding
 You can decode Monk JWT token issued by Auth0 using the `decodeMonkJwt` util function provided by this package :
@@ -374,7 +407,6 @@ console.log(isUserAuthorized(value, requiredPermissions));
 // value can either be an auth token as a string or a decoded JWT payload
 ```
 
-
 ### isTokenExpired
 This utility function checks if an authorization token is expired or not. You can either pass an auth token to be
 decoded or the JWT payload directly.
@@ -384,4 +416,40 @@ import { isTokenExpired } from '@monkvision/network';
 
 console.log(isTokenExpired(value));
 // value can either be an auth token as a string or a decoded JWT payload
+```
+
+### isTokenValid
+This utility function checks if the stored auth token is valid for the given Auth0 Client ID.
+
+```typescript
+import { isTokenValid } from '@monkvision/network';
+
+console.log(isTokenValid(clientId));
+```
+
+### getApiConfigOrThrow
+This utility function retrieves the appropriate AuthConfig based on the URL search params (MonkSearchParam.CLIENT_ID).
+If no matching configuration is found, it falls back to the first configuration in the provided list.
+
+```typescript
+import { getApiConfigOrThrow } from '@monkvision/network';
+import { MonkSearchParam } from '@monkvision/common';
+
+const configs = [
+  {
+    clientId: 'CID_EU',
+    domain: 'eu.auth0.com',
+    authorizationParams: { redirect_uri: 'https://eu.monk.ai' },
+  },
+  {
+    clientId: 'CID_US',
+    domain: 'us.auth0.com',
+    authorizationParams: { redirect_uri: 'https://us.monk.ai' },
+  },
+];
+
+// Suppose the URL includes ?c=CID_US
+const config = getApiConfigOrThrow(configs);
+console.log(config);
+// → returns the "us" configuration
 ```
