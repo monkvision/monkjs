@@ -3,9 +3,11 @@ import { getEnvOrThrow, MonkProvider } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
 import { LiveConfig } from '@monkvision/types';
+import { getApiConfigOrThrow } from '@monkvision/network';
 import { Page } from '../pages';
 import * as config from '../local-config.json';
 import { AppContainer } from './AppContainer';
+import { authConfigs } from '../auth';
 
 const localConfig =
   process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
@@ -20,6 +22,7 @@ export function App() {
     <LiveConfigAppProvider
       id={getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')}
       localConfig={localConfig}
+      apiDomain={getApiConfigOrThrow(authConfigs).apiDomain}
       onFetchAuthToken={() => navigate(Page.CREATE_INSPECTION)}
       onFetchLanguage={(lang) => i18n.changeLanguage(lang)}
       lang={i18n.language}
