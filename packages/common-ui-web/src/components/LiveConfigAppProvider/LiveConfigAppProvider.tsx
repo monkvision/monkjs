@@ -22,6 +22,10 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
    */
   id: string;
   /**
+   * The API domain used to communicate with the API.
+   */
+  apiDomain?: string;
+  /**
    * Use this prop to configure a configuration on your local environment. Using this prop will prevent this component
    * from fetching a local config from the API.
    */
@@ -42,6 +46,7 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
  */
 export function LiveConfigAppProvider({
   id,
+  apiDomain,
   localConfig,
   lang,
   children,
@@ -66,7 +71,18 @@ export function LiveConfigAppProvider({
     {
       onResolve: (result: LiveConfig) => {
         loading.onSuccess();
-        setConfig(result);
+        const finalApiDomain = result.apiDomain ?? apiDomain;
+
+        if (!finalApiDomain) {
+          const error = new Error(
+            `Missing apiDomain: neither prop apiDomain nor result.apiDomain is defined for live config ${id}.`,
+          );
+          handleError(error);
+          loading.onError();
+          return;
+        }
+
+        setConfig({ ...result, apiDomain: finalApiDomain });
       },
       onReject: (err) => {
         handleError(err);
