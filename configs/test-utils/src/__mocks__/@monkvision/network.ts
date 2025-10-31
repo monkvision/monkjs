@@ -31,6 +31,8 @@ export = {
   decodeMonkJwt: jest.fn((str) => str),
   isUserAuthorized: jest.fn(() => true),
   isTokenExpired: jest.fn(() => false),
+  isTokenValid: jest.fn(() => true),
+  getApiConfigOrThrow: jest.fn(),
   useAuth: jest.fn(() => ({
     authToken: null,
     login: jest.fn(() => Promise.resolve('')),

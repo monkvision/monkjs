@@ -148,4 +148,5 @@ export = {
     requestCompassPermission: jest.fn(() => Promise.resolve()),
   })),
   useSafeTimeout: jest.fn(() => jest.fn()),
+  useMonkSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
 };
