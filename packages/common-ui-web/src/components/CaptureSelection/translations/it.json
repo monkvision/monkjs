@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Segnala un danno",
+    "description": "Aggiungi foto di ammaccature, graffi o altri danni presenti sul veicolo.",
+    "button": "Aggiungi foto dei danni"
+  },
+  "capture": {
+    "title": "Avvia l’ispezione",
+    "description": "Nessuna ammaccatura o graffio? Fai il giro del veicolo e scatta delle foto.",
+    "button": "Scatta foto"
+  }
+}

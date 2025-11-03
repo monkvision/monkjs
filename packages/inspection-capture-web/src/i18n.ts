@@ -3,6 +3,7 @@ import en from './translations/en.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
+import it from './translations/it.json';
 
 /**
  * i18n instance of the Inspection CApture Web package. You can use this instance to automatically sync your application
@@ -14,6 +15,7 @@ const i18nInspectionCaptureWeb = i18nCreateSDKInstance({
     fr: { translation: fr },
     de: { translation: de },
     nl: { translation: nl },
+    it: { translation: it },
   },
 });
 

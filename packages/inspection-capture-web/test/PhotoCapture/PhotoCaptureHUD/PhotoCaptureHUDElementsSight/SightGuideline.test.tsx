@@ -29,6 +29,7 @@ function createProps(): SightGuidelineProps {
         fr: 'fr-test',
         de: 'de-test',
         nl: 'nl-test',
+        it: 'it-test',
         sightIds: ['sightId-test-1', 'sightId-test-2'],
       },
     ],

@@ -3,6 +3,7 @@ import en from './translations/en.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
+import it from './translations/it.json';
 
 /**
  * i18n instance of the Login component. You can use this instance to automatically sync your application current
@@ -14,6 +15,7 @@ const i18nLogin = i18nCreateSDKInstance({
     fr: { translation: fr },
     de: { translation: de },
     nl: { translation: nl },
+    it: { translation: it },
   },
 });
 

@@ -243,6 +243,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       fr: `Trame Vidéo ${options.frameIndex}`,
       de: `Videobild ${options.frameIndex}`,
       nl: `Videoframe ${options.frameIndex}`,
+      it: `Frame Video ${options.frameIndex}`,
     };
   }
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
@@ -251,6 +252,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       fr: `Photo Manuelle Vidéo`,
       de: `Foto Manuell Video`,
       nl: `Foto-handleiding Video`,
+      it: `Foto Manuale Video`,
     };
   }
   if (options.uploadType === ImageUploadType.PART_SELECT_SHOT) {
@@ -260,6 +262,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
       de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
       nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
+      it: `Close Up su ${partsTranslation.map((part) => part.en).join(', ')}`,
     };
   }
   return {
@@ -267,6 +270,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
     de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
     nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
+    it: options.firstShot ? 'Close Up (parte)' : 'Close Up (danno)',
   };
 }
 
