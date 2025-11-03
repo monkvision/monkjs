@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { PhotoCaptureAppConfig } from '@monkvision/types';
-import { UploadEventHandlers } from './useUploadQueue';
+import { UploadEventHandlers, UploadSuccessPayload } from './useUploadQueue';
 
 /**
  * Parameters accepted by the useBadConnectionWarning hook.
@@ -44,8 +44,9 @@ export function useBadConnectionWarning({
   );
 
   const onUploadSuccess = useCallback(
-    (durationMs: number) => {
+    ({ durationMs }: UploadSuccessPayload) => {
       if (
+        durationMs &&
         maxUploadDurationWarning >= 0 &&
         durationMs > maxUploadDurationWarning &&
         !hadDialogBeenDisplayed.current

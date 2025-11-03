@@ -26,7 +26,9 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.({
+        durationMs: maxUploadDurationWarning + 1,
+      });
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -40,7 +42,9 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning - 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.({
+        durationMs: maxUploadDurationWarning - 1,
+      });
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
@@ -68,7 +72,7 @@ describe('useBadConnectionWarning hook', () => {
     });
 
     act(() => {
-      result.current.uploadEventHandlers.onUploadSuccess?.(100000);
+      result.current.uploadEventHandlers.onUploadSuccess?.({ durationMs: 100000 });
       result.current.uploadEventHandlers.onUploadTimeout?.();
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
@@ -87,7 +91,9 @@ describe('useBadConnectionWarning hook', () => {
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
     act(() => {
-      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.({
+        durationMs: maxUploadDurationWarning + 1,
+      });
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(true);
 
@@ -131,7 +137,9 @@ describe('useBadConnectionWarning hook', () => {
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
     act(() => {
-      result.current.uploadEventHandlers.onUploadSuccess?.(maxUploadDurationWarning + 1);
+      result.current.uploadEventHandlers.onUploadSuccess?.({
+        durationMs: maxUploadDurationWarning + 1,
+      });
     });
     expect(result.current.isBadConnectionWarningDialogDisplayed).toBe(false);
 
