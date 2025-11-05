@@ -43,6 +43,7 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
+import { useShowImageReference } from '../hooks/useShowImageReference';
 // import { SessionTimeTrackerDemo } from '../components/SessionTimeTrackerDemo';
 
 /**
@@ -210,6 +211,10 @@ export function PhotoCapture({
     enableSightTutorial,
   });
   const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
+  useShowImageReference({
+    sight: sightState.selectedSight,
+    toggleSightTutorial,
+  });
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
     enableSightGuidelines,
   });
