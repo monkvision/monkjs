@@ -38,7 +38,7 @@ export function useShowImageReference({ sight, toggleSightTutorial }: UseShowIma
     if (hasCarCoverageComplianceIssues) {
       toggleSightTutorial();
     }
-  }, [isMounted, hasCarCoverageComplianceIssues]);
+  }, [isMounted, sight, hasCarCoverageComplianceIssues]);
 
   return useObjectMemo({
     hasCarCoverageComplianceIssues,
