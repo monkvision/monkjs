@@ -43,7 +43,6 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
-import { useShowImageReference } from '../hooks/useShowImageReference';
 // import { SessionTimeTrackerDemo } from '../components/SessionTimeTrackerDemo';
 
 /**
@@ -195,6 +194,12 @@ export function PhotoCapture({
   const onLastSightTaken = () => {
     setCurrentScreen(PhotoCaptureScreen.GALLERY);
   };
+  const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
+    enableTutorial,
+    enableSightGuidelines,
+    enableSightTutorial,
+  });
+  const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
   const sightState = usePhotoCaptureSightState({
     inspectionId,
     captureSights: sights,
@@ -204,15 +209,6 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
     setIsInitialInspectionFetched,
-  });
-  const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
-    enableTutorial,
-    enableSightGuidelines,
-    enableSightTutorial,
-  });
-  const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
-  useShowImageReference({
-    sight: sightState.selectedSight,
     toggleSightTutorial,
   });
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
