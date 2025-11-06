@@ -4,7 +4,7 @@ import { useMonkState } from '@monkvision/common';
 import { ComplianceIssue, Sight, SightCategory, VehicleModel } from '@monkvision/types';
 import { act } from '@testing-library/react';
 
-const waitForSyntheticMount = async (): Promise<void> => {
+const timeoutPromise = async (): Promise<void> => {
   await new Promise((resolve) => {
     setTimeout(resolve, 1100);
   });
@@ -41,7 +41,7 @@ describe('useShowImageReference hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should not fire unless component was mounted', async () => {
+  it('should not fire unless component was synthetically mounted', async () => {
     const toggleSightTutorial = jest.fn();
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
     const { result, unmount } = renderHook(useShowImageReference, {
@@ -54,14 +54,14 @@ describe('useShowImageReference hook', () => {
     expect(result.current.hasCarCoverageComplianceIssues).toBe(true);
     expect(toggleSightTutorial.mock.calls.length).toBe(0);
 
-    await act(waitForSyntheticMount);
+    await act(timeoutPromise);
 
     expect(toggleSightTutorial.mock.calls.length).toBe(1);
 
     unmount();
   });
 
-  it('should trigger only if current sight has Car Coverage compliance issues', async () => {
+  it('should trigger only if the current sight has Car Coverage compliance issues', async () => {
     const toggleSightTutorial = jest.fn();
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
@@ -72,7 +72,7 @@ describe('useShowImageReference hook', () => {
       },
     });
 
-    await act(waitForSyntheticMount);
+    await act(timeoutPromise);
 
     expect(result.current.hasCarCoverageComplianceIssues).toBe(true);
     expect(toggleSightTutorial.mock.calls.length).toBe(1);

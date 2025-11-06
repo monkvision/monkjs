@@ -2,7 +2,8 @@ import { useMonkState, useObjectMemo } from '@monkvision/common';
 import { CAR_COVERAGE_COMPLIANCE_ISSUES, Sight } from '@monkvision/types';
 import { useEffect, useMemo, useState } from 'react';
 
-export interface UseTutorialForNonCompliantParams {
+/* Parameters for the useShowImageReference hook. */
+export interface UseShowImageReferenceParams {
   /** The current sight. */
   sight: Sight;
   /** Callback called if an image is not compliant. */
@@ -10,10 +11,7 @@ export interface UseTutorialForNonCompliantParams {
 }
 
 /* Hook to display the tutorial if the current sight is for non-compliant. */
-export function useShowImageReference({
-  sight,
-  toggleSightTutorial,
-}: UseTutorialForNonCompliantParams) {
+export function useShowImageReference({ sight, toggleSightTutorial }: UseShowImageReferenceParams) {
   const { state } = useMonkState();
   const [isMounted, setIsMounted] = useState(false);
 
