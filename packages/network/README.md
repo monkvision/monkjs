@@ -427,12 +427,12 @@ import { isTokenValid } from '@monkvision/network';
 console.log(isTokenValid(clientId));
 ```
 
-### getApiConfigOrThrow
-This utility function retrieves the appropriate AuthConfig based on the URL search params (MonkSearchParam.CLIENT_ID).
-If no matching configuration is found, it falls back to the first configuration in the provided list.
+### getAuthConfig
+This utility function that retrieves the appropriate AuthConfig based on the URL search params.
+Priority: TOKEN parameter (decoded azp claim) > CLIENT_ID parameter > first config (default)
 
 ```typescript
-import { getApiConfigOrThrow } from '@monkvision/network';
+import { getAuthConfig } from '@monkvision/network';
 import { MonkSearchParam } from '@monkvision/common';
 
 const configs = [
@@ -449,7 +449,7 @@ const configs = [
 ];
 
 // Suppose the URL includes ?c=CID_US
-const config = getApiConfigOrThrow(configs);
+const config = getAuthConfig(configs);
 console.log(config);
 // → returns the "us" configuration
 ```

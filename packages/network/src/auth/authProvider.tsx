@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { STORAGE_KEY_AUTH_TOKEN } from '@monkvision/common';
-import { getApiConfigOrThrow, isTokenValid } from './token';
+import { getAuthConfig, isTokenValid } from './token';
 import { AuthConfig } from './authProvider.types';
 
 function AuthValidator({ clientId }: { clientId: string }) {
@@ -33,10 +33,11 @@ export interface AuthProviderProps {
  * Authentication provider that selects the appropriate Auth0 configuration based on URL parameters.
  */
 export function AuthProvider({ configs, children }: PropsWithChildren<AuthProviderProps>) {
-  if (!configs?.length) {
+  const config = getAuthConfig(configs);
+
+  if (!config) {
     return <>{children}</>;
   }
-  const config = getApiConfigOrThrow(configs);
 
   return (
     <Auth0Provider

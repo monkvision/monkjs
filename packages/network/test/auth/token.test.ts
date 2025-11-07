@@ -4,25 +4,17 @@ jest.mock('jwt-decode', () => ({
   })),
 }));
 
-jest.mock('@monkvision/common', () => {
-  const actual = jest.requireActual('@monkvision/common');
-  return {
-    ...actual,
-    useMonkSearchParams: jest.fn(),
-  };
-});
-
-import { MonkApiPermission } from '@monkvision/types';
 import { jwtDecode } from 'jwt-decode';
+import { MonkApiPermission } from '@monkvision/types';
+import { MonkSearchParam, STORAGE_KEY_AUTH_TOKEN, zlibDecompress } from '@monkvision/common';
 import {
   decodeMonkJwt,
   isTokenExpired,
   isUserAuthorized,
   MonkJwtPayload,
   isTokenValid,
-  getApiConfigOrThrow,
+  getAuthConfig,
 } from '../../src';
-import { STORAGE_KEY_AUTH_TOKEN, useMonkSearchParams } from '@monkvision/common';
 import { AuthConfig } from '../../src/auth/authProvider.types';
 
 describe('Network package JWT utils', () => {
@@ -162,11 +154,11 @@ describe('Network package JWT utils', () => {
     });
   });
 
-  describe('getApiConfigOrThrow function', () => {
-    const mockUseSearchParams = useMonkSearchParams as unknown as jest.Mock;
-
+  describe('getAuthConfig function', () => {
     beforeEach(() => {
-      mockUseSearchParams.mockReset();
+      jest.resetAllMocks();
+      delete (window as any).location;
+      (window as any).location = { href: 'https://test.app' };
     });
 
     const configs: AuthConfig[] = [
@@ -184,23 +176,44 @@ describe('Network package JWT utils', () => {
       },
     ];
 
-    it('should throw when no authentication configurations are provided', () => {
-      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue(undefined) });
-      expect(() => getApiConfigOrThrow([] as AuthConfig[])).toThrow(
-        'No authentication configurations provided',
-      );
+    it('should return undefined when no configs are provided', () => {
+      const result = getAuthConfig([]);
+      expect(result).toBeUndefined();
     });
 
-    it('should return first config when no matching clientId in params', () => {
-      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue(undefined) });
-      const result = getApiConfigOrThrow(configs);
+    it('should return first config when no params are present', () => {
+      const result = getAuthConfig(configs);
       expect(result).toBe(configs[0]);
     });
 
-    it('should return matching config when clientId is present in params', () => {
-      mockUseSearchParams.mockReturnValue({ get: jest.fn().mockReturnValue('client-B') });
-      const result = getApiConfigOrThrow(configs);
+    it('should return matching config when CLIENT_ID param is present', () => {
+      (
+        window as any
+      ).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=${configs[1].clientId}`;
+
+      const result = getAuthConfig(configs);
       expect(result).toBe(configs[1]);
+    });
+
+    it('should return matching config from TOKEN param (decoded azp)', () => {
+      const fakeToken = 'compressed-token';
+      const fakeTokenDecompressed = 'decoded-token';
+      const fakeDecodedTokenClientId = { azp: configs[0].clientId };
+
+      (window as any).location.href = `https://test.app?${MonkSearchParam.TOKEN}=${fakeToken}`;
+      (zlibDecompress as jest.Mock).mockImplementationOnce(() => fakeTokenDecompressed);
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => fakeDecodedTokenClientId);
+
+      const result = getAuthConfig(configs);
+      expect(zlibDecompress).toHaveBeenCalledWith(fakeToken);
+      expect(jwtDecode).toHaveBeenCalledWith(fakeTokenDecompressed);
+      expect(result).toBe(configs[0]);
+    });
+
+    it('falls back to first config when no match found', () => {
+      (window as any).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=nonexistent`;
+      const result = getAuthConfig(configs);
+      expect(result).toBe(configs[0]);
     });
   });
 });

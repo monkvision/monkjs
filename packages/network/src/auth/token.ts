@@ -1,7 +1,7 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { jwtDecode } from 'jwt-decode';
 import { MonkApiPermission } from '@monkvision/types';
-import { STORAGE_KEY_AUTH_TOKEN, useMonkSearchParams, MonkSearchParam } from '@monkvision/common';
+import { STORAGE_KEY_AUTH_TOKEN, MonkSearchParam, zlibDecompress } from '@monkvision/common';
 import { AuthConfig } from './authProvider.types';
 
 /**
@@ -61,23 +61,26 @@ export function isTokenExpired(tokenOrPayload: MonkJwtPayload | string | null): 
  */
 export function isTokenValid(clientID: string): boolean {
   const fetchedToken = localStorage.getItem(STORAGE_KEY_AUTH_TOKEN);
-  const fetchedTokenDecoded = fetchedToken ? decodeMonkJwt(fetchedToken).azp : null;
-  return fetchedTokenDecoded === clientID;
+  const fetchedClientId = fetchedToken ? decodeMonkJwt(fetchedToken).azp : null;
+  return fetchedClientId === clientID;
 }
 
 /**
- * Utility function that retrieves the appropriate AuthConfig based on the URL search params
- * (ie. MonkSearchParam.CLIENT_ID).
+ * Utility function that retrieves the appropriate AuthConfig based on the URL search params.
+ * Priority: TOKEN parameter (decoded azp claim) > CLIENT_ID parameter > first config (default)
  */
-export function getApiConfigOrThrow(configs: AuthConfig[]): AuthConfig {
-  const { get } = useMonkSearchParams();
-
+export function getAuthConfig(configs: AuthConfig[]): AuthConfig | undefined {
   if (!configs.length) {
-    throw new Error('No authentication configurations provided');
+    return undefined;
   }
 
-  const defaultClientId = configs[0];
-  const clientId = get(MonkSearchParam.CLIENT_ID);
-  const authConfig = configs.find((config) => config.clientId === clientId);
-  return authConfig ?? defaultClientId;
+  const { searchParams } = new URL(window.location.href);
+  const tokenParam = searchParams.get(MonkSearchParam.TOKEN);
+  const clientIdParam = searchParams.get(MonkSearchParam.CLIENT_ID);
+
+  const tokenClientId = tokenParam ? decodeMonkJwt(zlibDecompress(tokenParam)).azp : null;
+  const targetClientId = tokenClientId || clientIdParam;
+
+  const matchingConfig = configs.find((config) => config.clientId === targetClientId);
+  return matchingConfig ?? configs[0];
 }

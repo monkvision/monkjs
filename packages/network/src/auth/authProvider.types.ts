@@ -2,27 +2,31 @@ import { Context } from 'react';
 import { Auth0ContextInterface, AuthorizationParams } from '@auth0/auth0-react';
 
 /**
- * Configuration for a specific Auth0 authentication region.
+ * Auth0 authentication configuration.
  */
 export interface AuthConfig {
   /**
-   * The Auth0 domain for this region.
+   * Auth0 domain (e.g., "idp.monk.ai").
    */
   domain: string;
   /**
-   * The Auth0 Client ID for this region.
+   * Auth0 client ID.
    */
   clientId: string;
   /**
-   * The API domain for this region.
-   */
-  apiDomain?: string;
-  /**
-   * The authorization parameters for this region.
+   * Authorization parameters for Auth0.
    */
   authorizationParams: AuthorizationParams;
   /**
-   * The Auth0 context to use for this region.
+   * Base domain for API requests.
+   */
+  apiDomain?: string;
+  /**
+   * Domain for thumbnail images (image_resize microservice).
+   */
+  thumbnailDomain?: string;
+  /**
+   * Custom Auth0 context (optional).
    */
   context?: Context<Auth0ContextInterface>;
 }

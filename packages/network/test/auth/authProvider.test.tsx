@@ -5,12 +5,12 @@ import { AuthConfig } from '../../src/auth/authProvider.types';
 import { useAuth0 } from '@auth0/auth0-react';
 
 jest.mock('../../src/auth/token', () => ({
-  getApiConfigOrThrow: jest.fn(),
+  getAuthConfig: jest.fn(),
   isTokenValid: jest.fn(),
 }));
 
 import { AuthProvider } from '../../src/auth/authProvider';
-import { getApiConfigOrThrow, isTokenValid } from '../../src/auth/token';
+import { getAuthConfig, isTokenValid } from '../../src/auth/token';
 
 function createConfigs(): AuthConfig[] {
   return [
@@ -39,7 +39,7 @@ describe('AuthProvider component', () => {
   it('should renders children and passes correct props to Auth0Provider', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
-    (getApiConfigOrThrow as jest.Mock).mockReturnValue(configs[0]);
+    (getAuthConfig as jest.Mock).mockReturnValue(configs[0]);
 
     render(
       <AuthProvider configs={configs}>
@@ -55,7 +55,7 @@ describe('AuthProvider component', () => {
   it('should calls logout and clears token when token is invalid', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
-    (getApiConfigOrThrow as jest.Mock).mockReturnValue(configs[1]);
+    (getAuthConfig as jest.Mock).mockReturnValue(configs[1]);
     (isTokenValid as jest.Mock).mockReturnValue(false);
 
     localStorage.setItem(STORAGE_KEY_AUTH_TOKEN, 'auth-token-test');
@@ -74,7 +74,7 @@ describe('AuthProvider component', () => {
   it('should not call logout when there is no token in localStorage', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
-    (getApiConfigOrThrow as jest.Mock).mockReturnValue(configs[1]);
+    (getAuthConfig as jest.Mock).mockReturnValue(configs[1]);
     (isTokenValid as jest.Mock).mockReturnValue(false);
 
     render(
@@ -90,7 +90,7 @@ describe('AuthProvider component', () => {
   it('should update Auth0Provider props for different configs', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
-    (getApiConfigOrThrow as jest.Mock).mockReturnValue(configs[1]);
+    (getAuthConfig as jest.Mock).mockReturnValue(configs[1]);
     render(
       <AuthProvider configs={configs}>
         <div data-testid={childTestId} />
