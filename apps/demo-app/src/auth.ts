@@ -13,12 +13,14 @@ export const authConfigs: AuthConfig[] = [
     domain: getEnvOrThrow('REACT_APP_AUTH_DOMAIN'),
     clientId: getEnvOrThrow('REACT_APP_AUTH_CLIENT_ID'),
     apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN'),
+    thumbnailDomain: getEnvOrThrow('REACT_APP_THUMBNAIL_DOMAIN'),
     authorizationParams: AUTHORIZATION_PARAMS,
   },
   {
     domain: getEnvOrThrow('REACT_APP_AUTH_DOMAIN_US'),
     clientId: getEnvOrThrow('REACT_APP_AUTH_CLIENT_ID_US'),
     apiDomain: getEnvOrThrow('REACT_APP_API_DOMAIN_US'),
+    thumbnailDomain: getEnvOrThrow('REACT_APP_THUMBNAIL_DOMAIN_US'),
     authorizationParams: AUTHORIZATION_PARAMS,
   },
 ];
