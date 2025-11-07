@@ -24,7 +24,11 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should fetch the live config and pass it to the MonkAppStateProvider component', async () => {
-    const config = { hello: 'world', apiDomain: 'test-domain' };
+    const config = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} />);
@@ -38,13 +42,21 @@ describe('LiveConfigAppProvider component', () => {
 
   it('should fetch the live config, ensure apiDomain is set, and pass it to MonkAppStateProvider', async () => {
     const config = { hello: 'world' };
-    const liveConfigAppProviderPropsMock = { id: 'test-id-test', apiDomain: 'test-domain' };
+    const liveConfigAppProviderPropsMock = {
+      id: 'test-id-test',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const { unmount } = render(<LiveConfigAppProvider {...liveConfigAppProviderPropsMock} />);
 
     await waitFor(() => {
       expectPropsOnChildMock(MonkAppStateProvider, {
-        config: { ...config, apiDomain: liveConfigAppProviderPropsMock.apiDomain },
+        config: {
+          ...config,
+          apiDomain: liveConfigAppProviderPropsMock.apiDomain,
+          thumbnailDomain: liveConfigAppProviderPropsMock.thumbnailDomain,
+        },
       });
     });
 
@@ -70,7 +82,11 @@ describe('LiveConfigAppProvider component', () => {
     const onFetchAuthToken = jest.fn();
     const onFetchLanguage = jest.fn();
     const children = 'test-children';
-    const config = { hello: 'world', apiDomain: 'test-domain' };
+    const config = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const { unmount } = render(
       <LiveConfigAppProvider
@@ -105,7 +121,7 @@ describe('LiveConfigAppProvider component', () => {
     expect(screen.queryByTestId(spinnerTestId)).not.toBeNull();
     expect(MonkAppStateProvider).not.toHaveBeenCalled();
     await act(async () => {
-      promise.resolve({ apiDomain: 'test-domain' });
+      promise.resolve({ apiDomain: 'test-domain', thumbnailDomain: 'test-thumbmail-domain' });
       await promise;
     });
     expect(screen.queryByTestId(spinnerTestId)).toBeNull();
@@ -126,7 +142,7 @@ describe('LiveConfigAppProvider component', () => {
     });
     const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({ apiDomain: 'test-domain' }),
+      Promise.resolve({ apiDomain: 'test-domain', thumbnailDomain: 'test-thumbmail-domain' }),
     );
     act(() => {
       onClick();
@@ -141,7 +157,11 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should not fetch the live config and return the local config if it is used', async () => {
-    const localConfig = { hello: 'world', apiDomain: 'test-domain' } as unknown as LiveConfig;
+    const localConfig = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    } as unknown as LiveConfig;
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} localConfig={localConfig} />);
 
