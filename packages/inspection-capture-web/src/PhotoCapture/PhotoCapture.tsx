@@ -194,6 +194,12 @@ export function PhotoCapture({
   const onLastSightTaken = () => {
     setCurrentScreen(PhotoCaptureScreen.GALLERY);
   };
+  const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
+    enableTutorial,
+    enableSightGuidelines,
+    enableSightTutorial,
+  });
+  const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
   const sightState = usePhotoCaptureSightState({
     inspectionId,
     captureSights: sights,
@@ -203,13 +209,8 @@ export function PhotoCapture({
     tasksBySight,
     complianceOptions,
     setIsInitialInspectionFetched,
+    toggleSightTutorial,
   });
-  const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
-    enableTutorial,
-    enableSightGuidelines,
-    enableSightTutorial,
-  });
-  const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
     enableSightGuidelines,
   });

@@ -22,6 +22,7 @@ import {
   TaskName,
   ImageStatus,
   ProgressStatus,
+  CAR_COVERAGE_COMPLIANCE_ISSUES,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { useAnalytics } from '@monkvision/analytics';
@@ -114,6 +115,8 @@ export interface PhotoCaptureSightsParams {
    * sight will be used.
    */
   tasksBySight?: Record<string, TaskName[]>;
+  /** Callback called to show the tutorial when retaking a non Car Coverage compliant sight. */
+  toggleSightTutorial: () => void;
 }
 
 function getCaptureTasks(
@@ -209,6 +212,7 @@ export function usePhotoCaptureSightState({
   tasksBySight,
   setIsInitialInspectionFetched,
   complianceOptions,
+  toggleSightTutorial,
 }: PhotoCaptureSightsParams): PhotoCaptureSightState {
   if (captureSights.length === 0) {
     throw new Error('Empty sight list given to the Monk PhotoCapture component.');
@@ -333,6 +337,17 @@ export function usePhotoCaptureSightState({
       const sightToRetake = captureSights.find((sight) => sight.id === id);
       if (sightToRetake) {
         setSelectedSight(sightToRetake);
+      }
+
+      const hasCarCoverageComplianceIssues = state.images.some((image) => {
+        return (
+          image.sightId === id &&
+          image.complianceIssues &&
+          image.complianceIssues.some((issue) => CAR_COVERAGE_COMPLIANCE_ISSUES.includes(issue))
+        );
+      });
+      if (hasCarCoverageComplianceIssues) {
+        toggleSightTutorial();
       }
     },
     [captureSights],

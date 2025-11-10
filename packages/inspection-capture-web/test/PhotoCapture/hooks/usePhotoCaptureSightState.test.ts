@@ -48,6 +48,7 @@ function createParams(): PhotoCaptureSightsParams {
       useLiveCompliance: true,
     },
     setIsInitialInspectionFetched: jest.fn(),
+    toggleSightTutorial: jest.fn(),
   };
 }
 
@@ -328,6 +329,35 @@ describe('usePhotoCaptureSightState hook', () => {
     expect(initialProps.onLastSightTaken).not.toHaveBeenCalled();
     act(() => result.current.takeSelectedSight());
     expect(initialProps.onLastSightTaken).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should not trigger tutorial when a new sight is taken', () => {
+    const initialProps = createParams();
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    act(() => result.current.selectSight(initialProps.captureSights[0]));
+    expect((initialProps.toggleSightTutorial as jest.Mock).mock.calls.length).toBe(0);
+
+    unmount();
+  });
+
+  it('should trigger tutorial only when retaking a non-compliant Car Coverage sight', () => {
+    const initialProps = createParams();
+    (useMonkState as jest.Mock).mockImplementationOnce(() => ({
+      state: {
+        images: [
+          { sightId: 'test-sight-1', complianceIssues: [ComplianceIssue.NO_VEHICLE] }, // Car Coverage issue
+          { sightId: 'test-sight-2', complianceIssues: [ComplianceIssue.TOO_ZOOMED] }, // Non Car Coverage issue
+        ],
+      },
+    }));
+    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+
+    act(() => result.current.retakeSight('test-sight-1'));
+    act(() => result.current.retakeSight('test-sight-2'));
+    expect((initialProps.toggleSightTutorial as jest.Mock).mock.calls.length).toBe(1);
 
     unmount();
   });

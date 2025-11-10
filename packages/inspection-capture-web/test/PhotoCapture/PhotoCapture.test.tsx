@@ -234,6 +234,7 @@ describe('PhotoCapture component', () => {
       apiConfig: props.apiConfig,
       loading,
       onLastSightTaken: expect.any(Function),
+      toggleSightTutorial: expect.any(Function),
       tasksBySight: props.tasksBySight,
       complianceOptions: {
         enableCompliance: props.enableCompliance,
