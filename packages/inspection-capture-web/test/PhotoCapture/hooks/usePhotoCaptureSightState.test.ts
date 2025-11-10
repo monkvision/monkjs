@@ -333,7 +333,7 @@ describe('usePhotoCaptureSightState hook', () => {
     unmount();
   });
 
-  it('tutorial should not be triggered when a new sight is taken', () => {
+  it('should not trigger tutorial when a new sight is taken', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
 
@@ -343,7 +343,7 @@ describe('usePhotoCaptureSightState hook', () => {
     unmount();
   });
 
-  it('tutorial should be triggered only when retaking a non-compliant Car Coverage sight', () => {
+  it('should trigger tutorial only when retaking a non-compliant Car Coverage sight', () => {
     const initialProps = createParams();
     (useMonkState as jest.Mock).mockImplementationOnce(() => ({
       state: {
