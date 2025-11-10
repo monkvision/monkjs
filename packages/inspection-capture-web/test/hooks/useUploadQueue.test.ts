@@ -236,7 +236,10 @@ describe('useUploadQueue hook', () => {
       jest.advanceTimersByTime(durationMs);
       await promise;
       initialProps.eventHandlers?.forEach((eventHandlers) => {
-        expect(eventHandlers.onUploadSuccess).toHaveBeenCalledWith(durationMs);
+        expect(eventHandlers.onUploadSuccess).toHaveBeenCalledWith({
+          durationMs,
+          sightId: defaultUploadOptions.sightId,
+        });
       });
 
       unmount();

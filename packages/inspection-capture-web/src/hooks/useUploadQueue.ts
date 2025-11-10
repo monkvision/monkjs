@@ -12,15 +12,31 @@ import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';
 
 /**
+ * Payload for the onUploadSuccess event handler.
+ */
+export interface UploadSuccessPayload {
+  /**
+   * The total elapsed time in milliseconds between the start of the upload and the end of the upload.
+   */
+  durationMs?: number;
+  /**
+   * The sight ID associated with the uploaded picture, if applicable.
+   */
+  sightId?: string;
+  /**
+   * The ID of the uploaded image.
+   */
+  imageId?: string;
+}
+
+/**
  * Type definition for upload event handlers.
  */
 export interface UploadEventHandlers {
   /**
    * Callback called when a picture upload successfully completes.
-   *
-   * @param durationMs The total elapsed time in milliseconds between the start of the upload and the end of the upload.
    */
-  onUploadSuccess?: (durationMs: number) => void;
+  onUploadSuccess?: (payload: UploadSuccessPayload) => void;
   /**
    * Callback called when a picture upload fails because of a timeout.
    */
@@ -193,7 +209,7 @@ export function useUploadQueue({
     }
     try {
       const startTs = Date.now();
-      await addImage(
+      const result = await addImage(
         createAddImageOptions(
           upload,
           inspectionId,
@@ -205,7 +221,14 @@ export function useUploadQueue({
         ),
       );
       const uploadDurationMs = Date.now() - startTs;
-      eventHandlers?.forEach((handlers) => handlers.onUploadSuccess?.(uploadDurationMs));
+      const sightId = upload.mode === CaptureMode.SIGHT ? upload.sightId : undefined;
+      eventHandlers?.forEach((handlers) =>
+        handlers.onUploadSuccess?.({
+          durationMs: uploadDurationMs,
+          sightId,
+          imageId: result?.image?.id,
+        }),
+      );
     } catch (err) {
       if (
         err instanceof Error &&

@@ -45,7 +45,7 @@ describe('useAdaptiveCameraConfigTest hook', () => {
     expect(result.current.adaptiveCameraConfig.resolution).toEqual(
       initialProps.initialCameraConfig.resolution,
     );
-    act(() => result.current.uploadEventHandlers.onUploadSuccess?.(15001));
+    act(() => result.current.uploadEventHandlers.onUploadSuccess?.({ durationMs: 15001 }));
     expect(result.current.adaptiveCameraConfig.resolution).toEqual(CameraResolution.QHD_2K);
     expect(result.current.adaptiveCameraConfig.quality).toEqual(0.6);
     expect(result.current.adaptiveCameraConfig.allowImageUpscaling).toEqual(false);
@@ -63,7 +63,7 @@ describe('useAdaptiveCameraConfigTest hook', () => {
     expect(result.current.adaptiveCameraConfig.resolution).toEqual(
       initialProps.initialCameraConfig.resolution,
     );
-    act(() => result.current.uploadEventHandlers.onUploadSuccess?.(200));
+    act(() => result.current.uploadEventHandlers.onUploadSuccess?.({ durationMs: 200 }));
     expect(result.current.adaptiveCameraConfig).toEqual(
       expect.objectContaining(initialProps.initialCameraConfig),
     );

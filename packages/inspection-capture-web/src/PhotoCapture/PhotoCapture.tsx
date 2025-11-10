@@ -43,7 +43,7 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
-// import { SessionTimeTrackerDemo } from '../components/SessionTimeTrackerDemo';
+import { useImagesCleanup } from '../hooks/useImagesCleanup';
 
 /**
  * Props of the PhotoCapture component.
@@ -219,12 +219,17 @@ export function PhotoCapture({
     closeBadConnectionWarningDialog,
     uploadEventHandlers: badConnectionWarningUploadEventHandlers,
   } = useBadConnectionWarning({ maxUploadDurationWarning });
+  const { cleanupEventHandlers } = useImagesCleanup({ inspectionId, apiConfig });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     additionalTasks,
     complianceOptions,
-    eventHandlers: [adaptiveUploadEventHandlers, badConnectionWarningUploadEventHandlers],
+    eventHandlers: [
+      adaptiveUploadEventHandlers,
+      badConnectionWarningUploadEventHandlers,
+      cleanupEventHandlers,
+    ],
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
