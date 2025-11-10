@@ -162,5 +162,23 @@ describe('MonkSearchParams utils', () => {
 
       unmount();
     });
+
+    it('should return a null client ID if it is not found in the search params', () => {
+      const { result, unmount } = renderHook(useMonkSearchParams);
+
+      expect(result.current.get(MonkSearchParam.CLIENT_ID)).toBeNull();
+
+      unmount();
+    });
+
+    it('should return the client ID if it is found in the search params', () => {
+      const clientId = 'test-id-test';
+      mockSearchParams({ [MonkSearchParam.CLIENT_ID]: clientId });
+      const { result, unmount } = renderHook(useMonkSearchParams);
+
+      expect(result.current.get(MonkSearchParam.CLIENT_ID)).toEqual(clientId);
+
+      unmount();
+    });
   });
 });

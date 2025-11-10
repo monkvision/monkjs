@@ -39,6 +39,7 @@ const {
   email,
   getVehicleModel,
   getAspectRatio,
+  MonkSearchParam,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -71,6 +72,7 @@ export = {
   email,
   getVehicleModel,
   getAspectRatio,
+  MonkSearchParam,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -148,4 +150,5 @@ export = {
     requestCompassPermission: jest.fn(() => Promise.resolve()),
   })),
   useSafeTimeout: jest.fn(() => jest.fn()),
+  useMonkSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
 };

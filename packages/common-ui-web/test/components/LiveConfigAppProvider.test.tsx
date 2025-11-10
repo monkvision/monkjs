@@ -24,7 +24,11 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should fetch the live config and pass it to the MonkAppStateProvider component', async () => {
-    const config = { hello: 'world' };
+    const config = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
     (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} />);
@@ -36,10 +40,54 @@ describe('LiveConfigAppProvider component', () => {
     unmount();
   });
 
+  it('should fetch the live config, ensure apiDomain is set, and pass it to MonkAppStateProvider', async () => {
+    const config = { hello: 'world' };
+    const liveConfigAppProviderPropsMock = {
+      id: 'test-id-test',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
+    (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
+    const { unmount } = render(<LiveConfigAppProvider {...liveConfigAppProviderPropsMock} />);
+
+    await waitFor(() => {
+      expectPropsOnChildMock(MonkAppStateProvider, {
+        config: {
+          ...config,
+          apiDomain: liveConfigAppProviderPropsMock.apiDomain,
+          thumbnailDomain: liveConfigAppProviderPropsMock.thumbnailDomain,
+        },
+      });
+    });
+
+    unmount();
+  });
+
+  it('should display an error message with a retry button in case of no apiDomain found', async () => {
+    const config = { hello: 'world' };
+    (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
+    const id = 'test-id-test';
+    const { unmount } = render(<LiveConfigAppProvider id={id} />);
+
+    expect(MonkAppStateProvider).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(screen.getByTestId('error-msg')).not.toBeNull();
+      expectPropsOnChildMock(Button, { children: 'Retry', onClick: expect.any(Function) });
+    });
+
+    unmount();
+  });
+
   it('should pass down the props and children to the MonkAppStateProvider component', async () => {
     const onFetchAuthToken = jest.fn();
     const onFetchLanguage = jest.fn();
     const children = 'test-children';
+    const config = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    };
+    (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve(config));
     const { unmount } = render(
       <LiveConfigAppProvider
         id='test'
@@ -73,7 +121,7 @@ describe('LiveConfigAppProvider component', () => {
     expect(screen.queryByTestId(spinnerTestId)).not.toBeNull();
     expect(MonkAppStateProvider).not.toHaveBeenCalled();
     await act(async () => {
-      promise.resolve({});
+      promise.resolve({ apiDomain: 'test-domain', thumbnailDomain: 'test-thumbmail-domain' });
       await promise;
     });
     expect(screen.queryByTestId(spinnerTestId)).toBeNull();
@@ -93,7 +141,9 @@ describe('LiveConfigAppProvider component', () => {
       expectPropsOnChildMock(Button, { children: 'Retry', onClick: expect.any(Function) });
     });
     const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
-    (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() => Promise.resolve({}));
+    (MonkApi.getLiveConfig as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({ apiDomain: 'test-domain', thumbnailDomain: 'test-thumbmail-domain' }),
+    );
     act(() => {
       onClick();
     });
@@ -107,7 +157,11 @@ describe('LiveConfigAppProvider component', () => {
   });
 
   it('should not fetch the live config and return the local config if it is used', async () => {
-    const localConfig = { hello: 'world' } as unknown as LiveConfig;
+    const localConfig = {
+      hello: 'world',
+      apiDomain: 'test-domain',
+      thumbnailDomain: 'test-thumbmail-domain',
+    } as unknown as LiveConfig;
     const id = 'test-id-test';
     const { unmount } = render(<LiveConfigAppProvider id={id} localConfig={localConfig} />);
 

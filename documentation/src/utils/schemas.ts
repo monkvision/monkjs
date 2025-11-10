@@ -9,6 +9,7 @@ import {
   MileageUnit,
   MonkApiPermission,
   PhotoCaptureSightGuidelinesOption,
+  PhotoCaptureSightTutorialOption,
   PhotoCaptureTutorialOption,
   SteeringWheelPosition,
   TaskName,
@@ -269,44 +270,57 @@ export const CreateInspectionDiscriminatedUnionSchema = z.discriminatedUnion(
 
 const domainsByEnv = {
   staging: {
-    api: 'api.staging.monk.ai/v1',
-    thumbnail: 'api.staging.monk.ai/image_resize',
+    api: ['api.staging.monk.ai/v1', 'monk-us-core-api.gateway.dev.acvauctions.com/v1'],
+    thumbnail: [
+      'api.staging.monk.ai/image_resize',
+      'monk-us-image.gateway.dev.acvauctions.com/image_resize',
+    ],
   },
   preview: {
-    api: 'api.preview.monk.ai/v1',
-    thumbnail: 'api.preview.monk.ai/image_resize',
+    api: ['api.preview.monk.ai/v1', 'monk-us-core-api.gateway.staging.acvauctions.com/v1'],
+    thumbnail: [
+      'api.preview.monk.ai/image_resize',
+      'monk-us-image.gateway.staging.acvauctions.com/image_resize',
+    ],
   },
   production: {
-    api: 'api.monk.ai/v1',
-    thumbnail: 'api.monk.ai/image_resize',
+    api: ['api.monk.ai/v1', 'monk-us-core-api.gateway.acvauctions.com/v1'],
+    thumbnail: ['api.monk.ai/image_resize', 'monk-us-image.gateway.acvauctions.com/image_resize'],
   },
 };
 
-const apiDomains = Object.values(domainsByEnv).map((env) => env.api) as [string, ...string[]];
-const thumbnailDomains = Object.values(domainsByEnv).map((env) => env.thumbnail) as [
+const apiDomains = [...new Set(Object.values(domainsByEnv).flatMap((env) => env.api))] as [
   string,
   ...string[],
 ];
+const thumbnailDomains = [
+  ...new Set(Object.values(domainsByEnv).flatMap((env) => env.thumbnail)),
+] as [string, ...string[]];
 
 export const DomainsSchema = z
   .object({
-    apiDomain: z.enum(apiDomains),
-    thumbnailDomain: z.enum(thumbnailDomains),
+    apiDomain: z.enum(apiDomains).optional(),
+    thumbnailDomain: z.enum(thumbnailDomains).optional(),
   })
   .refine(
     (data) => {
-      const apiEnv = Object.values(domainsByEnv).find((env) => env.api === data.apiDomain);
-      const thumbnailEnv = Object.values(domainsByEnv).find(
-        (env) => env.thumbnail === data.thumbnailDomain,
+      const { apiDomain, thumbnailDomain } = data;
+
+      if (!apiDomain || !thumbnailDomain) {
+        return true;
+      }
+
+      const apiEnv = Object.values(domainsByEnv).find((env) => env.api.includes(apiDomain));
+      const thumbnailEnv = Object.values(domainsByEnv).find((env) =>
+        env.thumbnail.includes(thumbnailDomain),
       );
-      return !!apiEnv && apiEnv === thumbnailEnv;
+
+      return Boolean(apiEnv && thumbnailEnv && apiEnv === thumbnailEnv);
     },
-    (data) => ({
-      message: `The selected thumbnailDomain must correspond to the selected apiDomain. Please use the corresponding thumbnailDomain: ${
-        thumbnailDomains[apiDomains.indexOf(data.apiDomain)]
-      }`,
+    {
+      message: 'The selected thumbnailDomain must correspond to the selected apiDomain.',
       path: ['thumbnailDomain'],
-    }),
+    },
   );
 
 export const LiveConfigSchema = z
@@ -329,8 +343,8 @@ export const LiveConfigSchema = z
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
-    enableSightTutorial: z.boolean().optional(),
-    sightTutorial: z.array(SightGuidelineSchema).optional(),
+    enableSightTutorial: z.nativeEnum(PhotoCaptureSightTutorialOption).optional(),
+    sightTutorial: z.array(SightTutorialSchema).optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),
     allowManualLogin: z.boolean(),
     allowVehicleTypeSelection: z.boolean(),

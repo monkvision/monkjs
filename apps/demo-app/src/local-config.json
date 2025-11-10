@@ -12,8 +12,6 @@
   "createInspectionOptions": {
     "tasks": ["damage_detection", "wheel_analysis"]
   },
-  "apiDomain": "api.preview.monk.ai/v1",
-  "thumbnailDomain": "api.preview.monk.ai/image_resize",
   "enableTutorial": "first_time_only",
   "enableSightTutorial": "modern",
   "startTasksOnComplete": true,

@@ -4,9 +4,18 @@ jest.mock('jwt-decode', () => ({
   })),
 }));
 
-import { MonkApiPermission } from '@monkvision/types';
 import { jwtDecode } from 'jwt-decode';
-import { decodeMonkJwt, isTokenExpired, isUserAuthorized, MonkJwtPayload } from '../../src';
+import { MonkApiPermission } from '@monkvision/types';
+import { MonkSearchParam, STORAGE_KEY_AUTH_TOKEN, zlibDecompress } from '@monkvision/common';
+import {
+  decodeMonkJwt,
+  isTokenExpired,
+  isUserAuthorized,
+  MonkJwtPayload,
+  isTokenValid,
+  getAuthConfig,
+} from '../../src';
+import { AuthConfig } from '../../src/auth/authProvider.types';
 
 describe('Network package JWT utils', () => {
   afterEach(() => {
@@ -118,6 +127,93 @@ describe('Network package JWT utils', () => {
           exp: Date.now() / 1000 + 10000,
         }),
       ).toBe(false);
+    });
+  });
+
+  describe('isTokenValid function', () => {
+    beforeEach(() => {
+      localStorage.clear();
+      (jwtDecode as jest.Mock).mockReset();
+    });
+
+    it('should return false when no token is stored', () => {
+      expect(isTokenValid('client-123')).toBe(false);
+    });
+
+    it('should return true when stored token azp matches client ID', () => {
+      localStorage.setItem(STORAGE_KEY_AUTH_TOKEN, 'encoded-token');
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => ({ azp: 'client-123' }));
+      expect(isTokenValid('client-123')).toBe(true);
+      expect(jwtDecode).toHaveBeenCalledWith('encoded-token');
+    });
+
+    it('should return false when stored token azp differs from client ID', () => {
+      localStorage.setItem(STORAGE_KEY_AUTH_TOKEN, 'encoded-token');
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => ({ azp: 'client-XYZ' }));
+      expect(isTokenValid('client-123')).toBe(false);
+    });
+  });
+
+  describe('getAuthConfig function', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+      delete (window as any).location;
+      (window as any).location = { href: 'https://test.app' };
+    });
+
+    const configs: AuthConfig[] = [
+      {
+        clientId: 'client-A',
+        domain: 'a.auth0.com',
+        authorizationParams: { redirect_uri: 'https://a.example.com' },
+        context: undefined,
+      },
+      {
+        clientId: 'client-B',
+        domain: 'b.auth0.com',
+        authorizationParams: { redirect_uri: 'https://b.example.com' },
+        context: undefined,
+      },
+    ];
+
+    it('should return undefined when no configs are provided', () => {
+      const result = getAuthConfig([]);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return first config when no params are present', () => {
+      const result = getAuthConfig(configs);
+      expect(result).toBe(configs[0]);
+    });
+
+    it('should return matching config when CLIENT_ID param is present', () => {
+      (
+        window as any
+      ).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=${configs[1].clientId}`;
+
+      const result = getAuthConfig(configs);
+      expect(result).toBe(configs[1]);
+    });
+
+    it('should return matching config from TOKEN param (decoded azp)', () => {
+      const fakeToken = 'compressed-token';
+      const fakeTokenDecompressed = 'decoded-token';
+      const fakeDecodedTokenClientId = { azp: configs[0].clientId };
+
+      (window as any).location.href = `https://test.app?${MonkSearchParam.TOKEN}=${fakeToken}`;
+      (zlibDecompress as jest.Mock).mockImplementationOnce(() => fakeTokenDecompressed);
+      (jwtDecode as jest.Mock).mockImplementationOnce(() => fakeDecodedTokenClientId);
+
+      const result = getAuthConfig(configs);
+      expect(zlibDecompress).toHaveBeenCalledWith(fakeToken);
+      expect(jwtDecode).toHaveBeenCalledWith(fakeTokenDecompressed);
+      expect(result).toBe(configs[0]);
+    });
+
+    it('falls back to first config when no match found', () => {
+      (window as any).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=nonexistent`;
+      const result = getAuthConfig(configs);
+      expect(result).toBe(configs[0]);
     });
   });
 });

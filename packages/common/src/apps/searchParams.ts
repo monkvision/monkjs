@@ -49,6 +49,10 @@ export enum MonkSearchParam {
    * @see SteeringWheelPosition
    */
   STEERING_WHEEL = 's',
+  /**
+   * Search parameter used to specify the Auth0 Client ID.
+   */
+  CLIENT_ID = 'c',
 }
 
 /**
@@ -60,6 +64,7 @@ export type MonkSearchParamsGetter = {
   (param: MonkSearchParam.VEHICLE_TYPE): VehicleType | null;
   (param: MonkSearchParam.STEERING_WHEEL): SteeringWheelPosition | null;
   (param: MonkSearchParam.LANGUAGE): MonkLanguage | null;
+  (param: MonkSearchParam.CLIENT_ID): string | null;
 };
 
 function validateParamValue<T extends string>(
@@ -108,6 +113,8 @@ export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchPara
           return validateParamValue(value, SteeringWheelPosition);
         case MonkSearchParam.LANGUAGE:
           return validateParamValue(value, monkLanguages);
+        case MonkSearchParam.CLIENT_ID:
+          return value;
         default:
           return null;
       }

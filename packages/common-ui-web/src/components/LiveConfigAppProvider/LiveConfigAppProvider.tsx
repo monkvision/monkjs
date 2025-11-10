@@ -13,6 +13,24 @@ import { styles } from './LiveConfigAppProvider.styles';
 import { Spinner } from '../Spinner';
 import { Button } from '../Button';
 
+function validateRequiredDomains(
+  apiDomain: string | undefined,
+  thumbnailDomain: string | undefined,
+  configId: string,
+): Error | null {
+  if (!apiDomain) {
+    return new Error(
+      `Missing required apiDomain: provide it as a LiveConfigAppProvider prop or define it in the JSON live config file: "${configId}".`,
+    );
+  }
+  if (!thumbnailDomain) {
+    return new Error(
+      `Missing required thumbnailDomain: provide it as a LiveConfigAppProvider prop or define it in the JSON live config file: "${configId}".`,
+    );
+  }
+  return null;
+}
+
 /**
  * Props accepted by the LiveConfigAppProvider component.
  */
@@ -21,6 +39,14 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
    * The ID of the application's live configuration.
    */
   id: string;
+  /**
+   * The API domain used to communicate with the API.
+   */
+  apiDomain?: string;
+  /**
+   * The domain used to fetch image thumbnails (served by the image_resize microservice).
+   */
+  thumbnailDomain?: string;
   /**
    * Use this prop to configure a configuration on your local environment. Using this prop will prevent this component
    * from fetching a local config from the API.
@@ -42,6 +68,8 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
  */
 export function LiveConfigAppProvider({
   id,
+  apiDomain,
+  thumbnailDomain,
   localConfig,
   lang,
   children,
@@ -66,7 +94,21 @@ export function LiveConfigAppProvider({
     {
       onResolve: (result: LiveConfig) => {
         loading.onSuccess();
-        setConfig(result);
+        const finalApiDomain = result.apiDomain ?? apiDomain;
+        const finalThumbnailDomain = result.thumbnailDomain ?? thumbnailDomain;
+
+        const missingDomainError = validateRequiredDomains(
+          finalApiDomain,
+          finalThumbnailDomain,
+          id,
+        );
+        if (missingDomainError) {
+          handleError(missingDomainError);
+          loading.onError();
+          return;
+        }
+
+        setConfig({ ...result, apiDomain: finalApiDomain, thumbnailDomain: finalThumbnailDomain });
       },
       onReject: (err) => {
         handleError(err);
