@@ -6,7 +6,7 @@ import {
 } from '@monkvision/types';
 import { useCallback, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import { UploadEventHandlers } from './useUploadQueue';
+import { UploadEventHandlers, UploadSuccessPayload } from './useUploadQueue';
 
 const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
   quality: 0.6,
@@ -75,8 +75,8 @@ export function useAdaptiveCameraConfig({
     setIsImageUpscalingAllowed(false);
   };
 
-  const onUploadSuccess = useCallback((durationMs: number) => {
-    if (durationMs > MAX_UPLOAD_DURATION_MS) {
+  const onUploadSuccess = useCallback(({ durationMs }: UploadSuccessPayload) => {
+    if (durationMs && durationMs > MAX_UPLOAD_DURATION_MS) {
       lowerMaxImageQuality();
     }
   }, []);
