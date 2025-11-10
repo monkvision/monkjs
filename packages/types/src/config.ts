@@ -369,4 +369,8 @@ export type LiveConfig = (PhotoCaptureAppConfig | VideoCaptureAppConfig) & {
    * Optional API domain override.
    */
   apiDomain?: string;
+  /**
+   * Optional Thumbnail domain override.
+   */
+  thumbnailDomain?: string;
 };

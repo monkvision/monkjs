@@ -36,7 +36,7 @@ describe('AuthProvider component', () => {
     delete (global as any).__auth0ProviderLastProps;
   });
 
-  it('should renders children and passes correct props to Auth0Provider', () => {
+  it('should render children and pass correct props to Auth0Provider', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
     (getAuthConfig as jest.Mock).mockReturnValue(configs[0]);
@@ -52,7 +52,7 @@ describe('AuthProvider component', () => {
     expect(lastProps).toMatchObject(configs[0]);
   });
 
-  it('should calls logout and clears token when token is invalid', () => {
+  it('should call logout and clear token when token is invalid', () => {
     const childTestId = 'child-test';
     const configs = createConfigs();
     (getAuthConfig as jest.Mock).mockReturnValue(configs[1]);

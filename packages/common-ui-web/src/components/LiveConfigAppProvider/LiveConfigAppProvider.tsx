@@ -97,9 +97,13 @@ export function LiveConfigAppProvider({
         const finalApiDomain = result.apiDomain ?? apiDomain;
         const finalThumbnailDomain = result.thumbnailDomain ?? thumbnailDomain;
 
-        const missingDomain = validateRequiredDomains(finalApiDomain, finalThumbnailDomain, id);
-        if (missingDomain) {
-          handleError(missingDomain);
+        const missingDomainError = validateRequiredDomains(
+          finalApiDomain,
+          finalThumbnailDomain,
+          id,
+        );
+        if (missingDomainError) {
+          handleError(missingDomainError);
           loading.onError();
           return;
         }
