@@ -27,7 +27,7 @@
       },
       "closeConfirm": {
         "message": "Weet je zeker dat je de capture tool wilt sluiten?",
-        "cancel": "Annuleren",
+        "cancel": "Nee",
         "confirm": "Ja"
       },
       "guidelines": {

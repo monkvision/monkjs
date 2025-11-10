@@ -43,16 +43,6 @@ export function BackdropDialog({
           <div style={styles['buttonsContainer']}>
             <Button
               variant='outline'
-              primaryColor='primary-xlight'
-              secondaryColor='background-dark'
-              icon={confirmIcon}
-              style={style.confirmButton}
-              onClick={onConfirm}
-            >
-              {confirmLabel}
-            </Button>
-            <Button
-              variant='outline'
               primaryColor='alert-light'
               secondaryColor='background-dark'
               icon={cancelIcon}
@@ -60,6 +50,16 @@ export function BackdropDialog({
               onClick={onCancel}
             >
               {cancelLabel}
+            </Button>
+            <Button
+              variant='outline'
+              primaryColor='primary-xlight'
+              secondaryColor='background-dark'
+              icon={confirmIcon}
+              style={style.confirmButton}
+              onClick={onConfirm}
+            >
+              {confirmLabel}
             </Button>
           </div>
         </div>

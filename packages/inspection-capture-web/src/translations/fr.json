@@ -27,7 +27,7 @@
       },
       "closeConfirm": {
         "message": "Êtes-vous sûr(e) de vouloir fermer l'outil de capture ?",
-        "cancel": "Annuler",
+        "cancel": "Non",
         "confirm": "Oui"
       },
       "guidelines": {
