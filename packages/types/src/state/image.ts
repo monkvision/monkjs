@@ -189,6 +189,9 @@ export enum ComplianceIssue {
   INTERIOR_NOT_SUPPORTED = 'interior_not_supported',
   MISSING = 'missing',
   LOW_QUALITY = 'low_quality',
+  CONTAIN_FORBIDDEN_PARTS = 'contain_forbidden_parts',
+  VEHICLE_NOT_FULLY_IN_FRAME = 'vehicle_not_fully_in_frame',
+  FINGER_ON_LENS = 'finger_on_lens',
 
   // Custom issue(s)
   PORTRAIT_IMAGE = 'portrait_image',
