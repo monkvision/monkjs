@@ -1,6 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useImagesCleanup } from '../../src/hooks/useImagesCleanup';
-import { act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
 
