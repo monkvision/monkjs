@@ -5,12 +5,9 @@ import { useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
 import { UserMediaResult, useUserMedia } from './useUserMedia';
 
-function getPreviewDimensions(
-  refVideo: RefObject<HTMLVideoElement>,
-  windowDimensions: PixelDimensions,
-) {
-  const height = refVideo.current?.videoHeight;
-  const width = refVideo.current?.videoWidth;
+function getPreviewDimensions(refVideo: HTMLVideoElement, windowDimensions: PixelDimensions) {
+  const height = refVideo.videoHeight;
+  const width = refVideo.videoWidth;
 
   if (!windowDimensions || !height || !width) {
     return null;
@@ -62,11 +59,15 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
 
       const handleMetadata = () => {
         currentRef?.play().catch(handleError);
-        setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
+        if (currentRef) {
+          setPreviewDimensions(getPreviewDimensions(currentRef, windowDimensions));
+        }
       };
 
       const handleResize = () => {
-        setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
+        if (currentRef) {
+          setPreviewDimensions(getPreviewDimensions(currentRef, windowDimensions));
+        }
       };
 
       currentRef.onloadedmetadata = handleMetadata;
