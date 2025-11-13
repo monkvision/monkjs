@@ -1,9 +1,8 @@
 import { STORAGE_KEY_AUTH_TOKEN, useMonkAppState } from '@monkvision/common';
 import { Auth0ContextInterface, useAuth0 } from '@auth0/auth0-react';
-import { act, waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { waitFor, renderHook } from '@testing-library/react';
 import { useAuth } from '../../src';
-import { Context } from 'react';
+import { Context, act } from 'react';
 
 describe('Authentication hooks', () => {
   afterEach(() => {

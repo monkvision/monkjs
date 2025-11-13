@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Layout from '@theme/Layout';
 import { ConfigImport, ConfigValidateResults } from '@site/src/components';
 import styles from './styles.module.css';

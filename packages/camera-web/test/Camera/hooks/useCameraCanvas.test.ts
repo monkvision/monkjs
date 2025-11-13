@@ -6,7 +6,7 @@ jest.mock('../../../src/Camera/hooks/utils', () => ({
   getResolutionDimensions: jest.fn(() => ({ width: 1, height: 1 })),
 }));
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { CameraCanvasConfig, useCameraCanvas } from '../../../src/Camera/hooks';
 import { CameraResolution } from '@monkvision/types';

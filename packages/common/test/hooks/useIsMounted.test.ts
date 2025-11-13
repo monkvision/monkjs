@@ -1,5 +1,5 @@
 import { useIsMounted } from '../../src/hooks/useIsMounted';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 describe('useIsMounted hook', () => {
   it('should return true when the component is mounted and false when unmounted', () => {

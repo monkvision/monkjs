@@ -1,7 +1,7 @@
 import { TaskName, MonkPicture } from '@monkvision/types';
 import { AddDamageHandle, usePictureTaken, UseTakePictureParams } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { PhotoCaptureSightState } from '../../src/PhotoCapture/hooks';
 
 function createParams(): UseTakePictureParams {

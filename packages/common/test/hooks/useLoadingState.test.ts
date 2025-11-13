@@ -1,6 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks';
 import { useLoadingState } from '../../src';
-import { act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 
 describe('useLoadingState hook', () => {
   it('should not starts by loading by default', () => {

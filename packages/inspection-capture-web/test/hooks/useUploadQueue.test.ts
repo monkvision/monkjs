@@ -1,5 +1,5 @@
 import { useQueue } from '@monkvision/common';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import {
   AddDamage1stShotPictureUpload,
   AddDamage2ndShotPictureUpload,
@@ -10,7 +10,6 @@ import { CaptureMode } from '../../src/types';
 import { ComplianceIssue, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { act } from '@testing-library/react';
 
 function createParams(): UploadQueueParams {
   return {

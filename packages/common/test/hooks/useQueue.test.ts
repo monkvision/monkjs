@@ -1,5 +1,5 @@
-import { Renderer, renderHook, RenderHookResult } from '@testing-library/react-hooks';
-import { act } from 'react-dom/test-utils';
+import { renderHook, RenderHookResult } from '@testing-library/react';
+import { act } from 'react';
 import { Queue, QueueOptions, useQueue } from '../../src';
 
 interface ItemPromise {
@@ -43,7 +43,7 @@ function process(value: string): Promise<void> {
 
 function renderUseQueue(
   initialProps?: QueueOptions<string>,
-): RenderHookResult<QueueOptions<string>, Queue<string>, Renderer<QueueOptions<string>>> {
+): RenderHookResult<Queue<string>, QueueOptions<string>> {
   return renderHook((options) => useQueue(process, options), {
     initialProps,
   });
@@ -119,14 +119,14 @@ describe('useQueue hook', () => {
       values.forEach((value) => result.current.push(create(value)));
     });
     expect(result.current.isFull).toBe(true);
-    expect(() => result.current.push(create('test'))).toThrowError();
+    expect(() => result.current.push(create('test'))).toThrow();
     await act(async () => {
       await Promise.all(values.map((value) => complete(value)));
     });
     expect(result.current.isFull).toBe(false);
     await act(async () => {
       const value = 'test';
-      expect(() => result.current.push(create(value))).not.toThrowError();
+      expect(() => result.current.push(create(value))).not.toThrow();
       await complete(value);
     });
     unmount();
