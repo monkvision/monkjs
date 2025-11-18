@@ -5,6 +5,13 @@ import { useEffect, useState } from 'react';
  * Props accepted by the useInspectionReviewState hook.
  */
 export interface useInspectionReviewStateProps {
+  /**
+   * Callback to handle updates to the gallery items. Useful when changing between custom tabs.
+   */
+  handleGalleryUpdate?: (items: Image[]) => void;
+  /**
+   * The ID of the inspection to be reviewed.
+   */
   inspectionId: string;
 }
 
