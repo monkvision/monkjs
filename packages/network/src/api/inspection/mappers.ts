@@ -790,8 +790,8 @@ export function mapApiAllInspectionsUrlParamsGet(
   return `${paramsStr.length > 0 ? '?' : ''}${paramsStr}`;
 }
 
-export function mapApiInspectionUrlParamsGet(light?: boolean): string {
-  if (light === false) {
+export function mapApiInspectionUrlParamsGet(light: boolean): string {
+  if (!light) {
     return '';
   }
 

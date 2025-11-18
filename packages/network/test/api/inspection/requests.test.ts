@@ -90,7 +90,10 @@ describe('Inspection requests', () => {
       expect(mapApiInspectionGet).toHaveBeenCalledWith(body, apiConfig.thumbnailDomain, compliance);
       const entities = (mapApiInspectionGet as jest.Mock).mock.results[0].value;
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
-      expect(ky.get).toHaveBeenCalledWith(`inspections/${id}`, getDefaultOptions(apiConfig));
+      expect(ky.get).toHaveBeenCalledWith(
+        `inspections/${id}?verbose=light`,
+        getDefaultOptions(apiConfig),
+      );
       expect(dispatch).toHaveBeenCalledWith({
         type: MonkActionType.GOT_ONE_INSPECTION,
         payload: entities,

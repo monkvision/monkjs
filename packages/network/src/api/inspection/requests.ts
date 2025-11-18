@@ -80,9 +80,10 @@ export async function getInspection(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkGotOneInspectionAction>,
 ): Promise<MonkApiResponse<GetInspectionResponse, ApiInspectionGet>> {
+  const { light = true } = options;
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(
-    `inspections/${options.id}${mapApiInspectionUrlParamsGet(options.light)}`,
+    `inspections/${options.id}${mapApiInspectionUrlParamsGet(light)}`,
     kyOptions,
   );
   const body = await response.json<ApiInspectionGet>();
