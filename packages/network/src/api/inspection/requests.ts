@@ -42,7 +42,7 @@ export interface GetInspectionOptions {
    * If true, polygons are excluded from the inspection response,
    * reducing payload size and improving request speed.
    *
-   * @default false
+   * @default true
    */
   light?: boolean;
 }
@@ -80,9 +80,10 @@ export async function getInspection(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkGotOneInspectionAction>,
 ): Promise<MonkApiResponse<GetInspectionResponse, ApiInspectionGet>> {
+  const { light = true } = options;
   const kyOptions = getDefaultOptions(config);
   const response = await ky.get(
-    `inspections/${options.id}${mapApiInspectionUrlParamsGet(options.light)}`,
+    `inspections/${options.id}${mapApiInspectionUrlParamsGet(light)}`,
     kyOptions,
   );
   const body = await response.json<ApiInspectionGet>();
