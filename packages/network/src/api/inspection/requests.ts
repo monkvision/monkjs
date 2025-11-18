@@ -42,7 +42,7 @@ export interface GetInspectionOptions {
    * If true, polygons are excluded from the inspection response,
    * reducing payload size and improving request speed.
    *
-   * @default false
+   * @default true
    */
   light?: boolean;
 }

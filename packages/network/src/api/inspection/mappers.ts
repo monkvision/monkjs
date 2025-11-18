@@ -791,7 +791,7 @@ export function mapApiAllInspectionsUrlParamsGet(
 }
 
 export function mapApiInspectionUrlParamsGet(light?: boolean): string {
-  if (!light) {
+  if (light === false) {
     return '';
   }
 

@@ -100,14 +100,14 @@ describe('Inspection API Mappers', () => {
       expect(result).toEqual('?verbose=light');
     });
 
-    it('should not include verbose', () => {
+    it('should not include verbose param if light option is false', () => {
       const result = mapApiInspectionUrlParamsGet(false);
       expect(result).toEqual('');
     });
 
-    it('should not include verbose - undefined case', () => {
+    it('should include verbose param if light option is undefined', () => {
       const result = mapApiInspectionUrlParamsGet(undefined);
-      expect(result).toEqual('');
+      expect(result).toEqual('?verbose=light');
     });
   });
 });
