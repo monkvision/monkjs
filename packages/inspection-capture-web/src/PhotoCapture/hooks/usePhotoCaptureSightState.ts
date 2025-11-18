@@ -350,7 +350,7 @@ export function usePhotoCaptureSightState({
         toggleSightTutorial();
       }
     },
-    [captureSights],
+    [captureSights, state.images, toggleSightTutorial],
   );
 
   const selectSight = (s: Sight) => {
