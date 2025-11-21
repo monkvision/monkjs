@@ -7,7 +7,7 @@ jest.mock('../../src/hooks/useWindowDimensions', () => ({
 }));
 
 import { ResponsiveStyleProperties } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useResponsiveStyle, useWindowDimensions } from '../../src';
 
 describe('useResponsiveStyle hook', () => {

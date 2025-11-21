@@ -7,7 +7,7 @@ jest.mock('@monkvision/common', () => ({
 }));
 
 import { usePhotoCaptureImages } from '../../src/hooks';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { getInspectionImages, useMonkState } from '@monkvision/common';
 
 describe('usePhotoCaptureImages hook', () => {
@@ -54,21 +54,26 @@ describe('usePhotoCaptureImages hook', () => {
 
   it('should not re-calculate the images of the inspection if other elements of the state change', () => {
     const initialInspectionImages = [{ id: 'test-hello-1' }];
-    (getInspectionImages as jest.Mock).mockImplementation(() => initialInspectionImages);
     const images = [{ id: 'test-1' }];
+
+    (getInspectionImages as jest.Mock).mockImplementation(() => initialInspectionImages);
     (useMonkState as jest.Mock).mockImplementation(() => ({
       state: { images, inspections: [{ id: 'test-inspection-1' }] },
     }));
-    const inspectionId = 'test-inspection-id-test';
-    const { result, rerender, unmount } = renderHook(usePhotoCaptureImages, {
-      initialProps: inspectionId,
-    });
 
-    (getInspectionImages as jest.Mock).mockImplementation(() => [{ id: 'test-hello-2' }]);
+    const inspectionId = 'test-inspection-id-test';
+    const { result, rerender, unmount } = renderHook(() => usePhotoCaptureImages(inspectionId));
+
+    (getInspectionImages as jest.Mock).mockClear();
+
     (useMonkState as jest.Mock).mockImplementation(() => ({
-      state: { images, inspections: [{ id: 'test-inspection-2' }] },
+      state: { images, inspections: [{ id: 'test-inspection-2' }] }, // Same images reference
     }));
+
     rerender();
+
+    expect(getInspectionImages as jest.Mock).not.toHaveBeenCalled();
+
     expect(result.current).toEqual(initialInspectionImages);
 
     unmount();

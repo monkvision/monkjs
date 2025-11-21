@@ -21,7 +21,23 @@ export function expectPropsOnChildMock(
   Component: jest.Mock | FC<any> | ForwardedRef<any>,
   props: { [key: string]: unknown },
 ): void {
-  expect(Component).toHaveBeenCalledWith(expect.objectContaining(props), expect.anything());
+  const mock = Component as jest.Mock;
+  expect(mock).toHaveBeenCalled();
+
+  const matched = mock.mock.calls.some(([callProps]) =>
+    expect.objectContaining(props).asymmetricMatch(callProps),
+  );
+
+  if (!matched) {
+    throw new Error(
+      `Expected child mock to have been called with props matching ${JSON.stringify(props)},\n` +
+        `but received calls:\n${JSON.stringify(
+          mock.mock.calls.map((c) => c[0]),
+          null,
+          2,
+        )}`,
+    );
+  }
 }
 
 /**

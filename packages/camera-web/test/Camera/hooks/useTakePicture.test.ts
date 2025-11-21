@@ -1,7 +1,6 @@
 import { TransactionStatus, useMonitoring } from '@monkvision/monitoring';
-import { act, waitFor } from '@testing-library/react';
+import { act, waitFor, renderHook } from '@testing-library/react';
 import { MonkPicture } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
 import { useTakePicture, UseTakePictureParams } from '../../../src/Camera/hooks';
 import { TakePictureTransaction } from '../../../src/Camera/monitoring';
 import { createFakePromise } from '@monkvision/test-utils';

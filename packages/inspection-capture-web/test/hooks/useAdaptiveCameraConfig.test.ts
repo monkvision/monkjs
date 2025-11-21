@@ -1,7 +1,6 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useAdaptiveCameraConfig, UseAdaptiveCameraConfigOptions } from '../../src/hooks';
 import { CameraResolution, CompressionFormat } from '@monkvision/types';
-import { act } from '@testing-library/react';
 
 function createProps(): UseAdaptiveCameraConfigOptions {
   return {

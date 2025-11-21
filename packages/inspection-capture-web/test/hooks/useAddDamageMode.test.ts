@@ -1,12 +1,11 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { useAddDamageMode } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
-import { act } from '@testing-library/react';
 import { AddDamage } from '@monkvision/types';
 
 describe('useAddDamageMode hook', () => {
   it('should be in the SIGHT mode by default if damageDisclosure is false', () => {
-    const { result, unmount } = renderHook(useAddDamageMode, {
+    const { result, unmount } = renderHook((props) => useAddDamageMode(props as any), {
       initialProps: {
         addDamage: AddDamage.PART_SELECT,
         handleOpenGallery: jest.fn(),
@@ -18,7 +17,7 @@ describe('useAddDamageMode hook', () => {
   });
 
   it('should be in the PART SELECT mode by default if damageDisclosure is true', () => {
-    const { result, unmount } = renderHook(useAddDamageMode, {
+    const { result, unmount } = renderHook((props) => useAddDamageMode(props as any), {
       initialProps: {
         addDamage: AddDamage.PART_SELECT,
         handleOpenGallery: jest.fn(),
@@ -30,7 +29,7 @@ describe('useAddDamageMode hook', () => {
   });
 
   it('should switch to ADD_DAMAGE_1ST_SHOT', () => {
-    const { result, unmount } = renderHook(useAddDamageMode, {
+    const { result, unmount } = renderHook((props) => useAddDamageMode(props as any), {
       initialProps: {
         addDamage: AddDamage.TWO_SHOT,
         handleOpenGallery: jest.fn(),
@@ -43,7 +42,7 @@ describe('useAddDamageMode hook', () => {
   });
 
   it('should switch to ADD_DAMAGE_2ND_SHOT', () => {
-    const { result, unmount } = renderHook(useAddDamageMode, {
+    const { result, unmount } = renderHook((props) => useAddDamageMode(props as any), {
       initialProps: {
         addDamage: AddDamage.TWO_SHOT,
         handleOpenGallery: jest.fn(),
@@ -57,7 +56,7 @@ describe('useAddDamageMode hook', () => {
   });
 
   it('should go back to the SIGHT mode', () => {
-    const { result, unmount } = renderHook(useAddDamageMode, {
+    const { result, unmount } = renderHook((props) => useAddDamageMode(props as any), {
       initialProps: {
         addDamage: AddDamage.TWO_SHOT,
         handleOpenGallery: jest.fn(),

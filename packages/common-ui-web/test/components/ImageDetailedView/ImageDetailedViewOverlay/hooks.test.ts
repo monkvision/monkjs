@@ -5,7 +5,7 @@ import {
   useImageLabelIcon,
 } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks';
 import { ComplianceIssue, Image, ImageStatus } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import {
   changeAlpha,
   complianceIssueLabels,
