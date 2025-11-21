@@ -16,8 +16,9 @@ export function ReviewGallery() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 6, gap: 8 }}>
       {galleryItems.map((item) => (
-        <div
+        <img
           key={item.id}
+          src={item.path}
           onClick={() => onSelectImage(item.id)}
           style={{
             height: 152,
@@ -25,9 +26,7 @@ export function ReviewGallery() {
             backgroundColor: 'gray',
             textAlign: 'center',
           }}
-        >
-          Item {item.inspectionId}
-        </div>
+        />
       ))}
     </div>
   );
