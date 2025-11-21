@@ -6,7 +6,6 @@ jest.mock('../../../src/Camera/hooks/utils/analyzeCameraDevices', () => ({
 }));
 
 import { act, waitFor } from '@testing-library/react';
-import { isMobileDevice } from '@monkvision/common';
 import { renderHook } from '@testing-library/react-hooks';
 import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
@@ -117,7 +116,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: gumMock?.stream,
-        dimensions: { width: settings?.width, height: settings?.height },
         error: null,
         isLoading: false,
         retry: expect.any(Function),
@@ -162,7 +160,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.BROWSER_NOT_ALLOWED,
           nativeError,
@@ -193,7 +190,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.NOT_ALLOWED,
           nativeError,
@@ -228,7 +224,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.WEBPAGE_NOT_ALLOWED,
           nativeError,
@@ -262,7 +257,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.BROWSER_NOT_ALLOWED,
           nativeError,
@@ -283,7 +277,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.INVALID_STREAM,
           nativeError: expect.objectContaining({ name: InvalidStreamErrorName.NO_VIDEO_TRACK }),
@@ -319,7 +312,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.INVALID_STREAM,
           nativeError: expect.objectContaining({
@@ -335,42 +327,6 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
-  it("should return an InvalidStream error if the stream's track has no dimensions", async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    const invalidSettings = [{ width: 456 }, { height: 123 }, {}];
-    for (let i = 0; i < invalidSettings.length; i++) {
-      const tracks = [
-        {
-          kind: 'video',
-          applyConstraints: jest.fn(() => Promise.resolve(undefined)),
-          getSettings: jest.fn(() => invalidSettings[i]),
-          stop: jest.fn(),
-        },
-      ] as unknown as MediaStreamTrack[];
-      mockGetUserMedia({ tracks });
-      const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
-      // eslint-disable-next-line no-await-in-loop
-      await waitFor(() => {
-        expect(result.current).toEqual({
-          getUserMedia: expect.any(Function),
-          stream: null,
-          dimensions: null,
-          error: {
-            type: UserMediaErrorType.INVALID_STREAM,
-            nativeError: expect.objectContaining({
-              name: InvalidStreamErrorName.NO_DIMENSIONS,
-            }),
-          },
-          isLoading: false,
-          retry: expect.any(Function),
-          availableCameraDevices: [],
-          selectedCameraDeviceId: null,
-        });
-      });
-      unmount();
-    }
-  });
-
   it('should return an OtherType error in case of unknown error', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const nativeError = new Error('hello');
@@ -380,7 +336,6 @@ describe('useUserMedia hook', () => {
       expect(result.current).toEqual({
         getUserMedia: expect.any(Function),
         stream: null,
-        dimensions: null,
         error: {
           type: UserMediaErrorType.OTHER,
           nativeError,
@@ -475,60 +430,6 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
-  it("should switch the dimensions of the stream if it doesn't match the orientation of the mobile device", async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    (isMobileDevice as jest.Mock).mockReturnValue(true);
-    (global.window.matchMedia as jest.Mock).mockReturnValueOnce({ matches: true });
-    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
-    await waitFor(() => {
-      expect(global.window.matchMedia).toHaveBeenCalledWith('(orientation: portrait)');
-      expect(result.current.dimensions).toEqual({
-        height: 456,
-        width: 123,
-      });
-    });
-    unmount();
-  });
-
-  it('should not switch the dimensions of the stream on desktop', async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    (isMobileDevice as jest.Mock).mockReturnValue(false);
-    const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
-    await waitFor(() => {
-      expect(result.current.dimensions).toEqual({
-        height: 123,
-        width: 456,
-      });
-    });
-    unmount();
-  });
-
-  it('should update the stream dimensions when the video ref resizes', async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    const { result, rerender, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
-    await waitFor(() => {
-      expect(result.current.dimensions).toEqual({
-        width: 456,
-        height: 123,
-      });
-    });
-    (gumMock?.stream.getVideoTracks()[0].getSettings as jest.Mock).mockImplementation(() => ({
-      width: 222,
-      height: 111,
-    }));
-    act(() => {
-      videoRef.current?.onresize?.({} as any);
-    });
-    rerender();
-    await waitFor(() => {
-      expect(result.current.dimensions).toEqual({
-        width: 222,
-        height: 111,
-      });
-    });
-    unmount();
-  });
-
   it('should stop all tracks when the component unmounts', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
@@ -550,7 +451,6 @@ describe('useUserMedia hook', () => {
   it('should stop tracks when unmounting even if stream is null', () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
 
-    // Create a mock stream that returns null for getTracks
     const nullStreamMock = {
       getTracks: jest.fn(() => null),
       addEventListener: jest.fn(),
@@ -563,7 +463,6 @@ describe('useUserMedia hook', () => {
 
     const { unmount } = renderUseUserMedia({ constraints: {}, videoRef });
 
-    // Unmount should not throw even with null tracks
     expect(() => unmount()).not.toThrow();
   });
 
@@ -575,15 +474,12 @@ describe('useUserMedia hook', () => {
       expect(result.current.stream).toEqual(gumMock?.stream);
     });
 
-    // Verify initial state - no tracks stopped yet
     gumMock?.tracks.forEach((track) => {
       expect(track.stop).not.toHaveBeenCalled();
     });
 
-    // Unmount the component
     unmount();
 
-    // Verify each track was stopped exactly once
     gumMock?.tracks.forEach((track) => {
       expect(track.stop).toHaveBeenCalledTimes(1);
     });

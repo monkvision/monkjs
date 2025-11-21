@@ -1,8 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
 import deepEqual from 'fast-deep-equal';
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { PixelDimensions } from '@monkvision/types';
-import { isMobileDevice, useIsMounted, useObjectMemo } from '@monkvision/common';
+import { useIsMounted, useObjectMemo } from '@monkvision/common';
 import { analyzeCameraDevices } from './utils';
 
 /**
@@ -17,10 +16,6 @@ export enum InvalidStreamErrorName {
    * The stream had too many video tracks (more than one).
    */
   TOO_MANY_VIDEO_TRACKS = 'TooManyVideoTracks',
-  /**
-   * The stream's video track had no dimensions.
-   */
-  NO_DIMENSIONS = 'NoDimensions',
 }
 
 class InvalidStreamError extends Error {
@@ -106,11 +101,6 @@ export interface UserMediaResult {
    */
   stream: MediaStream | null;
   /**
-   * The dimensions of the resulting camera stream. Note that these dimensions can differ from the ones given in the
-   * stream constraints if they are not supported or available on the current device.
-   */
-  dimensions: PixelDimensions | null;
-  /**
    * The error details. If no error has occurred, this object will be null.
    */
   error: UserMediaError | null;
@@ -156,31 +146,6 @@ function getStreamDeviceId(stream: MediaStream): string | null {
   return settings.deviceId ?? null;
 }
 
-function swapDimensions(dimensions: PixelDimensions): PixelDimensions {
-  return {
-    width: dimensions.height,
-    height: dimensions.width,
-  };
-}
-
-function getStreamDimensions(stream: MediaStream, checkOrientation: boolean): PixelDimensions {
-  const { width, height } = getStreamVideoTrackSettings(stream);
-  if (!width || !height) {
-    throw new InvalidStreamError(
-      'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
-      InvalidStreamErrorName.NO_DIMENSIONS,
-    );
-  }
-  const dimensions = { width, height };
-  if (!isMobileDevice() || !checkOrientation) {
-    return dimensions;
-  }
-
-  const isStreamInPortrait = width < height;
-  const isDeviceInPortrait = window.matchMedia('(orientation: portrait)').matches;
-  return isStreamInPortrait !== isDeviceInPortrait ? swapDimensions(dimensions) : dimensions;
-}
-
 /**
  * React hook that wraps the `navigator.mediaDevices.getUserMedia` browser function in order to add React logic layers
  * and utility tools :
@@ -205,7 +170,6 @@ export function useUserMedia(
 ): UserMediaResult {
   const streamRef = useRef<MediaStream | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [dimensions, setDimensions] = useState<PixelDimensions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UserMediaError | null>(null);
   const [availableCameraDevices, setAvailableCameraDevices] = useState<MediaDeviceInfo[]>([]);
@@ -278,10 +242,9 @@ export function useUserMedia(
     if (isMounted()) {
       setStream(str);
       streamRef.current = str;
-      setDimensions(getStreamDimensions(str, true));
-      setIsLoading(false);
-      setAvailableCameraDevices(deviceDetails.availableDevices);
       setSelectedCameraDeviceId(getStreamDeviceId(str));
+      setAvailableCameraDevices(deviceDetails.availableDevices);
+      setIsLoading(false);
     }
     return str;
   }, [stream, constraints]);
@@ -324,17 +287,6 @@ export function useUserMedia(
   }, [constraints, stream, error, isLoading, lastConstraintsApplied, getUserMedia, videoRef]);
 
   useEffect(() => {
-    if (stream && videoRef && videoRef.current) {
-      // eslint-disable-next-line no-param-reassign
-      videoRef.current.onresize = () => {
-        if (isMounted()) {
-          setDimensions(getStreamDimensions(stream, false));
-        }
-      };
-    }
-  }, [stream, videoRef]);
-
-  useEffect(() => {
     return () => {
       streamRef.current?.getTracks().forEach((track) => {
         track.stop();
@@ -345,7 +297,6 @@ export function useUserMedia(
   return useObjectMemo({
     getUserMedia,
     stream,
-    dimensions,
     error,
     retry,
     isLoading,

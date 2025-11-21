@@ -88,12 +88,12 @@ describe('Camera component', () => {
       <Camera allowImageUpscaling={allowImageUpscaling} resolution={resolution} />,
     );
 
-    const streamDimensions = (useCameraPreview as jest.Mock).mock.results[0].value.dimensions;
+    const { previewDimensions } = (useCameraPreview as jest.Mock).mock.results[0].value;
 
     expect(useCameraCanvas).toHaveBeenCalledWith({
       allowImageUpscaling,
       resolution,
-      streamDimensions,
+      previewDimensions,
     });
     unmount();
   });
@@ -224,7 +224,7 @@ describe('Camera component', () => {
         error: useCameraPreviewResultMock.error,
         retry: useCameraPreviewResultMock.retry,
         isLoading: useCameraPreviewResultMock.isLoading || useTakePictureResultMock.isLoading,
-        dimensions: useCameraPreviewResultMock.dimensions,
+        dimensions: useCameraPreviewResultMock.previewDimensions,
       },
       cameraPreview: expect.anything(),
     });
