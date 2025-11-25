@@ -149,7 +149,7 @@
     "fr": "Avant latéral gauche - vue basse",
     "de": "Vorne Seitlich Niedrig Links",
     "nl": "Voorzijde zijwaarts laag links",
-    "it": "Anteriore laterale bassa sinistra"
+    "it": "Anteriore laterale inferiore sinistro"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -157,7 +157,7 @@
     "fr": "Avant latéral droite - vue basse",
     "de": "Vorne Seitlich Niedrig Rechts",
     "nl": "Voorzijde zijwaarts laag rechts",
-    "it": "Anteriore laterale bassa destra"
+    "it": "Anteriore laterale inferiore destro"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -381,7 +381,7 @@
     "fr": "Arrière latéral gauche - vue basse",
     "de": "Hinten Seitlich Niedrig Links",
     "nl": "Achterkant zijwaarts laag links",
-    "it": "Posteriore laterale bassa sinistra"
+    "it": "Posteriore laterale inferiore sinistro"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -389,7 +389,7 @@
     "fr": "Arrière latéral droite - vue basse",
     "de": "Hinten Seitlich Niedrig Rechts",
     "nl": "Achterkant zijwaarts laag rechts",
-    "it": "Posteriore laterale bassa destra"
+    "it": "Posteriore laterale inferiore destro"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
