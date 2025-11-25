@@ -61,8 +61,11 @@ function groupImagesBySightId(images: Image[], sightIdToSkip: string): Record<st
  * Custom hook used to cleanup sights' images of the inspection by deleting the old ones
  * when a new image is added.
  */
-export function useImagesCleanup(props: ImagesCleanupParams): ImagesCleanupHandle {
-  const { deleteImage } = useMonkApi(props.apiConfig);
+export function useImagesCleanup({
+  inspectionId,
+  apiConfig,
+}: ImagesCleanupParams): ImagesCleanupHandle {
+  const { deleteImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
 
   const onUploadSuccess = useCallback(
@@ -77,20 +80,16 @@ export function useImagesCleanup(props: ImagesCleanupParams): ImagesCleanupHandl
 
       const sightImagesToDelete = state.images.filter(
         (image) =>
-          image.inspectionId === props.inspectionId &&
-          image.sightId === sightId &&
-          image.id !== imageId,
+          image.inspectionId === inspectionId && image.sightId === sightId && image.id !== imageId,
       );
 
       const imagesToDelete = [...otherImagesToDelete, ...sightImagesToDelete];
 
       if (imagesToDelete.length > 0) {
-        imagesToDelete.forEach((image) =>
-          deleteImage({ imageId: image.id, id: props.inspectionId }),
-        );
+        imagesToDelete.forEach((image) => deleteImage({ imageId: image.id, id: inspectionId }));
       }
     },
-    [state.images, props.inspectionId],
+    [state.images, inspectionId],
   );
 
   return useObjectMemo({

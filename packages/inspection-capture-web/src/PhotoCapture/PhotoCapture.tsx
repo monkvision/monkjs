@@ -34,6 +34,7 @@ import {
   useBadConnectionWarning,
   useTracking,
   useCaptureDuration,
+  UploadEventHandlers,
 } from '../hooks';
 import {
   useComplianceAnalytics,
@@ -67,6 +68,7 @@ export interface PhotoCaptureProps
       | 'allowSkipTutorial'
       | 'enableSightTutorial'
       | 'sightTutorial'
+      | 'autoDeletePreviousSightImages'
     >,
     Partial<ComplianceOptions> {
   /**
@@ -151,6 +153,7 @@ export function PhotoCapture({
   enforceOrientation,
   validateButtonLabel,
   vehicleType = VehicleType.SEDAN,
+  autoDeletePreviousSightImages = true,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -219,17 +222,23 @@ export function PhotoCapture({
     closeBadConnectionWarningDialog,
     uploadEventHandlers: badConnectionWarningUploadEventHandlers,
   } = useBadConnectionWarning({ maxUploadDurationWarning });
-  const { cleanupEventHandlers } = useImagesCleanup({ inspectionId, apiConfig });
+  const { cleanupEventHandlers } = useImagesCleanup({
+    inspectionId,
+    apiConfig,
+  });
+  const { uploadQueueEventHandlers } = useObjectMemo({
+    uploadQueueEventHandlers: [
+      adaptiveUploadEventHandlers,
+      badConnectionWarningUploadEventHandlers,
+      autoDeletePreviousSightImages ? cleanupEventHandlers : undefined,
+    ].filter((handler): handler is UploadEventHandlers => Boolean(handler)),
+  });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     additionalTasks,
     complianceOptions,
-    eventHandlers: [
-      adaptiveUploadEventHandlers,
-      badConnectionWarningUploadEventHandlers,
-      cleanupEventHandlers,
-    ],
+    eventHandlers: uploadQueueEventHandlers,
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({

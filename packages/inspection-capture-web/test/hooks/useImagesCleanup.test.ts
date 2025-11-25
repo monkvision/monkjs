@@ -38,10 +38,8 @@ describe('useImagesCleanup hook', () => {
       },
     });
 
-    const uploadedSightId = 'sight-1';
-
     act(() => {
-      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: uploadedSightId });
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
     });
     expect(deleteImage).toHaveBeenCalled();
     expect(deleteImage.mock.calls.length).toBe(4);
@@ -78,10 +76,8 @@ describe('useImagesCleanup hook', () => {
       },
     });
 
-    const uploadedSightId = 'sight-non-matching';
-
     act(() => {
-      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: uploadedSightId });
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-non-matching' });
     });
 
     expect(deleteImage.mock.calls.length).toBe(3);

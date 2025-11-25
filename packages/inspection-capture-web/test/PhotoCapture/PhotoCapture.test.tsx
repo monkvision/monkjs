@@ -494,4 +494,25 @@ describe('PhotoCapture component', () => {
 
     unmount();
   });
+
+  it('should not pass the cleanup event handlers to the upload queue when cleanupSightImages is false', () => {
+    const props = createProps();
+    props.autoDeletePreviousSightImages = false;
+    const { unmount } = render(<PhotoCapture {...props} />);
+    (useUploadQueue as jest.Mock).mockImplementationOnce(() => ({}));
+
+    expect((useUploadQueue as jest.Mock).mock.calls[0][0].eventHandlers).toHaveLength(2);
+
+    unmount();
+  });
+
+  it('should pass the cleanup event handlers to the upload queue when cleanupSightImages is not provided', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+    (useUploadQueue as jest.Mock).mockImplementationOnce(() => ({}));
+
+    expect((useUploadQueue as jest.Mock).mock.calls[0][0].eventHandlers).toHaveLength(3);
+
+    unmount();
+  });
 });
