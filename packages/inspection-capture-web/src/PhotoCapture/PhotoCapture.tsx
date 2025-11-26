@@ -34,7 +34,6 @@ import {
   useBadConnectionWarning,
   useTracking,
   useCaptureDuration,
-  UploadEventHandlers,
 } from '../hooks';
 import {
   useComplianceAnalytics,
@@ -225,20 +224,18 @@ export function PhotoCapture({
   const { cleanupEventHandlers } = useImagesCleanup({
     inspectionId,
     apiConfig,
-  });
-  const { uploadQueueEventHandlers } = useObjectMemo({
-    uploadQueueEventHandlers: [
-      adaptiveUploadEventHandlers,
-      badConnectionWarningUploadEventHandlers,
-      autoDeletePreviousSightImages ? cleanupEventHandlers : undefined,
-    ].filter((handler): handler is UploadEventHandlers => Boolean(handler)),
+    autoDeletePreviousSightImages,
   });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
     additionalTasks,
     complianceOptions,
-    eventHandlers: uploadQueueEventHandlers,
+    eventHandlers: [
+      adaptiveUploadEventHandlers,
+      badConnectionWarningUploadEventHandlers,
+      cleanupEventHandlers,
+    ],
   });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({

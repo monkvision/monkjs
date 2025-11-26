@@ -105,4 +105,26 @@ describe('useImagesCleanup hook', () => {
 
     unmount();
   });
+
+  it('should not trigger cleanup if autoDeletePreviousSightImages is false', () => {
+    const deleteImage = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: {
+        inspectionId,
+        apiConfig,
+        autoDeletePreviousSightImages: false,
+      },
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+
+    expect(deleteImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
 });

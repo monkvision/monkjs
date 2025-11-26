@@ -1,13 +1,14 @@
 import { useMonkState, useObjectMemo } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback } from 'react';
-import { Image } from '@monkvision/types';
+import { Image, SharedCaptureAppConfig } from '@monkvision/types';
 import { UploadEventHandlers, UploadSuccessPayload } from './useUploadQueue';
 
 /**
  * Parameters accepted by the useImagesCleanup hook.
  */
-export interface ImagesCleanupParams {
+export interface ImagesCleanupParams
+  extends Pick<SharedCaptureAppConfig, 'autoDeletePreviousSightImages'> {
   /**
    * The inspection ID.
    */
@@ -64,13 +65,14 @@ function groupImagesBySightId(images: Image[], sightIdToSkip: string): Record<st
 export function useImagesCleanup({
   inspectionId,
   apiConfig,
+  autoDeletePreviousSightImages = true,
 }: ImagesCleanupParams): ImagesCleanupHandle {
   const { deleteImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
 
   const onUploadSuccess = useCallback(
     ({ sightId, imageId }: UploadSuccessPayload) => {
-      if (!sightId) {
+      if (!sightId || !autoDeletePreviousSightImages) {
         return;
       }
 
