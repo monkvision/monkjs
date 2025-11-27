@@ -43,7 +43,7 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
-import { useImagesCleanup } from '../hooks/useImagesCleanup';
+import { useImagesCleanup } from './hooks/useImagesCleanup';
 
 /**
  * Props of the PhotoCapture component.
