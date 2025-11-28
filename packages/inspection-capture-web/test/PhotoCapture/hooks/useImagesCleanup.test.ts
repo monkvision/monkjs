@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { act } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
-import { useImagesCleanup } from '../../../src/PhotoCapture/hooks';
+import { ImagesCleanupParams, useImagesCleanup } from '../../../src/PhotoCapture/hooks';
 
 const apiConfig = {
   apiDomain: 'apiDomain',
@@ -21,6 +21,12 @@ const state = {
   ],
 };
 
+const createInitialProps = (autoDeletePreviousSightImages = true): ImagesCleanupParams => ({
+  inspectionId,
+  apiConfig,
+  autoDeletePreviousSightImages,
+});
+
 describe('useImagesCleanup hook', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -32,11 +38,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-        autoDeletePreviousSightImages: true,
-      },
+      initialProps: createInitialProps(),
     });
 
     act(() => {
@@ -54,11 +56,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-        autoDeletePreviousSightImages: true,
-      },
+      initialProps: createInitialProps(),
     });
 
     expect(deleteImage).not.toHaveBeenCalled();
@@ -72,11 +70,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-        autoDeletePreviousSightImages: true,
-      },
+      initialProps: createInitialProps(),
     });
 
     act(() => {
@@ -94,11 +88,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-        autoDeletePreviousSightImages: true,
-      },
+      initialProps: createInitialProps(),
     });
 
     act(() => {
@@ -116,11 +106,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-        autoDeletePreviousSightImages: false,
-      },
+      initialProps: createInitialProps(false),
     });
 
     act(() => {
