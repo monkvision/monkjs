@@ -29,6 +29,9 @@ const EXPECTED_DEFAULT_COMPLIANCE_ISSUES = [
 ];
 
 const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.FINGER_ON_LENS,
   ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.NO_VEHICLE,
   ComplianceIssue.BLURRINESS,
