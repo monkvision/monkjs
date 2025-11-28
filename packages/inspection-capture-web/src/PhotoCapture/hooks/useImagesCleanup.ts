@@ -2,7 +2,7 @@ import { useMonkState, useObjectMemo } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback } from 'react';
 import { Image } from '@monkvision/types';
-import { UploadEventHandlers, UploadSuccessPayload } from './useUploadQueue';
+import { UploadEventHandlers, UploadSuccessPayload } from '../../hooks/useUploadQueue';
 
 /**
  * Parameters accepted by the useImagesCleanup hook.
@@ -16,6 +16,12 @@ export interface ImagesCleanupParams {
    * The api config used to communicate with the API.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * Boolean indicating if previous images for a sight should be automatically deleted when a new image is taken.
+   *
+   * @default true
+   */
+  autoDeletePreviousSightImages: boolean;
 }
 
 /**
@@ -61,13 +67,17 @@ function groupImagesBySightId(images: Image[], sightIdToSkip: string): Record<st
  * Custom hook used to cleanup sights' images of the inspection by deleting the old ones
  * when a new image is added.
  */
-export function useImagesCleanup(props: ImagesCleanupParams): ImagesCleanupHandle {
-  const { deleteImage } = useMonkApi(props.apiConfig);
+export function useImagesCleanup({
+  inspectionId,
+  apiConfig,
+  autoDeletePreviousSightImages,
+}: ImagesCleanupParams): ImagesCleanupHandle {
+  const { deleteImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
 
   const onUploadSuccess = useCallback(
     ({ sightId, imageId }: UploadSuccessPayload) => {
-      if (!sightId) {
+      if (!sightId || !autoDeletePreviousSightImages) {
         return;
       }
 
@@ -77,20 +87,16 @@ export function useImagesCleanup(props: ImagesCleanupParams): ImagesCleanupHandl
 
       const sightImagesToDelete = state.images.filter(
         (image) =>
-          image.inspectionId === props.inspectionId &&
-          image.sightId === sightId &&
-          image.id !== imageId,
+          image.inspectionId === inspectionId && image.sightId === sightId && image.id !== imageId,
       );
 
       const imagesToDelete = [...otherImagesToDelete, ...sightImagesToDelete];
 
       if (imagesToDelete.length > 0) {
-        imagesToDelete.forEach((image) =>
-          deleteImage({ imageId: image.id, id: props.inspectionId }),
-        );
+        imagesToDelete.forEach((image) => deleteImage({ imageId: image.id, id: inspectionId }));
       }
     },
-    [state.images, props.inspectionId],
+    [state.images, inspectionId],
   );
 
   return useObjectMemo({

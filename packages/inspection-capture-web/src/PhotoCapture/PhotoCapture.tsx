@@ -43,7 +43,7 @@ import {
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
 } from './hooks';
-import { useImagesCleanup } from '../hooks/useImagesCleanup';
+import { useImagesCleanup } from './hooks/useImagesCleanup';
 
 /**
  * Props of the PhotoCapture component.
@@ -67,6 +67,7 @@ export interface PhotoCaptureProps
       | 'allowSkipTutorial'
       | 'enableSightTutorial'
       | 'sightTutorial'
+      | 'autoDeletePreviousSightImages'
     >,
     Partial<ComplianceOptions> {
   /**
@@ -151,6 +152,7 @@ export function PhotoCapture({
   enforceOrientation,
   validateButtonLabel,
   vehicleType = VehicleType.SEDAN,
+  autoDeletePreviousSightImages = true,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -219,7 +221,11 @@ export function PhotoCapture({
     closeBadConnectionWarningDialog,
     uploadEventHandlers: badConnectionWarningUploadEventHandlers,
   } = useBadConnectionWarning({ maxUploadDurationWarning });
-  const { cleanupEventHandlers } = useImagesCleanup({ inspectionId, apiConfig });
+  const { cleanupEventHandlers } = useImagesCleanup({
+    inspectionId,
+    apiConfig,
+    autoDeletePreviousSightImages,
+  });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,

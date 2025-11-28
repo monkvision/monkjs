@@ -278,6 +278,12 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * A collection of sight tutorial in different language with a list of sightIds associate to it.
      */
     sightTutorial?: SightTutorial[];
+    /**
+     * Boolean indicating if previous images for a sight should be automatically deleted when a new image is taken.
+     *
+     * @default true
+     */
+    autoDeletePreviousSightImages?: boolean;
   } & (
     | {
         /**

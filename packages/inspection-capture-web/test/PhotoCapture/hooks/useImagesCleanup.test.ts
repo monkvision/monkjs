@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useImagesCleanup } from '../../src/hooks/useImagesCleanup';
 import { act } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
+import { ImagesCleanupParams, useImagesCleanup } from '../../../src/PhotoCapture/hooks';
 
 const apiConfig = {
   apiDomain: 'apiDomain',
@@ -21,6 +21,12 @@ const state = {
   ],
 };
 
+const createInitialProps = (autoDeletePreviousSightImages = true): ImagesCleanupParams => ({
+  inspectionId,
+  apiConfig,
+  autoDeletePreviousSightImages,
+});
+
 describe('useImagesCleanup hook', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -32,16 +38,11 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-      },
+      initialProps: createInitialProps(),
     });
 
-    const uploadedSightId = 'sight-1';
-
     act(() => {
-      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: uploadedSightId });
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
     });
     expect(deleteImage).toHaveBeenCalled();
     expect(deleteImage.mock.calls.length).toBe(4);
@@ -55,10 +56,7 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-      },
+      initialProps: createInitialProps(),
     });
 
     expect(deleteImage).not.toHaveBeenCalled();
@@ -72,16 +70,11 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-      },
+      initialProps: createInitialProps(),
     });
 
-    const uploadedSightId = 'sight-non-matching';
-
     act(() => {
-      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: uploadedSightId });
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-non-matching' });
     });
 
     expect(deleteImage.mock.calls.length).toBe(3);
@@ -95,14 +88,29 @@ describe('useImagesCleanup hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
 
     const { result, unmount } = renderHook(useImagesCleanup, {
-      initialProps: {
-        inspectionId,
-        apiConfig,
-      },
+      initialProps: createInitialProps(),
     });
 
     act(() => {
       result.current.cleanupEventHandlers.onUploadTimeout?.();
+    });
+
+    expect(deleteImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should not trigger cleanup if autoDeletePreviousSightImages is false', () => {
+    const deleteImage = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(false),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
     });
 
     expect(deleteImage).not.toHaveBeenCalled();
