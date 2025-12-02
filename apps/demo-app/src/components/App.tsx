@@ -1,5 +1,10 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { getEnvOrThrow, MonkProvider } from '@monkvision/common';
+import {
+  getEnvOrThrow,
+  MonkProvider,
+  MonkSearchParam,
+  useMonkSearchParams,
+} from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
 import { LiveConfig } from '@monkvision/types';
@@ -17,10 +22,14 @@ const localConfig =
 export function App() {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
+  const monkSearchParams = useMonkSearchParams();
 
   return (
     <LiveConfigAppProvider
-      id={getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')}
+      id={
+        monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ??
+        getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')
+      }
       localConfig={localConfig}
       apiDomain={getAuthConfig(authConfigs)?.apiDomain}
       thumbnailDomain={getAuthConfig(authConfigs)?.thumbnailDomain}
