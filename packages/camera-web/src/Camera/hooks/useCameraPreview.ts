@@ -1,9 +1,33 @@
 import { useMonitoring } from '@monkvision/monitoring';
-import { RefObject, useEffect, useMemo, useRef } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
 import { UserMediaResult, useUserMedia } from './useUserMedia';
+
+function getPreviewDimensions(
+  refVideo: RefObject<HTMLVideoElement>,
+  windowDimensions: PixelDimensions,
+) {
+  const height = refVideo.current?.videoHeight;
+  const width = refVideo.current?.videoWidth;
+
+  if (!windowDimensions || !height || !width) {
+    return null;
+  }
+  const windowAspectRatio = windowDimensions.width / windowDimensions.height;
+  const streamAspectRatio = width / height;
+
+  return windowAspectRatio >= streamAspectRatio
+    ? {
+        width: windowDimensions.height * streamAspectRatio,
+        height: windowDimensions.height,
+      }
+    : {
+        width: windowDimensions.width,
+        height: windowDimensions.width / streamAspectRatio,
+      };
+}
 
 /**
  * An object containing properties used to handle the camera preview.
@@ -25,36 +49,37 @@ export interface CameraPreviewHandle extends UserMediaResult {
  */
 export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   const ref = useRef<HTMLVideoElement>(null);
+  const [previewDimensions, setPreviewDimensions] = useState<PixelDimensions | null>(null);
   const windowDimensions = useWindowDimensions();
   const { handleError } = useMonitoring();
   const userMediaResult = useUserMedia(getMediaConstraints(config), ref);
 
-  const previewDimensions = useMemo(() => {
-    if (!windowDimensions || !userMediaResult.dimensions) {
-      return null;
-    }
-    const windowAspectRatio = windowDimensions.width / windowDimensions.height;
-    const streamAspectRatio = userMediaResult.dimensions.width / userMediaResult.dimensions.height;
-
-    return windowAspectRatio >= streamAspectRatio
-      ? {
-          width: windowDimensions.height * streamAspectRatio,
-          height: windowDimensions.height,
-        }
-      : {
-          width: windowDimensions.width,
-          height: windowDimensions.width / streamAspectRatio,
-        };
-  }, [windowDimensions, userMediaResult.dimensions]);
-
   useEffect(() => {
-    if (userMediaResult.stream && ref.current) {
-      ref.current.srcObject = userMediaResult.stream;
-      ref.current.onloadedmetadata = () => {
-        ref.current?.play().catch(handleError);
+    const currentRef = ref.current;
+
+    if (userMediaResult.stream && currentRef) {
+      currentRef.srcObject = userMediaResult.stream;
+
+      const handleMetadata = () => {
+        currentRef?.play().catch(handleError);
+        setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
       };
+
+      const handleResize = () => {
+        setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
+      };
+
+      currentRef.onloadedmetadata = handleMetadata;
+      currentRef.onresize = handleResize;
     }
-  }, [userMediaResult.stream]);
+
+    return () => {
+      if (currentRef) {
+        currentRef.onloadedmetadata = null;
+        currentRef.onresize = null;
+      }
+    };
+  }, [windowDimensions, userMediaResult.stream, handleError]);
 
   return useMemo(
     () => ({

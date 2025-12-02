@@ -85,7 +85,6 @@ export function Camera<T extends object>({
   );
   const {
     ref: videoRef,
-    dimensions: streamDimensions,
     previewDimensions,
     error,
     retry,
@@ -98,7 +97,7 @@ export function Camera<T extends object>({
   });
   const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
     resolution,
-    streamDimensions,
+    streamDimensions: previewDimensions,
     allowImageUpscaling,
   });
   const takeScreenshot = useCameraScreenshot({
@@ -147,7 +146,7 @@ export function Camera<T extends object>({
         error,
         retry,
         isLoading,
-        dimensions: streamDimensions,
+        dimensions: previewDimensions,
         previewDimensions,
       }}
       cameraPreview={cameraPreview}
