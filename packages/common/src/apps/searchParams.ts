@@ -53,6 +53,10 @@ export enum MonkSearchParam {
    * Search parameter used to specify the Auth0 Client ID.
    */
   CLIENT_ID = 'c',
+  /**
+   * Search parameter used to specify the live configuration to use.
+   */
+  LIVE_CONFIG = 'lc',
 }
 
 /**
@@ -65,6 +69,7 @@ export type MonkSearchParamsGetter = {
   (param: MonkSearchParam.STEERING_WHEEL): SteeringWheelPosition | null;
   (param: MonkSearchParam.LANGUAGE): MonkLanguage | null;
   (param: MonkSearchParam.CLIENT_ID): string | null;
+  (param: MonkSearchParam.LIVE_CONFIG): string | null;
 };
 
 function validateParamValue<T extends string>(
@@ -114,6 +119,8 @@ export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchPara
         case MonkSearchParam.LANGUAGE:
           return validateParamValue(value, monkLanguages);
         case MonkSearchParam.CLIENT_ID:
+          return value;
+        case MonkSearchParam.LIVE_CONFIG:
           return value;
         default:
           return null;

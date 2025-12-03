@@ -180,5 +180,23 @@ describe('MonkSearchParams utils', () => {
 
       unmount();
     });
+
+    it('should return a null live config ID if it is not found in the search params', () => {
+      const { result, unmount } = renderHook(useMonkSearchParams);
+
+      expect(result.current.get(MonkSearchParam.LIVE_CONFIG)).toBeNull();
+
+      unmount();
+    });
+
+    it('should return the live config ID if it is found in the search params', () => {
+      const liveConfigId = 'test-id-test';
+      mockSearchParams({ [MonkSearchParam.LIVE_CONFIG]: liveConfigId });
+      const { result, unmount } = renderHook(useMonkSearchParams);
+
+      expect(result.current.get(MonkSearchParam.LIVE_CONFIG)).toEqual(liveConfigId);
+
+      unmount();
+    });
   });
 });
