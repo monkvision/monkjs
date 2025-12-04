@@ -645,7 +645,7 @@
     "fr": "Pneu avant gauche",
     "de": "Vorderer linker Reifen",
     "nl": "Voorband links",
-    "it": "Pneus avant gauche"
+    "it": "Pneumatico anteriore sinistro"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -653,7 +653,7 @@
     "fr": "Pneu avant droit",
     "de": "Vorderer rechter Reifen",
     "nl": "Voorband rechts",
-    "it": "Pneus avant droit"
+    "it": "Pneumatico anteriore destro"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -661,7 +661,7 @@
     "fr": "Pneu arrière gauche",
     "de": "Hinterer linker Reifen",
     "nl": "Achterband links",
-    "it": "Pneus arrière gauche"
+    "it": "Pneumatico posteriore sinistro"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -669,7 +669,7 @@
     "fr": "Pneu arrière droit",
     "de": "Hinterer rechter Reifen",
     "nl": "Achterband rechts",
-    "it": "Pneus arrière droit"
+    "it": "Pneumatico posteriore destro"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
