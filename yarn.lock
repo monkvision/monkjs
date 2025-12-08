@@ -3616,7 +3616,6 @@ __metadata:
     "@types/jest": ^29.2.2
     "@types/node": ^18.11.9
     "@types/pako": ^2
-    "@types/sort-by": ^1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     eslint: ^8.29.0
@@ -3645,7 +3644,6 @@ __metadata:
     react-i18next: ^13.2.0
     regexpp: ^3.2.0
     rimraf: ^3.0.2
-    sort-by: ^1.2.0
     ts-jest: ^29.0.3
     typescript: ^4.8.4
   peerDependencies:
@@ -5778,13 +5776,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 1d38b1976a97f5895a6be00cead1b2a59d842f023b6e35450b7eec8a3131c860c447aba3f7ea3c880c066d8277b0c76fae9d080be1aad475811b568ed6079d49
-  languageName: node
-  linkType: hard
-
-"@types/sort-by@npm:^1":
-  version: 1.2.3
-  resolution: "@types/sort-by@npm:1.2.3"
-  checksum: edf61bad1538c5861e8187f45ea86476420cfd2e51e5d089e42eb21cf231afa91973e77e956069d85b4d67b21df4932ecd994062ca2155560db20b6a5ecea793
   languageName: node
   linkType: hard
 
@@ -15410,7 +15401,6 @@ __metadata:
     "@types/react": ^17.0.2
     "@types/react-dom": ^17.0.2
     "@types/react-router-dom": ^5.3.3
-    "@types/sort-by": ^1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     axios: ^1.5.0
@@ -15441,7 +15431,6 @@ __metadata:
     react-router-dom: ^6.22.3
     react-scripts: 5.0.1
     regexpp: ^3.2.0
-    sort-by: ^1.2.0
     source-map-explorer: ^2.5.3
     ts-jest: ^29.0.3
     typescript: ^4.9.5
@@ -15483,7 +15472,6 @@ __metadata:
     "@types/react": ^17.0.2
     "@types/react-dom": ^17.0.2
     "@types/react-router-dom": ^5.3.3
-    "@types/sort-by": ^1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
     axios: ^1.5.0
@@ -15514,7 +15502,6 @@ __metadata:
     react-router-dom: ^6.22.3
     react-scripts: 5.0.1
     regexpp: ^3.2.0
-    sort-by: ^1.2.0
     source-map-explorer: ^2.5.3
     ts-jest: ^29.0.3
     typescript: ^4.9.5
@@ -16172,13 +16159,6 @@ __metadata:
   version: 1.1.1
   resolution: "object-keys@npm:1.1.1"
   checksum: b363c5e7644b1e1b04aa507e88dcb8e3a2f52b6ffd0ea801e4c7a62d5aa559affe21c55a07fd4b1fd55fc03a33c610d73426664b20032405d7b92a1414c34d6a
-  languageName: node
-  linkType: hard
-
-"object-path@npm:0.6.0":
-  version: 0.6.0
-  resolution: "object-path@npm:0.6.0"
-  checksum: e9d7a901bcfcfe39b195cdac5bb2b8c1f030abdf86f45ed6d0385c5d0c38a8c5e4b4a30c88bf483d6b3b37b5a8d620d004dbfc6db6be8565f88e9cf0b078e945
   languageName: node
   linkType: hard
 
@@ -19783,15 +19763,6 @@ __metadata:
     ip: ^2.0.0
     smart-buffer: ^4.2.0
   checksum: 259d9e3e8e1c9809a7f5c32238c3d4d2a36b39b83851d0f573bfde5f21c4b1288417ce1af06af1452569cd1eb0841169afd4998f0e04ba04656f6b7f0e46d748
-  languageName: node
-  linkType: hard
-
-"sort-by@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "sort-by@npm:1.2.0"
-  dependencies:
-    object-path: 0.6.0
-  checksum: 82c9812aa318eff68669fe25cc0168d172ccbff9d34d52449c345631118b5e29608e3524e9028b23dc4959c8a7601b19a40ddbe3eb05234c0a54792912c5ad2f
   languageName: node
   linkType: hard
 
