@@ -202,6 +202,10 @@ export interface CreateInspectionOptions {
    */
   isVideoCapture?: boolean;
   /**
+   * The type of inspection to create.
+   */
+  type?: string;
+  /**
    * Additional data of the inspection.
    */
   additionalData?: AdditionalData;
