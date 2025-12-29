@@ -16,7 +16,6 @@ export interface ApiInspectioAdditionalData extends ApiAdditionalData {
 }
 
 export interface ApiInspectionGet {
-  additional_data?: ApiInspectioAdditionalData;
   damages: ApiDamages;
   id: string;
   images: ApiImages;
@@ -27,6 +26,8 @@ export interface ApiInspectionGet {
   tasks: ApiTasks;
   vehicle?: ApiVehicleComponent;
   wheel_analysis?: ApiWheelAnalysis;
+  inspection_type?: string;
+  additional_data?: ApiInspectioAdditionalData;
 }
 
 export type ApiPaginationOrder = 'asc' | 'desc';
@@ -70,6 +71,7 @@ export interface ApiAllInspectionsVerboseGet extends ApiAllInspectionsGet {
   plate?: string;
   damages: ApiDamageSimplifiedGet[];
   parts: ApiPartSimplifiedGet[];
+  inspection_type?: string;
   vehicle?: ApiVehicleComponent;
 }
 
@@ -88,4 +90,5 @@ export interface ApiInspectionPost {
   images?: ApiImagePost[];
   vehicle?: ApiVehiclePostPatch;
   damage_severity?: ApiDamageSeverity;
+  inspection_type?: string;
 }
