@@ -49,10 +49,6 @@ export interface Inspection extends MonkEntity {
    */
   pdfUrl?: string;
   /**
-   * The type of inspection to create.
-   */
-  type?: string;
-  /**
    * Additional data added during the creation of the inspection.
    */
   additionalData?: AdditionalData;

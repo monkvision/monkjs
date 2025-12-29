@@ -417,9 +417,6 @@ function mapInspection(
     severityResults: ids.severityResultIds,
     pricings: ids.pricingIds,
     pdfUrl: 'pdf_url' in response ? response.pdf_url : undefined,
-    ...(response.inspection_type && {
-      type: response.inspection_type,
-    }),
     additionalData: response.additional_data,
   };
 }
@@ -693,7 +690,6 @@ export function mapApiInspectionPost(options: CreateInspectionOptions): ApiInspe
         }
       : undefined,
     damage_severity: options.enablePricingV1 === false ? undefined : { output_format: 'default' },
-    inspection_type: options.type,
     additional_data: {
       user_agent: navigator.userAgent,
       connection: navigator.connection,
