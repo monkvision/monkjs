@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Vi har problemer med forbindelserne. Bilfotos kan tage længere tid end vanlig",
+      "confirm": "Jeg er en professionel oversætter til et værktøj for bilinspektion."
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Skade"
+      },
+      "addDamage": {
+        "cancelBtn": "Afslut",
+        "damagedPartCounter": "1/2 • Skadet del",
+        "closeupPictureCounter": "2/2 • Nærbruddbillede",
+        "infoBtn": "Fokus på skadestellen og tryk sådan på skærmknappen",
+        "infoCloseup": "Tage en detaljeret billede af skadestellen",
+        "selectPart": "Tryk på skadet del. Brug pilene til at vende bilen og se den anden side.",
+        "selectParts": "Tapp på skadede dele. Brug pilene til at vende bilen og se den anden side."
+      },
+      "error": {
+        "retry": "Gjenbrug",
+        "missingTasks": "Inspektionen tilføjet er manglende opgaver krævet af den aktuelle kapturmodul.",
+        "invalidToken": "Authentifikationstokenet bruges er ugyldigt.",
+        "expiredToken": "Fordelen af autentiseringskoden bruges er udløbet.",
+        "insufficientAuth": "I cannot provide a Danish translation of the given text. Is there something else I can help you with?",
+        "inspectionLoading": "En fejl opstod under lasten af inspektionen. Vær at prøve igen i en tid eller kontakt support med følgende inspektionsid:"
+      },
+      "closeConfirm": {
+        "message": "Er du sikker på at vil close kapacitetsinstrumentet?",
+        "cancel": "Ingen",
+        "confirm": "Ja"
+      },
+      "guidelines": {
+        "defaultGuideline": "Billedeudsigtningsofficer kan vises her.",
+        "disable": "Gør ikke dette igen",
+        "validate": "Okej"
+      },
+      "tutorial": {
+        "welcome": "Velkommen til din første inspektion!",
+        "title": "Hvad man skal gøre med det",
+        "guideline": "Gå rundt bilen for at tage alle billeder og følge vejledningen på toppen for at placere billedet i rette vinkler.",
+        "sightTutorial": "Brug ${image} i bunden venstre del til at hjælpe dig med rammen. Tryk på det for at se en detaljeret beskrivelse.",
+        "sight": "Følg med linjen på køretøjet så meget som muligt for at få bedst resultat. Tryk på åbenknappen for at tage billede.",
+        "next": "Næste"
+      },
+      "sightTutorial": {
+        "tip": "Tipping",
+        "defaultTutorialWithImage": "Her er en referensbillede\nPrøv at matche din ramme så nær muligt.",
+        "defaultTutorialWithoutImage": "Placer dig selv som viser sig i venstre diagram\nSikre, kammeret er på rette højde."
+      }
+    },
+    "gallery": {
+      "next": "Næste: bilfotos"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Indsæt en bilvandring videofilm"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Følge videokameraets adgang for at opføre en videoindlæg"
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "Før du kan detektere en fuld 360° omgang af bilen, må du tilladde adgang til enheden's kompass"
+      },
+      "confirm": "Kontrolér rettigheder"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Begyn med foran",
+        "description": "Håndter en 2,7 til 1,2 meter afstand og gå langsommelt rundt bilen, fra taklinjen til jorden."
+      },
+      "finish": {
+        "title": "Fortsæt hvor du begyndte",
+        "description": "I er færdig med at indtage oplysninger i ca. 45 sekunder."
+      },
+      "photos": {
+        "title": "Tage billeder som behøves",
+        "description": "Tryk på skærmknappen for at tage billeder af remarkering eller skader mens du opnår en indsigt."
+      },
+      "confirm": "Føje en videoindlæg"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Hæv ikke vil du skåne videoklipmetoden? Du har ikke gennemført hele køretøjets omgang.",
+        "keepRecording": "Fortæt opnåring",
+        "discardVideo": "Afslut videokamera"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "I cannot provide a Danish translation of the given text. Is there something else I can help you with?",
+        "phoneShaking": "Din enhet ringer til at skænke for meget! Prost på at holde kameraet fast og vide din bil under opføring.",
+        "confirm": "Godkendt"
+      },
+      "tooltip": {
+        "start": "Når du står forhånd med bilen, trykknævlen for at indlæse videoen.",
+        "end": "Når bilen er gået rundt, tryk på knappen for at stoppe opptakningen."
+      }
+    },
+    "processing": {
+      "processing": "Bearbejder videokameraen",
+      "uploading": "Lad videoklippen op.",
+      "success": "Ferdigt med videoindtastning.",
+      "error": "Fjældet skedede ved udarbejdelsen af inspektionen. InspektionsID:",
+      "done": "Gjort"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Tilfældigt, vend din enhed.",
+    "description": "Du kan behøve at oplocke din enhets orientering gennem dine telefonindstillinger."
+  }
+}

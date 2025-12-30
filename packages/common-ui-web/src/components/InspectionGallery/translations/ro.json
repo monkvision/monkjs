@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Adăugare de Deteriorare Personalizată"
+  },
+  "topBar": {
+    "submit": "Validează",
+    "title": "Imaginele",
+    "retakeFilter": "Repetiții",
+    "approvedFilter": "Aprobata",
+    "completed": "Acesta a fost finalizat inspectia."
+  },
+  "list": {
+    "empty": {
+      "capture": "Nu au fost luate încă fotografii. Fotografiile preluate vor fi afişate aici.",
+      "nonCapture": "Nu există niciun pictură în această inspectie.",
+      "filter": "Nu au fost găsite nicio coincidență pentru filtrul selectat."
+    }
+  }
+}

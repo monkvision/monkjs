@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Intrare",
+    "log-out": "Închide sesiunea"
+  },
+  "errors": {
+    "popup-closed": "Nu s-a putut efectua conectarea dvs. deoarece pop-up-ul a fost închis. Vă recomandăm să încercăm din nou!",
+    "token-expired": "Vă rugăm să vă conectați din nou pentru a obține un nou token de autentificare.",
+    "insufficient-authorization": "Nu aveți autorizații necesare pentru utilizarea acestei aplicații. Vă rog să vă logați și să utilizați un cont diferit.",
+    "unknown": "Avertizare! A apărut un eror neașteptat în timpul conectării la registru. Vă rog să încercăm din nou!",
+    "missing-token": "Câmpul de URL pe care încercați să accesați este invalid."
+  }
+}

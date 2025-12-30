@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Zaloguj się",
+    "log-out": "Wyloguj się"
+  },
+  "errors": {
+    "popup-closed": "Przepraszamy! Nie udało się zalogować cię, ponieważ okno pop-up zostało zamknięte. Spróbuj ponownie!",
+    "token-expired": "Twój token autentyfikacyjny wygasł. Proszę się ponownie zalogować.",
+    "insufficient-authorization": "Nie masz wymaganych uprawnień, aby korzystać z tej aplikacji. Proszę wylogować się i użyć innego konta.",
+    "unknown": "Przepraszamy! Nieoczekiwana błąd podczas logowania. Spróbuj ponownie!",
+    "missing-token": "Adres URL, który próbuje dostęp do, jest niezwykle."
+  }
+}

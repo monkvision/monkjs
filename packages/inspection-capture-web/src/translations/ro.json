@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Experiemintă probleme de conectare. Înregistrările imaginilor pot lua mai mult timp decât de obicei.",
+      "confirm": "Sunt de acord"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Avaria"
+      },
+      "addDamage": {
+        "cancelBtn": "Anulare",
+        "damagedPartCounter": "1/2 • Partă deteriorată",
+        "closeupPictureCounter": "2/2 • Poza de detalii",
+        "infoBtn": "Concentrează ținta la parte deteriorată apoi tăpeșește butonul de deschidere",
+        "infoCloseup": "Lămâi o imagine de detalii a dăunelor.",
+        "selectPart": "Tapă partea deteriorată. Utilizați flauturile pentru a rota vehiculul și vedea partea cealaltă.",
+        "selectParts": "Tapețează părțile deteriorate. Utilizați semnele pentru a rota vehiculul și vedea partea de altă parte."
+      },
+      "error": {
+        "retry": "Reîncarcă",
+        "missingTasks": "Inspecția oferită este incompletă, fiind lipsită de unele sarcini necesare modulului captură actual.",
+        "invalidToken": "Câmpul de autentificare a tokenului utilizat este invalid.",
+        "expiredToken": "Câmpul de autentificare a tokenului utilizat este expirat.",
+        "insufficientAuth": "Nu aveți acreditări necesare pentru a efectua această acțiune.",
+        "inspectionLoading": "A aparținut un eror în timpul încărcării inspecțiilor. Vă rugăm să încercați din nou în câteva minute sau să contactați suportul cu următoarea ID a inspecției :"
+      },
+      "closeConfirm": {
+        "message": "Dați-i securitatea că vă doriți să închideți instrumentul de captură?",
+        "cancel": "Nicio",
+        "confirm": "Da"
+      },
+      "guidelines": {
+        "defaultGuideline": "Poziția de vedere a imaginilor poate fi afișată aici.",
+        "disable": "Nu arătați-l mai mult",
+        "validate": "Dacă"
+      },
+      "tutorial": {
+        "welcome": "Salutăți-vă la prima inspectare!",
+        "title": "Cum se utilizează",
+        "guideline": "Folosește un circumscriere completă a vehiculului pentru a lua toate fotografii și urmăți indicațiile de la început pentru poziționarea într-un angaj cu dreptate.",
+        "sightTutorial": "Utilizați imaginea din partea dreaptă de jos pentru a vă ajuta cu marjura. Tap-ați-o pentru a vedea o explicare detaliată.",
+        "sight": "Alinează vehicul cu linile cât mai mult posibil pentru a obține cea mai bună imagine. Presărește butonul de închidere pe țeavă pentru a lua fotografia.",
+        "next": "Următorul"
+      },
+      "sightTutorial": {
+        "tip": "Tipul",
+        "defaultTutorialWithImage": "Aici este o imagine de referință\nÎncercați să vă ajustați cu cât mai bine posibil frame-ului.",
+        "defaultTutorialWithoutImage": "Poziționați-vă în conformitate cu ce este arătat în diagrama din stânga\nAsigurați-vă că camera este la înălțimea corectă."
+      }
+    },
+    "gallery": {
+      "next": "Următoarea: fotografii vehicule"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Registra un video de cercetare a vehiculului într-un circuit circular"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Câmera",
+        "description": "Pentru a înregistra un video, treceți pe permiteați accesul la câmera dispozitivului."
+      },
+      "compass": {
+        "title": "Compas",
+        "description": "Pentru a detecta o circulație completă de 360° a vehiculului, treceți în modulul dispozitivului cu magnetometer."
+      },
+      "confirm": "Gestione drepturile de acces"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Începe la Antrenament",
+        "description": "Păstrați o distanță de 3 la 4 picuri și mergeți lent în jurul vehiculului, capturând din linia de sus până la sol."
+      },
+      "finish": {
+        "title": "Încheierea la care ați început",
+        "description": "Vă recomand să terminați înregistrarea în aproximativ 45 de secunde."
+      },
+      "photos": {
+        "title": "Lămuri cu fotografii când este necesar",
+        "description": "Apăsați butonul de deschidere pentru a captura fotografiile de reevaluare sau daune în timp ce înregistrați."
+      },
+      "confirm": "Inregistreaza un video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Doriți să vă eliminăm videoul? Nu ați parcurs tot circuitul vehiculului.",
+        "keepRecording": "Păstra înregistrarea",
+        "discardVideo": "Eliminare video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Vă mișcați prea rapid! Reduți viteza și vă va lua aproximativ o minută să efectuați camionul pe parcursul vizualizării.",
+        "phoneShaking": "Vă rog să vă asigurați că dispozitivul nu se trece prea mult! Încercați să păstrați camerele stabilizate în timp ce înregistrați vehiculul.",
+        "confirm": "Ok"
+      },
+      "tooltip": {
+        "start": "Odată în fața vehiculului, presiona butonul pentru a începe înregistrarea videoului.",
+        "end": "Odată ce este finalizat cercul vehiculului, apasa butonul pentru a opri înregistrarea."
+      }
+    },
+    "processing": {
+      "processing": "Procesarea videoului",
+      "uploading": "Încărcarea videoului",
+      "success": "Procesul de procesare a video complet!",
+      "error": "A aparținut un eroare la momentul finalizării inspectiei. ID inspectiei :",
+      "done": "Făcut"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Vă rog să rotați dispozitivul.",
+    "description": "Dacă necesiti să activați orientarea dispozitivului prin setările telefonului dumneavoastră."
+  }
+}

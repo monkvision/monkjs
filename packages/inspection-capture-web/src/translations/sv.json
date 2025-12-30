@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Vi upplever för närvaro problem med anslutning. Bilduppladdningar kan ta längre tid än vanligt.",
+      "confirm": "Jag förstår"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Skada"
+      },
+      "addDamage": {
+        "cancelBtn": "Avbryt",
+        "damagedPartCounter": "1/2 • Skadade del",
+        "closeupPictureCounter": "2/2 • Närrbild",
+        "infoBtn": "Fokusera på målobjektet vid skadade delen, sedan tryck på stängknapparna.",
+        "infoCloseup": "Ta en närmare bild av skadan.",
+        "selectPart": "Klicka på skadade delen. Använd pekfärgarna för att vrida fordonet och se andra sidan.",
+        "selectParts": "Klicka på skadade delar. Använd pekfärgen för att vrida fordonet och se andra sidan."
+      },
+      "error": {
+        "retry": "Omdöna",
+        "missingTasks": "Inspektionen som tillhandahölls är bristande på uppgifter som krävs av den aktuelle kapturmodulen.",
+        "invalidToken": "Autentiseringskodan som används är ogiltig.",
+        "expiredToken": "Autentiseringskoden som används är utgått.",
+        "insufficientAuth": "Du har inte de krävda autoriseringarna för att utföra denna handling.",
+        "inspectionLoading": "Förekommer en felaktighet under laddningen av inspektionen. Prova igenom inom några minuter eller kontakta stöd med följande inspektionsid:"
+      },
+      "closeConfirm": {
+        "message": "Är du säker på att du vill stänga av fästningsverktyget?",
+        "cancel": "Ja inte",
+        "confirm": "Ja"
+      },
+      "guidelines": {
+        "defaultGuideline": "Bilden visningspunkter kan visas här.",
+        "disable": "Jag vill inte se detta igen",
+        "validate": "Okej"
+      },
+      "tutorial": {
+        "welcome": "Välkommen till din första undersökning!",
+        "title": "Hur man använder det",
+        "guideline": "Gå runt forklädningen för att ta alla bilder och följa instruktionerna på toppen för att placera sig i rätt vinkel.",
+        "sightTutorial": "Använd bilden i vänster nedre hörna som guider dig med ramen. Klicka på den för att se en detaljerad förklaring.",
+        "sight": "Anpassa foraren med linjerna så mycket som möjligt för att få bästa bild. Tryck på skållknappen för att ta foto.",
+        "next": "Nästa"
+      },
+      "sightTutorial": {
+        "tip": "Tipp",
+        "defaultTutorialWithImage": "Här är en referensbild\nFörsök att matcha din ramning så nära som möjligt.",
+        "defaultTutorialWithoutImage": "Placera dig som indikerats i vänster diagram\nSäkerställ att kameran är på rätt höjd."
+      }
+    },
+    "gallery": {
+      "next": "Nästa: fordonsfoton"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Förvara en bilvandringsvideofilm"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "För att spela in videoklipp behöver du tillåta åtkomst till kameran på enheten."
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "För att upptäcka en fullständig 360° rörelse av fordonet behöver du tillåta åtkomst till enheten's kompass"
+      },
+      "confirm": "Hantera åtkomstsäkerheter"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Börja vid Framsidan",
+        "description": "Håll en avstånd på 90-120 centimeter och gå långsamt runt fordonet, ta bilder från taklinjen till marken."
+      },
+      "finish": {
+        "title": "Fortsätt där du började",
+        "description": "Du bör ha färdigställt inspelningen inom ca 45 sekunder."
+      },
+      "photos": {
+        "title": "Ta foto som behövs",
+        "description": "Tryck på skärmknappen för att ta foto av bemärkelse eller skada medan du spelar in."
+      },
+      "confirm": "Förvara en video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Vill du avskriva videon? Du har inte körkt hela fordonet.",
+        "keepRecording": "Fortsättningsinspelning",
+        "discardVideo": "Förfalla videofilm"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Du rör dig för fort! Ta ett lugnt grepp och det ska ta dig ungefär en minut att färdigställa bilvandringen.",
+        "phoneShaking": "Ditt enhet röstar för mycket! Försök hålla kameran stabil medan du inspektioner din fordon.",
+        "confirm": "Godkänt"
+      },
+      "tooltip": {
+        "start": "När du står förhållandevis nära fordonet, tryck på knappen för att börja spela in videon.",
+        "end": "När fordonets rundvändning är färdig, tryck knappen för att avsluta inspelningen."
+      }
+    },
+    "processing": {
+      "processing": "Förbereder videon",
+      "uploading": "Laddas upp videon",
+      "success": "Förvandling av videoklipp färdig.",
+      "error": "Förekommer en felaktighet när inspektionen slutfördes. InspektionsID:",
+      "done": "Förfärdig"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Vänligen vänd din enhet.",
+    "description": "Du kan behöva öppna din enhetsorientering genom dina telefoninställningar."
+  }
+}

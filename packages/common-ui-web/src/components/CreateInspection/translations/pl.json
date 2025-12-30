@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Próbuję ponownie",
+    "create-inspection": "Nastąpił nieoczekiwany błąd podczas tworzenia inspekcji.",
+    "missing-inspection-id": "Adres URL, który próbuje dostęp do, jest niezwykle."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Dodaj Uszkodzenia Specjalne"
+  },
+  "topBar": {
+    "submit": "Weryfikuj",
+    "title": "Zdjęcia",
+    "retakeFilter": "Przejedy",
+    "approvedFilter": "Zgodny",
+    "completed": "Niniejsza inspekcja została zakończona."
+  },
+  "list": {
+    "empty": {
+      "capture": "Nie ma zdjęć do tej chwili. Zjęcia zostanę wyświetlone tutaj.",
+      "nonCapture": "Nie ma zdjęć w tym inspekcji.",
+      "filter": "Nie ma zgodności dla wybranego filtru."
+    }
+  }
+}

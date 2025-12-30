@@ -390,6 +390,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+            pl: options.firstShot ? 'Zbliżenie (część)' : 'Zbliżenie (uszkodzenie)',
+            ro: options.firstShot ? 'Prim-plan (parte)' : 'Prim-plan (deteriorare)',
+            es: options.firstShot ? 'Primer plano (parte)' : 'Primer plano (daño)',
+            pt: options.firstShot ? 'Detalhe (parte)' : 'Detalhe (dano)',
+            da: options.firstShot ? 'Nærbillede (del)' : 'Nærbillede (skade)',
+            sv: options.firstShot ? 'Närbild (del)' : 'Närbild (skada)',
             fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
             de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
             nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
@@ -426,7 +432,13 @@ describe('Image requests', () => {
         tasks: [TaskName.DAMAGE_DETECTION, { name: TaskName.COMPLIANCES }],
         additional_data: {
           label: {
-            en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            en: `Close-up of ${partsTranslation.map((part) => part.en).join(', ')}`,
+            pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
+            ro: `Prim-plan al ${partsTranslation.map((part) => part.ro).join(', ')}`,
+            es: `Primer plano de ${partsTranslation.map((part) => part.es).join(', ')}`,
+            pt: `Detalhe de ${partsTranslation.map((part) => part.pt).join(', ')}`,
+            da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
+            sv: `Närbild av ${partsTranslation.map((part) => part.sv).join(', ')}`,
             fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
             de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
             nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
@@ -464,6 +476,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Frame ${options.frameIndex}`,
+            pl: `Framę wideo${options.frameIndex}`,
+            ro: `Fisierul de imagine video${options.frameIndex}`,
+            es: `Framed video${options.frameIndex}`,
+            pt: `Frama de Vídeo${options.frameIndex}`,
+            da: `Billede fra videokamera${options.frameIndex}`,
+            sv: `Framkropp${options.frameIndex}`,
             fr: `Trame Vidéo ${options.frameIndex}`,
             de: `Videobild ${options.frameIndex}`,
             nl: `Videoframe ${options.frameIndex}`,
@@ -499,6 +517,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Manual Photo`,
+            pl: `Książka wideo Fotografia`,
+            ro: `Manuale Video Imagine`,
+            es: `Manual de Video Imagen`,
+            pt: `Manual de Vídeo Imagem`,
+            da: `Billede manual video`,
+            sv: `Bild manual video`,
             fr: `Photo Manuelle Vidéo`,
             de: `Foto Manuell Video`,
             nl: `Foto-handleiding Video`,

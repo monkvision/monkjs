@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Omdöna",
+    "create-inspection": "En oövervägd felkod skedde under skapandet av inspektionen.",
+    "missing-inspection-id": "Den URL du försöker åtkomma är ogiltig."
+  }
+}

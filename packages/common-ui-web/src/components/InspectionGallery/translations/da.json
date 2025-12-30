@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Læg til Personlig Skade"
+  },
+  "topBar": {
+    "submit": "Valider",
+    "title": "Billeder",
+    "retakeFilter": "Ogerningsprøvninger",
+    "approvedFilter": "Godkendt",
+    "completed": "Dette inspektion er afsluttet."
+  },
+  "list": {
+    "empty": {
+      "capture": "Ingen billeder endnu. Billederne vil vistes her.",
+      "nonCapture": "Der findes ingen billeder i denne inspektion.",
+      "filter": "Ingen matcher til valgte filter."
+    }
+  }
+}

@@ -5,6 +5,12 @@ import { useObjectTranslation } from '../../src';
 
 const obj = {
   en: 'Hello',
+  pl: 'Cześć',
+  ro: 'Salut',
+  es: 'Hola',
+  pt: 'Olá',
+  da: 'Hej',
+  sv: 'Hej',
   fr: 'Bonjour',
   de: 'Hallo',
   nl: 'HalloDt',

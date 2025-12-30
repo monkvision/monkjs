@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Lägg till Anpassad Skada"
+  },
+  "topBar": {
+    "submit": "Validera",
+    "title": "Bilder",
+    "retakeFilter": "Utgång",
+    "approvedFilter": "Godkänd",
+    "completed": "Denna inspektion är färdig"
+  },
+  "list": {
+    "empty": {
+      "capture": "Ingen foto ännu. Bilder som tas kommer att visas här.",
+      "nonCapture": "Det finns inga bilder i denna undersökning.",
+      "filter": "Ingen matchningar för den valda filtrens värde."
+    }
+  }
+}

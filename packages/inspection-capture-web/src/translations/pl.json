@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Mamy problemy z połączeniem. Zrzucanie zdjęć może trwać dłużej niż zwykle.",
+      "confirm": "Rozumiem"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Uszkodzenie"
+      },
+      "addDamage": {
+        "cancelBtn": "Wyczyść",
+        "damagedPartCounter": "1/2 • Uszkodzona część",
+        "closeupPictureCounter": "2/2 • Zdjęcie w pobliżu",
+        "infoBtn": "Skieruj cel na uszkodzony odcinek, a następnie naciśnij przycisk klawisza szklowego",
+        "infoCloseup": "Zdjęcie szczegółowe uszkodzenia.",
+        "selectPart": "Naciśnij uszkodzony odcinek. Użyj strzałek do obrotu pojazdu i zobacz drugą stronę.",
+        "selectParts": "Naciśnij uszkodzone części. Użyj strzałek do obrotu pojazdu i zobacz drugą stronę."
+      },
+      "error": {
+        "retry": "Próbuję ponownie",
+        "missingTasks": "Niniejszy przegląd nie obejmuje wszystkich zadań wymaganych przez obecną modułę połowę.",
+        "invalidToken": "Okreslenie tokenu autentyfikacji użytego jest nievalide.",
+        "expiredToken": "Prawidłowości autentyzacji tokenu wykorzystywanego zostały wygaszone.",
+        "insufficientAuth": "Nie masz wymaganych uprawnień do wykonania tej akcji.",
+        "inspectionLoading": "Okołołapą się zdarzyła błąd podczas ładowania inspekcji. Proszę spróbować ponownie w kilku minutach lub skontaktuj się z naszymi wsparciem z następującym identyfikatorem inspekcji:"
+      },
+      "closeConfirm": {
+        "message": "Czy jest pewne, że chcesz zamknąć narzędzie rekordowania?",
+        "cancel": "Nie",
+        "confirm": "Tak"
+      },
+      "guidelines": {
+        "defaultGuideline": "Wizualizacja punktów widzenia może być wyświetlona tutaj.",
+        "disable": "Nie pokazywaj tego ponownie",
+        "validate": "Dobry"
+      },
+      "tutorial": {
+        "welcome": "Witaj w swoim pierwszym przeglądu!",
+        "title": "Jakość i warunki samochodu",
+        "guideline": "Okrążaj pojazd, aby zrobienie wszystkich zdjęć i przestrzegać zaleceń na górze, aby umieścić się w prawym kącie.",
+        "sightTutorial": "Użyj położonego w dolnej lewej części zdjęcia, aby go poprzeczkić. Naciśnij go, aby zobaczyć szczegółową wyjaśnienie.",
+        "sight": "Zaprawdopodobnie ustawiaj pojazd zgodnie z liniami tak jak się może, aby uzyskać najlepsze zdjęcie. Naciśnij przycisk klawisza do otwarcia apertury, aby zrobisz zdjęcie.",
+        "next": "Następny"
+      },
+      "sightTutorial": {
+        "tip": "Podpowiedź",
+        "defaultTutorialWithImage": "Oto referencyjna ilustracja\nPróbuj zminimalizowaniem różnic w ramach swoimego kadru.",
+        "defaultTutorialWithoutImage": "Ustaw swoje miejsce jak jest pokazane w lewym rysunku\nZakładając, że kamera jest na odpowiedniej wysokości."
+      }
+    },
+    "gallery": {
+      "next": "Dalszy krok: zdjęcia pojazdu."
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Zarejestruj wideo spaceru pojazdu"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Aby zarejestrować film wideo, musisz pozwolić na dostęp do kamerę urządzenia."
+      },
+      "compass": {
+        "title": "Kompas",
+        "description": "Aby wykryć pełną obrotność wokół samochodu na 360°, należy pozwolić na dostęp do kompasu urządzenia."
+      },
+      "confirm": "Ustawienia uprawnień"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Rozpocznij od Przodu",
+        "description": "Zatrzymuj odległość od 90 do 120 cm i chodź powoli wokół pojazdu, przykładowo od linii dachu do ziemi."
+      },
+      "finish": {
+        "title": "Zakończ na tym miejscu, w którym zacząłeś.",
+        "description": "Mogiśisz ukończyć nagrawanie w około 45 sekund."
+      },
+      "photos": {
+        "title": "Lajmuj zdjęcia w zależności od potrzeby",
+        "description": "Naciśnij przycisk klawisza szklarodajki, aby zarejestrować zdjęcia w celu uzyskania informacji o uszkodzeniu lub sprzedaży."
+      },
+      "confirm": "Znajdź i zapisz wideo."
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Czy chcesz skasować wideo? Nie przemaszerowałeś po całości pojazdu.",
+        "keepRecording": "Zapisz się dalej",
+        "discardVideo": "Zrzucić wideo"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Wyglądasz, że poruszasz się za szybko! Przyłóż siłę, powinno Ci trwać około minutę, aby zrobić spacer po samochodzie.",
+        "phoneShaking": "Twój urządzenie oscyluje za bardzo duże. Pobierz się, aby utrzymać kamerę stabilną podczas niewydajnego nagrywania pojazdu.",
+        "confirm": "Dobry"
+      },
+      "tooltip": {
+        "start": "Po przestudiowaniu pojednania, należy wykonać następujące kroki:",
+        "end": "Po zakończeniu przemysłu wizualnego pojazdu, naciśnij przycisk do zatrzymania nagrania."
+      }
+    },
+    "processing": {
+      "processing": "Przetwarzanie wideo",
+      "uploading": "Zładowanie wideo",
+      "success": "Proces wykorzystania wideo zakończony!",
+      "error": "Okołołapczęskie błąd wystąpił podczas końcowego przeglądu. Identyfikator przeglądu :",
+      "done": "Zrobiono"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Proszę przesunąć swój urządzenie.",
+    "description": "Możesz potrzeować otworzyć orientację urządzenia poprzez ustawienia telefonu."
+  }
+}

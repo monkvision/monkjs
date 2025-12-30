@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Inloggning",
+    "log-out": "Logga ut"
+  },
+  "errors": {
+    "popup-closed": "Och det gick inte att logga in dig eftersom pop-up-fönstret stängdes. Låt oss försöka igen!",
+    "token-expired": "Ditt autentiseringskod är utgått. Vänligen logga in igen.",
+    "insufficient-authorization": "Du har inte de krävda författningarna för att använda denna applikation. Vänligen logga ut och använd en annan account.",
+    "unknown": "Och det har skett ett ovanlig fel under inloggning. Låt oss försöka igen!",
+    "missing-token": "Den URL du försöker åtkomma är ogiltig."
+  }
+}
