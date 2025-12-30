@@ -37,6 +37,8 @@
   },
   "devDependencies": {
     "lerna": "^7.1.4",
+    "nx": "16.10.0",
+    "nx-cloud": "latest",
     "rimraf": "^3.0.2"
   },
   "repository": {
