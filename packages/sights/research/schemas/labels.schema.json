@@ -16,6 +16,9 @@
         "en": {
           "type": "string"
         },
+        "ro": {
+          "type": "string"
+        },
         "fr": {
           "type": "string"
         },
@@ -29,7 +32,8 @@
           "type": "string"
         }
       },
-      "required": ["key", "en", "fr", "de", "nl", "it"],
+      "required": ["key", "en", "fr", "de", "nl", "it",
+        "ro"],
       "unevaluatedProperties": false
     }
   },

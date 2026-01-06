@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Adăugați daune personalizate"
+  },
+  "topBar": {
+    "submit": "Verificare",
+    "title": "Fotografii",
+    "retakeFilter": "Reexaminări",
+    "approvedFilter": "Aprobat",
+    "completed": "Acestă inspecție este finalizată."
+  },
+  "list": {
+    "empty": {
+      "capture": "Nu sunt încă poze. Pozele luate vor fi afişate aici.",
+      "nonCapture": "Nu există fotografii în această inspecție.",
+      "filter": "Nu există rezultate pentru filtrul selectat."
+    }
+  }
+}

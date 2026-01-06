@@ -390,6 +390,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+            ro: options.firstShot ? 'Apropierea (parte)' : 'Apropiere (daune)',
             fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
             de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
             nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
@@ -427,6 +428,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            ro: `Apropierea de detaliu${partsTranslation.map((part) => part.en).join(', ')}`,
             fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
             de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
             nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
@@ -464,6 +466,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Frame ${options.frameIndex}`,
+            ro: `Framă de video${options.frameIndex}`,
             fr: `Trame Vidéo ${options.frameIndex}`,
             de: `Videobild ${options.frameIndex}`,
             nl: `Videoframe ${options.frameIndex}`,
@@ -499,6 +502,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Manual Photo`,
+            ro: `Manualul Video Foto`,
             fr: `Photo Manuelle Vidéo`,
             de: `Foto Manuell Video`,
             nl: `Foto-handleiding Video`,

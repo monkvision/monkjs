@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Raportarea daunelor",
+    "description": "Adăugați fotografii ale șurubelnițelor, zgârieturilor sau altor daune prezente pe vehicul.",
+    "button": "Adăugați fotografii de daune."
+  },
+  "capture": {
+    "title": "Verificare de pornire",
+    "description": "Nu există nicio zgârietură sau rupere? Faceți o tură în jurul vehiculului și luați fotografii.",
+    "button": "Fă fotografii"
+  }
+}
