@@ -35,7 +35,7 @@ describe('Icon component', () => {
 
   it('should throw if the asset is not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<Icon icon='360' />)).toThrowError();
+    expect(() => render(<Icon icon='360' />)).toThrow();
     jest.spyOn(console, 'error').mockRestore();
   });
 

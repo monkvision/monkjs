@@ -25,7 +25,7 @@ describe('getCanvasHandle util function', () => {
   it('should throw an error if the ref is null', () => {
     const ref = createRef<HTMLCanvasElement>(); // This will be { current: null } initially
     const onError = jest.fn();
-    expect(() => getCanvasHandle(ref, onError)).toThrowError();
+    expect(() => getCanvasHandle(ref, onError)).toThrow();
     expect(onError).toHaveBeenCalledWith(expect.any(Error));
   });
 
@@ -35,7 +35,7 @@ describe('getCanvasHandle util function', () => {
     } as unknown as RefObject<HTMLCanvasElement>;
     const onError = jest.fn();
 
-    expect(() => getCanvasHandle(ref, onError)).toThrowError();
+    expect(() => getCanvasHandle(ref, onError)).toThrow();
     expect(onError).toHaveBeenCalledWith(expect.any(Error));
   });
 });

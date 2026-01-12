@@ -19,7 +19,7 @@ describe('Text Link variant', () => {
 
   it('should have no background', () => {
     const { unmount } = render(<Button variant='text-link' />);
-    expect(screen.getByTestId(BUTTON_TEST_ID)).toHaveStyle({ backgroundColor: 'transparent' });
+    expect(screen.getByTestId(BUTTON_TEST_ID)).toHaveStyle('background-color: rgba(0, 0, 0, 0)');
     unmount();
   });
 

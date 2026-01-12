@@ -256,7 +256,7 @@ describe('JSON builder module', () => {
           }
           return null;
         });
-      expect(() => buildJSONs()).toThrowError('File Not found');
+      expect(() => buildJSONs()).toThrow('File Not found');
     });
   });
 });

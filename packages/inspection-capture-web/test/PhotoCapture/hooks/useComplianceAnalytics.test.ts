@@ -53,7 +53,7 @@ describe('useComplianceAnalytics hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
     const { unmount } = renderHook(useComplianceAnalytics, { initialProps });
     const { trackEvent } = (useAnalytics as jest.Mock).mock.results[0].value;
-    expect(trackEvent).not.toBeCalled();
+    expect(trackEvent).not.toHaveBeenCalled();
 
     unmount();
   });

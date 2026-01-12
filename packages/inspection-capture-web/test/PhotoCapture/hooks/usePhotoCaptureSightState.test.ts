@@ -413,8 +413,8 @@ describe('usePhotoCaptureSightState hook', () => {
       .value;
     const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
     effect();
-    expect(setUserProperties).toBeCalledTimes(1);
-    expect(setEventsProperties).toBeCalledTimes(1);
+    expect(setUserProperties).toHaveBeenCalledTimes(1);
+    expect(setEventsProperties).toHaveBeenCalledTimes(1);
     unmount();
   });
 
@@ -430,10 +430,10 @@ describe('usePhotoCaptureSightState hook', () => {
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
     act(() => onResolve(apiResponse));
 
-    expect(trackEvent).toBeCalledTimes(1);
+    expect(trackEvent).toHaveBeenCalledTimes(1);
     expect(trackEvent.mock.calls[0][0]).toBe('Capture Started');
-    expect(setUserProperties).toBeCalledTimes(2);
-    expect(setEventsProperties).toBeCalledTimes(2);
+    expect(setUserProperties).toHaveBeenCalledTimes(2);
+    expect(setEventsProperties).toHaveBeenCalledTimes(2);
 
     unmount();
   });

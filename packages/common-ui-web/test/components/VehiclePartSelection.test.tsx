@@ -38,7 +38,7 @@ describe('VehiclePartSelection component', () => {
       <VehiclePartSelection vehicleType={VehicleType.HATCHBACK} onPartsSelected={mockPartSelect} />,
     );
     fireEvent.click(screen.getByTestId('VehicleDynamicWireframe'));
-    expect(mockPartSelect).toBeCalledWith([VehiclePart.BUMPER_BACK]);
+    expect(mockPartSelect).toHaveBeenCalledWith([VehiclePart.BUMPER_BACK]);
   });
   it('should change orientation when Icons are clicked', () => {
     render(<VehiclePartSelection vehicleType={VehicleType.HATCHBACK} />);

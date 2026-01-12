@@ -22,7 +22,7 @@ describe('VehicleDynamicWireframe component', () => {
 
   it('should throw error if wireframe not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.PICKUP} />)).toThrowError(
+    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.PICKUP} />)).toThrow(
       `No wireframe found for vehicle type ${VehicleType.PICKUP}`,
     );
   });
@@ -67,7 +67,7 @@ describe('VehicleDynamicWireframe component', () => {
     const mockFn = jest.fn();
     render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} onClickPart={mockFn} />);
     fireEvent.click(document.querySelector('svg') as Element);
-    expect(mockFn).toBeCalled();
+    expect(mockFn).toHaveBeenCalled();
   });
 
   it('should get value from getPartAttributes', () => {
@@ -90,7 +90,7 @@ describe('VehicleDynamicWireframe component', () => {
         getPartAttributes={getPartAttributes}
       />,
     );
-    expect(getPartAttributes).toBeCalled();
+    expect(getPartAttributes).toHaveBeenCalled();
     expect(document.querySelector('svg')?.getAttribute('style')).toBe('fill: red;');
   });
 
@@ -114,7 +114,7 @@ describe('VehicleDynamicWireframe component', () => {
         getPartAttributes={getPartAttributes}
       />,
     );
-    expect(getPartAttributes).toBeCalled();
+    expect(getPartAttributes).toHaveBeenCalled();
     expect(document.querySelector('svg')?.getAttribute('style')).toBe(
       'fill: red; pointer-events: fill; cursor: pointer;',
     );

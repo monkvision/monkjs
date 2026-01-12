@@ -6,7 +6,10 @@ module.exports = (options) => ({
     ? ["<rootDir>", "<rootDir>/../../configs/test-utils/src/__mocks__"]
     : ["<rootDir>"],
   preset: "ts-jest",
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
+  testEnvironmentOptions: {
+    url: "https://test.app",
+  },
   testMatch: ["**/test/**/*.test.ts"],
   coverageDirectory: "coverage",
   coverageReporters: ["lcov"],

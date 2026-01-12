@@ -80,7 +80,7 @@ describe('CaptureHUDButtons component', () => {
       const galleryBtnEl = screen.getByTestId(GALLERY_BTN_TEST_ID);
       const backgroundDiv = galleryBtnEl.querySelector('div');
       expect(backgroundDiv).toBeDefined();
-      expect(backgroundDiv?.style.backgroundImage).toEqual(`url(${uri})`);
+      expect(backgroundDiv?.style.backgroundImage).toEqual(`url("${uri}")`);
 
       unmount();
     });

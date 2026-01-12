@@ -24,10 +24,10 @@ describe('useTracking hook', () => {
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 
-    expect(monitoring.setTags).toBeCalledWith({ inspectionId: initialProps.inspectionId });
+    expect(monitoring.setTags).toHaveBeenCalledWith({ inspectionId: initialProps.inspectionId });
 
-    expect(analytics.setUserProperties).toBeCalledWith({ authToken: monkJwtPayloadMock.sub });
-    expect(monitoring.setUserId).toBeCalledWith(monkJwtPayloadMock.sub);
+    expect(analytics.setUserProperties).toHaveBeenCalledWith({ authToken: monkJwtPayloadMock.sub });
+    expect(monitoring.setUserId).toHaveBeenCalledWith(monkJwtPayloadMock.sub);
 
     unmount();
   });
@@ -39,10 +39,10 @@ describe('useTracking hook', () => {
     const analytics = (useAnalytics as jest.Mock).mock.results[0].value;
     const monitoring = (useMonitoring as jest.Mock).mock.results[0].value;
 
-    expect(monitoring.setTags).toBeCalledWith({ inspectionId: initialProps.inspectionId });
+    expect(monitoring.setTags).toHaveBeenCalledWith({ inspectionId: initialProps.inspectionId });
 
-    expect(analytics.setUserProperties).not.toBeCalled();
-    expect(monitoring.setUserId).not.toBeCalled();
+    expect(analytics.setUserProperties).not.toHaveBeenCalled();
+    expect(monitoring.setUserId).not.toHaveBeenCalled();
 
     unmount();
   });
