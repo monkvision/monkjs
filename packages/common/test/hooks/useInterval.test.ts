@@ -1,5 +1,5 @@
 import { useInterval } from '../../src';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 interface UseIntervalProps {
   callback: () => void;

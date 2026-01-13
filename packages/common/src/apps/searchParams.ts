@@ -74,7 +74,7 @@ export type MonkSearchParamsGetter = {
 
 function validateParamValue<T extends string>(
   value: string | null,
-  validValues: StandardEnum<T> | T[],
+  validValues: StandardEnum<T> | T[] | Readonly<T[]>,
 ): T | null {
   const validValuesArray = (
     Array.isArray(validValues) ? validValues : Object.values(validValues)
@@ -105,7 +105,9 @@ export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchPara
   const searchParams = useSearchParams();
 
   const get = useCallback(
-    (param: MonkSearchParam) => {
+    (
+      param: MonkSearchParam,
+    ): string | VehicleType | SteeringWheelPosition | MonkLanguage | null => {
       const value = searchParams.get(param);
       switch (param) {
         case MonkSearchParam.TOKEN:
@@ -126,8 +128,8 @@ export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchPara
           return null;
       }
     },
-    [searchParams],
-  );
+    [searchParams, availableVehicleTypes],
+  ) as MonkSearchParamsGetter; // Cast to the correct type
 
   return useObjectMemo({ get });
 }

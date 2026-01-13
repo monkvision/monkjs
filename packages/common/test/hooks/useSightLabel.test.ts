@@ -2,7 +2,7 @@ jest.mock('../../src/hooks/useObjectTranslation', () => ({
   useObjectTranslation: jest.fn(() => ({ tObj: jest.fn() })),
 }));
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { LabelDictionary, Sight, TranslationObject } from '@monkvision/types';
 import { useObjectTranslation, useSightLabel } from '../../src';
 

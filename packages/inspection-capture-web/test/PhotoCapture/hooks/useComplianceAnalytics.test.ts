@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { sights } from '@monkvision/sights';
 import { createEmptyMonkState, useMonkState } from '@monkvision/common';
 import { ComplianceIssue, Image, ImageStatus, Inspection } from '@monkvision/types';
@@ -53,7 +53,7 @@ describe('useComplianceAnalytics hook', () => {
     (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
     const { unmount } = renderHook(useComplianceAnalytics, { initialProps });
     const { trackEvent } = (useAnalytics as jest.Mock).mock.results[0].value;
-    expect(trackEvent).not.toBeCalled();
+    expect(trackEvent).not.toHaveBeenCalled();
 
     unmount();
   });

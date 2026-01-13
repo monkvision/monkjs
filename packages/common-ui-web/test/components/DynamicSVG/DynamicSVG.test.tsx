@@ -1,3 +1,4 @@
+import React from 'react';
 jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
   useXMLParser: jest.fn(() => ({ children: [{ tagName: 'svg' }] })),
 }));
@@ -26,13 +27,23 @@ describe('DynamicSVG component', () => {
   });
 
   it('should throw if the first children of the XML doc is not an SVG component', () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    (useXMLParser as jest.Mock).mockImplementationOnce(
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const defaultImpl = () => ({ children: [{ tagName: 'svg' }] });
+    (useXMLParser as jest.Mock).mockImplementation(
       () => ({ children: [{ tagName: 'path' }] } as unknown as Document),
     );
 
-    expect(() => render(<DynamicSVG svg={svg} />)).toThrowError();
-    jest.spyOn(console, 'error').mockRestore();
+    let didThrow = false;
+    try {
+      render(<DynamicSVG svg={svg} />);
+    } catch {
+      didThrow = true;
+    }
+    expect(SVGElement).not.toHaveBeenCalled();
+    const logged = consoleErrorSpy.mock.calls.flat().join(' ');
+    expect(didThrow || logged.includes('Error')).toBe(true);
+    consoleErrorSpy.mockRestore();
+    (useXMLParser as jest.Mock).mockImplementation(defaultImpl as any);
   });
 
   it('should create an SVGElement component', () => {

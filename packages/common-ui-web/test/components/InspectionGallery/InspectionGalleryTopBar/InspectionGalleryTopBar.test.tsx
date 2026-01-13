@@ -418,7 +418,7 @@ describe('InspectionGalleryTopBar component', () => {
     const props = createProps();
     props.isInspectionCompleted = true;
     render(<InspectionGalleryTopBar {...props} />);
-    expect(Button).toBeCalledTimes(1);
+    expect(Button).toHaveBeenCalledTimes(1);
     expect(screen.queryAllByText('topBar.submit')).toHaveLength(0);
   });
 });

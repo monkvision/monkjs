@@ -12,8 +12,7 @@ jest.mock('../../../src/Camera/hooks/useUserMedia', () => ({
 }));
 
 import { CameraResolution } from '@monkvision/types';
-import { render, waitFor, act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { render, waitFor, act, renderHook } from '@testing-library/react';
 import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
 import { useWindowDimensions } from '@monkvision/common';
@@ -86,7 +85,6 @@ describe('useCameraPreview hook', () => {
       expect(result.current.ref.current).toBeDefined();
     });
 
-    // Trigger effect to run by rerendering the hook
     await act(async () => {
       rerender();
     });
@@ -131,9 +129,11 @@ describe('useCameraPreview hook', () => {
       expect(typeof current.onloadedmetadata).toBe('function');
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(spy).toHaveBeenCalledTimes(1);
@@ -189,7 +189,6 @@ describe('useCameraPreview hook', () => {
     Object.defineProperty(current, 'videoHeight', { value: 2160, writable: true });
     jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
 
-    // Trigger effect to run by rerendering the hook
     await act(async () => {
       rerender();
     });
@@ -199,9 +198,11 @@ describe('useCameraPreview hook', () => {
       expect(typeof current.onloadedmetadata).toBe('function');
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.previewDimensions).not.toBeNull();
@@ -247,9 +248,11 @@ describe('useCameraPreview hook', () => {
       expect(typeof current.onloadedmetadata).toBe('function');
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.previewDimensions).not.toBeNull();
@@ -295,9 +298,11 @@ describe('useCameraPreview hook', () => {
       expect(typeof current.onloadedmetadata).toBe('function');
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.previewDimensions).not.toBeNull();
@@ -348,9 +353,11 @@ describe('useCameraPreview hook', () => {
       expect(typeof current.onloadedmetadata).toBe('function');
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(handleErrorMock).toHaveBeenCalledWith(playError);

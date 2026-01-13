@@ -36,12 +36,13 @@ export interface SightSliderProps {
 }
 
 const scrollToSelectedSight = (
-  ref: RefObject<HTMLDivElement>,
+  ref: RefObject<HTMLDivElement | null>,
   index: number,
   smooth: boolean,
 ): void => {
   if (ref.current && ref.current.children.length > index) {
     ref.current.children[index].scrollIntoView({
+      // behavior: smooth ? 'smooth' : 'auto',
       behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
       inline: 'center',
     });

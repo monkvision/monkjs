@@ -1,17 +1,22 @@
-const esModules = ['@monkvision/test-utils', 'ky'].join('|');
+const esModules = ["@monkvision/test-utils", "ky"].join("|");
 
 module.exports = (options) => ({
-  rootDir: './',
-  roots: options?.monorepo ? ['<rootDir>', '<rootDir>/../../configs/test-utils/src/__mocks__'] : ['<rootDir>'],
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testMatch: ['**/test/**/*.test.ts'],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['lcov'],
-  collectCoverageFrom: [
-    'src/**/*.ts',
-  ],
-  transformIgnorePatterns: options?.monorepo ? [] : [`node_modules/(?!${esModules})`],
+  rootDir: "./",
+  roots: options?.monorepo
+    ? ["<rootDir>", "<rootDir>/../../configs/test-utils/src/__mocks__"]
+    : ["<rootDir>"],
+  preset: "ts-jest",
+  testEnvironment: "jsdom",
+  testEnvironmentOptions: {
+    url: "https://test.app",
+  },
+  testMatch: ["**/test/**/*.test.ts"],
+  coverageDirectory: "coverage",
+  coverageReporters: ["lcov"],
+  collectCoverageFrom: ["src/**/*.ts"],
+  transformIgnorePatterns: options?.monorepo
+    ? []
+    : [`node_modules/(?!${esModules})`],
   coverageThreshold: {
     global: {
       branches: 60,
@@ -20,4 +25,4 @@ module.exports = (options) => ({
       statements: 60,
     },
   },
-})
+});

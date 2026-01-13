@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
+import { MouseEventHandler, useCallback, useMemo, useState, MouseEvent } from 'react';
 import { InteractiveStatus } from '@monkvision/types';
 
 /**
@@ -80,7 +80,7 @@ export function useInteractiveStatus(
   const [active, setActive] = useState(false);
 
   const onMouseEnter = useCallback(
-    (event) => {
+    (event: MouseEvent) => {
       setHovered(true);
       if (params?.componentHandlers?.onMouseEnter) {
         params.componentHandlers.onMouseEnter(event);
@@ -90,7 +90,7 @@ export function useInteractiveStatus(
   );
 
   const onMouseLeave = useCallback(
-    (event) => {
+    (event: MouseEvent) => {
       setHovered(false);
       if (params?.componentHandlers?.onMouseLeave) {
         params.componentHandlers.onMouseLeave(event);
@@ -100,7 +100,7 @@ export function useInteractiveStatus(
   );
 
   const onMouseDown = useCallback(
-    (event) => {
+    (event: MouseEvent) => {
       setActive(true);
       if (params?.componentHandlers?.onMouseDown) {
         params.componentHandlers.onMouseDown(event);
@@ -110,7 +110,7 @@ export function useInteractiveStatus(
   );
 
   const onMouseUp = useCallback(
-    (event) => {
+    (event: MouseEvent) => {
       setActive(false);
       if (params?.componentHandlers?.onMouseUp) {
         params.componentHandlers.onMouseUp(event);

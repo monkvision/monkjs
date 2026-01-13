@@ -1,8 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require('prism-react-renderer').themes.github;
+const darkCodeTheme = require('prism-react-renderer').themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -26,8 +26,7 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/monkvision/monkjs/blob/main/documentation/',
+          editUrl: 'https://github.com/monkvision/monkjs/blob/main/documentation/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -69,9 +68,9 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
-          { to: 'sights', label: 'Sights', position: 'left' },
-          { to: 'icons', label: 'Icons', position: 'left' },
-          { to: 'configValidator', label: 'Config Validator', position: 'left' },
+          { to: '/Sights', label: 'Sights', position: 'left' },
+          { to: '/Icons', label: 'Icons', position: 'left' },
+          { to: '/ConfigValidator', label: 'Config Validator', position: 'left' },
           {
             href: 'https://github.com/monkvision/monkjs',
             label: 'GitHub',

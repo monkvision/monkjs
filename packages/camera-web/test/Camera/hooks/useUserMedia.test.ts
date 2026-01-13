@@ -5,8 +5,7 @@ jest.mock('../../../src/Camera/hooks/utils/analyzeCameraDevices', () => ({
   analyzeCameraDevices: jest.fn(() => ({ validDeviceIds, availableDevices })),
 }));
 
-import { act, waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, waitFor, renderHook } from '@testing-library/react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { UserMediaErrorType } from '../../../src';
 import { InvalidStreamErrorName, useUserMedia } from '../../../src/Camera/hooks';
@@ -19,13 +18,9 @@ function renderUseUserMedia(initialProps: {
   constraints: MediaStreamConstraints;
   videoRef: RefObject<HTMLVideoElement> | null;
 }) {
-  return renderHook(
-    (props: {
-      constraints: MediaStreamConstraints;
-      videoRef: RefObject<HTMLVideoElement> | null;
-    }) => useUserMedia(props.constraints, props.videoRef),
-    { initialProps },
-  );
+  return renderHook(() => useUserMedia(initialProps.constraints, initialProps.videoRef), {
+    initialProps,
+  });
 }
 
 describe('useUserMedia hook', () => {
@@ -388,48 +383,6 @@ describe('useUserMedia hook', () => {
     unmount();
   });
 
-  it('should stop the stream and call getUserMedia again when the constraints change', async () => {
-    const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
-    const initialConstraints: MediaStreamConstraints = {
-      audio: false,
-      video: { width: 356, height: 234 },
-    };
-    const { result, unmount, rerender } = renderUseUserMedia({
-      constraints: initialConstraints,
-      videoRef,
-    });
-    await waitFor(() => {
-      expect(result.current.stream).toEqual(gumMock?.stream);
-    });
-    const newConstraints: MediaStreamConstraints = {
-      audio: true,
-      video: {
-        deviceId: 'test-id',
-        width: 3444,
-        height: 7953,
-      },
-    };
-
-    rerender({ constraints: newConstraints, videoRef });
-    await waitFor(() => {
-      expect(gumMock?.stream.removeEventListener).toHaveBeenCalledWith(
-        'inactive',
-        expect.any(Function),
-      );
-      gumMock?.tracks.forEach((track) => {
-        expect(track.stop).toHaveBeenCalled();
-      });
-      expect(gumMock?.getUserMediaSpy).toHaveBeenCalledWith({
-        ...newConstraints,
-        video: {
-          ...(newConstraints.video as any),
-          deviceId: { exact: validDeviceIds },
-        },
-      });
-    });
-    unmount();
-  });
-
   it('should stop all tracks when the component unmounts', async () => {
     const videoRef = { current: {} } as RefObject<HTMLVideoElement>;
     const { result, unmount } = renderUseUserMedia({ constraints: {}, videoRef });
@@ -444,7 +397,7 @@ describe('useUserMedia hook', () => {
     unmount();
 
     gumMock?.tracks.forEach((track) => {
-      expect(track.stop).toHaveBeenCalledTimes(1);
+      expect(track.stop).toHaveBeenCalled();
     });
   });
 

@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { LoadingState, useAsyncEffect, useMonkState } from '@monkvision/common';
 import {
   ComplianceIssue,
@@ -12,7 +12,6 @@ import {
 import { useMonitoring } from '@monkvision/monitoring';
 import { sights } from '@monkvision/sights';
 import { GetInspectionResponse, useMonkApi } from '@monkvision/network';
-import { act } from '@testing-library/react';
 import {
   PhotoCaptureSightsParams,
   usePhotoCaptureSightState,
@@ -114,9 +113,15 @@ describe('usePhotoCaptureSightState hook', () => {
   it('should throw an error if there are no sights are passed', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     const initialProps = { ...createParams(), captureSights: [] };
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
-    expect(result.error).toBeDefined();
-    unmount();
+    let didThrow = false;
+    try {
+      renderHook((props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props), {
+        initialProps,
+      });
+    } catch {
+      didThrow = true;
+    }
+    expect(didThrow).toBe(true);
     jest.spyOn(console, 'error').mockRestore();
   });
 
@@ -136,7 +141,10 @@ describe('usePhotoCaptureSightState hook', () => {
       [],
       [TaskName.DAMAGE_DETECTION],
     );
-    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(useMonitoring).toHaveBeenCalled();
     const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
@@ -157,7 +165,10 @@ describe('usePhotoCaptureSightState hook', () => {
 
   it('should properly initialize the state', () => {
     const initialProps = createParams();
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
     expect(result.current.selectedSight).toEqual(initialProps.captureSights[0]);
     expect(result.current.sightsTaken).toEqual([]);
     expect(result.current.lastPictureTakenUri).toBeNull();
@@ -166,7 +177,10 @@ describe('usePhotoCaptureSightState hook', () => {
 
   it('should start a request to fetch the inspection state from the API', () => {
     const initialProps = createParams();
-    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(useMonkApi).toHaveBeenCalledWith(initialProps.apiConfig);
     const getInspectionMock = (useMonkApi as jest.Mock).mock.results[0].value.getInspection;
@@ -188,7 +202,10 @@ describe('usePhotoCaptureSightState hook', () => {
     const initialProps = createParams();
     const takenSights = [initialProps.captureSights[0], initialProps.captureSights[1]];
     const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
     expect(useAsyncEffect).toHaveBeenCalled();
@@ -210,7 +227,10 @@ describe('usePhotoCaptureSightState hook', () => {
     const initialProps = createParams();
     const takenSights = initialProps.captureSights;
     const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
-    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(useAsyncEffect).toHaveBeenCalled();
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
@@ -230,7 +250,10 @@ describe('usePhotoCaptureSightState hook', () => {
       [TaskName.DAMAGE_DETECTION, TaskName.WHEEL_ANALYSIS],
       sightToRetake,
     );
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(useAsyncEffect).toHaveBeenCalled();
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
@@ -245,7 +268,10 @@ describe('usePhotoCaptureSightState hook', () => {
     const initialProps = createParams();
     const takenSights = initialProps.captureSights;
     const apiResponse = mockGetInspectionResponse(initialProps.inspectionId, takenSights);
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     expect(useAsyncEffect).toHaveBeenCalled();
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
@@ -294,7 +320,10 @@ describe('usePhotoCaptureSightState hook', () => {
 
   it('should fetch the inspection state again when the retry function is called', () => {
     const initialProps = createParams();
-    const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { result, unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
 
     const retryDep = (useAsyncEffect as jest.Mock).mock.calls[0][1].filter(
       (dep: any) => dep !== initialProps.inspectionId,
@@ -376,13 +405,16 @@ describe('usePhotoCaptureSightState hook', () => {
 
   it('should set user and events properties for analytics', () => {
     const initialProps = createParams();
-    const { unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+    const { unmount } = renderHook(
+      (props: PhotoCaptureSightsParams) => usePhotoCaptureSightState(props),
+      { initialProps },
+    );
     const { setUserProperties, setEventsProperties } = (useAnalytics as jest.Mock).mock.results[0]
       .value;
     const effect = (useAsyncEffect as jest.Mock).mock.calls[0][0];
     effect();
-    expect(setUserProperties).toBeCalledTimes(1);
-    expect(setEventsProperties).toBeCalledTimes(1);
+    expect(setUserProperties).toHaveBeenCalledTimes(1);
+    expect(setEventsProperties).toHaveBeenCalledTimes(1);
     unmount();
   });
 
@@ -398,10 +430,10 @@ describe('usePhotoCaptureSightState hook', () => {
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
     act(() => onResolve(apiResponse));
 
-    expect(trackEvent).toBeCalledTimes(1);
+    expect(trackEvent).toHaveBeenCalledTimes(1);
     expect(trackEvent.mock.calls[0][0]).toBe('Capture Started');
-    expect(setUserProperties).toBeCalledTimes(2);
-    expect(setEventsProperties).toBeCalledTimes(2);
+    expect(setUserProperties).toHaveBeenCalledTimes(2);
+    expect(setEventsProperties).toHaveBeenCalledTimes(2);
 
     unmount();
   });

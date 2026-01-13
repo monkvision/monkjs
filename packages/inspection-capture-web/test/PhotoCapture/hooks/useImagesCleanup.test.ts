@@ -1,5 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { act } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
 import { ImagesCleanupParams, useImagesCleanup } from '../../../src/PhotoCapture/hooks';

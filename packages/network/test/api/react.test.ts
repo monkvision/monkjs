@@ -12,7 +12,7 @@ jest.mock('../../src/api/api', () => ({
   },
 }));
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useMonkState } from '@monkvision/common';
 import { MonkApi, MonkApiConfig, MonkHTTPError, useMonkApi } from '../../src';
 import { useMonitoring } from '@monkvision/monitoring';

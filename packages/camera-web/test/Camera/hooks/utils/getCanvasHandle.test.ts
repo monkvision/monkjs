@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { createRef, RefObject } from 'react';
 import { getCanvasHandle } from '../../../../src/Camera/hooks/utils';
 
 describe('getCanvasHandle util function', () => {
@@ -23,10 +23,9 @@ describe('getCanvasHandle util function', () => {
   });
 
   it('should throw an error if the ref is null', () => {
-    const ref = { current: null } as RefObject<HTMLCanvasElement>;
+    const ref = createRef<HTMLCanvasElement>(); // This will be { current: null } initially
     const onError = jest.fn();
-
-    expect(() => getCanvasHandle(ref, onError)).toThrowError();
+    expect(() => getCanvasHandle(ref, onError)).toThrow();
     expect(onError).toHaveBeenCalledWith(expect.any(Error));
   });
 
@@ -36,7 +35,7 @@ describe('getCanvasHandle util function', () => {
     } as unknown as RefObject<HTMLCanvasElement>;
     const onError = jest.fn();
 
-    expect(() => getCanvasHandle(ref, onError)).toThrowError();
+    expect(() => getCanvasHandle(ref, onError)).toThrow();
     expect(onError).toHaveBeenCalledWith(expect.any(Error));
   });
 });

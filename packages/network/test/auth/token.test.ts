@@ -157,8 +157,7 @@ describe('Network package JWT utils', () => {
   describe('getAuthConfig function', () => {
     beforeEach(() => {
       jest.resetAllMocks();
-      delete (window as any).location;
-      (window as any).location = { href: 'https://test.app' };
+      window.history.replaceState(null, '', 'https://test.app');
     });
 
     const configs: AuthConfig[] = [
@@ -182,14 +181,14 @@ describe('Network package JWT utils', () => {
     });
 
     it('should return first config when no params are present', () => {
+      window.history.replaceState(null, '', 'https://test.app');
       const result = getAuthConfig(configs);
       expect(result).toBe(configs[0]);
     });
 
     it('should return matching config when CLIENT_ID param is present', () => {
-      (
-        window as any
-      ).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=${configs[1].clientId}`;
+      const href = `https://test.app?${MonkSearchParam.CLIENT_ID}=${configs[1].clientId}`;
+      window.history.replaceState(null, '', href);
 
       const result = getAuthConfig(configs);
       expect(result).toBe(configs[1]);
@@ -200,7 +199,8 @@ describe('Network package JWT utils', () => {
       const fakeTokenDecompressed = 'decoded-token';
       const fakeDecodedTokenClientId = { azp: configs[0].clientId };
 
-      (window as any).location.href = `https://test.app?${MonkSearchParam.TOKEN}=${fakeToken}`;
+      const href = `https://test.app?${MonkSearchParam.TOKEN}=${fakeToken}`;
+      window.history.replaceState(null, '', href);
       (zlibDecompress as jest.Mock).mockImplementationOnce(() => fakeTokenDecompressed);
       (jwtDecode as jest.Mock).mockImplementationOnce(() => fakeDecodedTokenClientId);
 
@@ -211,7 +211,8 @@ describe('Network package JWT utils', () => {
     });
 
     it('falls back to first config when no match found', () => {
-      (window as any).location.href = `https://test.app?${MonkSearchParam.CLIENT_ID}=nonexistent`;
+      const href = `https://test.app?${MonkSearchParam.CLIENT_ID}=nonexistent`;
+      window.history.replaceState(null, '', href);
       const result = getAuthConfig(configs);
       expect(result).toBe(configs[0]);
     });

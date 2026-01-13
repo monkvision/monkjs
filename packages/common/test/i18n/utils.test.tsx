@@ -2,8 +2,7 @@ import {
   expectComponentToPassDownRefToHTMLElement,
   expectPropsOnChildMock,
 } from '@monkvision/test-utils';
-import { render, screen } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { render, screen, renderHook, waitFor } from '@testing-library/react';
 import { createInstance, i18n, Resource } from 'i18next';
 import { FC, forwardRef } from 'react';
 import { I18nextProvider, initReactI18next, useTranslation } from 'react-i18next';
@@ -15,33 +14,33 @@ describe('Monkvision i18n utils', () => {
   });
 
   describe('useI18nSync hook', () => {
-    it('should update the language every time the language prop changes', () => {
+    it('should update the language every time the language prop changes', async () => {
       let lang = 'fr';
       const { rerender, unmount } = renderHook(useI18nSync, { initialProps: lang });
       let instance = (useTranslation as jest.Mock).mock.results[0].value.i18n;
-      expect(instance.changeLanguage).toHaveBeenCalledWith(lang);
+      await waitFor(() => expect(instance.changeLanguage).toHaveBeenCalledWith(lang));
 
       (useTranslation as jest.Mock).mockClear();
       lang = 'de';
       rerender(lang);
       instance = (useTranslation as jest.Mock).mock.results[0].value.i18n;
-      expect(instance.changeLanguage).toHaveBeenCalledWith(lang);
+      await waitFor(() => expect(instance.changeLanguage).toHaveBeenCalledWith(lang));
 
       unmount();
     });
 
-    it('should not update the language if the value is null', () => {
+    it('should not update the language if the value is null', async () => {
       const { unmount } = renderHook(useI18nSync, { initialProps: null });
       const instance = (useTranslation as jest.Mock).mock.results[0].value.i18n;
-      expect(instance.changeLanguage).not.toHaveBeenCalled();
+      await waitFor(() => expect(instance.changeLanguage).not.toHaveBeenCalled());
 
       unmount();
     });
 
-    it('should not update the language if the value is not a supported monk language', () => {
+    it('should not update the language if the value is not a supported monk language', async () => {
       const { unmount } = renderHook(useI18nSync, { initialProps: 'test' });
       const instance = (useTranslation as jest.Mock).mock.results[0].value.i18n;
-      expect(instance.changeLanguage).not.toHaveBeenCalled();
+      await waitFor(() => expect(instance.changeLanguage).not.toHaveBeenCalled());
 
       unmount();
     });

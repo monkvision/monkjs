@@ -55,7 +55,7 @@ export function useVehicleDynamicWireframe({
   );
 
   const getAttributes = useCallback(
-    (element, groups) => {
+    (element: SVGElement, groups: SVGGElement[]) => {
       const groupElement: SVGGElement | undefined = groups[0];
       let part: VehiclePart;
       if (groupElement && isCarPartElement(groupElement)) {

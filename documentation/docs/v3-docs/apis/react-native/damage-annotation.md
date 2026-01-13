@@ -89,7 +89,7 @@ Set the background image opacity (works only if clip is `true`)
 
 Set the style of the ellipse by defining the stroke's color and width
 
-### ellipse.anchor.{ x | y | o }
+### ellipse.anchor.{`x`} | {`y`} | {`o`}
 `PropsTypes.shape({ color: PropsTypes.string, radius: PropsTypes.number })`
 
 Set the color of the ellipse's anchor icon of the `x` or `y` axis or the origin `o`'s color and size

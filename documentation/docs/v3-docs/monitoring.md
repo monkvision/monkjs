@@ -32,14 +32,14 @@ The configuration options are listed below :
 
 ### Monitoring Config
 
-| **Config option**  | **Required** | **Type**                  | **Description**                                                                                                                                                                                   |
-| ------------------ | ------------ | --------                  | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dsn`              | ✓            | string                    | DSN (Data Source Name) key for sentry.io application. A DSN tells a Sentry SDK where to send events so the events are associated with the correct project.                                        |
-| `environment`      | ✓            | string                    | The current environment of your application , such as _development_, _testing_, _staging_, or _production_. Environments help you better filter issues and transactions among other uses.         |
-| `debug`            | ✓            | boolean                   | Enable debug functionality in the SDK itself. If debug is enabled SDK will attempt to print out useful debugging information in browser's console if something goes wrong with sending the event. |
-| `tracesSampleRate` | ✓            | number                    | Sample rate to determine trace sampling. The default is 1.0 which means that 100% of error events are sent.                                                                                       |
-| `tracingOrigins`   | ✓            | string[]                  | Array of all the origin to browser trace                                                                                                                                                          |
-| `customTags`       |              | { [tag: string]: string } | Add custom tags in all transactions for better tracking                                                                                                                                           |
+| **Config option**  | **Required** | **Type**                    | **Description**                                                                                                                                                                                   |
+|--------------------|--------------|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `dsn`              | ✓            | `string`                    | DSN (Data Source Name) key for sentry.io application. A DSN tells a Sentry SDK where to send events so the events are associated with the correct project.                                        |
+| `environment`      | ✓            | `string`                    | The current environment of your application , such as _development_, _testing_, _staging_, or _production_. Environments help you better filter issues and transactions among other uses.         |
+| `debug`            | ✓            | `boolean`                   | Enable debug functionality in the SDK itself. If debug is enabled SDK will attempt to print out useful debugging information in browser's console if something goes wrong with sending the event. |
+| `tracesSampleRate` | ✓            | `number`                    | Sample rate to determine trace sampling. The default is 1.0 which means that 100% of error events are sent.                                                                                       |
+| `tracingOrigins`   | ✓            | `string[]`                  | Array of all the origin to browser trace                                                                                                                                                          |
+| `customTags`       |              | `{ [tag: string]: string }` | Add custom tags in all transactions for better tracking                                                                                                                                           |
 
 ### Note
 
@@ -93,12 +93,12 @@ Where name is the module name for which we want to measure performance. Operatio
 
 ### SentryTransactionObject
 
-| **Config option** | **Params**                                                    | **Description**                                                                              |
-| ----------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `setTag`          | name: string, value: string                                   | Set tag in a transaction instance                                                            |
-| `startSpan`       | op: string, data: { [key: string]: number \| string } \| null | Create a span in a transaction instance to measure the performance for a sub event           |
-| `finishSpan`      | op: string                                                    | Finish a running span in a transaction instance and complete the measurement for a sub event |
-| `finish`          | status: string                                                | Finish a running transaction instance and complete the measurement for a main event          |
+| **Config option** | **Params**                                                      | **Description**                                                                              |
+|-------------------|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `setTag`          | `name: string, value: string`                                   | Set tag in a transaction instance                                                            |
+| `startSpan`       | `op: string, data: { [key: string]: number \| string } \| null` | Create a span in a transaction instance to measure the performance for a sub event           |
+| `finishSpan`      | `op: string`                                                    | Finish a running span in a transaction instance and complete the measurement for a sub event |
+| `finish`          | `status: string`                                                | Finish a running transaction instance and complete the measurement for a main event          |
 
 User can set tags, create new span and finish span & transaction at the end to send measured data to sentry. `capture.finish('Ok')`
 

@@ -21,7 +21,7 @@ describe('Mimetype utils', () => {
     });
 
     it('should throw if the file extension is unknown', () => {
-      expect(() => getFileExtensions('test')).toThrowError();
+      expect(() => getFileExtensions('test')).toThrow();
     });
   });
 
@@ -35,7 +35,7 @@ describe('Mimetype utils', () => {
     });
 
     it('should throw if the mimetype is unknown', () => {
-      expect(() => getMimetype('test')).toThrowError();
+      expect(() => getMimetype('test')).toThrow();
     });
   });
 });

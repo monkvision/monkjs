@@ -7,6 +7,7 @@ import {
   PropsWithoutRef,
   RefAttributes,
   useEffect,
+  JSX,
 } from 'react';
 import { I18nextProvider, initReactI18next, useTranslation } from 'react-i18next';
 import { MonkLanguage, monkLanguages } from '@monkvision/types';
@@ -82,10 +83,10 @@ export function i18nWrap<T, P>(
   Component: ComponentType<P>,
   instance: i18n,
 ): ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> {
-  return forwardRef<T, P>(function I18nWrappedComponent(props, ref) {
+  return forwardRef<T, P>(function I18nWrappedComponent(props, ref): JSX.Element {
     return (
       <I18nextProvider i18n={instance}>
-        <Component ref={ref} {...props} />
+        <Component ref={ref} {...(props as P)} />
       </I18nextProvider>
     );
   });

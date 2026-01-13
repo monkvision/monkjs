@@ -1,6 +1,6 @@
 import { resizeWindow } from '@monkvision/test-utils';
-import { renderHook } from '@testing-library/react-hooks';
-import { act } from 'react-dom/test-utils';
+import { renderHook } from '@testing-library/react';
+import { act } from 'react';
 import { useWindowDimensions } from '../../src';
 
 describe('useWindowSize hook', () => {

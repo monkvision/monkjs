@@ -57,6 +57,6 @@ describe('transformInlineCss helper function', () => {
   });
 
   it('should throw when provided an invalid CSS', () => {
-    expect(() => transformInlineCss('.test { width;')).toThrowError();
+    expect(() => transformInlineCss('.test { width;')).toThrow();
   });
 });

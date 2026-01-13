@@ -22,7 +22,7 @@ describe('getVehicleModel', () => {
 
   it('should throw an error if no vehicle model is found', () => {
     const vehicleType = VehicleType.HATCHBACK;
-    expect(() => getVehicleModel(vehicleType)).toThrowError(
+    expect(() => getVehicleModel(vehicleType)).toThrow(
       `No vehicle model found for vehicle type ${vehicleType}`,
     );
   });

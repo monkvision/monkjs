@@ -64,7 +64,7 @@ describe('Color utils', () => {
     it('should throw an error if the color format is invalid', () => {
       const invalidColors = ['aaaa', 'rgb(1, 2)', '#ddffs'];
       invalidColors.forEach((color) => {
-        expect(() => getRGBAFromString(color)).toThrowError();
+        expect(() => getRGBAFromString(color)).toThrow();
       });
     });
   });

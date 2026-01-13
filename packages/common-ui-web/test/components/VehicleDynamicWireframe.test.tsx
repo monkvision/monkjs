@@ -22,7 +22,7 @@ describe('VehicleDynamicWireframe component', () => {
 
   it('should throw error if wireframe not found', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.PICKUP} />)).toThrowError(
+    expect(() => render(<VehicleDynamicWireframe vehicleType={VehicleType.PICKUP} />)).toThrow(
       `No wireframe found for vehicle type ${VehicleType.PICKUP}`,
     );
   });
@@ -30,9 +30,14 @@ describe('VehicleDynamicWireframe component', () => {
   it('should update the overlay while changing the orientation', () => {
     const { rerender } = render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} />);
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(1);
-    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.FRONT_LEFT],
-    });
+    {
+      const lastCall = (dynamicSVGModuleMock.DynamicSVG as jest.Mock).mock.calls.at(-1);
+      expect(lastCall?.[0]).toEqual(
+        expect.objectContaining({
+          svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.FRONT_LEFT],
+        }),
+      );
+    }
     rerender(
       <VehicleDynamicWireframe
         vehicleType={VehicleType.CUV}
@@ -40,9 +45,14 @@ describe('VehicleDynamicWireframe component', () => {
       />,
     );
     expect(dynamicSVGModuleMock.DynamicSVG).toHaveBeenCalledTimes(2);
-    expectLastPropsOnChildMock(dynamicSVGModuleMock.DynamicSVG, {
-      svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.REAR_LEFT],
-    });
+    {
+      const lastCall = (dynamicSVGModuleMock.DynamicSVG as jest.Mock).mock.calls.at(-1);
+      expect(lastCall?.[0]).toEqual(
+        expect.objectContaining({
+          svg: partSelectionWireframes[VehicleModel.FESC20]?.[PartSelectionOrientation.REAR_LEFT],
+        }),
+      );
+    }
   });
 
   it('should trigger onClickPart when part is clicked', () => {
@@ -57,7 +67,7 @@ describe('VehicleDynamicWireframe component', () => {
     const mockFn = jest.fn();
     render(<VehicleDynamicWireframe vehicleType={VehicleType.CUV} onClickPart={mockFn} />);
     fireEvent.click(document.querySelector('svg') as Element);
-    expect(mockFn).toBeCalled();
+    expect(mockFn).toHaveBeenCalled();
   });
 
   it('should get value from getPartAttributes', () => {
@@ -80,7 +90,7 @@ describe('VehicleDynamicWireframe component', () => {
         getPartAttributes={getPartAttributes}
       />,
     );
-    expect(getPartAttributes).toBeCalled();
+    expect(getPartAttributes).toHaveBeenCalled();
     expect(document.querySelector('svg')?.getAttribute('style')).toBe('fill: red;');
   });
 
@@ -104,7 +114,7 @@ describe('VehicleDynamicWireframe component', () => {
         getPartAttributes={getPartAttributes}
       />,
     );
-    expect(getPartAttributes).toBeCalled();
+    expect(getPartAttributes).toHaveBeenCalled();
     expect(document.querySelector('svg')?.getAttribute('style')).toBe(
       'fill: red; pointer-events: fill; cursor: pointer;',
     );

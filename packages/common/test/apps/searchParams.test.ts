@@ -1,5 +1,5 @@
 import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { MonkSearchParam, useMonkSearchParams, useSearchParams, zlibDecompress } from '../../src';
 
 const zlibDecompressResult = 'zlibDecompress-result-test';

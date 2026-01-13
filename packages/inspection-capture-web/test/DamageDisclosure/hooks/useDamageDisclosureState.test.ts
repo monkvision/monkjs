@@ -1,9 +1,8 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import { LoadingState, useAsyncEffect } from '@monkvision/common';
 import { ComplianceIssue } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
-import { act } from '@testing-library/react';
 import {
   DamageDisclosureParams,
   useDamageDisclosureState,
@@ -39,14 +38,18 @@ describe('useDamageDisclosureSightState hook', () => {
 
   it('should properly initialize the state', () => {
     const initialProps = createParams();
-    const { result, unmount } = renderHook(useDamageDisclosureState, { initialProps });
+    const { result, unmount } = renderHook((props) => useDamageDisclosureState(props as any), {
+      initialProps,
+    });
     expect(result.current.lastPictureTakenUri).toBeNull();
     unmount();
   });
 
   it('should start a request to fetch the inspection state from the API', () => {
     const initialProps = createParams();
-    const { unmount } = renderHook(useDamageDisclosureState, { initialProps });
+    const { unmount } = renderHook((props) => useDamageDisclosureState(props as any), {
+      initialProps,
+    });
 
     expect(useMonkApi).toHaveBeenCalledWith(initialProps.apiConfig);
     const getInspectionMock = (useMonkApi as jest.Mock).mock.results[0].value.getInspection;
@@ -66,7 +69,9 @@ describe('useDamageDisclosureSightState hook', () => {
 
   it('should properly handle the error returned from the getInspection API call', () => {
     const initialProps = createParams();
-    const { unmount } = renderHook(useDamageDisclosureState, { initialProps });
+    const { unmount } = renderHook((props) => useDamageDisclosureState(props as any), {
+      initialProps,
+    });
 
     expect(useMonitoring).toHaveBeenCalled();
     const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
@@ -85,7 +90,9 @@ describe('useDamageDisclosureSightState hook', () => {
 
   it('should fetch the inspection state again when the inspectionId changes', () => {
     const initialProps = createParams();
-    const { unmount } = renderHook(useDamageDisclosureState, { initialProps });
+    const { unmount } = renderHook((props) => useDamageDisclosureState(props as any), {
+      initialProps,
+    });
 
     expect(useAsyncEffect).toHaveBeenCalledWith(
       expect.anything(),
@@ -98,7 +105,9 @@ describe('useDamageDisclosureSightState hook', () => {
 
   it('should fetch the inspection state again when the retry function is called', () => {
     const initialProps = createParams();
-    const { result, unmount } = renderHook(useDamageDisclosureState, { initialProps });
+    const { result, unmount } = renderHook((props) => useDamageDisclosureState(props as any), {
+      initialProps,
+    });
 
     const retryDep = (useAsyncEffect as jest.Mock).mock.calls[0][1].filter(
       (dep: any) => dep !== initialProps.inspectionId,

@@ -1,7 +1,6 @@
 import { InteractiveStatus } from '@monkvision/types';
 import { MouseEvent } from 'react';
-import { act } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { useInteractiveStatus } from '../../src';
 
 describe('useInteractiveStatus hook', () => {
