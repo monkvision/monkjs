@@ -16,20 +16,12 @@ export interface UseGalleryItemCardStylesParams {
    * The interactive status of the gallery item (hovered, focused, etc.).
    */
   status: InteractiveStatus;
-  /**
-   * Indicates if the gallery item is damaged.
-   */
-  isDamaged: boolean;
 }
 
 /**
  * Hook to get styles for the GalleryItemCard component.
  */
-export function useGalleryItemCardStyles({
-  item,
-  status,
-  isDamaged,
-}: UseGalleryItemCardStylesParams) {
+export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardStylesParams) {
   const { palette } = useMonkTheme();
 
   const colors = useMemo(
@@ -64,7 +56,7 @@ export function useGalleryItemCardStyles({
     },
     labelStyle: {
       ...styles['label'],
-      backgroundColor: isDamaged ? palette.alert.dark : colors.labelBackground,
+      backgroundColor: item.hasDamage ? palette.alert.dark : colors.labelBackground,
       color: labelColor,
     },
   };

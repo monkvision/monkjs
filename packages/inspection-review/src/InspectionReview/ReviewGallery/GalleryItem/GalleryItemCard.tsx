@@ -25,7 +25,6 @@ export function GalleryItemCard({ item, onSelectItem }: GalleryItemProps) {
   const { cardStyle, previewStyle, labelStyle } = useGalleryItemCardStyles({
     item,
     status,
-    isDamaged: false,
   });
 
   return (

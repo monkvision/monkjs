@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SVGProps, useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
@@ -41,11 +41,11 @@ export interface TabExteriorState {
   /**
    * Handler when the left orientation button is clicked.
    */
-  handleLeftClick: () => void;
+  handleRotateLeft: () => void;
   /**
    * Handler when the right orientation button is clicked.
    */
-  handleRightClick: () => void;
+  handleRotateRight: () => void;
   /**
    * Handler when a vehicle part is clicked.
    */
@@ -54,6 +54,10 @@ export interface TabExteriorState {
    * Handler when the done button is clicked after viewing damage details of a part.
    */
   handleDone: (partDetails: DamagedPartDetails) => void;
+  /**
+   * Handler to get SVG attributes for a vehicle part.
+   */
+  handlePartAttributes: (part: VehiclePart) => SVGProps<SVGElement>;
   /**
    * Handler to reset the view to the list of parts.
    */
@@ -64,15 +68,16 @@ export interface TabExteriorState {
  * Custom hook to manage the state and handlers for the ExteriorTab component.
  */
 export function useExteriorTab() {
-  const { vehicleTypes, handleConfirmExteriorDamages, damagedPartsDetails } =
+  const { vehicleTypes, handleConfirmExteriorDamages, damagedPartsDetails, availablePricings } =
     useInspectionReviewState();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
+
   const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
   const [orientation, setOrientation] = useState<PartSelectionOrientation>(
     PartSelectionOrientation.FRONT_LEFT,
   );
 
-  const handleLeftClick = () => {
+  const handleRotateLeft = () => {
     const orientations = Object.values(PartSelectionOrientation);
     const currentOrientationIndex = orientations.findIndex((o) => o === orientation);
     const nextOrientation =
@@ -80,7 +85,7 @@ export function useExteriorTab() {
     setOrientation(nextOrientation);
   };
 
-  const handleRightClick = () => {
+  const handleRotateRight = () => {
     const orientations = Object.values(PartSelectionOrientation);
     const currentOrientationIndex = orientations.findIndex((o) => o === orientation);
     const nextOrientation = orientations[currentOrientationIndex + 1] ?? orientations[0];
@@ -103,15 +108,46 @@ export function useExteriorTab() {
     resetToListView();
   };
 
+  const handlePartAttributes = (part: VehiclePart) => {
+    const detailedPart = damagedPartsDetails.find((d) => d.part === part);
+    if (!detailedPart) {
+      return {};
+    }
+
+    const needsPricing = detailedPart?.isDamaged && !detailedPart.pricing;
+    let fillColor = 'none';
+
+    if (needsPricing) {
+      fillColor = 'gray';
+    } else if (detailedPart?.isDamaged) {
+      Object.values(availablePricings).forEach((pricingValue) => {
+        if (
+          detailedPart.pricing !== undefined &&
+          detailedPart.pricing > pricingValue.min &&
+          detailedPart.pricing <= pricingValue.max
+        ) {
+          fillColor = pricingValue.color;
+        }
+      });
+    }
+
+    return {
+      style: {
+        fill: fillColor,
+      },
+    };
+  };
+
   return {
     currentView,
     selectedPart,
     orientation,
     vehicleType: vehicleTypes[0],
-    handleLeftClick,
-    handleRightClick,
+    handleRotateLeft,
+    handleRotateRight,
     handlePartClicked,
     handleDone,
+    handlePartAttributes,
     resetToListView,
   };
 }
