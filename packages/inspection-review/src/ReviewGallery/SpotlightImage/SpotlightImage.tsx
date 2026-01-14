@@ -31,9 +31,9 @@ export interface SpotlightImageProps {
    */
   goToNextImage: () => void;
   /**
-   * Function to select or deselect an item by its image.
+   * Function to select or deselect an item by its image ID.
    */
-  onSelectItem: (image: GalleryItem | null) => void;
+  onSelectItemById: (imageId: string | null) => void;
 }
 
 /**
@@ -41,7 +41,7 @@ export interface SpotlightImageProps {
  */
 export function SpotlightImage({
   selectedItem,
-  onSelectItem,
+  onSelectItemById,
   goToNextImage,
   goToPreviousImage,
   showDamage,
@@ -76,7 +76,7 @@ export function SpotlightImage({
           <>
             <div style={closeButtonStyle}>
               <Button
-                onClick={() => onSelectItem(null)}
+                onClick={() => onSelectItemById(null)}
                 icon='close'
                 size='small'
                 primaryColor={iconButtonStyle.primaryColor}

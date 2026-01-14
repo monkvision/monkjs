@@ -1,14 +1,20 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useState } from 'react';
 import { GalleryItem } from '../../../../types';
-import { useInspectionReviewState } from '../../../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../../../hooks/InspectionReviewProvider';
 
 /**
  * Props accepted by the useShortcuts hook.
  */
 export interface UseShortcutsProps {
+  /**
+   * The currently selected item in the gallery.
+   */
   selectedItem: GalleryItem | null;
-  onSelectItem: (item: GalleryItem | null) => void;
+  /**
+   * Function to select or deselect an item by its image ID.
+   */
+  onSelectItemById: (imageId: string | null) => void;
 }
 
 /**
@@ -36,8 +42,11 @@ export interface UseShortcutsState {
 /**
  * Custom hook to manage keyboard shortcuts for image navigation and damage toggling.
  */
-export function useShortcuts({ selectedItem, onSelectItem }: UseShortcutsProps): UseShortcutsState {
-  const { currentGalleryItems } = useInspectionReviewState();
+export function useShortcuts({
+  selectedItem,
+  onSelectItemById,
+}: UseShortcutsProps): UseShortcutsState {
+  const { currentGalleryItems } = useInspectionReviewProvider();
   const [showDamage, setShowDamage] = useState(false);
 
   const toggleShowDamage = () => {
@@ -52,7 +61,7 @@ export function useShortcuts({ selectedItem, onSelectItem }: UseShortcutsProps):
       const previousIndex = currentIndex > 0 ? currentIndex - 1 : currentGalleryItems.length - 1;
       const previousImage = currentGalleryItems ? currentGalleryItems[previousIndex] : null;
 
-      onSelectItem(previousImage);
+      onSelectItemById(previousImage?.image.id || null);
     }
   }, [currentGalleryItems, selectedItem]);
 
@@ -64,7 +73,7 @@ export function useShortcuts({ selectedItem, onSelectItem }: UseShortcutsProps):
       const nextIndex = currentIndex < currentGalleryItems.length - 1 ? currentIndex + 1 : 0;
       const nextImage = currentGalleryItems ? currentGalleryItems[nextIndex] : null;
 
-      onSelectItem(nextImage);
+      onSelectItemById(nextImage?.image.id || null);
     }
   }, [currentGalleryItems, selectedItem]);
 
@@ -74,9 +83,9 @@ export function useShortcuts({ selectedItem, onSelectItem }: UseShortcutsProps):
       S: () => setShowDamage(!showDamage),
       ArrowLeft: goToPreviousImage,
       ArrowRight: goToNextImage,
-      q: () => onSelectItem(null),
-      Q: () => onSelectItem(null),
-      Escape: () => onSelectItem(null),
+      q: () => onSelectItemById(null),
+      Q: () => onSelectItemById(null),
+      Escape: () => onSelectItemById(null),
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {

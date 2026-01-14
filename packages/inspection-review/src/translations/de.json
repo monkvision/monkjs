@@ -18,7 +18,6 @@
       "damageTypes": "Schadensarten",
       "damageTypesPlaceholder": "Schadensarten eingeben",
       "deduction": "Abzug",
-      "deductionPlaceholder": "0",
       "addDamageButton": "SCHADEN HINZUFÜGEN"
     },
     "actionButtons": {
