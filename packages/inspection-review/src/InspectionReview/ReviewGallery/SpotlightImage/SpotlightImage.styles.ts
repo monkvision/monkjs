@@ -8,6 +8,7 @@ export const styles: Styles = {
     width: '100%',
     height: '100%',
   },
+  overlayContainer: { position: 'relative' },
   closeButton: {
     position: 'absolute',
     top: 10,

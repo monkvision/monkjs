@@ -31,7 +31,7 @@ export function InspectionReview(props: InspectionReviewProps) {
             />
             <div style={styles['buttons']}>
               <div style={styles['downloadImagesButton']}>
-                <DownloadImagesButton />
+                <DownloadImagesButton onDownloadImages={props.onDownloadImages} />
               </div>
               {props.isPDFGeneratorEnabled && (
                 <GeneratePDFButton onDownloadPDF={props.onDownloadPDF} />
