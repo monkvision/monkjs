@@ -22,7 +22,7 @@ export function DownloadImagesButton(props: DownloadImagesButtonProps) {
       primaryColor={palette.text.white}
       style={styles['downloadImagesButton']}
     >
-      {t('actionButtons.downloadPictures')}
+      {t('actionButtons.downloadImages')}
     </Button>
   );
 }
