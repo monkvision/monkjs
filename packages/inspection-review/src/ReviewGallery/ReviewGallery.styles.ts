@@ -2,13 +2,13 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
+    overflowY: 'auto',
     display: 'flex',
     flexWrap: 'wrap',
     flex: 6,
-    justifyContent: 'center',
     height: 'fit-content',
+    maxHeight: '70vh',
     gap: 8,
-    overflowY: 'auto',
   },
   item: {
     boxSizing: 'border-box',
