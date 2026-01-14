@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
-import { useInspectionReviewState } from '../../../hooks/InspectionReviewProvider';
-import { useTabViews } from '../../../hooks/useTabViews';
-import { DamagedPartDetails } from '../../../types';
+import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useTabViews } from '../../hooks/useTabViews';
+import { DamagedPartDetails } from '../../types';
 
 /**
  * Enumeration of the different views available in the Exterior tab.
