@@ -30,7 +30,10 @@ import {
 /**
  * State provided by the InspectionReviewProvider.
  */
-export type InspectionReviewProvider = Pick<InspectionReviewProps, 'vehicleTypes' | 'currency'> & {
+export type InspectionReviewProvider = Pick<
+  InspectionReviewProps,
+  'vehicleType' | 'currency' | 'sightsPerTab'
+> & {
   /**
    * The current inspection data.
    */
@@ -77,7 +80,7 @@ const InspectionReviewStateContext = createContext<InspectionReviewProvider | nu
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
 export function InspectionReviewProvider(props: PropsWithChildren<InspectionReviewProps>) {
-  const { inspectionId, apiConfig, vehicleTypes, currency } = props;
+  const { inspectionId, apiConfig, vehicleType, currency, sightsPerTab } = props;
 
   const loading = useLoadingState(true);
   const { t } = useTranslation();
@@ -239,7 +242,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         })
           .then(() => {
             if (!partToUpdate) {
-              getInspection({ id: inspectionId });
+              getInspection({ id: inspectionId, light: false });
             }
           })
           .catch(() => {
@@ -280,16 +283,21 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
 
       const items: GalleryItem[] = [];
-      const damages = fetchedInspection.body.damages;
-      const parts = fetchedInspection.entities.parts;
+      const { damages } = fetchedInspection.body;
+      const { parts } = fetchedInspection.entities;
 
       fetchedInspection.entities.images.forEach((img) => {
-        const sightId = img.sightId || img.additionalData?.sight_id;
         const imageBody = fetchedInspection.body.images.find((image) => image.id === img.id);
-        if (!sightId || !imageBody) {
+        if (!imageBody) {
           return;
         }
-        const sight = sights[sightId];
+
+        const sightId = img.sightId || img.additionalData?.sight_id;
+        let sight;
+        if (sightId) {
+          sight = sights[sightId];
+        }
+
         const imageViews = imageBody.views;
         const imageParts = parts.filter((part) =>
           imageViews?.some((view) => part.id === view.element_id),
@@ -323,6 +331,8 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
   }, [inspectionId]);
 
+  console.log({ state, allGalleryItems });
+
   return (
     <InspectionReviewStateContext.Provider
       value={{
@@ -330,13 +340,14 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         allGalleryItems,
         currentGalleryItems,
         setCurrentGalleryItems,
-        vehicleTypes,
+        vehicleType,
         currency,
         availablePricings,
         damagedPartsDetails,
         handleAddInteriorDamage,
         handleDeleteInteriorDamage,
         handleConfirmExteriorDamages,
+        sightsPerTab,
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}

@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import { SightCategory } from '@monkvision/types';
+import { ImageType } from '@monkvision/types';
 import { ExteriorTab } from '../ExteriorTab';
 import { InteriorTab } from '../InteriorTab';
 import { useInspectionReviewState } from './InspectionReviewProvider';
-import { TabContent, TabKeys, TabObject } from '../types';
+import { GalleryItem, TabContent, TabKeys, TabObject } from '../types';
 
 /**
  * Default tabs available in the inspection review.
@@ -12,18 +12,29 @@ import { TabContent, TabKeys, TabObject } from '../types';
 const defaultTabs: Record<string, TabContent> = {
   [TabKeys.Exterior]: {
     Component: ExteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems }) => {
-      setCurrentGalleryItems(
-        allGalleryItems.filter((item) => item.sight.category === SightCategory.EXTERIOR),
+    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
+      const tabItems: GalleryItem[] = sights[TabKeys.Exterior].reduce<GalleryItem[]>(
+        (items, sightId) => {
+          const sightItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
+          return [...items, ...sightItems];
+        },
+        [],
       );
+      const closeUpItems = allGalleryItems.filter((item) => item.image.type === ImageType.CLOSE_UP);
+      setCurrentGalleryItems([...closeUpItems, ...tabItems]);
     },
   },
   [TabKeys.Interior]: {
     Component: InteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems }) => {
-      setCurrentGalleryItems(
-        allGalleryItems.filter((item) => item.sight.category === SightCategory.INTERIOR),
+    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
+      const tabItems: GalleryItem[] = sights[TabKeys.Interior].reduce<GalleryItem[]>(
+        (items, sightId) => {
+          const sightItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
+          return [...items, ...sightItems];
+        },
+        [],
       );
+      setCurrentGalleryItems(tabItems);
     },
   },
 };
@@ -70,7 +81,7 @@ export interface HandleTabState {
  * Custom hook to manage the state of tabs in the inspection review, allowing for default and custom tab keys.
  */
 export function useTabsState(params?: TabsStateParams): HandleTabState {
-  const { allGalleryItems, currentGalleryItems, setCurrentGalleryItems } =
+  const { allGalleryItems, currentGalleryItems, sightsPerTab, setCurrentGalleryItems } =
     useInspectionReviewState();
 
   const [hasInitiated, setHasInitiated] = useState<boolean>(false);
@@ -108,6 +119,7 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
           currentGalleryItems,
           allGalleryItems,
           setCurrentGalleryItems,
+          sights: sightsPerTab,
         });
       }
       if (allTabs[activeTab] && 'onDeactivate' in allTabs[activeTab]) {
@@ -115,6 +127,7 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
           currentGalleryItems,
           allGalleryItems,
           setCurrentGalleryItems,
+          sights: sightsPerTab,
         });
       }
       setActiveTab(tab);
