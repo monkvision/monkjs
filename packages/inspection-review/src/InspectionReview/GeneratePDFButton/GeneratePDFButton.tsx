@@ -1,13 +1,11 @@
 import { useLoadingState, useMonkTheme } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
-import { useTranslation } from 'react-i18next';
 
 /**
  * The GeneratePDFButton component that allows users to generate a PDF report of the inspection.
  */
 export function GeneratePDFButton() {
   const { palette } = useMonkTheme();
-  const { t } = useTranslation();
   const loading = useLoadingState();
 
   const handleGeneratePdf = () => {
@@ -24,7 +22,7 @@ export function GeneratePDFButton() {
       primaryColor={palette.text.white}
       secondaryColor={palette.secondary.xdark}
     >
-      {t('inspectionReview.generatePdf').toUpperCase()}
+      GENERATE PDF
     </Button>
   );
 }
