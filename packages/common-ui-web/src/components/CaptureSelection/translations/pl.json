@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Wynik Uszkodzeń",
+    "description": "Dodaj zdjęcia zębin, śmiercionośnych lub innych uszkodzeń obecnie występujących na samochodzie.",
+    "button": "Dodaj zdjęcia uszkodzeń"
+  },
+  "capture": {
+    "title": "Rozpoczęcie inspekcji",
+    "description": "Nie ma wad i śluzów? Pobierz się okolo pojazdu i zrobij zdjęcia.",
+    "button": "Zdjęcia"
+  }
+}

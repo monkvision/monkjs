@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Estamos enfrentando problemas de conexão. Os carregamentos de imagens podem levar mais tempo do que o habitual.",
+      "confirm": "Entendo"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Dano"
+      },
+      "addDamage": {
+        "cancelBtn": "Cancelar",
+        "damagedPartCounter": "1/2 - Parte danificada",
+        "closeupPictureCounter": "2/2 - Imagem de Detalhe",
+        "infoBtn": "Aplique o alvo na parte danificada, depois clique no botão de abertura da câmera",
+        "infoCloseup": "Obtenha uma foto de detalhe do dano.",
+        "selectPart": "Tape a parte danificada. Use os ícones de seta para girar o veículo e ver a outra face.",
+        "selectParts": "Tapece as partes danificadas. Utilize setas para rotular o veículo e ver a outra face."
+      },
+      "error": {
+        "retry": "Tentar novamente",
+        "missingTasks": "A inspeção fornecida está faltando algumas tarefas necessárias pelo módulo de captura atual.",
+        "invalidToken": "O token de autenticação utilizado é inválido.",
+        "expiredToken": "O token de autenticação utilizado está expirado.",
+        "insufficientAuth": "Você não tem as autorizações necessárias para realizar essa ação.",
+        "inspectionLoading": "Ocorreu um erro durante o carregamento da inspeção. Por favor, tente novamente em alguns minutos ou entre em contato com o suporte com o seguinte ID de inspeção:"
+      },
+      "closeConfirm": {
+        "message": "Você está seguro de que deseja fechar a ferramenta de captura?",
+        "cancel": "Não",
+        "confirm": "Sim"
+      },
+      "guidelines": {
+        "defaultGuideline": "Visão de imagem pode ser exibida aqui.",
+        "disable": "Não mostre novamente",
+        "validate": "Sim."
+      },
+      "tutorial": {
+        "welcome": "Bem-vindo à sua primeira inspeção!",
+        "title": "Como usar",
+        "guideline": "Vá em volta do veículo para tirar todas as fotos e siga os guias na parte superior para posicionar-se no ângulo certo.",
+        "sightTutorial": "Utilize a imagem do canto inferior esquerdo para orientar-se com o enquadramento. Clique nela para ver uma explicação detalhada.",
+        "sight": "Alinhe o veículo com as linhas tanto quanto possível para obter a melhor foto.<br>Clique no botão de disparo para tirar a foto.",
+        "next": "Próximo"
+      },
+      "sightTutorial": {
+        "tip": "Dica",
+        "defaultTutorialWithImage": "Aqui está uma imagem de referência\nTente ajustar sua montagem o mais próximo possível.",
+        "defaultTutorialWithoutImage": "Posicione-se conforme mostrado no diagrama da esquerda\nGarantindo que a câmera esteja na altura correta."
+      }
+    },
+    "gallery": {
+      "next": "Próximo: fotos do veículo"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Faça um vídeo de caminhada do veículo"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Câmera",
+        "description": "Para gravar vídeo, você precisa permitir acesso à câmera do dispositivo."
+      },
+      "compass": {
+        "title": "Bálsamo",
+        "description": "Para detectar uma circulação completa de 360° do veículo, você precisa permitir acesso ao dispositivo do compás."
+      },
+      "confirm": "Gerenciar Permissões"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Iniciar no Frente",
+        "description": "Manter uma distância de 0,9 a 1,2 metro e caminhar devagar ao redor do veículo, capturando desde a linha da estrutura até o solo."
+      },
+      "finish": {
+        "title": "Termo onde você terminou",
+        "description": "Você deve estar concluindo o registro em cerca de 45 segundos."
+      },
+      "photos": {
+        "title": "Leve fotos conforme necessário",
+        "description": "Clique no botão de fechadura para capturar fotos de remarketing ou danos enquanto estiver gravando."
+      },
+      "confirm": "Gravar Vídeo"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Você deseja descartar o vídeo? Você não completou toda a rotação do veículo.",
+        "keepRecording": "Manter Gravação",
+        "discardVideo": "Descartar Vídeo"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Você está se movendo muito rápido! Abaixe um pouco a velocidade, deve levar cerca de um minuto para completar o caminho de inspeção do veículo.",
+        "phoneShaking": "Seu dispositivo está tremendo demais! Tente manter a câmera firme enquanto grava seu veículo.",
+        "confirm": "Sim"
+      },
+      "tooltip": {
+        "start": "Uma vez à frente do veículo, pressione o botão para iniciar a gravação do vídeo.",
+        "end": "Após a caminhada ao redor do veículo ser concluída, pressione o botão para parar a gravação."
+      }
+    },
+    "processing": {
+      "processing": "Processando o vídeo",
+      "uploading": "Carregando o vídeo",
+      "success": "Processamento de vídeo concluído!",
+      "error": "Erro ocorreu ao finalizar a inspeção. Inspectão ID:",
+      "done": "Feito"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Por favor, roteie seu dispositivo.",
+    "description": "Você pode precisar desbloquear a orientação do seu dispositivo através das configurações do seu telefone."
+  }
+}

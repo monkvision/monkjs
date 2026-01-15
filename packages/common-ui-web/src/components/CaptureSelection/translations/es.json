@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Información de Daño",
+    "description": "Agrega fotos de golpes, rasguños o daños de cualquier tipo que estén presentes en el vehículo.",
+    "button": "Añadir fotos de daño"
+  },
+  "capture": {
+    "title": "Iniciación de Inspección",
+    "description": "¿Sin arrugas ni rasguños? Camina alrededor del vehículo y toma fotos.",
+    "button": "Toma fotos"
+  }
+}

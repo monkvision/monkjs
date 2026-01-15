@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Gjenbrug",
+    "create-inspection": "En uventet fejl opstod under skabelonen for inspektionen.",
+    "missing-inspection-id": "Den URL du prøver at tilgå er ugyldig."
+  }
+}

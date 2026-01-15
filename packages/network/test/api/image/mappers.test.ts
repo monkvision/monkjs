@@ -61,6 +61,12 @@ function createApiImage(params?: { sightId?: string }): ApiImage {
       created_at: '2032-04-10T11:33:03.987Z',
       label: {
         en: 'test-label-en',
+        pl: 'test-label-pl',
+        ro: 'test-label-ro',
+        es: 'test-label-es',
+        pt: 'test-label-pt',
+        da: 'test-label-da',
+        sv: 'test-label-sv',
         fr: 'test-label-fr',
         de: 'test-label-de',
         nl: 'test-label-nl',

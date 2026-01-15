@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Iniciar sesión",
+    "log-out": "Iniciar Sesión"
+  },
+  "errors": {
+    "popup-closed": "¡Oh no! No pudimos iniciar sesión porque la ventana emergente se cerró. Vamos a intentarlo de nuevo.",
+    "token-expired": "Su token de autenticación ha caducado. Por favor, inicie sesión nuevamente.",
+    "insufficient-authorization": "No tiene las autorizaciones necesarias para utilizar esta aplicación. Por favor, inicie sesión de nuevo y utilice una cuenta diferente.",
+    "unknown": "¡Oh no! Se produjo un error inesperado durante la conexión. Vamos a intentarlo de nuevo.",
+    "missing-token": "La URL que estás intentando acceder es inválida."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Añadir Daño Personalizado"
+  },
+  "topBar": {
+    "submit": "Validar",
+    "title": "Fotos",
+    "retakeFilter": "Repetición",
+    "approvedFilter": "Aprobado",
+    "completed": "Esta inspección se ha completado."
+  },
+  "list": {
+    "empty": {
+      "capture": "No fotos aún. Las fotos tomadas se mostrarán aquí.",
+      "nonCapture": "No hay imágenes en este inspección.",
+      "filter": "No coincidencias para el filtro seleccionado."
+    }
+  }
+}

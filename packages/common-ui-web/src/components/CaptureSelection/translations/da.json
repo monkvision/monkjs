@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Skaderrapport",
+    "description": "Tilføj billeder af skader som skaller eller andre skader der er til stede på bilen.",
+    "button": "Lag op til skader billeder"
+  },
+  "capture": {
+    "title": "Begynd Inspektion",
+    "description": "Har ingen sår eller skaller? Gå rundt bilen og tage billeder.",
+    "button": "Tage billeder"
+  }
+}

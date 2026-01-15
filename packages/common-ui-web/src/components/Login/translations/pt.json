@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Acessar",
+    "log-out": "Sair do Sistema"
+  },
+  "errors": {
+    "popup-closed": "Não conseguimos registrar você porque o pop-up foi fechado. Vamos tentar novamente!",
+    "token-expired": "Sua senha de autenticação expirou. Por favor, insira novamente.",
+    "insufficient-authorization": "Você não tem as autorizações necessárias para utilizar essa aplicação. Por favor, deslogue e utilize uma conta diferente.",
+    "unknown": "Erro inesperado ocorreu durante o login. Vamos tentar novamente!",
+    "missing-token": "A URL que você está tentando acessar é inválido."
+  }
+}

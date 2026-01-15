@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Relatório de Danos",
+    "description": "Adicione fotos de arranhões, rachaduras ou outros danos presentes no veículo.",
+    "button": "Adicionar Fotos de Danos"
+  },
+  "capture": {
+    "title": "Inspecção de Início",
+    "description": "Não dentes ou rasgos? Faça uma volta ao veículo e tome fotos.",
+    "button": "Leve Fotos"
+  }
+}

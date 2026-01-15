@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Rapportera skada",
+    "description": "Lägg till bilder av skador som rynkar, skar eller andra skador som finns på fordonet.",
+    "button": "Lägg till skadorfoton"
+  },
+  "capture": {
+    "title": "Börja inspektion",
+    "description": "Har ingen skador eller rynkor? Gå runt forklädningen och ta bilder.",
+    "button": "Ta bilder"
+  }
+}

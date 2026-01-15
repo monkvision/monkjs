@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Raport daune",
+    "description": "Adăugați fotografii de dungi, rugini sau alte prejudicii prezente pe vehicul.",
+    "button": "Adăugați fotografii de daune."
+  },
+  "capture": {
+    "title": "Inspecția de început",
+    "description": "Nu există nici un dent sau nici o rugină? Încolțește vehicul și fă urme de fotografie.",
+    "button": "Lămuri cu aparatul de fotografiat"
+  }
+}
