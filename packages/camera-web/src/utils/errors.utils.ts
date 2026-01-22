@@ -10,6 +10,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.NOT_ALLOWED:
       return {
         en: 'Camera preview unavailable because camera access was not granted to the page.',
+        pt: 'A visualização da câmera não está disponível porque o acesso à câmera não foi concedido à página.',
         fr: "L'apperçu de la caméra n'est pas disponible car l'accès à la caméra n'est pas autorisé.",
         de: 'Die Kameravorschau ist nicht verfügbar, da für die Seite kein Kamerazugriff gewährt wurde.',
         nl: 'De cameravoorbeeld is niet beschikbaar omdat er geen toegang tot de camera is verleend aan de pagina.',
@@ -18,6 +19,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.WEBPAGE_NOT_ALLOWED:
       return {
         en: 'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
+        pt: 'Não foi possível obter acesso à câmera. Certifique-se de pressionar “Permitir” quando solicitado a conceder permissão para a câmera nesta página.',
         fr: "Impossible d'accéder à la caméra. Veuillez vous assurer d'appuyer sur “Autoriser” lorsqu'on vous propose d'autoriser l'accès à la caméra pour cette page web.",
         de: 'Die Kamera kann nicht zugelassen werden. Stellen Sie sicher, dass Sie auf „Zulassen“ drücken, wenn Sie aufgefordert werden, die Kamera für diese Webseite zuzulassen.',
         nl: 'Kan geen toestemming krijgen voor de camera. Zorg ervoor dat u op “Toestaan” drukt wanneer u wordt gevraagd om toestemming te geven voor het gebruik van de camera op deze webpagina.',
@@ -26,6 +28,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
       return {
         en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
+        pt: "Não foi possível obter acesso à câmera. Certifique-se de conceder acesso à câmera ao seu navegador atual nas configurações do dispositivo.",
         fr: "Impossible d'accéder à la caméra. Veuillez vous assurer d'autoriser l'accès à la caméra pour ce navigateur internet dans les paramètres de votre téléphone.",
         de: 'Der Zugriff auf die Kamera ist nicht möglich. Stellen Sie sicher, dass Sie in den Einstellungen Ihres Geräts den Kamerazugriff für Ihren aktuellen Internetbrowser zulassen.',
         nl: 'Kan geen cameratoegang krijgen. Zorg ervoor dat u de camera toegang verleent tot uw huidige internet browser in de instellingen van uw apparaat.',
@@ -34,6 +37,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
         en: 'The camera video stream was closed unexpectedly.',
+        pt: 'O stream de vídeo da câmera foi encerrado inesperadamente.',
         fr: 'Le flux vidéo de la caméra a été coupé de manière inattendue.',
         de: 'Der Video-Stream der Kamera wurde unerwartet geschlossen.',
         nl: 'De videostream van de camera is onverwacht gesloten.',
@@ -42,6 +46,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.INVALID_STREAM:
       return {
         en: 'Unable to process the camera video stream.',
+        pt: 'Não foi possível processar o stream de vídeo da câmera.',
         fr: 'Impossible de traiter le flux vidéo de la caméra.',
         de: 'Der Videostrom der Kamera kann nicht verarbeitet werden.',
         nl: 'De videostream van de camera kan niet worden verwerkt.',
@@ -50,6 +55,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     default:
       return {
         en: 'An unexpected error occurred when fetching the camera video stream.',
+        pt: 'Ocorreu um erro inesperado ao obter o stream de vídeo da câmera.',
         fr: 'Une erreur inattendue est survenue lors de la récupération du flux vidéo de la caméra.',
         de: 'Beim Abrufen des Kamera-Videostreams ist ein unerwarteter Fehler aufgetreten.',
         nl: 'Er is een onverwachte fout opgetreden bij het ophalen van de videostream van de camera.',

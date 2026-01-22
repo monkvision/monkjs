@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Tentar novamente",
+    "create-inspection": "Ocorreu um erro inesperado ao criar a inspeção.",
+    "missing-inspection-id": "A URL que você está tentando acessar é inválida."
+  }
+}

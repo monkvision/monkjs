@@ -21,6 +21,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOADING]: {
     title: {
       en: 'Uploading',
+      pt: 'Carregando',
       fr: 'Upload en cours',
       de: 'Hochladen',
       nl: 'Bezig met uploaden',
@@ -28,6 +29,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image is being uploaded.',
+      pt: 'Esta imagem está sendo carregada.',
       fr: "Upload de l'image en cours.",
       de: 'Dieses Bild wird gerade hochgeladen.',
       nl: 'Deze afbeelding wordt geüpload.',
@@ -37,6 +39,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.COMPLIANCE_RUNNING]: {
     title: {
       en: 'Analyzing',
+      pt: 'Analisando',
       fr: 'Analyse',
       de: 'Analysieren Sie',
       nl: 'Analyseren',
@@ -44,6 +47,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image is being analyzed.',
+      pt: 'Esta imagem está sendo analisada.',
       fr: "Cette image est en train d'être analysée.",
       de: 'Dieses Bild wird gerade analysiert.',
       nl: 'Deze afbeelding wordt geanalyseerd.',
@@ -53,6 +57,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.SUCCESS]: {
     title: {
       en: 'Success',
+      pt: 'Sucesso',
       fr: 'Succès',
       de: 'Erfolg',
       nl: 'Succes',
@@ -60,6 +65,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image seems good, but you can still retake it if you want.',
+      pt: 'Esta imagem parece boa, mas você pode tirar outra foto se quiser.',
       fr: 'Cette image paraît bonne, mais vous pouvez quand-même la reprendre si besoin.',
       de: 'Dieses Bild scheint gut zu sein, aber Sie können es noch einmal aufnehmen, wenn Sie wollen.',
       nl: 'Dit beeld lijkt goed, maar je kunt het nog steeds opnieuw maken als je wilt.',
@@ -69,6 +75,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOAD_FAILED]: {
     title: {
       en: 'Upload failed',
+      pt: 'Falha ao carregar',
       fr: 'Upload impossible',
       de: 'Upload fehlgeschlagen',
       nl: 'Upload mislukt',
@@ -76,6 +83,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'Make sure you have a good connection and take the photo again.',
+      pt: 'Certifique-se de que você tem uma boa conexão e tire a foto novamente.',
       fr: 'Vérifiez que vous avez une bonne connexion et reprenez la photo.',
       de: 'Vergewissern Sie sich, dass Sie eine gute Verbindung haben, und machen Sie das Foto erneut.',
       nl: 'Zorg ervoor dat je een goede verbinding hebt en neem de foto opnieuw.',
@@ -85,6 +93,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOAD_ERROR]: {
     title: {
       en: 'Upload error',
+      pt: 'Erro ao carregar',
       fr: "Erreur d'upload",
       de: 'Upload-Fehler',
       nl: 'Fout bij uploaden',
@@ -92,6 +101,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'An error occurred during the image upload.',
+      pt: 'Ocorreu um erro durante o carregamento da imagem.',
       fr: "Une erreur s'est produite lors de l'upload de l'image.",
       de: 'Beim Hochladen des Bildes ist ein Fehler aufgetreten.',
       nl: 'Er is een fout opgetreden tijdens het uploaden van de afbeelding.',
@@ -101,6 +111,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.NOT_COMPLIANT]: {
     title: {
       en: 'Error',
+      pt: 'Erro',
       fr: 'Erreur',
       de: 'Fehler',
       nl: 'Fout',
@@ -108,6 +119,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'Make sure the image quality is good and take the photo again.',
+      pt: 'Certifique-se de que a qualidade da imagem esteja boa e tire a foto novamente.',
       fr: "Vérifiez que la qualité de l'image est bonne et reprenez la photo.",
       de: 'Vergewissern Sie sich, dass die Bildqualität gut ist, und machen Sie das Foto erneut.',
       nl: 'Zorg ervoor dat de kwaliteit van de afbeelding goed is en neem de foto opnieuw.',
@@ -123,6 +135,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.OTHER]: {
     title: {
       en: 'Not compliant',
+      pt: 'Não está em conformidade',
       fr: 'Non valide',
       de: 'Nicht konform',
       nl: 'Niet-conform',
@@ -130,6 +143,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
+      pt: 'Certifique-se de que a qualidade da imagem esteja boa e que o veículo esteja alinhado corretamente com as guias.',
       fr: "Assurez-vous que la qualité de l'image est bonne et que le véhicule est bien aligné avec les guides.",
       de: 'Vergewissern Sie sich, dass die Bildqualität gut ist und dass das Fahrzeug richtig an den Führungslinien ausgerichtet ist.',
       nl: 'Zorg ervoor dat de kwaliteit van de afbeelding goed is en dat het voertuig correct is uitgelijnd met de gidsen.',
@@ -139,6 +153,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LOW_RESOLUTION]: {
     title: {
       en: 'Low resolution',
+      pt: 'Baixa resolução',
       fr: 'Basse résolution',
       de: 'Niedrige Auflösung',
       nl: 'Lage resolutie',
@@ -146,6 +161,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image has a good resolution.',
+      pt: 'Certifique-se de que a imagem tenha uma boa resolução.',
       fr: "Assurez-vous que l'image ait une résolution suffisante.",
       de: 'Achten Sie darauf, dass das Bild eine gute Auflösung hat.',
       nl: 'Zorg ervoor dat de afbeelding een goede resolutie heeft.',
@@ -155,6 +171,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.BLURRINESS]: {
     title: {
       en: 'Too blurry',
+      pt: 'Muito embaçado',
       fr: 'Trop floue',
       de: 'Zu unscharf',
       nl: 'Te vaag',
@@ -162,6 +179,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image is not blurry.',
+      pt: 'Certifique-se de que a imagem não esteja borrada.',
       fr: "Assurez-vous que l'image ne soit pas trop floue.",
       de: 'Achten Sie darauf, dass das Bild nicht unscharf ist.',
       nl: 'Zorg ervoor dat de afbeelding niet vaag is.',
@@ -171,6 +189,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNDEREXPOSURE]: {
     title: {
       en: 'Underexposed',
+      pt: 'Subexposta',
       fr: 'Sousexposition',
       de: 'Unterbelichtet',
       nl: 'Onderbelicht',
@@ -178,6 +197,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that the image isn't too dark.",
+      pt: "Certifique-se de que a imagem não esteja muito escura.",
       fr: "Assurez-vous que l'image ne soit pas trop sombre.",
       de: 'Achten Sie darauf, dass das Bild nicht zu dunkel ist.',
       nl: 'Zorg ervoor dat de afbeelding niet te donker is.',
@@ -187,6 +207,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.OVEREXPOSURE]: {
     title: {
       en: 'Overexposed',
+      pt: 'Superexposta',
       fr: 'Surexposition',
       de: 'Überbelichtet',
       nl: 'Overbelicht',
@@ -194,6 +215,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that the image isn't too bright.",
+      pt: "Certifique-se de que a imagem não esteja muito clara.",
       fr: "Assurez-vous que l'image ne soit pas trop lumineuse.",
       de: 'Achten Sie darauf, dass das Bild nicht zu hell ist.',
       nl: 'Zorg ervoor dat de afbeelding niet te licht is.',
@@ -203,6 +225,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LENS_FLARE]: {
     title: {
       en: 'Lens flares',
+      pt: 'Reflexos da lente',
       fr: 'Reflets',
       de: 'Objektivreflexe',
       nl: 'Lensflares',
@@ -210,6 +233,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there aren't any bright flare on the image.",
+      pt: "Certifique-se de que não há reflexos fortes na imagem.",
       fr: "Assurez-vous que l'image ne contienne pas de reflets.",
       de: 'Vergewissern Sie sich, dass keine hellen Streulichter auf dem Bild zu sehen sind.',
       nl: 'Zorg ervoor dat er geen heldere flares op de afbeelding staan.',
@@ -219,6 +243,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.DIRTINESS]: {
     title: {
       en: 'Vehicle dirty',
+      pt: 'Veículo sujo',
       fr: 'Véhicule sale',
       de: 'Fahrzeug verschmutzt',
       nl: 'Vervuilde auto',
@@ -226,6 +251,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that your vehicle is clean.',
+      pt: 'Certifique-se de que o seu veículo esteja limpo.',
       fr: 'Assurez-vous que le véhicule soit propre.',
       de: 'Stellen Sie sicher, dass Ihr Fahrzeug sauber ist.',
       nl: 'Zorg ervoor dat uw voertuig schoon is.',
@@ -235,6 +261,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.SNOWNESS]: {
     title: {
       en: 'Vehicle snowy',
+      pt: 'Veículo com neve',
       fr: 'Véhicule enneigé',
       de: 'Fahrzeug verschneit',
       nl: 'Besneeuwde auto',
@@ -242,6 +269,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there aren't any snow on the vehicle.",
+      pt: "Certifique-se de que não há neve no veículo.",
       fr: "Assurez-vous qu'il n'y ait pas de neige sur le véhicule.",
       de: 'Vergewissern Sie sich, dass sich kein Schnee auf dem Fahrzeug befindet.',
       nl: 'Zorg ervoor dat er geen sneeuw op het voertuig zit.',
@@ -251,6 +279,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WETNESS]: {
     title: {
       en: 'Vehicle wet',
+      pt: 'Veículo molhado',
       fr: 'Véhicule mouillé',
       de: 'Fahrzeug nass',
       nl: 'Natte auto',
@@ -258,6 +287,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the vehicle is dry.',
+      pt: 'Certifique-se de que o veículo esteja seco.',
       fr: "Assurez-vous qu'il n'y ait pas d'eau sur le véhicule.",
       de: 'Stellen Sie sicher, dass das Fahrzeug trocken ist.',
       nl: 'Zorg ervoor dat het voertuig droog is.',
@@ -267,6 +297,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.REFLECTIONS]: {
     title: {
       en: 'Reflections',
+      pt: 'Reflexos',
       fr: 'Reflets',
       de: 'Reflexionen',
       nl: 'Reflecties',
@@ -274,6 +305,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there are'nt any reflections on the vehicle.",
+      pt: "Certifique-se de que não há reflexos no veículo.",
       fr: "Assurez-vous qu'il n'y ait pas de reflets sur le véhicule.",
       de: 'Vergewissern Sie sich, dass es keine Reflexionen auf dem Fahrzeug gibt.',
       nl: 'Zorg ervoor dat er geen reflecties op het voertuig zijn.',
@@ -283,6 +315,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNKNOWN_SIGHT]: {
     title: {
       en: 'Unknown sight',
+      pt: 'Visão desconhecida',
       fr: 'Unknown sight',
       de: 'Unknown sight',
       nl: 'Unknown sight',
@@ -290,6 +323,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Unknown sight.',
+      pt: 'Erro interno: vista desconhecida.',
       fr: 'Erreur interne : Unknown sight.',
       de: 'Interner Fehler : Unknown sight.',
       nl: 'Interne fout: Unknown sight.',
@@ -299,6 +333,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNKNOWN_VIEWPOINT]: {
     title: {
       en: 'Unknown viewpoint',
+      pt: 'Ponto de vista desconhecido',
       fr: 'Unknown viewpoint',
       de: 'Unknown viewpoint',
       nl: 'Unknown viewpoint',
@@ -306,6 +341,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Unknown viewpoint.',
+      pt: 'Erro interno: Ponto de vista desconhecido.',
       fr: 'Erreur interne : Unknown viewpoint.',
       de: 'Interner Fehler : Unknown viewpoint.',
       nl: 'Interne fout: Unknown viewpoint.',
@@ -315,6 +351,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.NO_VEHICLE]: {
     title: {
       en: 'No vehicle',
+      pt: 'Nenhum veículo',
       fr: 'Pas de véhicule',
       de: 'Kein Fahrzeug',
       nl: 'Geen voertuig',
@@ -322,6 +359,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that there is a vehicle in the photo.',
+      pt: 'Certifique-se de que há um veículo na foto.',
       fr: "Assurez-vous qu'il y ait un véhicule sur l'image",
       de: 'Vergewissern Sie sich, dass ein Fahrzeug auf dem Foto zu sehen ist.',
       nl: 'Zorg ervoor dat er een voertuig op de foto staat.',
@@ -331,6 +369,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WRONG_ANGLE]: {
     title: {
       en: 'Wrong angle',
+      pt: 'Ângulo incorreto',
       fr: 'Mauvaise angle',
       de: 'Falscher Winkel',
       nl: 'Verkeerde hoek',
@@ -338,6 +377,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      pt: 'Certifique-se de alinhar corretamente o veículo com as guias.',
       fr: 'Assurez-vous de bien aligner le véhicule avec les guides.',
       de: 'Achten Sie darauf, dass das Fahrzeug richtig an den Führungen ausgerichtet ist.',
       nl: 'Zorg ervoor dat het voertuig goed is uitgelijnd met de gidsen.',
@@ -347,6 +387,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WRONG_CENTER_PART]: {
     title: {
       en: 'Wrong center part',
+      pt: 'Peça central incorreta',
       fr: 'Mauvais centrage',
       de: 'Falsches Mittelteil',
       nl: 'Verkeerd middenstuk',
@@ -354,6 +395,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      pt: 'Certifique-se de alinhar corretamente o veículo com as guias.',
       fr: 'Assurez-vous de bien aligner le véhicule avec les guides.',
       de: 'Achten Sie darauf, dass das Fahrzeug richtig an den Führungen ausgerichtet ist.',
       nl: 'Zorg ervoor dat het voertuig goed is uitgelijnd met de gidsen.',
@@ -363,6 +405,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.MISSING_PARTS]: {
     title: {
       en: 'Missing parts',
+      pt: 'Peças ausentes',
       fr: 'Parties manquantes',
       de: 'Fehlende Teile',
       nl: 'Ontbrekende onderdelen',
@@ -370,6 +413,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      pt: 'Certifique-se de alinhar o veículo corretamente com as guias.',
       fr: 'Assurez-vous de bien aligner le véhicule avec les guides.',
       de: 'Achten Sie darauf, dass das Fahrzeug richtig an den Führungen ausgerichtet ist.',
       nl: 'Zorg ervoor dat het voertuig goed is uitgelijnd met de gidsen.',
@@ -379,6 +423,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.HIDDEN_PARTS]: {
     title: {
       en: 'Hidden parts',
+      pt: 'Peças ocultas',
       fr: 'Parties masquées',
       de: 'Versteckte Teile',
       nl: 'Verborgen onderdelen',
@@ -386,6 +431,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that nothing is obstructing the vehicule from the camera.',
+      pt: 'Certifique-se de que nada está obstruindo a visão do veículo na câmera.',
       fr: 'Assurez-vous que rien ne masque le véhicule.',
       de: 'Vergewissern Sie sich, dass das Fahrzeug nicht von der Kamera verdeckt wird.',
       nl: 'Zorg ervoor dat er niets tussen het voertuig en de camera zit.',
@@ -395,6 +441,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.TOO_ZOOMED]: {
     title: {
       en: 'Too close',
+      pt: 'Muito perto',
       fr: 'Trop près',
       de: 'Zu nah',
       nl: 'Te dichtbij',
@@ -402,6 +449,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to stand far enough from the vehicle.',
+      pt: 'Certifique-se de que está a uma distância segura do veículo.',
       fr: 'Assurez-vous de vous tenir assez loin du véhicule.',
       de: 'Achten Sie darauf, dass Sie weit genug vom Fahrzeug entfernt stehen.',
       nl: 'Zorg ervoor dat je voldoende afstand houdt van het voertuig.',
@@ -411,6 +459,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.NOT_ZOOMED_ENOUGH]: {
     title: {
       en: 'Too far',
+      pt: 'Muito longe',
       fr: 'Trop loin',
       de: 'Zu weit',
       nl: 'Te ver weg',
@@ -418,6 +467,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to stand close enough from the vehicle.',
+      pt: 'Certifique-se de que está perto o suficiente do veículo.',
       fr: 'Assurez-vous de vous tenir assez proche du véhicule.',
       de: 'Achten Sie darauf, dass Sie nahe genug am Fahrzeug stehen.',
       nl: 'Zorg ervoor dat je dicht genoeg bij het voertuig staat.',
@@ -427,6 +477,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.INTERIOR_NOT_SUPPORTED]: {
     title: {
       en: 'Interior not supported',
+      pt: 'Interior não suportado',
       fr: 'Interior not supported',
       de: 'Interior not supported',
       nl: 'Interior not supported',
@@ -434,6 +485,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Interior not supported.',
+      pt: 'Erro interno: interior não suportado.',
       fr: 'Erreur interne : Interior not supported.',
       de: 'Interner Fehler : Interior not supported.',
       nl: 'Interne fout: Interior not supported.',
@@ -443,6 +495,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.MISSING]: {
     title: {
       en: 'Missing',
+      pt: 'Ausente',
       fr: 'Missing',
       de: 'Missing',
       nl: 'Missing',
@@ -450,6 +503,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Missing.',
+      pt: 'Erro interno: ausente.',
       fr: 'Erreur interne : Missing.',
       de: 'Interner Fehler : Missing.',
       nl: 'Interne fout: Missing.',
@@ -459,6 +513,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LOW_QUALITY]: {
     title: {
       en: 'Low quality',
+      pt: 'Baixa qualidade',
       fr: 'Basse qualité',
       de: 'Geringe Qualität',
       nl: 'Lage kwaliteit',
@@ -466,6 +521,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the photo has a good quality.',
+      pt: 'Certifique-se de que a foto tenha boa qualidade.',
       fr: 'Assurez-vous de labonne qualité de la photo.',
       de: 'Achten Sie darauf, dass das Foto eine gute Qualität hat.',
       nl: 'Zorg ervoor dat de foto van goede kwaliteit is.',
@@ -475,6 +531,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.PORTRAIT_IMAGE]: {
     title: {
       en: 'Portrait Image',
+      pt: 'Imagem de Retrato',
       fr: 'Image en mode portrait',
       de: 'Hochformatbild',
       nl: 'Portretfoto',
@@ -482,6 +539,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'The picture is in portrait mode, please take it in landscape',
+      pt: 'A foto está no modo retrato, tire-a no modo paisagem.',
       fr: 'L’image est en mode portrait, veuillez la prendre en mode paysage',
       de: 'Das Bild ist im Hochformat, bitte fotografieren Sie im Querformat',
       nl: 'De foto is in portretstand, neem deze alstublieft in landschapmodus',

@@ -240,6 +240,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
     return {
       en: `Video Frame ${options.frameIndex}`,
+      pt: `Fotograma de vídeo ${options.frameIndex}`,
       fr: `Trame Vidéo ${options.frameIndex}`,
       de: `Videobild ${options.frameIndex}`,
       nl: `Videoframe ${options.frameIndex}`,
@@ -249,6 +250,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
     return {
       en: `Video Manual Photo`,
+      pt: `Foto manual do vídeo`,
       fr: `Photo Manuelle Vidéo`,
       de: `Foto Manuell Video`,
       nl: `Foto-handleiding Video`,
@@ -259,6 +261,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
     return {
       en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      pt: `Plano Aproximado de ${partsTranslation.map((part) => part.pt).join(', ')}`,
       fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
       de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
       nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
@@ -267,6 +270,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   }
   return {
     en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    pt: options.firstShot ? 'Plano Aproximado (parte)' : 'Plano Aproximado (dano)',
     fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
     de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
     nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',

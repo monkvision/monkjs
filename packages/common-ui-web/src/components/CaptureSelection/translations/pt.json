@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Relatar Danos",
+    "description": "Adicione fotos de amassados, arranhões ou outros danos presentes no veículo.",
+    "button": "Adicionar fotos de danos"
+  },
+  "capture": {
+    "title": "Iniciar Inspeção",
+    "description": "Não há amassados ou arranhões? Inspecione o veículo e tire fotos.",
+    "button": "Tirar fotos"
+  }
+}
