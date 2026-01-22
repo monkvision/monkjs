@@ -3,6 +3,7 @@ import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import { monkLanguages } from '@monkvision/types';
 import en from './translations/en.json';
+import es from './translations/es.json';
 import pt from './translations/pt.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
@@ -25,6 +26,7 @@ i18n
       nl: { translation: nl },
       it: { translation: it },
       pt: { translation: pt },
+      es: { translation: es },
     },
   })
   .catch(console.error);

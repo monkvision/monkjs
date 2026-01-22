@@ -6,7 +6,8 @@
     "de": "Rücksitze",
     "nl": "Achterbank",
     "it": "Sedili posteriori",
-    "pt": "Bancos Traseiros"
+    "pt": "Bancos Traseiros",
+    "es": "Asientos traseros"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
@@ -15,7 +16,8 @@
     "de": "Linke Vollansicht",
     "nl": "Mooie shot links",
     "it": "Foto panoramica sinistra",
-    "pt": "Foto de Beleza, Lado Esquerdo"
+    "pt": "Foto de Beleza, Lado Esquerdo",
+    "es": "Foto de detalle (lado izquierdo)"
   },
   "dashboard": {
     "key": "dashboard",
@@ -24,7 +26,8 @@
     "de": "Armaturenbrett",
     "nl": "Dashboard",
     "it": "Cruscotto",
-    "pt": "Painel"
+    "pt": "Painel",
+    "es": "Panel de control"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -33,7 +36,8 @@
     "de": "Armaturenbrett vom Rücksitz",
     "nl": "Dashboard vanaf achterbank",
     "it": "Cruscotto dalla parte posteriore",
-    "pt": "Painel traseiro"
+    "pt": "Painel traseiro",
+    "es": "Vista del tablero desde el asiento trasero"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -42,7 +46,8 @@
     "de": "Armaturenbrett vom Fahrersitz aus",
     "nl": "Dashboard vanaf bestuurdersstoel",
     "it": "Cruscotto dalla del conducente",
-    "pt": "Painel visto do banco do motorista"
+    "pt": "Painel visto do banco do motorista",
+    "es": "Vista del tablero desde el asiento del conductor"
   },
   "doors-left": {
     "key": "doors-left",
@@ -51,7 +56,8 @@
     "de": "Linke Tür",
     "nl": "Linkerdeuren",
     "it": "Porte sinistre",
-    "pt": "Portas (lado esquerdo)"
+    "pt": "Portas (lado esquerdo)",
+    "es": "Puertas (lado izquierdo)"
   },
   "doors-right": {
     "key": "doors-right",
@@ -60,7 +66,8 @@
     "de": "Gerade Türen",
     "nl": "Rechterdeuren",
     "it": "Porte destre",
-    "pt": "Portas, lado direito"
+    "pt": "Portas, lado direito",
+    "es": "Puertas, lado derecho"
   },
   "engine-left-side": {
     "key": "engine-left-side",
@@ -69,7 +76,8 @@
     "de": "Linker Motor",
     "nl": "Linkermotor",
     "it": "Motore lato sinistro",
-    "pt": "Lado esquerdo do motor"
+    "pt": "Lado esquerdo do motor",
+    "es": "Lado izquierdo del motor"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -78,7 +86,8 @@
     "de": "Rechter Motor",
     "nl": "Rechtermotor",
     "it": "Motore lato destro",
-    "pt": "Lado direito do motor"
+    "pt": "Lado direito do motor",
+    "es": "Lado derecho del motor"
   },
   "front": {
     "key": "front",
@@ -87,7 +96,8 @@
     "de": "Vorderseite",
     "nl": "Voorzijde",
     "it": "Parte anteriore",
-    "pt": "Dianteiro"
+    "pt": "Dianteiro",
+    "es": "Delantero"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
@@ -96,7 +106,8 @@
     "de": "Stoßstange vorne links",
     "nl": "Voorbumper links",
     "it": "Paraurti anteriore lato sinistro",
-    "pt": "Lado esquerdo do para-choque dianteiro"
+    "pt": "Lado esquerdo do para-choque dianteiro",
+    "es": "Lado izquierdo del parachoques delantero"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -105,7 +116,8 @@
     "de": "Stoßstange vorne rechts",
     "nl": "Voorbumper rechts",
     "it": "Paraurti anteriore lato destro",
-    "pt": "Lado direito do para-choque dianteiro"
+    "pt": "Lado direito do para-choque dianteiro",
+    "es": "Lado derecho del parachoques delantero"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -114,7 +126,8 @@
     "de": "Tür vorne links",
     "nl": "Voordeur links",
     "it": "Porta anteriore sinistra",
-    "pt": "Porta dianteira esquerda"
+    "pt": "Porta dianteira esquerda",
+    "es": "Puerta delantera izquierda"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -123,7 +136,8 @@
     "de": "Vordertür rechts",
     "nl": "Voordeur rechts",
     "it": "Porta anteriore destra",
-    "pt": "Porta dianteira direita"
+    "pt": "Porta dianteira direita",
+    "es": "Puerta delantera derecha"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -132,7 +146,8 @@
     "de": "Vorne links",
     "nl": "Linksvoor",
     "it": "Anteriore sinistro",
-    "pt": "Frente esquerda"
+    "pt": "Frente esquerda",
+    "es": "Delantero izquierdo"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -141,7 +156,8 @@
     "de": "Vorne rechts",
     "nl": "Rechtsvoor",
     "it": "Anteriore destro",
-    "pt": "Dianteira direita"
+    "pt": "Dianteira direita",
+    "es": "Delantero derecho"
   },
   "front-lateral-full-right": {
     "key": "front-lateral-full-right",
@@ -150,7 +166,8 @@
     "de": "Vorne rechts",
     "nl": "Volledige voorkant rechts",
     "it": "Anteriore destra completa",
-    "pt": "Lateral frontal direita"
+    "pt": "Lateral frontal direita",
+    "es": "Delantero completo, lado derecho"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -159,7 +176,8 @@
     "de": "Vorderseite seitlich links",
     "nl": "Voorzijde zijwaarts links",
     "it": "Anteriore laterale sinistra",
-    "pt": "Lateral frontal esquerdo"
+    "pt": "Lateral frontal esquerdo",
+    "es": "Lateral frontal izquierdo"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
@@ -168,7 +186,8 @@
     "de": "Vorne Seitlich Niedrig Links",
     "nl": "Voorzijde zijwaarts laag links",
     "it": "Anteriore laterale inferiore sinistro",
-    "pt": "Lateral inferior frontal esquerdo"
+    "pt": "Lateral inferior frontal esquerdo",
+    "es": "Lateral inferior frontal izquierdo"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -177,7 +196,8 @@
     "de": "Vorne Seitlich Niedrig Rechts",
     "nl": "Voorzijde zijwaarts laag rechts",
     "it": "Anteriore laterale inferiore destro",
-    "pt": "Lateral frontal inferior direito"
+    "pt": "Lateral frontal inferior direito",
+    "es": "Lateral inferior derecho (frontal)"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -186,7 +206,8 @@
     "de": "Vorderseite seitlich rechts",
     "nl": "Voorzijde zijwaarts rechts",
     "it": "Anteriore laterale destra",
-    "pt": "Lateral frontal direita"
+    "pt": "Lateral frontal direita",
+    "es": "Lateral derecho frontal"
   },
   "front-low": {
     "key": "front-low",
@@ -195,7 +216,8 @@
     "de": "Vorderseite Niedrig",
     "nl": "Voorzijde laag",
     "it": "Parte anteriore bassa",
-    "pt": "Inferior frontal"
+    "pt": "Inferior frontal",
+    "es": "Parte inferior frontal"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -204,7 +226,8 @@
     "de": "Dach vorne links",
     "nl": "Voorzijde dak links",
     "it": "Tetto anteriore sinistro",
-    "pt": "Teto dianteiro esquerdo"
+    "pt": "Teto dianteiro esquerdo",
+    "es": "Techo delantero izquierdo"
   },
   "front-seats": {
     "key": "front-seats",
@@ -213,7 +236,8 @@
     "de": "Vordersitze",
     "nl": "Voorstoelen",
     "it": "Sedili anteriori",
-    "pt": "Bancos dianteiros"
+    "pt": "Bancos dianteiros",
+    "es": "Asientos delanteros"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -222,7 +246,8 @@
     "de": "Vorderes Fahrwerk",
     "nl": "Voorzijde onderstel",
     "it": "Sottoscocca anteriore",
-    "pt": "Parte Inferior Frontal"
+    "pt": "Parte Inferior Frontal",
+    "es": "Parte inferior delantera"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
@@ -231,7 +256,8 @@
     "de": "Vorderrad links",
     "nl": "Voorwiel links",
     "it": "Ruota anteriore sinistra",
-    "pt": "Roda dianteira esquerda"
+    "pt": "Roda dianteira esquerda",
+    "es": "Rueda delantera izquierda"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
@@ -240,7 +266,8 @@
     "de": "Rechtes Vorderrad",
     "nl": "Voorwiel rechts",
     "it": "Ruota anteriore destra",
-    "pt": "Roda dianteira direita"
+    "pt": "Roda dianteira direita",
+    "es": "Rueda delantera derecha"
   },
   "hood": {
     "key": "hood",
@@ -249,7 +276,8 @@
     "de": "Abdeckhaube",
     "nl": "Motorkap",
     "it": "Cofano",
-    "pt": "Capô"
+    "pt": "Capô",
+    "es": "Capó"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -258,7 +286,8 @@
     "de": "Motorhaube / Windschutzscheibe",
     "nl": "Motorkap / voorruit",
     "it": "Cofano / parabrezza",
-    "pt": "Capô / Para-brisa"
+    "pt": "Capô / Para-brisa",
+    "es": "Capó / Parabrisas"
   },
   "interior-roof": {
     "key": "interior-roof",
@@ -267,7 +296,8 @@
     "de": "Innen Dach",
     "nl": "Interieur dak",
     "it": "Tetto interno",
-    "pt": "Teto interno"
+    "pt": "Teto interno",
+    "es": "Techo interior"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
@@ -276,7 +306,8 @@
     "de": "Vollständig links",
     "nl": "Volledig links",
     "it": "Completamente a sinistra",
-    "pt": "Totalmente à esquerda"
+    "pt": "Totalmente à esquerda",
+    "es": "Todo a la izquierda"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -285,7 +316,8 @@
     "de": "Volles Recht",
     "nl": "Volledig rechts",
     "it": "Completamente a destra",
-    "pt": "Direita completa"
+    "pt": "Direita completa",
+    "es": "Extremo derecho"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -294,7 +326,8 @@
     "de": "Linke Seite",
     "nl": "Zijwaarts links",
     "it": "Laterale sinistra",
-    "pt": "Lateral esquerdo"
+    "pt": "Lateral esquerdo",
+    "es": "Lateral izquierdo"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
@@ -303,7 +336,8 @@
     "de": "Seitlich tief links",
     "nl": "Zijwaarts laag links",
     "it": "Laterale bassa sinistra",
-    "pt": "Lateral inferior esquerdo"
+    "pt": "Lateral inferior esquerdo",
+    "es": "Lateral inferior izquierdo"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
@@ -312,7 +346,8 @@
     "de": "Seitlich Niedrig Rechts",
     "nl": "Zijwaarts laag rechts",
     "it": "Laterale bassa destra",
-    "pt": "Lateral inferior direito"
+    "pt": "Lateral inferior direito",
+    "es": "Lateral inferior derecho"
   },
   "left-front-door": {
     "key": "left-front-door",
@@ -321,7 +356,8 @@
     "de": "Tür vorne links",
     "nl": "Linker voordeur",
     "it": "Porta anteriore sinistra",
-    "pt": "Porta dianteira esquerda"
+    "pt": "Porta dianteira esquerda",
+    "es": "Puerta delantera izquierda"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -330,7 +366,8 @@
     "de": "Offene Truhe",
     "nl": "Opengeklapte koffer",
     "it": "Bagagliaio aperto",
-    "pt": "Abrir porta-malas"
+    "pt": "Abrir porta-malas",
+    "es": "Abrir maletero"
   },
   "rear": {
     "key": "rear",
@@ -339,7 +376,8 @@
     "de": "Hinten",
     "nl": "Achterkant",
     "it": "Parte posteriore",
-    "pt": "Traseira"
+    "pt": "Traseira",
+    "es": "Trasero"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -348,7 +386,8 @@
     "de": "Stoßstange hinten links",
     "nl": "Achterbumper links",
     "it": "Posteriore lato sinistro",
-    "pt": "Lado esquerdo da parte traseira do para-choque"
+    "pt": "Lado esquerdo da parte traseira do para-choque",
+    "es": "Lado izquierdo del parachoques trasero"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
@@ -357,7 +396,8 @@
     "de": "Stoßstange hinten rechts",
     "nl": "Achterbumper rechts",
     "it": "Posteriore lato destro",
-    "pt": "Para-choque Traseiro, Lateral Direita"
+    "pt": "Para-choque Traseiro, Lateral Direita",
+    "es": "Parachoques trasero, lado derecho"
   },
   "rear-door-left": {
     "key": "rear-door-left",
@@ -366,7 +406,8 @@
     "de": "Tür hinten links",
     "nl": "Achterdeur links",
     "it": "Porta posteriore sinistra",
-    "pt": "Porta Traseira Esquerda"
+    "pt": "Porta Traseira Esquerda",
+    "es": "Puerta trasera izquierda"
   },
   "rear-door-right": {
     "key": "rear-door-right",
@@ -375,7 +416,8 @@
     "de": "Tür hinten rechts",
     "nl": "Achterdeur rechts",
     "it": "Porta posteriore destra",
-    "pt": "Porta traseira direita"
+    "pt": "Porta traseira direita",
+    "es": "Puerta trasera derecha"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
@@ -384,7 +426,8 @@
     "de": "Kotflügel hinten links",
     "nl": "Achterkant spatbord links",
     "it": "Parafango posteriore sinistro",
-    "pt": "Para-lama Traseiro Esquerdo"
+    "pt": "Para-lama Traseiro Esquerdo",
+    "es": "Guardabarros trasero izquierdo"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
@@ -393,7 +436,8 @@
     "de": "Kotflügel hinten rechts",
     "nl": "Achterkant spatbord rechts",
     "it": "Parafango posteriore destro",
-    "pt": "Para-lama Traseiro Direito"
+    "pt": "Para-lama Traseiro Direito",
+    "es": "Guardabarros trasero derecho"
   },
   "rear-lateral-full-left": {
     "key": "rear-lateral-full-left",
@@ -402,7 +446,8 @@
     "de": "Hinten ganz links",
     "nl": "Achterkant volledig links",
     "it": "Posteriore completamente a sinistra",
-    "pt": "Traseira, lado esquerdo"
+    "pt": "Traseira, lado esquerdo",
+    "es": "Trasera completa izquierda"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -411,7 +456,8 @@
     "de": "Hinten ganz rechts",
     "nl": "Achterkant volledig rechts",
     "it": "Posteriore completamente a destra",
-    "pt": "Traseira, lado direito"
+    "pt": "Traseira, lado direito",
+    "es": "Trasera, lado derecho"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -420,7 +466,8 @@
     "de": "Hinten seitlich links",
     "nl": "Achterkant zijwaarts links",
     "it": "Posteriore laterale sinistra",
-    "pt": "Lateral Traseira Esquerda"
+    "pt": "Lateral Traseira Esquerda",
+    "es": "Lateral trasero izquierdo"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -429,7 +476,8 @@
     "de": "Hinten Seitlich Niedrig Links",
     "nl": "Achterkant zijwaarts laag links",
     "it": "Posteriore laterale inferiore sinistro",
-    "pt": "Lateral inferior traseira esquerda"
+    "pt": "Lateral inferior traseira esquerda",
+    "es": "Lateral inferior trasero izquierdo"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -438,7 +486,8 @@
     "de": "Hinten Seitlich Niedrig Rechts",
     "nl": "Achterkant zijwaarts laag rechts",
     "it": "Posteriore laterale inferiore destro",
-    "pt": "Lateral Traseira Inferior Direita"
+    "pt": "Lateral Traseira Inferior Direita",
+    "es": "Lateral inferior derecho (parte trasera)"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
@@ -447,7 +496,8 @@
     "de": "Hinten seitlich rechts",
     "nl": "Achterkant zijwaarts rechts",
     "it": "Posteriore laterale destra",
-    "pt": "Lateral Traseira Direita"
+    "pt": "Lateral Traseira Direita",
+    "es": "Lateral trasero derecho"
   },
   "rear-left": {
     "key": "rear-left",
@@ -456,7 +506,8 @@
     "de": "Hinten links",
     "nl": "Achterkant links",
     "it": "Parte posteriore sinistra",
-    "pt": "Traseira esquerda"
+    "pt": "Traseira esquerda",
+    "es": "Trasero izquierdo"
   },
   "rear-low": {
     "key": "rear-low",
@@ -465,7 +516,8 @@
     "de": "Hinten Niedrig",
     "nl": "Achterkant laag",
     "it": "Parte posteriore bassa",
-    "pt": "Inferior Traseiro"
+    "pt": "Inferior Traseiro",
+    "es": "Parte trasera baja"
   },
   "rear-right": {
     "key": "rear-right",
@@ -474,7 +526,8 @@
     "de": "Hinten rechts",
     "nl": "Achterkant rechts",
     "it": "Parte posteriore destra",
-    "pt": "Traseira direita"
+    "pt": "Traseira direita",
+    "es": "Trasero derecho"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -483,7 +536,8 @@
     "de": "Hinteres Dach",
     "nl": "Achterkant dak",
     "it": "Tetto posteriore",
-    "pt": "Teto Traseiro"
+    "pt": "Teto Traseiro",
+    "es": "Techo trasero"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
@@ -492,7 +546,8 @@
     "de": "Hinteres Dach rechts",
     "nl": "Achterkant dak rechts",
     "it": "Tetto posteriore destro",
-    "pt": "Teto Traseiro Direito"
+    "pt": "Teto Traseiro Direito",
+    "es": "Techo trasero derecho"
   },
   "rear-seats": {
     "key": "rear-seats",
@@ -501,7 +556,8 @@
     "de": "Rücksitze",
     "nl": "Achterbank",
     "it": "Sedili posteriori",
-    "pt": "Bancos Traseiros"
+    "pt": "Bancos Traseiros",
+    "es": "Asientos traseros"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -510,7 +566,8 @@
     "de": "Hinten oben links",
     "nl": "Achterkant omhoog links",
     "it": "Posteriore in alto a sinistra",
-    "pt": "Superior esquerdo traseiro"
+    "pt": "Superior esquerdo traseiro",
+    "es": "Parte trasera, arriba a la izquierda"
   },
   "rear-up-right": {
     "key": "rear-up-right",
@@ -519,7 +576,8 @@
     "de": "Hinten oben rechts",
     "nl": "Achterkant omhoog rechts",
     "it": "Posteriore in alto a destra",
-    "pt": "Superior Traseiro Direito"
+    "pt": "Superior Traseiro Direito",
+    "es": "Superior derecho trasero"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
@@ -528,7 +586,8 @@
     "de": "Linkes Hinterrad",
     "nl": "Achterwiel links",
     "it": "Ruota posteriore sinistra",
-    "pt": "Roda Traseira Esquerda"
+    "pt": "Roda Traseira Esquerda",
+    "es": "Rueda trasera izquierda"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
@@ -537,7 +596,8 @@
     "de": "Linkes Hinterrad",
     "nl": "Achterwiel rechts",
     "it": "Ruota posteriore destra",
-    "pt": "Roda Traseira Direita"
+    "pt": "Roda Traseira Direita",
+    "es": "Rueda trasera derecha"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
@@ -546,7 +606,8 @@
     "de": "Gezoomter Hinterkopf",
     "nl": "Achterkant ingezoomd",
     "it": "Parte posteriore zoomata",
-    "pt": "Zoom da parte traseira"
+    "pt": "Zoom da parte traseira",
+    "es": "Zoom trasero"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
@@ -555,7 +616,8 @@
     "de": "Schwellerverkleidung links",
     "nl": "Drempelpaneel links",
     "it": "Pannello laterale sinistro",
-    "pt": "Painel Lateral Esquerdo"
+    "pt": "Painel Lateral Esquerdo",
+    "es": "Panel inferior izquierdo"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
@@ -564,7 +626,8 @@
     "de": "Schwellerverkleidung hinten links",
     "nl": "Achterste drempelpaneel links",
     "it": "Pannello laterale posteriore sinistro",
-    "pt": "Painel Lateral Traseiro Esquerdo"
+    "pt": "Painel Lateral Traseiro Esquerdo",
+    "es": "Panel inferior trasero izquierdo"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
@@ -573,7 +636,8 @@
     "de": "Schwellerverkleidung rechts",
     "nl": "Drempelpaneel rechts",
     "it": "Pannello laterale destro",
-    "pt": "Para-choque Lateral Direito"
+    "pt": "Para-choque Lateral Direito",
+    "es": "Panel inferior derecho"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
@@ -582,7 +646,8 @@
     "de": "Schwellerverkleidung hinten rechts",
     "nl": "Achterste drempelpaneel rechts",
     "it": "Pannello laterale posteriore destro",
-    "pt": "Painel Lateral Traseiro Direito"
+    "pt": "Painel Lateral Traseiro Direito",
+    "es": "Panel inferior trasero derecho"
   },
   "trunk": {
     "key": "trunk",
@@ -591,7 +656,8 @@
     "de": "Kofferraum",
     "nl": "Kofferbak",
     "it": "Bagagliaio",
-    "pt": "Porta-malas"
+    "pt": "Porta-malas",
+    "es": "Maletero"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -600,7 +666,8 @@
     "de": "Kofferraum Linke Seite",
     "nl": "Linkerkant kofferbak",
     "it": "Lato sinistro del bagagliaio",
-    "pt": "Lado esquerdo do porta-malas"
+    "pt": "Lado esquerdo do porta-malas",
+    "es": "Lado izquierdo del maletero"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
@@ -609,7 +676,8 @@
     "de": "Kofferraum Rechte Seite",
     "nl": "Rechterkant kofferbak",
     "it": "Lato destro del bagagliaio",
-    "pt": "Lado direito do porta-malas"
+    "pt": "Lado direito do porta-malas",
+    "es": "Lado derecho del maletero"
   },
   "vin": {
     "key": "vin",
@@ -618,7 +686,8 @@
     "de": "VIN",
     "nl": "VIN",
     "it": "VIN",
-    "pt": "VIN"
+    "pt": "VIN",
+    "es": "VIN"
   },
   "windshield": {
     "key": "windshield",
@@ -627,7 +696,8 @@
     "de": "Windschutzscheibe",
     "nl": "Voorruit",
     "it": "Parabrezza",
-    "pt": "Para-brisa"
+    "pt": "Para-brisa",
+    "es": "Parabrisas"
   },
   "hatchback": {
     "key": "hatchback",
@@ -636,7 +706,8 @@
     "de": "Schrägheck",
     "nl": "Hatchback",
     "it": "Hatchback",
-    "pt": "Hatchback"
+    "pt": "Hatchback",
+    "es": "Hatchback"
   },
   "cuv": {
     "key": "cuv",
@@ -645,7 +716,8 @@
     "de": "CUV",
     "nl": "CUV",
     "it": "CUV",
-    "pt": "CUV"
+    "pt": "CUV",
+    "es": "CUV"
   },
   "pickup": {
     "key": "pickup",
@@ -654,7 +726,8 @@
     "de": "Pickup",
     "nl": "Pickup",
     "it": "Pickup",
-    "pt": "Retirada"
+    "pt": "Retirada",
+    "es": "Recogida"
   },
   "city": {
     "key": "city",
@@ -663,7 +736,8 @@
     "de": "Stadtauto",
     "nl": "Stadswagen",
     "it": "Città",
-    "pt": "Cidade"
+    "pt": "Cidade",
+    "es": "Ciudad"
   },
   "van": {
     "key": "van",
@@ -672,7 +746,8 @@
     "de": "Van",
     "nl": "Bestelwagen",
     "it": "Furgone",
-    "pt": "Van"
+    "pt": "Van",
+    "es": "Furgoneta"
   },
   "sedan": {
     "key": "sedan",
@@ -681,7 +756,8 @@
     "de": "Limousine",
     "nl": "Sedan",
     "it": "Berlina",
-    "pt": "Sedan"
+    "pt": "Sedan",
+    "es": "Sedán"
   },
   "large-suv": {
     "key": "large-suv",
@@ -690,7 +766,8 @@
     "de": "Großen Geländewagen",
     "nl": "Grote SUV",
     "it": "Grande SUV",
-    "pt": "SUV Grande"
+    "pt": "SUV Grande",
+    "es": "SUV grande"
   },
   "minivan": {
     "key": "minivan",
@@ -699,7 +776,8 @@
     "de": "Minivan",
     "nl": "Minivan",
     "it": "Monovolume",
-    "pt": "Minivan"
+    "pt": "Minivan",
+    "es": "Minivan"
   },
   "suv": {
     "key": "suv",
@@ -708,7 +786,8 @@
     "de": "Geländewagen",
     "nl": "SUV",
     "it": "SUV",
-    "pt": "SUV"
+    "pt": "SUV",
+    "es": "SUV"
   },
   "hgv": {
     "key": "hgv",
@@ -717,7 +796,8 @@
     "de": "HGV",
     "nl": "HGV",
     "it": "HGV",
-    "pt": "Veículo pesado"
+    "pt": "Veículo pesado",
+    "es": "Vehículo pesado"
   },
   "front-left-tire": {
     "key": "front-left-tire",
@@ -726,7 +806,8 @@
     "de": "Vorderer linker Reifen",
     "nl": "Voorband links",
     "it": "Pneumatico anteriore sinistro",
-    "pt": "Pneu dianteiro esquerdo"
+    "pt": "Pneu dianteiro esquerdo",
+    "es": "Neumático delantero izquierdo"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -735,7 +816,8 @@
     "de": "Vorderer rechter Reifen",
     "nl": "Voorband rechts",
     "it": "Pneumatico anteriore destro",
-    "pt": "Pneu dianteiro direito"
+    "pt": "Pneu dianteiro direito",
+    "es": "Neumático delantero derecho"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -744,7 +826,8 @@
     "de": "Hinterer linker Reifen",
     "nl": "Achterband links",
     "it": "Pneumatico posteriore sinistro",
-    "pt": "Pneu traseiro esquerdo"
+    "pt": "Pneu traseiro esquerdo",
+    "es": "Neumático trasero izquierdo"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -753,7 +836,8 @@
     "de": "Hinterer rechter Reifen",
     "nl": "Achterband rechts",
     "it": "Pneumatico posteriore destro",
-    "pt": "Pneu traseiro direito"
+    "pt": "Pneu traseiro direito",
+    "es": "Neumático trasero derecho"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -762,7 +846,8 @@
     "de": "Armaturenbrett Bildschirm",
     "nl": "Dashboard scherm",
     "it": "Schermo del cruscotto",
-    "pt": "Tela do painel"
+    "pt": "Tela do painel",
+    "es": "Pantalla del panel de instrumentos"
   },
   "keys": {
     "key": "keys",
@@ -771,7 +856,8 @@
     "de": "Tasten",
     "nl": "Sleutels",
     "it": "Chiavi",
-    "pt": "Chaves"
+    "pt": "Chaves",
+    "es": "Llaves"
   },
   "card-keys": {
     "key": "card-keys",
@@ -780,7 +866,8 @@
     "de": "Kartenschlüssel",
     "nl": "Kaartsleutels",
     "it": "Chiavi a scheda",
-    "pt": "Chaves do cartão"
+    "pt": "Chaves do cartão",
+    "es": "Llaves de tarjeta"
   },
   "front-left-penny-test": {
     "key": "front-left-penny-test",
@@ -789,7 +876,8 @@
     "de": "Penny-Test vorne links",
     "nl": "Penny Test vooraan links",
     "it": "Test di Penny anteriore sinistra",
-    "pt": "Teste da moeda – lado esquerdo dianteiro"
+    "pt": "Teste da moeda – lado esquerdo dianteiro",
+    "es": "Prueba de la moneda, lado delantero izquierdo"
   },
   "front-right-penny-test": {
     "key": "front-right-penny-test",
@@ -798,7 +886,8 @@
     "de": "Penny-Test vorne rechts",
     "nl": "Penny Test vooraan rechts",
     "it": "Test di Penny anteriore destra",
-    "pt": "Teste da moeda, lado direito da frente"
+    "pt": "Teste da moeda, lado direito da frente",
+    "es": "Prueba de la moneda, lado derecho delantero"
   },
   "rear-left-penny-test": {
     "key": "rear-left-penny-test",
@@ -807,7 +896,8 @@
     "de": "Penny-Test hinten links",
     "nl": "Penny Test achteraan links",
     "it": "Test di Penny posteriore sinistra",
-    "pt": "Teste da moeda, lado esquerdo traseiro"
+    "pt": "Teste da moeda, lado esquerdo traseiro",
+    "es": "Prueba de desgaste trasero izquierdo"
   },
   "rear-right-penny-test": {
     "key": "rear-right-penny-test",
@@ -816,6 +906,7 @@
     "de": "Penny-Test hinten rechts",
     "nl": "Penny Test achteraan rechts",
     "it": "Test di Penny posteriore destra",
-    "pt": "Teste da moeda, traseira direita"
+    "pt": "Teste da moeda, traseira direita",
+    "es": "Prueba de desgaste trasero derecho"
   }
 }

@@ -6,6 +6,7 @@ describe('Camera error utils', () => {
       Object.values(UserMediaErrorType).forEach((type) => {
         expect(getCameraErrorLabel(type)).toEqual({
           en: expect.any(String),
+          es: expect.any(String),
           pt: expect.any(String),
           fr: expect.any(String),
           de: expect.any(String),
@@ -18,6 +19,7 @@ describe('Camera error utils', () => {
     it('should return an error label for unknown error types', () => {
       expect(getCameraErrorLabel('test' as UserMediaErrorType)).toEqual({
         en: expect.any(String),
+        es: expect.any(String),
         pt: expect.any(String),
         fr: expect.any(String),
         de: expect.any(String),
@@ -29,6 +31,7 @@ describe('Camera error utils', () => {
     it('should return an error label even when provided nothing', () => {
       expect(getCameraErrorLabel()).toEqual({
         en: expect.any(String),
+        es: expect.any(String),
         pt: expect.any(String),
         fr: expect.any(String),
         de: expect.any(String),

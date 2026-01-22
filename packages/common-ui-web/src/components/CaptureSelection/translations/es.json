@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Informar daños",
+    "description": "Agregue fotos de abolladuras, rayones u otros daños presentes en el vehículo.",
+    "button": "Agregar fotos de daños"
+  },
+  "capture": {
+    "title": "Iniciar inspección",
+    "description": "¿No hay abolladuras ni arañazos? Recorra el vehículo y tome fotografías.",
+    "button": "Tomar fotos"
+  }
+}

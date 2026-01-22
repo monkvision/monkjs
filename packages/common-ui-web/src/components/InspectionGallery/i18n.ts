@@ -1,5 +1,6 @@
 import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
+import es from './translations/es.json';
 import pt from './translations/pt.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
@@ -14,6 +15,7 @@ const i18nInspectionGallery = i18nCreateSDKInstance({
     nl: { translation: nl },
     it: { translation: it },
     pt: { translation: pt },
+    es: { translation: es },
   },
 });
 
