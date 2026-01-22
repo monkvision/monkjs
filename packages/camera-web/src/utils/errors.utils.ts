@@ -10,6 +10,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.NOT_ALLOWED:
       return {
         en: 'Camera preview unavailable because camera access was not granted to the page.',
+        da: 'Kameraforhåndsvisning er ikke tilgængelig, fordi kameraadgang ikke blev givet til siden.',
         sv: 'Kameraview är inte tillgänglig eftersom sidan inte har tillgång till kameran.',
         es: 'La vista previa de la cámara no está disponible porque no se concedió permiso de acceso a la cámara a la página.',
         pt: 'A visualização da câmera não está disponível porque o acesso à câmera não foi concedido à página.',
@@ -21,6 +22,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.WEBPAGE_NOT_ALLOWED:
       return {
         en: 'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
+        da: 'Kunne ikke få adgang til kameraet. Sørg for at trykke på “Tillad”, når du bliver bedt om at give tilladelse til kameraadgang for denne webside.',
         sv: 'Kunde inte få åtkomst till kameran. Se till att du trycker på ”Tillåt” när du blir ombedd att ge kameratillstånd för den här webbsidan.”',
         es: 'No se pudo acceder a la cámara. Asegúrese de presionar “Permitir” cuando se le solicite conceder permiso de cámara para esta página web.',
         pt: 'Não foi possível obter acesso à câmera. Certifique-se de pressionar “Permitir” quando solicitado a conceder permissão para a câmera nesta página.',
@@ -32,6 +34,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
       return {
         en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
+        da: "Kunne ikke få adgang til kameraet. Sørg for at give kameraadgang til din aktuelle webbrowser i dine enhedsindstillinger.",
         sv: "Kunde inte få åtkomst till kameran. Se till att du har tillåtit kameraåtkomst för din webbläsare i enheten.",
         es: "No se pudo acceder a la cámara. Asegúrese de otorgar permisos de cámara a su navegador web actual en la configuración de su dispositivo.",
         pt: "Não foi possível obter acesso à câmera. Certifique-se de conceder acesso à câmera ao seu navegador atual nas configurações do dispositivo.",
@@ -43,6 +46,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
         en: 'The camera video stream was closed unexpectedly.',
+        da: 'Kameraets videostream blev uventet lukket.',
         sv: 'Kamerans videoström stängdes oväntat.',
         es: 'La transmisión de video de la cámara se cerró inesperadamente.',
         pt: 'O stream de vídeo da câmera foi encerrado inesperadamente.',
@@ -54,6 +58,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.INVALID_STREAM:
       return {
         en: 'Unable to process the camera video stream.',
+        da: 'Kunne ikke behandle videostrømmen fra kameraet.',
         sv: 'Kunde inte bearbeta kamerans videoström.',
         es: 'No se puede procesar la transmisión de video de la cámara.',
         pt: 'Não foi possível processar o stream de vídeo da câmera.',
@@ -65,6 +70,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     default:
       return {
         en: 'An unexpected error occurred when fetching the camera video stream.',
+        da: 'Der opstod en uventet fejl under hentning af kameravideostrømmen.',
         sv: 'Ett oväntat fel uppstod när kamerans videoström hämtades.',
         es: 'Se produjo un error inesperado al obtener la transmisión de video de la cámara.',
         pt: 'Ocorreu um erro inesperado ao obter o stream de vídeo da câmera.',

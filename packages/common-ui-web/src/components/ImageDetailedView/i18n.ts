@@ -1,5 +1,6 @@
 import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
+import da from './translations/da.json';
 import sv from './translations/sv.json';
 import es from './translations/es.json';
 import pt from './translations/pt.json';
@@ -22,6 +23,7 @@ const i18nImageDetailedView = i18nCreateSDKInstance({
     pt: { translation: pt },
     es: { translation: es },
     sv: { translation: sv },
+    da: { translation: da },
   },
 });
 

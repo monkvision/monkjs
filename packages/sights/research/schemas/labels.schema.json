@@ -16,6 +16,9 @@
         "en": {
           "type": "string"
         },
+        "da": {
+          "type": "string"
+        },
         "sv": {
           "type": "string"
         },
@@ -41,7 +44,8 @@
       "required": ["key", "en", "fr", "de", "nl", "it",
         "pt",
         "es",
-        "sv"],
+        "sv",
+        "da"],
       "unevaluatedProperties": false
     }
   },

@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Log ind",
+    "log-out": "Log ud"
+  },
+  "errors": {
+    "popup-closed": "Ups! Vi kunne ikke logge dig ind, fordi popup-vinduet blev lukket. Lad os prøve igen!",
+    "token-expired": "Din autentificeringstoken er udløbet. Log ind igen.",
+    "insufficient-authorization": "Du har ikke de nødvendige tilladelser til at bruge denne applikation. Log ud, og brug en anden konto.",
+    "unknown": "Ups! Der opstod en uventet fejl under login. Lad os prøve igen!",
+    "missing-token": "URL-adressen, du forsøger at få adgang til, er ugyldig."
+  }
+}
