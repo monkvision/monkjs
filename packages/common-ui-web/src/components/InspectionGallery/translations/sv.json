@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Lägg till anpassad skada"
+  },
+  "topBar": {
+    "submit": "Verifiera",
+    "title": "Bilder",
+    "retakeFilter": "Omtagningar",
+    "approvedFilter": "Godkänt",
+    "completed": "Den här inspektionen är slutförd."
+  },
+  "list": {
+    "empty": {
+      "capture": "Inga bilder ännu. Bilder du tar kommer att visas här.",
+      "nonCapture": "Det finns inga bilder i den här inspektionen.",
+      "filter": "Inga resultat hittades för det valda filtret."
+    }
+  }
+}

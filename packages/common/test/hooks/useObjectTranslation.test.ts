@@ -5,6 +5,7 @@ import { useObjectTranslation } from '../../src';
 
 const obj = {
   en: 'Hello',
+  sv: 'Hej',
   es: 'Hola',
   pt: 'Olá',
   fr: 'Bonjour',

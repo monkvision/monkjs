@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Rapportera skada",
+    "description": "Lägg till bilder på bucklor, repor eller andra skador på fordonet.",
+    "button": "Lägg till bilder på skador"
+  },
+  "capture": {
+    "title": "Starta inspektion",
+    "description": "Inga bucklor eller repor? Gå runt bilen och ta bilder.",
+    "button": "Ta bilder"
+  }
+}

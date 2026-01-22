@@ -16,6 +16,9 @@
         "en": {
           "type": "string"
         },
+        "sv": {
+          "type": "string"
+        },
         "es": {
           "type": "string"
         },
@@ -37,7 +40,8 @@
       },
       "required": ["key", "en", "fr", "de", "nl", "it",
         "pt",
-        "es"],
+        "es",
+        "sv"],
       "unevaluatedProperties": false
     }
   },

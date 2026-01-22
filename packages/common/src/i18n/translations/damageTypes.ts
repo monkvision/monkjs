@@ -6,6 +6,7 @@ import { DamageType, TranslationObject } from '@monkvision/types';
 export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   [DamageType.SCRATCH]: {
     en: 'Scratch',
+    sv: 'Repa',
     es: 'Arañazo',
     pt: 'Arranhão',
     fr: 'Rayure',
@@ -15,6 +16,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.DENT]: {
     en: 'Dent',
+    sv: 'buckla',
     es: 'Abolladura',
     pt: 'Amassado',
     fr: 'Bosse',
@@ -24,6 +26,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BROKEN_GLASS]: {
     en: 'Broken Glass',
+    sv: 'Trasigt glas',
     es: 'Vidrio roto',
     pt: 'Vidro Quebrado',
     fr: 'Bris de glace',
@@ -33,6 +36,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BROKEN_LIGHT]: {
     en: 'Broken Light',
+    sv: 'Trasigt ljus',
     es: 'Luz rota',
     pt: 'Luz Quebrada',
     fr: 'Feu cassé',
@@ -42,6 +46,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.HUBCAP_SCRATCH]: {
     en: 'Hubcap Scratch',
+    sv: 'Navkapsrepa',
     es: 'Arañazo en la tapacubos',
     pt: 'Arranhão na calota',
     fr: 'Enjoliveur rayé',
@@ -51,6 +56,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSING_HUBCAP]: {
     en: 'Missing Hubcap',
+    sv: 'Saknad navkapsel',
     es: 'Tapa de rueda faltante',
     pt: 'Calota ausente',
     fr: 'Enjoliveur manquant',
@@ -60,6 +66,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SMASH]: {
     en: 'Smash',
+    sv: 'Krasch',
     es: 'Aplastar',
     pt: 'Esmague',
     fr: 'Collision',
@@ -69,6 +76,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BODY_CRACK]: {
     en: 'Body Crack',
+    sv: 'Karosspricka',
     es: 'Grieta en la carrocería',
     pt: 'Rachadura na carroceria',
     fr: 'Fissure dans la carrosserie',
@@ -78,6 +86,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSING_PIECE]: {
     en: 'Missing Piece',
+    sv: 'Saknas',
     es: 'Pieza faltante',
     pt: 'Peça ausente',
     fr: 'Pièce manquante',
@@ -87,6 +96,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.RUSTINESS]: {
     en: 'Rustiness',
+    sv: 'Rost',
     es: 'Oxidación',
     pt: 'Corrosão',
     fr: 'Rouille',
@@ -96,6 +106,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.DIRT]: {
     en: 'Dirt',
+    sv: 'smuts',
     es: 'Suciedad',
     pt: 'Sujeira',
     fr: 'Saleté',
@@ -105,6 +116,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSHAPE]: {
     en: 'Misshape',
+    sv: 'missformning',
     es: 'Deformación',
     pt: 'Deformação',
     fr: 'Forme irrégulière',
@@ -114,6 +126,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.PAINT_PEELING]: {
     en: 'Paint Peeling',
+    sv: 'Färgflagar',
     es: 'Desprendimiento de pintura',
     pt: 'Descascamento da tinta',
     fr: 'Peinture écaillée',
@@ -123,6 +136,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SCATTERED_SCRATCHES]: {
     en: 'Scattered Scratches',
+    sv: 'Spridda repor',
     es: 'Arañazos dispersos',
     pt: 'Arranhões dispersos',
     fr: 'Rayures éparses',
@@ -132,6 +146,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.LIGHT_REFLECTION]: {
     en: 'Light Reflection',
+    sv: 'Ljusreflektion',
     es: 'Reflejo de luz',
     pt: 'Reflexo de luz',
     fr: 'Réflexion de la lumière',
@@ -141,6 +156,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SHADOW]: {
     en: 'Shadow',
+    sv: 'Skugga',
     es: 'Sombra',
     pt: 'Sombra',
     fr: 'Ombre',
@@ -150,6 +166,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.CAR_CURVE]: {
     en: 'Car Curve',
+    sv: 'Bilkurva',
     es: 'Curva del vehículo',
     pt: 'Curva do carro',
     fr: 'Courbe de la voiture',
@@ -159,6 +176,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.PAINT_DAMAGE]: {
     en: 'Paint Damage',
+    sv: 'Lackskada',
     es: 'Daños en la pintura',
     pt: 'Danos na Pintura',
     fr: 'Dégât sur la peinture',
