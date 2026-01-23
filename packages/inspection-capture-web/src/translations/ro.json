@@ -10,7 +10,7 @@
       },
       "addDamage": {
         "cancelBtn": "Anulează",
-        "damagedPartCounter": "1 / 2 • Component deteriorat",
+        "damagedPartCounter": "1 / 2 • Componentă deteriorată",
         "closeupPictureCounter": "2 / 2 • Imagine detaliată",
         "infoBtn": "Țintiți cu indicatorul spre zona deteriorată, apoi atingeți butonul de declanșare.",
         "infoCloseup": "Faceți o fotografie detaliată a zonei afectate.",
@@ -38,13 +38,13 @@
       "tutorial": {
         "welcome": "Bun venit la prima inspecție!",
         "title": "Cum se folosește",
-        "guideline": "Parcurgeți vehiculul pentru a face toate fotografiile și respectați instrucțiunile de mai sus pentru a obține unghiul corect.",
+        "guideline": "Înconjurați vehiculul pentru a face toate fotografiile și respectați instrucțiunile de mai sus pentru a obține unghiul corect.",
         "sightTutorial": "Utilizați imaginea din colțul din stânga jos pentru a vă ajuta la încadrare.\nAtingeți-o pentru a vedea o explicație detaliată.",
         "sight": "Aliniați vehiculul cu liniile cât mai bine pentru a obține cea mai bună imagine.\nApăsați butonul declanșator pentru a face fotografia.",
         "next": "Următorul"
       },
       "sightTutorial": {
-        "tip": "Tip",
+        "tip": "Sfat",
         "defaultTutorialWithImage": "Iată o imagine de referință.\nÎncercați să potriviți cât mai bine încadrarea.",
         "defaultTutorialWithoutImage": "Poziționați-vă conform schemei din stânga.\nAsigurați-vă că înălțimea camerei este corectă."
       }
