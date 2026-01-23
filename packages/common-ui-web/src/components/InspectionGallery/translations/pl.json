@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Dodaj niestandardowe uszkodzenie"
+  },
+  "topBar": {
+    "submit": "Zatwierdź",
+    "title": "Zdjęcia",
+    "retakeFilter": "Ponowne zdjęcia",
+    "approvedFilter": "Zatwierdzono",
+    "completed": "Inspekcja została zakończona."
+  },
+  "list": {
+    "empty": {
+      "capture": "Na razie brak zdjęć. Wykonane zdjęcia będą wyświetlane tutaj.",
+      "nonCapture": "W tym przeglądzie nie ma zdjęć.",
+      "filter": "Nie znaleziono wyników dla wybranego filtra."
+    }
+  }
+}

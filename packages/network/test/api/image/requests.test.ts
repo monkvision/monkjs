@@ -390,6 +390,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+            ro: options.firstShot ? 'Prim-plan (piesă)' : 'Prim-plan (deteriorare)',
+            pl: options.firstShot ? 'Zbliżenie (część)' : 'Zbliżenie (uszkodzenie)',
+            da: options.firstShot ? 'Nærbillede (del)' : 'Nærbillede (skade)',
+            sv: options.firstShot ? 'Närbild (del)' : 'Närbild (skada)',
+            es: options.firstShot ? 'Primer plano (parte)' : 'Primer plano (daño)',
+            pt: options.firstShot ? 'Plano Aproximado (parte)' : 'Plano Aproximado (dano)',
             fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
             de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
             nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
@@ -427,6 +433,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            ro: `Prim-plan pe ${partsTranslation.map((part) => part.ro).join(', ')}`,
+            pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
+            da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
+            sv: `Närbild på ${partsTranslation.map((part) => part.sv).join(', ')}`,
+            es: `Primer plano de ${partsTranslation.map((part) => part.es).join(', ')}`,
+            pt: `Plano Aproximado de ${partsTranslation.map((part) => part.pt).join(', ')}`,
             fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
             de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
             nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
@@ -464,6 +476,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Frame ${options.frameIndex}`,
+            ro: `Cadru video ${options.frameIndex}`,
+            pl: `Klatka wideo ${options.frameIndex}`,
+            da: `Videoramme ${options.frameIndex}`,
+            sv: `Videoram ${options.frameIndex}`,
+            es: `Fotograma de video ${options.frameIndex}`,
+            pt: `Fotograma de vídeo ${options.frameIndex}`,
             fr: `Trame Vidéo ${options.frameIndex}`,
             de: `Videobild ${options.frameIndex}`,
             nl: `Videoframe ${options.frameIndex}`,
@@ -499,6 +517,12 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Manual Photo`,
+            ro: `Fotografie manuală din video`,
+            pl: `Zdjęcie ręczne z wideo`,
+            da: `Manuelt foto fra video`,
+            sv: `Manuellt foto från video`,
+            es: `Foto manual del video`,
+            pt: `Foto manual do vídeo`,
             fr: `Photo Manuelle Vidéo`,
             de: `Foto Manuell Video`,
             nl: `Foto-handleiding Video`,

@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Vi upplever problem med anslutningen. Det kan ta längre tid att ladda upp bilder än vanligt.",
+      "confirm": "Jag förstår"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Skada"
+      },
+      "addDamage": {
+        "cancelBtn": "Avbryt",
+        "damagedPartCounter": "1 / 2 • Skadad del",
+        "closeupPictureCounter": "2 av 2 • Närbild",
+        "infoBtn": "Rikta in målet mot den skadade delen och tryck sedan på avtryckarknappen.",
+        "infoCloseup": "Ta ett närbildsfoto av skadan",
+        "selectPart": "Tryck på den skadade delen. Använd pilarna för att rotera fordonet och se andra sidan.",
+        "selectParts": "Tryck på de skadade delarna. Använd pilarna för att rotera fordonet och se andra sidan."
+      },
+      "error": {
+        "retry": "Försök igen",
+        "missingTasks": "Den aktuella inspektionen saknar vissa av de uppgifter som krävs av det nuvarande upptagningsmodulen.",
+        "invalidToken": "Autentiseringstoken är ogiltig.",
+        "expiredToken": "Autentiseringstoken har gått ut.",
+        "insufficientAuth": "Du har inte de behörigheter som krävs för att utföra den här åtgärden.",
+        "inspectionLoading": "Ett fel uppstod under inläsningen av inspektionen. Försök igen om några minuter eller kontakta supporten och ange följande inspektions-ID:"
+      },
+      "closeConfirm": {
+        "message": "Är du säker på att du vill stänga avbildningsverktyget?",
+        "cancel": "Nej",
+        "confirm": "Ja"
+      },
+      "guidelines": {
+        "defaultGuideline": "Bildens perspektiv kan visas här.",
+        "disable": "Visa inte detta igen",
+        "validate": "Okej"
+      },
+      "tutorial": {
+        "welcome": "Välkommen till din första inspektion!",
+        "title": "Hur du använder den",
+        "guideline": "Gå runt fordonet och ta alla bilder. Följ instruktionerna högst upp för att få rätt vinkel.",
+        "sightTutorial": "Använd bilden längst ner till vänster som vägledning för bildkompositionen. Tryck på den för att se en detaljerad förklaring.",
+        "sight": "Justera fordonets position så att det linjerar med linjerna för att få bästa möjliga bild.\nTryck på slutarknappen för att ta fotot.",
+        "next": "Nästa"
+      },
+      "sightTutorial": {
+        "tip": "Tips",
+        "defaultTutorialWithImage": "Här är ett exempel på hur bilden ska se ut.\nFörsök att matcha bildens komposition så nära som möjligt.",
+        "defaultTutorialWithoutImage": "Placera dig som visas i diagrammet till vänster.\nSe till att kameran är på rätt höjd."
+      }
+    },
+    "gallery": {
+      "next": "Nästa: fordonets foton"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Spela in en video av fordonet"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "För att spela in video måste du tillåta åtkomst till enhetens kamera."
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "För att kunna detektera en fullständig 360°-vy runt fordonet behöver du tillåta åtkomst till enhetens kompass."
+      },
+      "confirm": "Hantera behörigheter"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Börja framifrån",
+        "description": "Håll ett avstånd på 1 till 1,2 meter och gå långsamt runt fordonet och ta bilder från taklinjen ner till marken."
+      },
+      "finish": {
+        "title": "Avsluta där du började",
+        "description": "Du bör vara klar med inspelningen om cirka 45 sekunder."
+      },
+      "photos": {
+        "title": "Ta bilder vid behov",
+        "description": "Tryck på slutarknappen för att ta bilder för remarketing eller skadefotografering medan du spelar in."
+      },
+      "confirm": "Spela in en video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Vill du ta bort videon? Du har inte filmat hela fordonet än.",
+        "keepRecording": "Fortsätt spela in",
+        "discardVideo": "Radera video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Du rör dig för snabbt! Sänk farten lite, det bör ta ungefär en minut att inspektera fordonet.",
+        "phoneShaking": "Din enhet skakar för mycket! Försök att hålla kameran stilla när du filmar fordonet.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "När du står framför fordonet, tryck på knappen för att starta videoinspelningen.",
+        "end": "När du har slutfört inspektionen av fordonet, tryck på knappen för att stoppa inspelningen."
+      }
+    },
+    "processing": {
+      "processing": "Videobehandlingen pågår",
+      "uploading": "Videon laddas upp",
+      "success": "Videobehandlingen är klar!",
+      "error": "Ett fel uppstod vid slutförandet av inspektionen. Inspektions-ID:",
+      "done": "Klart"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Rotera din enhet.",
+    "description": "Du kan behöva låsa upp enhetsorienteringen i telefonens inställningar."
+  }
+}

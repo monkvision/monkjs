@@ -16,6 +16,24 @@
         "en": {
           "type": "string"
         },
+        "ro": {
+          "type": "string"
+        },
+        "pl": {
+          "type": "string"
+        },
+        "da": {
+          "type": "string"
+        },
+        "sv": {
+          "type": "string"
+        },
+        "es": {
+          "type": "string"
+        },
+        "pt": {
+          "type": "string"
+        },
         "fr": {
           "type": "string"
         },
@@ -29,7 +47,7 @@
           "type": "string"
         }
       },
-      "required": ["key", "en", "fr", "de", "nl", "it"],
+      "required": ["key", "en", "fr", "de", "nl", "it", "pt", "es", "sv", "da", "pl", "ro"],
       "unevaluatedProperties": false
     }
   },

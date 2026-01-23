@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Rapportér skade",
+    "description": "Tilføj billeder af buler, ridser eller andre skader på køretøjet.",
+    "button": "Tilføj skadesbilleder"
+  },
+  "capture": {
+    "title": "Start inspektion",
+    "description": "Ingen buler eller ridser? Gå rundt om køretøjet og tag billeder.",
+    "button": "Tag billeder"
+  }
+}

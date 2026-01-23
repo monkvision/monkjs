@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Zaloguj się",
+    "log-out": "Wyloguj się"
+  },
+  "errors": {
+    "popup-closed": "Ups! Nie udało się zalogować, ponieważ okno zostało zamknięte. Spróbujmy ponownie!",
+    "token-expired": "Token uwierzytelniający wygasł. Proszę się ponownie zalogować.",
+    "insufficient-authorization": "Nie masz wymaganych uprawnień, aby korzystać z tej aplikacji. Wyloguj się i użyj innego konta.",
+    "unknown": "Ups! Podczas logowania wystąpił nieoczekiwany błąd. Spróbujmy ponownie!",
+    "missing-token": "Adres URL, który próbujesz otworzyć, jest nieprawidłowy."
+  }
+}

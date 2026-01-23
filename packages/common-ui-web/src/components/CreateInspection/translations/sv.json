@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Försök igen",
+    "create-inspection": "Ett oväntat fel uppstod vid skapandet av inspektionen.",
+    "missing-inspection-id": "URL:en du försöker komma åt är ogiltig."
+  }
+}

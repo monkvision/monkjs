@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Adăugați deteriorare personalizată"
+  },
+  "topBar": {
+    "submit": "Validează",
+    "title": "Fotografii",
+    "retakeFilter": "Reluări",
+    "approvedFilter": "Aprobat",
+    "completed": "Inspecția a fost finalizată."
+  },
+  "list": {
+    "empty": {
+      "capture": "Nu au fost încă adăugate fotografii. Imaginile vor fi afișate aici.",
+      "nonCapture": "Nu există imagini în această inspecție.",
+      "filter": "Nu s-au găsit rezultate pentru filtrul selectat."
+    }
+  }
+}

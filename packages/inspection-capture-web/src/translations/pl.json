@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Występują problemy z połączeniem. Przesyłanie zdjęć może trwać dłużej niż zwykle.",
+      "confirm": "Rozumiem"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Uszkodzenie"
+      },
+      "addDamage": {
+        "cancelBtn": "Anuluj",
+        "damagedPartCounter": "1 / 2 • Uszkodzony element",
+        "closeupPictureCounter": "2 z 2 • Zdjęcie w zbliżeniu",
+        "infoBtn": "Wyceluj znacznik w uszkodzony obszar, a następnie naciśnij przycisk migawki.",
+        "infoCloseup": "Zrób zbliżenie uszkodzenia.",
+        "selectPart": "Dotknij uszkodzonego miejsca. Użyj strzałek, aby obrócić pojazd i zobaczyć drugą stronę.",
+        "selectParts": "Dotknij uszkodzonych części. Użyj strzałek, aby obracać pojazd i zobaczyć drugą stronę."
+      },
+      "error": {
+        "retry": "Ponów próbę",
+        "missingTasks": "W przeprowadzonym przeglądzie brakuje niektórych zadań wymaganych przez aktualny moduł rejestracji.",
+        "invalidToken": "Użyty token uwierzytelniający jest nieprawidłowy.",
+        "expiredToken": "Użyty token uwierzytelniający wygasł.",
+        "insufficientAuth": "Nie masz wymaganych uprawnień, aby wykonać tę czynność.",
+        "inspectionLoading": "Wystąpił błąd podczas ładowania danych kontroli. Proszę spróbować ponownie za kilka minut lub skontaktować się z pomocą techniczną, podając identyfikator kontroli: ${inspectionId}."
+      },
+      "closeConfirm": {
+        "message": "Czy na pewno chcesz zamknąć narzędzie do robienia zdjęć?",
+        "cancel": "Nie",
+        "confirm": "Tak"
+      },
+      "guidelines": {
+        "defaultGuideline": "W tym miejscu można wyświetlić wskazówki dotyczące punktu widzenia zdjęcia.",
+        "disable": "Nie wyświetlaj tego ponownie",
+        "validate": "OK"
+      },
+      "tutorial": {
+        "welcome": "Witamy przy pierwszym przeglądzie!",
+        "title": "Jak to używać",
+        "guideline": "Obejrzyj pojazd, wykonaj wszystkie zdjęcia i postępuj zgodnie z wytycznymi u góry, aby ustawić odpowiedni kąt.",
+        "sightTutorial": "Użyj zdjęcia w lewym dolnym rogu, aby uzyskać wskazówki dotyczące kadrowania. Dotknij go, aby zobaczyć szczegółowe wyjaśnienie.",
+        "sight": "Ustaw pojazd tak, aby jak najbardziej pokrywał się z liniami, aby uzyskać najlepsze zdjęcie.\nNaciśnij przycisk migawki, aby zrobić zdjęcie.",
+        "next": "Dalej"
+      },
+      "sightTutorial": {
+        "tip": "Wskazówka",
+        "defaultTutorialWithImage": "Oto obraz referencyjny.\nSpróbuj jak najdokładniej dopasować kadr.",
+        "defaultTutorialWithoutImage": "Ustaw się zgodnie z ilustracją po lewej stronie, upewniając się, że kamera znajduje się na odpowiedniej wysokości."
+      }
+    },
+    "gallery": {
+      "next": "Dalej: zdjęcia pojazdu"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Nagraj film przedstawiający cały pojazd."
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Aby nagrać wideo, należy zezwolić na dostęp do kamery urządzenia."
+      },
+      "compass": {
+        "title": "Kompas",
+        "description": "Aby wykryć pełny obrót pojazdu o 360°, należy zezwolić na dostęp do kompasu urządzenia."
+      },
+      "confirm": "Zarządzaj uprawnieniami"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Zacznij od przodu",
+        "description": "Zachowaj odległość od 90 cm do 1,2 m i powoli przejdź wokół pojazdu, robiąc zdjęcia od linii dachu do podłoża."
+      },
+      "finish": {
+        "title": "Zakończ w miejscu, w którym zacząłeś.",
+        "description": "Nagrywanie powinno zakończyć się za około 45 sekund."
+      },
+      "photos": {
+        "title": "Rób zdjęcia w razie potrzeby.",
+        "description": "Naciśnij przycisk migawki, aby zrobić zdjęcia do celów marketingowych lub zdjęcia uszkodzeń podczas nagrywania."
+      },
+      "confirm": "Nagraj wideo"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Czy chcesz usunąć nagranie wideo? Nie okrążyłeś/okrążyłaś w pełni pojazdu.",
+        "keepRecording": "Kontynuuj nagrywanie",
+        "discardVideo": "Usuń wideo"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Poruszasz się zbyt szybko! Zwolnij, cały proces powinien zająć około jednej minuty.",
+        "phoneShaking": "Twoje urządzenie zbyt mocno się trzęsie! Spróbuj ustabilizować kamerę podczas nagrywania obrazu pojazdu.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Po ustawieniu się przed pojazdem, naciśnij przycisk, aby rozpocząć nagrywanie wideo.",
+        "end": "Po zakończeniu obchodu pojazdu naciśnij przycisk, aby zatrzymać nagrywanie."
+      }
+    },
+    "processing": {
+      "processing": "Wideo jest przetwarzane",
+      "uploading": "Wgrywanie wideo",
+      "success": "Przetwarzanie wideo zakończone!",
+      "error": "Wystąpił błąd podczas finalizowania inspekcji. ID inspekcji:",
+      "done": "Gotowe"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Proszę obrócić urządzenie.",
+    "description": "Może być konieczne odblokowanie automatycznego obracania ekranu w ustawieniach telefonu."
+  }
+}

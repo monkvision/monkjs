@@ -1,0 +1,19 @@
+{
+  "card": {
+    "addDamage": "Tilføj brugerdefineret skade"
+  },
+  "topBar": {
+    "submit": "Valider",
+    "title": "Billeder",
+    "retakeFilter": "Gentagelser",
+    "approvedFilter": "Godkendt",
+    "completed": "Denne inspektion er fuldført"
+  },
+  "list": {
+    "empty": {
+      "capture": "Ingen billeder endnu. Billeder, der tages, vises her.",
+      "nonCapture": "Der er ingen billeder i denne inspektion.",
+      "filter": "Ingen resultater for det valgte filter."
+    }
+  }
+}

@@ -1,7 +1,19 @@
 /**
  * An array containing Monk available languages.
  */
-export const monkLanguages = ['fr', 'en', 'de', 'nl', 'it'] as const;
+export const monkLanguages = [
+  'fr',
+  'en',
+  'de',
+  'nl',
+  'it',
+  'pt',
+  'es',
+  'sv',
+  'da',
+  'pl',
+  'ro',
+] as const;
 
 /**
  * Represents a Monk language type, which is one of the available Monk languages.

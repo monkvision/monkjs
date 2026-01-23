@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Raportați daunele",
+    "description": "Adăugați fotografii cu lovituri, zgârieturi sau alte daune prezente pe vehicul.",
+    "button": "Adăugați fotografii cu daunele"
+  },
+  "capture": {
+    "title": "Începeți inspecția",
+    "description": "Nu există lovituri sau zgârieturi? Inspectați vehiculul și faceți fotografii.",
+    "button": "Faceți fotografii"
+  }
+}
