@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Zgłoś uszkodzenie",
+    "description": "Dodaj zdjęcia wgnieceń, zadrapań lub innych uszkodzeń pojazdu.",
+    "button": "Dodaj zdjęcia uszkodzeń"
+  },
+  "capture": {
+    "title": "Rozpocznij inspekcję",
+    "description": "Brak wgnieceń lub zarysowań? Obejrzyj pojazd i zrób zdjęcia.",
+    "button": "Zrób zdjęcia"
+  }
+}

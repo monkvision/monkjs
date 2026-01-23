@@ -240,6 +240,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
     return {
       en: `Video Frame ${options.frameIndex}`,
+      pl: `Klatka wideo ${options.frameIndex}`,
       da: `Videoramme ${options.frameIndex}`,
       sv: `Videoram ${options.frameIndex}`,
       es: `Fotograma de video ${options.frameIndex}`,
@@ -253,6 +254,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
     return {
       en: `Video Manual Photo`,
+      pl: `Zdjęcie ręczne z wideo`,
       da: `Manuelt foto fra video`,
       sv: `Manuellt foto från video`,
       es: `Foto manual del video`,
@@ -267,6 +269,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
     return {
       en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
       da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
       sv: `Närbild på ${partsTranslation.map((part) => part.sv).join(', ')}`,
       es: `Primer plano de ${partsTranslation.map((part) => part.es).join(', ')}`,
@@ -279,6 +282,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   }
   return {
     en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    pl: options.firstShot ? 'Zbliżenie (część)' : 'Zbliżenie (uszkodzenie)',
     da: options.firstShot ? 'Nærbillede (del)' : 'Nærbillede (skade)',
     sv: options.firstShot ? 'Närbild (del)' : 'Närbild (skada)',
     es: options.firstShot ? 'Primer plano (parte)' : 'Primer plano (daño)',

@@ -16,6 +16,9 @@
         "en": {
           "type": "string"
         },
+        "pl": {
+          "type": "string"
+        },
         "da": {
           "type": "string"
         },
@@ -45,7 +48,8 @@
         "pt",
         "es",
         "sv",
-        "da"],
+        "da",
+        "pl"],
       "unevaluatedProperties": false
     }
   },

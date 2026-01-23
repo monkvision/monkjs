@@ -143,6 +143,7 @@ function createProps(): PhotoCaptureProps {
     sightGuidelines: [
       {
         en: 'en-test',
+        pl: 'pl-test',
         da: 'da-test',
         sv: 'sv-test',
         es: 'es-test',
@@ -161,6 +162,7 @@ function createProps(): PhotoCaptureProps {
     sightTutorial: [
       {
         en: 'en-test',
+        pl: 'pl-test',
         da: 'da-test',
         sv: 'sv-test',
         es: 'es-test',

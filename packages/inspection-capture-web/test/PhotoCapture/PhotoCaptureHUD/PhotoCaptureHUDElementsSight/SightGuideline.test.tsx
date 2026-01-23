@@ -26,6 +26,7 @@ function createProps(): SightGuidelineProps {
     sightGuidelines: [
       {
         en: 'en-test',
+        pl: 'pl-test',
         da: 'da-test',
         sv: 'sv-test',
         es: 'es-test',

@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Ponów próbę",
+    "create-inspection": "Wystąpił nieoczekiwany błąd podczas tworzenia inspekcji.",
+    "missing-inspection-id": "Adres URL, który próbujesz otworzyć, jest nieprawidłowy."
+  }
+}
