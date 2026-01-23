@@ -47,13 +47,7 @@
           "type": "string"
         }
       },
-      "required": ["key", "en", "fr", "de", "nl", "it",
-        "pt",
-        "es",
-        "sv",
-        "da",
-        "pl",
-        "ro"],
+      "required": ["key", "en", "fr", "de", "nl", "it", "pt", "es", "sv", "da", "pl", "ro"],
       "unevaluatedProperties": false
     }
   },

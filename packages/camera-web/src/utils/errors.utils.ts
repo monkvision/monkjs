@@ -38,12 +38,12 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
       return {
         en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
-        ro: "Nu s-a putut accesa camera. Asigurați-vă că ați acordat permisiunea de acces la cameră pentru browserul dvs. în setările dispozitivului.",
-        pl: "Nie można uzyskać dostępu do kamery. Upewnij się, że w ustawieniach urządzenia przyznałeś dostęp do kamery dla używanej przeglądarki internetowej.",
-        da: "Kunne ikke få adgang til kameraet. Sørg for at give kameraadgang til din aktuelle webbrowser i dine enhedsindstillinger.",
-        sv: "Kunde inte få åtkomst till kameran. Se till att du har tillåtit kameraåtkomst för din webbläsare i enheten.",
-        es: "No se pudo acceder a la cámara. Asegúrese de otorgar permisos de cámara a su navegador web actual en la configuración de su dispositivo.",
-        pt: "Não foi possível obter acesso à câmera. Certifique-se de conceder acesso à câmera ao seu navegador atual nas configurações do dispositivo.",
+        ro: 'Nu s-a putut accesa camera. Asigurați-vă că ați acordat permisiunea de acces la cameră pentru browserul dvs. în setările dispozitivului.',
+        pl: 'Nie można uzyskać dostępu do kamery. Upewnij się, że w ustawieniach urządzenia przyznałeś dostęp do kamery dla używanej przeglądarki internetowej.',
+        da: 'Kunne ikke få adgang til kameraet. Sørg for at give kameraadgang til din aktuelle webbrowser i dine enhedsindstillinger.',
+        sv: 'Kunde inte få åtkomst till kameran. Se till att du har tillåtit kameraåtkomst för din webbläsare i enheten.',
+        es: 'No se pudo acceder a la cámara. Asegúrese de otorgar permisos de cámara a su navegador web actual en la configuración de su dispositivo.',
+        pt: 'Não foi possível obter acesso à câmera. Certifique-se de conceder acesso à câmera ao seu navegador atual nas configurações do dispositivo.',
         fr: "Impossible d'accéder à la caméra. Veuillez vous assurer d'autoriser l'accès à la caméra pour ce navigateur internet dans les paramètres de votre téléphone.",
         de: 'Der Zugriff auf die Kamera ist nicht möglich. Stellen Sie sicher, dass Sie in den Einstellungen Ihres Geräts den Kamerazugriff für Ihren aktuellen Internetbrowser zulassen.',
         nl: 'Kan geen cameratoegang krijgen. Zorg ervoor dat u de camera toegang verleent tot uw huidige internet browser in de instellingen van uw apparaat.',
