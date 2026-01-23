@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Autentificare",
+    "log-out": "Deconectare"
+  },
+  "errors": {
+    "popup-closed": "Ups! Nu am putut să vă autentificăm, deoarece fereastra pop-up a fost închisă. Să încercăm din nou!",
+    "token-expired": "Tokenul dvs. de autentificare a expirat. Vă rugăm să vă autentificați din nou.",
+    "insufficient-authorization": "Nu aveți permisiunile necesare pentru a utiliza această aplicație. Vă rugăm să vă deconectați și să utilizați un alt cont.",
+    "unknown": "Ups! A apărut o eroare neașteptată în timpul autentificării. Să încercăm din nou!",
+    "missing-token": "Adresa URL pe care încercați să o accesați nu este validă."
+  }
+}

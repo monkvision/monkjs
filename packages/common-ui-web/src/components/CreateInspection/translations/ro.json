@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Reîncearcă",
+    "create-inspection": "A apărut o eroare neașteptată în timpul creării inspecției.",
+    "missing-inspection-id": "Adresa URL pe care încercați să o accesați nu este validă."
+  }
+}

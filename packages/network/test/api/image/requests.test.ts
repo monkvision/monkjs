@@ -390,6 +390,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+            ro: options.firstShot ? 'Prim-plan (parțial)' : 'Prim-plan (deteriorare)',
             pl: options.firstShot ? 'Zbliżenie (część)' : 'Zbliżenie (uszkodzenie)',
             da: options.firstShot ? 'Nærbillede' : 'Nærbillede (skade)',
             sv: options.firstShot ? 'Närbild' : 'Närbild (skada)',
@@ -432,6 +433,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            ro: `Prim-plan pe ${partsTranslation.map((part) => part.ro).join(', ')}`,
             pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
             da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
             sv: `Närbild på ${partsTranslation.map((part) => part.sv).join(', ')}`,
@@ -474,6 +476,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Frame ${options.frameIndex}`,
+            ro: `Cadru video ${options.frameIndex}`,
             pl: `Klatka wideo ${options.frameIndex}`,
             da: `Videobillede ${options.frameIndex}`,
             sv: `Videobild ${options.frameIndex}`,
@@ -514,6 +517,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Manual Photo`,
+            ro: `Manual foto video`,
             pl: `Zdjęcie, wideo, instrukcja`,
             da: `Video, manual, foto`,
             sv: `Video, bruksanvisning, foto`,
