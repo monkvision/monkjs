@@ -41,7 +41,7 @@
     "@types/react": "^19.1",
     "@types/react-dom": "^19.1",
     "@types/react-router-dom": "^5.3.3",
-    "axios": "^1.5.0",
+    "axios": "^1.13.2",
     "i18next": "^23.4.5",
     "i18next-browser-languagedetector": "^7.1.0",
     "jest-watch-typeahead": "^2.2.2",
