@@ -14,6 +14,14 @@ export const CreateDamageDetectionTaskOptionsSchema = z.object({
   generateDamageVisualOutput: z.boolean().optional(),
   generateSubimageDamages: z.boolean().optional(),
   generateSubimageParts: z.boolean().optional(),
+  dampartConfidenceScore: z
+    .array(z.number().positive())
+    .min(1, 'At least one size bucket limit is required')
+    .max(4, 'At most 4 size bucket limits are allowed')
+    .refine((values) => values.every((v, i) => i === 0 || v > values[i - 1]), {
+      message: 'Size bucket limits must be sorted in strictly ascending order',
+    })
+    .optional(),
 });
 
 export const CreateHinlTaskOptionsSchema = z.object({

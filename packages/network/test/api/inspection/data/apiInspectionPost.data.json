@@ -9,6 +9,9 @@
       "generate_subimages_damages": {},
       "generate_subimages_parts": {
         "generate_tight": false
+      },
+      "dampart_confidence_score": {
+        "size_bucket_limits_cm": [5, 15, 30]
       }
     },
     "wheel_analysis": {
