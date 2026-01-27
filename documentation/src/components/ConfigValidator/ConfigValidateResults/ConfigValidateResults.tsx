@@ -1,13 +1,15 @@
 import React, { useMemo } from 'react';
-import { LiveConfigSchema } from '@site/src/utils';
+import { PhotoLiveConfigSchema, VideoLiveConfigSchema } from '@site/src/utils';
 import clsx from 'clsx';
+import { CaptureWorkflow } from '@monkvision/types';
 import styles from './ConfigValidateResults.module.css';
 
 export interface ConfigValidateResultsProps {
   config: string;
+  captureType: CaptureWorkflow;
 }
 
-export function ConfigValidateResults({ config }: ConfigValidateResultsProps) {
+export function ConfigValidateResults({ config, captureType }: ConfigValidateResultsProps) {
   const errors = useMemo(() => {
     let json;
     try {
@@ -20,7 +22,10 @@ export function ConfigValidateResults({ config }: ConfigValidateResultsProps) {
         },
       ];
     }
-    const result = LiveConfigSchema.safeParse(json);
+    const result =
+      captureType === CaptureWorkflow.PHOTO
+        ? PhotoLiveConfigSchema.safeParse(json)
+        : VideoLiveConfigSchema.safeParse(json);
     if (result.success) {
       return [];
     }
@@ -28,7 +33,7 @@ export function ConfigValidateResults({ config }: ConfigValidateResultsProps) {
       message: zodIssue.message,
       at: zodIssue.path.join('.'),
     }));
-  }, [config]);
+  }, [config, captureType]);
 
   const isValid = config !== '' && errors.length === 0;
   const isInvalid = config !== '' && errors.length > 0;

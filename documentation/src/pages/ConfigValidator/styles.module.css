@@ -17,6 +17,13 @@
   padding: 10px;
 }
 
+.capture-type-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 @media screen and (max-width: 900px) {
   .config-text-area {
     width: 100%;
