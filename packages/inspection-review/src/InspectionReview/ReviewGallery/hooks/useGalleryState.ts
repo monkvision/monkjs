@@ -1,6 +1,6 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useState } from 'react';
-import { GalleryItem } from '../../hooks';
+import { GalleryItem } from '../../types';
 
 /**
  * Props accepted by the useGalleryState hook.
@@ -25,14 +25,6 @@ export interface HandleGalleryState {
    */
   showDamage: boolean;
   /**
-   * Function to navigate to the previous image in the gallery.
-   */
-  previousImage: () => void;
-  /**
-   * Function to navigate to the next image in the gallery.
-   */
-  nextImage: () => void;
-  /**
    * Function to select an item by its image ID.
    */
   onSelectItem: (imageId: string) => void;
@@ -53,7 +45,7 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
     [galleryItems],
   );
 
-  const previousImage = useCallback(() => {
+  const goToPreviousImage = useCallback(() => {
     if (selectedItem) {
       const currentIndex = galleryItems?.findIndex(
         (item) => item.image.id === selectedItem.image.id,
@@ -65,7 +57,7 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
     }
   }, [galleryItems, selectedItem]);
 
-  const nextImage = useCallback(() => {
+  const goToNextImage = useCallback(() => {
     if (selectedItem) {
       const currentIndex = galleryItems?.findIndex(
         (item) => item.image.id === selectedItem.image.id,
@@ -81,8 +73,8 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
     const keyStrokeActions: { [key: string]: () => void } = {
       s: () => setShowDamage(!showDamage),
       S: () => setShowDamage(!showDamage),
-      ArrowLeft: previousImage,
-      ArrowRight: nextImage,
+      ArrowLeft: goToPreviousImage,
+      ArrowRight: goToNextImage,
       q: () => setSelectedItem(null),
       Q: () => setSelectedItem(null),
       Escape: () => setSelectedItem(null),
@@ -114,8 +106,6 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
   return useObjectMemo({
     selectedItem,
     showDamage,
-    previousImage,
-    nextImage,
     onSelectItem,
   });
 }

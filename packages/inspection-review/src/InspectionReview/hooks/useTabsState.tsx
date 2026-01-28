@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useObjectMemo } from '@monkvision/common';
+import { SightCategory } from '@monkvision/types';
 import { ExteriorTab } from '../ExteriorTab';
 import { InteriorTab } from '../InteriorTab';
-import { useObjectMemo } from '@monkvision/common';
 import { useInspectionReviewState } from './InspectionReviewProvider';
-import { SightCategory } from '@monkvision/types';
 import { TabContent, TabKeys, TabObject } from '../types';
 
 /**

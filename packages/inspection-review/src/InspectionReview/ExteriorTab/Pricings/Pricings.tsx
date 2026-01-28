@@ -1,10 +1,10 @@
-import { useInspectionReviewState } from '../../hooks';
+import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
 import { PricingLegend } from './PricingLegend';
 
 /**
- * The PricingRow component that displays a row of the available pricing legends.
+ * The Pricings component that displays a list of the available pricing legends.
  */
-export function PricingRow() {
+export function Pricings() {
   const { availablePricings } = useInspectionReviewState();
 
   return (

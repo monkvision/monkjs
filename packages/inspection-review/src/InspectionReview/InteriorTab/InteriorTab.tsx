@@ -1,39 +1,9 @@
 import { useMemo, useState } from 'react';
-import { useInspectionReviewState, useTabViews } from '../hooks';
-import { AddInteriorDamage } from './AddInteriorDamage/AddInteriorDamage';
 import { useMonkState } from '@monkvision/common';
-
-/**
- * Interface representing an interior damage item.
- */
-export interface InteriorDamage {
-  /**
-   * The area of the interior where the damage is located.
-   */
-  area: string;
-  /**
-   * The type of damage.
-   */
-  damage_type: string;
-  /**
-   * The estimated repair cost for the damage.
-   */
-  repair_cost: number | null;
-}
-
-/**
- * Interface representing selected damage data along with its index in other_damages list.
- */
-export interface SelectedDamageData {
-  /**
-   * The index of the damage in the other_damages list.
-   */
-  index: number;
-  /**
-   * The interior damage details.
-   */
-  damage: InteriorDamage;
-}
+import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
+import { useTabViews } from '../hooks/useTabViews';
+import { AddInteriorDamage } from './AddInteriorDamage/AddInteriorDamage';
+import { InteriorDamage, SelectedInteriorDamageData } from '../types';
 
 enum InteriorViews {
   DamagesList = 'Damages List',
@@ -48,7 +18,7 @@ export function InteriorTab() {
   const { inspection, handleAddInteriorDamage, handleDeleteInteriorDamage } =
     useInspectionReviewState();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(InteriorViews) });
-  const [selectedDamage, setSelectedDamage] = useState<SelectedDamageData | null>(null);
+  const [selectedDamage, setSelectedDamage] = useState<SelectedInteriorDamageData | null>(null);
 
   const interiorDamages: InteriorDamage[] = useMemo(
     () =>
@@ -57,6 +27,11 @@ export function InteriorTab() {
       ] as InteriorDamage[]) || [],
     [inspection, state.inspections],
   );
+
+  const resetToListView = () => {
+    setCurrentView(InteriorViews.DamagesList);
+    setSelectedDamage(null);
+  };
 
   const handleSave = (newDamage: InteriorDamage) => {
     handleAddInteriorDamage(newDamage, selectedDamage?.index);
@@ -68,12 +43,7 @@ export function InteriorTab() {
     setCurrentView(InteriorViews.AddDamage);
   };
 
-  const resetToListView = () => {
-    setCurrentView(InteriorViews.DamagesList);
-    setSelectedDamage(null);
-  };
-
-  if (currentView === InteriorViews.AddDamage)
+  if (currentView === InteriorViews.AddDamage) {
     return (
       <AddInteriorDamage
         damageData={selectedDamage}
@@ -81,6 +51,7 @@ export function InteriorTab() {
         onSave={handleSave}
       />
     );
+  }
 
   return (
     <div>
