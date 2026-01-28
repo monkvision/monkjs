@@ -4,10 +4,10 @@ import { AnalyticsProvider } from '@monkvision/analytics';
 import { AuthProvider } from '@monkvision/network';
 import { sentryMonitoringAdapter } from './sentry';
 import { posthogAnalyticsAdapter } from './posthog';
-import { AppRouter } from './components';
-import { authConfigs } from './auth';
 import './index.css';
 import './i18n';
+import { AppRouter } from './pages/AppRouter';
+import { authConfigs } from './auth';
 
 const container = document.getElementById('root');
 if (!container) {
