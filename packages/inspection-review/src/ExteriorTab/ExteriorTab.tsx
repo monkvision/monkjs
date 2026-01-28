@@ -14,12 +14,12 @@ export function ExteriorTab() {
     orientation,
     vehicleType,
     validatedParts,
-    handleRotateLeft,
-    handleRotateRight,
-    handlePartClicked,
-    handleDone,
-    handlePartAttributes,
-    resetToListView,
+    onRotateLeft,
+    onRotateRight,
+    onPartClicked,
+    onDone,
+    onGetPartAttributes,
+    onCancelDamage,
   } = useExteriorTab();
 
   if (currentView === ExteriorViews.SVGCar) {
@@ -29,21 +29,16 @@ export function ExteriorTab() {
           <VehicleDynamicWireframe
             vehicleType={vehicleType}
             orientation={orientation}
-            onClickPart={handlePartClicked}
-            getPartAttributes={handlePartAttributes}
+            onClickPart={onPartClicked}
+            getPartAttributes={onGetPartAttributes}
             validatedParts={validatedParts}
           />
           <div style={styles['rotationIconsContainer']}>
-            <Icon
-              icon='rotate-left'
-              primaryColor='text-primary'
-              onClick={handleRotateLeft}
-              size={50}
-            />
+            <Icon icon='rotate-left' primaryColor='text-primary' onClick={onRotateLeft} size={50} />
             <Icon
               icon='rotate-right'
               primaryColor='text-primary'
-              onClick={handleRotateRight}
+              onClick={onRotateRight}
               size={50}
             />
           </div>
@@ -56,9 +51,9 @@ export function ExteriorTab() {
 
   return (
     <AddExteriorDamage
-      detailedPart={selectedPart}
-      handleDone={handleDone}
-      handleCancel={resetToListView}
+      selectedPart={selectedPart}
+      onDone={onDone}
+      onCancelDamage={onCancelDamage}
     />
   );
 }

@@ -17,19 +17,19 @@ export function InteriorTab() {
     currentView,
     selectedDamage,
     setCurrentView,
-    handleSave,
-    editDamage,
-    handleDeleteInteriorDamage,
-    resetToListView,
+    onSave,
+    onEditDamage,
+    onDeleteInteriorDamage,
+    onCancelDamage,
   } = useInteriorTab();
   const { editIconStyle, deleteIconStyle } = useInteriorTabStyles();
 
   if (currentView === InteriorViews.AddDamage) {
     return (
       <AddInteriorDamage
-        damageData={selectedDamage}
-        onCancel={resetToListView}
-        onSave={handleSave}
+        selectedDamage={selectedDamage}
+        onCancelDamage={onCancelDamage}
+        onSave={onSave}
       />
     );
   }
@@ -77,13 +77,13 @@ export function InteriorTab() {
                     icon='edit'
                     primaryColor={editIconStyle.color}
                     style={editIconStyle}
-                    onClick={() => editDamage(index, damage)}
+                    onClick={() => onEditDamage(index, damage)}
                   />
                   <Icon
                     icon='delete'
                     primaryColor={deleteIconStyle.color}
                     style={deleteIconStyle}
-                    onClick={() => handleDeleteInteriorDamage(index)}
+                    onClick={() => onDeleteInteriorDamage(index)}
                   />
                 </div>
               </td>
