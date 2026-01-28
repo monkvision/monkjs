@@ -1,4 +1,4 @@
-import { i18nWrap, MonkProvider } from '@monkvision/common';
+import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
 import { i18nInspectionReview } from '../i18n';
 import { InspectionReview, InspectionReviewProps } from './InspectionReview';
 
@@ -26,6 +26,8 @@ import { InspectionReview, InspectionReviewProps } from './InspectionReview';
 export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC(
   props: InspectionReviewProps,
 ) {
+  useI18nSync(props.lang);
+
   return (
     <MonkProvider>
       <InspectionReview {...props} />
