@@ -59,7 +59,7 @@ export function SpotlightImage({
 
   return (
     <div className='spotlight-image' style={{ ...styles['container'], cursor: cursorStyle }}>
-      <div style={{ position: 'relative' }}>
+      <div style={styles['overlayContainer']}>
         {isMouseOver && (
           <>
             <div style={styles['closeButton']}>
