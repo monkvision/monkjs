@@ -1,3 +1,4 @@
+import { useMonkTheme } from '@monkvision/common';
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
@@ -9,19 +10,24 @@ export const styles: Styles = {
     height: '100%',
   },
   overlayContainer: { position: 'relative' },
-  closeButton: {
+  actionsContainer: {
+    zIndex: 10,
     position: 'absolute',
     top: 10,
-    left: 10,
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0 10px',
+    width: '-webkit-fill-available',
+  },
+  closeButton: {
     cursor: 'pointer',
   },
   showDamagesButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
     cursor: 'pointer',
   },
-  imageNavigationContainer: {
+  navigationContainer: {
+    zIndex: 10,
     position: 'absolute',
     bottom: 10,
     cursor: 'pointer',
@@ -58,3 +64,39 @@ export const styles: Styles = {
     gap: 10,
   },
 };
+
+/**
+ * Props for the useSpotlightImageStyles hook.
+ */
+export interface SpotlightImageStylesProps {
+  cursorStyle: string;
+}
+
+/**
+ * Hook to get the styles for the SpotlightImage component.
+ */
+export function useSpotlightImageStyles({ cursorStyle }: SpotlightImageStylesProps) {
+  const { palette } = useMonkTheme();
+
+  return {
+    containerStyle: {
+      ...styles['container'],
+      cursor: cursorStyle,
+    },
+
+    iconButtonStyle: {
+      ...styles['iconButton'],
+      primaryColor: palette.secondary.xdark,
+      secondaryColor: palette.text.white,
+    },
+    showDamageButtonStyle: {
+      primaryColor: palette.secondary.xdark,
+      secondaryColor: palette.text.white,
+    },
+    imageLabelStyle: {
+      ...styles['imageLabel'],
+      backgroundColor: palette.background.light,
+      color: palette.text.white,
+    },
+  };
+}

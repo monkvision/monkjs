@@ -23,9 +23,10 @@ export const styles: Styles = {
   headerRow: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
     padding: '0px 0px 10px 0px',
   },
   buttons: {
@@ -43,6 +44,7 @@ export const styles: Styles = {
   contentRow: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     width: '100%',
     gap: 16,
