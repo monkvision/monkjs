@@ -1,5 +1,5 @@
 import { changeAlpha, useMonkTheme } from '@monkvision/common';
-import { ImageStatus, InteractiveStatus } from '@monkvision/types';
+import { InteractiveStatus } from '@monkvision/types';
 import { useMemo } from 'react';
 import { GalleryItem } from '../../types';
 import { styles } from './GalleryItemCard.styles';
@@ -50,14 +50,6 @@ export function useGalleryItemCardStyles({
     labelColor = palette.primary.dark;
   }
 
-  let previewOverlayBackground = 'transparent';
-  if ([ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(item.image.status)) {
-    previewOverlayBackground = colors.previewOverlayBackgroundNetwork;
-  }
-  if (item.image.status === ImageStatus.NOT_COMPLIANT) {
-    previewOverlayBackground = colors.previewOverlayBackgroundCompliance;
-  }
-
   return {
     cardStyle: {
       ...styles['card'],
@@ -70,26 +62,10 @@ export function useGalleryItemCardStyles({
       backgroundColor: colors.previewBackground,
       backgroundImage: `url(${item.image.path})`,
     },
-    previewOverlayStyle: {
-      ...styles['previewOverlay'],
-      backgroundColor: previewOverlayBackground,
-    },
     labelStyle: {
       ...styles['label'],
       backgroundColor: isDamaged ? palette.alert.dark : colors.labelBackground,
       color: labelColor,
-    },
-    statusIcon: {
-      style: styles['statusIcon'],
-      size: 20,
-      primaryColor: palette.text.primary,
-    },
-    sightOverlay: {
-      height: styles['preview'].height,
-    },
-    addDamageIcon: {
-      size: 40,
-      primaryColor: labelColor,
     },
   };
 }
