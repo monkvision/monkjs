@@ -86,6 +86,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-utils": "^3.0.0",
     "jest": "^30.2",
+    "jest-environment-jsdom": "^30.2.0",
     "prettier": "^2.7.1",
     "regexpp": "^3.2.0",
     "ts-jest": "^29.4.6"

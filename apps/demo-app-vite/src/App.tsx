@@ -1,5 +1,5 @@
 import "./App.css";
-import { CreateInspectionPage, LoginPage } from "./pages";
+import { LoginPage } from "./pages";
 import { MonitoringProvider } from "@monkvision/monitoring";
 import { AnalyticsProvider } from "@monkvision/analytics";
 import { AuthProvider } from "@monkvision/network";
@@ -15,9 +15,7 @@ function App() {
     <MonitoringProvider adapter={sentryMonitoringAdapter}>
       <AnalyticsProvider adapter={posthogAnalyticsAdapter}>
         <AuthProvider configs={authConfigs}>
-          {/* <div>hey</div> */}
           <LoginPage />
-          {/* <CreateInspectionPage /> */}
         </AuthProvider>
       </AnalyticsProvider>
     </MonitoringProvider>

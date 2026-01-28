@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { CreateInspection } from '@monkvision/common-ui-web';
-import { Page } from '../pages';
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { CreateInspection } from "@monkvision/common-ui-web";
+import { Page } from "../pages";
 
 export function CreateInspectionPage() {
   const navigate = useNavigate();
