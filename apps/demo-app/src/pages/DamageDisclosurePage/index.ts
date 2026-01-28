@@ -1,1 +1,1 @@
-export * from "./DamageDisclosurePage";
+export * from './DamageDisclosurePage';

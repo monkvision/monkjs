@@ -1,21 +1,21 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   getEnvOrThrow,
   MonkProvider,
   MonkSearchParam,
   useMonkSearchParams,
-} from "@monkvision/common";
-import { useTranslation } from "react-i18next";
-import { LiveConfigAppProvider } from "@monkvision/common-ui-web";
-import { LiveConfig } from "@monkvision/types";
-import { getAuthConfig } from "@monkvision/network";
-import * as config from "../local-config.json";
-import { AppContainer } from "./AppContainer";
-import { authConfigs } from "../auth";
-import { Page } from "./pages";
+} from '@monkvision/common';
+import { useTranslation } from 'react-i18next';
+import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
+import { LiveConfig } from '@monkvision/types';
+import { getAuthConfig } from '@monkvision/network';
+import * as config from '../local-config.json';
+import { AppContainer } from './AppContainer';
+import { authConfigs } from '../auth';
+import { Page } from './pages';
 
 const localConfig =
-  process.env["REACT_APP_USE_LOCAL_CONFIG"] === "true"
+  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
     ? (config as unknown as LiveConfig)
     : undefined;
 
@@ -26,10 +26,7 @@ export function App() {
 
   return (
     <LiveConfigAppProvider
-      id={
-        monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ??
-        getEnvOrThrow("VITE_LIVE_CONFIG_ID")
-      }
+      id={monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ?? getEnvOrThrow('VITE_LIVE_CONFIG_ID')}
       localConfig={localConfig}
       apiDomain={getAuthConfig(authConfigs)?.apiDomain}
       thumbnailDomain={getAuthConfig(authConfigs)?.thumbnailDomain}
