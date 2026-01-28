@@ -42,7 +42,7 @@ export const styles: Styles = {
     flexDirection: 'row-reverse',
     justifyContent: 'flex-end',
   },
-  actionIcons: {
+  actionIconsContainer: {
     display: 'flex',
     gap: '10px',
   },
