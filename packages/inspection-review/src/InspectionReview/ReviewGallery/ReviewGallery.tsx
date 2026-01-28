@@ -1,21 +1,12 @@
-import { Image } from '@monkvision/types';
+import { useInspectionReviewState } from '../hooks';
 import { useGalleryState } from './hooks/useGalleryState';
 import { SpotlightImage } from './SpotlightImage';
 
 /**
- * Props accepted by the ReviewGallery component.
- */
-export interface ReviewGalleryProps {
-  /**
-   * The list of images to be displayed in the gallery.
-   */
-  galleryItems: Image[];
-}
-
-/**
  * The ReviewGallery component that displays a gallery of images for review.
  */
-export function ReviewGallery({ galleryItems }: ReviewGalleryProps) {
+export function ReviewGallery() {
+  const { galleryItems } = useInspectionReviewState();
   const { selectedImage, showDamage, onSelectImage } = useGalleryState({ galleryItems });
 
   if (selectedImage) {
