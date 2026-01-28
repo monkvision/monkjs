@@ -31,9 +31,9 @@ import { calculatePolygonArea } from '../utils/galleryItems.utils';
 /**
  * State provided by the InspectionReviewProvider.
  */
-export type InspectionReviewProvider = Pick<
+export type InspectionReviewProviderState = Pick<
   InspectionReviewProps,
-  'vehicleType' | 'currency' | 'sightsPerTab'
+  'vehicleType' | 'currency' | 'sightsPerTab' | 'additionalInfo'
 > & {
   /**
    * The current inspection data.
@@ -87,13 +87,13 @@ export type InspectionReviewProvider = Pick<
   handleConfirmExteriorDamages: (damagedPart: DamagedPartDetails) => void;
 };
 
-const InspectionReviewStateContext = createContext<InspectionReviewProvider | null>(null);
+const InspectionReviewStateContext = createContext<InspectionReviewProviderState | null>(null);
 
 /**
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
 export function InspectionReviewProvider(props: PropsWithChildren<InspectionReviewProps>) {
-  const { inspectionId, apiConfig, vehicleType, currency, sightsPerTab } = props;
+  const { inspectionId, apiConfig, vehicleType, currency, sightsPerTab, additionalInfo } = props;
 
   const loading = useLoadingState(true);
   const { t } = useTranslation();
@@ -323,7 +323,9 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
         let totalPolygonArea = 0;
         if (hasDamage && imageViews) {
-          if (!imageViews[0].image_region.specification.polygons) return;
+          if (!imageViews[0].image_region.specification.polygons) {
+            return;
+          }
           totalPolygonArea = imageViews[0].image_region.specification.polygons.reduce(
             (sum, polygon) => sum + calculatePolygonArea(polygon),
             0,
@@ -367,6 +369,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         vehicleType,
         currency,
         availablePricings,
+        additionalInfo,
         damagedPartsDetails,
         handleAddInteriorDamage,
         handleDeleteInteriorDamage,
@@ -382,7 +385,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   );
 }
 
-export function useInspectionReviewProvider(): InspectionReviewProvider {
+export function useInspectionReviewProvider(): InspectionReviewProviderState {
   const ctx = useContext(InspectionReviewStateContext);
   if (!ctx) {
     throw new Error(
