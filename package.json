@@ -39,6 +39,9 @@
     "lerna": "^7.1.4",
     "rimraf": "^3.0.2"
   },
+  "resolutions": {
+    "ejs": "^4.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/monkvision/monkjs.git"

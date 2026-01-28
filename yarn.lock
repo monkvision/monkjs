@@ -12531,14 +12531,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^3.1.5, ejs@npm:^3.1.6, ejs@npm:^3.1.7":
-  version: 3.1.10
-  resolution: "ejs@npm:3.1.10"
+"ejs@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "ejs@npm:4.0.1"
   dependencies:
-    jake: ^10.8.5
+    jake: ^10.9.1
   bin:
     ejs: bin/cli.js
-  checksum: ce90637e9c7538663ae023b8a7a380b2ef7cc4096de70be85abf5a3b9641912dde65353211d05e24d56b1f242d71185c6d00e02cb8860701d571786d92c71f05
+  checksum: deed32583afcb1b3631233c47f82e75c74c750b3d809a1f7c6c017633a19a017b3c7b6641ce932a7fb70a76e4c001d6e635040ea0e2ddc4f6124079166c39266
   languageName: node
   linkType: hard
 
@@ -16596,7 +16596,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jake@npm:^10.8.5":
+"jake@npm:^10.9.1":
   version: 10.9.4
   resolution: "jake@npm:10.9.4"
   dependencies:
