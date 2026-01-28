@@ -7,6 +7,14 @@ export const styles: Styles = {
     flexDirection: 'column',
   },
 
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    borderWidth: '1px',
+    borderColor: '#e5e7eb',
+    borderStyle: 'solid',
+  },
+
   thContent: {
     display: 'flex',
     alignItems: 'center',
@@ -26,8 +34,17 @@ export const styles: Styles = {
   td: {
     padding: '12px 16px',
   },
-  actionIcon: {
-    width: 16,
+  tdContent: {
+    display: 'flex',
+    gap: '4px',
+  },
+  tdCurrencyLeft: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'flex-end',
+  },
+  actionIcons: {
+    display: 'flex',
+    gap: '10px',
   },
 
   tfooter: {
