@@ -1,14 +1,15 @@
-import { useTranslation } from 'react-i18next';
-import { Navigate } from 'react-router-dom';
-import { VehicleTypeSelection } from '@monkvision/common-ui-web';
-import { useMonkAppState } from '@monkvision/common';
-import { CaptureWorkflow } from '@monkvision/types';
-import { Page } from '../pages';
+import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
+import { VehicleTypeSelection } from "@monkvision/common-ui-web";
+import { useMonkAppState } from "@monkvision/common";
+import { CaptureWorkflow } from "@monkvision/types";
+import { Page } from "../pages";
 
 export function VehicleTypeSelectionPage() {
-  const { config, vehicleType, authToken, inspectionId, setVehicleType } = useMonkAppState({
-    requireWorkflow: CaptureWorkflow.PHOTO,
-  });
+  const { config, vehicleType, authToken, inspectionId, setVehicleType } =
+    useMonkAppState({
+      requireWorkflow: CaptureWorkflow.PHOTO,
+    });
   const { i18n } = useTranslation();
 
   if (vehicleType || !config.allowVehicleTypeSelection) {
@@ -19,8 +20,8 @@ export function VehicleTypeSelectionPage() {
     <VehicleTypeSelection
       onSelectVehicleType={setVehicleType}
       lang={i18n.language}
-      inspectionId={inspectionId ?? ''}
-      authToken={authToken ?? ''}
+      inspectionId={inspectionId ?? ""}
+      authToken={authToken ?? ""}
       apiDomain={config.apiDomain}
       thumbnailDomain={config.thumbnailDomain}
     />
