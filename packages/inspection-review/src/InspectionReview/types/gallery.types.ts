@@ -5,9 +5,9 @@ import { Sight, type Image, RenderedOutput, Part } from '@monkvision/types';
  */
 export interface GalleryItem {
   /**
-   * The sight of which image will be displayed.
+   * The sight of which image will be displayed, if available.
    */
-  sight: Sight;
+  sight?: Sight;
   /**
    * The image displayed in the gallery.
    */

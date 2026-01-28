@@ -6,7 +6,7 @@ export const styles: Styles = {
     flexWrap: 'wrap',
     flex: 6,
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    height: 'fit-content',
     gap: 8,
     overflowY: 'auto',
   },
