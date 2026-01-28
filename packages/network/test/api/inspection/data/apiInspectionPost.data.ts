@@ -9,6 +9,7 @@ export default {
       generateDamageVisualOutput: true,
       generateSubimageDamages: true,
       generateSubimageParts: true,
+      dampartConfidenceScore: [5, 15, 30],
     },
     {
       name: TaskName.PRICING,

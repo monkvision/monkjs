@@ -45,6 +45,12 @@ export interface TaskCallbackOptions {
   event?: string;
 }
 
+type SizeBucketLimitsCm =
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number];
+
 /**
  * Additional options that you can specify when adding the damage detection task to an inspection.
  */
@@ -81,6 +87,18 @@ export interface CreateDamageDetectionTaskOptions {
    * @default false
    */
   generateSubimageParts?: boolean;
+  /**
+   * Set of parameters to generate a confidence score for a given dampart within damage size buckets.
+   * Limits between damage size buckets in centimeters.
+   *
+   * - Must contain between 1 and 4 values
+   * - Values must be sorted in ascending order
+   *
+   * Example:
+   * [5, 15, 30] produces buckets:
+   * (0–5), (5–15), (15–30), (30–+∞)
+   */
+  dampartConfidenceScore?: SizeBucketLimitsCm;
 }
 
 /**

@@ -114,6 +114,16 @@ export interface GenerateVisualOutput {
   generate_damages?: boolean;
 }
 
+export type ApiSizeBucketLimitsCm =
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number];
+
+export interface ApiDampartConfidenceScore {
+  size_bucket_limits_cm: ApiSizeBucketLimitsCm;
+}
+
 export interface ApiDamageDetectionTaskPostComponent {
   status?: ApiTaskPostProgressStatus;
   callbacks?: ApiCallbacks;
@@ -122,6 +132,7 @@ export interface ApiDamageDetectionTaskPostComponent {
   generate_subimages_damages?: ApiGenerateSubImages;
   generate_visual_output?: GenerateVisualOutput;
   scoring?: Record<string, unknown>;
+  dampart_confidence_score?: ApiDampartConfidenceScore;
 }
 
 export interface ApiWheelAnalysisTaskPostComponent {

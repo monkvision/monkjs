@@ -565,6 +565,11 @@ function getDamageDetectionOptions(
         generate_subimages_parts: taskOptions.generateSubimageParts
           ? { generate_tight: false }
           : undefined,
+        dampart_confidence_score: taskOptions.dampartConfidenceScore
+          ? {
+              size_bucket_limits_cm: taskOptions.dampartConfidenceScore,
+            }
+          : undefined,
       }
     : undefined;
 }
