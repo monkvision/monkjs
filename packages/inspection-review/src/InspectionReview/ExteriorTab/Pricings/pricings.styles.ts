@@ -4,7 +4,8 @@ export const styles: Styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
+    gap: '20px',
     paddingTop: '20px',
   },
 };
