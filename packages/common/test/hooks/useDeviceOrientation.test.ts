@@ -135,7 +135,7 @@ describe('useDeviceOrientation hook', () => {
 
     const value = 2223;
     act(() => eventHandler({ alpha: value }));
-    expect(result.current.alpha).toEqual(value);
+    expect(result.current.alpha).toEqual(360 - value);
 
     unmount();
   });
@@ -190,10 +190,13 @@ describe('useDeviceOrientation hook', () => {
       event: any,
     ) => void;
 
-    const testEvent = { test: 'heloo' };
+    const testEvent = { alpha: 55, test: 'heloo' };
     expect(onDeviceOrientationEvent).not.toHaveBeenCalled();
     act(() => eventHandler(testEvent));
-    expect(onDeviceOrientationEvent).toHaveBeenCalledWith(testEvent);
+    expect(onDeviceOrientationEvent).toHaveBeenCalledWith({
+      ...testEvent,
+      alpha: 360 - testEvent.alpha,
+    });
 
     unmount();
   });
