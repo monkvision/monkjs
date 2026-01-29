@@ -151,10 +151,10 @@ The following table lists the available configuration options in the `VideoCaptu
 _Note : PhotoCapture configurations must have their `workflow` property set to `CaptureWorkflow.VIDEO`._
 
 | Name                        | Type      | Description                                                                                                    | Required | Default Value |
-| --------------------------- | --------- | -------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| --------------------------- | --------- | -------------------------------------------------------------------------------------------------------------- | -------- |---------------|
 | minRecordingDuration        | `number`  | The minimum duration of a recording in milliseconds.                                                           |          | `15000`       |
 | maxRetryCount               | `number`  | The maximum number of retries for failed image uploads.                                                        |          | `3`           |
-| enableFastWalkingWarning    | `boolean` | Boolean indicating if a warning should be shown to the user when they are walking too fast around the vehicle. |          | `true`        |
+| enableFastWalkingWarning    | `boolean` | Boolean indicating if a warning should be shown to the user when they are walking too fast around the vehicle. |          | `false`       |
 | enablePhoneShakingWarning   | `boolean` | Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.        |          | `true`        |
 | fastWalkingWarningCooldown  | `number`  | The duration (in milliseconds) to wait between fast walking warnings.                                          |          | `4000`        |
 | phoneShakingWarningCooldown | `number`  | The duration (in milliseconds) to wait between phone shaking warnings.                                         |          | `4000`        |

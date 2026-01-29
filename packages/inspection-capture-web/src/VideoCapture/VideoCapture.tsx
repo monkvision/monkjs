@@ -68,7 +68,7 @@ export function VideoCapture({
   minRecordingDuration = 15000,
   maxRetryCount = 3,
   enableFastWalkingWarning = true,
-  enablePhoneShakingWarning = true,
+  enablePhoneShakingWarning = false,
   fastWalkingWarningCooldown = 1000,
   phoneShakingWarningCooldown = 1000,
   onComplete,
