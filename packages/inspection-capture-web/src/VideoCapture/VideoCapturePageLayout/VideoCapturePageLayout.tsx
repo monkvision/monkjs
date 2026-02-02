@@ -10,9 +10,11 @@ import { VideoCapturePageLayoutProps } from './VideoCapturePageLayout.types';
  * premissions screen, the tutorial etc.).
  */
 export function VideoCapturePageLayout({
+  showLogo = true,
   showBackdrop = false,
   showTitle = true,
   confirmButtonProps,
+  showConfirmButton = true,
   children,
 }: PropsWithChildren<VideoCapturePageLayoutProps>) {
   const { t } = useTranslation();
@@ -22,12 +24,14 @@ export function VideoCapturePageLayout({
   const { children: _, ...restConfirmButtonProps } = confirmButtonProps ?? {};
   return (
     <div style={containerStyle}>
-      <DynamicSVG svg={monkLogoSVG} {...logoProps} />
+      {showLogo && <DynamicSVG svg={monkLogoSVG} {...logoProps} />}
       {showTitle && <div style={titleStyle}>{t('video.introduction.title')}</div>}
       <div style={styles['childrenContainer']}>{children}</div>
-      <div style={styles['confirmContainer']}>
-        <Button {...restConfirmButtonProps} />
-      </div>
+      {showConfirmButton && (
+        <div style={styles['confirmContainer']}>
+          <Button {...restConfirmButtonProps} />
+        </div>
+      )}
     </div>
   );
 }

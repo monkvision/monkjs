@@ -14,7 +14,7 @@ export const styles: Styles = {
     alignItems: 'center',
   },
   containerBackdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0)',
   },
   logo: {
     margin: '32px 0',
@@ -88,7 +88,7 @@ export function useVideoCapturePageLayoutStyles({
     },
     containerStyle: {
       ...styles['container'],
-      ...(showBackdrop ? styles['containerBackdrop'] : {}),
+      ...(showBackdrop && { backgroundColor: palette.background.base }),
     },
     titleStyle: {
       ...styles['title'],

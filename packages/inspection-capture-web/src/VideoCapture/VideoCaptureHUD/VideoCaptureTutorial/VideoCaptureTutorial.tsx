@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next';
-import { PageLayoutItem, VideoCapturePageLayout } from '../../VideoCapturePageLayout';
+import { VideoTutorial } from '@monkvision/common-ui-web';
+import { VideoCapturePageLayout } from '../../VideoCapturePageLayout';
 
 /**
  * Props accepted by the VideoCaptureTutorial component.
@@ -15,30 +15,14 @@ export interface VideoCaptureTutorialProps {
  * This component is a tutorial displayed on top of the camera when the user first starts the video capture.
  */
 export function VideoCaptureTutorial({ onClose }: VideoCaptureTutorialProps) {
-  const { t } = useTranslation();
-
-  const confirmButtonProps = {
-    onClick: onClose,
-    children: t('video.tutorial.confirm'),
-  };
-
   return (
-    <VideoCapturePageLayout showBackdrop confirmButtonProps={confirmButtonProps}>
-      <PageLayoutItem
-        icon='car-arrow'
-        title={t('video.tutorial.start.title')}
-        description={t('video.tutorial.start.description')}
-      />
-      <PageLayoutItem
-        icon='360'
-        title={t('video.tutorial.finish.title')}
-        description={t('video.tutorial.finish.description')}
-      />
-      <PageLayoutItem
-        icon='circle-dot'
-        title={t('video.tutorial.photos.title')}
-        description={t('video.tutorial.photos.description')}
-      />
+    <VideoCapturePageLayout
+      showLogo={false}
+      showTitle={false}
+      showBackdrop={true}
+      showConfirmButton={false}
+    >
+      <VideoTutorial onComplete={onClose} />
     </VideoCapturePageLayout>
   );
 }

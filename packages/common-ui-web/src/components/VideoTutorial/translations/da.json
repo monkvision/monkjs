@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Roter til liggende format",
+        "text": "Skift din telefon til vandret tilstand for at starte optagelsen."
+      },
+      "portrait": {
+        "title": "Roter til portræt",
+        "text": "Skift din telefon til portrættilstand for at starte optagelsen."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "360° rundt om køretøjet",
+      "text": "Gå langsomt rundt om køretøjet for at få et komplet 360° billede på cirka 30–40 sekunder."
+    },
+    "vehicle-surroundings": {
+      "title": "Ryddelige omgivelser",
+      "text": "Sørg for, at området omkring køretøjet er fri for forhindringer for at få bedre optagelseskvalitet."
+    },
+    "vehicle-phone": {
+      "title": "Hold passende afstand",
+      "text": "Sørg for, at der er tilstrækkelig afstand, så hele køretøjet er synligt på billedet, fra tag til jorden."
+    },
+    "vehicle-coverage": {
+      "title": "Afslut når det er færdigt",
+      "text": "Når fremskridtslinjen er fuld, skal du trykke på optagelsesknappen igen for at stoppe."
+    }
+  },
+  "checkbox": "Vis ikke igen",
+  "button": {
+    "get-started": "Kom i gang",
+    "continue": "Fortsæt"
+  }
+}
