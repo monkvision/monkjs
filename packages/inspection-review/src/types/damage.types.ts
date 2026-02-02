@@ -54,8 +54,28 @@ export interface SelectedInteriorDamageData {
   damage: InteriorDamage;
 }
 
+/**
+ * Enumeration of supported currencies with their symbols.
+ */
 export enum Currencies {
+  /**
+   * US Dollar
+   */
   USD = '$',
+  /**
+   * Euro
+   */
   EUR = '€',
+  /**
+   * British Pound
+   */
   GBP = '£',
+  /**
+   * Swiss Franc
+   */
+  CHF = 'CHF',
+  /**
+   * Australian Dollar
+   */
+  AUD = 'AUD',
 }

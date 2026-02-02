@@ -16,8 +16,9 @@ export const styles: Styles = {
     textAlign: 'center',
   },
   iconText: {
-    fontSize: 20,
+    fontSize: 18,
     margin: 0,
     color: 'white',
+    lineHeight: 1,
   },
 };
