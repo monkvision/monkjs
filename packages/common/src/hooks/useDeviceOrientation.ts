@@ -69,11 +69,25 @@ export function useDeviceOrientation(
 
   const handleDeviceOrientationEvent = useCallback(
     (event: DeviceOrientationEvent) => {
-      const value = (event as DeviceOrientationEventiOS).webkitCompassHeading ?? event.alpha ?? 0;
-      setAlpha(value);
+      const webkitHeading = (event as DeviceOrientationEventiOS).webkitCompassHeading;
+      let heading: number;
+
+      if (webkitHeading !== undefined) {
+        heading = webkitHeading;
+      } else if (event.alpha !== null) {
+        heading = 360 - event.alpha;
+      } else {
+        heading = 0;
+      }
+
+      setAlpha(heading);
       setBeta(event.beta ?? 0);
       setGamma(event.gamma ?? 0);
-      options?.onDeviceOrientationEvent?.(event);
+
+      options?.onDeviceOrientationEvent?.({
+        ...event,
+        alpha: heading,
+      });
     },
     [options?.onDeviceOrientationEvent],
   );
@@ -92,16 +106,25 @@ export function useDeviceOrientation(
   }, []);
 
   useEffect(() => {
-    if (isPermissionGranted) {
-      window.addEventListener('deviceorientation', handleDeviceOrientationEvent);
+    if (!isPermissionGranted) {
+      return undefined;
     }
 
+    const eventType =
+      'ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'deviceorientation';
+
+    window.addEventListener(eventType, handleDeviceOrientationEvent);
+
     return () => {
-      if (isPermissionGranted) {
-        window.removeEventListener('deviceorientation', handleDeviceOrientationEvent);
-      }
+      window.removeEventListener(eventType, handleDeviceOrientationEvent);
     };
   }, [isPermissionGranted, handleDeviceOrientationEvent]);
 
-  return useObjectMemo({ alpha, beta, gamma, isPermissionGranted, requestCompassPermission });
+  return useObjectMemo({
+    alpha,
+    beta,
+    gamma,
+    isPermissionGranted,
+    requestCompassPermission,
+  });
 }
