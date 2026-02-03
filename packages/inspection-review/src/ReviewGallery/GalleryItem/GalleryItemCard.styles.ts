@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { InteractiveStatus, Styles } from '@monkvision/types';
 import { changeAlpha, useMonkTheme } from '@monkvision/common';
 import { GalleryItem } from '../../types';
+import { useInspectionReviewProvider } from '../../hooks';
 
 const CARD_WIDTH_PX = 140;
 const CARD_BORDER_RADIUS_PX = 8;
@@ -63,6 +64,7 @@ export interface UseGalleryItemCardStylesParams {
  * Hook to get styles for the GalleryItemCard component.
  */
 export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardStylesParams) {
+  const { selectedExteriorPart } = useInspectionReviewProvider();
   const { palette } = useMonkTheme();
 
   const colors = useMemo(
@@ -74,6 +76,30 @@ export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardSty
     }),
     [palette],
   );
+
+  const labelBackgroundColor = useMemo(() => {
+    let color = colors.labelBackground;
+    const containsDamagesOfSelectedPart = item.parts.some(
+      (p) => p.type === selectedExteriorPart?.part && p.damages.length > 0,
+    );
+
+    if (selectedExteriorPart) {
+      if (item.hasDamage && containsDamagesOfSelectedPart) {
+        color = palette.alert.dark;
+      }
+    } else if (item.hasDamage || !item.sight) {
+      color = palette.alert.dark;
+    }
+
+    return color;
+  }, [
+    selectedExteriorPart,
+    item.hasDamage,
+    item.sight,
+    item.parts,
+    palette.alert.dark,
+    colors.labelBackground,
+  ]);
 
   let labelColor = palette.text.white;
   if (status === InteractiveStatus.HOVERED) {
@@ -97,7 +123,7 @@ export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardSty
     },
     labelStyle: {
       ...styles['label'],
-      backgroundColor: item.hasDamage || !item.sight ? palette.alert.dark : colors.labelBackground,
+      backgroundColor: labelBackgroundColor,
       color: labelColor,
     },
   };

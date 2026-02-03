@@ -125,10 +125,10 @@ export type InspectionReviewProviderState = Pick<
    * If currency is $, this will be true.
    *
    * @example
-   * // For Currencies.USD
+   * // For CurrencySymbol.USD
    * isLeftSideCurrency = true; // $100
    *
-   * // For Currencies.EUR
+   * // For CurrencySymbol.EUR
    * isLeftSideCurrency = false; // 100€
    */
   isLeftSideCurrency: boolean;
@@ -148,6 +148,16 @@ export type InspectionReviewProviderState = Pick<
    * The component of the currently active tab ready to be rendered.
    */
   ActiveTabComponent: React.FC | React.ReactElement | null;
+  /**
+   * The part selected in the Vehicle360 wireframe from the Exterior tab along with its damaged details.
+   * If no part is selected, this will be null.
+   */
+  selectedExteriorPart: DamagedPartDetails | null;
+  /**
+   * Function to change the selected exterior part in the Exterior tab.
+   * If passing `null` as parameter, deselects the current part.
+   */
+  onChangeSelectedExteriorPart: (part: DamagedPartDetails | null) => void;
   /**
    * Function to change the active tab.
    */
