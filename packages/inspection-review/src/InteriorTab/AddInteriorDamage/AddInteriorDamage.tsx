@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { DoneButton } from '../../DoneButton';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/useInspectionReviewProvider';
 import { styles } from './AddInteriorDamage.styles';
 import { useInteriorDamage } from './hooks/useInteriorDamage';
 import { InteriorTabState } from '../hooks/useInteriorTab';

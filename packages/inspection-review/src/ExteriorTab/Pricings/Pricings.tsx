@@ -1,4 +1,4 @@
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/useInspectionReviewProvider';
 import { PricingLegend } from './PricingLegend';
 import { styles } from './pricings.styles';
 
