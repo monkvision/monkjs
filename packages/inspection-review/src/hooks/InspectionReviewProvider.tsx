@@ -9,7 +9,7 @@ import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps, DamagedPartDetail
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
 import useDamagedPartsState from './useDamagedPartsState';
 import useDamagedPartActionsState from './useDamagedPartActionsState';
-import { useGalleryState } from '../ReviewGallery/hooks';
+import { useGalleryState } from '../components/ReviewGallery/hooks';
 import { useTabsState } from './useTabsState';
 import { InspectionReviewStateContext } from './useInspectionReviewProvider';
 
