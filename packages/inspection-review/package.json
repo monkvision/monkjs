@@ -32,7 +32,9 @@
     "@monkvision/sights": "5.1.8",
     "@monkvision/types": "5.1.8",
     "css": "^3.0.0",
+    "file-saver": "^2.0.5",
     "i18next": "^23.4.5",
+    "jszip": "^3.10.1",
     "react-i18next": "^13.2.0",
     "react-zoom-pan-pinch": "^3.7.0"
   },
@@ -57,6 +59,7 @@
     "@testing-library/user-event": "^12.1.5",
     "@types/babel__core": "^7",
     "@types/css": "^0.0.34",
+    "@types/file-saver": "^2",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.18",
     "@types/react": "^17.0.2",
