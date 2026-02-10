@@ -53,3 +53,9 @@ export interface SelectedInteriorDamageData {
    */
   damage: InteriorDamage;
 }
+
+export enum Currencies {
+  USD = '$',
+  EUR = '€',
+  GBP = '£',
+}
