@@ -28,14 +28,20 @@ export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
 
   return (
     <div style={styles['container']}>
-      {allTabs.map((tab) => (
+      {allTabs.map((tab, index, array) => (
         <Button
           key={tab}
+          onClick={() => onTabChange(tab)}
           style={{
             ...styles['tabButton'],
+            ...(index === 0
+              ? styles['firstButton']
+              : index === array.length - 1
+              ? styles['lastButton']
+              : styles['middleButton']),
             backgroundColor: activeTab === tab ? palette.background.dark : '',
+            color: activeTab === tab ? palette.text.white : '',
           }}
-          onClick={() => onTabChange(tab)}
         >
           {tab}
         </Button>
