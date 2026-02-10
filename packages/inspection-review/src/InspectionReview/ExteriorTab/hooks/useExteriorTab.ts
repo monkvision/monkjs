@@ -68,7 +68,7 @@ export interface TabExteriorState {
  * Custom hook to manage the state and handlers for the ExteriorTab component.
  */
 export function useExteriorTab() {
-  const { vehicleTypes, handleConfirmExteriorDamages, damagedPartsDetails, availablePricings } =
+  const { vehicleType, handleConfirmExteriorDamages, damagedPartsDetails, availablePricings } =
     useInspectionReviewState();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
 
@@ -142,7 +142,7 @@ export function useExteriorTab() {
     currentView,
     selectedPart,
     orientation,
-    vehicleType: vehicleTypes[0],
+    vehicleType,
     handleRotateLeft,
     handleRotateRight,
     handlePartClicked,
