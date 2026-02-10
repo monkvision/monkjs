@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
-import { InspectionReviewProps, TabContent, TabKeys, TabObject } from '../types';
+import { type InspectionReviewProps, type TabContent, TabKeys, type TabObject } from '../types';
 import type { InspectionReviewProviderState } from '../types/inspection-review.types';
 import { defaultTabs } from '../config';
 
@@ -108,10 +107,10 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
     [allTabs, activeTab, allGalleryItems, currentGalleryItems, sightsPerTab, onTabChangeListeners],
   );
 
-  return useObjectMemo({
+  return {
     allTabs,
     activeTab,
     onTabChange: handleTabChange,
     ActiveTabComponent,
-  });
+  };
 }
