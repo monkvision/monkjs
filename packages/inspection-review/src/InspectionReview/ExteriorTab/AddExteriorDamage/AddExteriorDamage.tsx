@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { DamageType } from '@monkvision/types';
 import { useMonkTheme, useObjectTranslation, vehiclePartLabels } from '@monkvision/common';
 import { SwitchButton } from '@monkvision/common-ui-web';
@@ -50,102 +51,99 @@ export function AddExteriorDamage({
 }: AddExteriorDamageProps) {
   const { palette } = useMonkTheme();
   const { tObj } = useObjectTranslation();
+  const { t } = useTranslation();
   const { currency } = useInspectionReviewState();
+  const isLeftCurrency = currency === '$';
   const { hasDamage, setHasDamage, damageTypes, onDamageClicked, pricing, setPricing } =
     useExteriorDamage({ detailedPart });
 
   return (
-    <div style={styles['container']}>
-      <div style={styles['content']}>
-        <div style={styles['title']}>
-          <p>{detailedPart?.part ? tObj(vehiclePartLabels[detailedPart?.part]) : 'unknown'}</p>
-        </div>
-        <div style={styles['switchButtonContainer']}>
-          <p>This part is damaged</p>
-          <SwitchButton
-            checked={hasDamage}
-            checkedPrimaryColor={palette.primary.base}
-            checkedSecondaryColor={palette.text.white}
-            uncheckedPrimaryColor={palette.secondary.base}
-            uncheckedSecondaryColor={palette.background.light}
-            onSwitch={setHasDamage}
-          />
-        </div>
+    <div>
+      <div style={styles['title']}>
+        <p>{detailedPart?.part ? tObj(vehiclePartLabels[detailedPart?.part]) : 'unknown'}</p>
+      </div>
+      <div style={styles['switchButtonContainer']}>
+        <p>{t('tabs.exterior.addDamage.title')}</p>
+        <SwitchButton
+          checked={hasDamage}
+          checkedPrimaryColor={palette.primary.base}
+          checkedSecondaryColor={palette.text.white}
+          uncheckedPrimaryColor={palette.secondary.base}
+          uncheckedSecondaryColor={palette.background.light}
+          onSwitch={setHasDamage}
+        />
+      </div>
 
-        {hasDamage && (
-          <>
-            <p style={styles['section']}>Damages</p>
-            <div style={styles['isDamageContainer']}>
-              <div style={styles['damagesColumnContainer']}>
-                {firstColumnDamages.map((damage) => (
-                  <DamageChip
-                    key={damage}
-                    damage={damage}
-                    selectedDamages={damageTypes}
-                    onDamageClicked={onDamageClicked}
-                  />
-                ))}
-              </div>
-              <div style={styles['damagesColumnContainer']}>
-                {secondColumnDamages.map((damage) => (
-                  <DamageChip
-                    key={damage}
-                    damage={damage}
-                    selectedDamages={damageTypes}
-                    onDamageClicked={onDamageClicked}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div style={styles['inputSectionContainer']}>
-              <p style={styles['section']}>Price</p>
-              <div style={styles['inputSection']}>
-                {currency === '$' && (
-                  <div style={{ alignSelf: 'center', paddingLeft: '20px', paddingRight: '5px' }}>
-                    {currency}
-                  </div>
-                )}
-                <input
-                  type='text'
-                  style={{
-                    ...styles['price'],
-                    justifyItems: currency === '$' ? 'start' : 'end',
-                  }}
-                  maxLength={4}
-                  value={pricing ?? 0}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    if (value === '' || /^\d*$/.test(value)) {
-                      setPricing(value === '' ? undefined : Number(value));
-                    }
-                  }}
+      {hasDamage && (
+        <>
+          <p style={styles['section']}>{t('tabs.exterior.addDamage.listTitle')}</p>
+          <div style={styles['damageContainer']}>
+            <div style={styles['damagesColumnContainer']}>
+              {firstColumnDamages.map((damage) => (
+                <DamageChip
+                  key={damage}
+                  damage={damage}
+                  selectedDamages={damageTypes}
+                  onDamageClicked={onDamageClicked}
                 />
-                {currency !== '$' && (
-                  <div style={{ alignSelf: 'center', paddingLeft: '5px', paddingRight: '20px' }}>
-                    {currency}
-                  </div>
-                )}
-              </div>
+              ))}
             </div>
-          </>
-        )}
+            <div style={styles['damagesColumnContainer']}>
+              {secondColumnDamages.map((damage) => (
+                <DamageChip
+                  key={damage}
+                  damage={damage}
+                  selectedDamages={damageTypes}
+                  onDamageClicked={onDamageClicked}
+                />
+              ))}
+            </div>
+          </div>
 
-        <div style={styles['footerContainer']}>
-          <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={handleCancel}>
-            CANCEL
-          </button>
-          <DoneButton
-            onConfirm={() => {
-              if (!detailedPart) {
-                return;
-              }
-              handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage });
-            }}
-          >
-            DONE
-          </DoneButton>
-        </div>
+          <div style={styles['inputSectionContainer']}>
+            <p style={styles['section']}>{t('tabs.exterior.addDamage.priceLabel')}</p>
+            <div
+              style={{
+                ...styles['inputSection'],
+                ...(isLeftCurrency ? styles['inputSectionCurrencyLeft'] : {}),
+              }}
+            >
+              <input
+                type='text'
+                placeholder='0'
+                style={{
+                  ...styles['input'],
+                  justifyItems: isLeftCurrency ? 'start' : 'end',
+                }}
+                maxLength={4}
+                value={pricing ?? 0}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  if (value === '' || /^\d*$/.test(value)) {
+                    setPricing(value === '' ? undefined : Number(value));
+                  }
+                }}
+              />
+              <div style={styles['currency']}>{currency}</div>
+            </div>
+          </div>
+        </>
+      )}
+
+      <div style={styles['footerContainer']}>
+        <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={handleCancel}>
+          {t('tabs.actionButtons.cancel')}
+        </button>
+        <DoneButton
+          onConfirm={() => {
+            if (!detailedPart) {
+              return;
+            }
+            handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage });
+          }}
+        >
+          {t('tabs.actionButtons.done')}
+        </DoneButton>
       </div>
     </div>
   );

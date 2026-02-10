@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
 import { useMonkTheme } from '@monkvision/common';
 import { useDownloadImages } from './hooks/useDownloadImages';
@@ -8,6 +9,7 @@ import { styles } from './DownloadImagesButton.styles';
  */
 export function DownloadImagesButton() {
   const { palette } = useMonkTheme();
+  const { t } = useTranslation();
   const { loading, handleDownloadPictures } = useDownloadImages();
 
   return (
@@ -19,7 +21,7 @@ export function DownloadImagesButton() {
       primaryColor={palette.text.white}
       style={styles['downloadImagesButton']}
     >
-      DOWNLOAD PICTURES
+      {t('actionButtons.downloadPictures')}
     </Button>
   );
 }
