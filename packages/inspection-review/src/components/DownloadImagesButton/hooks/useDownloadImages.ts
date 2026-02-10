@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { getLanguage, useLoadingState, useObjectMemo } from '@monkvision/common';
+import { getLanguage, useLoadingState } from '@monkvision/common';
 import { DownloadImagesButtonProps } from '../../../types/download-images.types';
 import { useInspectionReviewProvider } from '../../../hooks';
 
@@ -71,8 +71,8 @@ export function useDownloadImages(props: DownloadImagesButtonProps): DownloadIma
     }
   };
 
-  return useObjectMemo({
+  return {
     loading,
     handleDownloadImages,
-  });
+  };
 }
