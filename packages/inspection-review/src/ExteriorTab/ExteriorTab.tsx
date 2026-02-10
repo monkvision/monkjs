@@ -10,7 +10,6 @@ import { styles } from './ExteriorTab.styles';
 export function ExteriorTab() {
   const {
     currentView,
-    selectedPart,
     orientation,
     vehicleType,
     validatedParts,
@@ -49,11 +48,5 @@ export function ExteriorTab() {
     );
   }
 
-  return (
-    <AddExteriorDamage
-      selectedPart={selectedPart}
-      onDone={onDone}
-      onCancelDamage={onCancelDamage}
-    />
-  );
+  return <AddExteriorDamage onDone={onDone} onCancelDamage={onCancelDamage} />;
 }
