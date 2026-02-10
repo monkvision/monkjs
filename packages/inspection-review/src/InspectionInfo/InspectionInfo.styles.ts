@@ -9,7 +9,8 @@ export const styles: Styles = {
   },
 
   item: {
-    backgroundColor: 'darkgray',
+    backgroundColor: '#d3d3d3',
+    color: '#000000',
     padding: '4px 6px 4px 6px',
     borderRadius: 4,
   },
