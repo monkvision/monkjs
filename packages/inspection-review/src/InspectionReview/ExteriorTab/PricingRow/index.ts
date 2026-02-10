@@ -1,1 +1,0 @@
-export { PricingRow } from './PricingRow';
