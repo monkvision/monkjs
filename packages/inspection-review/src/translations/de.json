@@ -36,5 +36,8 @@
       "closeSpotlight": "Aktuelles Bild schließen",
       "changeImage": "Bild wechseln"
     }
+  },
+  "errors": {
+    "inspectionId": "Die angeforderte Inspektions-ID wurde auf dem Server nicht gefunden. Wenn Sie die id manuell eingegeben haben, überprüfen Sie bitte die Schreibweise und versuchen Sie es erneut."
   }
 }
