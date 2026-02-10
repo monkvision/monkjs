@@ -21,19 +21,11 @@ export interface GeneratePDFState {
 export function useGeneratePDF(props: GeneratePDFButtonProps): GeneratePDFState {
   const loading = useLoadingState();
 
-  const defaultPdfGeneration = () => {
-    console.log('Generate PDF clicked');
-  };
-
   const handleGeneratePdf = () => {
     loading.start();
 
     try {
-      if (props.onDownloadPDF) {
-        props.onDownloadPDF();
-      } else {
-        defaultPdfGeneration();
-      }
+      props.onDownloadPDF?.();
     } finally {
       loading.onSuccess();
     }
