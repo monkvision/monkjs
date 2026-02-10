@@ -6,11 +6,12 @@ import {
   MonkUpdatedOneInspectionAdditionalDataAction,
   useMonkState,
 } from '@monkvision/common';
-import { MonkApiConfig, useMonkApi } from '@monkvision/network';
+import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { InspectionReviewProps } from '../InspectionReview';
 import { sights } from '@monkvision/sights';
 import { InteriorDamage } from '../InteriorTab';
+import { DEFAULT_PRICES, PriceData } from '../types/pricing.types';
 
 /**
  * An item in the gallery, consisting of a sights, its image and associated rendered output.
@@ -33,7 +34,7 @@ export interface GalleryItem {
 /**
  * State provided by the InspectionReviewProvider.
  */
-export type InspectionReviewState = {
+export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes'> & {
   /**
    * The current inspection data.
    */
@@ -46,6 +47,10 @@ export type InspectionReviewState = {
    * The currently items displayed in the gallery.
    */
   currentGalleryItems: GalleryItem[];
+  /**
+   * Available prices to be displayed in the price legend section.
+   */
+  availablePrices: Record<string, PriceData>;
   /**
    * Function to update the currently displayed gallery items.
    */
@@ -64,15 +69,7 @@ export type InspectionReviewState = {
 /**
  * Props accepted by the InspectionReviewProvider.
  */
-export interface InspectionReviewProviderProps extends Partial<InspectionReviewProps> {
-  /**
-   * The api config used to communicate with the API.
-   */
-  apiConfig: MonkApiConfig;
-  /**
-   * The ID of the inspection to be reviewed.
-   */
-  inspectionId: string;
+export interface InspectionReviewProviderProps extends InspectionReviewProps {
   /**
    * The loading state to manage loading status.
    */
@@ -93,6 +90,14 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
+
+  const availablePrices = useMemo(
+    () => ({
+      ...DEFAULT_PRICES,
+      ...props.prices,
+    }),
+    [props.prices],
+  );
 
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
@@ -210,6 +215,8 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         setCurrentGalleryItems,
         handleAddDamage,
         handleDeleteDamage,
+        vehicleTypes: props.vehicleTypes,
+        availablePrices,
       }}
     >
       {props.children}
