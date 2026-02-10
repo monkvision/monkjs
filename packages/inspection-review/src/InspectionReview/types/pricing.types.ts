@@ -1,7 +1,7 @@
 /**
  * Colors associated with different pricing levels.
  */
-export enum PriceColors {
+export enum PricingColors {
   NONE = 'lightgray',
   LOW = '#62b0ef',
   MID = '#e1a25b',
@@ -11,7 +11,7 @@ export enum PriceColors {
 /**
  * Pricing levels for vehicle parts.
  */
-export enum PriceLevels {
+export enum PricingLevels {
   NONE = 'none',
   LOW = 'low',
   MID = 'mid',
@@ -21,8 +21,8 @@ export enum PriceLevels {
 /**
  * Pricing data structure to display pricing legends and to colorize parts based on their pricing level.
  */
-export interface PriceData {
-  color: PriceColors | string;
+export interface PricingData {
+  color: PricingColors | string;
   min: number;
   max: number;
 }
@@ -30,24 +30,24 @@ export interface PriceData {
 /**
  * The default prices that are shown in the price legend section.
  */
-export const DEFAULT_PRICES: Record<PriceLevels | string, PriceData> = {
-  [PriceLevels.NONE]: {
-    color: PriceColors.NONE,
+export const DEFAULT_PRICINGS: Record<PricingLevels | string, PricingData> = {
+  [PricingLevels.NONE]: {
+    color: PricingColors.NONE,
     min: 0,
     max: 0,
   },
-  [PriceLevels.LOW]: {
-    color: PriceColors.LOW,
+  [PricingLevels.LOW]: {
+    color: PricingColors.LOW,
     min: 1,
     max: 300,
   },
-  [PriceLevels.MID]: {
-    color: PriceColors.MID,
+  [PricingLevels.MID]: {
+    color: PricingColors.MID,
     min: 300,
     max: 600,
   },
-  [PriceLevels.HIGH]: {
-    color: PriceColors.HIGH,
+  [PricingLevels.HIGH]: {
+    color: PricingColors.HIGH,
     min: 600,
     max: 999999,
   },
