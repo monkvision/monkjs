@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { PricingData, PricingLevels } from '../../../types/pricing.types';
 import { styles } from './pricingLegend.styles';
 import { InspectionReviewProps } from '../../../types';
-import { InspectionReviewProviderState } from '../../../hooks/InspectionReviewProvider';
+import { InspectionReviewProviderState } from '../../../types/inspection-review.types';
 
 /**
  * Props accepted by the PriceLegend component.

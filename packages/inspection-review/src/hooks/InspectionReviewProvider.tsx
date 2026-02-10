@@ -1,82 +1,17 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { useLoadingState, useMonkState, useMonkTheme } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
-import { CurrencyCode, Inspection } from '@monkvision/types';
+import { CurrencySymbol } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { sights } from '@monkvision/sights';
-import {
-  GalleryItem,
-  DEFAULT_PRICINGS,
-  PricingData,
-  DamagedPartDetails,
-  InspectionReviewProps,
-  InteriorDamage,
-} from '../types';
+import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
 import useDamagedPartsState from './useDamagedPartsState';
 import useDamagedPartActionsState from './useDamagedPartActionsState';
-
-/**
- * State provided by the InspectionReviewProvider.
- */
-export type InspectionReviewProviderState = Pick<
-  InspectionReviewProps,
-  'vehicleType' | 'currency' | 'sightsPerTab' | 'additionalInfo'
-> & {
-  /**
-   * The current inspection data.
-   */
-  inspection: Inspection | undefined;
-  /**
-   * The list of images available for this review.
-   */
-  allGalleryItems: GalleryItem[];
-  /**
-   * The currently items displayed in the gallery.
-   */
-  currentGalleryItems: GalleryItem[];
-  /**
-   * Available prices to be displayed in the price legend section.
-   */
-  availablePricings: Record<string, PricingData>;
-  /**
-   * Details about the parts that have been marked as damaged in the inspection.
-   */
-  damagedPartsDetails: DamagedPartDetails[];
-  /**
-   * The currency symbol position indicator autocalculated based on the currency property.
-   * If currency is $, this will be true.
-   *
-   * @example
-   * // For Currencies.USD
-   * isLeftSideCurrency = true; // $100
-   *
-   * // For Currencies.EUR
-   * isLeftSideCurrency = false; // 100€
-   */
-  isLeftSideCurrency: boolean;
-  /**
-   * Function to update the currently displayed gallery items.
-   */
-  setCurrentGalleryItems: (items: GalleryItem[]) => void;
-  /**
-   * Function to handle adding new interior damage and updating the state.
-   * If an index is provided, it updates the existing damage at that index.
-   */
-  handleAddInteriorDamage: (damage: InteriorDamage, index?: number) => void;
-  /**
-   * Function to handle deleting interior damage by index.
-   */
-  handleDeleteInteriorDamage: (index: number) => void;
-  /**
-   * Function to handle confirming exterior damages of a part. It can add or remove damages for a part,
-   * or update the pricing information.
-   */
-  handleConfirmExteriorDamages: (damagedPart: DamagedPartDetails) => void;
-};
-
-const InspectionReviewStateContext = createContext<InspectionReviewProviderState | null>(null);
+import { useGalleryState } from '../ReviewGallery/hooks';
+import { useTabsState } from './useTabsState';
+import { InspectionReviewStateContext } from './useInspectionReviewProvider';
 
 /**
  * The InspectionReviewProvider component that provides inspection review state to its children.
@@ -94,7 +29,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
 
-  const isLeftSideCurrency = useMemo(() => currency === CurrencyCode.USD, [currency]);
+  const isLeftSideCurrency = useMemo(() => currency === CurrencySymbol.USD, [currency]);
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
     [state.inspections, inspectionId],
@@ -113,6 +48,18 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       inspection,
       loading,
     });
+  const { selectedItem, onSelectItemById, resetSelectedItem } = useGalleryState({
+    currentGalleryItems,
+  });
+  const { allTabs, activeTab, ActiveTabComponent, onTabChange } = useTabsState({
+    allGalleryItems,
+    currentGalleryItems,
+    setCurrentGalleryItems,
+    inspection,
+    sightsPerTab,
+    customTabs: props.customTabs,
+    onTabChangeListeners: [resetSelectedItem],
+  });
 
   useEffect(() => {
     loading.start();
@@ -208,6 +155,13 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         handleConfirmExteriorDamages,
         sightsPerTab,
         isLeftSideCurrency,
+        selectedItem,
+        onSelectItemById,
+        resetSelectedItem,
+        allTabs,
+        activeTab,
+        ActiveTabComponent,
+        onTabChange,
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}
@@ -217,14 +171,4 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       {!loading.isLoading && !loading.error && props.children}
     </InspectionReviewStateContext.Provider>
   );
-}
-
-export function useInspectionReviewProvider(): InspectionReviewProviderState {
-  const ctx = useContext(InspectionReviewStateContext);
-  if (!ctx) {
-    throw new Error(
-      'useInspectionReviewProvider must be used inside InspectionReviewStateProvider',
-    );
-  }
-  return ctx;
 }

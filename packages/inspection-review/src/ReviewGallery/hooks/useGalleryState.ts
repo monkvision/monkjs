@@ -1,29 +1,29 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { GalleryItem } from '../../types';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { InspectionReviewProviderState } from '../../types/inspection-review.types';
+
+/**
+ * Parameters accepted by the useGalleryState hook.
+ */
+export interface UseGalleryStateParams
+  extends Pick<InspectionReviewProviderState, 'currentGalleryItems'> {}
 
 /**
  * Handle used to manage the gallery state.
  */
-export interface HandleGalleryState {
-  /**
-   * The currently selected item in the gallery.
-   */
-  selectedItem: GalleryItem | null;
-  /**
-   * Function to select an item by its image ID.
-   * If passing null as parameter, deselects the current item.
-   */
-  onSelectItemById: (imageId: string | null) => void;
-  resetSelectedItem: () => void;
-}
+export interface HandleGalleryState
+  extends Pick<
+    InspectionReviewProviderState,
+    'selectedItem' | 'onSelectItemById' | 'resetSelectedItem'
+  > {}
 
 /**
- * Custom hook to manage the state of the gallery, including selected image, navigation, and whether to show damage.
+ * Custom hook to manage the state of the selecting and deselecting items in the gallery.
  */
-export function useGalleryState(): HandleGalleryState {
-  const { currentGalleryItems } = useInspectionReviewProvider();
+export function useGalleryState({
+  currentGalleryItems,
+}: UseGalleryStateParams): HandleGalleryState {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const isSelectedItemAvailable = useMemo<boolean>(
     () =>
