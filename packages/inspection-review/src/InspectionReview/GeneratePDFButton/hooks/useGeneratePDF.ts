@@ -12,7 +12,7 @@ export interface GeneratePDFState {
   /**
    * Handler function to initiate PDF generation.
    */
-  handleGeneratePdf: () => void;
+  handleGeneratePdf?: () => void;
 }
 
 /**
@@ -22,16 +22,20 @@ export function useGeneratePDF(props: GeneratePDFButtonProps): GeneratePDFState 
   const loading = useLoadingState();
 
   const defaultPdfGeneration = () => {
-    loading.start();
     console.log('Generate PDF clicked');
-    loading.onSuccess();
   };
 
   const handleGeneratePdf = () => {
-    if (props.onDownloadPDF) {
-      props.onDownloadPDF();
-    } else {
-      defaultPdfGeneration();
+    loading.start();
+
+    try {
+      if (props.onDownloadPDF) {
+        props.onDownloadPDF();
+      } else {
+        defaultPdfGeneration();
+      }
+    } finally {
+      loading.onSuccess();
     }
   };
 
