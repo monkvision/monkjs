@@ -5,9 +5,32 @@ import { useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
 import { UserMediaResult, useUserMedia } from './useUserMedia';
 
-function getPreviewDimensions(refVideo: HTMLVideoElement, windowDimensions: PixelDimensions) {
-  const height = refVideo.videoHeight;
-  const width = refVideo.videoWidth;
+function getStreamDimensionsFromVideo(
+  videoElement: HTMLVideoElement,
+  stream: MediaStream,
+): PixelDimensions | null {
+  const videoTrack = stream.getVideoTracks()[0];
+  const settings = videoTrack?.getSettings();
+
+  if (!settings?.height || !settings?.width) {
+    return null;
+  }
+
+  const videoIsLandscape = videoElement.videoWidth > videoElement.videoHeight;
+  const maxDimension = Math.max(settings.width, settings.height);
+  const minDimension = Math.min(settings.width, settings.height);
+
+  return videoIsLandscape
+    ? { width: maxDimension, height: minDimension }
+    : { width: minDimension, height: maxDimension };
+}
+
+function getPreviewDimensions(
+  refVideo: RefObject<HTMLVideoElement | null>,
+  windowDimensions: PixelDimensions,
+) {
+  const height = refVideo.current?.videoHeight;
+  const width = refVideo.current?.videoWidth;
 
   if (!windowDimensions || !height || !width) {
     return null;
@@ -31,7 +54,11 @@ function getPreviewDimensions(refVideo: HTMLVideoElement, windowDimensions: Pixe
  */
 export interface CameraPreviewHandle extends UserMediaResult {
   /**
-   * The effective pixel dimensions of the video stream on the client screen.
+   * The actual dimensions of the camera stream (full resolution).
+   */
+  streamDimensions: PixelDimensions | null;
+  /**
+   * The effective pixel dimensions of the video stream on the client screen (scaled for display).
    */
   previewDimensions: PixelDimensions | null;
   /**
@@ -46,6 +73,7 @@ export interface CameraPreviewHandle extends UserMediaResult {
  */
 export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   const ref = useRef<HTMLVideoElement>(null);
+  const [streamDimensions, setStreamDimensions] = useState<PixelDimensions | null>(null);
   const [previewDimensions, setPreviewDimensions] = useState<PixelDimensions | null>(null);
   const windowDimensions = useWindowDimensions();
   const { handleError } = useMonitoring();
@@ -57,17 +85,25 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
     if (userMediaResult.stream && currentRef) {
       currentRef.srcObject = userMediaResult.stream;
 
-      const handleMetadata = () => {
-        currentRef?.play().catch(handleError);
-        if (currentRef) {
-          setPreviewDimensions(getPreviewDimensions(currentRef, windowDimensions));
+      const updateDimensions = () => {
+        if (!currentRef || !userMediaResult.stream) {
+          return;
+        }
+
+        const streamDims = getStreamDimensionsFromVideo(currentRef, userMediaResult.stream);
+        if (streamDims && windowDimensions) {
+          setStreamDimensions(streamDims);
+          setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
         }
       };
 
+      const handleMetadata = () => {
+        currentRef?.play().catch(handleError);
+        updateDimensions();
+      };
+
       const handleResize = () => {
-        if (currentRef) {
-          setPreviewDimensions(getPreviewDimensions(currentRef, windowDimensions));
-        }
+        updateDimensions();
       };
 
       currentRef.onloadedmetadata = handleMetadata;
@@ -85,9 +121,10 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
   return useMemo(
     () => ({
       ref,
+      streamDimensions,
       previewDimensions,
       ...userMediaResult,
     }),
-    [previewDimensions, userMediaResult],
+    [streamDimensions, previewDimensions, userMediaResult],
   );
 }
