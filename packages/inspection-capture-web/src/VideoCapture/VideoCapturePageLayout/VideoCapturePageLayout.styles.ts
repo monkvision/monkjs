@@ -12,6 +12,7 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   containerBackdrop: {
     backgroundColor: 'rgba(0, 0, 0)',
@@ -47,6 +48,7 @@ export const styles: Styles = {
     alignSelf: 'stretch',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
   },
   confirmContainer: {
     alignSelf: 'stretch',

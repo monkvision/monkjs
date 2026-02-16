@@ -21,7 +21,7 @@ export function VideoCapturePageLayout({
   const { logoProps, containerStyle, titleStyle } = useVideoCapturePageLayoutStyles({
     showBackdrop,
   });
-  const { children: _, ...restConfirmButtonProps } = confirmButtonProps ?? {};
+  const { children: buttonLabel, ...restConfirmButtonProps } = confirmButtonProps ?? {};
   return (
     <div style={containerStyle}>
       {showLogo && <DynamicSVG svg={monkLogoSVG} {...logoProps} />}
@@ -29,7 +29,7 @@ export function VideoCapturePageLayout({
       <div style={styles['childrenContainer']}>{children}</div>
       {showConfirmButton && (
         <div style={styles['confirmContainer']}>
-          <Button {...restConfirmButtonProps} />
+          <Button {...restConfirmButtonProps}>{buttonLabel}</Button>
         </div>
       )}
     </div>
