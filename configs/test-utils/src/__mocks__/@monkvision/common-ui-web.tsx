@@ -29,5 +29,4 @@ export = {
   VehicleTypeAsset: jest.fn(() => <></>),
   VehicleTypeSelection: jest.fn(() => <></>),
   VehicleWalkaroundIndicator: jest.fn(() => <></>),
-  VideoTutorial: jest.fn(() => <></>),
 };

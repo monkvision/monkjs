@@ -1,1 +1,0 @@
-export { VehiclePhone } from './VehiclePhone';

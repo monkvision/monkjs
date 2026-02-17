@@ -9,12 +9,13 @@ export const styles: Styles = {
   container: {
     alignSelf: 'stretch',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     margin: 16,
-    gap: 8,
   },
-  icon: {},
+  icon: {
+    marginRight: 12,
+  },
   labels: {
     flex: 1,
     alignSelf: 'stretch',
@@ -22,7 +23,7 @@ export const styles: Styles = {
     flexDirection: 'column',
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 500,
   },
   titleSmall: {
@@ -33,10 +34,10 @@ export const styles: Styles = {
     fontWeight: 500,
   },
   description: {
-    fontSize: 16,
+    fontSize: 18,
+    paddingTop: 6,
     opacity: 0.91,
     fontWeight: 300,
-    textAlign: 'center',
   },
   descriptionSmall: {
     __media: {

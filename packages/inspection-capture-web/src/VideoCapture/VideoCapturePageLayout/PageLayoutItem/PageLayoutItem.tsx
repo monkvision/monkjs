@@ -28,8 +28,10 @@ export function PageLayoutItem({ icon, title, description }: PageLayoutItemProps
   return (
     <div style={styles['container']}>
       <Icon icon={icon} {...iconProps} />
-      <div style={titleStyle}>{title}</div>
-      <div style={descriptionStyle}>{description}</div>
+      <div style={styles['labels']}>
+        <div style={titleStyle}>{title}</div>
+        <div style={descriptionStyle}>{description}</div>
+      </div>
     </div>
   );
 }

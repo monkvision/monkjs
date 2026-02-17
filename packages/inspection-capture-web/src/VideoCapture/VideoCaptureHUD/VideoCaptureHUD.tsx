@@ -7,6 +7,7 @@ import { LoadingState } from '@monkvision/common';
 import { DeviceRotation, VideoCaptureAppConfig } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { styles } from './VideoCaptureHUD.styles';
+import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
 import {
   FastMovementsDetectionHandle,
@@ -65,6 +66,7 @@ const SCREENSHOT_INTERVAL_MS = 200;
 const FRAME_SELECTION_INTERVAL_MS = 1000;
 
 enum VideoCaptureHUDScreen {
+  TUTORIAL = 'tutorial',
   RECORDING = 'recording',
   PROCESSING = 'processing',
 }
@@ -110,7 +112,7 @@ export function VideoCaptureHUD({
   startTasksLoading,
   onComplete,
 }: VideoCaptureHUDProps) {
-  const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
+  const [screen, setScreen] = useState(VideoCaptureHUDScreen.TUTORIAL);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
@@ -174,6 +176,9 @@ export function VideoCaptureHUD({
     <div style={styles['container']}>
       {cameraPreview}
       <div style={styles['hudContainer']}>
+        {screen === VideoCaptureHUDScreen.TUTORIAL && (
+          <VideoCaptureTutorial onClose={() => setScreen(VideoCaptureHUDScreen.RECORDING)} />
+        )}
         {screen === VideoCaptureHUDScreen.RECORDING && (
           <VideoCaptureRecording
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}

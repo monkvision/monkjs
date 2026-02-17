@@ -1,3 +1,6 @@
+jest.mock('../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureTutorial', () => ({
+  VideoCaptureTutorial: jest.fn(() => <></>),
+}));
 jest.mock('../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording', () => ({
   VideoCaptureRecording: jest.fn(() => <></>),
 }));
@@ -39,6 +42,7 @@ import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from '../../../src/VideoCapture/VideoCaptureHUD';
 import { VideoCaptureRecording } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording';
+import { VideoCaptureTutorial } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureTutorial';
 import { VideoCaptureProcessing } from '../../../src/VideoCapture/VideoCaptureProcessing';
 import {
   FastMovementType,
@@ -165,10 +169,31 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
-  it('should show the VideoCaptureRecording at the start', () => {
+  it('should show the VideoCapture tutorial at the start', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
+    expect(VideoCaptureTutorial).toHaveBeenCalled();
+    expect(VideoCaptureRecording).not.toHaveBeenCalled();
+    expect(VideoCaptureProcessing).not.toHaveBeenCalled();
+    expect(BackdropDialog).not.toHaveBeenCalledWith(
+      expect.objectContaining({ show: true }),
+      expect.anything(),
+    );
+
+    unmount();
+  });
+
+  it('should skip to the VideoRecording when closing the tutorial', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expectPropsOnChildMock(VideoCaptureTutorial, { onClose: expect.any(Function) });
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    expect(VideoCaptureRecording).not.toHaveBeenCalled();
+    act(() => {
+      onClose();
+    });
     expect(VideoCaptureRecording).toHaveBeenCalled();
     expect(VideoCaptureProcessing).not.toHaveBeenCalled();
     expect(BackdropDialog).not.toHaveBeenCalledWith(
@@ -183,6 +208,10 @@ describe('VideoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
     const { walkaroundPosition } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
     const useVideoRecordingResults = (useVideoRecording as jest.Mock).mock.results;
     const { isRecordingPaused, recordingDurationMs, onClickRecordVideo } =
@@ -209,6 +238,10 @@ describe('VideoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
     expectPropsOnChildMock(VideoCaptureRecording, {
       tooltip: 'video.recording.tooltip.start',
     });
@@ -226,6 +259,10 @@ describe('VideoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
     expectPropsOnChildMock(VideoCaptureRecording, {
       tooltip: 'video.recording.tooltip.end',
     });
@@ -237,6 +274,10 @@ describe('VideoCaptureHUD component', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
     const picture = { test: 'picture' };
     (props.handle.takePicture as jest.Mock).mockImplementationOnce(() => Promise.resolve(picture));
     const { addImage } = (useMonkApi as jest.Mock).mock.results[0].value;

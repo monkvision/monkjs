@@ -23,4 +23,3 @@ export * from './VehicleWalkaroundIndicator';
 export * from './CaptureSelection';
 export * from './IconAroundVehicle';
 export * from './IconVerticalPosition';
-export * from './VideoTutorial';

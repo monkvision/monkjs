@@ -14,7 +14,6 @@ import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
 import { useFastMovementsDetection } from './hooks';
-import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 
 /**
  * Props of the VideoCapture component.
@@ -56,7 +55,6 @@ export interface VideoCaptureProps
 
 enum VideoCaptureScreen {
   PERMISSIONS = 'permissions',
-  TUTORIAL = 'tutorial',
   CAPTURE = 'capture',
 }
 
@@ -132,13 +130,7 @@ export function VideoCapture({
       {screen === VideoCaptureScreen.PERMISSIONS && (
         <VideoCapturePermissions
           requestCompassPermission={requestCompassPermission}
-          onSuccess={() => setScreen(VideoCaptureScreen.TUTORIAL)}
-        />
-      )}
-      {screen === VideoCaptureScreen.TUTORIAL && (
-        <VideoCaptureTutorial
-          enforceOrientation={enforceOrientation}
-          onClose={() => setScreen(VideoCaptureScreen.CAPTURE)}
+          onSuccess={() => setScreen(VideoCaptureScreen.CAPTURE)}
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
