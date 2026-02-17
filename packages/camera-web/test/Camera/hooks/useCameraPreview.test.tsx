@@ -17,7 +17,7 @@ import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
 import { useWindowDimensions } from '@monkvision/common';
 import { CameraFacingMode, CameraConfig } from '../../../src';
-import { useCameraPreview, useUserMedia } from '../../../src/Camera/hooks';
+import { useCameraPreview, useUserMedia, InvalidStreamErrorName } from '../../../src/Camera/hooks';
 import { getMediaConstraints } from '../../../src/Camera/hooks/utils';
 
 describe('useCameraPreview hook', () => {
@@ -409,7 +409,7 @@ describe('useCameraPreview hook', () => {
     unmount();
   });
 
-  it('should return null streamDimensions if stream settings are not available', async () => {
+  it('should throw InvalidStreamError if stream settings are not available', async () => {
     const testStream = {
       id: 'test-stream',
       getVideoTracks: () => [
@@ -445,13 +445,27 @@ describe('useCameraPreview hook', () => {
       expect(current.onloadedmetadata).toBeDefined();
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
+    const onLoadedMetadata = current.onloadedmetadata;
+    if (!onLoadedMetadata) {
+      throw new Error('onloadedmetadata handler is missing');
     }
 
-    await waitFor(() => {
-      expect(result.current.streamDimensions).toBeNull();
-    });
+    const triggerOnLoadedMetadata = () => onLoadedMetadata.call(current, {} as Event);
+
+    expect(triggerOnLoadedMetadata).toThrow(
+      'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+    );
+
+    const thrownError = (() => {
+      try {
+        triggerOnLoadedMetadata();
+      } catch (error) {
+        return error as Error;
+      }
+      return null;
+    })();
+
+    expect(thrownError?.name).toBe(InvalidStreamErrorName.NO_DIMENSIONS);
 
     unmountRender();
     unmount();
@@ -495,9 +509,11 @@ describe('useCameraPreview hook', () => {
       expect(current.onloadedmetadata).toBeDefined();
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.streamDimensions).not.toBeNull();
@@ -547,9 +563,11 @@ describe('useCameraPreview hook', () => {
       expect(current.onloadedmetadata).toBeDefined();
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.streamDimensions).not.toBeNull();
@@ -599,9 +617,11 @@ describe('useCameraPreview hook', () => {
       expect(current.onloadedmetadata).toBeDefined();
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.streamDimensions).not.toBeNull();
@@ -612,9 +632,11 @@ describe('useCameraPreview hook', () => {
     Object.defineProperty(current, 'videoWidth', { value: 338, writable: true });
     Object.defineProperty(current, 'videoHeight', { value: 600, writable: true });
 
-    if (current.onresize) {
-      current.onresize({} as UIEvent);
-    }
+    await act(async () => {
+      if (current.onresize) {
+        current.onresize({} as UIEvent);
+      }
+    });
 
     await waitFor(() => {
       expect(result.current.streamDimensions).not.toBeNull();
@@ -626,10 +648,14 @@ describe('useCameraPreview hook', () => {
     unmount();
   });
 
-  it('should handle stream without video tracks gracefully', async () => {
+  it('should throw InvalidStreamError when stream has no dimensions', async () => {
     const testStream = {
       id: 'test-stream',
-      getVideoTracks: () => [],
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: undefined, height: undefined }),
+        },
+      ],
     } as unknown as MediaStream;
 
     (useUserMedia as jest.Mock).mockImplementation(() => ({
@@ -658,12 +684,28 @@ describe('useCameraPreview hook', () => {
       expect(current.onloadedmetadata).toBeDefined();
     });
 
-    if (current.onloadedmetadata) {
-      current.onloadedmetadata({} as Event);
-    }
+    await act(async () => {
+      const onLoadedMetadata = current.onloadedmetadata;
+      if (!onLoadedMetadata) {
+        throw new Error('onloadedmetadata handler is missing');
+      }
 
-    await waitFor(() => {
-      expect(result.current.streamDimensions).toBeNull();
+      const triggerOnLoadedMetadata = () => onLoadedMetadata.call(current, {} as Event);
+
+      expect(triggerOnLoadedMetadata).toThrow(
+        'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+      );
+
+      const thrownError = (() => {
+        try {
+          triggerOnLoadedMetadata();
+        } catch (error) {
+          return error as Error;
+        }
+        return null;
+      })();
+
+      expect(thrownError?.name).toBe(InvalidStreamErrorName.NO_DIMENSIONS);
     });
 
     unmountRender();

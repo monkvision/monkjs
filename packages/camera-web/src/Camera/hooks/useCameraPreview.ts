@@ -3,34 +3,38 @@ import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
 import { useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
-import { UserMediaResult, useUserMedia } from './useUserMedia';
+import {
+  getStreamVideoTrackSettings,
+  InvalidStreamError,
+  InvalidStreamErrorName,
+  UserMediaResult,
+  useUserMedia,
+} from './useUserMedia';
 
 function getStreamDimensionsFromVideo(
   videoElement: HTMLVideoElement,
   stream: MediaStream,
 ): PixelDimensions | null {
-  const videoTrack = stream.getVideoTracks()[0];
-  const settings = videoTrack?.getSettings();
-
-  if (!settings?.height || !settings?.width) {
-    return null;
+  const { width, height } = getStreamVideoTrackSettings(stream);
+  if (!height || !width) {
+    throw new InvalidStreamError(
+      'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+      InvalidStreamErrorName.NO_DIMENSIONS,
+    );
   }
 
   const videoIsLandscape = videoElement.videoWidth > videoElement.videoHeight;
-  const maxDimension = Math.max(settings.width, settings.height);
-  const minDimension = Math.min(settings.width, settings.height);
+  const maxDimension = Math.max(width, height);
+  const minDimension = Math.min(width, height);
 
   return videoIsLandscape
     ? { width: maxDimension, height: minDimension }
     : { width: minDimension, height: maxDimension };
 }
 
-function getPreviewDimensions(
-  refVideo: RefObject<HTMLVideoElement | null>,
-  windowDimensions: PixelDimensions,
-) {
-  const height = refVideo.current?.videoHeight;
-  const width = refVideo.current?.videoWidth;
+function getPreviewDimensions(videoElement: HTMLVideoElement, windowDimensions: PixelDimensions) {
+  const height = videoElement.videoHeight;
+  const width = videoElement.videoWidth;
 
   if (!windowDimensions || !height || !width) {
     return null;
@@ -93,7 +97,7 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
         const streamDims = getStreamDimensionsFromVideo(currentRef, userMediaResult.stream);
         if (streamDims && windowDimensions) {
           setStreamDimensions(streamDims);
-          setPreviewDimensions(getPreviewDimensions(ref, windowDimensions));
+          setPreviewDimensions(getPreviewDimensions(currentRef, windowDimensions));
         }
       };
 
