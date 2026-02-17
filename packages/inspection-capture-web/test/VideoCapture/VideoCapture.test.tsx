@@ -17,6 +17,9 @@ jest.mock('../../src/VideoCapture/VideoCapturePermissions', () => ({
 jest.mock('../../src/VideoCapture/VideoCaptureHUD', () => ({
   VideoCaptureHUD: jest.fn(() => <></>),
 }));
+jest.mock('../../src/VideoCapture/VideoCaptureTutorial', () => ({
+  VideoCaptureTutorial: jest.fn(() => <></>),
+}));
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
@@ -28,6 +31,7 @@ import { useFastMovementsDetection } from '../../src/VideoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import { VideoCaptureHUD } from '../../src/VideoCapture/VideoCaptureHUD';
+import { VideoCaptureTutorial } from '../../src/VideoCapture/VideoCaptureTutorial';
 
 function createProps(): VideoCaptureProps {
   return {
@@ -139,6 +143,13 @@ describe('VideoCapture component', () => {
     act(() => {
       onSuccess();
     });
+
+    expect(VideoCaptureTutorial).toHaveBeenCalled();
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
+
     expect(Camera).toHaveBeenCalled();
 
     unmount();
@@ -152,6 +163,12 @@ describe('VideoCapture component', () => {
     act(() => {
       onSuccess();
     });
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
+
     expectPropsOnChildMock(Camera, {
       HUDComponent: VideoCaptureHUD,
     });
@@ -166,6 +183,11 @@ describe('VideoCapture component', () => {
     const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
     act(() => {
       onSuccess();
+    });
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
     });
 
     const useDeviceOrientationResults = (useDeviceOrientation as jest.Mock).mock.results;
@@ -202,6 +224,11 @@ describe('VideoCapture component', () => {
     const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
     act(() => {
       onSuccess();
+    });
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
     });
 
     const useStartTasksOnCompleteResult = (useStartTasksOnComplete as jest.Mock).mock.results;

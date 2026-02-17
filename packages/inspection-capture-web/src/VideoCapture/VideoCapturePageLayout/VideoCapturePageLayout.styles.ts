@@ -12,9 +12,10 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   containerBackdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0)',
   },
   logo: {
     margin: '32px 0',
@@ -47,6 +48,7 @@ export const styles: Styles = {
     alignSelf: 'stretch',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
   },
   confirmContainer: {
     alignSelf: 'stretch',
@@ -88,7 +90,7 @@ export function useVideoCapturePageLayoutStyles({
     },
     containerStyle: {
       ...styles['container'],
-      ...(showBackdrop ? styles['containerBackdrop'] : {}),
+      ...(showBackdrop && { backgroundColor: palette.background.base }),
     },
     titleStyle: {
       ...styles['title'],

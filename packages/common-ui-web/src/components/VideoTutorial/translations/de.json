@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Drehen Sie in die Querformatansicht",
+        "text": "Schalten Sie Ihr Telefon in den Querformatmodus, um mit der Aufnahme zu beginnen."
+      },
+      "portrait": {
+        "title": "Drehen für Porträtansicht",
+        "text": "Schalten Sie Ihr Telefon in den Hochformatmodus, um mit der Aufnahme zu beginnen."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "360°-Rundumblick",
+      "text": "Gehen Sie langsam um das Fahrzeug, um in etwa 30–40 Sekunden eine vollständige 360°-Ansicht aufzunehmen."
+    },
+    "vehicle-surroundings": {
+      "title": "Freie Umgebung",
+      "text": "Halten Sie den Bereich um das Fahrzeug frei von Hindernissen, um die Qualität der Aufnahmen zu verbessern."
+    },
+    "vehicle-phone": {
+      "title": "Halten Sie den richtigen Abstand ein",
+      "text": "Halten Sie ausreichend Abstand ein, damit das Fahrzeug vollständig im Bild zu sehen ist, von Dach bis Boden."
+    },
+    "vehicle-coverage": {
+      "title": "Beenden bei Vollständigkeit",
+      "text": "Wenn die Fortschrittsanzeige voll ist, tippen Sie erneut auf die Aufnahmetaste, um zu stoppen."
+    }
+  },
+  "checkbox": "Nicht erneut anzeigen",
+  "button": {
+    "get-started": "Los geht's",
+    "continue": "Weiter"
+  }
+}

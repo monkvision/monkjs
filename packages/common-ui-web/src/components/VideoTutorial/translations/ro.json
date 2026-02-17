@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Rotiți pentru afișare pe orizontală",
+        "text": "Rotiți telefonul în modul orizontal pentru a începe înregistrarea."
+      },
+      "portrait": {
+        "title": "Rotiți pentru modul portret",
+        "text": "Comutați telefonul în modul portret pentru a începe înregistrarea."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "Vizualizare 360°",
+      "text": "Mersul încet în jurul vehiculului pentru a obține o imagine completă la 360°, în aproximativ 30–40 de secunde de înregistrare."
+    },
+    "vehicle-surroundings": {
+      "title": "Spațiu liber în jur",
+      "text": "Asigurați-vă că zona din jurul vehiculului este liberă de obstacole pentru a obține o calitate mai bună a înregistrării."
+    },
+    "vehicle-phone": {
+      "title": "Mențineți distanța corectă",
+      "text": "Asigurați-vă că mențineți o distanță suficientă pentru ca vehiculul să fie complet vizibil în cadru, de la acoperiș până la sol."
+    },
+    "vehicle-coverage": {
+      "title": "Finalizați când e complet",
+      "text": "Când bara de progres se umple, atingeți din nou butonul de înregistrare pentru a opri înregistrarea."
+    }
+  },
+  "checkbox": "Nu afișa din nou",
+  "button": {
+    "get-started": "Începeți",
+    "continue": "Continuă"
+  }
+}

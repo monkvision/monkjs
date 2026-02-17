@@ -56,7 +56,11 @@ export function VideoCapturePermissions({
   };
 
   return (
-    <VideoCapturePageLayout confirmButtonProps={confirmButtonProps}>
+    <VideoCapturePageLayout
+      showLogo={false}
+      showTitle={false}
+      confirmButtonProps={confirmButtonProps}
+    >
       <PageLayoutItem
         icon='camera-outline'
         title={t('video.permissions.camera.title')}

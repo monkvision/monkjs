@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Gire a modo horizontal",
+        "text": "Cambie su teléfono a modo horizontal para comenzar a grabar."
+      },
+      "portrait": {
+        "title": "Girar a modo vertical",
+        "text": "Cambie su teléfono a modo vertical para comenzar a grabar."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "Recorrido de 360°",
+      "text": "Camine lentamente alrededor del vehículo para obtener una vista completa de 360° en aproximadamente 30–40 segundos de grabación."
+    },
+    "vehicle-surroundings": {
+      "title": "Entorno despejado",
+      "text": "Mantenga el área alrededor del vehículo despejada de obstáculos para obtener una mejor calidad de grabación."
+    },
+    "vehicle-phone": {
+      "title": "Mantenga la distancia correcta",
+      "text": "Mantenga una distancia suficiente para asegurarse de que el vehículo sea completamente visible en el encuadre, desde el techo hasta el suelo."
+    },
+    "vehicle-coverage": {
+      "title": "Finalice cuando se complete",
+      "text": "Cuando la barra de progreso se complete, toque de nuevo el botón de grabar para detener la grabación."
+    }
+  },
+  "checkbox": "No mostrar esto de nuevo",
+  "button": {
+    "get-started": "Comenzar",
+    "continue": "Continuar"
+  }
+}

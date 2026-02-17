@@ -2,10 +2,23 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button, DynamicSVG } from '@monkvision/common-ui-web';
+import { MonkDefaultPalette, useMonkTheme } from '@monkvision/common';
 import { monkLogoSVG } from '../../../src/assets/logos.asset';
 import { VideoCapturePageLayout } from '../../../src/VideoCapture/VideoCapturePageLayout';
 
+const mockBackgroundColor = MonkDefaultPalette.background.base;
+
 describe('VideoCapturePageLayout component', () => {
+  beforeEach(() => {
+    (useMonkTheme as jest.Mock).mockReturnValue({
+      palette: {
+        background: {
+          base: mockBackgroundColor,
+        },
+      },
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -22,7 +35,7 @@ describe('VideoCapturePageLayout component', () => {
     const { container, unmount } = render(<VideoCapturePageLayout />);
 
     expect(container.children.length).toEqual(1);
-    expect(container.children.item(0)).not.toHaveStyle({ backgroundColor: 'rgba(0, 0, 0, 0.5)' });
+    expect(container.children.item(0)).not.toHaveStyle({ backgroundColor: mockBackgroundColor });
 
     unmount();
   });
@@ -31,7 +44,7 @@ describe('VideoCapturePageLayout component', () => {
     const { container, unmount } = render(<VideoCapturePageLayout showBackdrop />);
 
     expect(container.children.length).toEqual(1);
-    expect(container.children.item(0)).toHaveStyle({ backgroundColor: 'rgba(0, 0, 0, 0.5)' });
+    expect(container.children.item(0)).toHaveStyle({ backgroundColor: mockBackgroundColor });
 
     unmount();
   });
