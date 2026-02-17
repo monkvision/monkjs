@@ -17,7 +17,7 @@ import * as monitoring from '@monkvision/monitoring';
 import { MonitoringAdapter } from '@monkvision/monitoring';
 import { useWindowDimensions } from '@monkvision/common';
 import { CameraFacingMode, CameraConfig } from '../../../src';
-import { useCameraPreview, useUserMedia } from '../../../src/Camera/hooks';
+import { useCameraPreview, useUserMedia, InvalidStreamErrorName } from '../../../src/Camera/hooks';
 import { getMediaConstraints } from '../../../src/Camera/hooks/utils';
 
 describe('useCameraPreview hook', () => {
@@ -69,9 +69,16 @@ describe('useCameraPreview hook', () => {
   });
 
   it('should update the srcObject property of the videoRef', async () => {
-    const newStream = { id: 'new-stream-id' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 1920, height: 1080 }),
+        },
+      ],
+    } as unknown as MediaStream;
     (useUserMedia as jest.Mock).mockImplementation(() => ({
-      stream: newStream,
+      stream: testStream,
       error: null,
       retry: jest.fn(),
     }));
@@ -91,7 +98,7 @@ describe('useCameraPreview hook', () => {
 
     await waitFor(
       () => {
-        expect(result.current.ref.current?.srcObject).toEqual(newStream);
+        expect(result.current.ref.current?.srcObject).toEqual(testStream);
       },
       { timeout: 3000 },
     );
@@ -101,7 +108,14 @@ describe('useCameraPreview hook', () => {
   });
 
   it('should auto-play the video when the stream is fetched', async () => {
-    const testStream = { id: 'test-stream' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 1920, height: 1080 }),
+        },
+      ],
+    } as unknown as MediaStream;
     (useUserMedia as jest.Mock).mockImplementation(() => ({
       stream: testStream,
       error: null,
@@ -144,7 +158,7 @@ describe('useCameraPreview hook', () => {
     unmount();
   });
 
-  it('should return nuyll preview dimensions if the window dimensions or stream dimensions are null', () => {
+  it('should return null preview dimensions if the window dimensions or stream dimensions are null', () => {
     (useWindowDimensions as jest.Mock).mockImplementationOnce(() => null);
     (useUserMedia as jest.Mock).mockImplementationOnce(() => ({
       dimensions: { width: 3840, height: 2160 },
@@ -169,7 +183,14 @@ describe('useCameraPreview hook', () => {
       width: 1920,
       height: 1080,
     }));
-    const testStream = { id: 'test-stream' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 3840, height: 2160 }),
+        },
+      ],
+    } as unknown as MediaStream;
     (useUserMedia as jest.Mock).mockImplementation(() => ({
       stream: testStream,
       error: null,
@@ -219,7 +240,14 @@ describe('useCameraPreview hook', () => {
       width: 1920,
       height: 1080,
     }));
-    const testStream = { id: 'test-stream' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 500, height: 600 }),
+        },
+      ],
+    } as unknown as MediaStream;
     (useUserMedia as jest.Mock).mockImplementation(() => ({
       stream: testStream,
       error: null,
@@ -269,7 +297,14 @@ describe('useCameraPreview hook', () => {
       width: 1440,
       height: 1080,
     }));
-    const testStream = { id: 'test-stream' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 3840, height: 2160 }),
+        },
+      ],
+    } as unknown as MediaStream;
     (useUserMedia as jest.Mock).mockImplementation(() => ({
       stream: testStream,
       error: null,
@@ -317,7 +352,14 @@ describe('useCameraPreview hook', () => {
   it('should make a call to Monitoring.handleError if the play callback fails', async () => {
     const playError = new Error('test');
     const handleErrorMock = jest.fn();
-    const testStream = { id: 'test-stream' } as MediaStream;
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 1920, height: 1080 }),
+        },
+      ],
+    } as unknown as MediaStream;
 
     jest.spyOn(monitoring, 'useMonitoring').mockImplementation(
       () =>
@@ -361,6 +403,309 @@ describe('useCameraPreview hook', () => {
 
     await waitFor(() => {
       expect(handleErrorMock).toHaveBeenCalledWith(playError);
+    });
+
+    unmountRender();
+    unmount();
+  });
+
+  it('should throw InvalidStreamError if stream settings are not available', async () => {
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({}),
+        },
+      ],
+    } as unknown as MediaStream;
+
+    (useUserMedia as jest.Mock).mockImplementation(() => ({
+      stream: testStream,
+      error: null,
+      retry: jest.fn(),
+    }));
+
+    const { result, unmount, rerender } = renderHook(useCameraPreview);
+    const { ref } = result.current;
+
+    const { unmount: unmountRender } = render(<video ref={ref} data-testid='test-video' />);
+
+    await waitFor(() => {
+      expect(ref.current).toBeDefined();
+    });
+
+    const current = ref.current as HTMLVideoElement;
+    jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
+
+    await act(async () => {
+      rerender();
+    });
+
+    await waitFor(() => {
+      expect(current.onloadedmetadata).toBeDefined();
+    });
+
+    const onLoadedMetadata = current.onloadedmetadata;
+    if (!onLoadedMetadata) {
+      throw new Error('onloadedmetadata handler is missing');
+    }
+
+    const triggerOnLoadedMetadata = () => onLoadedMetadata.call(current, {} as Event);
+
+    expect(triggerOnLoadedMetadata).toThrow(
+      'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+    );
+
+    const thrownError = (() => {
+      try {
+        triggerOnLoadedMetadata();
+      } catch (error) {
+        return error as Error;
+      }
+      return null;
+    })();
+
+    expect(thrownError?.name).toBe(InvalidStreamErrorName.NO_DIMENSIONS);
+
+    unmountRender();
+    unmount();
+  });
+
+  it('should return correct streamDimensions for landscape video', async () => {
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 3840, height: 2160 }),
+        },
+      ],
+    } as unknown as MediaStream;
+
+    (useUserMedia as jest.Mock).mockImplementation(() => ({
+      stream: testStream,
+      error: null,
+      retry: jest.fn(),
+    }));
+
+    const { result, unmount, rerender } = renderHook(useCameraPreview);
+    const { ref } = result.current;
+
+    const { unmount: unmountRender } = render(<video ref={ref} data-testid='test-video' />);
+
+    await waitFor(() => {
+      expect(ref.current).toBeDefined();
+    });
+
+    const current = ref.current as HTMLVideoElement;
+    Object.defineProperty(current, 'videoWidth', { value: 600, writable: true });
+    Object.defineProperty(current, 'videoHeight', { value: 338, writable: true });
+    jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
+
+    await act(async () => {
+      rerender();
+    });
+
+    await waitFor(() => {
+      expect(current.onloadedmetadata).toBeDefined();
+    });
+
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
+
+    await waitFor(() => {
+      expect(result.current.streamDimensions).not.toBeNull();
+      expect(result.current.streamDimensions?.width).toEqual(3840);
+      expect(result.current.streamDimensions?.height).toEqual(2160);
+    });
+
+    unmountRender();
+    unmount();
+  });
+
+  it('should return correct streamDimensions for portrait video', async () => {
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 3840, height: 2160 }),
+        },
+      ],
+    } as unknown as MediaStream;
+
+    (useUserMedia as jest.Mock).mockImplementation(() => ({
+      stream: testStream,
+      error: null,
+      retry: jest.fn(),
+    }));
+
+    const { result, unmount, rerender } = renderHook(useCameraPreview);
+    const { ref } = result.current;
+
+    const { unmount: unmountRender } = render(<video ref={ref} data-testid='test-video' />);
+
+    await waitFor(() => {
+      expect(ref.current).toBeDefined();
+    });
+
+    const current = ref.current as HTMLVideoElement;
+    Object.defineProperty(current, 'videoWidth', { value: 338, writable: true });
+    Object.defineProperty(current, 'videoHeight', { value: 600, writable: true });
+    jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
+
+    await act(async () => {
+      rerender();
+    });
+
+    await waitFor(() => {
+      expect(current.onloadedmetadata).toBeDefined();
+    });
+
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
+
+    await waitFor(() => {
+      expect(result.current.streamDimensions).not.toBeNull();
+      expect(result.current.streamDimensions?.width).toEqual(2160);
+      expect(result.current.streamDimensions?.height).toEqual(3840);
+    });
+
+    unmountRender();
+    unmount();
+  });
+
+  it('should update streamDimensions when video element resizes (orientation change)', async () => {
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: 3840, height: 2160 }),
+        },
+      ],
+    } as unknown as MediaStream;
+
+    (useUserMedia as jest.Mock).mockImplementation(() => ({
+      stream: testStream,
+      error: null,
+      retry: jest.fn(),
+    }));
+
+    const { result, unmount, rerender } = renderHook(useCameraPreview);
+    const { ref } = result.current;
+
+    const { unmount: unmountRender } = render(<video ref={ref} data-testid='test-video' />);
+
+    await waitFor(() => {
+      expect(ref.current).toBeDefined();
+    });
+
+    const current = ref.current as HTMLVideoElement;
+    Object.defineProperty(current, 'videoWidth', { value: 600, writable: true });
+    Object.defineProperty(current, 'videoHeight', { value: 338, writable: true });
+    jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
+
+    await act(async () => {
+      rerender();
+    });
+
+    await waitFor(() => {
+      expect(current.onloadedmetadata).toBeDefined();
+    });
+
+    await act(async () => {
+      if (current.onloadedmetadata) {
+        current.onloadedmetadata({} as Event);
+      }
+    });
+
+    await waitFor(() => {
+      expect(result.current.streamDimensions).not.toBeNull();
+      expect(result.current.streamDimensions?.width).toEqual(3840);
+      expect(result.current.streamDimensions?.height).toEqual(2160);
+    });
+
+    Object.defineProperty(current, 'videoWidth', { value: 338, writable: true });
+    Object.defineProperty(current, 'videoHeight', { value: 600, writable: true });
+
+    await act(async () => {
+      if (current.onresize) {
+        current.onresize({} as UIEvent);
+      }
+    });
+
+    await waitFor(() => {
+      expect(result.current.streamDimensions).not.toBeNull();
+      expect(result.current.streamDimensions?.width).toEqual(2160);
+      expect(result.current.streamDimensions?.height).toEqual(3840);
+    });
+
+    unmountRender();
+    unmount();
+  });
+
+  it('should throw InvalidStreamError when stream has no dimensions', async () => {
+    const testStream = {
+      id: 'test-stream',
+      getVideoTracks: () => [
+        {
+          getSettings: () => ({ width: undefined, height: undefined }),
+        },
+      ],
+    } as unknown as MediaStream;
+
+    (useUserMedia as jest.Mock).mockImplementation(() => ({
+      stream: testStream,
+      error: null,
+      retry: jest.fn(),
+    }));
+
+    const { result, unmount, rerender } = renderHook(useCameraPreview);
+    const { ref } = result.current;
+
+    const { unmount: unmountRender } = render(<video ref={ref} data-testid='test-video' />);
+
+    await waitFor(() => {
+      expect(ref.current).toBeDefined();
+    });
+
+    const current = ref.current as HTMLVideoElement;
+    jest.spyOn(current, 'play').mockImplementation(() => Promise.resolve());
+
+    await act(async () => {
+      rerender();
+    });
+
+    await waitFor(() => {
+      expect(current.onloadedmetadata).toBeDefined();
+    });
+
+    await act(async () => {
+      const onLoadedMetadata = current.onloadedmetadata;
+      if (!onLoadedMetadata) {
+        throw new Error('onloadedmetadata handler is missing');
+      }
+
+      const triggerOnLoadedMetadata = () => onLoadedMetadata.call(current, {} as Event);
+
+      expect(triggerOnLoadedMetadata).toThrow(
+        'Unable to set up the Monk camera screenshoter because the video stream does not have the properties width and height defined.',
+      );
+
+      const thrownError = (() => {
+        try {
+          triggerOnLoadedMetadata();
+        } catch (error) {
+          return error as Error;
+        }
+        return null;
+      })();
+
+      expect(thrownError?.name).toBe(InvalidStreamErrorName.NO_DIMENSIONS);
     });
 
     unmountRender();

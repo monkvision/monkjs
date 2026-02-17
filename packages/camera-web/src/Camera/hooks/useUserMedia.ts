@@ -16,9 +16,18 @@ export enum InvalidStreamErrorName {
    * The stream had too many video tracks (more than one).
    */
   TOO_MANY_VIDEO_TRACKS = 'TooManyVideoTracks',
+  /**
+   * The stream's video track had no dimensions.
+   */
+  NO_DIMENSIONS = 'NoDimensions',
 }
 
-class InvalidStreamError extends Error {
+/**
+ * Custom error class used to throw errors related to invalid MediaStreams.
+ *
+ * @see InvalidStreamErrorName for the different types of invalid stream errors that can be thrown.
+ */
+export class InvalidStreamError extends Error {
   constructor(message: string, name: InvalidStreamErrorName) {
     super(message);
     this.name = name;
@@ -124,7 +133,11 @@ export interface UserMediaResult {
   selectedCameraDeviceId: string | null;
 }
 
-function getStreamVideoTrackSettings(stream: MediaStream): MediaTrackSettings {
+/**
+ * Gets the video track settings of a MediaStream.
+ * This function also checks if the stream is valid and otherwise throws an error.
+ */
+export function getStreamVideoTrackSettings(stream: MediaStream): MediaTrackSettings {
   const videoTracks = stream.getVideoTracks();
   if (videoTracks.length === 0) {
     throw new InvalidStreamError(
