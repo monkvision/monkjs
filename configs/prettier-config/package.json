@@ -1,7 +1,7 @@
 {
   "name": "@monkvision/prettier-config",
   "packageManager": "yarn@3.2.4",
-  "version": "5.3.3",
+  "version": "5.3.2",
   "description": "The base Prettier config used in MonkJs projects",
   "author": "monkvision",
   "main": "index.js",
