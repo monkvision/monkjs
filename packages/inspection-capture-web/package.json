@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/inspection-capture-web",
-  "version": "5.3.3",
+  "version": "5.3.2",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs inspection capture package for React (web) used to implement the Monk inspection capture workflow",
@@ -28,12 +28,12 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
-    "@monkvision/analytics": "5.3.3",
-    "@monkvision/camera-web": "5.3.3",
-    "@monkvision/common": "5.3.3",
-    "@monkvision/common-ui-web": "5.3.3",
-    "@monkvision/network": "5.3.3",
-    "@monkvision/sights": "5.3.3",
+    "@monkvision/analytics": "5.3.2",
+    "@monkvision/camera-web": "5.3.2",
+    "@monkvision/common": "5.3.2",
+    "@monkvision/common-ui-web": "5.3.2",
+    "@monkvision/network": "5.3.2",
+    "@monkvision/sights": "5.3.2",
     "i18next": "^23.4.5",
     "react-i18next": "^13.2.0"
   },
@@ -44,13 +44,13 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
-    "@monkvision/eslint-config-base": "5.3.3",
-    "@monkvision/eslint-config-typescript": "5.3.3",
-    "@monkvision/eslint-config-typescript-react": "5.3.3",
-    "@monkvision/jest-config": "5.3.3",
-    "@monkvision/prettier-config": "5.3.3",
-    "@monkvision/test-utils": "5.3.3",
-    "@monkvision/typescript-config": "5.3.3",
+    "@monkvision/eslint-config-base": "5.3.2",
+    "@monkvision/eslint-config-typescript": "5.3.2",
+    "@monkvision/eslint-config-typescript-react": "5.3.2",
+    "@monkvision/jest-config": "5.3.2",
+    "@monkvision/prettier-config": "5.3.2",
+    "@monkvision/test-utils": "5.3.2",
+    "@monkvision/typescript-config": "5.3.2",
     "@testing-library/react": "^16.3.0",
     "@types/copyfiles": "^2",
     "@types/fscreen": "^1.0.1",
