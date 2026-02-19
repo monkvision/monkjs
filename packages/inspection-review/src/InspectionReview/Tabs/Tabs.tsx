@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { useMonkTheme } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
 import { styles } from './Tabs.styles';
+import { TabKeys } from '../types';
 
 /**
  * Props accepted by the Tabs component.
@@ -25,6 +27,7 @@ export interface TabsProps {
  */
 export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
   const { palette } = useMonkTheme();
+  const { t } = useTranslation();
 
   const getTabStyle = (index: number, arrayLength: number) => {
     if (index === 0) {
@@ -51,7 +54,7 @@ export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
             color: activeTab === tab ? palette.text.white : '',
           }}
         >
-          {tab}
+          {Object.values(TabKeys).includes(tab as TabKeys) ? t(`tabs.${tab}.label`) : tab}
         </Button>
       ))}
     </div>

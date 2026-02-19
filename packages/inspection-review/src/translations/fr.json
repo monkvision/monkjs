@@ -1,3 +1,41 @@
 {
-  "test": "test fr"
+  "tabs": {
+    "exterior": {
+      "label": "Extérieur",
+      "pricings": {
+        "needsPricing": "Besoin d'un devis"
+      },
+      "addDamage": {
+        "title": "Cette partie est endommagée",
+        "listTitle": "Dommages",
+        "priceLabel": "Prix"
+      }
+    },
+    "interior": {
+      "label": "Intérieur/Pneus",
+      "area": "Zone",
+      "areaPlaceholder": "Saisir la zone",
+      "damageTypes": "Types de dommages",
+      "damageTypesPlaceholder": "Saisir les types de dommages",
+      "deduction": "Déduction",
+      "deductionPlaceholder": "0",
+      "addDamageButton": "AJOUTER UN DOMMAGE"
+    },
+    "actionButtons": {
+      "done": "TERMINER",
+      "cancel": "ANNULER"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "TÉLÉCHARGER LES IMAGES",
+    "generatePdf": "GÉNÉRER PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Afficher les dommages",
+      "hideDamages": "Masquer les dommages",
+      "closeSpotlight": "Fermer l'image actuelle",
+      "changeImage": "Changer d'image"
+    }
+  }
 }

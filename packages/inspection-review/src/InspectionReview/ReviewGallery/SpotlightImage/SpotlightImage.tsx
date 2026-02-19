@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
 import { GalleryItem } from '../../types';
@@ -48,6 +49,7 @@ export function SpotlightImage({
   toggleShowDamage,
 }: SpotlightImageProps) {
   const { tObj } = useObjectTranslation();
+  const { t } = useTranslation();
 
   const { iconButton, showDamageButton, imageLabelStyle } = useSpotlightImageStyles();
   const { backgroundImage, isMouseOver, cursorStyle } = useSpotlightImage({
@@ -78,7 +80,9 @@ export function SpotlightImage({
                   primaryColor={showDamageButton.primaryColor}
                   secondaryColor={showDamageButton.secondaryColor}
                 >
-                  {showDamage ? 'Hide damage' : 'Show damage'}
+                  {showDamage
+                    ? t('gallery.spotlight.hideDamages')
+                    : t('gallery.spotlight.showDamages')}
                 </Button>
               </div>
             )}
@@ -107,7 +111,7 @@ export function SpotlightImage({
         <img src={backgroundImage} alt={selectedItem.image.id} style={styles['imageContainer']} />
       </div>
       <div style={styles['shortcutsContainer']}>
-        <Shortcuts />
+        <Shortcuts showDamage={showDamage} />
       </div>
     </div>
   );

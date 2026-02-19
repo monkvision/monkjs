@@ -1,3 +1,41 @@
 {
-  "test": "test de"
+  "tabs": {
+    "exterior": {
+      "label": "Karosserie",
+      "pricings": {
+        "needsPricing": "Benötigt Preisgestaltung"
+      },
+      "addDamage": {
+        "title": "Dieser Teil ist beschädigt",
+        "listTitle": "Schäden",
+        "priceLabel": "Preis"
+      }
+    },
+    "interior": {
+      "label": "Innenraum/Reifen",
+      "area": "Bereich",
+      "areaPlaceholder": "Bereich eingeben",
+      "damageTypes": "Schadensarten",
+      "damageTypesPlaceholder": "Schadensarten eingeben",
+      "deduction": "Abzug",
+      "deductionPlaceholder": "0",
+      "addDamageButton": "SCHADEN HINZUFÜGEN"
+    },
+    "actionButtons": {
+      "done": "FERTIG",
+      "cancel": "ABBRECHEN"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "BILDER HERUNTERLADEN",
+    "generatePdf": "PDF ERZEUGEN"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Schäden anzeigen",
+      "hideDamages": "Schäden verbergen",
+      "closeSpotlight": "Aktuelles Bild schließen",
+      "changeImage": "Bild wechseln"
+    }
+  }
 }

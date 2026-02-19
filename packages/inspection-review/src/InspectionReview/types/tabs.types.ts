@@ -4,8 +4,8 @@ import { GalleryItem } from './gallery.types';
  * Enumeration of the default tab keys available in the inspection review.
  */
 export enum TabKeys {
-  Exterior = 'Exterior',
-  Interior = 'Interior/Tire',
+  Exterior = 'exterior',
+  Interior = 'interior',
 }
 
 /**
