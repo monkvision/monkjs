@@ -1,43 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import { ImageType } from '@monkvision/types';
-import { ExteriorTab } from '../ExteriorTab';
-import { InteriorTab } from '../InteriorTab';
-import { useInspectionReviewState } from './InspectionReviewProvider';
-import { GalleryItem, TabContent, TabKeys, TabObject } from '../types';
 
-/**
- * Default tabs available in the inspection review.
- */
-const defaultTabs: Record<string, TabContent> = {
-  [TabKeys.Exterior]: {
-    Component: ExteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
-      const tabItems: GalleryItem[] = sights[TabKeys.Exterior].reduce<GalleryItem[]>(
-        (items, sightId) => {
-          const sightItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
-          return [...items, ...sightItems];
-        },
-        [],
-      );
-      const closeUpItems = allGalleryItems.filter((item) => item.image.type === ImageType.CLOSE_UP);
-      setCurrentGalleryItems([...closeUpItems, ...tabItems]);
-    },
-  },
-  [TabKeys.Interior]: {
-    Component: InteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
-      const tabItems: GalleryItem[] = sights[TabKeys.Interior].reduce<GalleryItem[]>(
-        (items, sightId) => {
-          const sightItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
-          return [...items, ...sightItems];
-        },
-        [],
-      );
-      setCurrentGalleryItems(tabItems);
-    },
-  },
-};
+import { useInspectionReviewState } from './InspectionReviewProvider';
+import { TabContent, TabKeys, TabObject } from '../types';
+import { defaultTabs } from '../utils/tabs.utils';
 
 /**
  * Parameters accepted by the useTabsState hook.

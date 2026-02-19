@@ -47,4 +47,7 @@ export const styles: Styles = {
     width: '100%',
     gap: 16,
   },
+  activeTabContainer: {
+    flex: 6,
+  },
 };

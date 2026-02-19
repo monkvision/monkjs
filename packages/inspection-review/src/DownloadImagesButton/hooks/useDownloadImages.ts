@@ -1,5 +1,6 @@
 import { useLoadingState, useObjectMemo } from '@monkvision/common';
 import { DownloadImagesButtonProps } from '../../types/download-images.types';
+import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
 
 /**
  * State and handlers for downloading images.
@@ -12,13 +13,14 @@ export interface DownloadImagesState {
   /**
    * Handler function to initiate image download.
    */
-  handleDownloadImages?: () => void;
+  handleDownloadImages: () => void;
 }
 
 /**
  * State and handlers for downloading images.
  */
 export function useDownloadImages(props: DownloadImagesButtonProps): DownloadImagesState {
+  const { allGalleryItems } = useInspectionReviewState();
   const loading = useLoadingState();
 
   const defaultDownloadImages = () => {
@@ -30,7 +32,7 @@ export function useDownloadImages(props: DownloadImagesButtonProps): DownloadIma
 
     try {
       if (props.onDownloadImages) {
-        props.onDownloadImages();
+        props.onDownloadImages(allGalleryItems);
       } else {
         defaultDownloadImages();
       }

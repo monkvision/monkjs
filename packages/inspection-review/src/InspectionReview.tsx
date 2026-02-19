@@ -41,7 +41,7 @@ export function InspectionReview(props: InspectionReviewProps) {
         </div>
 
         <div style={styles['contentRow']}>
-          <div style={{ flex: 6 }}>{ActiveTabComponent}</div>
+          <div style={styles['activeTabContainer']}>{ActiveTabComponent}</div>
           <ReviewGallery />
         </div>
       </div>

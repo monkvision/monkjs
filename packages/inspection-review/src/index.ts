@@ -1,4 +1,7 @@
 export * from './i18n';
-export * from './InspectionReview';
-export * from './InspectionReview/types';
-export * from './InspectionReview/hooks/InspectionReviewProvider';
+export * from './types';
+export * from './utils';
+export * from './hooks/InspectionReviewProvider';
+
+export { InspectionReview } from './InspectionReview';
+export { InspectionReviewHOC } from './InspectionReviewHOC';

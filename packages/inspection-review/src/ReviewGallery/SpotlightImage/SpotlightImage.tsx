@@ -3,7 +3,6 @@ import { useObjectTranslation } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
 import { GalleryItem } from '../../types';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
-import { styles } from './SpotlightImage.styles';
 import { Shortcuts } from './Shortcuts';
 import { useSpotlightImageStyles } from './hooks/useSpotlightImageStyles';
 
@@ -51,34 +50,47 @@ export function SpotlightImage({
   const { tObj } = useObjectTranslation();
   const { t } = useTranslation();
 
-  const { iconButton, showDamageButton, imageLabelStyle } = useSpotlightImageStyles();
   const { backgroundImage, isMouseOver, cursorStyle } = useSpotlightImage({
     image: selectedItem.image,
     showDamage,
   });
+  const {
+    iconButtonStyle,
+    showDamageButtonStyle,
+    imageLabelStyle,
+    containerStyle,
+    overlayContainerStyle,
+    closeButtonStyle,
+    hasDamagesButtonStyle,
+    imageNavigationContainerStyle,
+    imageContainerStyle,
+    shortcutsContainerStyle,
+  } = useSpotlightImageStyles({
+    cursorStyle,
+  });
 
   return (
-    <div className='spotlight-image' style={{ ...styles['container'], cursor: cursorStyle }}>
-      <div style={styles['overlayContainer']}>
+    <div className='spotlight-image' style={containerStyle}>
+      <div style={overlayContainerStyle}>
         {isMouseOver && (
           <>
-            <div style={styles['closeButton']}>
+            <div style={closeButtonStyle}>
               <Button
                 onClick={() => onSelectItem(null)}
                 icon='close'
                 size='small'
-                primaryColor={iconButton.primaryColor}
-                secondaryColor={iconButton.secondaryColor}
+                primaryColor={iconButtonStyle.primaryColor}
+                secondaryColor={iconButtonStyle.secondaryColor}
               />
             </div>
 
             {selectedItem.hasDamage && (
-              <div style={styles['showDamagesButton']}>
+              <div style={hasDamagesButtonStyle}>
                 <Button
                   onClick={toggleShowDamage}
                   icon={showDamage ? 'visibility-off' : 'visibility-on'}
-                  primaryColor={showDamageButton.primaryColor}
-                  secondaryColor={showDamageButton.secondaryColor}
+                  primaryColor={showDamageButtonStyle.primaryColor}
+                  secondaryColor={showDamageButtonStyle.secondaryColor}
                 >
                   {showDamage
                     ? t('gallery.spotlight.hideDamages')
@@ -87,30 +99,30 @@ export function SpotlightImage({
               </div>
             )}
 
-            <div style={styles['imageNavigationContainer']}>
+            <div style={imageNavigationContainerStyle}>
               <Button
-                style={styles['iconButton']}
+                style={iconButtonStyle}
                 onClick={goToPreviousImage}
                 icon='chevron-left'
-                primaryColor={iconButton.primaryColor}
-                secondaryColor={iconButton.secondaryColor}
+                primaryColor={iconButtonStyle.primaryColor}
+                secondaryColor={iconButtonStyle.secondaryColor}
               />
               <div style={imageLabelStyle}>
                 {selectedItem.image.label ? tObj(selectedItem.image.label) : ''}
               </div>
               <Button
-                style={styles['iconButton']}
+                style={iconButtonStyle}
                 onClick={goToNextImage}
                 icon='chevron-right'
-                primaryColor={iconButton.primaryColor}
-                secondaryColor={iconButton.secondaryColor}
+                primaryColor={iconButtonStyle.primaryColor}
+                secondaryColor={iconButtonStyle.secondaryColor}
               />
             </div>
           </>
         )}
-        <img src={backgroundImage} alt={selectedItem.image.id} style={styles['imageContainer']} />
+        <img src={backgroundImage} alt={selectedItem.image.id} style={imageContainerStyle} />
       </div>
-      <div style={styles['shortcutsContainer']}>
+      <div style={shortcutsContainerStyle}>
         <Shortcuts showDamage={showDamage} />
       </div>
     </div>

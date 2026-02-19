@@ -1,7 +1,8 @@
 import { MonkApiConfig } from '@monkvision/network';
 import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
-import { PricingData } from './pricing.types';
+import { PricingData, PricingLevels } from './pricing.types';
 import { TabKeys, TabContent } from './tabs.types';
+import { GalleryItem } from './gallery.types';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -67,7 +68,7 @@ export type InspectionReviewProps = {
   /**
    * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */
-  pricings?: Record<string, PricingData>;
+  pricings?: Record<PricingLevels | string, PricingData>;
   /**
    * Callback function triggered when the PDF generation is requested.
    */
@@ -75,5 +76,5 @@ export type InspectionReviewProps = {
   /**
    * Callback function triggered when the image download is requested.
    */
-  onDownloadImages?: () => void;
+  onDownloadImages?: (allGalleryItems: GalleryItem[]) => void;
 };
