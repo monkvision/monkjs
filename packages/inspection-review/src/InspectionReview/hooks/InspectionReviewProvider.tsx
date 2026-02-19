@@ -1,10 +1,16 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { type Image, Inspection, RenderedOutput, Sight } from '@monkvision/types';
-import { LoadingState, useMonkState } from '@monkvision/common';
+import { AdditionalData, type Image, Inspection, RenderedOutput, Sight } from '@monkvision/types';
+import {
+  LoadingState,
+  MonkActionType,
+  MonkUpdatedOneInspectionAdditionalDataAction,
+  useMonkState,
+} from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { InspectionReviewProps } from '../InspectionReview';
 import { sights } from '@monkvision/sights';
+import { InteriorDamage } from '../InteriorTab';
 
 /**
  * An item in the gallery, consisting of a sights, its image and associated rendered output.
@@ -44,6 +50,15 @@ export type InspectionReviewState = {
    * Function to update the currently displayed gallery items.
    */
   setCurrentGalleryItems: (items: GalleryItem[]) => void;
+  /**
+   * Function to handle adding new interior damage and updating the state.
+   * If an index is provided, it updates the existing damage at that index.
+   */
+  handleAddDamage: (damage: InteriorDamage, index?: number) => void;
+  /**
+   * Function to handle deleting interior damage by index.
+   */
+  handleDeleteDamage: (index: number) => void;
 };
 
 /**
@@ -73,8 +88,8 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
   const { inspectionId, loading, apiConfig } = props;
 
   const { t } = useTranslation();
-  const { state } = useMonkState();
-  const { getInspection } = useMonkApi(apiConfig);
+  const { state, dispatch } = useMonkState();
+  const { getInspection, updateAdditionalData } = useMonkApi(apiConfig);
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
@@ -83,6 +98,61 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
     () => state.inspections.find((i) => i.id === inspectionId),
     [state.inspections, inspectionId],
   );
+
+  const handleAddDamage = (damage: InteriorDamage, index?: number) => {
+    const callback = (additionalData?: AdditionalData) => {
+      const currentDamages =
+        (additionalData?.['other_damages'] as unknown as AdditionalData[]) || [];
+
+      if (index !== undefined && currentDamages[index]) {
+        const updatedDamages = [...currentDamages];
+        updatedDamages[index] = { ...damage } as AdditionalData;
+        return {
+          ...additionalData,
+          other_damages: updatedDamages,
+        };
+      }
+
+      const updatedDamages = [...currentDamages, damage];
+      return {
+        ...additionalData,
+        other_damages: updatedDamages,
+      };
+    };
+
+    updateAdditionalData({
+      id: inspectionId,
+      callback,
+    });
+
+    const action: MonkUpdatedOneInspectionAdditionalDataAction = {
+      type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
+      payload: {
+        inspectionId,
+        additionalData: callback(inspection?.additionalData),
+      },
+    };
+    dispatch(action);
+  };
+
+  const handleDeleteDamage = (index: number) => {
+    const callback = (existingData?: AdditionalData) => {
+      const currentDamages = (existingData?.['other_damages'] as unknown as AdditionalData[]) || [];
+      return {
+        ...existingData,
+        other_damages: currentDamages.filter((_, i) => i !== index),
+      };
+    };
+    const action: MonkUpdatedOneInspectionAdditionalDataAction = {
+      type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
+      payload: {
+        inspectionId,
+        additionalData: callback(inspection?.additionalData),
+      },
+    };
+    dispatch(action);
+    updateAdditionalData({ id: inspectionId, callback });
+  };
 
   useEffect(() => {
     loading.start();
@@ -98,9 +168,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       }).catch(() => {
         throw new Error(t('inspectionReview.errors.inspectionId'));
       });
-      const insp = fetchedInspection.entities.inspections.find(
-        (i) => i.id === inspectionId,
-      ) as Inspection;
 
       const items: GalleryItem[] = [];
       fetchedInspection.entities.images.forEach((img) => {
@@ -121,22 +188,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       });
 
       setAllGalleryItems(items);
-      console.log({ insp, fetchedInspection, items });
-
-      // TODO: group sight IDs by category
-      // const exteriorSightIds: Record<string, string> = {};
-      // const interiorSightIds: Record<string, string> = {};
-      // const unmatchedSightIds: Record<string, string> = {};
-      // sightAndImageIds.forEach((sightAndImage) => {
-      //   if (sights[sightAndImage[0]]?.category === 'exterior') {
-      //     exteriorSightIds[sightAndImage[0]] = sightAndImage[1];
-      //   } else if (sights[sightAndImage[0]]?.category === 'interior') {
-      //     interiorSightIds[sightAndImage[0]] = sightAndImage[1];
-      //   } else {
-      //     unmatchedSightIds[sightAndImage[0]] = sightAndImage[1];
-      //   }
-      // });
-
       loading.onSuccess();
     };
 
@@ -148,9 +199,18 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       });
   }, [inspectionId]);
 
+  console.log({ inspection, state });
+
   return (
     <InspectionReviewStateContext.Provider
-      value={{ inspection, allGalleryItems, currentGalleryItems, setCurrentGalleryItems }}
+      value={{
+        inspection,
+        allGalleryItems,
+        currentGalleryItems,
+        setCurrentGalleryItems,
+        handleAddDamage,
+        handleDeleteDamage,
+      }}
     >
       {props.children}
     </InspectionReviewStateContext.Provider>

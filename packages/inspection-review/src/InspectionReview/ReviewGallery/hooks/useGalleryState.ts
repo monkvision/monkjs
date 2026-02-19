@@ -89,6 +89,14 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      const isEditable =
+        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+
+      if (isEditable) {
+        return;
+      }
+
       const action = keyStrokeActions[event.key];
       if (action) {
         event.preventDefault();
