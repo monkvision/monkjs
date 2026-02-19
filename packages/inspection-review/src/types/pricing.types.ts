@@ -48,12 +48,12 @@ export const DEFAULT_PRICINGS: Record<PricingLevels | string, PricingData> = {
   [PricingLevels.LOW]: {
     color: PricingColors.LOW,
     min: 1,
-    max: 299,
+    max: 300,
   },
   [PricingLevels.MID]: {
     color: PricingColors.MID,
     min: 300,
-    max: 599,
+    max: 600,
   },
   [PricingLevels.HIGH]: {
     color: PricingColors.HIGH,
