@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Extérieur",
+      "pricings": {
+        "needsPricing": "Besoin d'un devis"
+      },
+      "addDamage": {
+        "title": "Cette partie est endommagée",
+        "listTitle": "Dommages",
+        "priceLabel": "Prix"
+      }
+    },
+    "interior": {
+      "label": "Intérieur/Pneus",
+      "area": "Zone",
+      "areaPlaceholder": "Saisir la zone",
+      "damageTypes": "Types de dommages",
+      "damageTypesPlaceholder": "Saisir les types de dommages",
+      "deduction": "Déduction",
+      "addDamageButton": "AJOUTER UN DOMMAGE"
+    },
+    "actionButtons": {
+      "done": "TERMINER",
+      "cancel": "ANNULER"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "TÉLÉCHARGER LES IMAGES",
+    "generatePdf": "GÉNÉRER PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Afficher les dommages",
+      "hideDamages": "Masquer les dommages",
+      "closeSpotlight": "Fermer l'image actuelle",
+      "changeImage": "Changer d'image"
+    }
+  },
+  "errors": {
+    "inspectionId": "L'inspection Id demandée est introuvable sur le serveur. Si vous avez saisi l'id manuellement, veuillez vérifier l'orthographe et réessayer."
+  }
+}
