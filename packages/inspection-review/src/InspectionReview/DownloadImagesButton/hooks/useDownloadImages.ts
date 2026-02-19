@@ -1,4 +1,5 @@
 import { useLoadingState, useObjectMemo } from '@monkvision/common';
+import { DownloadImagesButtonProps } from '../../types/download-images.types';
 
 /**
  * State and handlers for downloading images.
@@ -11,23 +12,35 @@ export interface DownloadImagesState {
   /**
    * Handler function to initiate image download.
    */
-  handleDownloadPictures: () => void;
+  handleDownloadImages?: () => void;
 }
 
 /**
  * State and handlers for downloading images.
  */
-export function useDownloadImages(): DownloadImagesState {
+export function useDownloadImages(props: DownloadImagesButtonProps): DownloadImagesState {
   const loading = useLoadingState();
 
-  const handleDownloadPictures = () => {
+  const defaultDownloadImages = () => {
+    console.log('Download images clicked');
+  };
+
+  const handleDownloadImages = () => {
     loading.start();
-    console.log('Download pictures clicked');
-    loading.onSuccess();
+
+    try {
+      if (props.onDownloadImages) {
+        props.onDownloadImages();
+      } else {
+        defaultDownloadImages();
+      }
+    } finally {
+      loading.onSuccess();
+    }
   };
 
   return useObjectMemo({
     loading,
-    handleDownloadPictures,
+    handleDownloadImages,
   });
 }

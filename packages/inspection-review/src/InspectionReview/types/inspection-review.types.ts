@@ -72,4 +72,8 @@ export type InspectionReviewProps = {
    * Callback function triggered when the PDF generation is requested.
    */
   onDownloadPDF?: () => void;
+  /**
+   * Callback function triggered when the image download is requested.
+   */
+  onDownloadImages?: () => void;
 };

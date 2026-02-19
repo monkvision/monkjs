@@ -331,8 +331,6 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
   }, [inspectionId]);
 
-  console.log({ state, allGalleryItems });
-
   return (
     <InspectionReviewStateContext.Provider
       value={{
