@@ -36,5 +36,8 @@
       "closeSpotlight": "Huidige afbeelding sluiten",
       "changeImage": "Afbeelding wijzigen"
     }
+  },
+  "errors": {
+    "inspectionId": "De gevraagde inspectie-ID is niet gevonden op de server. Als u de id handmatig heeft ingevoerd, controleer dan de spelling en probeer het opnieuw."
   }
 }

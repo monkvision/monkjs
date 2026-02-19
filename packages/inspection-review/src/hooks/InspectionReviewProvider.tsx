@@ -127,7 +127,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         id: inspectionId,
         light: false,
       }).catch(() => {
-        throw new Error(t('inspectionReview.errors.inspectionId'));
+        throw new Error(t('errors.inspectionId'));
       });
 
       const items: GalleryItem[] = [];

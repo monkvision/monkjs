@@ -36,5 +36,8 @@
       "closeSpotlight": "Fermer l'image actuelle",
       "changeImage": "Changer d'image"
     }
+  },
+  "errors": {
+    "inspectionId": "L'inspection Id demandée est introuvable sur le serveur. Si vous avez saisi l'id manuellement, veuillez vérifier l'orthographe et réessayer."
   }
 }
