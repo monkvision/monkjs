@@ -1,12 +1,9 @@
-import { MonkProvider, useI18nSync } from '@monkvision/common';
-import { useTranslation } from 'react-i18next';
 import { styles } from './InspectionReview.styles';
 import { MonkApiConfig } from '@monkvision/network';
-import { InspectionInfo } from './InspectionInfo';
-import { Shortcuts } from './Shortcuts';
 import { Tabs } from './Tabs';
 import { DocumentActions } from './DocumentActions';
 import { ReviewGallery } from './ReviewGallery';
+import { InspectionReviewHeader } from './InspectionReviewHeader/InspectionReviewHeader';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -59,28 +56,21 @@ export type InspectionReviewProps = {
 /**
  * The Inspection Review component provided by the Monk inspection-review package.
  */
-export function InspectionReview({ lang }: InspectionReviewProps) {
-  useI18nSync(lang);
-  const { t } = useTranslation();
-
+export function InspectionReview(props: InspectionReviewProps) {
   return (
-    <MonkProvider>
-      <div style={styles['container']}>
-        <p>{t('test')}</p>
+    <div style={styles['container']}>
+      <InspectionReviewHeader />
 
-        <div style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <InspectionInfo />
-          <Shortcuts />
-        </div>
-        <div style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <div style={{ flex: 6 }}>
           <Tabs />
-          <DocumentActions />
         </div>
-        <div style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <div>Current tabs logic</div>
-          <ReviewGallery />
-        </div>
+        <DocumentActions />
       </div>
-    </MonkProvider>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <div style={{ flex: 6 }}>Current tab logic</div>
+        <ReviewGallery />
+      </div>
+    </div>
   );
 }

@@ -1,9 +1,11 @@
+import { DownloadImagesButton } from './DownloadImagesButton';
+import { GeneratePDFButton } from './GeneratePDFButton';
+
 export function DocumentActions() {
   return (
-    <div>
-      <p>Document Actions Component</p>
-      <button>Download Images</button>
-      <button>Generate PDF if enabled from config</button>
+    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+      <DownloadImagesButton />
+      <GeneratePDFButton />
     </div>
   );
 }
