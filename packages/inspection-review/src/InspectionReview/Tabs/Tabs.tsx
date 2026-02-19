@@ -1,5 +1,4 @@
 import { useMonkTheme } from '@monkvision/common';
-import { useTranslation } from 'react-i18next';
 import { styles } from './Tabs.styles';
 import { Button } from '@monkvision/common-ui-web';
 
@@ -26,7 +25,6 @@ export interface TabsProps {
  */
 export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
   const { palette } = useMonkTheme();
-  const { t } = useTranslation();
 
   return (
     <div style={styles['container']}>
