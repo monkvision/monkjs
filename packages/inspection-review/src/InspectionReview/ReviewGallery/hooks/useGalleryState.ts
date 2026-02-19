@@ -1,5 +1,5 @@
 import { useObjectMemo } from '@monkvision/common';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { GalleryItem } from '../../types';
 import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
 
@@ -27,6 +27,18 @@ export interface HandleGalleryState {
 export function useGalleryState(): HandleGalleryState {
   const { currentGalleryItems } = useInspectionReviewState();
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const isSelectedItemAvailable = useMemo<boolean>(
+    () =>
+      !!selectedItem &&
+      !!currentGalleryItems.find((item) => item.image.id === selectedItem?.image.id),
+    [currentGalleryItems, selectedItem],
+  );
+
+  useEffect(() => {
+    if (!isSelectedItemAvailable) {
+      setSelectedItem(null);
+    }
+  }, [isSelectedItemAvailable]);
 
   const onSelectItemById = useCallback(
     (imageId: string) => {

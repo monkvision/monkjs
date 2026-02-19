@@ -56,7 +56,7 @@ export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardSty
     },
     labelStyle: {
       ...styles['label'],
-      backgroundColor: item.hasDamage ? palette.alert.dark : colors.labelBackground,
+      backgroundColor: item.hasDamage || !item.sight ? palette.alert.dark : colors.labelBackground,
       color: labelColor,
     },
   };

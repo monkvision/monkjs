@@ -26,19 +26,27 @@ export interface TabsProps {
 export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
   const { palette } = useMonkTheme();
 
+  const getTabStyle = (index: number, arrayLength: number) => {
+    if (index === 0) {
+      return styles['firstButton'];
+    }
+    if (index === arrayLength - 1) {
+      return styles['lastButton'];
+    }
+
+    return styles['middleButton'];
+  };
+
   return (
     <div style={styles['container']}>
       {allTabs.map((tab, index, array) => (
         <Button
           key={tab}
           onClick={() => onTabChange(tab)}
+          icon={activeTab === tab ? 'check' : undefined}
           style={{
             ...styles['tabButton'],
-            ...(index === 0
-              ? styles['firstButton']
-              : index === array.length - 1
-              ? styles['lastButton']
-              : styles['middleButton']),
+            ...getTabStyle(index, array.length),
             backgroundColor: activeTab === tab ? palette.background.dark : '',
             color: activeTab === tab ? palette.text.white : '',
           }}
