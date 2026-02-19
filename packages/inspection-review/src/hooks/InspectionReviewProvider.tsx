@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useLoadingState, useMonkState, useMonkTheme } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
-import { Inspection } from '@monkvision/types';
+import { CurrencyCode, Inspection } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { sights } from '@monkvision/sights';
@@ -12,7 +12,6 @@ import {
   DamagedPartDetails,
   InspectionReviewProps,
   InteriorDamage,
-  Currencies,
 } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
 import useDamagedPartsState from './useDamagedPartsState';
@@ -95,7 +94,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
 
-  const isLeftSideCurrency = useMemo(() => currency === Currencies.USD, [currency]);
+  const isLeftSideCurrency = useMemo(() => currency === CurrencyCode.USD, [currency]);
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
     [state.inspections, inspectionId],

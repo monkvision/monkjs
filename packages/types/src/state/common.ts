@@ -77,6 +77,18 @@ export enum CurrencyCode {
    * United-States Dollar
    */
   USD = 'USD',
+  /**
+   * British Pound
+   */
+  GBP = '£',
+  /**
+   * Swiss Franc
+   */
+  CHF = 'CHF',
+  /**
+   * Australian Dollar
+   */
+  AUD = 'AUD',
 }
 
 /**
