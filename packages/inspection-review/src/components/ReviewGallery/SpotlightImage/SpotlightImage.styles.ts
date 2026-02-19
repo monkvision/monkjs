@@ -7,11 +7,11 @@ export const styles: Styles = {
     flexDirection: 'column',
     flex: 6,
     width: '100%',
-    height: '100%',
-    maxWidth: 1600,
+    maxHeight: '100%',
+    maxWidth: 'fit-content',
     margin: '0 auto',
   },
-  overlayContainer: { position: 'relative' },
+  overlayContainer: { position: 'relative', width: 'fit-content' },
   actionsContainer: {
     zIndex: 10,
     position: 'absolute',
@@ -31,7 +31,7 @@ export const styles: Styles = {
   navigationContainer: {
     zIndex: 10,
     position: 'absolute',
-    bottom: 10,
+    bottom: 50,
     cursor: 'pointer',
     display: 'flex',
     justifyContent: 'space-around',
@@ -55,7 +55,7 @@ export const styles: Styles = {
   },
   imageContainer: {
     width: '100%',
-    height: '100%',
+    maxHeight: '60vh',
     objectFit: 'contain',
   },
   shortcutsContainer: {

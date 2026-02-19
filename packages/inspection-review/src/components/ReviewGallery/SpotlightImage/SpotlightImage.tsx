@@ -110,10 +110,10 @@ export function SpotlightImage({
           <TransformComponent>
             <img src={backgroundImage} alt={backgroundImage} style={styles['imageContainer']} />
           </TransformComponent>
+          <div style={styles['shortcutsContainer']}>
+            <Shortcuts showDamage={showDamage} />
+          </div>
         </TransformWrapper>
-      </div>
-      <div style={styles['shortcutsContainer']}>
-        <Shortcuts showDamage={showDamage} />
       </div>
     </div>
   );
