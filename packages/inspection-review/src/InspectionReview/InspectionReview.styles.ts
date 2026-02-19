@@ -10,6 +10,5 @@ export const styles: Styles = {
     rowGap: 8,
     backgroundColor: 'white',
     color: 'black',
-    padding: 16,
   },
 };

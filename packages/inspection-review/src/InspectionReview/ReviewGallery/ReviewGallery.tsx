@@ -6,20 +6,22 @@ import { SpotlightImage } from './SpotlightImage';
  * The ReviewGallery component that displays a gallery of images for review.
  */
 export function ReviewGallery() {
-  const { galleryItems } = useInspectionReviewState();
-  const { selectedImage, showDamage, onSelectImage } = useGalleryState({ galleryItems });
+  const { currentGalleryItems } = useInspectionReviewState();
+  const { selectedItem, showDamage, onSelectItem } = useGalleryState({
+    galleryItems: currentGalleryItems,
+  });
 
-  if (selectedImage) {
-    return <SpotlightImage selectedImage={selectedImage} showDamage={showDamage} />;
+  if (selectedItem) {
+    return <SpotlightImage selectedItem={selectedItem} showDamage={showDamage} />;
   }
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 6, gap: 8 }}>
-      {galleryItems.map((item) => (
+      {currentGalleryItems.map((item) => (
         <img
-          key={item.id}
-          src={item.path}
-          onClick={() => onSelectImage(item.id)}
+          key={item.image.id}
+          src={item.image.path}
+          onClick={() => onSelectItem(item.image.id)}
           style={{
             height: 152,
             width: 140,

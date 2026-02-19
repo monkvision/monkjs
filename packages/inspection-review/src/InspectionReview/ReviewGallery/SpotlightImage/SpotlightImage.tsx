@@ -1,4 +1,4 @@
-import { Image } from '@monkvision/types';
+import { GalleryItem } from '../../hooks';
 
 /**
  * Props accepted by the SpotlightImage component.
@@ -7,7 +7,7 @@ export interface SpotlightImageProps {
   /**
    * The image to be displayed in the spotlight.
    */
-  selectedImage: Image;
+  selectedItem: GalleryItem;
   /**
    * Flag indicating whether to show damage annotations on the image.
    */
@@ -17,18 +17,33 @@ export interface SpotlightImageProps {
 /**
  * The SpotlightImage component that displays the selected image in a spotlight view instead of the gallery view.
  */
-export function SpotlightImage({ selectedImage, showDamage }: SpotlightImageProps) {
+export function SpotlightImage({ selectedItem, showDamage }: SpotlightImageProps) {
   return (
-    <img
-      src={selectedImage.path}
+    <div
       style={{
-        position: 'relative',
-        flex: 6,
+        display: 'flex',
+        flex: 1,
         width: '100%',
-        height: 300,
-        backgroundColor: 'bisque',
+        backgroundSize: 'contain',
+        backgroundRepeat: 'no-repeat',
+        justifyContent: 'space-between',
+        inset: 0,
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
+      <img
+        src={
+          showDamage && selectedItem.renderedOutput
+            ? selectedItem.renderedOutput.path
+            : selectedItem.image.path
+        }
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
       {showDamage && (
         <p
           style={{
@@ -40,9 +55,9 @@ export function SpotlightImage({ selectedImage, showDamage }: SpotlightImageProp
             padding: 4,
           }}
         >
-          Showing damage for {selectedImage.id}
+          Showing damage for {selectedItem.image.id}
         </p>
       )}
-    </img>
+    </div>
   );
 }

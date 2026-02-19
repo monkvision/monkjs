@@ -37,7 +37,6 @@ export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
           }}
           onClick={() => onTabChange(tab)}
         >
-          {activeTab === tab && 'x'}
           {tab}
         </Button>
       ))}
