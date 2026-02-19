@@ -2,11 +2,12 @@ import { styles } from './InspectionReview.styles';
 import { MonkApiConfig } from '@monkvision/network';
 import { Tabs } from './Tabs';
 import { ReviewGallery } from './ReviewGallery';
-import { InspectionReviewHeader } from './InspectionReviewHeader/InspectionReviewHeader';
 import { useInspectionReviewState, useTabsState } from './hooks';
 import { GeneratePDFButton } from './GeneratePDFButton';
 import { DownloadImagesButton } from './DownloadImagesButton';
 import { ActiveTab } from './ActiveTab';
+import { InspectionInfo } from './InspectionInfo';
+import { Shortcuts } from './Shortcuts';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -65,7 +66,10 @@ export function InspectionReview(props: InspectionReviewProps) {
 
   return (
     <div style={styles['container']}>
-      <InspectionReviewHeader />
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <InspectionInfo additionalInfo={props.additionalInfo} />
+        <Shortcuts />
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <div style={{ flex: 6 }}>
@@ -76,6 +80,7 @@ export function InspectionReview(props: InspectionReviewProps) {
           <GeneratePDFButton />
         </div>
       </div>
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <div style={{ flex: 6 }}>
           <ActiveTab activeTab={activeTab} />
