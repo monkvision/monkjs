@@ -1,6 +1,6 @@
 import { useInteractiveStatus, useObjectTranslation } from '@monkvision/common';
 import { GalleryItem } from '../../types';
-import { useGalleryItemCardStyles } from './useGalleryItemCardStyles';
+import { useGalleryItemCardStyles } from './GalleryItemCard.styles';
 
 /**
  * Props accepted by the GalleryItemCard component.

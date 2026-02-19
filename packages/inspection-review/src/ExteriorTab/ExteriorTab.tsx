@@ -3,7 +3,6 @@ import { AddExteriorDamage } from './AddExteriorDamage';
 import { Pricings } from './Pricings';
 import { ExteriorViews, useExteriorTab } from './hooks/useExteriorTab';
 import { styles } from './ExteriorTab.styles';
-import { VehiclePart } from '@monkvision/types';
 
 /**
  * The ExteriorTab component that displays content based on the currently active tab.
@@ -14,6 +13,7 @@ export function ExteriorTab() {
     selectedPart,
     orientation,
     vehicleType,
+    validatedParts,
     handleRotateLeft,
     handleRotateRight,
     handlePartClicked,
@@ -24,14 +24,14 @@ export function ExteriorTab() {
 
   if (currentView === ExteriorViews.SVGCar) {
     return (
-      <div>
+      <>
         <div style={styles['vehicleWireframeContainer']}>
           <VehicleDynamicWireframe
             vehicleType={vehicleType}
             orientation={orientation}
             onClickPart={handlePartClicked}
             getPartAttributes={handlePartAttributes}
-            validatedParts={[VehiclePart.HOOD, VehiclePart.WINDOW_BACK_RIGHT]}
+            validatedParts={validatedParts}
           />
           <div style={styles['rotationIconsContainer']}>
             <Icon
@@ -50,7 +50,7 @@ export function ExteriorTab() {
         </div>
 
         <Pricings />
-      </div>
+      </>
     );
   }
 

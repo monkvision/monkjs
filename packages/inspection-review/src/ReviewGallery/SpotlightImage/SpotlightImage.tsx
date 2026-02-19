@@ -5,7 +5,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { GalleryItem } from '../../types';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
 import { Shortcuts } from './Shortcuts';
-import { useSpotlightImageStyles } from './hooks/useSpotlightImageStyles';
+import { styles, useSpotlightImageStyles } from './SpotlightImage.styles';
 
 /**
  * Props accepted by the SpotlightImage component.
@@ -63,52 +63,44 @@ export function SpotlightImage({
     image: selectedItem.image,
     showDamage,
   });
-  const {
-    iconButtonStyle,
-    showDamageButtonStyle,
-    imageLabelStyle,
-    containerStyle,
-    overlayContainerStyle,
-    closeButtonStyle,
-    hasDamagesButtonStyle,
-    imageNavigationContainerStyle,
-    imageContainerStyle,
-    shortcutsContainerStyle,
-  } = useSpotlightImageStyles({
-    cursorStyle,
-  });
+  const { iconButtonStyle, showDamageButtonStyle, imageLabelStyle, containerStyle } =
+    useSpotlightImageStyles({
+      cursorStyle,
+    });
 
   return (
     <div className='spotlight-image' style={containerStyle}>
-      <div style={overlayContainerStyle}>
+      <div style={styles['overlayContainer']}>
         {isMouseOver && (
           <>
-            <div style={closeButtonStyle}>
-              <Button
-                onClick={() => onSelectItemById(null)}
-                icon='close'
-                size='small'
-                primaryColor={iconButtonStyle.primaryColor}
-                secondaryColor={iconButtonStyle.secondaryColor}
-              />
+            <div style={styles['actionsContainer']}>
+              <div style={styles['closeButton']}>
+                <Button
+                  onClick={() => onSelectItemById(null)}
+                  icon='close'
+                  size='small'
+                  primaryColor={iconButtonStyle.primaryColor}
+                  secondaryColor={iconButtonStyle.secondaryColor}
+                />
+              </div>
+
+              {selectedItem.hasDamage && (
+                <div style={styles['showDamagesButton']}>
+                  <Button
+                    onClick={toggleShowDamage}
+                    icon={showDamage ? 'visibility-off' : 'visibility-on'}
+                    primaryColor={showDamageButtonStyle.primaryColor}
+                    secondaryColor={showDamageButtonStyle.secondaryColor}
+                  >
+                    {showDamage
+                      ? t('gallery.spotlight.hideDamages')
+                      : t('gallery.spotlight.showDamages')}
+                  </Button>
+                </div>
+              )}
             </div>
 
-            {selectedItem.hasDamage && (
-              <div style={hasDamagesButtonStyle}>
-                <Button
-                  onClick={toggleShowDamage}
-                  icon={showDamage ? 'visibility-off' : 'visibility-on'}
-                  primaryColor={showDamageButtonStyle.primaryColor}
-                  secondaryColor={showDamageButtonStyle.secondaryColor}
-                >
-                  {showDamage
-                    ? t('gallery.spotlight.hideDamages')
-                    : t('gallery.spotlight.showDamages')}
-                </Button>
-              </div>
-            )}
-
-            <div style={imageNavigationContainerStyle}>
+            <div style={styles['navigationContainer']}>
               <Button
                 style={iconButtonStyle}
                 onClick={goToPreviousImage}
@@ -137,11 +129,11 @@ export function SpotlightImage({
           onPanningStop={handleMouseUp}
         >
           <TransformComponent>
-            <img src={backgroundImage} alt={backgroundImage} style={imageContainerStyle} />
+            <img src={backgroundImage} alt={backgroundImage} style={styles['imageContainer']} />
           </TransformComponent>
         </TransformWrapper>
       </div>
-      <div style={shortcutsContainerStyle}>
+      <div style={styles['shortcutsContainer']}>
         <Shortcuts showDamage={showDamage} />
       </div>
     </div>

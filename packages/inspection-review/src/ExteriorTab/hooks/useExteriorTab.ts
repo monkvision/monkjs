@@ -39,6 +39,10 @@ export interface TabExteriorState {
    */
   vehicleType: VehicleType;
   /**
+   * The list of vehicle parts that have been reviewed and validated by the user.
+   */
+  validatedParts: VehiclePart[];
+  /**
    * Handler when the left orientation button is clicked.
    */
   handleRotateLeft: () => void;
@@ -67,7 +71,7 @@ export interface TabExteriorState {
 /**
  * Custom hook to manage the state and handlers for the ExteriorTab component.
  */
-export function useExteriorTab() {
+export function useExteriorTab(): TabExteriorState {
   const {
     vehicleType,
     handleConfirmExteriorDamages,
@@ -80,6 +84,7 @@ export function useExteriorTab() {
 
   const [initialGalleryItems, setInitialGalleryItems] = useState<GalleryItem[]>([]);
   const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
+  const [validatedParts, setValidatedParts] = useState<VehiclePart[]>([]);
   const [orientation, setOrientation] = useState<PartSelectionOrientation>(
     PartSelectionOrientation.FRONT_LEFT,
   );
@@ -115,6 +120,12 @@ export function useExteriorTab() {
     setCurrentGalleryItems(sortedItems);
   };
 
+  const updateValidatedParts = (part: VehiclePart) => {
+    if (!validatedParts.includes(part)) {
+      setValidatedParts([...validatedParts, part]);
+    }
+  };
+
   const resetToListView = () => {
     setCurrentGalleryItems(initialGalleryItems);
     setCurrentView(ExteriorViews.SVGCar);
@@ -123,6 +134,7 @@ export function useExteriorTab() {
 
   const handleDone = (partDetails: DamagedPartDetails) => {
     handleConfirmExteriorDamages(partDetails);
+    updateValidatedParts(partDetails.part);
     resetToListView();
   };
 
@@ -161,6 +173,7 @@ export function useExteriorTab() {
     selectedPart,
     orientation,
     vehicleType,
+    validatedParts,
     handleRotateLeft,
     handleRotateRight,
     handlePartClicked,
