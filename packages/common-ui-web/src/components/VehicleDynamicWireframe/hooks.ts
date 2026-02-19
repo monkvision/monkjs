@@ -16,6 +16,18 @@ function getWireframes(vehicleType: VehicleType, orientation: PartSelectionOrien
   return wireframes[orientation];
 }
 
+function isDamagePill(pillId?: SVGElement) {
+  return pillId?.id.startsWith('damage-pill_');
+}
+
+function getPillPart(elementId: string) {
+  return elementId.substring(12);
+}
+
+function isPartValidated(element: SVGElement, parts?: VehiclePart[]) {
+  return element.id && parts?.some((part) => element.id.includes(part));
+}
+
 /**
  * Props accepted by the VehicleDynamicWireframe component.
  */
@@ -30,6 +42,11 @@ export interface VehicleDynamicWireframeProps {
    * @default PartSelectionOrientation.FRONT_LEFT
    */
   orientation?: PartSelectionOrientation;
+  /**
+   * List of vehicle parts that are validated by the user.
+   * A validated part will be marked with a green dot on the wireframe.
+   */
+  validatedParts?: VehiclePart[];
   /**
    * Callback when the user clicks on a vehicle part.
    */
@@ -48,6 +65,7 @@ export function useVehicleDynamicWireframe({
   orientation = PartSelectionOrientation.FRONT_LEFT,
   onClickPart = () => {},
   getPartAttributes = () => ({}),
+  validatedParts = [],
 }: VehicleDynamicWireframeProps) {
   const overlay = useMemo(
     () => getWireframes(vehicleType, orientation),
@@ -57,11 +75,17 @@ export function useVehicleDynamicWireframe({
   const getAttributes = useCallback(
     (element: SVGElement, groups: SVGGElement[]) => {
       const groupElement: SVGGElement | undefined = groups[0];
+      const isValidatedPartPill =
+        (isDamagePill(groupElement) || isDamagePill(element)) &&
+        (isPartValidated(element, validatedParts) || element.classList.contains('severity-none'));
+
       let part: VehiclePart;
       if (groupElement && isCarPartElement(groupElement)) {
         part = groupElement.id as VehiclePart;
       } else if (isCarPartElement(element)) {
         part = element.id as VehiclePart;
+      } else if (groupElement && isValidatedPartPill) {
+        part = getPillPart(groupElement.id) as VehiclePart;
       } else {
         return { style: styles['notCarPart'] };
       }
@@ -72,6 +96,14 @@ export function useVehicleDynamicWireframe({
       if (element.classList.contains('selectable') && element.id) {
         attributes.onClick = () => onClickPart(part);
         attributes.style = { ...attributes.style, ...styles['selectable'] };
+      }
+      if (isValidatedPartPill) {
+        if (groupElement) {
+          attributes.style = { display: 'flow' };
+          if (element.classList.contains('severity-none')) {
+            attributes.style = { ...attributes.style, fill: 'green' };
+          }
+        }
       }
       return attributes;
     },
