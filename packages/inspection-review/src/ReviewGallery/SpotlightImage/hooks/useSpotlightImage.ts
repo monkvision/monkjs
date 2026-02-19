@@ -49,7 +49,8 @@ export interface UseSpotlightImageState {
 }
 
 /**
- * Hook to manage the spotlight image behavior.
+ * Hook to manage the spotlight image behavior such as: zooming, panning, navigating,
+ * shortcuts and displaying damage overlays.
  */
 export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightImageState {
   const { state } = useMonkState();

@@ -1,7 +1,7 @@
 import { CSSProperties, SVGProps, useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common/lib/theme/hooks';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/useInspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
 import { DamagedPartDetails, GalleryItem } from '../../types';
 
