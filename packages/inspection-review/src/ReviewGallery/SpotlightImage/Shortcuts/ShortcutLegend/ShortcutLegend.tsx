@@ -20,7 +20,7 @@ export interface ShortcutLegendProps {
 export function ShortcutLegend({ letter, text }: ShortcutLegendProps) {
   return (
     <div style={styles['legend']}>
-      <div style={styles['icon']} color={'white'}>
+      <div style={styles['icon']}>
         <p style={styles['iconText']}>{letter}</p>
       </div>
       {text && text}

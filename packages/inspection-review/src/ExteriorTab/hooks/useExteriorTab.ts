@@ -1,5 +1,6 @@
-import { SVGProps, useState } from 'react';
+import { CSSProperties, SVGProps, useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
+import { useMonkTheme } from '@monkvision/common/lib/theme/hooks';
 import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
 import { DamagedPartDetails, GalleryItem } from '../../types';
@@ -81,6 +82,7 @@ export function useExteriorTab(): TabExteriorState {
     setCurrentGalleryItems,
   } = useInspectionReviewProvider();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
+  const { palette } = useMonkTheme();
 
   const [initialGalleryItems, setInitialGalleryItems] = useState<GalleryItem[]>([]);
   const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
@@ -138,17 +140,21 @@ export function useExteriorTab(): TabExteriorState {
     resetToListView();
   };
 
-  const handlePartAttributes = (part: VehiclePart) => {
+  const handlePartAttributes = (part: VehiclePart): SVGProps<SVGElement> => {
+    const defaultStyles: CSSProperties = {
+      stroke: palette.text.primary,
+    };
+
     const detailedPart = damagedPartsDetails.find((d) => d.part === part);
     if (!detailedPart) {
-      return {};
+      return { style: defaultStyles };
     }
 
     const needsPricing = detailedPart?.isDamaged && !detailedPart.pricing;
     let fillColor = 'none';
 
     if (needsPricing) {
-      fillColor = 'gray';
+      fillColor = 'lightgray';
     } else if (detailedPart?.isDamaged) {
       Object.values(availablePricings).forEach((pricingValue) => {
         if (
@@ -163,6 +169,7 @@ export function useExteriorTab(): TabExteriorState {
 
     return {
       style: {
+        ...defaultStyles,
         fill: fillColor,
       },
     };

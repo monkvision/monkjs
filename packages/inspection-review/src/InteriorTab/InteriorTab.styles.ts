@@ -19,7 +19,6 @@ export const styles: Styles = {
   thContent: {
     display: 'flex',
     alignItems: 'center',
-    color: 'white',
     fontSize: '14px',
     letterSpacing: '0.1px',
     padding: '12px 16px',
@@ -30,7 +29,7 @@ export const styles: Styles = {
     width: '100%',
   },
   tr: {
-    border: '1px solid',
+    border: '1px solid #e5e7eb',
   },
   td: {
     padding: '12px 16px',
@@ -76,12 +75,16 @@ export function useInteriorTabStyles() {
     editIconStyle: {
       cursor: 'pointer',
       width: 30,
-      color: palette.text.white,
+      color: palette.text.primary,
     },
     deleteIconStyle: {
       cursor: 'pointer',
       width: 30,
       color: palette.alert.base,
+    },
+    addDamageStyle: {
+      color: palette.text.primary,
+      backgroundColor: palette.background.base,
     },
   };
 }

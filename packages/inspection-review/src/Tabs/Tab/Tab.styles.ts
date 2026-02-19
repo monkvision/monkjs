@@ -3,21 +3,20 @@ import { Styles } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common';
 
 export const styles: Styles = {
-  firstTab: {
+  tab: {
     color: 'black',
     width: '200px',
+    borderColor: 'rgb(206, 212, 218)',
+  },
+  firstTab: {
     borderWidth: '1px 0px 1px 1px',
     borderRadius: '99px 0px 0px 99px',
   },
   middleTab: {
-    color: 'black',
-    width: '200px',
     borderWidth: '1px 0px 1px 0px',
     borderRadius: '0px',
   },
   lastTab: {
-    color: 'black',
-    width: '200px',
     borderWidth: '1px 1px 1px 1px',
     borderRadius: '0px 99px 99px 0px',
   },
@@ -53,20 +52,29 @@ export function useTabStyles({ tabsCount, index, activeTab, tab }: TabStylesProp
 
   const tabStyle = useMemo(() => {
     if (index === 0) {
-      return styles['firstTab'];
+      return {
+        ...styles['tab'],
+        ...styles['firstTab'],
+      };
     }
     if (index === tabsCount - 1) {
-      return styles['lastTab'];
+      return {
+        ...styles['tab'],
+        ...styles['lastTab'],
+      };
     }
 
-    return styles['middleTab'];
+    return {
+      ...styles['tab'],
+      ...styles['middleTab'],
+    };
   }, [tab, activeTab, tabsCount, index]);
 
   return {
     tabStyle: {
       ...tabStyle,
-      backgroundColor: activeTab === tab ? palette.background.dark : '',
-      color: activeTab === tab ? palette.text.white : '',
+      backgroundColor: activeTab === tab ? palette.background.dark : palette.background.light,
+      color: palette.text.primary,
     },
   };
 }

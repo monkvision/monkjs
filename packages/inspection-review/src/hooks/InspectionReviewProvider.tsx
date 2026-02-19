@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { useLoadingState, useMonkState } from '@monkvision/common';
+import { useLoadingState, useMonkState, useMonkTheme } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
 import { Inspection } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
@@ -87,6 +87,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
   const loading = useLoadingState(true);
   const { t } = useTranslation();
+  const { palette } = useMonkTheme();
   const { state } = useMonkState();
   const { getInspection } = useMonkApi(apiConfig);
   const { damagedPartsDetails } = useDamagedPartsState({ inspectionId });
@@ -211,7 +212,9 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}
-      {typeof loading.error === 'string' && <div style={{ color: 'black' }}>{loading.error}</div>}
+      {typeof loading.error === 'string' && (
+        <div style={{ color: palette.text.primary }}>{loading.error}</div>
+      )}
       {!loading.isLoading && !loading.error && props.children}
     </InspectionReviewStateContext.Provider>
   );

@@ -19,7 +19,7 @@ export function DownloadImagesButton(props: DownloadImagesButtonProps) {
       icon='file-download'
       loading={loading}
       variant='text'
-      primaryColor={palette.text.white}
+      primaryColor={palette.text.primary}
       style={styles['downloadImagesButton']}
     >
       {t('actionButtons.downloadImages')}
