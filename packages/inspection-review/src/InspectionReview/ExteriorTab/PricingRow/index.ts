@@ -1,1 +1,1 @@
-export { PricesRow as PricingRow } from './PricesRow';
+export { PricingRow } from './PricingRow';
