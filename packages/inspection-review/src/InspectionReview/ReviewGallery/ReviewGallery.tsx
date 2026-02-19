@@ -1,5 +1,7 @@
 import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
+import { GalleryItemCard } from './GalleryItem/GalleryItemCard';
 import { useGalleryState } from './hooks/useGalleryState';
+import { styles } from './ReviewGallery.styles';
 import { SpotlightImage } from './SpotlightImage';
 
 /**
@@ -16,34 +18,9 @@ export function ReviewGallery() {
   }
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', flex: 6, gap: 8 }}>
+    <div style={styles['container']}>
       {currentGalleryItems.map((item) => (
-        <button
-          key={item.image.id}
-          style={{ position: 'relative' }}
-          onClick={() => onSelectItem(item.image.id)}
-        >
-          <img
-            src={item.image.path}
-            alt={item.image.id}
-            style={{
-              height: 152,
-              width: 140,
-              backgroundColor: 'gray',
-              textAlign: 'center',
-            }}
-          />
-          <div
-            style={{
-              bottom: 0,
-              left: 0,
-              width: '100%',
-              textAlign: 'center',
-            }}
-          >
-            <p>{item.sight.label}</p>
-          </div>
-        </button>
+        <GalleryItemCard key={item.image.id} item={item} onSelectItem={onSelectItem} />
       ))}
     </div>
   );

@@ -1,4 +1,7 @@
+import { useObjectTranslation } from '@monkvision/common';
 import { GalleryItem } from '../../types';
+import { useSpotlightImage } from './hooks/useSpotlightImage';
+import { styles } from './SpotlightImage.styles';
 
 /**
  * Props accepted by the SpotlightImage component.
@@ -18,47 +21,67 @@ export interface SpotlightImageProps {
  * The SpotlightImage component that displays the selected image in a spotlight view instead of the gallery view.
  */
 export function SpotlightImage({ selectedItem, showDamage }: SpotlightImageProps) {
+  const { tObj } = useObjectTranslation();
+  const { backgroundImage, isMouseOver, cursorStyle } = useSpotlightImage({
+    image: selectedItem.image,
+    showDamage,
+  });
+
   return (
     <div
+      className='spotlight-image'
       style={{
-        display: 'flex',
-        flex: 1,
-        width: '100%',
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        justifyContent: 'space-between',
-        inset: 0,
         position: 'relative',
-        overflow: 'hidden',
+        display: 'flex',
+        flex: 6,
+        width: '100%',
+        height: '100%',
+        cursor: cursorStyle,
       }}
     >
-      <img
-        src={
-          showDamage && selectedItem.renderedOutput
-            ? selectedItem.renderedOutput.path
-            : selectedItem.image.path
-        }
-        alt={selectedItem.image.id}
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      />
-      {showDamage && (
-        <p
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            color: 'white',
-            backgroundColor: 'red',
-            padding: 4,
-          }}
-        >
-          Showing damage for {selectedItem.image.id}
-        </p>
+      {isMouseOver && (
+        <>
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              left: 10,
+              cursor: 'pointer',
+            }}
+          >
+            close
+          </div>
+
+          {selectedItem.renderedOutput && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                cursor: 'pointer',
+              }}
+            >
+              Show Damages
+            </div>
+          )}
+
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 10,
+              cursor: 'pointer',
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '100%',
+            }}
+          >
+            <div>left</div>
+            <div>{selectedItem.image.label ? tObj(selectedItem.image.label) : ''}</div>
+            <div>right</div>
+          </div>
+        </>
       )}
+      <img src={backgroundImage} alt={selectedItem.image.id} style={styles['imageContainer']} />
     </div>
   );
 }
