@@ -8,6 +8,8 @@ export const styles: Styles = {
     flex: 6,
     width: '100%',
     height: '100%',
+    maxWidth: 1600,
+    margin: '0 auto',
   },
   overlayContainer: { position: 'relative' },
   actionsContainer: {
