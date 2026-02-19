@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { InspectionReviewProps, TabContent, TabKeys, TabObject } from '../types';
 import type { InspectionReviewProviderState } from '../types/inspection-review.types';
@@ -11,11 +11,7 @@ export interface TabsStateParams
   extends Pick<InspectionReviewProps, 'customTabs'>,
     Pick<
       InspectionReviewProviderState,
-      | 'allGalleryItems'
-      | 'currentGalleryItems'
-      | 'setCurrentGalleryItems'
-      | 'inspection'
-      | 'sightsPerTab'
+      'allGalleryItems' | 'currentGalleryItems' | 'setCurrentGalleryItems' | 'sightsPerTab'
     > {
   /**
    * The initial tab to be selected when the hook is used.
@@ -45,12 +41,10 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
     currentGalleryItems,
     allGalleryItems,
     setCurrentGalleryItems,
-    inspection,
     sightsPerTab,
     initialTab,
     onTabChangeListeners,
   } = params;
-  const [isTabsStateLoaded, setIsTabsStateInitiated] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>(initialTab ?? TabKeys.Exterior);
   const allTabs: Record<string, TabContent> = {
     ...defaultTabs,
@@ -102,16 +96,8 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
         listener(tab);
       });
     },
-    [allTabs, activeTab, allGalleryItems, onTabChangeListeners],
+    [allTabs, activeTab, allGalleryItems, currentGalleryItems, sightsPerTab, onTabChangeListeners],
   );
-
-  // Initialize the first tab on inspection load
-  useEffect(() => {
-    if (inspection && !isTabsStateLoaded) {
-      handleTabChange(activeTab);
-      setIsTabsStateInitiated(true);
-    }
-  }, [inspection]);
 
   return useObjectMemo({
     allTabs,
