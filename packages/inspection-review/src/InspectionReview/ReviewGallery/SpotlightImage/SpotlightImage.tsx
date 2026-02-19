@@ -19,10 +19,30 @@ export interface SpotlightImageProps {
  */
 export function SpotlightImage({ selectedImage, showDamage }: SpotlightImageProps) {
   return (
-    <div style={{ flex: 6, width: '100%', height: 300, backgroundColor: 'bisque' }}>
-      <p>
-        Showing {showDamage ? 'damage' : 'picture'} for {selectedImage.id}
-      </p>
-    </div>
+    <img
+      src={selectedImage.path}
+      style={{
+        position: 'relative',
+        flex: 6,
+        width: '100%',
+        height: 300,
+        backgroundColor: 'bisque',
+      }}
+    >
+      {showDamage && (
+        <p
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            color: 'white',
+            backgroundColor: 'red',
+            padding: 4,
+          }}
+        >
+          Showing damage for {selectedImage.id}
+        </p>
+      )}
+    </img>
   );
 }
