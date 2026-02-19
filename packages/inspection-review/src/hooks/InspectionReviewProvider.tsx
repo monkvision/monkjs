@@ -1,20 +1,7 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import {
-  MonkActionType,
-  MonkUpdatedOneInspectionAdditionalDataAction,
-  MonkUpdatedOnePricingAction,
-  useLoadingState,
-  useMonkState,
-} from '@monkvision/common';
+import { useLoadingState, useMonkState } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
-import {
-  AdditionalData,
-  DamageType,
-  Inspection,
-  MonkEntityType,
-  PricingV2RelatedItemType,
-} from '@monkvision/types';
-import { useMonitoring } from '@monkvision/monitoring';
+import { Inspection } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { sights } from '@monkvision/sights';
@@ -28,6 +15,8 @@ import {
   Currencies,
 } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
+import useDamagedPartsState from './useDamagedPartsState';
+import useDamagedPartActionsState from './useDamagedPartActionsState';
 
 /**
  * State provided by the InspectionReviewProvider.
@@ -98,27 +87,18 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
   const loading = useLoadingState(true);
   const { t } = useTranslation();
-  const { state, dispatch } = useMonkState();
-  const { handleError } = useMonitoring();
-  const {
-    getInspection,
-    updateAdditionalData,
-    deleteDamage,
-    deletePricing,
-    updatePricing,
-    createPricing,
-    createDamage,
-  } = useMonkApi(apiConfig);
+  const { state } = useMonkState();
+  const { getInspection } = useMonkApi(apiConfig);
+  const { damagedPartsDetails } = useDamagedPartsState({ inspectionId });
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
-  const isLeftSideCurrency = useMemo(() => currency === Currencies.USD, [currency]);
 
+  const isLeftSideCurrency = useMemo(() => currency === Currencies.USD, [currency]);
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
     [state.inspections, inspectionId],
   );
-
   const availablePricings = useMemo(
     () => ({
       ...DEFAULT_PRICINGS,
@@ -126,162 +106,13 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
     }),
     [props.pricings],
   );
-
-  const handleAddInteriorDamage = (damage: InteriorDamage, index?: number) => {
-    const callback = (additionalData?: AdditionalData) => {
-      const currentDamages =
-        (additionalData?.['other_damages'] as unknown as AdditionalData[]) || [];
-
-      if (index !== undefined && currentDamages[index]) {
-        const updatedDamages = [...currentDamages];
-        updatedDamages[index] = { ...damage } as AdditionalData;
-        return {
-          ...additionalData,
-          other_damages: updatedDamages,
-        };
-      }
-
-      const updatedDamages = [...currentDamages, damage];
-      return {
-        ...additionalData,
-        other_damages: updatedDamages,
-      };
-    };
-
-    updateAdditionalData({
-      id: inspectionId,
-      callback,
+  const { handleAddInteriorDamage, handleDeleteInteriorDamage, handleConfirmExteriorDamages } =
+    useDamagedPartActionsState({
+      inspectionId,
+      apiConfig,
+      inspection,
+      loading,
     });
-
-    // TODO: implement a optimistic update for this, prompt the user with a toast like message if it fails
-    const action: MonkUpdatedOneInspectionAdditionalDataAction = {
-      type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
-      payload: {
-        inspectionId,
-        additionalData: callback(inspection?.additionalData),
-      },
-    };
-    dispatch(action);
-  };
-
-  const damagedPartsDetails = useMemo(() => {
-    const parts: DamagedPartDetails[] = state.parts
-      .filter((part) => part.inspectionId === inspectionId)
-      .map((part) => {
-        const damageTypes: DamageType[] = part.damages.reduce<DamageType[]>((acc, damageId) => {
-          const damage = state.damages.find((value) => value.id === damageId)?.type;
-          if (damage) {
-            acc.push(damage);
-          }
-          return acc;
-        }, []);
-        const pricingObj = state.pricings.find((price) => price.relatedItemId === part.id);
-        const pricing = pricingObj?.pricing;
-        return { part: part.type, damageTypes, pricing, isDamaged: damageTypes.length > 0 };
-      });
-
-    return parts;
-  }, [state]);
-
-  const handleDeleteInteriorDamage = (index: number) => {
-    const callback = (existingData?: AdditionalData) => {
-      const currentDamages = (existingData?.['other_damages'] as unknown as AdditionalData[]) || [];
-      return {
-        ...existingData,
-        other_damages: currentDamages.filter((_, i) => i !== index),
-      };
-    };
-    const action: MonkUpdatedOneInspectionAdditionalDataAction = {
-      type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
-      payload: {
-        inspectionId,
-        additionalData: callback(inspection?.additionalData),
-      },
-    };
-    dispatch(action);
-    updateAdditionalData({ id: inspectionId, callback });
-  };
-
-  const handleConfirmExteriorDamages = (damagedPart: DamagedPartDetails) => {
-    const partToUpdate = state.parts
-      .filter((value) => value.inspectionId === inspectionId)
-      .find((part) => part.type === damagedPart.part);
-
-    const pricingToModify = state.pricings
-      .filter((value) => value.inspectionId === inspectionId)
-      .find((pricing) => pricing.relatedItemId === partToUpdate?.id);
-
-    if (!damagedPart.isDamaged) {
-      try {
-        partToUpdate?.damages.forEach((damageId) => {
-          deleteDamage({ id: inspectionId, damageId });
-        });
-        if (pricingToModify) {
-          deletePricing({ id: inspectionId, pricingId: pricingToModify?.id });
-        }
-      } catch (e) {
-        handleError(e);
-        loading.onError();
-      }
-    }
-
-    if (damagedPart.isDamaged) {
-      if (pricingToModify && damagedPart.pricing !== undefined) {
-        const action: MonkUpdatedOnePricingAction = {
-          type: MonkActionType.UPDATED_ONE_PRICING,
-          payload: {
-            pricing: {
-              entityType: MonkEntityType.PRICING,
-              id: pricingToModify.id,
-              inspectionId,
-              relatedItemType: PricingV2RelatedItemType.PART,
-              pricing: damagedPart.pricing,
-            },
-          },
-        };
-        dispatch(action);
-        updatePricing({
-          id: inspectionId,
-          pricingId: pricingToModify.id,
-          price: damagedPart.pricing,
-        });
-      }
-
-      if (!pricingToModify && damagedPart.pricing) {
-        createPricing({
-          id: inspectionId,
-          pricing: {
-            pricing: damagedPart.pricing,
-            type: PricingV2RelatedItemType.PART,
-            vehiclePart: damagedPart.part,
-          },
-        })
-          .then(() => {
-            if (!partToUpdate) {
-              getInspection({ id: inspectionId, light: false });
-            }
-          })
-          .catch(() => {
-            loading.onError(t('inspectionReview.errors.notCompleted'));
-          });
-      }
-
-      const damagesFilteredByPartSelected = state.damages
-        .filter((value) => value.inspectionId === inspectionId)
-        .filter((damage) => partToUpdate?.damages.includes(damage.id));
-      damagesFilteredByPartSelected.forEach((damage) => {
-        if (!damagedPart.damageTypes.includes(damage.type)) {
-          deleteDamage({ id: inspectionId, damageId: damage.id });
-        }
-      });
-
-      damagedPart.damageTypes.forEach((damage) => {
-        if (!damagesFilteredByPartSelected.map((value) => value.type).includes(damage)) {
-          createDamage({ id: inspectionId, damageType: damage, vehiclePart: damagedPart.part });
-        }
-      });
-    }
-  };
 
   useEffect(() => {
     loading.start();
