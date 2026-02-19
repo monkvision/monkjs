@@ -5032,6 +5032,66 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/inspection-review@*, @monkvision/inspection-review@workspace:packages/inspection-review":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/inspection-review@workspace:packages/inspection-review"
+  dependencies:
+    "@babel/core": ^7.22.9
+    "@monkvision/common": 5.3.4
+    "@monkvision/common-ui-web": 5.3.4
+    "@monkvision/eslint-config-base": 5.3.4
+    "@monkvision/eslint-config-typescript": 5.3.4
+    "@monkvision/eslint-config-typescript-react": 5.3.4
+    "@monkvision/jest-config": 5.3.4
+    "@monkvision/network": 5.3.4
+    "@monkvision/prettier-config": 5.3.4
+    "@monkvision/sights": 5.3.4
+    "@monkvision/types": 5.3.4
+    "@monkvision/typescript-config": 5.3.4
+    "@testing-library/dom": ^10.4.1
+    "@testing-library/jest-dom": ^6.8.0
+    "@testing-library/react": ^16.3.0
+    "@testing-library/user-event": ^14.6.1
+    "@types/babel__core": ^7
+    "@types/css": ^0.0.34
+    "@types/file-saver": ^2
+    "@types/jest": ^30
+    "@types/node": ^24.5.2
+    "@types/react": ^19.1
+    "@types/react-dom": ^19.1
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    css: ^3.0.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-plugin-react: ^7.33.1
+    eslint-plugin-react-hooks: ^4.6.0
+    file-saver: ^2.0.5
+    i18next: ^23.4.5
+    jest: ^30.2
+    jszip: ^3.10.1
+    mkdirp: ^1.0.4
+    prettier: ^2.7.1
+    react-i18next: ^13.2.0
+    react-zoom-pan-pinch: ^3.7.0
+    rimraf: ^3.0.2
+    ts-jest: ^29.4.6
+    typescript: ^5.9.2
+  peerDependencies:
+    "@auth0/auth0-react": ^2.2.4
+    react: ^19.2.3
+    react-dom: ^19.2.3
+    react-router-dom: ^6.22.3
+  languageName: unknown
+  linkType: soft
+
 "@monkvision/jest-config@5.3.4, @monkvision/jest-config@workspace:configs/jest-config":
   version: 0.0.0-use.local
   resolution: "@monkvision/jest-config@workspace:configs/jest-config"
@@ -6943,6 +7003,13 @@ __metadata:
     "@types/qs": "*"
     "@types/serve-static": ^1
   checksum: 285d16008489d37b2be03e2e050bcf201d5d6ed9278ca13619d9029efd2055b192b2445f769116f716cfcf53d9d799a03f4e76199af9cea0ea3dee3d88595931
+  languageName: node
+  linkType: hard
+
+"@types/file-saver@npm:^2":
+  version: 2.0.7
+  resolution: "@types/file-saver@npm:2.0.7"
+  checksum: c3d1cd80eab1214767922cabac97681f3fb688e82b74890450d70deaca49537949bbc96d80d363d91e8f0a4752c7164909cc8902d9721c5c4809baafc42a3801
   languageName: node
   linkType: hard
 
@@ -12967,6 +13034,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"file-saver@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "file-saver@npm:2.0.5"
+  checksum: c62d96e5cebc58b4bdf3ae8a60d5cf9607ad82f75f798c33a4ee63435ac2203002584d5256a2a780eda7feb5e19dc3b6351c2212e58b3f529e63d265a7cc79f7
+  languageName: node
+  linkType: hard
+
 "filelist@npm:^1.0.4":
   version: 1.0.4
   resolution: "filelist@npm:1.0.4"
@@ -17227,6 +17301,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jszip@npm:^3.10.1":
+  version: 3.10.1
+  resolution: "jszip@npm:3.10.1"
+  dependencies:
+    lie: ~3.3.0
+    pako: ~1.0.2
+    readable-stream: ~2.3.6
+    setimmediate: ^1.0.5
+  checksum: abc77bfbe33e691d4d1ac9c74c8851b5761fba6a6986630864f98d876f3fcc2d36817dfc183779f32c00157b5d53a016796677298272a714ae096dfe6b1c8b60
+  languageName: node
+  linkType: hard
+
 "jwa@npm:^2.0.1":
   version: 2.0.1
   resolution: "jwa@npm:2.0.1"
@@ -17471,6 +17557,15 @@ __metadata:
   dependencies:
     immediate: ~3.0.5
   checksum: 6da9f2121d2dbd15f1eca44c0c7e211e66a99c7b326ec8312645f3648935bc3a658cf0e9fa7b5f10144d9e2641500b4f55bd32754607c3de945b5f443e50ddd1
+  languageName: node
+  linkType: hard
+
+"lie@npm:~3.3.0":
+  version: 3.3.0
+  resolution: "lie@npm:3.3.0"
+  dependencies:
+    immediate: ~3.0.5
+  checksum: 33102302cf19766f97919a6a98d481e01393288b17a6aa1f030a3542031df42736edde8dab29ffdbf90bebeffc48c761eb1d064dc77592ca3ba3556f9fe6d2a8
   languageName: node
   linkType: hard
 
@@ -19282,6 +19377,7 @@ __metadata:
     "@monkvision/eslint-config-typescript": 5.3.4
     "@monkvision/eslint-config-typescript-react": 5.3.4
     "@monkvision/inspection-capture-web": 5.3.4
+    "@monkvision/inspection-review": "*"
     "@monkvision/jest-config": 5.3.4
     "@monkvision/monitoring": 5.3.4
     "@monkvision/network": 5.3.4
@@ -20509,6 +20605,13 @@ __metadata:
   version: 2.1.0
   resolution: "pako@npm:2.1.0"
   checksum: 71666548644c9a4d056bcaba849ca6fd7242c6cf1af0646d3346f3079a1c7f4a66ffec6f7369ee0dc88f61926c10d6ab05da3e1fca44b83551839e89edd75a3e
+  languageName: node
+  linkType: hard
+
+"pako@npm:~1.0.2":
+  version: 1.0.11
+  resolution: "pako@npm:1.0.11"
+  checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
   languageName: node
   linkType: hard
 
@@ -23168,6 +23271,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-zoom-pan-pinch@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "react-zoom-pan-pinch@npm:3.7.0"
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+  checksum: c8f40d7befa8e10ccba6a762f923aa6ab8316714c9af768e49ada55d0854acc84c2018dbb40b6c1408f251441cf9907860bba24e9071db4789dddeda59250829
+  languageName: node
+  linkType: hard
+
 "react@npm:^19.1, react@npm:^19.2.3":
   version: 19.2.3
   resolution: "react@npm:19.2.3"
@@ -24329,6 +24442,13 @@ __metadata:
     es-errors: ^1.3.0
     es-object-atoms: ^1.0.0
   checksum: ec27cbbe334598547e99024403e96da32aca3e530583e4dba7f5db1c43cbc4affa9adfbd77c7b2c210b9b8b2e7b2e600bad2a6c44fd62e804d8233f96bbb62f4
+  languageName: node
+  linkType: hard
+
+"setimmediate@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "setimmediate@npm:1.0.5"
+  checksum: c9a6f2c5b51a2dabdc0247db9c46460152ffc62ee139f3157440bd48e7c59425093f42719ac1d7931f054f153e2d26cf37dfeb8da17a794a58198a2705e527fd
   languageName: node
   linkType: hard
 
