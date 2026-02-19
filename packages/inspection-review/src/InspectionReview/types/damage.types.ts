@@ -23,20 +23,6 @@ export interface DamagedPartDetails {
 }
 
 /**
- * Interface representing selected interior damage data along with its index in other_damages list.
- */
-export interface SelectedInteriorDamageData {
-  /**
-   * The index of the damage in the other_damages list.
-   */
-  index: number;
-  /**
-   * The interior damage details.
-   */
-  damage: InteriorDamage;
-}
-
-/**
  * Interface representing an interior damage item.
  */
 export interface InteriorDamage {
@@ -52,4 +38,18 @@ export interface InteriorDamage {
    * The estimated repair cost for the damage.
    */
   repair_cost: number | null;
+}
+
+/**
+ * Interface representing selected interior damage data along with its index in other_damages list.
+ */
+export interface SelectedInteriorDamageData {
+  /**
+   * The index of the damage in the other_damages list.
+   */
+  index: number;
+  /**
+   * The interior damage details.
+   */
+  damage: InteriorDamage;
 }

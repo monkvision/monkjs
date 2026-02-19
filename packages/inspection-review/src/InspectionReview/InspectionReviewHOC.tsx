@@ -1,9 +1,8 @@
-import { i18nWrap, MonkProvider, useI18nSync, useLoadingState } from '@monkvision/common';
-import { Spinner } from '@monkvision/common-ui-web';
+import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
 import { i18nInspectionReview } from '../i18n';
 import { InspectionReview } from './InspectionReview';
 import { InspectionReviewProps } from './types';
-import { InspectionReviewState } from './hooks/InspectionReviewProvider';
+import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
 
 /**
  * The InspectionReview component is a ready-to-use, single page component that implements an Inspection Review app,
@@ -38,16 +37,13 @@ import { InspectionReviewState } from './hooks/InspectionReviewProvider';
 export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC(
   props: InspectionReviewProps,
 ) {
-  // TODO this can me moved to the Provider
-  const loading = useLoadingState(true);
   useI18nSync(props.lang);
 
   return (
     <MonkProvider>
-      {/** TODO renamed to Provider */}
-      <InspectionReviewState loading={loading} {...props}>
-        {loading.isLoading ? <Spinner /> : <InspectionReview {...props} />}
-      </InspectionReviewState>
+      <InspectionReviewProvider {...props}>
+        <InspectionReview {...props} />
+      </InspectionReviewProvider>
     </MonkProvider>
   );
 },
