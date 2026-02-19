@@ -1,23 +1,11 @@
 import { styles } from './Tabs.styles';
 import { Tab } from './Tab/Tab';
+import { HandleTabState } from '../hooks/useTabsState';
 
 /**
  * Props accepted by the Tabs component.
  */
-export interface TabsProps {
-  /**
-   * All tabs including default and custom ones.
-   */
-  allTabs: string[];
-  /**
-   * The currently active tab key.
-   */
-  activeTab: string;
-  /**
-   * Callback function to handle tab changes.
-   */
-  onTabChange: (tab: string) => void;
-}
+export type TabsProps = Pick<HandleTabState, 'allTabs' | 'activeTab' | 'onTabChange'>;
 
 /**
  * The Tabs component that allows users to switch between different inspection review tabs.
@@ -25,7 +13,7 @@ export interface TabsProps {
 export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
   return (
     <div style={styles['container']}>
-      {allTabs.map((tab, index, array) => (
+      {Object.keys(allTabs).map((tab, index, array) => (
         <Tab
           key={tab}
           index={index}

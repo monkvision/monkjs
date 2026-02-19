@@ -12,7 +12,7 @@ import { styles } from './InspectionReview.styles';
  * The Inspection Review component provided by the Monk inspection-review package.
  */
 export function InspectionReview(props: InspectionReviewProps) {
-  const { allTabs, activeTab, ActiveTabComponent, handleTabChange } = useTabsState({
+  const { allTabs, activeTab, ActiveTabComponent, onTabChange } = useTabsState({
     customTabs: props.customTabs,
   });
 
@@ -25,11 +25,7 @@ export function InspectionReview(props: InspectionReviewProps) {
           </div>
 
           <div style={styles['headerRow']}>
-            <Tabs
-              allTabs={Object.keys(allTabs)}
-              activeTab={activeTab}
-              onTabChange={handleTabChange}
-            />
+            <Tabs allTabs={allTabs} activeTab={activeTab} onTabChange={onTabChange} />
             <div style={styles['buttons']}>
               <div style={styles['downloadImagesButton']}>
                 <DownloadImagesButton onDownloadImages={props.onDownloadImages} />

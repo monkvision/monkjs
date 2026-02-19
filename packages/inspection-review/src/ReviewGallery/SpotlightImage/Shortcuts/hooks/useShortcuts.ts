@@ -1,21 +1,12 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useState } from 'react';
-import { GalleryItem } from '../../../../types';
 import { useInspectionReviewProvider } from '../../../../hooks/InspectionReviewProvider';
+import { HandleGalleryState } from '../../../hooks';
 
 /**
  * Props accepted by the useShortcuts hook.
  */
-export interface UseShortcutsProps {
-  /**
-   * The currently selected item in the gallery.
-   */
-  selectedItem: GalleryItem | null;
-  /**
-   * Function to select or deselect an item by its image ID.
-   */
-  onSelectItemById: (imageId: string | null) => void;
-}
+export type UseShortcutsProps = Pick<HandleGalleryState, 'selectedItem' | 'onSelectItemById'>;
 
 /**
  * Handle used to manage the shortcuts state.

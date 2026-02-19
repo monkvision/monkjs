@@ -3,6 +3,7 @@ import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { PricingData, PricingLevels } from './pricing.types';
 import { TabKeys, TabContent } from './tabs.types';
 import { GalleryItem } from './gallery.types';
+import { Currencies } from './damage.types';
 
 /**
  * Props related to the PDF generation feature.
@@ -64,12 +65,6 @@ export type InspectionReviewProps = {
    */
   additionalInfo?: Record<string, string | number>;
   /**
-   * Enable or disable PDF generation feature in the document actions.
-   *
-   * @default true
-   */
-  isPDFGeneratorEnabled?: boolean;
-  /**
    * Custom tabs to be displayed along with default ones.
    *
    * @default exterior, interior/tire
@@ -77,11 +72,11 @@ export type InspectionReviewProps = {
    */
   customTabs?: Record<string, TabContent>;
   /**
-   * Currency to be used for cost estimates.
+   * Currency to be used for damages cost estimates.
    *
-   * @default '$'
+   * @default Currencies.USD
    */
-  currency?: string;
+  currency?: Currencies;
   /**
    * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */

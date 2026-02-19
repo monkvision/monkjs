@@ -32,7 +32,7 @@ export function ReviewGallery() {
   return (
     <div style={styles['container']}>
       {currentGalleryItems.map((item) => (
-        <GalleryItemCard key={item.image.id} item={item} onSelectItem={onSelectItemById} />
+        <GalleryItemCard key={item.image.id} item={item} onSelectItemById={onSelectItemById} />
       ))}
     </div>
   );

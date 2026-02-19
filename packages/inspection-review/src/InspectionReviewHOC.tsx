@@ -1,7 +1,7 @@
 import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
 import { i18nInspectionReview } from './i18n';
 import { InspectionReview } from './InspectionReview';
-import { InspectionReviewProps } from './types';
+import { Currencies, InspectionReviewProps } from './types';
 import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
 
 /**
@@ -35,7 +35,7 @@ import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
  * }
  */
 export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC({
-  currency = '$',
+  currency = Currencies.USD,
   ...props
 }: InspectionReviewProps) {
   useI18nSync(props.lang);

@@ -25,6 +25,7 @@ import {
   DamagedPartDetails,
   InspectionReviewProps,
   InteriorDamage,
+  Currencies,
 } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
 
@@ -60,10 +61,10 @@ export type InspectionReviewProviderState = Pick<
    * If currency is $, this will be true.
    *
    * @example
-   * // For USD
+   * // For Currencies.USD
    * isLeftSideCurrency = true; // $100
    *
-   * // For EUR
+   * // For Currencies.EUR
    * isLeftSideCurrency = false; // 100€
    */
   isLeftSideCurrency: boolean;
@@ -111,7 +112,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
-  const isLeftSideCurrency = useMemo(() => currency === '$', [currency]);
+  const isLeftSideCurrency = useMemo(() => currency === Currencies.USD, [currency]);
 
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),

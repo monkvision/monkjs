@@ -2,13 +2,14 @@ import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { TabKeys } from '../../types';
 import { useTabStyles } from './Tab.styles';
+import { HandleTabState } from '../../hooks/useTabsState';
 
 /**
  * Props accepted by the Tab component.
  */
-interface TabsProps {
+export type TabProps = Pick<HandleTabState, 'activeTab' | 'onTabChange'> & {
   /**
-   * The tab key.
+   * The tab's key.
    */
   tab: string;
   /**
@@ -19,20 +20,12 @@ interface TabsProps {
    * The total number of tabs.
    */
   tabsCount: number;
-  /**
-   * The currently active tab key.
-   */
-  activeTab: string;
-  /**
-   * Callback function to handle tab changes.
-   */
-  onTabChange: (tab: string) => void;
-}
+};
 
 /**
  * The Tab component that represents a single tab in the Tabs component.
  */
-export function Tab({ tab, index, tabsCount, activeTab, onTabChange }: TabsProps) {
+export function Tab({ tab, index, tabsCount, activeTab, onTabChange }: TabProps) {
   const { t } = useTranslation();
   const { tabStyle } = useTabStyles({ tabsCount, index, activeTab, tab });
 
