@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { DamageType, Part } from '@monkvision/types';
-import { useMonkState, useObjectMemo } from '@monkvision/common';
+import { useMonkState } from '@monkvision/common';
 import {
   getChildPartsForAggregation,
   isChildPartForAggregation,
 } from '../utils/partAggregation.utils';
-import { DamagedPartDetails, InspectionReviewProps } from '../types';
+import type { DamagedPartDetails, InspectionReviewProps } from '../types';
 
 /**
  * Props for the useDamagedPartsState hook.
@@ -79,5 +79,5 @@ export default function useDamagedPartsState({ inspectionId }: DamagedPartsProps
     return parts;
   }, [state, inspectionId]);
 
-  return useObjectMemo({ damagedPartsDetails });
+  return { damagedPartsDetails };
 }
