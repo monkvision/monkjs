@@ -1,15 +1,15 @@
 import { styles } from './InspectionReview.styles';
+import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { MonkApiConfig } from '@monkvision/network';
 import { Tabs } from './Tabs';
 import { ReviewGallery } from './ReviewGallery';
-import { TabContent, useTabsState } from './hooks';
+import { useTabsState } from './hooks';
 import { GeneratePDFButton } from './GeneratePDFButton';
 import { DownloadImagesButton } from './DownloadImagesButton';
 import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
-import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
-import React, { useMemo } from 'react';
 import { PricingData } from './types/pricing.types';
+import { TabKeys, TabContent } from './types';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -39,7 +39,7 @@ export type InspectionReviewProps = {
   /**
    * The tab key to be used for where the unmatched sights should be displayed.
    */
-  unmatchedSightsTab: string;
+  unmatchedSightsTab: TabKeys | string;
   /**
    * This prop can be used to specify the language to be used by the InspectionReview component.
    *
@@ -67,6 +67,7 @@ export type InspectionReviewProps = {
    * Custom tabs to be displayed along with default ones.
    *
    * @default exterior, interior/tire
+   * @see TabContent
    */
   customTabs?: Record<string, TabContent>;
   /**
@@ -79,31 +80,19 @@ export type InspectionReviewProps = {
    * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */
   pricings?: Record<string, PricingData>;
+  /**
+   * Callback function triggered when the PDF generation is requested.
+   */
+  onDownloadPDF?: () => void;
 };
 
 /**
  * The Inspection Review component provided by the Monk inspection-review package.
  */
 export function InspectionReview(props: InspectionReviewProps) {
-  const { allTabs, activeTab, handleTabChange } = useTabsState({
+  const { allTabs, activeTab, ActiveTabComponent, handleTabChange } = useTabsState({
     customTabs: props.customTabs,
   });
-  const ActiveTab = useMemo(() => {
-    const activeTabContent = allTabs[activeTab];
-    let tabComponent = activeTabContent;
-
-    if ('Component' in activeTabContent) {
-      tabComponent = activeTabContent.Component;
-    }
-    if (React.isValidElement(tabComponent)) {
-      return tabComponent;
-    }
-    if (typeof tabComponent === 'function') {
-      return React.createElement(tabComponent);
-    }
-
-    return null;
-  }, [activeTab, allTabs]);
 
   return (
     <div style={styles['container']}>
@@ -122,12 +111,12 @@ export function InspectionReview(props: InspectionReviewProps) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <DownloadImagesButton />
-          {props.isPDFGeneratorEnabled && <GeneratePDFButton />}
+          {props.isPDFGeneratorEnabled && <GeneratePDFButton onDownloadPDF={props.onDownloadPDF} />}
         </div>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div style={{ flex: 6 }}>{ActiveTab}</div>
+        <div style={{ flex: 6 }}>{ActiveTabComponent}</div>
         <ReviewGallery />
       </div>
     </div>

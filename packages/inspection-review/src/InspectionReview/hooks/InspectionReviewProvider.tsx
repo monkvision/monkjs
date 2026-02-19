@@ -121,17 +121,17 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
 
+  const inspection = useMemo(
+    () => state.inspections.find((i) => i.id === inspectionId),
+    [state.inspections, inspectionId],
+  );
+
   const availablePricings = useMemo(
     () => ({
       ...DEFAULT_PRICINGS,
       ...props.pricings,
     }),
     [props.pricings],
-  );
-
-  const inspection = useMemo(
-    () => state.inspections.find((i) => i.id === inspectionId),
-    [state.inspections, inspectionId],
   );
 
   const handleAddInteriorDamage = (damage: InteriorDamage, index?: number) => {
@@ -217,7 +217,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       .filter((value) => value.inspectionId === inspectionId)
       .find((pricing) => pricing.relatedItemId === partToUpdate?.id);
 
-    // decide damages and pricing to remove
     if (!damagedPart.isDamaged) {
       try {
         partToUpdate?.damages.forEach((damageId) => {
@@ -232,7 +231,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       }
     }
 
-    // decide pricing updates
     if (damagedPart.isDamaged) {
       if (pricingToModify && damagedPart.pricing !== undefined) {
         const action: MonkUpdatedOnePricingAction = {
@@ -274,7 +272,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
           });
       }
 
-      // decide damages to delete
       const damagesFilteredByPartSelected = state.damages
         .filter((value) => value.inspectionId === inspectionId)
         .filter((damage) => partToUpdate?.damages.includes(damage.id));
@@ -284,7 +281,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         }
       });
 
-      // decide damages to create
       damagedPart.damageTypes.forEach((damage) => {
         if (!damagesFilteredByPartSelected.map((value) => value.type).includes(damage)) {
           createDamage({ id: inspectionId, damageType: damage, vehiclePart: damagedPart.part });
@@ -337,8 +333,6 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         loading.onError(error.message);
       });
   }, [inspectionId]);
-
-  console.log({ inspection, state });
 
   return (
     <InspectionReviewStateContext.Provider

@@ -1,15 +1,4 @@
-import { styles } from './Shortcuts.styles';
-
-function ShortcutLegend({ letter, text }: { letter: string; text: string }) {
-  return (
-    <div style={styles['legend']}>
-      <div style={styles['icon']} color={'white'}>
-        <p style={styles['iconText']}>{letter}</p>
-      </div>
-      {text}
-    </div>
-  );
-}
+import { ShortcutLegend } from './ShortcutLegend';
 
 /**
  * The Shortcuts component displaying available keyboard shortcuts while in Gallery.
@@ -19,14 +8,9 @@ export function Shortcuts() {
     <>
       <ShortcutLegend letter='S' text='Show/Hide damages' />
       <ShortcutLegend letter='Q' text='Close current image' />
-      <div style={styles['legend']}>
-        <div style={styles['icon']} color={'white'}>
-          <p style={styles['iconText']}>←</p>
-        </div>
-        <div style={styles['icon']} color={'white'}>
-          <p style={styles['iconText']}>→</p>
-        </div>
-        Change image
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <ShortcutLegend letter='←' />
+        <ShortcutLegend letter='→' text='Change image' />
       </div>
     </>
   );
