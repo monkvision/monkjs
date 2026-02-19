@@ -2,23 +2,35 @@ import { useMonkTheme } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { styles } from './Tabs.styles';
 import { Button } from '@monkvision/common-ui-web';
-import { TabKeys } from '../hooks';
 
+/**
+ * Props accepted by the Tabs component.
+ */
 export interface TabsProps {
-  activeTab: TabKeys;
-  onTabChange: (tab: TabKeys) => void;
+  /**
+   * All tabs including default and custom ones.
+   */
+  allTabs: string[];
+  /**
+   * The currently active tab key.
+   */
+  activeTab: string;
+  /**
+   * Callback function to handle tab changes.
+   */
+  onTabChange: (tab: string) => void;
 }
 
 /**
  * The Tabs component that allows users to switch between different inspection review tabs.
  */
-export function Tabs({ activeTab, onTabChange }: TabsProps) {
+export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
   const { palette } = useMonkTheme();
   const { t } = useTranslation();
 
   return (
     <div style={styles['container']}>
-      {Object.values(TabKeys).map((tab) => (
+      {allTabs.map((tab) => (
         <Button
           key={tab}
           style={{
@@ -28,7 +40,7 @@ export function Tabs({ activeTab, onTabChange }: TabsProps) {
           onClick={() => onTabChange(tab)}
         >
           {activeTab === tab && 'x'}
-          {t(`inspectionReview.${tab === TabKeys.Exterior ? 'exterior' : 'interiorTire'}`)}
+          {tab}
         </Button>
       ))}
     </div>
