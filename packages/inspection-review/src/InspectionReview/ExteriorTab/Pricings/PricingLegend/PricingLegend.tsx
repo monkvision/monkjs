@@ -27,7 +27,7 @@ export function PricingLegend({ level, data, isLast }: PricingLegendProps) {
     <div style={styles['container']}>
       <span style={{ backgroundColor: data.color, ...styles['colorCircle'] }} />
       {level === PricingLevels.NONE ? (
-        <span style={styles['pricingLabel']}>No Estimate</span>
+        <span style={styles['pricingLabel']}>Need pricing</span>
       ) : (
         <span style={styles['pricingLabel']}>{isLast ? `> ${data.min}` : `< ${data.max}`}</span>
       )}
