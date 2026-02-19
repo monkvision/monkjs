@@ -30,7 +30,6 @@ export function SpotlightImage({
 }: SpotlightImageProps) {
   const { tObj } = useObjectTranslation();
   const { t } = useTranslation();
-
   const {
     backgroundImage,
     isMouseOver,
