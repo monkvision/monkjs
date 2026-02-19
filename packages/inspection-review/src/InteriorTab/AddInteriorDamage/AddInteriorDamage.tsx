@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { DoneButton } from '../../DoneButton';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { InteriorDamage, SelectedInteriorDamageData } from '../../types';
 import { styles } from './AddInteriorDamage.styles';
 import { useInteriorDamage } from './hooks/useInteriorDamage';
@@ -28,9 +28,11 @@ export interface AddInteriorDamageProps {
  */
 export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorDamageProps) {
   const { t } = useTranslation();
-  const { currency } = useInspectionReviewState();
-  const { currentDamage, handleInputChange } = useInteriorDamage({ damageData });
-  const isLeftCurrency = currency === '$';
+  const { currency, isLeftSideCurrency } = useInspectionReviewProvider();
+  const { currentDamage, isDoneDisabled, handleInputChange, handleDone } = useInteriorDamage({
+    damageData,
+    onSave,
+  });
 
   return (
     <div style={styles['container']}>
@@ -41,7 +43,7 @@ export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorD
             type='text'
             placeholder={t('tabs.interior.areaPlaceholder')}
             style={styles['input']}
-            value={currentDamage?.area || ''}
+            value={currentDamage.area}
             onChange={(e) => handleInputChange({ area: e.target.value })}
           />
         </div>
@@ -54,7 +56,7 @@ export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorD
             type='text'
             placeholder={t('tabs.interior.damageTypesPlaceholder')}
             style={styles['input']}
-            value={currentDamage?.damage_type || ''}
+            value={currentDamage.damage_type}
             onChange={(e) => handleInputChange({ damage_type: e.target.value })}
           />
         </div>
@@ -65,18 +67,17 @@ export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorD
         <div
           style={{
             ...styles['inputSection'],
-            ...(isLeftCurrency ? styles['inputSectionCurrencyLeft'] : {}),
+            ...(isLeftSideCurrency ? styles['inputSectionCurrencyLeft'] : {}),
           }}
         >
           <input
             type='text'
-            placeholder={t('tabs.interior.deductionPlaceholder')}
             style={{
               ...styles['input'],
-              justifyItems: isLeftCurrency ? 'start' : 'end',
+              justifyItems: isLeftSideCurrency ? 'start' : 'end',
             }}
             maxLength={4}
-            value={currentDamage?.repair_cost || ''}
+            value={currentDamage.repair_cost ?? ''}
             onChange={(e) =>
               handleInputChange({ repair_cost: e.target.value ? Number(e.target.value) : null })
             }
@@ -89,13 +90,7 @@ export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorD
         <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={onCancel}>
           {t('tabs.actionButtons.cancel')}
         </button>
-        <DoneButton
-          onConfirm={() => {
-            if (currentDamage) {
-              onSave(currentDamage);
-            }
-          }}
-        >
+        <DoneButton onConfirm={handleDone} disabled={isDoneDisabled}>
           {t('tabs.actionButtons.done')}
         </DoneButton>
       </div>

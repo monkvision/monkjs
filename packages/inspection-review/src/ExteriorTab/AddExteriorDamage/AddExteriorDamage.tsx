@@ -7,7 +7,7 @@ import { DamagedPartDetails } from '../../types/damage.types';
 import { useExteriorDamage } from './hooks/useExteriorDamage';
 import { styles } from './AddExteriorDamage.styles';
 import { DoneButton } from '../../DoneButton';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 
 const firstColumnDamages = [
   DamageType.BROKEN_GLASS,
@@ -52,10 +52,17 @@ export function AddExteriorDamage({
   const { palette } = useMonkTheme();
   const { tObj } = useObjectTranslation();
   const { t } = useTranslation();
-  const { currency } = useInspectionReviewState();
-  const isLeftCurrency = currency === '$';
-  const { hasDamage, setHasDamage, damageTypes, onDamageClicked, pricing, setPricing } =
-    useExteriorDamage({ detailedPart });
+  const { currency, isLeftSideCurrency } = useInspectionReviewProvider();
+  const {
+    hasDamage,
+    setHasDamage,
+    damageTypes,
+    onDamageClicked,
+    pricing,
+    isDoneDisabled,
+    handlePricingChange,
+    handleDoneClick,
+  } = useExteriorDamage({ detailedPart, handleDone });
 
   return (
     <div>
@@ -105,24 +112,18 @@ export function AddExteriorDamage({
             <div
               style={{
                 ...styles['inputSection'],
-                ...(isLeftCurrency ? styles['inputSectionCurrencyLeft'] : {}),
+                ...(isLeftSideCurrency ? styles['inputSectionCurrencyLeft'] : {}),
               }}
             >
               <input
                 type='text'
-                placeholder='0'
                 style={{
                   ...styles['input'],
-                  justifyItems: isLeftCurrency ? 'start' : 'end',
+                  justifyItems: isLeftSideCurrency ? 'start' : 'end',
                 }}
                 maxLength={4}
-                value={pricing ?? 0}
-                onChange={(e) => {
-                  const { value } = e.target;
-                  if (value === '' || /^\d*$/.test(value)) {
-                    setPricing(value === '' ? undefined : Number(value));
-                  }
-                }}
+                value={pricing}
+                onChange={handlePricingChange}
               />
               <div style={styles['currency']}>{currency}</div>
             </div>
@@ -134,14 +135,7 @@ export function AddExteriorDamage({
         <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={handleCancel}>
           {t('tabs.actionButtons.cancel')}
         </button>
-        <DoneButton
-          onConfirm={() => {
-            if (!detailedPart) {
-              return;
-            }
-            handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage });
-          }}
-        >
+        <DoneButton onConfirm={handleDoneClick} disabled={isDoneDisabled}>
           {t('tabs.actionButtons.done')}
         </DoneButton>
       </div>

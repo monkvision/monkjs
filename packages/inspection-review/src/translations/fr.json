@@ -18,7 +18,6 @@
       "damageTypes": "Types de dommages",
       "damageTypesPlaceholder": "Saisir les types de dommages",
       "deduction": "Déduction",
-      "deductionPlaceholder": "0",
       "addDamageButton": "AJOUTER UN DOMMAGE"
     },
     "actionButtons": {

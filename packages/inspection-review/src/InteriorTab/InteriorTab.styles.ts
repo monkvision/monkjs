@@ -1,3 +1,4 @@
+import { useMonkTheme } from '@monkvision/common';
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
@@ -64,3 +65,23 @@ export const styles: Styles = {
     justifyContent: 'center',
   },
 };
+
+/**
+ * Hook to get styles for the InteriorTab component.
+ */
+export function useInteriorTabStyles() {
+  const { palette } = useMonkTheme();
+
+  return {
+    editIconStyle: {
+      cursor: 'pointer',
+      width: 30,
+      color: palette.text.white,
+    },
+    deleteIconStyle: {
+      cursor: 'pointer',
+      width: 30,
+      color: palette.alert.base,
+    },
+  };
+}

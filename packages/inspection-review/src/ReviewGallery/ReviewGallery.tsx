@@ -1,4 +1,4 @@
-import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../hooks/InspectionReviewProvider';
 import { GalleryItemCard } from './GalleryItem/GalleryItemCard';
 import { useGalleryState } from './hooks/useGalleryState';
 import { styles } from './ReviewGallery.styles';
@@ -9,11 +9,11 @@ import { useShortcuts } from './SpotlightImage/Shortcuts/hooks/useShortcuts';
  * The ReviewGallery component that displays a gallery of images for review.
  */
 export function ReviewGallery() {
-  const { currentGalleryItems } = useInspectionReviewState();
-  const { selectedItem, onSelectItemById, onSelectItem } = useGalleryState();
+  const { currentGalleryItems } = useInspectionReviewProvider();
+  const { selectedItem, onSelectItemById } = useGalleryState();
   const { showDamage, toggleShowDamage, goToNextImage, goToPreviousImage } = useShortcuts({
     selectedItem,
-    onSelectItem,
+    onSelectItemById,
   });
 
   if (selectedItem) {
@@ -21,7 +21,7 @@ export function ReviewGallery() {
       <SpotlightImage
         selectedItem={selectedItem}
         showDamage={showDamage}
-        onSelectItem={onSelectItem}
+        onSelectItemById={onSelectItemById}
         toggleShowDamage={toggleShowDamage}
         goToNextImage={goToNextImage}
         goToPreviousImage={goToPreviousImage}

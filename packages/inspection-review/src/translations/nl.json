@@ -18,7 +18,6 @@
       "damageTypes": "Soorten schade",
       "damageTypesPlaceholder": "Voer soorten schade in",
       "deduction": "Aftrek",
-      "deductionPlaceholder": "0",
       "addDamageButton": "SCHADE TOEVOEGEN"
     },
     "actionButtons": {

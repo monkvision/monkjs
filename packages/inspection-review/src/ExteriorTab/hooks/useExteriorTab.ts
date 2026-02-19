@@ -1,6 +1,6 @@
 import { SVGProps, useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
 import { DamagedPartDetails } from '../../types';
 
@@ -69,7 +69,7 @@ export interface TabExteriorState {
  */
 export function useExteriorTab() {
   const { vehicleType, handleConfirmExteriorDamages, damagedPartsDetails, availablePricings } =
-    useInspectionReviewState();
+    useInspectionReviewProvider();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
 
   const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);

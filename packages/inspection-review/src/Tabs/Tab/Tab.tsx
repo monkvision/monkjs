@@ -1,7 +1,7 @@
 import { Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { TabKeys } from '../../types';
-import { useTabStyles } from './useTabStyles';
+import { useTabStyles } from './Tab.styles';
 
 /**
  * Props accepted by the Tab component.
