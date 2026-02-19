@@ -379,7 +379,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}
-      {loading.error && <div style={{ color: 'black' }}>{loading.error}</div>}
+      {typeof loading.error === 'string' && <div style={{ color: 'black' }}>{loading.error}</div>}
       {!loading.isLoading && !loading.error && props.children}
     </InspectionReviewStateContext.Provider>
   );

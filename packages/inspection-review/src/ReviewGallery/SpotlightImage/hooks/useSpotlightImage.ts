@@ -36,7 +36,7 @@ export interface UseSpotlightImageState {
   /**
    * Reference to the TransformWrapper component for zooming the image.
    */
-  ref: React.RefObject<ReactZoomPanPinchContentRef>;
+  ref: React.RefObject<ReactZoomPanPinchContentRef | null>;
   /**
    * List of activation keys for zooming.
    */
