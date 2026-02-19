@@ -1,4 +1,4 @@
-import { GalleryItem } from '../../hooks';
+import { GalleryItem } from '../../types';
 
 /**
  * Props accepted by the SpotlightImage component.
@@ -38,6 +38,7 @@ export function SpotlightImage({ selectedItem, showDamage }: SpotlightImageProps
             ? selectedItem.renderedOutput.path
             : selectedItem.image.path
         }
+        alt={selectedItem.image.id}
         style={{
           width: '100%',
           height: '100%',

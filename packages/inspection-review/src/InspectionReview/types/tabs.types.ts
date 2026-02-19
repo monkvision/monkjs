@@ -1,4 +1,4 @@
-import { GalleryItem } from '../hooks';
+import { GalleryItem } from './gallery.types';
 
 /**
  * API provided to tabs upon activation.

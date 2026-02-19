@@ -1,6 +1,6 @@
+import { DamageType } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common';
 import { SwitchButton } from '@monkvision/common-ui-web';
-import { DamageType } from '@monkvision/types';
 import { useState } from 'react';
 import { DamageChip } from './DamageChip';
 import { DamagedPartDetails } from '../../types/damage.types';
@@ -26,7 +26,7 @@ export interface AddExteriorDamageProps {
   /**
    * The selected vehicle part being inspected along with its damage details.
    */
-  detailedPart: DamagedPartDetails;
+  detailedPart: DamagedPartDetails | null;
   /**
    * Callback function invoked when the user indicates they are done adding damages and pricing.
    */
@@ -47,9 +47,15 @@ export function AddExteriorDamage({
 }: AddExteriorDamageProps) {
   const { palette } = useMonkTheme();
 
-  const [hasDamage, setHasDamage] = useState<boolean>(detailedPart.damageTypes.length > 0);
-  const [damageTypes, setDamageTypes] = useState<DamageType[]>(detailedPart.damageTypes);
-  const [pricing, setPricing] = useState<number | undefined>(detailedPart.pricing);
+  const [hasDamage, setHasDamage] = useState<boolean>(
+    detailedPart ? detailedPart.damageTypes.length > 0 : false,
+  );
+  const [damageTypes, setDamageTypes] = useState<DamageType[]>(
+    detailedPart ? detailedPart.damageTypes : [],
+  );
+  const [pricing, setPricing] = useState<number | undefined>(
+    detailedPart ? detailedPart.pricing : undefined,
+  );
 
   const onDamageClicked = (damage: DamageType) => {
     if (damageTypes.includes(damage)) {
@@ -61,7 +67,7 @@ export function AddExteriorDamage({
 
   return (
     <div>
-      <p>{detailedPart.part}</p>
+      <p>{detailedPart?.part}</p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <p>This part is damaged</p>
         <SwitchButton
@@ -126,9 +132,12 @@ export function AddExteriorDamage({
       <div>
         <button onClick={handleCancel}>Cancel</button>
         <button
-          onClick={() =>
-            handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage })
-          }
+          onClick={() => {
+            if (!detailedPart) {
+              return;
+            }
+            handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage });
+          }}
         >
           Done
         </button>
