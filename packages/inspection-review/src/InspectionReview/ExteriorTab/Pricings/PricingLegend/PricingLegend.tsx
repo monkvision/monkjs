@@ -1,4 +1,5 @@
 import { PricingData, PricingLevels } from '../../../types/pricing.types';
+import { styles } from './pricingLegend.styles';
 
 /**
  * Props accepted by the PriceLegend component.
@@ -23,14 +24,12 @@ export interface PricingLegendProps {
  */
 export function PricingLegend({ level, data, isLast }: PricingLegendProps) {
   return (
-    <div style={{ display: 'flex' }}>
-      <span
-        style={{ backgroundColor: data.color, width: '20px', height: '20px', borderRadius: '50%' }}
-      />
+    <div style={styles['container']}>
+      <span style={{ backgroundColor: data.color, ...styles['colorCircle'] }} />
       {level === PricingLevels.NONE ? (
-        <span style={{ marginLeft: '8px' }}>No Estimate</span>
+        <span style={styles['pricingLabel']}>No Estimate</span>
       ) : (
-        <span style={{ marginLeft: '8px' }}>{isLast ? `> ${data.min}` : `< ${data.max}`}</span>
+        <span style={styles['pricingLabel']}>{isLast ? `> ${data.min}` : `< ${data.max}`}</span>
       )}
     </div>
   );

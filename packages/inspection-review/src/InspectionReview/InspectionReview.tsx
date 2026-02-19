@@ -1,4 +1,3 @@
-import { styles } from './InspectionReview.styles';
 import { Tabs } from './Tabs';
 import { ReviewGallery } from './ReviewGallery';
 import { useTabsState } from './hooks/useTabsState';
@@ -7,6 +6,7 @@ import { DownloadImagesButton } from './DownloadImagesButton';
 import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
 import { InspectionReviewProps } from './types';
+import { styles } from './InspectionReview.styles';
 
 /**
  * The Inspection Review component provided by the Monk inspection-review package.
@@ -18,28 +18,42 @@ export function InspectionReview(props: InspectionReviewProps) {
 
   return (
     <div style={styles['container']}>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <InspectionInfo additionalInfo={props.additionalInfo} />
-        <Shortcuts />
-      </div>
+      <div style={styles['content']}>
+        <div style={styles['header']}>
+          <div style={styles['headerRow']}>
+            <InspectionInfo additionalInfo={props.additionalInfo} />
+            <Shortcuts />
+          </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div style={{ flex: 6 }}>
-          <Tabs
-            allTabs={Object.keys(allTabs)}
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-          />
+          <div style={styles['headerRow']}>
+            <Tabs
+              allTabs={Object.keys(allTabs)}
+              activeTab={activeTab}
+              onTabChange={handleTabChange}
+            />
+            <div style={styles['buttons']}>
+              <div style={styles['downloadImagesButton']}>
+                <DownloadImagesButton />
+              </div>
+              {props.isPDFGeneratorEnabled && (
+                <GeneratePDFButton onDownloadPDF={props.onDownloadPDF} />
+              )}
+            </div>
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <DownloadImagesButton />
-          {props.isPDFGeneratorEnabled && <GeneratePDFButton onDownloadPDF={props.onDownloadPDF} />}
-        </div>
-      </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div style={{ flex: 6 }}>{ActiveTabComponent}</div>
-        <ReviewGallery />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            gap: 16,
+          }}
+        >
+          <div style={{ flex: 6 }}>{ActiveTabComponent}</div>
+          <ReviewGallery />
+        </div>
       </div>
     </div>
   );
