@@ -1,6 +1,7 @@
 import { useMonkState } from '@monkvision/common';
 import { Image } from '@monkvision/types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
 
 /**
  * Hook to manage the spotlight image behavior.
@@ -33,6 +34,14 @@ export interface UseSpotlightImageState {
    */
   cursorStyle: string;
   /**
+   * Reference to the TransformWrapper component for zooming the image.
+   */
+  ref: React.RefObject<ReactZoomPanPinchContentRef>;
+  /**
+   * List of activation keys for zooming.
+   */
+  activationKeys: string[];
+  /**
    * Handler for mouse down events.
    */
   handleMouseDown: () => void;
@@ -47,8 +56,12 @@ export interface UseSpotlightImageState {
  */
 export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightImageState {
   const { state } = useMonkState();
+  const ref = useRef<ReactZoomPanPinchContentRef>(null);
   const [isMouseOver, setIsMouseOver] = useState(true);
   const [cursorStyle, setCursorStyle] = useState('grab');
+
+  const isMac = navigator.userAgent.includes('Mac OS X');
+  const activationKeys = isMac ? ['Meta'] : ['Control'];
 
   const handleMouseDown = () => {
     setCursorStyle('grabbing');
@@ -66,7 +79,6 @@ export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightIm
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    const isMac = navigator.userAgent.includes('Mac OS X');
     if ((isMac && !event.metaKey) || (!isMac && !event.ctrlKey)) {
       setCursorStyle('grab');
     }
@@ -104,5 +116,17 @@ export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightIm
     };
   }, []);
 
-  return { backgroundImage, isMouseOver, handleMouseDown, handleMouseUp, cursorStyle };
+  useEffect(() => {
+    ref.current?.resetTransform(0);
+  }, [props.image]);
+
+  return {
+    backgroundImage,
+    isMouseOver,
+    handleMouseDown,
+    handleMouseUp,
+    ref,
+    activationKeys,
+    cursorStyle,
+  };
 }
