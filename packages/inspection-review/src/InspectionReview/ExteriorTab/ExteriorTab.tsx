@@ -1,7 +1,7 @@
 import { VehicleDynamicWireframe } from '@monkvision/common-ui-web';
 import { AddExteriorDamage } from './AddExteriorDamage';
 import { Pricings } from './Pricings';
-import { ExteriorViews, useExteriorTab } from './AddExteriorDamage/hooks/useExteriorTab';
+import { ExteriorViews, useExteriorTab } from './hooks/useExteriorTab';
 
 /**
  * The ExteriorTab component that displays content based on the currently active tab.

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { InteriorDamage, SelectedInteriorDamageData } from '../../types';
+import { useInteriorDamage } from './hooks/useInteriorDamage';
 
 /*
  * Props for the AddInteriorDamage component.
@@ -23,24 +23,7 @@ export interface AddInteriorDamageProps {
  * The AddInteriorDamage component allows users to add new interior damage entries.
  */
 export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorDamageProps) {
-  const [currentDamage, setCurrentDamage] = useState<InteriorDamage | null>(
-    damageData?.damage ?? null,
-  );
-
-  const handleInputChange = (value: Partial<InteriorDamage>) => {
-    if (currentDamage) {
-      setCurrentDamage({
-        ...currentDamage,
-        ...value,
-      });
-    } else {
-      setCurrentDamage({
-        area: value.area || '',
-        damage_type: value.damage_type || '',
-        repair_cost: value.repair_cost || null,
-      });
-    }
-  };
+  const { currentDamage, handleInputChange } = useInteriorDamage({ damageData });
 
   return (
     <div>

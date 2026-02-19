@@ -1,47 +1,21 @@
-import { useMemo, useState } from 'react';
-import { useMonkState } from '@monkvision/common';
-import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
-import { useTabViews } from '../hooks/useTabViews';
+import { InteriorViews } from '../types';
 import { AddInteriorDamage } from './AddInteriorDamage/AddInteriorDamage';
-import { InteriorDamage, SelectedInteriorDamageData } from '../types';
-
-enum InteriorViews {
-  DamagesList = 'Damages List',
-  AddDamage = 'Add Damage',
-}
+import { useInteriorTab } from './hooks/useInteriorTab';
 
 /**
  * The InteriorTab component that displays content based on the currently active tab.
  */
 export function InteriorTab() {
-  const { state } = useMonkState();
-  const { inspection, handleAddInteriorDamage, handleDeleteInteriorDamage } =
-    useInspectionReviewState();
-  const { currentView, setCurrentView } = useTabViews({ views: Object.values(InteriorViews) });
-  const [selectedDamage, setSelectedDamage] = useState<SelectedInteriorDamageData | null>(null);
-
-  const interiorDamages: InteriorDamage[] = useMemo(
-    () =>
-      (state.inspections.find((i) => i.id === inspection?.id)?.additionalData?.[
-        'other_damages'
-      ] as InteriorDamage[]) || [],
-    [inspection, state.inspections],
-  );
-
-  const resetToListView = () => {
-    setCurrentView(InteriorViews.DamagesList);
-    setSelectedDamage(null);
-  };
-
-  const handleSave = (newDamage: InteriorDamage) => {
-    handleAddInteriorDamage(newDamage, selectedDamage?.index);
-    resetToListView();
-  };
-
-  const editDamage = (index: number, damage: InteriorDamage) => {
-    setSelectedDamage({ index, damage });
-    setCurrentView(InteriorViews.AddDamage);
-  };
+  const {
+    interiorDamages,
+    currentView,
+    selectedDamage,
+    setCurrentView,
+    handleSave,
+    editDamage,
+    handleDeleteInteriorDamage,
+    resetToListView,
+  } = useInteriorTab();
 
   if (currentView === InteriorViews.AddDamage) {
     return (

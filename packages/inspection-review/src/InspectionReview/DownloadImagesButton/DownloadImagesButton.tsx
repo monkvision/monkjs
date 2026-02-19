@@ -1,18 +1,13 @@
 import { Button } from '@monkvision/common-ui-web';
-import { useLoadingState, useMonkTheme } from '@monkvision/common';
+import { useMonkTheme } from '@monkvision/common';
+import { useDownloadImages } from './hooks/useDownloadImages';
 
 /**
  * The DownloadImagesButton component that provides a button to download images from the inspection review.
  */
 export function DownloadImagesButton() {
   const { palette } = useMonkTheme();
-  const loading = useLoadingState();
-
-  const handleDownloadPictures = () => {
-    loading.start();
-    console.log('Download pictures clicked');
-    loading.onSuccess();
-  };
+  const { loading, handleDownloadPictures } = useDownloadImages();
 
   return (
     <Button
