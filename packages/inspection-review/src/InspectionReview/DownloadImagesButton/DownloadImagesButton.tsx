@@ -1,8 +1,10 @@
-import { useLoadingState, useMonkTheme } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
+import { useLoadingState, useMonkTheme } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
-import { styles } from './DocumentActions.styles';
 
+/**
+ * The DownloadImagesButton component that provides a button to download images from the inspection review.
+ */
 export function DownloadImagesButton() {
   const { palette } = useMonkTheme();
   const { t } = useTranslation();
@@ -21,7 +23,6 @@ export function DownloadImagesButton() {
       loading={loading}
       variant='text'
       primaryColor={palette.text.black}
-      style={styles['downloadPicturesButton']}
     >
       {t('inspectionReview.downloadPictures').toUpperCase()}
     </Button>
