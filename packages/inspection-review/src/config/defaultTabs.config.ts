@@ -1,17 +1,25 @@
 import { ImageType } from '@monkvision/types';
 import { ExteriorTab } from '../ExteriorTab';
 import { InteriorTab } from '../InteriorTab';
-import { GalleryItem, TabContent, TabKeys } from '../types';
+import { TabKeys, type GalleryItem, type TabActivationAPI, type TabContent } from '../types';
 
-function getTabGalleryItems(
-  allGalleryItems: GalleryItem[],
-  tabKey: TabKeys.Exterior | string,
-  sights: Record<string, string[]>,
-): GalleryItem[] {
-  return sights[tabKey].reduce<GalleryItem[]>((items, sightId) => {
-    const sightItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
-    return [...items, ...sightItems];
+function getTabGalleryItems({
+  allGalleryItems,
+  sights,
+  tabKey,
+  unmatchedGalleryItems,
+  unmatchedSightsTab,
+}: TabActivationAPI & { tabKey: string }): GalleryItem[] {
+  const matchedGalleryItems = sights[tabKey].reduce<GalleryItem[]>((items, sightId) => {
+    const sightMatchedGalleryItems = allGalleryItems.filter((item) => item.sight?.id === sightId);
+    return [...items, ...sightMatchedGalleryItems];
   }, []);
+
+  if (tabKey === unmatchedSightsTab) {
+    return [...matchedGalleryItems, ...unmatchedGalleryItems];
+  }
+
+  return matchedGalleryItems;
 }
 
 /**
@@ -20,17 +28,25 @@ function getTabGalleryItems(
 export const defaultTabs: Record<string, TabContent> = {
   [TabKeys.Exterior]: {
     Component: ExteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
-      const tabItems: GalleryItem[] = getTabGalleryItems(allGalleryItems, TabKeys.Exterior, sights);
-      const closeUpItems = allGalleryItems.filter((item) => item.image.type === ImageType.CLOSE_UP);
-      setCurrentGalleryItems([...closeUpItems, ...tabItems]);
+    onActivate: (api) => {
+      const tabGalleryItems: GalleryItem[] = getTabGalleryItems({
+        tabKey: TabKeys.Exterior,
+        ...api,
+      });
+      const closeUpGalleryItems = api.allGalleryItems.filter(
+        (item) => item.image.type === ImageType.CLOSE_UP,
+      );
+      api.setCurrentGalleryItems([...closeUpGalleryItems, ...tabGalleryItems]);
     },
   },
   [TabKeys.Interior]: {
     Component: InteriorTab,
-    onActivate: ({ setCurrentGalleryItems, allGalleryItems, sights }) => {
-      const tabItems: GalleryItem[] = getTabGalleryItems(allGalleryItems, TabKeys.Interior, sights);
-      setCurrentGalleryItems(tabItems);
+    onActivate: (api) => {
+      const tabGalleryItems: GalleryItem[] = getTabGalleryItems({
+        tabKey: TabKeys.Interior,
+        ...api,
+      });
+      api.setCurrentGalleryItems(tabGalleryItems);
     },
   },
 };

@@ -16,9 +16,18 @@ import { InspectionReviewStateContext } from './useInspectionReviewProvider';
 /**
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
-export function InspectionReviewProvider(props: PropsWithChildren<InspectionReviewProps>) {
-  const { inspectionId, apiConfig, vehicleType, currency, sightsPerTab, additionalInfo } = props;
-
+export function InspectionReviewProvider({
+  inspectionId,
+  apiConfig,
+  vehicleType,
+  currency,
+  sightsPerTab,
+  additionalInfo,
+  children,
+  pricings,
+  customTabs,
+  unmatchedSightsTab,
+}: PropsWithChildren<InspectionReviewProps>) {
   const loading = useLoadingState(true);
   const { t } = useTranslation();
   const { palette } = useMonkTheme();
@@ -39,9 +48,9 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   const availablePricings = useMemo(
     () => ({
       ...DEFAULT_PRICINGS,
-      ...props.pricings,
+      ...pricings,
     }),
-    [props.pricings],
+    [pricings],
   );
   const { handleAddInteriorDamage, handleDeleteInteriorDamage, handleConfirmExteriorDamages } =
     useDamagedPartActionsState({
@@ -58,7 +67,8 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
     currentGalleryItems,
     setCurrentGalleryItems,
     sightsPerTab,
-    customTabs: props.customTabs,
+    customTabs,
+    unmatchedSightsTab,
     onTabChangeListeners: [resetSelectedItem],
   });
 
@@ -95,7 +105,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
         const imageViews = imageBody.views;
         const imageParts = parts.filter((part) =>
-          imageViews?.some((view) => part.id === view.element_id),
+          imageViews?.some((view) => view.element_id === part.id),
         );
         const hasDamage = damages.some((damage) =>
           imageViews?.find((view) => view.element_id === damage.id),
@@ -140,6 +150,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
   }, [inspectionId]);
 
+  // On initial load, call onTabChange to load the images for the default active tab
   useEffect(() => {
     if (isInitialLoad && allGalleryItems.length > 0) {
       onTabChange(activeTab);
@@ -179,7 +190,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       {typeof loading.error === 'string' && (
         <div style={{ color: palette.text.primary }}>{loading.error}</div>
       )}
-      {!loading.isLoading && !loading.error && props.children}
+      {!loading.isLoading && !loading.error && children}
     </InspectionReviewStateContext.Provider>
   );
 }

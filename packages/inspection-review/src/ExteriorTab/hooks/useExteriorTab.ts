@@ -77,6 +77,7 @@ export function useExteriorTab(): TabExteriorState {
     availablePricings,
     currentGalleryItems,
     setCurrentGalleryItems,
+    resetSelectedItem,
   } = useInspectionReviewProvider();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
   const { palette } = useMonkTheme();
@@ -113,11 +114,17 @@ export function useExteriorTab(): TabExteriorState {
       setInitialGalleryItems(currentGalleryItems);
     }
 
-    const filteredItems = currentGalleryItems.filter((item) =>
-      item.parts?.some((p) => p.type === part),
+    const partGalleryItems = currentGalleryItems.filter(
+      (item) =>
+        item.parts?.some((p) => p.type === part) ||
+        item.image.detailedViewpoint?.centersOn?.includes(part),
     );
-    const sortedItems = [...filteredItems].sort((a, b) => b.totalPolygonArea - a.totalPolygonArea);
-    setCurrentGalleryItems(sortedItems);
+    const partCloseUps = partGalleryItems.filter((item) => !item.sight);
+    const sortedGalleryItemsWithoutCloseUps = [...partGalleryItems]
+      .filter((item) => item.sight)
+      .sort((a, b) => b.totalPolygonArea - a.totalPolygonArea);
+
+    setCurrentGalleryItems([...partCloseUps, ...sortedGalleryItemsWithoutCloseUps]);
   };
 
   const updateValidatedParts = (part: VehiclePart) => {
@@ -130,6 +137,7 @@ export function useExteriorTab(): TabExteriorState {
     setCurrentGalleryItems(initialGalleryItems);
     setCurrentView(ExteriorViews.SVGCar);
     onChangeSelectedExteriorPart(null);
+    resetSelectedItem();
   };
 
   const handleDone = (partDetails: DamagedPartDetails) => {

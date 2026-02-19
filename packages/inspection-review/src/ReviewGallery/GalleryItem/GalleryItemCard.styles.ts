@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { InteractiveStatus, Styles } from '@monkvision/types';
-import { changeAlpha, useMonkTheme } from '@monkvision/common';
-import { GalleryItem } from '../../types';
+import { changeAlpha, useMonkState, useMonkTheme } from '@monkvision/common';
+import type { GalleryItem } from '../../types';
 import { useInspectionReviewProvider } from '../../hooks';
 
 const CARD_WIDTH_PX = 140;
@@ -64,8 +64,9 @@ export interface UseGalleryItemCardStylesParams {
  * Hook to get styles for the GalleryItemCard component.
  */
 export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardStylesParams) {
-  const { selectedExteriorPart } = useInspectionReviewProvider();
+  const { state } = useMonkState();
   const { palette } = useMonkTheme();
+  const { selectedExteriorPart } = useInspectionReviewProvider();
 
   const colors = useMemo(
     () => ({
@@ -77,17 +78,38 @@ export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardSty
     [palette],
   );
 
-  const labelBackgroundColor = useMemo(() => {
-    let color = colors.labelBackground;
-    const containsDamagesOfSelectedPart = item.parts.some(
+  const labelColor = useMemo(() => {
+    let color = palette.text.white;
+    if (status === InteractiveStatus.HOVERED) {
+      color = palette.primary.base;
+    }
+    if (status === InteractiveStatus.ACTIVE) {
+      color = palette.primary.dark;
+    }
+    return color;
+  }, [status, palette.text.white, palette.primary.base, palette.primary.dark]);
+
+  const containsDamagesOfSelectedPart = useMemo(() => {
+    const selectedPartDamageIds = item.parts.find(
       (p) => p.type === selectedExteriorPart?.part && p.damages.length > 0,
-    );
+    )?.damages;
+
+    if (!selectedPartDamageIds) {
+      return false;
+    }
+
+    return state.views.find((view) => selectedPartDamageIds.includes(view.elementId));
+  }, [item.parts, selectedExteriorPart, state.views]);
+
+  const labelBackgroundColor = useMemo(() => {
+    const isCloseUpGalleryItem = !item.sight;
+    let color = colors.labelBackground;
 
     if (selectedExteriorPart) {
-      if (item.hasDamage && containsDamagesOfSelectedPart) {
+      if ((item.hasDamage && containsDamagesOfSelectedPart) || isCloseUpGalleryItem) {
         color = palette.alert.dark;
       }
-    } else if (item.hasDamage || !item.sight) {
+    } else if (item.hasDamage || isCloseUpGalleryItem) {
       color = palette.alert.dark;
     }
 
@@ -100,14 +122,6 @@ export function useGalleryItemCardStyles({ item, status }: UseGalleryItemCardSty
     palette.alert.dark,
     colors.labelBackground,
   ]);
-
-  let labelColor = palette.text.white;
-  if (status === InteractiveStatus.HOVERED) {
-    labelColor = palette.primary.base;
-  }
-  if (status === InteractiveStatus.ACTIVE) {
-    labelColor = palette.primary.dark;
-  }
 
   return {
     cardStyle: {

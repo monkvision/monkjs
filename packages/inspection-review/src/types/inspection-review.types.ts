@@ -84,6 +84,13 @@ export type InspectionReviewProps = {
     [key: string]: PricingData;
   };
   /**
+   * Tab key to be selected when there are sights that do not match any of the predefined tabs.
+   * If not provided, unmatched sights will be added to the TabKeys.Exterior tab.
+   *
+   * @default TabKeys.Exterior
+   */
+  unmatchedSightsTab?: TabKeys | string;
+  /**
    * Callback function triggered when the PDF generation is requested.
    */
   onDownloadPDF?: () => void;

@@ -1,4 +1,8 @@
 import { GalleryItem } from './gallery.types';
+import type {
+  InspectionReviewProps,
+  InspectionReviewProviderState,
+} from './inspection-review.types';
 
 /**
  * Enumeration of the default tab keys available in the inspection review.
@@ -11,24 +15,21 @@ export enum TabKeys {
 /**
  * API provided to tabs upon activation.
  */
-export type TabActivationAPI = {
-  /**
-   * The current gallery items displayed.
-   */
-  currentGalleryItems: GalleryItem[];
-  /**
-   * All gallery items available in the inspection review.
-   */
-  allGalleryItems: GalleryItem[];
-  /**
-   *
-   */
-  sights: Record<TabKeys | string, string[]>;
-  /**
-   * Function to update the current gallery items when the tab is activated.
-   */
-  setCurrentGalleryItems: (items: GalleryItem[]) => void;
-};
+export type TabActivationAPI = Pick<
+  InspectionReviewProviderState,
+  'allGalleryItems' | 'currentGalleryItems' | 'setCurrentGalleryItems'
+> &
+  Pick<InspectionReviewProps, 'unmatchedSightsTab'> & {
+    /**
+     * The ordered list of gallery items available for the inspection review for this tab.
+     */
+    sights: Record<TabKeys | string, string[]>;
+    /**
+     * The gallery items that do not match any sight in the sightsPerTab mapping.
+     * They will be assiged to the `unmatchedSightsTab` which defaults to TabKeys.Exterior.
+     */
+    unmatchedGalleryItems: GalleryItem[];
+  };
 
 /**
  * Object representing a tab with optional activation callback.
