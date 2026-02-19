@@ -1,24 +1,21 @@
-import { useTranslation } from 'react-i18next';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
 import {
   LoadingState,
   MonkActionType,
   MonkUpdatedOneInspectionAdditionalDataAction,
-  MonkUpdatedOnePricingAction,
   useMonkState,
 } from '@monkvision/common';
-import {
-  AdditionalData,
-  Inspection,
-  MonkEntityType,
-  Part,
-  PricingV2,
-  PricingV2RelatedItemType,
-  VehiclePart,
-} from '@monkvision/types';
+import { AdditionalData, Inspection } from '@monkvision/types';
 import { DamagedPartDetails, InspectionReviewProps, InteriorDamage } from '../types';
 import { getChildPartsForAggregation } from '../utils/partAggregation.utils';
+import {
+  handleChildPartDamagesAndPricingDeletion,
+  handleCreatePricing,
+  handleDeleteDamagesAndPricing,
+  handleDeleteOldAndCreateNewDamages,
+  handleUpdatePricing,
+} from '../utils/useDamagedPartActionsState.utils';
 
 /**
  * Props for the useDamageActionsState hook.
@@ -49,16 +46,7 @@ export default function useDamagedPartActionsState({
 }: UseDamageActionsStateProps) {
   const { state, dispatch } = useMonkState();
   const { handleError } = useMonitoring();
-  const { t } = useTranslation();
-  const {
-    getInspection,
-    updateAdditionalData,
-    deleteDamage,
-    deletePricing,
-    updatePricing,
-    createPricing,
-    createDamage,
-  } = useMonkApi(apiConfig);
+  const monkApi = useMonkApi(apiConfig);
 
   const handleAddInteriorDamage = (damage: InteriorDamage, index?: number): void => {
     const callback = (additionalData?: AdditionalData) => {
@@ -81,7 +69,7 @@ export default function useDamagedPartActionsState({
       };
     };
 
-    updateAdditionalData({
+    monkApi.updateAdditionalData({
       id: inspectionId,
       callback,
     });
@@ -113,133 +101,45 @@ export default function useDamagedPartActionsState({
       },
     };
     dispatch(action);
-    updateAdditionalData({ id: inspectionId, callback });
+    monkApi.updateAdditionalData({ id: inspectionId, callback });
   };
 
-  function handleDeleteDamagesAndPricing(partToDelete?: Part, pricingToDelete?: PricingV2): void {
+  const handleConfirmExteriorDamages = (damagedPart: DamagedPartDetails): void => {
     try {
-      partToDelete?.damages.forEach((damageId) => {
-        deleteDamage({ id: inspectionId, damageId });
-      });
-      if (pricingToDelete) {
-        deletePricing({ id: inspectionId, pricingId: pricingToDelete?.id });
+      const partToUpdate = state.parts
+        .filter((value) => value.inspectionId === inspectionId)
+        .find((part) => part.type === damagedPart.part);
+
+      const pricingToModify = state.pricings
+        .filter((value) => value.inspectionId === inspectionId)
+        .find((pricing) => pricing.relatedItemId === partToUpdate?.id);
+
+      const childParts = getChildPartsForAggregation(damagedPart.part);
+      handleChildPartDamagesAndPricingDeletion(monkApi, state, inspectionId, childParts);
+
+      if (!damagedPart.isDamaged) {
+        handleDeleteDamagesAndPricing(monkApi, inspectionId, partToUpdate, pricingToModify);
+      }
+
+      if (damagedPart.isDamaged) {
+        if (pricingToModify && damagedPart.pricing !== undefined) {
+          handleUpdatePricing(
+            monkApi,
+            inspectionId,
+            dispatch,
+            damagedPart.pricing,
+            pricingToModify,
+          );
+        }
+        if (!pricingToModify && damagedPart.pricing !== undefined) {
+          handleCreatePricing(monkApi, inspectionId, damagedPart, partToUpdate);
+        }
+
+        handleDeleteOldAndCreateNewDamages(monkApi, state, inspectionId, damagedPart, partToUpdate);
       }
     } catch (e) {
       handleError(e);
       loading.onError();
-    }
-  }
-
-  function handleUpdatePricing(pricing: number, pricingToModify: PricingV2): void {
-    updatePricing({
-      id: inspectionId,
-      pricingId: pricingToModify.id,
-      price: pricing,
-    });
-
-    const action: MonkUpdatedOnePricingAction = {
-      type: MonkActionType.UPDATED_ONE_PRICING,
-      payload: {
-        pricing: {
-          entityType: MonkEntityType.PRICING,
-          id: pricingToModify.id,
-          inspectionId,
-          relatedItemType: PricingV2RelatedItemType.PART,
-          pricing,
-        },
-      },
-    };
-    dispatch(action);
-  }
-
-  function handleCreatePricing(damagedPart: DamagedPartDetails, partToUpdate?: Part): void {
-    if (damagedPart.pricing === undefined) {
-      return;
-    }
-    createPricing({
-      id: inspectionId,
-      pricing: {
-        pricing: damagedPart.pricing,
-        type: PricingV2RelatedItemType.PART,
-        vehiclePart: damagedPart.part,
-      },
-    })
-      .then(() => {
-        if (!partToUpdate) {
-          getInspection({ id: inspectionId, light: false });
-        }
-      })
-      .catch(() => {
-        loading.onError(t('inspectionReview.errors.notCompleted'));
-      });
-  }
-
-  function handleDeleteOldAndCreateNewDamages(
-    damagedPart: DamagedPartDetails,
-    partToUpdate?: Part,
-  ): void {
-    const damagesFilteredByPartSelected = state.damages
-      .filter((value) => value.inspectionId === inspectionId)
-      .filter((damage) => partToUpdate?.damages.includes(damage.id));
-
-    damagesFilteredByPartSelected.forEach((damage) => {
-      if (!damagedPart.damageTypes.includes(damage.type)) {
-        deleteDamage({ id: inspectionId, damageId: damage.id });
-      }
-    });
-
-    damagedPart.damageTypes.forEach((damage) => {
-      if (!damagesFilteredByPartSelected.map((value) => value.type).includes(damage)) {
-        createDamage({ id: inspectionId, damageType: damage, vehiclePart: damagedPart.part });
-      }
-    });
-  }
-
-  /**
-   * Helper function to delete damages and pricing for all child parts of a parent part.
-   * All damages and pricing associated with the child parts will be assigned to the parent part.
-   */
-  function handleChildPartDamagesAndPricingDeletion(childParts: VehiclePart[]): void {
-    childParts.forEach((childPart) => {
-      const childPartToUpdate = state.parts
-        .filter((value) => value.inspectionId === inspectionId)
-        .find((part) => part.type === childPart);
-
-      const childPricingToModify = state.pricings
-        .filter((value) => value.inspectionId === inspectionId)
-        .find((pricing) => pricing.relatedItemId === childPartToUpdate?.id);
-
-      if (childPartToUpdate) {
-        handleDeleteDamagesAndPricing(childPartToUpdate, childPricingToModify);
-      }
-    });
-  }
-
-  const handleConfirmExteriorDamages = (damagedPart: DamagedPartDetails): void => {
-    const partToUpdate = state.parts
-      .filter((value) => value.inspectionId === inspectionId)
-      .find((part) => part.type === damagedPart.part);
-
-    const pricingToModify = state.pricings
-      .filter((value) => value.inspectionId === inspectionId)
-      .find((pricing) => pricing.relatedItemId === partToUpdate?.id);
-
-    const childParts = getChildPartsForAggregation(damagedPart.part);
-    handleChildPartDamagesAndPricingDeletion(childParts);
-
-    if (!damagedPart.isDamaged) {
-      handleDeleteDamagesAndPricing(partToUpdate, pricingToModify);
-    }
-
-    if (damagedPart.isDamaged) {
-      if (pricingToModify && damagedPart.pricing !== undefined) {
-        handleUpdatePricing(damagedPart.pricing, pricingToModify);
-      }
-      if (!pricingToModify && damagedPart.pricing !== undefined) {
-        handleCreatePricing(damagedPart, partToUpdate);
-      }
-
-      handleDeleteOldAndCreateNewDamages(damagedPart, partToUpdate);
     }
   };
 
