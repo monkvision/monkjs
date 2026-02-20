@@ -1,7 +1,7 @@
 import { useMonitoring } from '@monkvision/monitoring';
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { PixelDimensions } from '@monkvision/types';
-import { useWindowDimensions } from '@monkvision/common';
+import { useObjectMemo, useWindowDimensions } from '@monkvision/common';
 import { CameraConfig, getMediaConstraints } from './utils';
 import {
   getStreamVideoTrackSettings,
@@ -122,13 +122,10 @@ export function useCameraPreview(config: CameraConfig): CameraPreviewHandle {
     };
   }, [windowDimensions, userMediaResult.stream, handleError]);
 
-  return useMemo(
-    () => ({
-      ref,
-      streamDimensions,
-      previewDimensions,
-      ...userMediaResult,
-    }),
-    [streamDimensions, previewDimensions, userMediaResult],
-  );
+  return useObjectMemo({
+    ref,
+    streamDimensions,
+    previewDimensions,
+    ...userMediaResult,
+  });
 }
