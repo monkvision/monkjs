@@ -183,6 +183,7 @@ export function VideoCaptureHUD({
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
             tooltip={tooltip ? t(getTooltipLabel(tooltip)) : undefined}
+            recordVideoDisabled={handle.isLoading}
           />
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (
