@@ -1,9 +1,9 @@
 import { PhotoCaptureAppConfig, PhotoCaptureSightTutorialOption, Sight } from '@monkvision/types';
 import {
   Button,
-  IconAroundVehicle,
   IconVerticalPosition,
   SightOverlay,
+  VehicleWalkaroundIndicator,
 } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { getLanguage } from '@monkvision/common';
@@ -84,11 +84,12 @@ export function PhotoCaptureHUDSightTutorial({
     <div style={style.container}>
       <div style={styles['iconsContainer']}>
         <div style={styles['icon']}>
-          <IconAroundVehicle
+          <VehicleWalkaroundIndicator
             size={80}
             orientationAngle={selectedSight.positioning?.orientation}
-            positionAroundVehicle={selectedSight.positioning?.position}
+            alpha={selectedSight.positioning?.position ?? 0}
             distance={selectedSight.positioning?.distance}
+            showProgressBar={false}
           />
         </div>
         <div style={styles['icon']}>
