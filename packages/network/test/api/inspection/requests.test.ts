@@ -156,7 +156,7 @@ describe('Inspection requests', () => {
   });
 
   describe('updateAdditionalData request', () => {
-    it('should make the proper API call', async () => {
+    it('should make the proper API call when callback uses additionalData parameter', async () => {
       const id = 'test-inspection-id';
       const callback = (addData?: AdditionalData) => {
         const newAddData = {
@@ -170,6 +170,7 @@ describe('Inspection requests', () => {
       const response = await (ky.patch as jest.Mock).mock.results[0].value;
       const body = await response.json();
 
+      expect(ky.get).toHaveBeenCalledWith(`inspections/${id}?verbose=light`, expect.anything());
       expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
       expect(ky.patch).toHaveBeenCalledWith(`inspections/${id}`, {
         ...getDefaultOptions(apiConfig),
@@ -179,6 +180,48 @@ describe('Inspection requests', () => {
         id: body.id,
         response,
         body,
+      });
+    });
+
+    it('should skip getInspection when callback has no parameters', async () => {
+      const id = 'test-inspection-id';
+      const newData = { country: 'France', custom_field: 'value' };
+      const callback = () => newData;
+      const options = { id, callback };
+
+      jest.clearAllMocks();
+      const result = await updateAdditionalData(options, apiConfig);
+      const response = await (ky.patch as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(ky.get).not.toHaveBeenCalled();
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      expect(ky.patch).toHaveBeenCalledWith(`inspections/${id}`, {
+        ...getDefaultOptions(apiConfig),
+        json: { additional_data: newData },
+      });
+      expect(result).toEqual({
+        id: body.id,
+        response,
+        body,
+      });
+    });
+
+    it('should dispatch action with correct payload', async () => {
+      const id = 'test-inspection-id';
+      const newData = { country: 'Germany' };
+      const callback = () => newData;
+      const dispatch = jest.fn();
+      const options = { id, callback };
+
+      await updateAdditionalData(options, apiConfig, dispatch);
+
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
+        payload: {
+          inspectionId: id,
+          additionalData: newData,
+        },
       });
     });
   });
