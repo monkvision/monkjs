@@ -78,7 +78,7 @@ function getPointOnCircle(angleDegrees: number, radius: number): { x: number; y:
   return { x, y };
 }
 
-function getcloseUpOffset(
+function getCloseUpOffset(
   distance: CameraDistance,
   positionAroundVehicle: number,
   radius: number,
@@ -111,7 +111,7 @@ export function useVehicleWalkaroundIndicatorStyle({
   const y = orientation ? position.y - orientation.y : 0;
 
   const angle = orientationAngle ?? alpha;
-  const closeUpOffset = getcloseUpOffset(distance, alpha, baseRadius);
+  const closeUpOffset = getCloseUpOffset(distance, alpha, baseRadius);
   const fillPercentage = Math.min(Math.max(alpha / 360, 0), 1);
 
   const getCarAttributes = useCallback(
