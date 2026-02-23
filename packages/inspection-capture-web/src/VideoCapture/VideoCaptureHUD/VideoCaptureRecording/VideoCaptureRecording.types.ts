@@ -19,6 +19,10 @@ export interface VideoCaptureRecordingProps {
    */
   recordingDurationMs: number;
   /**
+   * Boolean indicating if the record video button should be disabled or not.
+   */
+  recordVideoDisabled: boolean;
+  /**
    * Callback called when the user clicks on the record video button.
    */
   onClickRecordVideo?: () => void;

@@ -283,32 +283,6 @@ function App() {
 
 ---
 
-## IconAroundVehicle
-### Description
-Component used to display an icon representing a vehicle and a point of view (POV) indicator.
-
-### Example
-```tsx
-import { useState } from 'react';
-import { IconAroundVehicle } from '@monkvision/common-ui-web';
-
-function MyComponent() {
-
-  return <IconAroundVehicle positionAroundVehicle={90}/>;
-}
-```
-
-### Props
-| Prop                  | Type     | Description                                                                                               | Required | Default Value |
-|-----------------------|----------|-----------------------------------------------------------------------------------------------------------|----------|---------------|
-| size                  | number   | The size (width and height, in pixels) of the icon..                                                      |          | `50`          |
-| positionAroundVehicle | number   | Pov position angle to the north (0: POV in the front of the car / 180: POV is behind the back of the car) |          | `0`           |
-| orientationAngle      | number   | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                               |          |               |
-| showCircle            | boolean  | Boolean indicating if the circle should be visible.                                                       |          | `true`        |
-| isPovClose            | boolean  | Boolean indicating if the POV should be closer to the center.                                             |          | `true`        |
-
----
-
 ## IconVerticalPosition
 ### Description
 Component used to display an icon representing a vehicle and a point of view (POV) indicator.
@@ -804,7 +778,11 @@ function TestComponent() {
 }
 ```
 ### Props
-| Prop  | Type   | Description                                                      | Required | Default Value |
-|-------|--------|------------------------------------------------------------------|----------|---------------|
-| alpha | number | The rotation of the user around the vehicle (between 0 and 359). | ✔️       |               |
-| size  | number | The size of the indicator in pixels.                             |          | 60            |
+| Prop               | Type           | Description                                                                                 | Required | Default Value             |
+|--------------------|----------------|---------------------------------------------------------------------------------------------|----------|---------------------------|
+| alpha              | number         | The rotation of the user around the vehicle (0-360 degrees).                                | ✔️       |                           |
+| size               | number         | The size (width and height, in pixels) of the indicator.                                    |          | `70`                      |
+| orientationAngle   | number         | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                |          |                           |
+| showCircle         | boolean        | Boolean indicating if the circle should be visible.                                         |          | `true`                    |
+| distance           | CameraDistance | POV/Flashlight distance from the vehicle.                                                   |          | `CameraDistance.STANDARD` |
+| showProgressBar    | boolean        | Boolean indicating if the progress bar should be visible (circle and vehicle fill).         |          | `true`                    |

@@ -44,6 +44,9 @@ export const styles: Styles = {
   },
   innerCircle: {
     borderRadius: '50%',
+    overflow: 'hidden',
+    WebkitTransform: 'translateZ(0)',
+    transform: 'translateZ(0)',
   },
   tooltip: {
     position: 'absolute',

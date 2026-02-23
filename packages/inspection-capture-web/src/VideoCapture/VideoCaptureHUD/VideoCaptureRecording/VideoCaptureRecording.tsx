@@ -26,6 +26,7 @@ export function VideoCaptureRecording({
   onClickRecordVideo,
   onClickTakePicture,
   tooltip,
+  recordVideoDisabled,
 }: VideoCaptureRecordingProps) {
   const {
     container,
@@ -59,6 +60,7 @@ export function VideoCaptureRecording({
           onClick={onClickRecordVideo}
           tooltip={tooltip}
           tooltipPosition={tooltipPosition}
+          disabled={recordVideoDisabled}
         />
         <TakePictureButton onClick={handleTakePictureClick} disabled={!isRecording} />
       </div>
