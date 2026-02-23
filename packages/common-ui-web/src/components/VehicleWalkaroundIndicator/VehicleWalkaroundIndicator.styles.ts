@@ -93,7 +93,7 @@ function getCloseUpOffset(
   }
 }
 
-export function useVehicleWalkaroundIndicatorStyle({
+export function useVehicleWalkaroundIndicatorStyles({
   size,
   alpha,
   distance,
