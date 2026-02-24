@@ -36,6 +36,8 @@ export function useTutorialSteps({ onComplete, orientation }: TutorialStepsParam
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isFadingIn, setIsFadingIn] = useState(true);
 
+  const isLastStep = step === TutorialStep.FINISH_COVERED;
+
   const onCompleteRef = useRef(onComplete);
   useEffect(() => {
     onCompleteRef.current = onComplete;
@@ -74,7 +76,6 @@ export function useTutorialSteps({ onComplete, orientation }: TutorialStepsParam
   );
 
   const handleContinue = useCallback(() => {
-    const isLastStep = step === TutorialStep.FINISH_COVERED;
     if (isLastStep) {
       setIsFadingOut(true);
       setTimeout(() => {
@@ -135,7 +136,7 @@ export function useTutorialSteps({ onComplete, orientation }: TutorialStepsParam
     isTransitioning,
     showButton,
     handleContinue,
-    isLastStep: step === TutorialStep.FINISH_COVERED,
+    isLastStep,
     handleCheckboxChange,
     dontShowAgain,
     stepsContent,

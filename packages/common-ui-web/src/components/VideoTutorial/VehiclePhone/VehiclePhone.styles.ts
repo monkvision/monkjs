@@ -32,7 +32,7 @@ export interface VehiclePhoneParams {
   orientation: DeviceOrientation;
 }
 
-export function useVehiclePhone({ orientation }: VehiclePhoneParams) {
+export function useVehiclePhoneStyles({ orientation }: VehiclePhoneParams) {
   const { height, width, isPortrait } = useWindowDimensions();
 
   const phoneSize = isPortrait

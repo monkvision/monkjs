@@ -17,6 +17,8 @@ import { useTutorialSteps, TutorialStep, TUTORIAL_STEPS_ORDER } from './hooks';
 export interface VideoTutorialProps {
   /**
    * The orientation of the phone used in the tutorial, which affects the instructions and animations shown to the user.
+   *
+   * @default DeviceOrientation.LANDSCAPE
    */
   orientation?: DeviceOrientation;
   /**

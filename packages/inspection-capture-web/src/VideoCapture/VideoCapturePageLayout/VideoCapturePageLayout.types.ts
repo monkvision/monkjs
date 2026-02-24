@@ -22,7 +22,6 @@ export interface VideoCapturePageLayoutProps {
   showLogo?: boolean;
   /**
    * Boolean indicating if the confirm button should be displayed or not.
-   * If true, the confirmButtonProps must be provided.
    */
   showConfirmButton?: boolean;
   /**

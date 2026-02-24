@@ -1,13 +1,14 @@
 import { DeviceOrientation } from '@monkvision/types';
 import { DynamicSVG } from '../../DynamicSVG';
-import { styles, useVehiclePhone } from './VehiclePhone.styles';
+import { styles, useVehiclePhoneStyles } from './VehiclePhone.styles';
 import { vehicleSurroundings, phone } from '../assets';
 
 export interface VehiclePhoneProps {
   orientation: DeviceOrientation;
 }
+
 export function VehiclePhone({ orientation }: VehiclePhoneProps) {
-  const { phoneStyle, getAttributes } = useVehiclePhone({ orientation });
+  const { phoneStyle, getAttributes } = useVehiclePhoneStyles({ orientation });
 
   return (
     <div style={styles['container']}>
