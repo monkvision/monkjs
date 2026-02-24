@@ -132,6 +132,7 @@ export interface UpdateAdditionalDataOptions {
   id: string;
   /**
    * Callback function that takes optional additional data and returns the updated additional data.
+   * If the callback has no parameters, the current additional data is not fetched from the API.
    */
   callback: (additionalData?: AdditionalData) => AdditionalData;
 }
@@ -139,6 +140,9 @@ export interface UpdateAdditionalDataOptions {
 /**
  * Update the additional data of inspection with the given options.
  * See the `UpdateAdditionalDataOptions` interface for more details.
+ *
+ * If the callback function has no parameters (callback.length === 0),
+ * the current additional data is not fetched from the API for better performance.
  *
  * @param options The options of the request.
  * @param config The API config.
@@ -151,12 +155,18 @@ export async function updateAdditionalData(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkUpdatedOneInspectionAdditionalDataAction>,
 ): Promise<MonkApiResponse> {
-  const { entities } = await getInspection({ id: options.id }, config);
-  const inspection = entities.inspections.find((i) => i.id === options.id);
-  if (!inspection) {
-    throw new Error('Inspection does not exist');
+  let currentAdditionalData: AdditionalData | undefined;
+
+  if (options.callback.length > 0) {
+    const { entities } = await getInspection({ id: options.id }, config);
+    const inspection = entities.inspections.find((i) => i.id === options.id);
+    if (!inspection) {
+      throw new Error('Inspection does not exist');
+    }
+    currentAdditionalData = inspection.additionalData;
   }
-  const newAdditionalData = options.callback(inspection.additionalData);
+
+  const newAdditionalData = options.callback(currentAdditionalData);
 
   const kyOptions = getDefaultOptions(config);
   const response = await ky.patch(`inspections/${options.id}`, {
