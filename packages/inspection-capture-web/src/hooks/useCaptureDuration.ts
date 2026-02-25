@@ -1,4 +1,4 @@
-import { useObjectMemo } from '@monkvision/common';
+import { useMonkState, useObjectMemo } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useEffect, useRef, useCallback } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -56,12 +56,18 @@ export function useCaptureDuration({
   const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
   const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const pendingUpdateRef = useRef<boolean>(false);
-  const captureDurationRef = useRef<number>(0);
   const isActive = useRef<boolean>(true);
   const cycleCountRef = useRef<number>(0);
 
   const { updateAdditionalData } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
+  const { state } = useMonkState();
+
+  const initialDuration = state.inspections.find((insp) => insp.id === inspectionId)
+    ?.additionalData?.[CAPTURE_DURATION];
+  const captureDurationRef = useRef<number>(
+    typeof initialDuration === 'number' ? initialDuration : 0,
+  );
 
   const pauseTracking = useCallback((): void => {
     if (isActive.current) {
@@ -87,20 +93,15 @@ export function useCaptureDuration({
       }
       try {
         pendingUpdateRef.current = true;
-        let existingDuration = 0;
         await updateAdditionalData({
           id: inspectionId,
-          callback: (existingData) => {
-            existingDuration = existingData?.[CAPTURE_DURATION]
-              ? (existingData?.[CAPTURE_DURATION] as number)
-              : 0;
+          callback: () => {
+            captureDurationRef.current += totalActiveTimeRef.current;
             return {
-              ...existingData,
-              capture_duration: existingDuration + totalActiveTimeRef.current,
+              capture_duration: captureDurationRef.current,
             };
           },
         });
-        captureDurationRef.current = existingDuration + totalActiveTimeRef.current;
         startTimeRef.current = Date.now();
         totalActiveTimeRef.current = 0;
         return captureDurationRef.current;
@@ -156,8 +157,8 @@ export function useCaptureDuration({
 
     const handleVisibilityChange = (): void => {
       if (document.hidden) {
-        updateDuration();
         pauseTracking();
+        updateDuration(true);
       } else {
         resumeTracking();
       }
