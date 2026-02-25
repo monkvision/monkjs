@@ -52,7 +52,7 @@ export function updatedOneInspectionAdditionalData(
 
   const inspection = inspections.find((value) => value.id === payload.inspectionId);
   if (inspection) {
-    inspection.additionalData = payload.additionalData;
+    inspection.additionalData = { ...inspection.additionalData, ...payload.additionalData };
   }
   return {
     ...state,
