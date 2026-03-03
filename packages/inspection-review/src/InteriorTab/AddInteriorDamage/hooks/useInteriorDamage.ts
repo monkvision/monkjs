@@ -1,6 +1,7 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useMemo, useState } from 'react';
-import { InteriorDamage, SelectedInteriorDamageData } from '../../../types';
+import { InteriorDamage } from '../../../types';
+import { InteriorTabState } from '../../hooks/useInteriorTab';
 
 /**
  * State and handlers for adding interior damage.
@@ -27,16 +28,7 @@ export interface InteriorDamageState {
 /**
  * Props for the useInteriorDamage hook.
  */
-export interface InteriorDamageProps {
-  /**
-   * The interior damage data to be edited, or null if adding new damage.
-   */
-  damageData: SelectedInteriorDamageData | null;
-  /**
-   * Callback function invoked when the user saves the damage data.
-   */
-  onSave: (data: InteriorDamage) => void;
-}
+export type InteriorDamageProps = Pick<InteriorTabState, 'selectedDamage' | 'onSave'>;
 
 const defaultInteriorDamage: InteriorDamage = {
   area: '',
@@ -48,11 +40,11 @@ const defaultInteriorDamage: InteriorDamage = {
  * State and handlers for managing interior damage state.
  */
 export function useInteriorDamage({
-  damageData,
+  selectedDamage,
   onSave,
 }: InteriorDamageProps): InteriorDamageState {
   const [currentDamage, setCurrentDamage] = useState<InteriorDamage>(
-    damageData?.damage ?? defaultInteriorDamage,
+    selectedDamage?.damage ?? defaultInteriorDamage,
   );
   const isDoneDisabled = useMemo(
     () => !currentDamage || !currentDamage.area || !currentDamage.damage_type,
