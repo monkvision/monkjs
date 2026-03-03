@@ -1,9 +1,8 @@
 import { MonkApiConfig } from '@monkvision/network';
-import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
+import { CurrencyCode, SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import { PricingData, PricingLevels } from './pricing.types';
 import { TabKeys, TabContent } from './tabs.types';
 import { GalleryItem } from './gallery.types';
-import { Currencies } from './damage.types';
 
 /**
  * Props related to the PDF generation feature.
@@ -76,7 +75,7 @@ export type InspectionReviewProps = {
    *
    * @default Currencies.USD
    */
-  currency?: Currencies;
+  currency?: CurrencyCode;
   /**
    * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */
