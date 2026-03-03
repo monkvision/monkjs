@@ -1,4 +1,4 @@
-import { InspectionReviewProps } from '../InspectionReview';
+import { InspectionReviewProps } from '../types';
 import { styles } from '../InspectionReview.styles';
 
 /**

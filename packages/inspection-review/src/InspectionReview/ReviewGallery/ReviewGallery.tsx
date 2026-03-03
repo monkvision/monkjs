@@ -1,4 +1,4 @@
-import { useInspectionReviewState } from '../hooks';
+import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
 import { useGalleryState } from './hooks/useGalleryState';
 import { SpotlightImage } from './SpotlightImage';
 
@@ -18,10 +18,14 @@ export function ReviewGallery() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 6, gap: 8 }}>
       {currentGalleryItems.map((item) => (
-        <div key={item.image.id} style={{ position: 'relative' }}>
+        <button
+          key={item.image.id}
+          style={{ position: 'relative' }}
+          onClick={() => onSelectItem(item.image.id)}
+        >
           <img
             src={item.image.path}
-            onClick={() => onSelectItem(item.image.id)}
+            alt={item.image.id}
             style={{
               height: 152,
               width: 140,
@@ -39,7 +43,7 @@ export function ReviewGallery() {
           >
             <p>{item.sight.label}</p>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );
