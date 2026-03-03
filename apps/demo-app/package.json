@@ -29,6 +29,7 @@
     "@monkvision/common": "5.3.6",
     "@monkvision/common-ui-web": "5.3.6",
     "@monkvision/inspection-capture-web": "5.3.6",
+    "@monkvision/inspection-review": "*",
     "@monkvision/monitoring": "5.3.6",
     "@monkvision/network": "5.3.6",
     "@monkvision/posthog": "5.3.6",

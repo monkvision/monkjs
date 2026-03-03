@@ -79,6 +79,29 @@ export enum CurrencyCode {
   USD = 'USD',
 }
 
+export enum CurrencySymbol {
+  /**
+   * Euro
+   */
+  EUR = '€',
+  /**
+   * United-States Dollar
+   */
+  USD = '$',
+  /**
+   * British Pound
+   */
+  GBP = '£',
+  /**
+   * Swiss Franc
+   */
+  CHF = 'CHF',
+  /**
+   * Australian Dollar
+   */
+  AUD = 'A$',
+}
+
 /**
  * Additional data that can be added to a state entity when creating it.
  */

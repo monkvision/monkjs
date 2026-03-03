@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Exterior",
+      "pricings": {
+        "needsPricing": "Needs Pricing"
+      },
+      "addDamage": {
+        "title": "This part is damaged",
+        "listTitle": "Damages",
+        "priceLabel": "Price"
+      }
+    },
+    "interior": {
+      "label": "Interior/Tire",
+      "area": "Area",
+      "areaPlaceholder": "Input area",
+      "damageTypes": "Damage Types",
+      "damageTypesPlaceholder": "Input Damage types",
+      "deduction": "Deduction",
+      "addDamageButton": "ADD DAMAGE"
+    },
+    "actionButtons": {
+      "done": "DONE",
+      "cancel": "CANCEL"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "DOWNLOAD IMAGES",
+    "generatePdf": "GENERATE PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Show Damages",
+      "hideDamages": "Hide Damages",
+      "closeSpotlight": "Close current image",
+      "changeImage": "Change image"
+    }
+  },
+  "errors": {
+    "inspectionId": "The requested inspection Id was not found on the server. If you entered the id manually please check your spelling and try again."
+  }
+}
