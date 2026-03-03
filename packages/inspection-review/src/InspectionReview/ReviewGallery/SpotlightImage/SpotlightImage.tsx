@@ -70,7 +70,7 @@ export function SpotlightImage({
               />
             </div>
 
-            {selectedItem.renderedOutput && (
+            {selectedItem.hasDamage && (
               <div style={styles['showDamagesButton']}>
                 <Button
                   onClick={toggleShowDamage}
