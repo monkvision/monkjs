@@ -16,6 +16,7 @@ export interface HandleGalleryState {
    * If passing null as parameter, deselects the current item.
    */
   onSelectItemById: (imageId: string | null) => void;
+  resetSelectedItem: () => void;
 }
 
 /**
@@ -49,8 +50,13 @@ export function useGalleryState(): HandleGalleryState {
     [currentGalleryItems],
   );
 
+  const resetSelectedItem = useCallback(() => {
+    setSelectedItem(null);
+  }, []);
+
   return useObjectMemo({
     selectedItem,
     onSelectItemById,
+    resetSelectedItem,
   });
 }
