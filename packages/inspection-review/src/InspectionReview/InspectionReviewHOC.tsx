@@ -1,6 +1,7 @@
 import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
 import { i18nInspectionReview } from '../i18n';
 import { InspectionReview, InspectionReviewProps } from './InspectionReview';
+import { InspectionReviewState } from './hooks/InspectionReviewProvider';
 
 /**
  * The InspectionReview component is a ready-to-use, single page component that implements an Inspection Review app,
@@ -30,7 +31,9 @@ export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC(
 
   return (
     <MonkProvider>
-      <InspectionReview {...props} />
+      <InspectionReviewState inspectionId={props.inspectionId}>
+        <InspectionReview {...props} />
+      </InspectionReviewState>
     </MonkProvider>
   );
 },
