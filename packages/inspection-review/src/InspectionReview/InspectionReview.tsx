@@ -82,7 +82,7 @@ export function InspectionReview(props: InspectionReviewProps) {
       return tabComponent;
     }
     if (typeof tabComponent === 'function') {
-      return React.createElement(tabComponent as React.ComponentType<typeof tabComponent>);
+      return React.createElement(tabComponent);
     }
 
     return null;
