@@ -96,7 +96,7 @@ export function useSpotlightImageStyles({ cursorStyle }: SpotlightImageStylesPro
     imageLabelStyle: {
       ...styles['imageLabel'],
       backgroundColor: palette.background.light,
-      color: palette.text.white,
+      color: palette.text.primary,
     },
   };
 }
