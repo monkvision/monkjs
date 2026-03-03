@@ -16,8 +16,8 @@ function getWireframes(vehicleType: VehicleType, orientation: PartSelectionOrien
   return wireframes[orientation];
 }
 
-function isDamagePill(pillId?: SVGElement) {
-  return pillId?.id.startsWith('damage-pill_');
+function isPricingPillElement(pillId: SVGElement) {
+  return pillId && pillId.id.startsWith('damage-pill_');
 }
 
 function getPillPart(elementId: string) {
@@ -75,17 +75,31 @@ export function useVehicleDynamicWireframe({
   const getAttributes = useCallback(
     (element: SVGElement, groups: SVGGElement[]) => {
       const groupElement: SVGGElement | undefined = groups[0];
-      const isValidatedPartPill =
-        (isDamagePill(groupElement) || isDamagePill(element)) &&
-        (isPartValidated(element, validatedParts) || element.classList.contains('severity-none'));
-
       let part: VehiclePart;
+
+      const isPricingPill = isPricingPillElement(groupElement!) || isPricingPillElement(element);
+      const isValidatedSeverityNoneElement =
+        isPartValidated(element, validatedParts) || element.classList.contains('severity-none');
+
       if (groupElement && isCarPartElement(groupElement)) {
         part = groupElement.id as VehiclePart;
       } else if (isCarPartElement(element)) {
         part = element.id as VehiclePart;
-      } else if (groupElement && isValidatedPartPill) {
-        part = getPillPart(groupElement.id) as VehiclePart;
+      } else if (isPricingPill) {
+        if (isValidatedSeverityNoneElement) {
+          if (groupElement) {
+            part = getPillPart(groupElement.id) as VehiclePart;
+            const attributes = getPartAttributes(part);
+            attributes.onClick = () => onClickPart(part);
+            attributes.style = { display: 'flow' };
+            if (element.classList.contains('severity-none')) {
+              attributes.style = { ...attributes.style, fill: 'green' };
+            }
+            return attributes;
+          }
+          return { style: { display: 'flow' } };
+        }
+        return { style: { display: 'none' } };
       } else {
         return { style: styles['notCarPart'] };
       }
@@ -96,14 +110,6 @@ export function useVehicleDynamicWireframe({
       if (element.classList.contains('selectable') && element.id) {
         attributes.onClick = () => onClickPart(part);
         attributes.style = { ...attributes.style, ...styles['selectable'] };
-      }
-      if (isValidatedPartPill) {
-        if (groupElement) {
-          attributes.style = { display: 'flow' };
-          if (element.classList.contains('severity-none')) {
-            attributes.style = { ...attributes.style, fill: 'green' };
-          }
-        }
       }
       return attributes;
     },
