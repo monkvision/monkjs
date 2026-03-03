@@ -24,4 +24,9 @@ export interface GalleryItem {
    * The parts associated with the image.
    */
   parts: Part[];
+  /**
+   * The total area of polygons associated with the image.
+   * Used to sort gallery items by the biggest area first.
+   */
+  totalPolygonArea: number;
 }
