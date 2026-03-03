@@ -2,7 +2,9 @@ import { VehicleDynamicWireframe } from '@monkvision/common-ui-web';
 import { useInspectionReviewState, useTabViews } from '../hooks';
 import { useState } from 'react';
 import { PartSelectionOrientation, VehiclePart } from '@monkvision/types';
-import { PricesRow } from './PricingRow/PricesRow';
+import { AddExteriorDamage } from './AddExteriorDamage';
+import { PricingRow } from './PricingRow';
+import { DamagedPartDetails } from '../types/damage.types';
 
 enum ExteriorViews {
   SVGCar = 'SVG Car',
@@ -13,11 +15,13 @@ enum ExteriorViews {
  * The ExteriorTab component that displays content based on the currently active tab.
  */
 export function ExteriorTab() {
-  const { vehicleTypes } = useInspectionReviewState();
+  const { vehicleTypes, handleConfirmExteriorDamages, damagedPartsDetails } =
+    useInspectionReviewState();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
   const [orientation, setOrientation] = useState<PartSelectionOrientation>(
     PartSelectionOrientation.FRONT_LEFT,
   );
+  const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
 
   const handleLeftClick = () => {
     const orientations = Object.values(PartSelectionOrientation);
@@ -35,8 +39,18 @@ export function ExteriorTab() {
   };
 
   const handlePartClicked = (part: VehiclePart) => {
-    console.log('Part clicked:', part);
     setCurrentView(ExteriorViews.AddPartDamage);
+    setSelectedPart(damagedPartsDetails.find((d) => d.part === part) ?? null);
+  };
+
+  const handleDone = (partDetails: DamagedPartDetails) => {
+    handleConfirmExteriorDamages(partDetails);
+    resetToListView();
+  };
+
+  const resetToListView = () => {
+    setCurrentView(ExteriorViews.SVGCar);
+    setSelectedPart(null);
   };
 
   if (currentView === ExteriorViews.SVGCar)
@@ -54,15 +68,15 @@ export function ExteriorTab() {
           </div>
         </div>
 
-        <PricesRow />
+        <PricingRow />
       </div>
     );
 
   return (
-    <div>
-      <p>Active Tab Content is Exterior</p>
-      <div>Adding a New Damage</div>
-      <button onClick={() => setCurrentView(ExteriorViews.SVGCar)}>Back to Damages List</button>
-    </div>
+    <AddExteriorDamage
+      detailedPart={selectedPart!}
+      handleDone={handleDone}
+      handleCancel={resetToListView}
+    />
   );
 }

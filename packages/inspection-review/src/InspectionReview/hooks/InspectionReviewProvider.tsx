@@ -1,17 +1,29 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { AdditionalData, type Image, Inspection, RenderedOutput, Sight } from '@monkvision/types';
 import {
   LoadingState,
   MonkActionType,
   MonkUpdatedOneInspectionAdditionalDataAction,
+  MonkUpdatedOnePricingAction,
   useMonkState,
 } from '@monkvision/common';
+import {
+  AdditionalData,
+  DamageType,
+  type Image,
+  Inspection,
+  MonkEntityType,
+  PricingV2RelatedItemType,
+  RenderedOutput,
+  Sight,
+} from '@monkvision/types';
+import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { InspectionReviewProps } from '../InspectionReview';
 import { sights } from '@monkvision/sights';
 import { InteriorDamage } from '../InteriorTab';
-import { DEFAULT_PRICES, PriceData } from '../types/pricing.types';
+import { DEFAULT_PRICINGS, PricingData } from '../types/pricing.types';
+import { DamagedPartDetails } from '../types/damage.types';
 
 /**
  * An item in the gallery, consisting of a sights, its image and associated rendered output.
@@ -50,7 +62,11 @@ export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes'> 
   /**
    * Available prices to be displayed in the price legend section.
    */
-  availablePrices: Record<string, PriceData>;
+  availablePricings: Record<string, PricingData>;
+  /**
+   * Details about the parts that have been marked as damaged in the inspection.
+   */
+  damagedPartsDetails: DamagedPartDetails[];
   /**
    * Function to update the currently displayed gallery items.
    */
@@ -59,11 +75,16 @@ export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes'> 
    * Function to handle adding new interior damage and updating the state.
    * If an index is provided, it updates the existing damage at that index.
    */
-  handleAddDamage: (damage: InteriorDamage, index?: number) => void;
+  handleAddInteriorDamage: (damage: InteriorDamage, index?: number) => void;
   /**
    * Function to handle deleting interior damage by index.
    */
-  handleDeleteDamage: (index: number) => void;
+  handleDeleteInteriorDamage: (index: number) => void;
+  /**
+   * Function to handle confirming exterior damages of a part. It can add or remove damages for a part,
+   * or update the pricing information.
+   */
+  handleConfirmExteriorDamages: (damagedPart: DamagedPartDetails) => void;
 };
 
 /**
@@ -82,21 +103,30 @@ const InspectionReviewStateContext = createContext<InspectionReviewState | null>
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
 export function InspectionReviewState(props: PropsWithChildren<InspectionReviewProviderProps>) {
-  const { inspectionId, loading, apiConfig } = props;
+  const { inspectionId, loading, apiConfig, vehicleTypes } = props;
 
   const { t } = useTranslation();
   const { state, dispatch } = useMonkState();
-  const { getInspection, updateAdditionalData } = useMonkApi(apiConfig);
+  const { handleError } = useMonitoring();
+  const {
+    getInspection,
+    updateAdditionalData,
+    deleteDamage,
+    deletePricing,
+    updatePricing,
+    createPricing,
+    createDamage,
+  } = useMonkApi(apiConfig);
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
 
-  const availablePrices = useMemo(
+  const availablePricings = useMemo(
     () => ({
-      ...DEFAULT_PRICES,
-      ...props.prices,
+      ...DEFAULT_PRICINGS,
+      ...props.pricings,
     }),
-    [props.prices],
+    [props.pricings],
   );
 
   const inspection = useMemo(
@@ -104,7 +134,7 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
     [state.inspections, inspectionId],
   );
 
-  const handleAddDamage = (damage: InteriorDamage, index?: number) => {
+  const handleAddInteriorDamage = (damage: InteriorDamage, index?: number) => {
     const callback = (additionalData?: AdditionalData) => {
       const currentDamages =
         (additionalData?.['other_damages'] as unknown as AdditionalData[]) || [];
@@ -140,7 +170,26 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
     dispatch(action);
   };
 
-  const handleDeleteDamage = (index: number) => {
+  const damagedPartsDetails = useMemo(() => {
+    const parts: DamagedPartDetails[] = state.parts
+      .filter((part) => part.inspectionId === inspectionId)
+      .map((part) => {
+        const damageTypes = part.damages.reduce<DamageType[]>((acc, damageId) => {
+          const damage = state.damages.find((value) => value.id === damageId)?.type;
+          if (damage) {
+            acc.push(damage);
+          }
+          return acc;
+        }, []);
+        const pricingObj = state.pricings.find((price) => price.relatedItemId === part.id);
+        const pricing = pricingObj?.pricing;
+        return { part: part.type, damageTypes, pricing, isDamaged: damageTypes.length > 0 };
+      });
+
+    return parts;
+  }, [state]);
+
+  const handleDeleteInteriorDamage = (index: number) => {
     const callback = (existingData?: AdditionalData) => {
       const currentDamages = (existingData?.['other_damages'] as unknown as AdditionalData[]) || [];
       return {
@@ -157,6 +206,91 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
     };
     dispatch(action);
     updateAdditionalData({ id: inspectionId, callback });
+  };
+
+  const handleConfirmExteriorDamages = (damagedPart: DamagedPartDetails) => {
+    const partToUpdate = state.parts
+      .filter((value) => value.inspectionId === inspectionId)
+      .find((part) => part.type === damagedPart.part);
+
+    const pricingToModify = state.pricings
+      .filter((value) => value.inspectionId === inspectionId)
+      .find((pricing) => pricing.relatedItemId === partToUpdate?.id);
+
+    // decide damages and pricing to remove
+    if (!damagedPart.isDamaged) {
+      try {
+        partToUpdate?.damages.forEach((damageId) => {
+          deleteDamage({ id: inspectionId, damageId });
+        });
+        if (pricingToModify) {
+          deletePricing({ id: inspectionId, pricingId: pricingToModify?.id });
+        }
+      } catch (e) {
+        handleError(e);
+        loading.onError();
+      }
+    }
+
+    // decide pricing updates
+    if (damagedPart.isDamaged) {
+      if (pricingToModify && damagedPart.pricing !== undefined) {
+        const action: MonkUpdatedOnePricingAction = {
+          type: MonkActionType.UPDATED_ONE_PRICING,
+          payload: {
+            pricing: {
+              entityType: MonkEntityType.PRICING,
+              id: pricingToModify.id,
+              inspectionId,
+              relatedItemType: PricingV2RelatedItemType.PART,
+              pricing: damagedPart.pricing,
+            },
+          },
+        };
+        dispatch(action);
+        updatePricing({
+          id: inspectionId,
+          pricingId: pricingToModify.id,
+          price: damagedPart.pricing,
+        });
+      }
+
+      if (!pricingToModify && damagedPart.pricing) {
+        createPricing({
+          id: inspectionId,
+          pricing: {
+            pricing: damagedPart.pricing,
+            type: PricingV2RelatedItemType.PART,
+            vehiclePart: damagedPart.part,
+          },
+        })
+          .then(() => {
+            if (!partToUpdate) {
+              getInspection({ id: inspectionId });
+            }
+          })
+          .catch(() => {
+            loading.onError(t('inspectionReview.errors.notCompleted'));
+          });
+      }
+
+      // decide damages to delete
+      const damagesFilteredByPartSelected = state.damages
+        .filter((value) => value.inspectionId === inspectionId)
+        .filter((damage) => partToUpdate?.damages.includes(damage.id));
+      damagesFilteredByPartSelected.forEach((damage) => {
+        if (!damagedPart.damageTypes.includes(damage.type)) {
+          deleteDamage({ id: inspectionId, damageId: damage.id });
+        }
+      });
+
+      // decide damages to create
+      damagedPart.damageTypes.forEach((damage) => {
+        if (!damagesFilteredByPartSelected.map((value) => value.type).includes(damage)) {
+          createDamage({ id: inspectionId, damageType: damage, vehiclePart: damagedPart.part });
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -213,10 +347,12 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         allGalleryItems,
         currentGalleryItems,
         setCurrentGalleryItems,
-        handleAddDamage,
-        handleDeleteDamage,
-        vehicleTypes: props.vehicleTypes,
-        availablePrices,
+        vehicleTypes,
+        availablePricings,
+        damagedPartsDetails,
+        handleAddInteriorDamage,
+        handleDeleteInteriorDamage,
+        handleConfirmExteriorDamages,
       }}
     >
       {props.children}

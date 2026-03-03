@@ -45,7 +45,8 @@ enum InteriorViews {
  */
 export function InteriorTab() {
   const { state } = useMonkState();
-  const { inspection, handleAddDamage, handleDeleteDamage } = useInspectionReviewState();
+  const { inspection, handleAddInteriorDamage, handleDeleteInteriorDamage } =
+    useInspectionReviewState();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(InteriorViews) });
   const [selectedDamage, setSelectedDamage] = useState<SelectedDamageData | null>(null);
 
@@ -58,7 +59,7 @@ export function InteriorTab() {
   );
 
   const handleSave = (newDamage: InteriorDamage) => {
-    handleAddDamage(newDamage, selectedDamage?.index);
+    handleAddInteriorDamage(newDamage, selectedDamage?.index);
     resetToListView();
   };
 
@@ -101,7 +102,7 @@ export function InteriorTab() {
               <td>
                 <div>
                   <button onClick={() => editDamage(index, damage)}>Edit</button>
-                  <button onClick={() => handleDeleteDamage(index)}>Delete</button>
+                  <button onClick={() => handleDeleteInteriorDamage(index)}>Delete</button>
                 </div>
               </td>
             </tr>
