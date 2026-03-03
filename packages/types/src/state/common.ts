@@ -80,7 +80,7 @@ export enum CurrencyCode {
   /**
    * British Pound
    */
-  GBP = '£',
+  GBP = 'GBP',
   /**
    * Swiss Franc
    */
@@ -89,6 +89,29 @@ export enum CurrencyCode {
    * Australian Dollar
    */
   AUD = 'AUD',
+}
+
+export enum CurrencySymbol {
+  /**
+   * Euro
+   */
+  EUR = '€',
+  /**
+   * United-States Dollar
+   */
+  USD = '$',
+  /**
+   * British Pound
+   */
+  GBP = '£',
+  /**
+   * Swiss Franc
+   */
+  CHF = 'CHF',
+  /**
+   * Australian Dollar
+   */
+  AUD = 'A$',
 }
 
 /**

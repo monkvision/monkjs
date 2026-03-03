@@ -6,7 +6,7 @@ import { DamageChip } from './DamageChip';
 import { useExteriorDamage } from './hooks/useExteriorDamage';
 import { styles } from './AddExteriorDamage.styles';
 import { DoneButton } from '../../DoneButton';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/useInspectionReviewProvider';
 import { TabExteriorState } from '../hooks/useExteriorTab';
 
 const firstColumnDamages = [

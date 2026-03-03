@@ -3,7 +3,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { getLanguage, useLoadingState, useObjectMemo } from '@monkvision/common';
 import { DownloadImagesButtonProps } from '../../types/download-images.types';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks';
 
 function transformToKebabCase(input: string): string {
   return input.replace(/\s+/g, '-').toLowerCase();

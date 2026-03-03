@@ -1,7 +1,7 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useState } from 'react';
-import { useInspectionReviewProvider } from '../../../../hooks/InspectionReviewProvider';
 import { HandleGalleryState } from '../../../hooks';
+import { useInspectionReviewProvider } from '../../../../hooks';
 
 /**
  * Props accepted by the useShortcuts hook.

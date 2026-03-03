@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useMonkState, useObjectMemo } from '@monkvision/common';
-import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/useInspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
 import { InteriorDamage, InteriorViews, SelectedInteriorDamageData } from '../../types';
 
