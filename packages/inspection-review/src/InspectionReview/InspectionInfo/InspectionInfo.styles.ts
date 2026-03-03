@@ -1,14 +1,14 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  legend: {
+  container: {
     display: 'flex',
     alignItems: 'center',
-    gap: 4,
+    gap: 6,
   },
 
-  vin: {
-    backgroundColor: 'lightgray',
+  item: {
+    backgroundColor: 'darkgray',
     padding: '4px 6px 4px 6px',
     borderRadius: 4,
   },

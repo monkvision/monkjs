@@ -1,5 +1,5 @@
 import { InspectionReviewProps } from '../types';
-import { styles } from '../InspectionReview.styles';
+import { styles } from './InspectionInfo.styles';
 
 /**
  * Props accepted by the InspectionInfo component.
@@ -12,10 +12,10 @@ export type InspectionInfoProps = Pick<InspectionReviewProps, 'additionalInfo'>;
  */
 export function InspectionInfo(props: InspectionInfoProps) {
   return (
-    <div style={styles['legend']}>
+    <div style={styles['container']}>
       {props.additionalInfo &&
         Object.entries(props.additionalInfo).map(([key, value]) => (
-          <div key={key}>
+          <div key={key} style={styles['item']}>
             <strong>{key}:</strong> {value}
           </div>
         ))}
