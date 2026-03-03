@@ -1,9 +1,9 @@
 import { CSSProperties, SVGProps, useState } from 'react';
-import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
+import { PartSelectionOrientation, TaskName, VehiclePart, VehicleType } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common/lib/theme/hooks';
 import { useInspectionReviewProvider } from '../../../hooks/useInspectionReviewProvider';
 import { useTabViews } from '../../../hooks/useTabViews';
-import { DamagedPartDetails, GalleryItem } from '../../../types';
+import type { DamagedPartDetails, GalleryItem } from '../../../types';
 
 /**
  * Enumeration of the different views available in the Exterior tab.
@@ -114,13 +114,21 @@ export function useExteriorTab(): TabExteriorState {
       setInitialGalleryItems(currentGalleryItems);
     }
 
-    const partGalleryItems = currentGalleryItems.filter(
-      (item) =>
-        item.parts?.some((p) => p.type === part) ||
-        item.image.detailedViewpoint?.centersOn?.includes(part),
-    );
-    const partCloseUps = partGalleryItems.filter((item) => !item.sight);
-    const sortedGalleryItemsWithoutCloseUps = [...partGalleryItems]
+    const filteredGalleryItems = currentGalleryItems.filter((item) => {
+      const isWheelAnalysis =
+        item.sight?.tasks.includes(TaskName.WHEEL_ANALYSIS) &&
+        String(item.sight?.wheelName) === String(part);
+      const containsPart = item.parts?.some((p) => p.type === part);
+      const centersOnPart = item.image.detailedViewpoint?.centersOn?.includes(part);
+
+      if (isWheelAnalysis || containsPart || centersOnPart) {
+        return true;
+      }
+
+      return false;
+    });
+    const partCloseUps = filteredGalleryItems.filter((item) => !item.sight);
+    const sortedGalleryItemsWithoutCloseUps = [...filteredGalleryItems]
       .filter((item) => item.sight)
       .sort((a, b) => b.totalPolygonArea - a.totalPolygonArea);
 
@@ -161,7 +169,7 @@ export function useExteriorTab(): TabExteriorState {
 
     if (needsPricing) {
       fillColor = 'lightgray';
-    } else if (detailedPart?.isDamaged) {
+    } else if (detailedPart?.isDamaged || detailedPart.pricing !== undefined) {
       Object.values(availablePricings).forEach((pricingValue) => {
         if (
           detailedPart.pricing !== undefined &&
