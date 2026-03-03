@@ -1,3 +1,41 @@
 {
-  "test": "test en"
+  "tabs": {
+    "exterior": {
+      "label": "Exterior",
+      "pricings": {
+        "needsPricing": "Needs Pricing"
+      },
+      "addDamage": {
+        "title": "This part is damaged",
+        "listTitle": "Damages",
+        "priceLabel": "Price"
+      }
+    },
+    "interior": {
+      "label": "Interior/Tire",
+      "area": "Area",
+      "areaPlaceholder": "Input area",
+      "damageTypes": "Damage Types",
+      "damageTypesPlaceholder": "Input Damage types",
+      "deduction": "Deduction",
+      "deductionPlaceholder": "0",
+      "addDamageButton": "ADD DAMAGE"
+    },
+    "actionButtons": {
+      "done": "DONE",
+      "cancel": "CANCEL"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "DOWNLOAD PICTURES",
+    "generatePdf": "GENERATE PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Show Damages",
+      "hideDamages": "Hide Damages",
+      "closeSpotlight": "Close current image",
+      "changeImage": "Change image"
+    }
+  }
 }
