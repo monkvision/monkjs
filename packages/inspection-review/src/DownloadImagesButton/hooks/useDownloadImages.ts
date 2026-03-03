@@ -1,6 +1,6 @@
 import { useLoadingState, useObjectMemo } from '@monkvision/common';
 import { DownloadImagesButtonProps } from '../../types/download-images.types';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 
 /**
  * State and handlers for downloading images.
@@ -20,7 +20,7 @@ export interface DownloadImagesState {
  * State and handlers for downloading images.
  */
 export function useDownloadImages(props: DownloadImagesButtonProps): DownloadImagesState {
-  const { allGalleryItems } = useInspectionReviewState();
+  const { allGalleryItems } = useInspectionReviewProvider();
   const loading = useLoadingState();
 
   const defaultDownloadImages = () => {
