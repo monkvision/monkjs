@@ -7,32 +7,22 @@ import {
 import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
-import { CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
+import type { BaseVideoCaptureConfig, VideoCaptureHybridConfig } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
+import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
 import { useFastMovementsDetection } from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
+import { PhotoCapture, PhotoCaptureProps } from '../PhotoCapture/PhotoCapture';
+import useHybridVideoState from './hooks/useHybridVideoState';
 
 /**
- * Props of the VideoCapture component.
+ * Base props shared by all VideoCapture configurations.
  */
-export interface VideoCaptureProps
-  extends Pick<
-    VideoCaptureAppConfig,
-    | keyof CameraConfig
-    | 'additionalTasks'
-    | 'startTasksOnComplete'
-    | 'enforceOrientation'
-    | 'minRecordingDuration'
-    | 'maxRetryCount'
-    | 'enableFastWalkingWarning'
-    | 'enablePhoneShakingWarning'
-    | 'fastWalkingWarningCooldown'
-    | 'phoneShakingWarningCooldown'
-  > {
+export interface BaseVideoCaptureProps {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -43,7 +33,7 @@ export interface VideoCaptureProps
    */
   apiConfig: MonkApiConfig;
   /**
-   * Callback called when the inspection is complete.
+   * Callback called when the inspection is complete (after all workflows are finished).
    */
   onComplete?: () => void;
   /**
@@ -52,30 +42,48 @@ export interface VideoCaptureProps
    * @default en
    */
   lang?: string | null;
+  /**
+   * Callback called after a picture is taken. Hybrid mode only.
+   */
+  onPictureTaken?: PhotoCaptureProps['onPictureTaken'];
 }
+
+/**
+ * Props of the VideoCapture component.
+ */
+export type VideoCaptureProps = BaseVideoCaptureProps & BaseVideoCaptureConfig;
+
+/**
+ * Props of the VideoCapture component when photo capture is enabled (hybrid mode).
+ */
+export type HybridVideoProps = BaseVideoCaptureProps & VideoCaptureHybridConfig;
 
 enum VideoCaptureScreen {
   PERMISSIONS = 'permissions',
   TUTORIAL = 'tutorial',
   CAPTURE = 'capture',
+  VEHICLE_SELECTION = 'vehicle-selection',
+  PHOTO_CAPTURE = 'photo-capture',
 }
 
 // No ts-doc for this component : the component exported is VideoCaptureHOC
-export function VideoCapture({
-  inspectionId,
-  apiConfig,
-  additionalTasks,
-  startTasksOnComplete,
-  enforceOrientation,
-  minRecordingDuration = 15000,
-  maxRetryCount = 3,
-  enableFastWalkingWarning = true,
-  enablePhoneShakingWarning = false,
-  fastWalkingWarningCooldown = 1000,
-  phoneShakingWarningCooldown = 1000,
-  onComplete,
-  lang,
-}: VideoCaptureProps) {
+export function VideoCapture(props: VideoCaptureProps) {
+  const {
+    inspectionId,
+    apiConfig,
+    additionalTasks,
+    startTasksOnComplete,
+    enforceOrientation,
+    minRecordingDuration = 15000,
+    maxRetryCount = 3,
+    enableFastWalkingWarning = true,
+    enablePhoneShakingWarning = false,
+    fastWalkingWarningCooldown = 1000,
+    phoneShakingWarningCooldown = 1000,
+    onComplete,
+    lang,
+  } = props;
+
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
@@ -99,20 +107,25 @@ export function VideoCapture({
     loading: startTasksLoading,
   });
   const { allowRedirect } = usePreventExit(true);
+  const { enablePhotoCapture, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
 
-  const handleComplete = () => {
-    startTasks()
-      .then(() => {
-        allowRedirect();
-        onComplete?.();
-      })
-      .catch((err) => {
-        startTasksLoading.onError(err);
-        handleError(err);
-      });
+  const handleVideoCaptureComplete = () => {
+    if (enablePhotoCapture) {
+      setScreen(VideoCaptureScreen.VEHICLE_SELECTION);
+    } else {
+      startTasks()
+        .then(() => {
+          allowRedirect();
+          onComplete?.();
+        })
+        .catch((err) => {
+          startTasksLoading.onError(err);
+          handleError(err);
+        });
+    }
   };
 
-  const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
+  const videoCaptureHudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
     inspectionId,
     maxRetryCount,
     apiConfig,
@@ -124,7 +137,7 @@ export function VideoCapture({
     fastMovementsWarning,
     onWarningDismiss,
     startTasksLoading,
-    onComplete: handleComplete,
+    onComplete: handleVideoCaptureComplete,
   };
 
   return (
@@ -142,7 +155,21 @@ export function VideoCapture({
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
-        <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
+        <Camera HUDComponent={VideoCaptureHUD} hudProps={videoCaptureHudProps} />
+      )}
+      {screen === VideoCaptureScreen.VEHICLE_SELECTION && enablePhotoCapture && (
+        <VehicleTypeSelection
+          onSelectVehicleType={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
+          selectedVehicleType={photoCaptureConfig?.vehicleType}
+          lang={lang ?? ''}
+          inspectionId={inspectionId ?? ''}
+          authToken={apiConfig.authToken ?? ''}
+          apiDomain={apiConfig.apiDomain}
+          thumbnailDomain={apiConfig.thumbnailDomain}
+        />
+      )}
+      {screen === VideoCaptureScreen.PHOTO_CAPTURE && photoCaptureConfig && (
+        <PhotoCapture {...photoCaptureConfig} />
       )}
     </div>
   );
