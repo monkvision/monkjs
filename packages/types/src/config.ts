@@ -416,6 +416,13 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         enablePhotoCapture: true;
         /**
+         * Enforces PhotoCapture's orientation in Hybrid Video mode.
+         *
+         * If not provided, defaults to the value of `enforceOrientation` if it is provided, otherwise, will not be
+         * enforced at all.
+         */
+        enforcePhotoCaptureOrientation?: DeviceOrientation;
+        /**
          * The default vehicle type used if no vehicle type is defined.
          */
         defaultVehicleType: VehicleType;

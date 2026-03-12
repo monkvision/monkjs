@@ -33,6 +33,7 @@
     "monk_core_api:inspections:write"
   ],
 
+  "enforcePhotoCaptureOrientation": "landscape",
   "enableCompliance": true,
   "useLiveCompliance": true,
   "complianceIssues": [
