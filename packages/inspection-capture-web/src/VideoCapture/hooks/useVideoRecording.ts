@@ -145,7 +145,7 @@ export function useVideoRecording({
       }
       return true;
     });
-  }, []);
+  }, [setIsRecording]);
 
   const resumeRecording = useCallback(() => {
     setIsRecordingPaused((isRecordingPausedValue) => {
@@ -155,7 +155,7 @@ export function useVideoRecording({
       }
       return false;
     });
-  }, []);
+  }, [setIsRecording]);
 
   const onClickRecordVideo = useCallback(() => {
     if (isRecording) {
@@ -183,6 +183,8 @@ export function useVideoRecording({
     walkaroundPosition,
     pauseRecording,
     onRecordingComplete,
+    setIsRecording,
+    startWalkaround,
   ]);
 
   const onDiscardDialogKeepRecording = useCallback(() => {
@@ -196,7 +198,7 @@ export function useVideoRecording({
     setRecordingStartTimestamp(null);
     setIsRecording(false);
     setDiscardDialogDisplayed(false);
-  }, []);
+  }, [setIsRecording]);
 
   useInterval(
     () => {
@@ -215,7 +217,13 @@ export function useVideoRecording({
       setOrientationPause(false);
       resumeRecording();
     }
-  }, [isViolatingEnforcedOrientation, isRecording, orientationPause]);
+  }, [
+    isViolatingEnforcedOrientation,
+    isRecording,
+    orientationPause,
+    pauseRecording,
+    resumeRecording,
+  ]);
 
   useEffect(() => {
     if (isRecording) {
