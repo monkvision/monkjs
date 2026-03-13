@@ -35,14 +35,14 @@ function createBaseProps(): VideoCaptureProps {
     additionalTasks: [TaskName.DAMAGE_DETECTION],
     enforceOrientation: DeviceOrientation.PORTRAIT,
     startTasksOnComplete: true,
-    enablePhotoCapture: false,
+    enableHybridVideo: false,
   };
 }
 
 function createHybridPropsWithoutSteeringWheel(): HybridVideoProps {
   return {
     ...createBaseProps(),
-    enablePhotoCapture: true,
+    enableHybridVideo: true,
     defaultVehicleType: VehicleType.SEDAN,
     allowVehicleTypeSelection: false,
     enableSteeringWheelPosition: false,
@@ -77,7 +77,7 @@ function createHybridPropsWithoutSteeringWheel(): HybridVideoProps {
 function createHybridPropsWithSteeringWheel(): HybridVideoProps {
   return {
     ...createBaseProps(),
-    enablePhotoCapture: true,
+    enableHybridVideo: true,
     defaultVehicleType: VehicleType.SEDAN,
     allowVehicleTypeSelection: false,
     enableSteeringWheelPosition: true,
@@ -129,12 +129,12 @@ describe('useHybridVideoState hook', () => {
   });
 
   describe('when photo capture is disabled', () => {
-    it('should return enablePhotoCapture as false', () => {
+    it('should return enableHybridVideo as false', () => {
       const props = createBaseProps();
       const params = createParams(props);
       const { result, unmount } = renderHook(() => useHybridVideoState(params));
 
-      expect(result.current.enablePhotoCapture).toBe(false);
+      expect(result.current.enableHybridVideo).toBe(false);
       unmount();
     });
 
@@ -158,12 +158,12 @@ describe('useHybridVideoState hook', () => {
   });
 
   describe('when photo capture is enabled without steering wheel position', () => {
-    it('should return enablePhotoCapture as true', () => {
+    it('should return enableHybridVideo as true', () => {
       const props = createHybridPropsWithoutSteeringWheel();
       const params = createParams(props);
       const { result, unmount } = renderHook(() => useHybridVideoState(params));
 
-      expect(result.current.enablePhotoCapture).toBe(true);
+      expect(result.current.enableHybridVideo).toBe(true);
       unmount();
     });
 
@@ -237,12 +237,12 @@ describe('useHybridVideoState hook', () => {
   });
 
   describe('when photo capture is enabled with steering wheel position', () => {
-    it('should return enablePhotoCapture as true', () => {
+    it('should return enableHybridVideo as true', () => {
       const props = createHybridPropsWithSteeringWheel();
       const params = createParams(props);
       const { result, unmount } = renderHook(() => useHybridVideoState(params));
 
-      expect(result.current.enablePhotoCapture).toBe(true);
+      expect(result.current.enableHybridVideo).toBe(true);
       unmount();
     });
 
@@ -427,7 +427,7 @@ describe('useHybridVideoState hook', () => {
   });
 
   describe('memoization', () => {
-    it('should recompute photo capture sights when enablePhotoCapture changes', () => {
+    it('should recompute photo capture sights when enableHybridVideo changes', () => {
       const props = createBaseProps();
       const params = createParams(props);
       const { result, rerender, unmount } = renderHook(

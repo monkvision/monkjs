@@ -107,10 +107,10 @@ export function VideoCapture(props: VideoCaptureProps) {
     loading: startTasksLoading,
   });
   const { allowRedirect } = usePreventExit(true);
-  const { enablePhotoCapture, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
+  const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
 
   const handleVideoCaptureComplete = () => {
-    if (enablePhotoCapture) {
+    if (enableHybridVideo) {
       setScreen(VideoCaptureScreen.VEHICLE_SELECTION);
     } else {
       startTasks()
@@ -157,7 +157,7 @@ export function VideoCapture(props: VideoCaptureProps) {
       {screen === VideoCaptureScreen.CAPTURE && (
         <Camera HUDComponent={VideoCaptureHUD} hudProps={videoCaptureHudProps} />
       )}
-      {screen === VideoCaptureScreen.VEHICLE_SELECTION && enablePhotoCapture && (
+      {screen === VideoCaptureScreen.VEHICLE_SELECTION && enableHybridVideo && (
         <VehicleTypeSelection
           onSelectVehicleType={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
           selectedVehicleType={photoCaptureConfig?.vehicleType}

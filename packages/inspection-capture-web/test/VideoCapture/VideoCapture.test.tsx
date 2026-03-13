@@ -68,7 +68,7 @@ function createProps(): VideoCaptureProps {
 function createHybridProps(): HybridVideoProps {
   return {
     ...createProps(),
-    enablePhotoCapture: true,
+    enableHybridVideo: true,
     defaultVehicleType: VehicleType.SEDAN,
     allowVehicleTypeSelection: false,
     enableSteeringWheelPosition: false,
@@ -281,7 +281,7 @@ describe('VideoCapture component', () => {
   });
 
   describe('hybrid mode with photo capture', () => {
-    it('should not render VehicleTypeSelection when enablePhotoCapture is false', () => {
+    it('should not render VehicleTypeSelection when enableHybridVideo is false', () => {
       const props = createProps();
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -300,7 +300,7 @@ describe('VideoCapture component', () => {
       unmount();
     });
 
-    it('should not render PhotoCapture when enablePhotoCapture is false', () => {
+    it('should not render PhotoCapture when enableHybridVideo is false', () => {
       const props = createProps();
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -319,7 +319,7 @@ describe('VideoCapture component', () => {
       unmount();
     });
 
-    it('should not render VehicleTypeSelection when enablePhotoCapture is undefined', () => {
+    it('should not render VehicleTypeSelection when enableHybridVideo is undefined', () => {
       const props = createProps();
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -338,7 +338,7 @@ describe('VideoCapture component', () => {
       unmount();
     });
 
-    it('should not render PhotoCapture when enablePhotoCapture is undefined', () => {
+    it('should not render PhotoCapture when enableHybridVideo is undefined', () => {
       const props = createProps();
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -357,7 +357,7 @@ describe('VideoCapture component', () => {
       unmount();
     });
 
-    it('should render VehicleTypeSelection when enablePhotoCapture is true and video capture is complete', () => {
+    it('should render VehicleTypeSelection when enableHybridVideo is true and video capture is complete', () => {
       const props = createHybridProps();
       const { unmount } = render(<VideoCapture {...props} />);
 

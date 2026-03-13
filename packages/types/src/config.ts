@@ -365,7 +365,7 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          *
          * @default false
          */
-        enablePhotoCapture?: false;
+        enableHybridVideo?: false;
       }
     | ({
         /**
@@ -412,9 +412,9 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         phoneShakingWarningCooldown?: number;
         /**
-         * Boolean indicating if PhotoCapture should be enabled after VideoCapture completes (hybrid mode).
+         * Boolean indicating if PhotoCapture should be displayed once VideoCapture is done.
          */
-        enablePhotoCapture: true;
+        enableHybridVideo: true;
         /**
          * Enforces PhotoCapture's orientation in Hybrid Video mode.
          *
@@ -497,17 +497,17 @@ type OmitConfigFileProps<T> = Omit<
 export type BaseVideoCaptureConfig = OmitConfigFileProps<VideoCaptureAppConfig>;
 
 /**
- * VideoCapture configuration when photo capture is disabled (video-only mode).
+ * VideoCapture configuration.
  */
 export type VideoCaptureConfig = OmitConfigFileProps<
-  Extract<VideoCaptureAppConfig, { enablePhotoCapture?: false }>
+  Extract<VideoCaptureAppConfig, { enableHybridVideo?: false }>
 >;
 
 /**
- * VideoCapture configuration when photo capture is enabled (hybrid mode).
+ * VideoCapture configuration when hybrid video mode is enabled.
  */
 export type VideoCaptureHybridConfig = OmitConfigFileProps<
-  Extract<VideoCaptureAppConfig, { enablePhotoCapture: true }>
+  Extract<VideoCaptureAppConfig, { enableHybridVideo: true }>
 >;
 
 /**

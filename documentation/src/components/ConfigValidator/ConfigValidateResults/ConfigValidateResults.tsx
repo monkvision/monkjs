@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { PhotoLiveConfigSchema, VideoLiveConfigSchema } from '@site/src/utils';
 import clsx from 'clsx';
 import { CaptureWorkflow } from '@monkvision/types';
@@ -49,8 +49,8 @@ export function ConfigValidateResults({ config, captureType }: ConfigValidateRes
       {isValid && <div>Your webapp configuration is valid!</div>}
       {isInvalid && <div>Invalid webapp configuration :</div>}
       {isInvalid &&
-        errors.map((error) => (
-          <div id={error.message} className={styles['error-message']}>
+        errors.map((error, index) => (
+          <div key={index} id={error.message} className={styles['error-message']}>
             <div>{error.message}</div>
             <div className={styles['error-message-at']}>
               <span className={styles['label']}>At : </span>
