@@ -4,6 +4,20 @@ import { VehiclePart } from './part';
 import { TranslationObject } from '../i18n';
 
 /**
+ * Enumeration of the viewpoint that the models can detect.
+ */
+export enum Viewpoint {
+  FRONT = 'front',
+  FRONT_LEFT = 'front_left',
+  LEFT = 'left',
+  BACK_LEFT = 'back_left',
+  BACK = 'back',
+  BACK_RIGHT = 'back_right',
+  RIGHT = 'right',
+  FRONT_RIGHT = 'front_right',
+}
+
+/**
  * Additional data that can be added to an image when it has been uploaded.
  */
 export interface ImageAdditionalData extends AdditionalData {
@@ -31,6 +45,10 @@ export interface ImageAdditionalData extends AdditionalData {
    * the video, this value is equal to 0.
    */
   timestamp?: number;
+  /**
+   * Selected image for beauty shot extraction.
+   */
+  beautyShotViewpoint?: Viewpoint;
 }
 
 /**
@@ -88,7 +106,7 @@ export enum CentersOnElement {
 /**
  * Detailed information describing an inspection image context (where was the picture taken from etc.)
  */
-export interface Viewpoint {
+export interface ViewpointComponent {
   /**
    * Boolean indicating if the picture represents the exterior of a vehicle or not.
    */
@@ -531,7 +549,7 @@ export interface Image extends MonkEntity {
   /**
    * Additional information about the picture context (where this picture was taken from etc.).
    */
-  detailedViewpoint?: Viewpoint;
+  detailedViewpoint?: ViewpointComponent;
   /**
    * The IDs of the RenderedOutput entities created using this image.
    */
@@ -552,4 +570,14 @@ export interface Image extends MonkEntity {
    * The warning lights detected in the image.
    */
   warningLights?: WarningLights[];
+  /**
+   * Boolean indicating if the vehicle is fully visible within the image frame, as determined by the vehicle analysis
+   * compliance check.
+   */
+  isVehicleFullyInFrame?: boolean;
+  /**
+   * A map associating viewpoint labels to their confidence scores (between 0 and 1), as determined by the coverage
+   * analysis compliance check.
+   */
+  viewpointConfidences?: Record<Viewpoint, number>;
 }

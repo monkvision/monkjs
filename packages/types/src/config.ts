@@ -357,6 +357,20 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
    * @default 4000
    */
   phoneShakingWarningCooldown?: number;
+  /**
+   * Boolean indicating if the video tutorial should be enabled or not.
+   *
+   * @default true
+   */
+  enableVideoTutorial?: boolean;
+  /**
+   * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have the
+   * option to take pictures of the vehicle during the video capture process, and these pictures will be added to the
+   * inspection as normal images.
+   *
+   * @default false
+   */
+  enableHybridVideo?: boolean;
 };
 
 /**
