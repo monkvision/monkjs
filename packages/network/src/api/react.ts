@@ -184,5 +184,16 @@ export function useMonkApi(config: MonkApiConfig) {
      * @see GetPdfOptions
      */
     getPdf: reactify(MonkApi.getPdf, config, dispatch, handleError),
+    /**
+     * Update the additional data of an image.
+     *
+     * @param options The options of the request.
+     */
+    updateImageAdditionalData: reactify(
+      MonkApi.updateImageAdditionalData,
+      config,
+      dispatch,
+      handleError,
+    ),
   };
 }

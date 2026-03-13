@@ -5,7 +5,7 @@ import {
   getAllInspections,
   getAllInspectionsCount,
 } from './inspection';
-import { addImage, deleteImage } from './image';
+import { addImage, deleteImage, updateImageAdditionalData } from './image';
 import { startInspectionTasks, updateTaskStatus } from './task';
 import { getLiveConfig } from './liveConfigs';
 import { updateInspectionVehicle } from './vehicle';
@@ -36,4 +36,5 @@ export const MonkApi = {
   deleteDamage,
   uploadPdf,
   getPdf,
+  updateImageAdditionalData,
 };
