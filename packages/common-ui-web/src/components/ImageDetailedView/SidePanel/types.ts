@@ -156,8 +156,6 @@ export function useSidePanelStyles() {
     },
     getThumbnailStyle: (isSelected: boolean): CSSProperties => ({
       ...styles['thumbnail'],
-      // opacity: 0.9,
-      // border: isSelected ? `2px solid ${palette.text.white}` : '2px solid transparent',
       borderColor: isSelected ? palette.text.white : 'transparent',
     }),
   };

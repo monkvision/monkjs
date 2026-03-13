@@ -576,4 +576,164 @@ describe('useInspectionGalleryItems hook', () => {
 
     unmount();
   });
+
+  it('should handle multiple viewpoints and create beauty shots for each', () => {
+    const initialProps = createProps();
+    initialProps.captureMode = false;
+    (initialProps as any).enableBeautyShotExtraction = true;
+    const state = createEmptyMonkState();
+    state.images.push(
+      {
+        id: 'img-front',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.FRONT]: 0.9 },
+        isVehicleFullyInFrame: true,
+      } as unknown as Image,
+      {
+        id: 'img-back',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.BACK]: 0.85 },
+        isVehicleFullyInFrame: true,
+      } as unknown as Image,
+    );
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook(
+      (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+      { initialProps },
+    );
+
+    const frontBeauty = result.current.find(
+      (item) =>
+        !item.isAddDamage &&
+        item.isTaken &&
+        item.beautyShotCandidates?.view === Viewpoint.FRONT,
+    );
+    const backBeauty = result.current.find(
+      (item) =>
+        !item.isAddDamage &&
+        item.isTaken &&
+        item.beautyShotCandidates?.view === Viewpoint.BACK,
+    );
+    expect(frontBeauty).toBeDefined();
+    expect(backBeauty).toBeDefined();
+
+    unmount();
+  });
+
+  it('should not create a beauty shot for a viewpoint with no matching images', () => {
+    const initialProps = createProps();
+    initialProps.captureMode = false;
+    (initialProps as any).enableBeautyShotExtraction = true;
+    const state = createEmptyMonkState();
+    state.images.push({
+      id: 'img-front-only',
+      inspectionId: initialProps.inspectionId,
+      status: ImageStatus.SUCCESS,
+      viewpointConfidences: { [Viewpoint.FRONT]: 0.9 },
+      isVehicleFullyInFrame: true,
+    } as unknown as Image);
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook(
+      (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+      { initialProps },
+    );
+
+    const backBeauty = result.current.find(
+      (item) =>
+        !item.isAddDamage &&
+        item.isTaken &&
+        item.beautyShotCandidates?.view === Viewpoint.BACK,
+    );
+    expect(backBeauty).toBeUndefined();
+
+    unmount();
+  });
+
+  it('should fallback to highest confidence image when no image has isVehicleFullyInFrame', () => {
+    const initialProps = createProps();
+    initialProps.captureMode = false;
+    (initialProps as any).enableBeautyShotExtraction = true;
+    const state = createEmptyMonkState();
+    state.images.push(
+      {
+        id: 'low-conf',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.FRONT]: 0.4 },
+        isVehicleFullyInFrame: false,
+      } as unknown as Image,
+      {
+        id: 'high-conf',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.FRONT]: 0.9 },
+        isVehicleFullyInFrame: false,
+      } as unknown as Image,
+    );
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook(
+      (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+      { initialProps },
+    );
+
+    const frontBeauty = result.current.find(
+      (item) =>
+        !item.isAddDamage &&
+        item.isTaken &&
+        item.beautyShotCandidates?.view === Viewpoint.FRONT,
+    );
+    expect(frontBeauty).toBeDefined();
+    expect(!frontBeauty!.isAddDamage && frontBeauty!.isTaken && frontBeauty!.image.id).toBe(
+      'high-conf',
+    );
+
+    unmount();
+  });
+
+  it('should exclude the selected beauty shot image from candidates', () => {
+    const initialProps = createProps();
+    initialProps.captureMode = false;
+    (initialProps as any).enableBeautyShotExtraction = true;
+    const state = createEmptyMonkState();
+    state.images.push(
+      {
+        id: 'best-img',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.FRONT]: 0.95 },
+        isVehicleFullyInFrame: true,
+      } as unknown as Image,
+      {
+        id: 'other-img',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.SUCCESS,
+        viewpointConfidences: { [Viewpoint.FRONT]: 0.5 },
+        isVehicleFullyInFrame: false,
+      } as unknown as Image,
+    );
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount } = renderHook(
+      (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+      { initialProps },
+    );
+
+    const frontBeauty = result.current.find(
+      (item) =>
+        !item.isAddDamage &&
+        item.isTaken &&
+        item.beautyShotCandidates?.view === Viewpoint.FRONT,
+    );
+    expect(frontBeauty).toBeDefined();
+    const candidates = !frontBeauty!.isAddDamage && frontBeauty!.isTaken
+      ? frontBeauty!.beautyShotCandidates!.candidates
+      : [];
+    const selectedId = !frontBeauty!.isAddDamage && frontBeauty!.isTaken
+      ? frontBeauty!.image.id
+      : undefined;
+    expect(candidates.find((c) => c.id === selectedId)).toBeUndefined();
+
+    unmount();
+  });
 });

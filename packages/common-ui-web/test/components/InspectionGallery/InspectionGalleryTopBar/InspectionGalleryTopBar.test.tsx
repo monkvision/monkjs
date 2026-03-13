@@ -504,6 +504,21 @@ describe('InspectionGalleryTopBar component', () => {
     ).toEqual(true);
   });
 
+  it('should not display beauty shot filter pills when enableBeautyShotExtraction is falsy', () => {
+    const props = createProps();
+    props.captureMode = false;
+    props.enableBeautyShotExtraction = undefined;
+    const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+    const calls = (InspectionGalleryFilterPill as unknown as jest.Mock).mock.calls;
+    const beautyShotPill = calls.find(
+      ([callProps]: any) => callProps.label === 'topBar.beautyShotsFilter',
+    );
+    expect(beautyShotPill).toBeUndefined();
+
+    unmount();
+  });
+
   it('should correctly filter items with videoFilter callback', () => {
     const videoFilter = FILTERS_EXTRACT_BEAUTY_SHOTS.find(
       (f) => f.label === 'topBar.videoFilter',

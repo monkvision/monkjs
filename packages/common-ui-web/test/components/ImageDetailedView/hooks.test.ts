@@ -38,6 +38,15 @@ describe('useImageSelector hook', () => {
 
       unmount();
     });
+
+    it('should return false when alternativeImages is an empty array', () => {
+      const image = createImage('img-1');
+      const { result, unmount } = renderHook(() => useImageSelector(image, []));
+
+      expect(result.current.hasAlternatives).toBe(false);
+
+      unmount();
+    });
   });
 
   describe('images array', () => {
@@ -92,6 +101,42 @@ describe('useImageSelector hook', () => {
       unmount();
     });
 
+    it('should not throw when onImageSelected is undefined', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1')];
+      const { result, unmount } = renderHook(() =>
+        useImageSelector(image, alternatives, undefined),
+      );
+
+      expect(() => {
+        act(() => {
+          result.current.selectImage(1);
+        });
+      }).not.toThrow();
+
+      expect(result.current.selectedImage).toBe(alternatives[0]);
+
+      unmount();
+    });
+
+    it('should reset hasChanged to false when selecting back the original image', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1')];
+      const { result, unmount } = renderHook(() => useImageSelector(image, alternatives));
+
+      act(() => {
+        result.current.selectImage(1);
+      });
+      expect(result.current.hasChanged).toBe(true);
+
+      act(() => {
+        result.current.selectImage(0);
+      });
+      expect(result.current.hasChanged).toBe(false);
+
+      unmount();
+    });
+
     it('should set hasChanged to true when selecting a different image', () => {
       const image = createImage('img-1');
       const alternatives = [createImage('alt-1')];
@@ -110,6 +155,77 @@ describe('useImageSelector hook', () => {
   });
 
   describe('handleValidate', () => {
+    it('should not throw when onValidateAlternative is undefined', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1')];
+      const { result, unmount } = renderHook(() =>
+        useImageSelector(image, alternatives, undefined, undefined),
+      );
+
+      act(() => {
+        result.current.selectImage(1);
+      });
+
+      expect(() => {
+        act(() => {
+          result.current.handleValidate(alternatives[0], Viewpoint.FRONT);
+        });
+      }).not.toThrow();
+
+      expect(result.current.hasValidatedOnce).toBe(true);
+
+      unmount();
+    });
+
+    it('should not update validatedImage until handleValidate is called', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1')];
+      const { result, unmount } = renderHook(() => useImageSelector(image, alternatives));
+
+      act(() => {
+        result.current.selectImage(1);
+      });
+
+      expect(result.current.selectedImage).toBe(alternatives[0]);
+      expect(result.current.validatedImage).toBe(image);
+
+      act(() => {
+        result.current.handleValidate(alternatives[0], Viewpoint.FRONT);
+      });
+
+      expect(result.current.validatedImage).toBe(alternatives[0]);
+
+      unmount();
+    });
+
+    it('should update validatedImage correctly on multiple validate calls', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1'), createImage('alt-2')];
+      const { result, unmount } = renderHook(() => useImageSelector(image, alternatives));
+
+      act(() => {
+        result.current.selectImage(1);
+      });
+      act(() => {
+        result.current.handleValidate(alternatives[0], Viewpoint.FRONT);
+      });
+      expect(result.current.validatedImage).toBe(alternatives[0]);
+      expect(result.current.hasChanged).toBe(false);
+
+      act(() => {
+        result.current.selectImage(2);
+      });
+      expect(result.current.hasChanged).toBe(true);
+
+      act(() => {
+        result.current.handleValidate(alternatives[1], Viewpoint.FRONT);
+      });
+      expect(result.current.validatedImage).toBe(alternatives[1]);
+      expect(result.current.hasChanged).toBe(false);
+
+      unmount();
+    });
+
     it('should update state and call onValidateAlternative', () => {
       const image = createImage('img-1');
       const alternatives = [createImage('alt-1')];
@@ -178,6 +294,33 @@ describe('useImageSelector hook', () => {
 
       act(() => {
         jest.advanceTimersByTime(1000);
+      });
+      expect(result.current.showSuccessMessage).toBe(false);
+
+      unmount();
+    });
+
+    it('should keep showSuccessMessage true before 1000ms and reset after', () => {
+      const image = createImage('img-1');
+      const alternatives = [createImage('alt-1')];
+      const { result, unmount } = renderHook(() => useImageSelector(image, alternatives));
+
+      act(() => {
+        result.current.selectImage(1);
+      });
+
+      act(() => {
+        result.current.handleValidate(alternatives[0], Viewpoint.FRONT);
+      });
+      expect(result.current.showSuccessMessage).toBe(true);
+
+      act(() => {
+        jest.advanceTimersByTime(500);
+      });
+      expect(result.current.showSuccessMessage).toBe(true);
+
+      act(() => {
+        jest.advanceTimersByTime(500);
       });
       expect(result.current.showSuccessMessage).toBe(false);
 
