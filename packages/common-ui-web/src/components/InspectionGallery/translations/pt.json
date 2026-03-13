@@ -7,7 +7,10 @@
     "title": "Fotos",
     "retakeFilter": "Novas fotos",
     "approvedFilter": "Aprovado",
-    "completed": "Esta inspeção foi concluída."
+    "completed": "Esta inspeção foi concluída.",
+    "beautyShotsFilter": "Melhores fotos",
+    "videoFilter": "Vídeo",
+    "manualFilter": "Fotos manuais"
   },
   "list": {
     "empty": {

@@ -1,5 +1,11 @@
 import { useMemo } from 'react';
-import { changeAlpha, useMonkTheme, useObjectTranslation, useSightLabel } from '@monkvision/common';
+import {
+  changeAlpha,
+  useMonkTheme,
+  useObjectTranslation,
+  useSightLabel,
+  viewpointLabels,
+} from '@monkvision/common';
 import { labels, sights } from '@monkvision/sights';
 import { ImageStatus, InteractiveStatus } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +29,9 @@ export function useInspectionGalleryItemLabel(item: InspectionGalleryItem): stri
   }
   if (!item.isTaken) {
     return label(sights[item.sightId]);
+  }
+  if (item.beautyShotCandidates) {
+    return tObj(viewpointLabels[item.beautyShotCandidates.view]);
   }
   return item.image.label ? tObj(item.image.label) : '';
 }

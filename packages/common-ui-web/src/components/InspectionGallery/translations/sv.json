@@ -7,7 +7,10 @@
     "title": "Bilder",
     "retakeFilter": "Omtagningar",
     "approvedFilter": "Godkänt",
-    "completed": "Den här inspektionen är slutförd."
+    "completed": "Den här inspektionen är slutförd.",
+    "beautyShotsFilter": "Bästa bilder",
+    "videoFilter": "Video",
+    "manualFilter": "Manuella bilder"
   },
   "list": {
     "empty": {

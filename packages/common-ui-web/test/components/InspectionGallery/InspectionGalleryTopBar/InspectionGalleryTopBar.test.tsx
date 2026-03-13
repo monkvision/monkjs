@@ -16,6 +16,7 @@ import { Image, ImageStatus } from '@monkvision/types';
 import { Button } from '../../../../src';
 import { InspectionGalleryFilterPill } from '../../../../src/components/InspectionGallery/InspectionGalleryTopBar/InspectionGalleryFilterPill';
 import {
+  FILTERS_EXTRACT_BEAUTY_SHOTS,
   InspectionGalleryFilter,
   InspectionGalleryTopBar,
   InspectionGalleryTopBarProps,
@@ -420,5 +421,132 @@ describe('InspectionGalleryTopBar component', () => {
     render(<InspectionGalleryTopBar {...props} />);
     expect(Button).toHaveBeenCalledTimes(1);
     expect(screen.queryAllByText('topBar.submit')).toHaveLength(0);
+  });
+
+  it('should display filter pills when enableBeautyShotExtraction is true even without captureMode', () => {
+    const props = createProps();
+    props.captureMode = false;
+    props.enableBeautyShotExtraction = true;
+    const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+    expect(InspectionGalleryFilterPill).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should display beauty shot filter pills when enableBeautyShotExtraction is true', () => {
+    const props = createProps();
+    props.captureMode = false;
+    props.enableBeautyShotExtraction = true;
+    const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+    expectPropsOnChildMock(InspectionGalleryFilterPill, {
+      label: 'topBar.beautyShotsFilter',
+    });
+    expectPropsOnChildMock(InspectionGalleryFilterPill, {
+      label: 'topBar.manualFilter',
+    });
+    expectPropsOnChildMock(InspectionGalleryFilterPill, {
+      label: 'topBar.videoFilter',
+    });
+
+    unmount();
+  });
+
+  it('should correctly filter items with beautyShotsFilter callback', () => {
+    const beautyShotsFilter = FILTERS_EXTRACT_BEAUTY_SHOTS.find(
+      (f) => f.label === 'topBar.beautyShotsFilter',
+    );
+    expect(beautyShotsFilter).toBeDefined();
+    const { callback } = beautyShotsFilter as InspectionGalleryFilter;
+
+    expect(callback({ isAddDamage: true })).toEqual(false);
+    expect(callback({ isAddDamage: false, isTaken: false, sightId: 'test' })).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS } as Image,
+      }),
+    ).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS } as Image,
+        beautyShotCandidates: { view: 'front', candidates: [] },
+      } as any),
+    ).toEqual(true);
+  });
+
+  it('should correctly filter items with manualFilter callback', () => {
+    const manualFilter = FILTERS_EXTRACT_BEAUTY_SHOTS.find(
+      (f) => f.label === 'topBar.manualFilter',
+    );
+    expect(manualFilter).toBeDefined();
+    const { callback } = manualFilter as InspectionGalleryFilter;
+
+    expect(callback({ isAddDamage: true })).toEqual(false);
+    expect(callback({ isAddDamage: false, isTaken: false, sightId: 'test' })).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS } as Image,
+      }),
+    ).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS, additionalData: { sight_id: 'test-sight' } } as any,
+      }),
+    ).toEqual(true);
+  });
+
+  it('should correctly filter items with videoFilter callback', () => {
+    const videoFilter = FILTERS_EXTRACT_BEAUTY_SHOTS.find(
+      (f) => f.label === 'topBar.videoFilter',
+    );
+    expect(videoFilter).toBeDefined();
+    const { callback } = videoFilter as InspectionGalleryFilter;
+
+    expect(callback({ isAddDamage: true })).toEqual(false);
+    expect(callback({ isAddDamage: false, isTaken: false, sightId: 'test' })).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS } as Image,
+      }),
+    ).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: { status: ImageStatus.SUCCESS } as Image,
+        beautyShotCandidates: { view: 'front', candidates: [] },
+      } as any),
+    ).toEqual(false);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: {
+          status: ImageStatus.SUCCESS,
+          additionalData: { frame_index: 0 },
+        } as any,
+      }),
+    ).toEqual(true);
+    expect(
+      callback({
+        isAddDamage: false,
+        isTaken: true,
+        image: {
+          status: ImageStatus.SUCCESS,
+          additionalData: { frame_index: 5 },
+        } as any,
+      }),
+    ).toEqual(true);
   });
 });

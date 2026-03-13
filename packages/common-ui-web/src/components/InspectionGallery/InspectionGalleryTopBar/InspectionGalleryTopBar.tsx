@@ -19,6 +19,7 @@ export type InspectionGalleryTopBarProps = Pick<
   | 'onValidate'
   | 'validateButtonLabel'
   | 'isInspectionCompleted'
+  | 'enableBeautyShotExtraction'
 > & {
   items: InspectionGalleryItem[];
   currentFilter: InspectionGalleryFilter | null;
@@ -38,6 +39,25 @@ export const FILTERS: InspectionGalleryFilter[] = [
     label: 'topBar.approvedFilter',
     callback: (item) =>
       !item.isAddDamage && item.isTaken && item.image.status === ImageStatus.SUCCESS,
+  },
+];
+
+export const FILTERS_EXTRACT_BEAUTY_SHOTS: InspectionGalleryFilter[] = [
+  {
+    label: 'topBar.beautyShotsFilter',
+    callback: (item) => !item.isAddDamage && item.isTaken && !!item.beautyShotCandidates,
+  },
+  {
+    label: 'topBar.manualFilter',
+    callback: (item) => !item.isAddDamage && item.isTaken && !!item.image.additionalData?.sight_id,
+  },
+  {
+    label: 'topBar.videoFilter',
+    callback: (item) =>
+      !item.isAddDamage &&
+      item.isTaken &&
+      !item.beautyShotCandidates &&
+      item.image.additionalData?.frame_index !== undefined,
   },
 ];
 
@@ -73,17 +93,19 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
           />
         )}
         <div style={titleStyle}>{t('topBar.title')}</div>
-        {props.captureMode && (
+        {(props.captureMode || props.enableBeautyShotExtraction) && (
           <div style={pillContainerStyle}>
-            {FILTERS.map((filter) => (
-              <InspectionGalleryFilterPill
-                key={filter.label}
-                isSelected={props.currentFilter === filter}
-                label={t(filter.label)}
-                count={props.items.filter(filter.callback).length}
-                onClick={() => props.onUpdateFilter?.(filter)}
-              />
-            ))}
+            {(props.enableBeautyShotExtraction ? FILTERS_EXTRACT_BEAUTY_SHOTS : FILTERS).map(
+              (filter) => (
+                <InspectionGalleryFilterPill
+                  key={filter.label}
+                  isSelected={props.currentFilter === filter}
+                  label={t(filter.label)}
+                  count={props.items.filter(filter.callback).length}
+                  onClick={() => props.onUpdateFilter?.(filter)}
+                />
+              ),
+            )}
           </div>
         )}
       </div>
