@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { useObjectTranslation } from '@monkvision/common';
+import { useObjectTranslation, viewpointLabels } from '@monkvision/common';
 import {
   ImageDetailedViewOverlayProps,
   useRetakeOverlay,
@@ -17,6 +17,10 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
   const {
     mainContainerStyle,
     overlayDisplayStyle,
+    successMessageStyle,
+    tapMessageStyle,
+    viewpointTextStyle,
+    iconProps,
     complianceContainerStyle,
     complianceMessageContainerStyle,
     complianceIcon,
@@ -27,6 +31,23 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
     imageLabelStyle,
     imageLabelIcon,
   } = useImageDetailedViewOverlayStyles(props);
+
+  if (props.view) {
+    return (
+      <div style={mainContainerStyle}>
+        {props.showSuccessMessage && (
+          <div style={successMessageStyle}>
+            <Icon icon='check-circle' {...iconProps} />
+            {t('successful')}
+          </div>
+        )}
+        <div style={overlayDisplayStyle}>
+          <div style={tapMessageStyle}>{t('tap')}</div>
+          <div style={viewpointTextStyle}>{tObj(viewpointLabels[props.view])}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={mainContainerStyle}>
@@ -43,14 +64,16 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
               <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
             </div>
           </div>
-          <Button
-            style={complianceRetakeButton.style}
-            size={complianceRetakeButton.size}
-            primaryColor={retakeOverlay.buttonColor}
-            onClick={props.onRetake}
-          >
-            {t('retake')}
-          </Button>
+          {props.captureMode && (
+            <Button
+              style={complianceRetakeButton.style}
+              size={complianceRetakeButton.size}
+              primaryColor={retakeOverlay.buttonColor}
+              onClick={props.onRetake}
+            >
+              {t('retake')}
+            </Button>
+          )}
         </div>
         {props.image.label && (
           <div style={imageLabelStyle}>

@@ -1,3 +1,10 @@
 {
-  "retake": "Tag om"
+  "retake": "Tag om",
+  "tap": "Tryk på et miniaturebillede for at vælge det bedste billede",
+  "successful": "Tilføjet",
+  "sidepanel": {
+    "close": "Luk",
+    "retake": "Tag om",
+    "browse-shots": "Gennemse billeder"
+  }
 }

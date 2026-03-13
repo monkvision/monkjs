@@ -1,3 +1,10 @@
 {
-  "retake": "Wiederholen"
+  "retake": "Wiederholen",
+  "tap": "Tippen Sie auf ein Vorschaubild, um die beste Aufnahme auszuwählen",
+  "successful": "Erfolgreich hinzugefügt",
+  "sidepanel": {
+    "close": "Schließen",
+    "retake": "Wiederholen",
+    "browse-shots": "Aufnahmen durchsuchen"
+  }
 }

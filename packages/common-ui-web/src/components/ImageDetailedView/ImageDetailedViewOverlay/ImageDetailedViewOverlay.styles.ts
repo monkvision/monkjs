@@ -65,4 +65,25 @@ export const styles: Styles = {
   imageLabelIcon: {
     marginRight: 8,
   },
+  successMessage: {
+    position: 'absolute',
+    top: 20,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    padding: '8px 16px',
+    borderRadius: 8,
+    fontSize: 14,
+    zIndex: 10,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
+  },
+  tapMessage: {
+    padding: '8px 16px',
+    borderRadius: 16,
+  },
+  viewpointText: {
+    padding: '8px 12px',
+    borderRadius: 4,
+  },
 };

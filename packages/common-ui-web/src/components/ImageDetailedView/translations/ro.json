@@ -1,3 +1,10 @@
 {
-  "retake": "Refaceți fotografia"
+  "retake": "Refaceți fotografia",
+  "tap": "Atingeți o miniatură pentru a alege cea mai bună fotografie",
+  "successful": "Adăugat cu succes",
+  "sidepanel": {
+    "close": "Închide",
+    "retake": "Refaceți fotografia",
+    "browse-shots": "Răsfoiți fotografiile"
+  }
 }

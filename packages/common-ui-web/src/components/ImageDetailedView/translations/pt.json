@@ -1,3 +1,10 @@
 {
-  "retake": "Refazer"
+  "retake": "Refazer",
+  "tap": "Toque numa miniatura para escolher a melhor foto",
+  "successful": "Adicionado com sucesso",
+  "sidepanel": {
+    "close": "Fechar",
+    "retake": "Refazer",
+    "browse-shots": "Explorar fotos"
+  }
 }

@@ -1,3 +1,10 @@
 {
-  "retake": "Retake"
+  "retake": "Retake",
+  "tap": "Tap a thumbnail to choose the best shot",
+  "successful": "Successfully added",
+  "sidepanel": {
+    "close": "Close",
+    "retake": "Retake",
+    "browse-shots": "Browse shots"
+  }
 }

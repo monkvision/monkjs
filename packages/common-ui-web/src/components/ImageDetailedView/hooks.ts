@@ -1,6 +1,6 @@
-import { Image } from '@monkvision/types';
+import { Image, Viewpoint } from '@monkvision/types';
 import { changeAlpha, useMonkTheme, useResponsiveStyle } from '@monkvision/common';
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, useCallback, useEffect, useMemo, useState } from 'react';
 import { styles } from './ImageDetailedView.styles';
 
 /**
@@ -11,6 +11,22 @@ export type ImageDetailedViewProps = {
    * The image to display the details of.
    */
   image: Image;
+  /**
+   * The viewpoint associated with this image when used in beauty shot selection.
+   */
+  view?: Viewpoint;
+  /**
+   * Optional additional images displayed as thumbnails that the user can select.
+   */
+  alternativeImages?: Image[];
+  /**
+   * Callback called when the user selects a different image from the thumbnails.
+   */
+  onImageSelected?: (image: Image) => void;
+  /**
+   * Callback called when the user validates the selection of an alternative image as the new beauty shot.
+   */
+  onValidateAlternative?: (image: Image, view: Viewpoint) => void;
   /**
    * The language to be used by the component.
    *
@@ -83,9 +99,9 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     [palette],
   );
 
-  let rightContainerJustifyContent = 'start';
-  if (props.captureMode) {
-    rightContainerJustifyContent = props.showGalleryButton ? 'space-between' : 'end';
+  let rightContainerJustifyContent = 'space-between';
+  if (props.captureMode && !props.showGalleryButton) {
+    rightContainerJustifyContent = 'end';
   }
 
   return {
@@ -99,8 +115,8 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
     overlayContainerStyle: styles['overlayContainer'],
     rightContainerStyle: {
       ...styles['rightContainer'],
-      ...responsive(styles['rightContainerSmall']),
       justifyContent: rightContainerJustifyContent,
+      ...responsive(styles['rightContainerSmall']),
     },
     closeButton: {
       primaryColor: colors.darkButtonBackground,
@@ -118,5 +134,67 @@ export function useImageDetailedViewStyles(props: ImageDetailedViewProps) {
         visibility: props.captureMode && (props.showCaptureButton ?? true) ? 'visible' : 'hidden',
       } as CSSProperties,
     },
+  };
+}
+
+/**
+ * Hook managing the image selection and validation state when alternative images are available.
+ * Tracks two separate states:
+ * - **selected**: The image the user is currently previewing (highlighted thumbnail border).
+ * - **validated**: The image confirmed as the beauty shot (✓ badge). Only changes on validate.
+ */
+export function useImageSelector(
+  image: Image,
+  alternativeImages?: Image[],
+  onImageSelected?: (image: Image) => void,
+  onValidateAlternative?: (image: Image, view: Viewpoint) => void,
+) {
+  const images = [image, ...(alternativeImages?.slice(0, 3) ?? [])];
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [validatedIndex, setValidatedIndex] = useState(0);
+  const [showThumbnails, setShowThumbnails] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [hasValidatedOnce, setHasValidatedOnce] = useState(false);
+
+  const selectedImage = images[selectedIndex] ?? images[0];
+  const validatedImage = images[validatedIndex] ?? images[0];
+  const hasChanged = selectedIndex !== validatedIndex;
+  const hasAlternatives = (alternativeImages?.length ?? 0) > 0;
+
+  const selectImage = (index: number) => {
+    setSelectedIndex(index);
+    onImageSelected?.(images[index]);
+  };
+
+  useEffect(() => {
+    if (!showSuccessMessage) {
+      return undefined;
+    }
+    const timer = setTimeout(() => setShowSuccessMessage(false), 1000);
+    return () => clearTimeout(timer);
+  }, [showSuccessMessage]);
+
+  const handleValidate = useCallback(
+    (img: Image, view: Viewpoint) => {
+      setValidatedIndex(selectedIndex);
+      setHasValidatedOnce(true);
+      onValidateAlternative?.(img, view);
+      setShowSuccessMessage(true);
+    },
+    [selectedIndex, onValidateAlternative],
+  );
+
+  return {
+    selectedImage,
+    validatedImage,
+    hasChanged,
+    hasAlternatives,
+    hasValidatedOnce,
+    selectImage,
+    images,
+    showThumbnails,
+    setShowThumbnails,
+    showSuccessMessage,
+    handleValidate,
   };
 }
