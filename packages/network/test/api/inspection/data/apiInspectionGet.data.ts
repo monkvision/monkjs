@@ -105,6 +105,10 @@ export default {
           fr: 'Arrière Gauche Latéral - vue basse',
         },
       },
+      isVehicleFullyInFrame: undefined,
+      odometer: undefined,
+      viewpointConfidences: undefined,
+      warningLights: undefined,
     },
     {
       id: 'a842f4bf-5404-215b-a828-56c053220d1c',
@@ -161,6 +165,10 @@ export default {
           fr: 'Capot',
         },
       },
+      isVehicleFullyInFrame: undefined,
+      odometer: undefined,
+      viewpointConfidences: { front_left: 1 },
+      warningLights: undefined,
     },
     {
       id: '8ad728c4-90ee-7983-8abd-8abb97c855c4',
@@ -205,6 +213,10 @@ export default {
           fr: 'Toit',
         },
       },
+      isVehicleFullyInFrame: undefined,
+      odometer: undefined,
+      viewpointConfidences: undefined,
+      warningLights: undefined,
     },
   ],
   inspections: [
@@ -267,6 +279,7 @@ export default {
         'fed5af09-1e6d-0aac-febf-0d76194b3256',
         'b5d64933-4bce-9e9e-b5bc-eb4c4ce8a61c',
       ],
+      pdfUrl: undefined,
       additionalData: {
         damage_detection_version: 'v2',
         environment: {
@@ -956,6 +969,7 @@ export default {
       entityType: 'VEHICLE',
       brand: 'Toyota',
       model: 'Aygo',
+      serie: undefined,
       plate: '',
       vin: '1HGEJ8244YL06777',
       color: null,
