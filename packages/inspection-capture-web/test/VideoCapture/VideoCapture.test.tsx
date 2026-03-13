@@ -7,6 +7,7 @@ jest.mock('../../src/VideoCapture/hooks', () => ({
     fastMovementsWarning: FastMovementType.PHONE_SHAKING,
     onWarningDismiss: jest.fn(),
   })),
+  useGetInspection: jest.fn(),
 }));
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn(() => Promise.resolve())),
@@ -23,6 +24,7 @@ jest.mock('../../src/VideoCapture/VideoCaptureTutorial', () => ({
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
+import { InspectionGallery } from '@monkvision/common-ui-web';
 import { DeviceOrientation, TaskName } from '@monkvision/types';
 import { act, render, waitFor } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
@@ -231,10 +233,6 @@ describe('VideoCapture component', () => {
       onClose();
     });
 
-    const useStartTasksOnCompleteResult = (useStartTasksOnComplete as jest.Mock).mock.results;
-    const startTasks =
-      useStartTasksOnCompleteResult[useStartTasksOnCompleteResult.length - 1].value;
-
     expectPropsOnChildMock(Camera, {
       hudProps: expect.objectContaining({
         onComplete: expect.any(Function),
@@ -242,11 +240,24 @@ describe('VideoCapture component', () => {
     });
     const { onComplete } = (Camera as jest.Mock).mock.calls[0][0].hudProps;
 
-    expect(startTasks).not.toHaveBeenCalled();
     expect(props.onComplete).not.toHaveBeenCalled();
+
     act(() => {
       onComplete();
     });
+
+    expectPropsOnChildMock(InspectionGallery, {
+      onValidate: expect.any(Function),
+    });
+    const { onValidate } = (InspectionGallery as unknown as jest.Mock).mock.calls[0][0];
+
+    act(() => {
+      onValidate();
+    });
+
+    const useStartTasksOnCompleteResults = (useStartTasksOnComplete as jest.Mock).mock.results;
+    const startTasks =
+      useStartTasksOnCompleteResults[useStartTasksOnCompleteResults.length - 1].value;
 
     await waitFor(() => {
       expect(startTasks).toHaveBeenCalled();

@@ -163,6 +163,8 @@ Props
 | enablePhoneShakingWarning   | `boolean`                       | Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.                                                                                          |          | `true`                    |
 | fastWalkingWarningCooldown  | `number`                        | The duration (in milliseconds) to wait between fast walking warnings.                                                                                                                            |          | `4000`                    |
 | phoneShakingWarningCooldown | `number`                        | The duration (in milliseconds) to wait between phone shaking warnings.                                                                                                                           |          | `4000`                    |
+| enableVideoTutorial         | `boolean`                       | Boolean indicating if the video tutorial should be enabled or not.                                                                                                                               |          | `true`                    |
+| enableHybridVideo           | `boolean`                       | Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users can take pictures during the video capture process, and these pictures will be added to the inspection. |          | `false`                   |
 
 # DamageDisclosure
 
