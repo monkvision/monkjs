@@ -7,13 +7,14 @@ import {
 import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
-import { CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
+import { AddDamage, CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
+import { InspectionGallery } from '@monkvision/common-ui-web';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import { useFastMovementsDetection } from './hooks';
+import { useFastMovementsDetection, useGetInspection } from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 
 /**
@@ -32,6 +33,8 @@ export interface VideoCaptureProps
     | 'enablePhoneShakingWarning'
     | 'fastWalkingWarningCooldown'
     | 'phoneShakingWarningCooldown'
+    | 'enableVideoTutorial'
+    | 'enableHybridVideo'
   > {
   /**
    * The ID of the inspection to add the video frames to.
@@ -58,6 +61,7 @@ enum VideoCaptureScreen {
   PERMISSIONS = 'permissions',
   TUTORIAL = 'tutorial',
   CAPTURE = 'capture',
+  GALLERY = 'gallery',
 }
 
 // No ts-doc for this component : the component exported is VideoCaptureHOC
@@ -73,6 +77,8 @@ export function VideoCapture({
   enablePhoneShakingWarning = false,
   fastWalkingWarningCooldown = 1000,
   phoneShakingWarningCooldown = 1000,
+  enableVideoTutorial = true,
+  enableHybridVideo = false,
   onComplete,
   lang,
 }: VideoCaptureProps) {
@@ -89,6 +95,8 @@ export function VideoCapture({
       phoneShakingWarningCooldown,
     });
   const { alpha, requestCompassPermission } = useDeviceOrientation({ onDeviceOrientationEvent });
+  const inspectionLoading = useLoadingState();
+  useGetInspection({ inspectionId, apiConfig, loading: inspectionLoading });
   const startTasksLoading = useLoadingState();
 
   const startTasks = useStartTasksOnComplete({
@@ -100,7 +108,7 @@ export function VideoCapture({
   });
   const { allowRedirect } = usePreventExit(true);
 
-  const handleComplete = () => {
+  const handleInspectionCompleted = () => {
     startTasks()
       .then(() => {
         allowRedirect();
@@ -110,6 +118,14 @@ export function VideoCapture({
         startTasksLoading.onError(err);
         handleError(err);
       });
+  };
+
+  const handleVideoCaptureCompleted = () => {
+    setScreen(VideoCaptureScreen.GALLERY);
+  };
+
+  const handlePermissionsSuccess = () => {
+    setScreen(enableVideoTutorial ? VideoCaptureScreen.TUTORIAL : VideoCaptureScreen.CAPTURE);
   };
 
   const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
@@ -124,7 +140,7 @@ export function VideoCapture({
     fastMovementsWarning,
     onWarningDismiss,
     startTasksLoading,
-    onComplete: handleComplete,
+    onComplete: handleVideoCaptureCompleted,
   };
 
   return (
@@ -132,13 +148,28 @@ export function VideoCapture({
       {screen === VideoCaptureScreen.PERMISSIONS && (
         <VideoCapturePermissions
           requestCompassPermission={requestCompassPermission}
-          onSuccess={() => setScreen(VideoCaptureScreen.TUTORIAL)}
+          onSuccess={handlePermissionsSuccess}
         />
       )}
       {screen === VideoCaptureScreen.TUTORIAL && (
         <VideoCaptureTutorial
           enforceOrientation={enforceOrientation}
           onClose={() => setScreen(VideoCaptureScreen.CAPTURE)}
+        />
+      )}
+      {screen === VideoCaptureScreen.GALLERY && (
+        <InspectionGallery
+          inspectionId={inspectionId}
+          apiConfig={apiConfig}
+          captureMode={enableHybridVideo}
+          sights={[]}
+          lang={lang}
+          showBackButton={true}
+          enableBeautyShotExtraction={true}
+          onBack={() => setScreen(VideoCaptureScreen.CAPTURE)}
+          onValidate={handleInspectionCompleted}
+          addDamage={AddDamage.DISABLED}
+          isInspectionCompleted={false}
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (

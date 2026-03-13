@@ -40,6 +40,8 @@ const {
   getVehicleModel,
   getAspectRatio,
   MonkSearchParam,
+  viewpointLabels,
+  vehiclePartLabels,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -73,6 +75,8 @@ export = {
   getVehicleModel,
   getAspectRatio,
   MonkSearchParam,
+  viewpointLabels,
+  vehiclePartLabels,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

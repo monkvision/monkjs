@@ -1,3 +1,10 @@
 {
-  "retake": "Ta om"
+  "retake": "Ta om",
+  "tap": "Tryck på en miniatyr för att välja den bästa bilden",
+  "successful": "Tillagd",
+  "sidepanel": {
+    "close": "Stäng",
+    "retake": "Ta om",
+    "browse-shots": "Bläddra bland bilder"
+  }
 }

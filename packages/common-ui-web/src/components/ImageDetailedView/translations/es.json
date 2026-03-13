@@ -1,3 +1,10 @@
 {
-  "retake": "Volver a tomar"
+  "retake": "Volver a tomar",
+  "tap": "Toca una miniatura para elegir la mejor toma",
+  "successful": "Añadido con éxito",
+  "sidepanel": {
+    "close": "Cerrar",
+    "retake": "Volver a tomar",
+    "browse-shots": "Explorar tomas"
+  }
 }

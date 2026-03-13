@@ -43,6 +43,8 @@ import {
   AddVideoManualPhotoOptions,
   ImageUploadType,
   DeleteImageOptions,
+  updateImageAdditionalData,
+  UpdateImageAdditionalDataOptions,
 } from '../../../src/api/image';
 import { mapApiImage } from '../../../src/api/image/mappers';
 
@@ -155,6 +157,14 @@ function createDeleteImageOptions(): DeleteImageOptions {
   return {
     id: 'test-inspection-id',
     imageId: 'test-image-id',
+  };
+}
+
+function createUpdateImageAdditionalDataOptions(): UpdateImageAdditionalDataOptions {
+  return {
+    id: 'test-inspection-id',
+    imageId: 'test-image-id',
+    additionalData: { key1: 'value1', key2: 42 },
   };
 }
 
@@ -644,6 +654,65 @@ describe('Image requests', () => {
       const options = createDeleteImageOptions();
       const dispatch = jest.fn();
       await expect(deleteImage(options, apiConfig, dispatch)).rejects.toThrow(err);
+    });
+  });
+
+  describe('updateImageAdditionalData request', () => {
+    it('should make a PATCH request to the correct URL with the correct body', async () => {
+      const options = createUpdateImageAdditionalDataOptions();
+      const dispatch = jest.fn();
+      await updateImageAdditionalData(options, apiConfig, dispatch);
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      const kyOptions = getDefaultOptions(apiConfig);
+      expect(ky.patch).toHaveBeenCalledWith(
+        `inspections/${options.id}/images/${options.imageId}`,
+        expect.objectContaining({
+          ...kyOptions,
+          json: { additional_data: options.additionalData },
+        }),
+      );
+    });
+
+    it('should dispatch the correct action with the correct payload', async () => {
+      const options = createUpdateImageAdditionalDataOptions();
+      const dispatch = jest.fn();
+      await updateImageAdditionalData(options, apiConfig, dispatch);
+      const response = await (ky.patch as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.UPDATED_ONE_IMAGE_ADDITIONAL_DATA,
+        payload: {
+          inspectionId: options.id,
+          imageId: body.id,
+          additionalData: options.additionalData,
+        },
+      });
+    });
+
+    it('should return the correct result shape', async () => {
+      const options = createUpdateImageAdditionalDataOptions();
+      const dispatch = jest.fn();
+      const result = await updateImageAdditionalData(options, apiConfig, dispatch);
+      const response = await (ky.patch as jest.Mock).mock.results[0].value;
+      const body = await response.json();
+
+      expect(result).toEqual({
+        id: body.id,
+        response,
+        body,
+      });
+    });
+
+    it('should throw an error if the request fails', async () => {
+      const err = new Error('test-patch-error');
+      jest.spyOn(ky, 'patch').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createUpdateImageAdditionalDataOptions();
+      const dispatch = jest.fn();
+      await expect(updateImageAdditionalData(options, apiConfig, dispatch)).rejects.toThrow(err);
     });
   });
 });

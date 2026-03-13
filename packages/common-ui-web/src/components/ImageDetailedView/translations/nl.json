@@ -1,3 +1,10 @@
 {
-  "retake": "Opnieuw nemen"
+  "retake": "Opnieuw nemen",
+  "tap": "Tik op een miniatuur om de beste opname te kiezen",
+  "successful": "Succesvol toegevoegd",
+  "sidepanel": {
+    "close": "Sluiten",
+    "retake": "Opnieuw nemen",
+    "browse-shots": "Opnames bekijken"
+  }
 }

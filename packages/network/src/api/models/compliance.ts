@@ -34,6 +34,8 @@ export interface ApiZoomLevelComplianceResult {
 
 export interface ApiVehicleAnalysis {
   is_vehicle_present: boolean;
+  vehicle_type: string;
+  vehicle_fully_in_frame?: boolean;
   wetness?: number;
   snowness?: number;
   dirtiness?: number;
@@ -57,6 +59,12 @@ export interface ApiImageAnalysis {
   lens_flare?: number;
 }
 
+export interface ApiCoverageAnalysis {
+  is_compliant_with_sight?: boolean;
+  compliance_issues?: string[];
+  probability_by_viewpoint?: Record<string, number>;
+}
+
 export interface ApiImageComplianceResults {
   compliance_status?: ApiImageComplianceStatus;
   coverage_360?: ApiComplianceResultBase;
@@ -66,4 +74,5 @@ export interface ApiImageComplianceResults {
   image_analysis?: ApiImageAnalysis;
   compliance_issues?: string[];
   should_retake?: boolean;
+  coverage_analysis?: ApiCoverageAnalysis;
 }

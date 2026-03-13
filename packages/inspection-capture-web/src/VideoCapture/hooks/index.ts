@@ -1,3 +1,4 @@
+export * from './useGetInspection';
 export * from './useVehicleWalkaround';
 export * from './useVideoRecording';
 export * from './useFrameSelection';

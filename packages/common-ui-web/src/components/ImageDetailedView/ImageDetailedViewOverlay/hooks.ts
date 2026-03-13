@@ -1,4 +1,4 @@
-import { ColorProp, Image, ImageStatus } from '@monkvision/types';
+import { ColorProp, Image, ImageStatus, Viewpoint } from '@monkvision/types';
 import {
   changeAlpha,
   useMonkTheme,
@@ -17,6 +17,11 @@ import { ButtonSize } from '../../Button';
 export interface ImageDetailedViewOverlayProps {
   image: Image;
   captureMode: boolean;
+  view?: Viewpoint;
+  isSelectingAlternative?: boolean;
+  showThumbnail?: boolean;
+  showSuccessMessage?: boolean;
+  hasValidatedOnce?: boolean;
   onRetake?: () => void;
 }
 
@@ -118,6 +123,7 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
   const dimensions = useWindowDimensions();
   const { responsive } = useResponsiveStyle();
   const { palette } = useMonkTheme();
+  const backgroundColor = changeAlpha(palette.surface.dark, 0.56);
 
   return {
     mainContainerStyle: {
@@ -127,6 +133,24 @@ export function useImageDetailedViewOverlayStyles(props: ImageDetailedViewOverla
     overlayDisplayStyle: {
       ...styles['overlayDisplay'],
       justifyContent: props.image.label ? 'space-between' : 'start',
+    },
+    successMessageStyle: {
+      ...styles['successMessage'],
+      backgroundColor,
+    },
+    tapMessageStyle: {
+      ...styles['tapMessage'],
+      opacity:
+        props.isSelectingAlternative && props.showThumbnail && !props.hasValidatedOnce ? 1 : 0,
+      backgroundColor,
+    },
+    viewpointTextStyle: {
+      ...styles['viewpointText'],
+      backgroundColor,
+    },
+    iconProps: {
+      size: 16,
+      primaryColor: palette.success.base,
     },
     complianceContainerStyle: {
       ...styles['complianceContainer'],

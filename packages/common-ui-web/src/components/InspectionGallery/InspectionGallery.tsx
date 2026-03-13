@@ -1,7 +1,13 @@
-import { i18nWrap, useI18nSync } from '@monkvision/common';
+import { i18nWrap, useI18nSync, useMonkState } from '@monkvision/common';
 import { useMemo, useState } from 'react';
-import { Image, ImageType } from '@monkvision/types';
-import { InspectionGalleryItem, InspectionGalleryProps, NavigateToCaptureReason } from './types';
+import { Image, ImageType, Viewpoint } from '@monkvision/types';
+import { useMonkApi } from '@monkvision/network';
+import {
+  InspectionGalleryItem,
+  InspectionGalleryProps,
+  NavigateToCaptureReason,
+  BeautyShotCandidates,
+} from './types';
 import {
   useInspectionGalleryEmptyLabel,
   useInspectionGalleryItems,
@@ -20,6 +26,9 @@ function getItemKey(item: InspectionGalleryItem): string {
   if (!item.isTaken) {
     return item.sightId;
   }
+  if (item.beautyShotCandidates) {
+    return item.beautyShotCandidates.view;
+  }
   return item.image.id;
 }
 
@@ -33,6 +42,8 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
 ) {
   useI18nSync(props.lang);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [selectedBeautyShotCandidates, setSelectedBeautyShotCandidates] =
+    useState<BeautyShotCandidates | null>(null);
   const items = useInspectionGalleryItems(props);
   const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(null);
   const filteredItems = useMemo(
@@ -46,6 +57,8 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
     captureMode: props.captureMode,
     isFilterActive: currentFilter !== null,
   });
+  const { state } = useMonkState();
+  const { updateAdditionalData } = useMonkApi(props.apiConfig);
 
   const handleItemClick = (item: InspectionGalleryItem) => {
     if (item.isAddDamage && props.captureMode) {
@@ -57,6 +70,9 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
       });
     } else if (!item.isAddDamage && item.isTaken) {
       setSelectedImage(item.image);
+      if (item.beautyShotCandidates?.candidates) {
+        setSelectedBeautyShotCandidates(item.beautyShotCandidates);
+      }
     }
   };
 
@@ -73,7 +89,28 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
     }
   };
 
-  const imageDetailedviewCaptureProps = props.captureMode
+  const handleValidateNewBeautyShot = (image: Image, view: Viewpoint) => {
+    try {
+      updateAdditionalData({
+        id: props.inspectionId,
+        callback: () => {
+          const addData = state.inspections.find(
+            (inspection) => inspection.id === props.inspectionId,
+          )?.additionalData?.['beauty_shots'] as Record<Viewpoint, string>;
+          return { beauty_shots: { ...addData, [view]: image.id } };
+        },
+      });
+    } catch (error) {
+      console.error('Failed to update beauty shot:', error);
+    }
+  };
+
+  const handleCloseImageDetailedView = () => {
+    setSelectedImage(null);
+    setSelectedBeautyShotCandidates(null);
+  };
+
+  const imageDetailedViewCaptureProps = props.captureMode
     ? {
         captureMode: true,
         showCaptureButton: true,
@@ -88,10 +125,13 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
       <ImageDetailedView
         lang={props.lang}
         image={selectedImage}
+        view={selectedBeautyShotCandidates?.view}
+        alternativeImages={selectedBeautyShotCandidates?.candidates}
         showGalleryButton={true}
-        onClose={() => setSelectedImage(null)}
-        onNavigateToGallery={() => setSelectedImage(null)}
-        {...imageDetailedviewCaptureProps}
+        onClose={handleCloseImageDetailedView}
+        onNavigateToGallery={handleCloseImageDetailedView}
+        onValidateAlternative={handleValidateNewBeautyShot}
+        {...imageDetailedViewCaptureProps}
       />
     );
   }
@@ -109,6 +149,7 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
         allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
         validateButtonLabel={props.validateButtonLabel}
         isInspectionCompleted={props.isInspectionCompleted}
+        enableBeautyShotExtraction={props.enableBeautyShotExtraction}
       />
       <div style={itemListStyle}>
         {filteredItems.length === 0 && <div style={emptyStyle}>{emptyLabel}</div>}

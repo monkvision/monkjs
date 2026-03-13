@@ -10,6 +10,11 @@ import {
   isUpdatedOnePricingAction,
   isUpdatedOneInspectionAdditionalDataAction,
   isUpdatedVehicleAction,
+  isCreatedOneDamageAction,
+  isDeletedOneDamageAction,
+  isGotOneInspectionPdfAction,
+  isDeletedOneImageAction,
+  isUpdatedOneImageAdditionalDataAction,
   MonkAction,
   resetState,
   updatedManyTasks,
@@ -19,13 +24,10 @@ import {
   updatedOneInspectionAdditionalData,
   updatedVehicle,
   createdOneDamage,
-  isCreatedOneDamageAction,
   deletedOneDamage,
-  isDeletedOneDamageAction,
-  isGotOneInspectionPdfAction,
   gotOneInspectionPdf,
   deletedOneImage,
-  isDeletedOneImageAction,
+  updatedOneImageAdditionalData,
 } from './actions';
 import { MonkState } from './state';
 
@@ -71,6 +73,9 @@ export function monkReducer(state: MonkState, action: MonkAction): MonkState {
   }
   if (isGotOneInspectionPdfAction(action)) {
     return gotOneInspectionPdf(state, action);
+  }
+  if (isUpdatedOneImageAdditionalDataAction(action)) {
+    return updatedOneImageAdditionalData(state, action);
   }
   return state;
 }
