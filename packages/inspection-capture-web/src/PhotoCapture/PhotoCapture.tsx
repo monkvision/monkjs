@@ -103,6 +103,11 @@ export interface PhotoCaptureProps
    */
   onPictureTaken?: (picture: MonkPicture) => void;
   /**
+   * Callback called when the user clicks on the gallery button.
+   * When this callback is provided, the gallery screen will be handled externally.
+   */
+  onGalleryPress?: () => void;
+  /**
    * The language to be used by this component.
    *
    * @default en
@@ -153,6 +158,7 @@ export function PhotoCapture({
   validateButtonLabel,
   vehicleType = VehicleType.SEDAN,
   autoDeletePreviousSightImages = true,
+  onGalleryPress,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -170,8 +176,12 @@ export function PhotoCapture({
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const handleOpenGallery = () => {
-    setCurrentScreen(PhotoCaptureScreen.GALLERY);
-    analytics.trackEvent('Gallery Opened');
+    if (onGalleryPress) {
+      onGalleryPress();
+    } else {
+      setCurrentScreen(PhotoCaptureScreen.GALLERY);
+      analytics.trackEvent('Gallery Opened');
+    }
   };
   const addDamageHandle = useAddDamageMode({
     addDamage,
@@ -194,7 +204,11 @@ export function PhotoCapture({
     loading,
   });
   const onLastSightTaken = () => {
-    setCurrentScreen(PhotoCaptureScreen.GALLERY);
+    if (onGalleryPress) {
+      onGalleryPress();
+    } else {
+      setCurrentScreen(PhotoCaptureScreen.GALLERY);
+    }
   };
   const { currentTutorialStep, goToNextTutorialStep, closeTutorial } = usePhotoCaptureTutorial({
     enableTutorial,

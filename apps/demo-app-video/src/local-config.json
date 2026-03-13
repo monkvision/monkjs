@@ -6,7 +6,7 @@
   "fetchFromSearchParams": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
-    "tasks": ["damage_detection"],
+    "tasks": ["damage_detection", "wheel_analysis"],
     "isVideoCapture": true
   },
   "apiDomain": "api.preview.monk.ai/v1",

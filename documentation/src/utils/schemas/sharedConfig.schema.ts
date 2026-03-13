@@ -17,6 +17,7 @@ const domainsByEnv = {
     thumbnail: [
       'api.preview.monk.ai/image_resize',
       'monk-us-image.gateway.staging.acvauctions.com/image_resize',
+      'europe-west1-monk-preview-321715.cloudfunctions.net/image_resize',
     ],
   },
   production: {
