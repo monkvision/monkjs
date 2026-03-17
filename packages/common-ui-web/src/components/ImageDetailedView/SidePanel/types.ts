@@ -1,8 +1,5 @@
-import { CSSProperties } from 'react';
-import { useMonkTheme, useResponsiveStyle } from '@monkvision/common';
 import { Image, Viewpoint } from '@monkvision/types';
 import { ImageDetailedViewProps } from '../hooks';
-import { styles } from '../ImageDetailedView.styles';
 
 /**
  * Props for the ThumbnailsPanel component.
@@ -134,29 +131,4 @@ export interface SidePanelProps {
    * The parent ImageDetailedView props, used to access callbacks and display state.
    */
   props: ImageDetailedViewProps;
-}
-
-/**
- * Hook that computes all styles for the SidePanel and its sub-components.
- */
-export function useSidePanelStyles() {
-  const { responsive } = useResponsiveStyle();
-  const { palette } = useMonkTheme();
-
-  return {
-    thumbnailListStyle: {
-      ...styles['thumbnailList'],
-      ...responsive(styles['thumbnailListSmall']),
-    },
-    thumbnailWrapperStyle: styles['thumbnailWrapper'],
-    selectedBadgeStyle: {
-      ...styles['selectedBadge'],
-      backgroundColor: palette.success.base,
-      color: palette.text.white,
-    },
-    getThumbnailStyle: (isSelected: boolean): CSSProperties => ({
-      ...styles['thumbnail'],
-      borderColor: isSelected ? palette.text.white : 'transparent',
-    }),
-  };
 }

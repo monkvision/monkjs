@@ -1,14 +1,8 @@
-import { i18nWrap, useI18nSync, useMonkState } from '@monkvision/common';
+import { i18nWrap, useI18nSync } from '@monkvision/common';
 import { useMemo, useState } from 'react';
-import { Image, ImageType, Viewpoint } from '@monkvision/types';
-import { useMonkApi } from '@monkvision/network';
+import { InspectionGalleryItem, InspectionGalleryProps } from './types';
 import {
-  InspectionGalleryItem,
-  InspectionGalleryProps,
-  NavigateToCaptureReason,
-  BeautyShotCandidates,
-} from './types';
-import {
+  useInspectionGalleryActions,
   useInspectionGalleryEmptyLabel,
   useInspectionGalleryItems,
   useInspectionGalleryStyles,
@@ -41,9 +35,6 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
   props: InspectionGalleryProps,
 ) {
   useI18nSync(props.lang);
-  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
-  const [selectedBeautyShotCandidates, setSelectedBeautyShotCandidates] =
-    useState<BeautyShotCandidates | null>(null);
   const items = useInspectionGalleryItems(props);
   const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(null);
   const filteredItems = useMemo(
@@ -57,68 +48,19 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
     captureMode: props.captureMode,
     isFilterActive: currentFilter !== null,
   });
-  const { state } = useMonkState();
-  const { updateAdditionalData } = useMonkApi(props.apiConfig);
-
-  const handleItemClick = (item: InspectionGalleryItem) => {
-    if (item.isAddDamage && props.captureMode) {
-      props.onNavigateToCapture?.({ reason: NavigateToCaptureReason.ADD_DAMAGE });
-    } else if (!item.isAddDamage && !item.isTaken && props.captureMode) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.CAPTURE_SIGHT,
-        sightId: item.sightId,
-      });
-    } else if (!item.isAddDamage && item.isTaken) {
-      setSelectedImage(item.image);
-      if (item.beautyShotCandidates?.candidates) {
-        setSelectedBeautyShotCandidates(item.beautyShotCandidates);
-      }
-    }
-  };
-
-  const handleRetakeImage = (image: Image | null) => {
-    if (props.captureMode && image?.sightId) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.RETAKE_PICTURE,
-        sightId: image.sightId,
-      });
-    } else if (props.captureMode && image?.type === ImageType.CLOSE_UP) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.ADD_DAMAGE,
-      });
-    }
-  };
-
-  const handleValidateNewBeautyShot = (image: Image, view: Viewpoint) => {
-    try {
-      updateAdditionalData({
-        id: props.inspectionId,
-        callback: () => {
-          const addData = state.inspections.find(
-            (inspection) => inspection.id === props.inspectionId,
-          )?.additionalData?.['beauty_shots'] as Record<Viewpoint, string>;
-          return { beauty_shots: { ...addData, [view]: image.id } };
-        },
-      });
-    } catch (error) {
-      console.error('Failed to update beauty shot:', error);
-    }
-  };
-
-  const handleCloseImageDetailedView = () => {
-    setSelectedImage(null);
-    setSelectedBeautyShotCandidates(null);
-  };
-
-  const imageDetailedViewCaptureProps = props.captureMode
-    ? {
-        captureMode: true,
-        showCaptureButton: true,
-        onNavigateToCapture: () =>
-          props.onNavigateToCapture?.({ reason: NavigateToCaptureReason.NONE }),
-        onRetake: () => handleRetakeImage(selectedImage),
-      }
-    : { captureMode: false };
+  const {
+    selectedImage,
+    selectedBeautyShotCandidates,
+    handleItemClick,
+    handleCloseImageDetailedView,
+    handleValidateNewBeautyShot,
+    imageDetailedViewCaptureProps,
+  } = useInspectionGalleryActions({
+    inspectionId: props.inspectionId,
+    apiConfig: props.apiConfig,
+    captureMode: props.captureMode,
+    onNavigateToCapture: props.captureMode ? props.onNavigateToCapture : undefined,
+  });
 
   if (selectedImage) {
     return (

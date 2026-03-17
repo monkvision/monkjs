@@ -5,8 +5,8 @@ import {
   AlternativesPanelProps,
   DefaultPanelProps,
   SidePanelProps,
-  useSidePanelStyles,
 } from './types';
+import { useSidePanelStyles } from './SidePanel.styles';
 
 /**
  * Panel displaying alternative image thumbnails in a scrollable list. The user can select a

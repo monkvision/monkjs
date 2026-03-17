@@ -1,3 +1,4 @@
+export * from './useInspectionGalleryActions';
 export * from './useInspectionGalleryItems';
 export * from './useInspectionGalleryStyles';
 export * from './useInspectionGalleryEmptyLabel';
