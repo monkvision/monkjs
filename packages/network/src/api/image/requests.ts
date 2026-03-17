@@ -6,8 +6,10 @@ import {
   MonkCreatedOneImageAction,
   vehiclePartLabels,
   MonkDeletedOneImageAction,
+  MonkUpdatedOneImageAdditionalDataAction,
 } from '@monkvision/common';
 import {
+  AdditionalData,
   ComplianceOptions,
   Image,
   ImageAdditionalData,
@@ -678,6 +680,55 @@ export async function deleteImage(
     };
   } catch (err) {
     console.error(`Failed to delete image: ${(err as Error).message}`);
+    throw err;
+  }
+}
+
+/**
+ * Options specified when updating an image from an inspection.
+ */
+export interface UpdateImageAdditionalDataOptions {
+  /**
+   * The ID of the inspection to update via the API.
+   */
+  id: string;
+  /**
+   * Image ID that will be updated.
+   */
+  imageId: string;
+  /**
+   * The additional data to update for the image.
+   */
+  additionalData: AdditionalData;
+}
+
+export async function updateImageAdditionalData(
+  options: UpdateImageAdditionalDataOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkUpdatedOneImageAdditionalDataAction>,
+): Promise<MonkApiResponse> {
+  const kyOptions = getDefaultOptions(config);
+  try {
+    const response = await ky.patch(`inspections/${options.id}/images/${options.imageId}`, {
+      ...kyOptions,
+      json: { additional_data: options.additionalData },
+    });
+    const body = await response.json<ApiIdColumn>();
+    dispatch?.({
+      type: MonkActionType.UPDATED_ONE_IMAGE_ADDITIONAL_DATA,
+      payload: {
+        inspectionId: options.id,
+        imageId: body.id,
+        additionalData: options.additionalData,
+      },
+    });
+    return {
+      id: body.id,
+      response,
+      body,
+    };
+  } catch (err) {
+    console.error(`Failed to update image additional data: ${(err as Error).message}`);
     throw err;
   }
 }

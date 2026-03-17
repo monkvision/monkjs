@@ -252,5 +252,7 @@ export function mapApiImage(
     views: [],
     odometer: image.odometer?.value,
     warningLights: image.warning_lights?.activated_warning_lights,
+    isVehicleFullyInFrame: image.compliances?.vehicle_analysis?.vehicle_fully_in_frame,
+    viewpointConfidences: image.compliances?.coverage_analysis?.probability_by_viewpoint,
   };
 }

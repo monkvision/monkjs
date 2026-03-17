@@ -9,6 +9,15 @@ jest.mock('../../src/api/api', () => ({
     deleteDamage: jest.fn(() => Promise.resolve({ test: 'deleteDamage' })),
     getAllInspections: jest.fn(() => Promise.resolve({ test: 'getAllInspections' })),
     getAllInspectionsCount: jest.fn(() => Promise.resolve({ test: 'getAllInspectionsCount' })),
+    addImage: jest.fn(() => Promise.resolve({ test: 'addImage' })),
+    deleteImage: jest.fn(() => Promise.resolve({ test: 'deleteImage' })),
+    updateInspectionVehicle: jest.fn(() => Promise.resolve({ test: 'updateInspectionVehicle' })),
+    updateAdditionalData: jest.fn(() => Promise.resolve({ test: 'updateAdditionalData' })),
+    uploadPdf: jest.fn(() => Promise.resolve({ test: 'uploadPdf' })),
+    getPdf: jest.fn(() => Promise.resolve({ test: 'getPdf' })),
+    updateImageAdditionalData: jest.fn(() =>
+      Promise.resolve({ test: 'updateImageAdditionalData' }),
+    ),
   },
 }));
 
@@ -104,6 +113,69 @@ describe('Monk API React utilities', () => {
       param = 'test-getAllInspections';
       resultMock = await (result.current.getAllInspections as any)(param);
       requestMock = MonkApi.getAllInspections as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-addImage';
+      resultMock = await (result.current.addImage as any)(param);
+      requestMock = MonkApi.addImage as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-deleteImage';
+      resultMock = await (result.current.deleteImage as any)(param);
+      requestMock = MonkApi.deleteImage as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-updateInspectionVehicle';
+      resultMock = await (result.current.updateInspectionVehicle as any)(param);
+      requestMock = MonkApi.updateInspectionVehicle as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-updateAdditionalData';
+      resultMock = await (result.current.updateAdditionalData as any)(param);
+      requestMock = MonkApi.updateAdditionalData as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-uploadPdf';
+      resultMock = await (result.current.uploadPdf as any)(param);
+      requestMock = MonkApi.uploadPdf as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-getPdf';
+      resultMock = await (result.current.getPdf as any)(param);
+      requestMock = MonkApi.getPdf as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-updateImageAdditionalData';
+      resultMock = await (result.current.updateImageAdditionalData as any)(param);
+      requestMock = MonkApi.updateImageAdditionalData as jest.Mock;
       expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
       requestResultMock = await requestMock.mock.results[0].value;
       expect(resultMock).toBe(requestResultMock);

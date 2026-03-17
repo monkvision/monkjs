@@ -1,8 +1,8 @@
 import { i18nWrap, useI18nSync } from '@monkvision/common';
 import { useMemo, useState } from 'react';
-import { Image, ImageType } from '@monkvision/types';
-import { InspectionGalleryItem, InspectionGalleryProps, NavigateToCaptureReason } from './types';
+import { InspectionGalleryItem, InspectionGalleryProps } from './types';
 import {
+  useInspectionGalleryActions,
   useInspectionGalleryEmptyLabel,
   useInspectionGalleryItems,
   useInspectionGalleryStyles,
@@ -20,6 +20,9 @@ function getItemKey(item: InspectionGalleryItem): string {
   if (!item.isTaken) {
     return item.sightId;
   }
+  if (item.beautyShotCandidates) {
+    return item.beautyShotCandidates.view;
+  }
   return item.image.id;
 }
 
@@ -32,7 +35,6 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
   props: InspectionGalleryProps,
 ) {
   useI18nSync(props.lang);
-  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const items = useInspectionGalleryItems(props);
   const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(null);
   const filteredItems = useMemo(
@@ -46,52 +48,32 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
     captureMode: props.captureMode,
     isFilterActive: currentFilter !== null,
   });
-
-  const handleItemClick = (item: InspectionGalleryItem) => {
-    if (item.isAddDamage && props.captureMode) {
-      props.onNavigateToCapture?.({ reason: NavigateToCaptureReason.ADD_DAMAGE });
-    } else if (!item.isAddDamage && !item.isTaken && props.captureMode) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.CAPTURE_SIGHT,
-        sightId: item.sightId,
-      });
-    } else if (!item.isAddDamage && item.isTaken) {
-      setSelectedImage(item.image);
-    }
-  };
-
-  const handleRetakeImage = (image: Image | null) => {
-    if (props.captureMode && image?.sightId) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.RETAKE_PICTURE,
-        sightId: image.sightId,
-      });
-    } else if (props.captureMode && image?.type === ImageType.CLOSE_UP) {
-      props.onNavigateToCapture?.({
-        reason: NavigateToCaptureReason.ADD_DAMAGE,
-      });
-    }
-  };
-
-  const imageDetailedviewCaptureProps = props.captureMode
-    ? {
-        captureMode: true,
-        showCaptureButton: true,
-        onNavigateToCapture: () =>
-          props.onNavigateToCapture?.({ reason: NavigateToCaptureReason.NONE }),
-        onRetake: () => handleRetakeImage(selectedImage),
-      }
-    : { captureMode: false };
+  const {
+    selectedImage,
+    selectedBeautyShotCandidates,
+    handleItemClick,
+    handleCloseImageDetailedView,
+    handleValidateNewBeautyShot,
+    imageDetailedViewCaptureProps,
+  } = useInspectionGalleryActions({
+    inspectionId: props.inspectionId,
+    apiConfig: props.apiConfig,
+    captureMode: props.captureMode,
+    onNavigateToCapture: props.captureMode ? props.onNavigateToCapture : undefined,
+  });
 
   if (selectedImage) {
     return (
       <ImageDetailedView
         lang={props.lang}
         image={selectedImage}
+        view={selectedBeautyShotCandidates?.view}
+        alternativeImages={selectedBeautyShotCandidates?.candidates}
         showGalleryButton={true}
-        onClose={() => setSelectedImage(null)}
-        onNavigateToGallery={() => setSelectedImage(null)}
-        {...imageDetailedviewCaptureProps}
+        onClose={handleCloseImageDetailedView}
+        onNavigateToGallery={handleCloseImageDetailedView}
+        onValidateAlternative={handleValidateNewBeautyShot}
+        {...imageDetailedViewCaptureProps}
       />
     );
   }
@@ -109,6 +91,7 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
         allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
         validateButtonLabel={props.validateButtonLabel}
         isInspectionCompleted={props.isInspectionCompleted}
+        enableBeautyShotExtraction={props.enableBeautyShotExtraction}
       />
       <div style={itemListStyle}>
         {filteredItems.length === 0 && <div style={emptyStyle}>{emptyLabel}</div>}

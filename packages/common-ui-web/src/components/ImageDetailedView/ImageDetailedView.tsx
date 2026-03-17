@@ -1,8 +1,9 @@
 import { i18nWrap, useI18nSync } from '@monkvision/common';
 import { i18nImageDetailedView } from './i18n';
-import { ImageDetailedViewProps, useImageDetailedViewStyles } from './hooks';
+import { ImageDetailedViewProps, useImageDetailedViewStyles, useImageSelector } from './hooks';
 import { Button } from '../Button';
 import { ImageDetailedViewOverlay } from './ImageDetailedViewOverlay';
+import { SidePanel } from './SidePanel';
 
 /**
  * This component is used to display the preview of an inspection image, as well as additional data such as its label
@@ -14,6 +15,25 @@ export const ImageDetailedView = i18nWrap(function ImageDetailedView(
 ) {
   useI18nSync(props.lang);
   const {
+    selectedImage,
+    validatedImage,
+    hasChanged,
+    hasAlternatives,
+    hasValidatedOnce,
+    selectImage,
+    images,
+    showThumbnails,
+    setShowThumbnails,
+    showSuccessMessage,
+    handleValidate,
+  } = useImageSelector(
+    props.image,
+    props.alternativeImages,
+    props.onImageSelected,
+    props.onValidateAlternative,
+  );
+
+  const {
     mainContainerStyle,
     leftContainerStyle,
     overlayContainerStyle,
@@ -21,7 +41,7 @@ export const ImageDetailedView = i18nWrap(function ImageDetailedView(
     closeButton,
     galleryButton,
     cameraButton,
-  } = useImageDetailedViewStyles(props);
+  } = useImageDetailedViewStyles({ ...props, image: selectedImage });
 
   return (
     <div style={mainContainerStyle}>
@@ -29,32 +49,37 @@ export const ImageDetailedView = i18nWrap(function ImageDetailedView(
         <Button
           onClick={props.onClose}
           icon='close'
-          size='small'
           primaryColor={closeButton.primaryColor}
           secondaryColor={closeButton.secondaryColor}
         />
       </div>
       <div style={overlayContainerStyle}>
         <ImageDetailedViewOverlay
-          image={props.image}
+          image={selectedImage}
+          view={props.view}
+          isSelectingAlternative={!hasChanged}
+          showThumbnail={showThumbnails}
+          showSuccessMessage={showSuccessMessage}
+          hasValidatedOnce={hasValidatedOnce}
           captureMode={props.captureMode}
           onRetake={props.captureMode ? props.onRetake : undefined}
         />
       </div>
       <div style={rightContainerStyle}>
-        <Button
-          disabled={!(props.showGalleryButton ?? true)}
-          onClick={props.onNavigateToGallery}
-          icon='gallery'
-          primaryColor={galleryButton.primaryColor}
-          secondaryColor={galleryButton.secondaryColor}
-          style={galleryButton.style}
-        />
-        <Button
-          disabled={!props.captureMode || !(props.showCaptureButton ?? true)}
-          onClick={props.captureMode ? props.onNavigateToCapture : undefined}
-          icon='camera-outline'
-          style={cameraButton.style}
+        <SidePanel
+          hasAlternatives={hasAlternatives}
+          showThumbnails={showThumbnails}
+          images={images}
+          view={props.view}
+          hasChanged={hasChanged}
+          selectedImage={selectedImage}
+          validatedImage={validatedImage}
+          closeButton={closeButton}
+          galleryButton={galleryButton}
+          cameraButton={cameraButton}
+          selectImage={selectImage}
+          setShowThumbnails={setShowThumbnails}
+          props={{ ...props, onValidateAlternative: handleValidate }}
         />
       </div>
     </div>

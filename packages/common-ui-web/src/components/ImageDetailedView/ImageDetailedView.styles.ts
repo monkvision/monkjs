@@ -33,11 +33,14 @@ export const styles: Styles = {
     flexDirection: 'column',
     alignItems: 'center',
     alignSelf: 'stretch',
-    padding: '32px 40px',
+    padding: '20px 10px',
+    width: '12%',
   },
   rightContainerSmall: {
     __media: { maxWidth: SMALL_WIDTH_BREAKPOINT },
     flexDirection: 'row',
     padding: '14px 40px',
+    justifyContent: 'space-between',
+    width: 'auto',
   },
 };

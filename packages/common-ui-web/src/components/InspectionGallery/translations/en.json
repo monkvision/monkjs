@@ -7,6 +7,9 @@
     "title": "Photos",
     "retakeFilter": "Retakes",
     "approvedFilter": "Approved",
+    "beautyShotsFilter": "Beauty Shots",
+    "videoFilter": "Video",
+    "manualFilter": "Manual Photos",
     "completed": "This inspection is completed"
   },
   "list": {

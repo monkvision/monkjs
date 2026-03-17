@@ -1,3 +1,10 @@
 {
-  "retake": "Powtórz zdjęcie"
+  "retake": "Powtórz zdjęcie",
+  "tap": "Dotknij miniaturę, aby wybrać najlepsze ujęcie",
+  "successful": "Dodano pomyślnie",
+  "sidepanel": {
+    "close": "Zamknij",
+    "retake": "Powtórz zdjęcie",
+    "browse-shots": "Przeglądaj ujęcia"
+  }
 }

@@ -7,7 +7,10 @@
     "title": "Billeder",
     "retakeFilter": "Gentagelser",
     "approvedFilter": "Godkendt",
-    "completed": "Denne inspektion er fuldført"
+    "completed": "Denne inspektion er fuldført",
+    "beautyShotsFilter": "Bedste billeder",
+    "videoFilter": "Video",
+    "manualFilter": "Manuelle billeder"
   },
   "list": {
     "empty": {

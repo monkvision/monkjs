@@ -29,7 +29,7 @@ import {
   useRetakeOverlay,
   useImageLabelIcon,
 } from '../../../../src/components/ImageDetailedView/ImageDetailedViewOverlay/hooks';
-import { Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, Viewpoint } from '@monkvision/types';
 import { Button, Icon } from '../../../../src';
 import { useObjectTranslation } from '@monkvision/common';
 
@@ -97,6 +97,70 @@ describe('ImageDetailedViewOverlay component', () => {
 
     expectPropsOnChildMock(Icon, { icon, primaryColor });
     expect(screen.queryByText(label)).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should render the beauty shot overlay when view is set', () => {
+    const props = createProps();
+    (props as any).view = Viewpoint.FRONT;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(useTranslation).toHaveBeenCalled();
+    const { t } = (useTranslation as jest.Mock).mock.results[0].value;
+    expect(t).toHaveBeenCalledWith('tap');
+    expect(screen.queryByText('tap')).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should render the success message with check-circle icon when view is set and showSuccessMessage is true', () => {
+    const props = createProps();
+    (props as any).view = Viewpoint.FRONT;
+    (props as any).showSuccessMessage = true;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(useTranslation).toHaveBeenCalled();
+    const { t } = (useTranslation as jest.Mock).mock.results[0].value;
+    expect(t).toHaveBeenCalledWith('successful');
+    expect(screen.queryByText('successful')).not.toBeNull();
+    expectPropsOnChildMock(Icon, { icon: 'check-circle' });
+
+    unmount();
+  });
+
+  it('should NOT render the success message when view is set and showSuccessMessage is false', () => {
+    const props = createProps();
+    (props as any).view = Viewpoint.FRONT;
+    (props as any).showSuccessMessage = false;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(screen.queryByText('successful')).toBeNull();
+
+    unmount();
+  });
+
+  it('should render the normal compliance overlay when view is NOT set', () => {
+    const title = 'compliance-title';
+    const description = 'compliance-description';
+    (isImageValid as jest.Mock).mockImplementationOnce(() => true);
+    (useRetakeOverlay as jest.Mock).mockImplementationOnce(() => ({ title, description }));
+    const props = createProps();
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(screen.queryByText(title)).not.toBeNull();
+    expect(screen.queryByText(description)).not.toBeNull();
+    expect(screen.queryByText('tap')).toBeNull();
+
+    unmount();
+  });
+
+  it('should NOT render the retake button when captureMode is false', () => {
+    const props = createProps();
+    props.captureMode = false;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(Button).not.toHaveBeenCalled();
 
     unmount();
   });

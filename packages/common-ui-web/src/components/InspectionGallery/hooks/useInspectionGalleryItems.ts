@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { AddDamage, ImageStatus, ImageType, Sight } from '@monkvision/types';
+import { AddDamage, ImageStatus, ImageType, Sight, Image, Viewpoint } from '@monkvision/types';
 import { getInspectionImages, MonkState, useMonkState } from '@monkvision/common';
 import { useInspectionPoll } from '@monkvision/network';
 import { InspectionGalleryItem, InspectionGalleryProps } from '../types';
@@ -29,11 +29,22 @@ function needsToBeRetaken(item: InspectionGalleryItem): boolean {
   );
 }
 
+function isVideoFrame(item: InspectionGalleryItem): boolean {
+  return !item.isAddDamage && item.isTaken && item.image.additionalData?.frame_index !== undefined;
+}
+
+function getFrameIndex(item: InspectionGalleryItem): number {
+  return !item.isAddDamage && item.isTaken
+    ? Number(item.image.additionalData?.frame_index ?? 0)
+    : 0;
+}
+
 /**
  * Compare function used to determine the order of the gallery items. The current order is :
  * 1 - Pictures that need to be retaken (if compliance is enabled), sorted by sight order
- * 2 - Taken or not taken pictures sorted by sight order
- * 3 - Additional pictures (Add Damage etc...)
+ * 2 - Non-video items sorted by sight order
+ * 3 - Video frames sorted by frame index
+ * 4 - Additional pictures (Add Damage etc.)
  */
 function compareGalleryItems(
   a: InspectionGalleryItem,
@@ -43,13 +54,67 @@ function compareGalleryItems(
 ): number {
   const aSightIndex = getSightSortIndex(a, inspectionSights);
   const bSightIndex = getSightSortIndex(b, inspectionSights);
+  const aIsVideo = isVideoFrame(a);
+  const bIsVideo = isVideoFrame(b);
   if (captureMode && needsToBeRetaken(a) && !needsToBeRetaken(b)) {
     return -1;
   }
   if (captureMode && !needsToBeRetaken(a) && needsToBeRetaken(b)) {
     return 1;
   }
+  if (aIsVideo !== bIsVideo) {
+    return aIsVideo ? 1 : -1;
+  }
+  if (aIsVideo && bIsVideo) {
+    return getFrameIndex(a) - getFrameIndex(b);
+  }
   return aSightIndex - bSightIndex;
+}
+
+/**
+ * Extracts beauty shot gallery items from a set of inspection images. For each viewpoint, this
+ * function finds the best representative image (either explicitly selected by the user via
+ * additional data, or the highest-confidence image where the vehicle is fully in frame) and
+ * groups remaining images as selectable candidates.
+ */
+function getBeautyShots(
+  images: Image[],
+  entities: MonkState,
+  inspectionId: string,
+): InspectionGalleryItem[] {
+  const viewOrder = Object.values(Viewpoint);
+  return viewOrder.reduce<InspectionGalleryItem[]>((result, view) => {
+    const filterByView = images
+      .filter((image) => image.viewpointConfidences?.[view] != null)
+      .sort(
+        (a, b) => (b.viewpointConfidences?.[view] ?? 0) - (a.viewpointConfidences?.[view] ?? 0),
+      );
+    const beautyShots = entities.inspections.find((inspection) => inspection.id === inspectionId)
+      ?.additionalData?.['beauty_shots'] as Record<Viewpoint, string> | undefined;
+
+    const explicit = images.find((image) => image.id === beautyShots?.[view]);
+    if (explicit) {
+      const candidates = filterByView.filter((image) => image.id !== explicit.id);
+      result.push({
+        isTaken: true,
+        isAddDamage: false,
+        beautyShotCandidates: { view, candidates },
+        image: explicit,
+      });
+      return result;
+    }
+    const best = filterByView.find((image) => image.isVehicleFullyInFrame) ?? filterByView[0];
+    if (best) {
+      const candidates = filterByView.filter((image) => image !== best);
+      result.push({
+        isTaken: true,
+        isAddDamage: false,
+        beautyShotCandidates: { view, candidates },
+        image: best,
+      });
+    }
+    return result;
+  }, []);
 }
 
 function getItems(
@@ -59,8 +124,12 @@ function getItems(
   inspectionSights?: Sight[],
   addDamage?: AddDamage,
   filterByImageType?: ImageType,
+  extractBeautyShots?: boolean,
 ): InspectionGalleryItem[] {
   const images = getInspectionImages(inspectionId, entities.images, filterByImageType, captureMode);
+  const beautyShotItems: InspectionGalleryItem[] = extractBeautyShots
+    ? getBeautyShots(images, entities, inspectionId)
+    : [];
   const items: InspectionGalleryItem[] = images.map((image) => ({
     isTaken: true,
     isAddDamage: false,
@@ -74,10 +143,14 @@ function getItems(
       items.push({ isTaken: false, isAddDamage: false, sightId: sight.id });
     }
   });
+  const sorted = [
+    ...beautyShotItems,
+    ...items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights)),
+  ];
   if (captureMode && addDamage !== AddDamage.DISABLED) {
-    items.push({ isAddDamage: true });
+    sorted.push({ isAddDamage: true });
   }
-  return items.sort((a, b) => compareGalleryItems(a, b, captureMode, inspectionSights));
+  return sorted;
 }
 
 function shouldContinueToFetch(items: InspectionGalleryItem[]): boolean {
@@ -102,6 +175,7 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
         inspectionSights,
         props.addDamage,
         props.filterByImageType,
+        props.enableBeautyShotExtraction,
       ),
     [
       props.inspectionId,
@@ -110,6 +184,7 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
       inspectionSights,
       props.addDamage,
       props.filterByImageType,
+      props.enableBeautyShotExtraction,
     ],
   );
   const shouldFetch = useMemo(() => shouldContinueToFetch(items), [items]);

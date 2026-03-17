@@ -1,4 +1,11 @@
-import { AddDamage, ComplianceOptions, Image, ImageType, Sight } from '@monkvision/types';
+import {
+  AddDamage,
+  ComplianceOptions,
+  Image,
+  ImageType,
+  Sight,
+  Viewpoint,
+} from '@monkvision/types';
 import { MonkApiConfig } from '@monkvision/network';
 
 /**
@@ -122,6 +129,15 @@ export type InspectionGalleryProps = {
    * @default false
    */
   isInspectionCompleted?: boolean;
+  /**
+   * Boolean indicating if the beauty shot extraction feature should be enabled.
+   * If true, users will be able to select a picture as a beauty shot and validate it as the main picture
+   * for the sight. This will update the additional data of the image with a `beauty_shot` field
+   * containing the selected view.
+   *
+   * @default false
+   */
+  enableBeautyShotExtraction?: boolean;
 } & (
   | ({
       /**
@@ -158,7 +174,21 @@ export type InspectionGalleryProps = {
     }
 );
 
+/**
+ * Represents a viewpoint and its associated candidate images for beauty shot selection.
+ */
+export type BeautyShotCandidates = { view: Viewpoint; candidates: Image[] };
+
 export type InspectionGalleryItem =
   | { isAddDamage: true }
-  | { isAddDamage: false; isTaken: true; image: Image }
+  | {
+      isAddDamage: false;
+      isTaken: true;
+      /**
+       * When present, indicates this item is a beauty shot with alternative candidate images that
+       * the user can browse and select from.
+       */
+      beautyShotCandidates?: BeautyShotCandidates;
+      image: Image;
+    }
   | { isAddDamage: false; isTaken: false; sightId: string };

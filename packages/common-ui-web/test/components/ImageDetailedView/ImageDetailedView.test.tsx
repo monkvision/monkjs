@@ -4,16 +4,20 @@ jest.mock('../../../src/components/Button', () => ({
 jest.mock('../../../src/components/ImageDetailedView/ImageDetailedViewOverlay', () => ({
   ImageDetailedViewOverlay: jest.fn(() => <></>),
 }));
+jest.mock('../../../src/components/ImageDetailedView/SidePanel', () => ({
+  SidePanel: jest.fn(() => <></>),
+}));
 
 import { render } from '@testing-library/react';
-import { Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, Viewpoint } from '@monkvision/types';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { Button, ImageDetailedView, ImageDetailedViewProps } from '../../../src';
 import { ImageDetailedViewOverlay } from '../../../src/components/ImageDetailedView/ImageDetailedViewOverlay';
+import { SidePanel } from '../../../src/components/ImageDetailedView/SidePanel';
 
 function createProps(): ImageDetailedViewProps {
   return {
-    image: { status: ImageStatus.SUCCESS } as Image,
+    image: { id: 'img-1', status: ImageStatus.SUCCESS } as Image,
     lang: 'de',
     showGalleryButton: true,
     onClose: jest.fn(),
@@ -61,41 +65,40 @@ describe('ImageDetailedView component', () => {
     unmount();
   });
 
-  it('should display a gallery button', () => {
+  it('should render the SidePanel component', () => {
     const props = createProps();
-    props.showGalleryButton = true;
     const { unmount } = render(<ImageDetailedView {...props} />);
 
-    expectPropsOnChildMock(Button, {
-      icon: 'gallery',
-      onClick: expect.any(Function),
-    });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls.find(
-      (args) => args[0].icon === 'gallery',
-    )[0];
-    expect(props.onNavigateToGallery).not.toHaveBeenCalled();
-    onClick();
-    expect(props.onNavigateToGallery).toHaveBeenCalled();
+    expect(SidePanel).toHaveBeenCalled();
 
     unmount();
   });
 
-  it('should display a capture button', () => {
+  it('should pass selectedImage to the overlay', () => {
     const props = createProps();
-    props.captureMode = true;
-    (props as any).showCaptureButton = true;
     const { unmount } = render(<ImageDetailedView {...props} />);
 
-    expectPropsOnChildMock(Button, {
-      icon: 'camera-outline',
-      onClick: expect.any(Function),
+    expectPropsOnChildMock(ImageDetailedViewOverlay, {
+      image: props.image,
     });
-    const { onClick } = (Button as unknown as jest.Mock).mock.calls.find(
-      (args) => args[0].icon === 'camera-outline',
-    )[0];
-    expect((props as any).onNavigateToCapture).not.toHaveBeenCalled();
-    onClick();
-    expect((props as any).onNavigateToCapture).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should pass beauty shot props to the overlay when view is set', () => {
+    const props = createProps();
+    (props as any).view = { id: 'view-1' } as Viewpoint;
+    const { unmount } = render(<ImageDetailedView {...props} />);
+
+    expectPropsOnChildMock(ImageDetailedViewOverlay, {
+      image: props.image,
+      view: (props as any).view,
+      isSelectingAlternative: expect.any(Boolean),
+      showThumbnail: expect.any(Boolean),
+      showSuccessMessage: expect.any(Boolean),
+      hasValidatedOnce: expect.any(Boolean),
+      captureMode: props.captureMode,
+    });
 
     unmount();
   });

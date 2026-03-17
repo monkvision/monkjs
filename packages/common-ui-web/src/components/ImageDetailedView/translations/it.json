@@ -1,3 +1,10 @@
 {
-  "retake": "Ripeti"
+  "retake": "Ripeti",
+  "tap": "Tocca una miniatura per scegliere lo scatto migliore",
+  "successful": "Aggiunto con successo",
+  "sidepanel": {
+    "close": "Chiudi",
+    "retake": "Ripeti",
+    "browse-shots": "Sfoglia gli scatti"
+  }
 }
