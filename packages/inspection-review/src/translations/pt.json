@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Exterior",
+      "pricings": {
+        "needsPricing": "Precisa de Preço"
+      },
+      "addDamage": {
+        "title": "Esta parte está danificada",
+        "listTitle": "Danos",
+        "priceLabel": "Preço"
+      }
+    },
+    "interior": {
+      "label": "Interior/Pneu",
+      "area": "Área",
+      "areaPlaceholder": "Inserir área",
+      "damageTypes": "Tipos de Danos",
+      "damageTypesPlaceholder": "Inserir tipos de danos",
+      "deduction": "Dedução",
+      "addDamageButton": "ADICIONAR DANO"
+    },
+    "actionButtons": {
+      "done": "CONCLUÍDO",
+      "cancel": "CANCELAR"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "BAIXAR IMAGENS",
+    "generatePdf": "GERAR PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Mostrar Danos",
+      "hideDamages": "Ocultar Danos",
+      "closeSpotlight": "Fechar imagem atual",
+      "changeImage": "Alterar imagem"
+    }
+  },
+  "errors": {
+    "inspectionId": "O ID de inspeção solicitado não foi encontrado no servidor. Se você digitou o ID manualmente, verifique a ortografia e tente novamente."
+  }
+}

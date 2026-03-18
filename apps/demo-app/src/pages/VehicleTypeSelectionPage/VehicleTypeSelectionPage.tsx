@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
-import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { useMonkAppState } from '@monkvision/common';
+import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { CaptureWorkflow } from '@monkvision/types';
 import { Page } from '../pages';
 

@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Exterior",
+      "pricings": {
+        "needsPricing": "Necesită preț"
+      },
+      "addDamage": {
+        "title": "Această parte este deteriorată",
+        "listTitle": "Daune",
+        "priceLabel": "Preț"
+      }
+    },
+    "interior": {
+      "label": "Interior/Anvelopă",
+      "area": "Zonă",
+      "areaPlaceholder": "Introduceți zona",
+      "damageTypes": "Tipuri de daune",
+      "damageTypesPlaceholder": "Introduceți tipurile de daune",
+      "deduction": "Deducere",
+      "addDamageButton": "ADĂUGAȚI DAUNĂ"
+    },
+    "actionButtons": {
+      "done": "TERMINAT",
+      "cancel": "ANULEAZĂ"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "DESCARCĂ IMAGINI",
+    "generatePdf": "GENEREAZĂ PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Arată daune",
+      "hideDamages": "Ascunde daune",
+      "closeSpotlight": "Închide imaginea curentă",
+      "changeImage": "Schimbă imaginea"
+    }
+  },
+  "errors": {
+    "inspectionId": "ID-ul inspecției solicitat nu a fost găsit pe server. Dacă ați introdus ID-ul manual, vă rugăm să verificați ortografia și să încercați din nou."
+  }
+}
