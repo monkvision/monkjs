@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Rapporter skade",
+    "description": "Legg til bilder av skader, som bulker, riper eller andre skader",
+    "button": "Legg til bilde av skade"
+  },
+  "capture": {
+    "title": "Start inspeksjon",
+    "description": "Ingen bulker eller riper? Gå rundt bilen og ta bilder.",
+    "button": "Ta bilde"
+  }
+}

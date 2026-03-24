@@ -6,6 +6,7 @@ import { TranslationObject, VehiclePart } from '@monkvision/types';
 export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   [VehiclePart.IGNORE]: {
     en: 'IGNORE',
+    no: 'Ignorer',
     ro: 'IGNORĂ',
     pl: 'IGNORUJ',
     da: 'IGNORER',
@@ -19,6 +20,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.BUMPER_BACK]: {
     en: 'Rear Bumper',
+    no: 'Bakre støtfanger',
     ro: 'Bara spate',
     pl: 'Tylny zderzak',
     da: 'Bagerste kofanger',
@@ -32,6 +34,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.BUMPER_FRONT]: {
     en: 'Front Bumper',
+    no: 'Foranfront',
     ro: 'Bara față',
     pl: 'Przedni zderzak',
     da: 'Forreste kofanger',
@@ -45,6 +48,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.DOOR_BACK_LEFT]: {
     en: 'Rear Door Left',
+    no: 'Venstre bakdør',
     ro: 'Ușa din spate, partea stângă',
     pl: 'Lewe drzwi tylne',
     da: 'Bagdør, venstre',
@@ -58,6 +62,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.DOOR_BACK_RIGHT]: {
     en: 'Rear Door Right',
+    no: 'Hakk bak, høyre',
     ro: 'Ușă spate dreapta',
     pl: 'Prawy tylny drzwi',
     da: 'Højre bagdør',
@@ -71,6 +76,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.DOOR_FRONT_LEFT]: {
     en: 'Front Door Left',
+    no: 'Venstre dør, for',
     ro: 'Ușă față, partea stângă',
     pl: 'Lewe drzwi przednie',
     da: 'Venstre fordør',
@@ -84,6 +90,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.DOOR_FRONT_RIGHT]: {
     en: 'Front Door Right',
+    no: 'Høyre framdør',
     ro: 'Ușă față, partea dreaptă',
     pl: 'Prawy przedni drzwi',
     da: 'Højre fordør',
@@ -97,6 +104,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FENDER_BACK_LEFT]: {
     en: 'Rear Fender Left',
+    no: 'Venstre bakre hjulbekledning',
     ro: 'Aripă spate stânga',
     pl: 'Lewy błotnik tylny',
     da: 'Bagskærm venstre',
@@ -110,6 +118,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FENDER_BACK_RIGHT]: {
     en: 'Rear Fender Right',
+    no: 'Bakre støtfanger, høyre',
     ro: 'Aripă spate dreapta',
     pl: 'Prawy błotnik tylny',
     da: 'Bagskærm, højre',
@@ -123,6 +132,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FENDER_FRONT_LEFT]: {
     en: 'Front Fender Left',
+    no: 'Venstre framdør',
     ro: 'Aripă față, partea stângă',
     pl: 'Lewy błotnik przedni',
     da: 'Forreste skærm, venstre',
@@ -136,6 +146,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FENDER_FRONT_RIGHT]: {
     en: 'Front Fender Right',
+    no: 'Høyre framskjerm',
     ro: 'Aripă față, partea dreaptă',
     pl: 'Prawy błotnik przedni',
     da: 'Forreste skærm, højre side',
@@ -149,6 +160,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FOG_LIGHT_BACK_LEFT]: {
     en: 'Rear Fog Light Left',
+    no: 'Baklys, venstre',
     ro: 'Lampa de ceață spate, partea stângă',
     pl: 'Lewe światło przeciwmgielne',
     da: 'Baglygte, venstre',
@@ -162,6 +174,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FOG_LIGHT_BACK_RIGHT]: {
     en: 'Rear Fog Light Right',
+    no: 'Baklys høyre',
     ro: 'Lampa de ceață spate, dreapta',
     pl: 'Prawa tylna lampa przeciwmgielna',
     da: 'Baglygte, højre side',
@@ -175,6 +188,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FOG_LIGHT_FRONT_LEFT]: {
     en: 'Front Fog Light Left',
+    no: 'Venstre framlys',
     ro: 'Far de ceață față, partea stângă',
     pl: 'Lewy reflektor przeciwmgielny',
     da: 'Forreste tågeforlygte, venstre',
@@ -188,6 +202,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FOG_LIGHT_FRONT_RIGHT]: {
     en: 'Front Fog Light Right',
+    no: 'Høyre framlys',
     ro: 'Far de ceață față, partea dreaptă',
     pl: 'Prawy reflektor przeciwmgielny',
     da: 'Forreste tågeforlygte, højre',
@@ -201,6 +216,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.GRILL]: {
     en: 'Grill',
+    no: 'Radiator',
     ro: 'Grilă',
     pl: 'Kratka',
     da: 'Grill',
@@ -214,6 +230,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.GRILL_LOW]: {
     en: 'Grill Low',
+    no: 'Grill Lav',
     ro: 'Grilă joasă',
     pl: 'Dolny grill',
     da: 'Lav grill',
@@ -227,6 +244,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.GRILL_RADIATOR]: {
     en: 'Radiator Grill',
+    no: 'Radiatorgitter',
     ro: 'Grilă radiator',
     pl: 'Kratka chłodnicy',
     da: 'Radiatorgitter',
@@ -240,6 +258,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HANDLE_BACK_LEFT]: {
     en: 'Rear Handle Left',
+    no: 'Venstre bakdørhåndtak',
     ro: 'Mâner spate, partea stângă',
     pl: 'Lewy uchwyt tylny',
     da: 'Baghåndtag venstre',
@@ -253,6 +272,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HANDLE_BACK_RIGHT]: {
     en: 'Rear Handle Right',
+    no: 'Høyre bakdør',
     ro: 'Mâner spate, partea dreaptă',
     pl: 'Prawy uchwyt tylny',
     da: 'Højre baghåndtag',
@@ -266,6 +286,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HANDLE_FRONT_LEFT]: {
     en: 'Front Handle Left',
+    no: 'Venstre håndtak foran',
     ro: 'Mâner față, partea stângă',
     pl: 'Lewy uchwyt przedni',
     da: 'Forreste håndtag, venstre',
@@ -279,6 +300,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HANDLE_FRONT_RIGHT]: {
     en: 'Front Handle Right',
+    no: 'Venstre håndtak foran',
     ro: 'Mâner față, partea dreaptă',
     pl: 'Prawy uchwyt przedni',
     da: 'Forreste håndtag, højre',
@@ -292,6 +314,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HEADER_PANEL]: {
     en: 'Header Panel',
+    no: 'Overskriftsfelt',
     ro: 'Panou de antet',
     pl: 'Panel nagłówkowy',
     da: 'Headerpanel',
@@ -305,6 +328,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HEAD_LIGHT_LEFT]: {
     en: 'Head Light Left',
+    no: 'Venstre lys',
     ro: 'Far stânga',
     pl: 'Lewy reflektor',
     da: 'Venstre forlygte',
@@ -318,6 +342,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HEAD_LIGHT_RIGHT]: {
     en: 'Head Light Right',
+    no: 'Høyre lys',
     ro: 'Far dreapta',
     pl: 'Prawy reflektor',
     da: 'Forlygte, højre',
@@ -331,6 +356,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HOOK]: {
     en: 'Tow Hook',
+    no: 'Løftepunkt',
     ro: 'Cârlig de remorcare',
     pl: 'Haczek do holowania',
     da: 'Trækkrog',
@@ -344,6 +370,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HUBCAP]: {
     en: 'Hubcap',
+    no: 'Hjulbrik',
     ro: 'Capac jantă',
     pl: 'kołpak',
     da: 'navkapsel',
@@ -357,6 +384,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HUBCAP_BACK_LEFT]: {
     en: 'Rear Hubcap Left',
+    no: 'Bakre hjulfelg, venstre',
     ro: 'Capac jantă spate, partea stângă',
     pl: 'Lewa tylna osłona piasty',
     da: 'Bageste navkapsel, venstre',
@@ -370,6 +398,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HUBCAP_BACK_RIGHT]: {
     en: 'Rear Hubcap Right',
+    no: 'Bakre hjulfelg, høyre',
     ro: 'Capac jantă spate, partea dreaptă',
     pl: 'Prawa tylna osłona koła',
     da: 'Bageste navkapsel, højre',
@@ -383,6 +412,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HUBCAP_FRONT_LEFT]: {
     en: 'Front Hubcap Left',
+    no: 'Venstre hjulbue foran',
     ro: 'Capac jantă față, partea stângă',
     pl: 'Lewa osłona piasty przedniej',
     da: 'Forreste navkapsel, venstre',
@@ -396,6 +426,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HUBCAP_FRONT_RIGHT]: {
     en: 'Front Hubcap Right',
+    no: 'Venstre hjulbue foran',
     ro: 'Capac jantă față, partea dreaptă',
     pl: 'Prawa osłona piasty przedniej',
     da: 'Forreste navkapsel, højre',
@@ -409,6 +440,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.INDICATOR_LIGHT_LEFT]: {
     en: 'Indicator Light Left',
+    no: 'Indikator, venstre',
     ro: 'Indicator luminos stânga',
     pl: 'Lewy kierunkowskaz',
     da: 'Venstre blinklys',
@@ -422,6 +454,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.INDICATOR_LIGHT_RIGHT]: {
     en: 'Indicator Light Right',
+    no: 'Indikatorlys, høyre',
     ro: 'Indicator luminos, partea dreaptă',
     pl: 'Prawy kierunkowskaz',
     da: 'Indikatorlys, højre',
@@ -435,6 +468,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.LICENSE_PLATE_BACK]: {
     en: 'Rear License Plate',
+    no: 'Bakre registreringsskilt',
     ro: 'Placă de înmatriculare spate',
     pl: 'Tylna tablica rejestracyjna',
     da: 'Bagerste nummerplade',
@@ -448,6 +482,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.LICENSE_PLATE_FRONT]: {
     en: 'Front License Plate',
+    no: 'Foran',
     ro: 'Placă de înmatriculare față',
     pl: 'Przedni numer rejestracyjny',
     da: 'Forreste nummerplade',
@@ -461,6 +496,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.LOGO]: {
     en: 'Logo',
+    no: 'Logo',
     ro: 'Logo',
     pl: 'Logo',
     da: 'Logo',
@@ -474,6 +510,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.MIRROR_LEFT]: {
     en: 'Mirror Left',
+    no: 'Venstre speil',
     ro: 'Oglindă stânga',
     pl: 'Luster po lewej stronie',
     da: 'Venstre sidespejl',
@@ -487,6 +524,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.MIRROR_RIGHT]: {
     en: 'Mirror Right',
+    no: 'Speil høyre',
     ro: 'Oglindă dreapta',
     pl: 'Luster prawy',
     da: 'Højre sidespejl',
@@ -500,6 +538,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.MIRROR_SUPPORT]: {
     en: 'Mirror Support',
+    no: 'Speilstøtte',
     ro: 'Suport oglindă',
     pl: 'Podpora lusterka',
     da: 'Spejlstøtte',
@@ -513,6 +552,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.QUARTER_WINDOW_BACK_LEFT]: {
     en: 'Rear Quarter Window Left',
+    no: 'Venstre bakre vindu',
     ro: 'Geam spate, partea stângă',
     pl: 'Lewe tylne okno',
     da: 'Venstre bagsidevindue',
@@ -526,6 +566,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.QUARTER_WINDOW_BACK_RIGHT]: {
     en: 'Rear Quarter Window Right',
+    no: 'Bakre hjørnevindu, høyre',
     ro: 'Geam spate, partea dreaptă',
     pl: 'Prawa tylna szyba',
     da: 'Højre bagsidevindue',
@@ -539,6 +580,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.QUARTER_WINDOW_FRONT_LEFT]: {
     en: 'Front Quarter Window Left',
+    no: 'Venstre foran-vindu',
     ro: 'Geamul din față, partea stângă',
     pl: 'Lewa przednia szyba boczna',
     da: 'Forreste siderude venstre',
@@ -552,6 +594,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.QUARTER_WINDOW_FRONT_RIGHT]: {
     en: 'Front Quarter Window Right',
+    no: 'Venstre foran-vindu',
     ro: 'Geamul din față, partea dreaptă',
     pl: 'Prawa przednia szyba boczna',
     da: 'Forreste siderude, højre',
@@ -565,6 +608,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.ROCKER_PANEL]: {
     en: 'Rocker Panel',
+    no: 'Dørside',
     ro: 'Panou lateral',
     pl: 'Listwa progowa',
     da: 'Sidepanel',
@@ -578,6 +622,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.ROCKER_PANEL_LEFT]: {
     en: 'Rocker Panel Left',
+    no: 'Venstre sidepanel',
     ro: 'Panou lateral stânga',
     pl: 'Lewy próg',
     da: 'Venstre sidepanel',
@@ -591,6 +636,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.ROCKER_PANEL_RIGHT]: {
     en: 'Rocker Panel Right',
+    no: 'Venstre sidepanel',
     ro: 'Panou lateral drept',
     pl: 'Prawy próg',
     da: 'Højre sidepanel',
@@ -604,6 +650,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TAIL_LIGHT_CENTER]: {
     en: 'Tail Light Left',
+    no: 'Venstre lys',
     ro: 'Lampa spate stânga',
     pl: 'Lewe światło tylne',
     da: 'Venstre baglygte',
@@ -617,6 +664,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TAIL_LIGHT_LEFT]: {
     en: 'Tail Light Left',
+    no: 'Venstre lys',
     ro: 'Far spate stânga',
     pl: 'Lewe światło tylne',
     da: 'Venstre baglygte',
@@ -630,6 +678,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TAIL_LIGHT_RIGHT]: {
     en: 'Tail Light Right',
+    no: 'Høyre baklys',
     ro: 'Lampa spate dreapta',
     pl: 'Prawa lampa tylna',
     da: 'Højre baglygte',
@@ -643,6 +692,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TURN_SIGNAL_FRONT_LATERAL_LEFT]: {
     en: 'Front Turn Signal Lateral Left',
+    no: 'Venstre sideblink, frem',
     ro: 'Semnalizator lateral stânga față',
     pl: 'Lewy kierunkowskaz boczny',
     da: 'Forreste blinklys, venstre side',
@@ -656,6 +706,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TURN_SIGNAL_FRONT_LATERAL_RIGHT]: {
     en: 'Front Turn Signal Lateral Right',
+    no: 'Venstre side, fremre blinklys',
     ro: 'Semnalizator lateral față, partea dreaptă',
     pl: 'Prawy boczny kierunkowskaz',
     da: 'Forreste blinklys, højre side',
@@ -669,6 +720,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WHEEL]: {
     en: 'Wheel',
+    no: 'Hjul',
     ro: 'Roată',
     pl: 'Koło',
     da: 'Hjul',
@@ -682,6 +734,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WHEEL_BACK_LEFT]: {
     en: 'Rear Wheel Left',
+    no: 'Venstre bakhjul',
     ro: 'Roata spate stânga',
     pl: 'Lewe koło tylne',
     da: 'Bageste venstre hjul',
@@ -695,6 +748,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WHEEL_BACK_RIGHT]: {
     en: 'Rear Wheel Right',
+    no: 'Hakk bak, høyre',
     ro: 'Roata spate dreapta',
     pl: 'Prawy tylny',
     da: 'Bageste hjul, højre',
@@ -708,6 +762,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WHEEL_FRONT_LEFT]: {
     en: 'Front Wheel Left',
+    no: 'Venstre forhjul',
     ro: 'Roata din față, partea stângă',
     pl: 'Lewe przednie koło',
     da: 'Forhjul, venstre',
@@ -721,6 +776,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WHEEL_FRONT_RIGHT]: {
     en: 'Front Wheel Right',
+    no: 'Venstre hjul foran',
     ro: 'Roata din față, partea dreaptă',
     pl: 'Prawy przedni koło',
     da: 'Forhjul, højre',
@@ -734,6 +790,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_BACK_LEFT]: {
     en: 'Rear Window Left',
+    no: 'Venstre bakrute',
     ro: 'Parbriz spate, partea stângă',
     pl: 'Lewa tylna szyba',
     da: 'Bagrude, venstre',
@@ -747,6 +804,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_BACK_RIGHT]: {
     en: 'Rear Window Right',
+    no: 'Bakrute, høyre',
     ro: 'Geam spate dreapta',
     pl: 'Prawa tylna szyba',
     da: 'Højre bagrude',
@@ -760,6 +818,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_CORNER_LEFT]: {
     en: 'Corner Window Left',
+    no: 'Venstre hjørnespeil',
     ro: 'Colțul ferestrei din stânga',
     pl: 'Lewy narożnik okna',
     da: 'Venstre hjørne af vindue',
@@ -773,6 +832,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_CORNER_RIGHT]: {
     en: 'Corner Window Right',
+    no: 'Høyre bakre vindu',
     ro: 'Colțul ferestrei din dreapta',
     pl: 'Prawy dolny róg okna',
     da: 'Højre hjørne af vindue',
@@ -786,6 +846,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_FRONT_LEFT]: {
     en: 'Front Window Left',
+    no: 'Venstre forrute',
     ro: 'Parbriz, partea stângă',
     pl: 'Lewa przednia szyba',
     da: 'Forreste siderude (venstre)',
@@ -799,6 +860,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDOW_FRONT_RIGHT]: {
     en: 'Front Window Right',
+    no: 'Venstre forrute',
     ro: 'Parbriz față, partea dreaptă',
     pl: 'Prawa przednia szyba',
     da: 'Forreste siderude (højre)',
@@ -812,6 +874,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDSHIELD_BACK]: {
     en: 'Windshield Back',
+    no: 'Sideluke bak',
     ro: 'Parbriz spate',
     pl: 'Tylna szyba',
     da: 'Forrude, bag',
@@ -825,6 +888,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WINDSHIELD_FRONT]: {
     en: 'Windshield Front',
+    no: 'Frontrute',
     ro: 'Parbriz față',
     pl: 'Przednia szyba',
     da: 'Forrude',
@@ -838,6 +902,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WIPER]: {
     en: 'Wiper',
+    no: 'Speile',
     ro: 'Ștergător',
     pl: 'Wycieraczka',
     da: 'Visker',
@@ -851,6 +916,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WIPER_BACK]: {
     en: 'Rear Wiper',
+    no: 'Bakre vindusvisker',
     ro: 'Ștergător spate',
     pl: 'Tylna wycieraczka',
     da: 'Bagrudevisker',
@@ -864,6 +930,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.WIPER_FRONT]: {
     en: 'Front Wiper',
+    no: 'Foranvisker',
     ro: 'Ștergător față',
     pl: 'Przednia wycieraczka',
     da: 'Forreste vinduesvisker',
@@ -877,6 +944,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.FRONT_SPOILER]: {
     en: 'Front Spoiler',
+    no: 'Foranligger',
     ro: 'Spoiler frontal',
     pl: 'Przedni spojler',
     da: 'Frontspoiler',
@@ -890,6 +958,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.REAR_SPOILER]: {
     en: 'Rear Spoiler',
+    no: 'Bakre spoiler',
     ro: 'Spoiler spate',
     pl: 'Tylny spojler',
     da: 'Bagspoiler',
@@ -903,6 +972,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HOOD]: {
     en: 'Hood',
+    no: 'Hjelp',
     ro: 'Capotă',
     pl: 'Maska',
     da: 'Motorhjelm',
@@ -916,6 +986,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.PETROL_DOOR]: {
     en: 'Petrol Door',
+    no: 'Drivstoffdør',
     ro: 'Ușa rezervorului',
     pl: 'Drzwiczki wlewu paliwa',
     da: 'Benzindæksel',
@@ -929,6 +1000,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.PILLAR]: {
     en: 'Pillar',
+    no: 'Støtte',
     ro: 'Stâlp',
     pl: 'Filarek',
     da: 'Søjle',
@@ -942,6 +1014,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.ROOF]: {
     en: 'Roof',
+    no: 'Tak',
     ro: 'Acoperiș',
     pl: 'Dach',
     da: 'Tag',
@@ -955,6 +1028,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.TRUNK]: {
     en: 'Trunk',
+    no: 'Bagasje',
     ro: 'Portbagaj',
     pl: 'Bagażnik',
     da: 'bagagerum',
@@ -968,6 +1042,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.BACKGROUND]: {
     en: 'Background',
+    no: 'Bakgrunn',
     ro: 'Fundal',
     pl: 'Tło',
     da: 'Baggrund',
@@ -981,6 +1056,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.CAR_INSIDE]: {
     en: 'Car Inside',
+    no: 'Interiør',
     ro: 'Interiorul vehiculului',
     pl: 'Wnętrze pojazdu',
     da: 'Bilen indvendigt',
@@ -994,6 +1070,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.DAMAGED_CAR_INSIDE]: {
     en: 'Damaged Car Inside',
+    no: 'Skadet bil, interiør',
     ro: 'Interiorul vehiculului avariat',
     pl: 'Uszkodzenia wewnątrz pojazdu',
     da: 'Beskadiget køretøj indvendigt',
@@ -1007,6 +1084,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.HANDLE_BACK_CENTER]: {
     en: 'Handle Back Center',
+    no: 'Lukk midtkonsollen',
     ro: 'Mânerele din spate, zona centrală',
     pl: 'Tyльна środkowa część',
     da: 'Håndtag, bageste midterdør',
@@ -1020,6 +1098,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.RIM_BACK_LEFT]: {
     en: 'Back left rim',
+    no: 'Venstre bakre hjul',
     ro: 'Janta spate stânga',
     pl: 'Lewy tylny felg',
     da: 'Bageste venstre fælg',
@@ -1033,6 +1112,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.RIM_BACK_RIGHT]: {
     en: 'Back right rim',
+    no: 'Bakre høyre felg',
     ro: 'Janta spate dreapta',
     pl: 'Obręcz tylnego prawego koła',
     da: 'Bageste højre fælg',
@@ -1046,6 +1126,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.RIM_FRONT_LEFT]: {
     en: 'Front left rim',
+    no: 'Venstre forhjulshjul',
     ro: 'Janta din față, partea stângă',
     pl: 'Lewy przedni felg',
     da: 'Forreste venstre fælg',
@@ -1059,6 +1140,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.RIM_FRONT_RIGHT]: {
     en: 'Front right rim',
+    no: 'Høyre fremme felg',
     ro: 'Janta față dreapta',
     pl: 'Obręcz przedniego prawego koła',
     da: 'Forreste højre fælg',
@@ -1072,6 +1154,7 @@ export const vehiclePartLabels: Record<VehiclePart, TranslationObject> = {
   },
   [VehiclePart.INTERIOR]: {
     en: 'Interior',
+    no: 'Interiør',
     ro: 'Interior',
     pl: 'Wnętrze',
     da: 'Indvendigt',

@@ -11,7 +11,8 @@
     "sv": "Baksäten",
     "da": "Bagsæder",
     "pl": "Tylne siedzenia",
-    "ro": "Scaunele din spate"
+    "ro": "Scaunele din spate",
+    "no": "Bakseter"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
@@ -25,7 +26,8 @@
     "sv": "Vänster bild",
     "da": "Venstre detaljebillede",
     "pl": "Zdjęcie z lewej strony",
-    "ro": "Fotografie laterală"
+    "ro": "Fotografie laterală",
+    "no": "Flott bilde, venstre side"
   },
   "dashboard": {
     "key": "dashboard",
@@ -39,7 +41,8 @@
     "sv": "Instrumentpanel",
     "da": "Instrumentbræt",
     "pl": "Deska rozdzielcza",
-    "ro": "Tablou de bord"
+    "ro": "Tablou de bord",
+    "no": "Dashboard"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -53,7 +56,8 @@
     "sv": "Instrumentpanelen från baksätet",
     "da": "Billede fra bagsædet",
     "pl": "Widok deski rozdzielczej z tylnego siedzenia",
-    "ro": "Tablou de bord, vedere din spate"
+    "ro": "Tablou de bord, vedere din spate",
+    "no": "Vis dashbord fra baksetet"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -67,7 +71,8 @@
     "sv": "Instrumentpanel från förarsätet",
     "da": "Dashboard fra førersædet",
     "pl": "Widok deski rozdzielczej z miejsca kierowcy",
-    "ro": "Tablou de bord, vedere din locul șoferului"
+    "ro": "Tablou de bord, vedere din locul șoferului",
+    "no": "Førerdisplay"
   },
   "doors-left": {
     "key": "doors-left",
@@ -81,7 +86,8 @@
     "sv": "Antal öppna dörrar",
     "da": "Døre åbne",
     "pl": "Lewe drzwi",
-    "ro": "Uși (partea stângă)"
+    "ro": "Uși (partea stângă)",
+    "no": "Venstre dører"
   },
   "doors-right": {
     "key": "doors-right",
@@ -95,7 +101,8 @@
     "sv": "Höger dörr",
     "da": "Højre dør",
     "pl": "Drzwi, strona prawa",
-    "ro": "Uși, partea dreaptă"
+    "ro": "Uși, partea dreaptă",
+    "no": "Dører, høyre"
   },
   "engine-left-side": {
     "key": "engine-left-side",
@@ -109,7 +116,8 @@
     "sv": "Motor, vänster sida",
     "da": "Motor, venstre side",
     "pl": "Lewa strona silnika",
-    "ro": "Partea stângă a motorului"
+    "ro": "Partea stângă a motorului",
+    "no": "Venstre side av motor"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -123,7 +131,8 @@
     "sv": "Motorns högra sida",
     "da": "Motorens højre side",
     "pl": "Prawa strona silnika",
-    "ro": "Partea dreaptă a motorului"
+    "ro": "Partea dreaptă a motorului",
+    "no": "Motor, høyre side"
   },
   "front": {
     "key": "front",
@@ -137,7 +146,8 @@
     "sv": "Fram",
     "da": "Foran",
     "pl": "Przód",
-    "ro": "Față"
+    "ro": "Față",
+    "no": "Foran"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
@@ -151,7 +161,8 @@
     "sv": "Framstötfångarens vänstra sida",
     "da": "Forreste kofanger, venstre side",
     "pl": "Lewa strona przedniego zderzaka",
-    "ro": "Partea stângă a barei de protecție față"
+    "ro": "Partea stângă a barei de protecție față",
+    "no": "Venstre side av frontkofanger"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -165,7 +176,8 @@
     "sv": "Framstötfångare, höger sida",
     "da": "Forreste kofanger, højre side",
     "pl": "Prawy bok przedniego zderzaka",
-    "ro": "Partea dreaptă a barei de protecție față"
+    "ro": "Partea dreaptă a barei de protecție față",
+    "no": "Venstre side av frontklist"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -179,7 +191,8 @@
     "sv": "Framdörr vänster",
     "da": "Venstre fordør",
     "pl": "Lewe drzwi przednie",
-    "ro": "Ușă față, partea stângă"
+    "ro": "Ușă față, partea stângă",
+    "no": "Venstre dør, for"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -193,7 +206,8 @@
     "sv": "Framdörr, höger",
     "da": "Højre fordør",
     "pl": "Prawy przedni drzwi",
-    "ro": "Ușă față, partea dreaptă"
+    "ro": "Ușă față, partea dreaptă",
+    "no": "Høyre framdør"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -207,7 +221,8 @@
     "sv": "Fram vänster",
     "da": "Foran til venstre",
     "pl": "Przód, lewa strona",
-    "ro": "Față stânga"
+    "ro": "Față stânga",
+    "no": "Venstre foran"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -221,7 +236,8 @@
     "sv": "Fram, höger",
     "da": "Foran til højre",
     "pl": "Przód, prawa strona",
-    "ro": "Față dreapta"
+    "ro": "Față dreapta",
+    "no": "Høyre foran"
   },
   "front-lateral-full-right": {
     "key": "front-lateral-full-right",
@@ -235,7 +251,8 @@
     "sv": "Fram, helt höger",
     "da": "Forreste, fuld, højre",
     "pl": "Przód, pełny widok, strona prawa",
-    "ro": "Față, vedere completă, partea dreaptă"
+    "ro": "Față, vedere completă, partea dreaptă",
+    "no": "Foran, fullt, høyre"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -249,7 +266,8 @@
     "sv": "Fram, vänster sida",
     "da": "Forreste side, venstre",
     "pl": "Lewa strona z przodu",
-    "ro": "Față, lateral stânga"
+    "ro": "Față, lateral stânga",
+    "no": "Venstre side, foran"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
@@ -263,7 +281,8 @@
     "sv": "Fram, sidan, lågt, vänster",
     "da": "Forreste, lav, venstre side",
     "pl": "Przód, bok, dół, lewa strona",
-    "ro": "Stânga jos, lateral față"
+    "ro": "Stânga jos, lateral față",
+    "no": "Foran, side, lavt, venstre"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -277,7 +296,8 @@
     "sv": "Framifrån, sidan, lågt, höger",
     "da": "Forreste, lav, højre side",
     "pl": "Przód, bok, dół, prawa strona",
-    "ro": "Față, lateral, jos, dreapta"
+    "ro": "Față, lateral, jos, dreapta",
+    "no": "Foran, side, lav, høyre"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -291,7 +311,8 @@
     "sv": "Fram, sidan, höger",
     "da": "Forreste, højre side",
     "pl": "Przód, bok, prawa strona",
-    "ro": "Partea din față, lateral dreapta"
+    "ro": "Partea din față, lateral dreapta",
+    "no": "Foran, side, høyre"
   },
   "front-low": {
     "key": "front-low",
@@ -305,7 +326,8 @@
     "sv": "Fram, lågt läge",
     "da": "Foran, lav",
     "pl": "Przód, niski kąt",
-    "ro": "Unghi frontal jos"
+    "ro": "Unghi frontal jos",
+    "no": "Foran, lav"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -319,7 +341,8 @@
     "sv": "Framre tak, vänster",
     "da": "Forreste tag, venstre side",
     "pl": "Lewa strona dachu (przód)",
-    "ro": "Partea din față, acoperiș, stânga"
+    "ro": "Partea din față, acoperiș, stânga",
+    "no": "Foran, tak, venstre"
   },
   "front-seats": {
     "key": "front-seats",
@@ -333,7 +356,8 @@
     "sv": "Framstolar",
     "da": "Forsæder",
     "pl": "Fotel przedni",
-    "ro": "Scaunele din față"
+    "ro": "Scaunele din față",
+    "no": "Foran"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -347,7 +371,8 @@
     "sv": "Framre underrrede",
     "da": "Forreste undervogn",
     "pl": "Przód podwozia",
-    "ro": "Partea inferioară frontală a șasiului"
+    "ro": "Partea inferioară frontală a șasiului",
+    "no": "Foran"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
@@ -361,7 +386,8 @@
     "sv": "Framhjul vänster",
     "da": "Forhjul venstre",
     "pl": "Lewe przednie koło",
-    "ro": "Roata din față, partea stângă"
+    "ro": "Roata din față, partea stângă",
+    "no": "Venstre forhjul"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
@@ -375,7 +401,8 @@
     "sv": "Framhjul, höger",
     "da": "Forhjul, højre",
     "pl": "Prawy przedni koło",
-    "ro": "Roata din față, partea dreaptă"
+    "ro": "Roata din față, partea dreaptă",
+    "no": "Venstre hjul foran"
   },
   "hood": {
     "key": "hood",
@@ -389,7 +416,8 @@
     "sv": "Huv",
     "da": "Motorhjelm",
     "pl": "Maska",
-    "ro": "Capotă"
+    "ro": "Capotă",
+    "no": "Hjelp"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -403,7 +431,8 @@
     "sv": "Huv / Vindruta",
     "da": "Motorhjelm / Forrude",
     "pl": "Maska / Przednia szyba",
-    "ro": "Capotă / Parbriz"
+    "ro": "Capotă / Parbriz",
+    "no": "Skjuler / Frontrute"
   },
   "interior-roof": {
     "key": "interior-roof",
@@ -417,7 +446,8 @@
     "sv": "Tak (invändigt)",
     "da": "Indvendigt loft",
     "pl": "Wnętrze dachu",
-    "ro": "Acoperiș interior"
+    "ro": "Acoperiș interior",
+    "no": "Interiør Tak"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
@@ -431,7 +461,8 @@
     "sv": "Helt åt vänster",
     "da": "Fuld drejning til venstre",
     "pl": "Skręć maksymalnie w lewo",
-    "ro": "Complet spre stânga"
+    "ro": "Complet spre stânga",
+    "no": "Fullt venstre"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -445,7 +476,8 @@
     "sv": "Helt till höger",
     "da": "Fuld drejning til højre",
     "pl": "Cały prawy",
-    "ro": "Complet spre dreapta"
+    "ro": "Complet spre dreapta",
+    "no": "Fullt korrekt"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -459,7 +491,8 @@
     "sv": "Vänster sida",
     "da": "Venstre side",
     "pl": "Lewa strona",
-    "ro": "Stânga laterală"
+    "ro": "Stânga laterală",
+    "no": "Venstre side"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
@@ -473,7 +506,8 @@
     "sv": "Vänster, lågt och åt sidan",
     "da": "Venstre side, lav",
     "pl": "Lewy bok, dolna część",
-    "ro": "Stânga jos, lateral"
+    "ro": "Stânga jos, lateral",
+    "no": "Venstre, lavt"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
@@ -487,7 +521,8 @@
     "sv": "Nedre högra sidan",
     "da": "Højre side, lav vinkel",
     "pl": "Dolna strona, prawy bok",
-    "ro": "Colțul din dreapta jos"
+    "ro": "Colțul din dreapta jos",
+    "no": "Venstre, lavt, høyre"
   },
   "left-front-door": {
     "key": "left-front-door",
@@ -501,7 +536,8 @@
     "sv": "Vänster framdörr",
     "da": "Venstre fordør",
     "pl": "Lewe drzwi przednie",
-    "ro": "Ușa din față, partea stângă"
+    "ro": "Ușa din față, partea stângă",
+    "no": "Venstre forstørrelsesdør"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -515,7 +551,8 @@
     "sv": "Öppna bagagelucka",
     "da": "Åbn bagagerum",
     "pl": "Otwórz bagażnik",
-    "ro": "Deschide portbagajul"
+    "ro": "Deschide portbagajul",
+    "no": "Åpne bagasjerom"
   },
   "rear": {
     "key": "rear",
@@ -529,7 +566,8 @@
     "sv": "Bak",
     "da": "Bag",
     "pl": "Tył",
-    "ro": "Spate"
+    "ro": "Spate",
+    "no": "Bakre"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -543,7 +581,8 @@
     "sv": "Bakre stötfångare, vänster sida",
     "da": "Bagkofanger, venstre side",
     "pl": "Lewy bok tylnego zderzaka",
-    "ro": "Partea stângă a barei de protecție spate"
+    "ro": "Partea stângă a barei de protecție spate",
+    "no": "Venstre side, bakre støtte"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
@@ -557,7 +596,8 @@
     "sv": "Bakre stötfångare, höger sida",
     "da": "Bagkofanger, højre side",
     "pl": "Prawy bok tylnego zderzaka",
-    "ro": "Partea dreaptă a barei de protecție spate"
+    "ro": "Partea dreaptă a barei de protecție spate",
+    "no": "Bakre støtte, høyre side"
   },
   "rear-door-left": {
     "key": "rear-door-left",
@@ -571,7 +611,8 @@
     "sv": "Vänster bakdörr",
     "da": "Bagdør, venstre",
     "pl": "Lewe drzwi tylne",
-    "ro": "Ușa din spate, partea stângă"
+    "ro": "Ușa din spate, partea stângă",
+    "no": "Venstre bakdør"
   },
   "rear-door-right": {
     "key": "rear-door-right",
@@ -585,7 +626,8 @@
     "sv": "Höger bakdörr",
     "da": "Højre bagdør",
     "pl": "Prawy tylny drzwi",
-    "ro": "Ușă spate dreapta"
+    "ro": "Ușă spate dreapta",
+    "no": "Hakk bak, høyre"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
@@ -599,7 +641,8 @@
     "sv": "Bakre skärm vänster",
     "da": "Bagskærm venstre",
     "pl": "Lewy błotnik tylny",
-    "ro": "Aripă spate stânga"
+    "ro": "Aripă spate stânga",
+    "no": "Venstre bakre hjulbekledning"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
@@ -613,7 +656,8 @@
     "sv": "Höger bakskärm",
     "da": "Bagskærm, højre",
     "pl": "Prawy błotnik tylny",
-    "ro": "Aripă spate dreapta"
+    "ro": "Aripă spate dreapta",
+    "no": "Bakre støtfanger, høyre"
   },
   "rear-lateral-full-left": {
     "key": "rear-lateral-full-left",
@@ -627,7 +671,8 @@
     "sv": "Bakre vänster sida",
     "da": "Bagerste, venstre side",
     "pl": "Lewa strona z tyłu",
-    "ro": "Spate, partea stângă"
+    "ro": "Spate, partea stângă",
+    "no": "Bakre, venstre side, full"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -641,7 +686,8 @@
     "sv": "Bakre, helt höger",
     "da": "Bagerste, fuld, højre",
     "pl": "Prawy tył",
-    "ro": "Spate, partea dreaptă"
+    "ro": "Spate, partea dreaptă",
+    "no": "Bakre, høyre side, full"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -655,7 +701,8 @@
     "sv": "Bakre sidan, vänster",
     "da": "Bageste side, venstre",
     "pl": "Lewa strona z tyłu",
-    "ro": "Spate, lateral stânga"
+    "ro": "Spate, lateral stânga",
+    "no": "Venstre side, bak"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -669,7 +716,8 @@
     "sv": "Bakre, nedre, vänstra sidan",
     "da": "Bagerste, ydre, nederste, venstre",
     "pl": "Lewy bok, dolna część, tył",
-    "ro": "Spate, lateral, jos, stânga"
+    "ro": "Spate, lateral, jos, stânga",
+    "no": "Bakre, venstre side, lavt"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -683,7 +731,8 @@
     "sv": "Bakre, nedre, högra sidan",
     "da": "Bagerste, ydre, nederste, højre",
     "pl": "Prawy bok, dolna część, tył",
-    "ro": "Spate, lateral, jos, dreapta"
+    "ro": "Spate, lateral, jos, dreapta",
+    "no": "Bakre, sidelengt, lav, høyre"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
@@ -697,7 +746,8 @@
     "sv": "Bakre sidan, höger",
     "da": "Bageste, højre side",
     "pl": "Prawy bok z tyłu",
-    "ro": "Spate, lateral dreapta"
+    "ro": "Spate, lateral dreapta",
+    "no": "Bakre, høyre side"
   },
   "rear-left": {
     "key": "rear-left",
@@ -711,7 +761,8 @@
     "sv": "Bakre vänster",
     "da": "Bageste venstre",
     "pl": "Lewy tył",
-    "ro": "Spate stânga"
+    "ro": "Spate stânga",
+    "no": "Venstre bakre"
   },
   "rear-low": {
     "key": "rear-low",
@@ -725,7 +776,8 @@
     "sv": "Bakre läge",
     "da": "Bag, lav",
     "pl": "Dolny tył",
-    "ro": "Unghi jos spate"
+    "ro": "Unghi jos spate",
+    "no": "Bakre lav"
   },
   "rear-right": {
     "key": "rear-right",
@@ -739,7 +791,8 @@
     "sv": "Bakre höger",
     "da": "Bageste højre",
     "pl": "Prawy tył",
-    "ro": "Spate dreapta"
+    "ro": "Spate dreapta",
+    "no": "Bakre høyre"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -753,7 +806,8 @@
     "sv": "Bakre tak",
     "da": "Bagerste tag",
     "pl": "Dach tylny",
-    "ro": "Acoperiș spate"
+    "ro": "Acoperiș spate",
+    "no": "Baksideluke"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
@@ -767,7 +821,8 @@
     "sv": "Bakre tak, höger",
     "da": "Bageste tag, højre side",
     "pl": "Prawy górny tył",
-    "ro": "Colțul din spate, partea dreaptă"
+    "ro": "Colțul din spate, partea dreaptă",
+    "no": "Bakre tak, høyre"
   },
   "rear-seats": {
     "key": "rear-seats",
@@ -781,7 +836,8 @@
     "sv": "Baksäten",
     "da": "Bagsæder",
     "pl": "Tylne siedzenia",
-    "ro": "Scaunele din spate"
+    "ro": "Scaunele din spate",
+    "no": "Bakseter"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -795,7 +851,8 @@
     "sv": "Bakre vänster sida",
     "da": "Bageste venstre",
     "pl": "Lewy górny tył",
-    "ro": "Sus spate stânga"
+    "ro": "Sus spate stânga",
+    "no": "Bakre, venstre"
   },
   "rear-up-right": {
     "key": "rear-up-right",
@@ -809,7 +866,8 @@
     "sv": "Bakre, uppåt, höger",
     "da": "Bageste, øverste højre",
     "pl": "Prawy górny tył",
-    "ro": "Sus, spate, dreapta"
+    "ro": "Sus, spate, dreapta",
+    "no": "Bakre høyre side"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
@@ -823,7 +881,8 @@
     "sv": "Vänster bakre hjul",
     "da": "Bageste venstre hjul",
     "pl": "Lewe koło tylne",
-    "ro": "Roata spate stânga"
+    "ro": "Roata spate stânga",
+    "no": "Venstre bakhjul"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
@@ -837,7 +896,8 @@
     "sv": "Höger bakre hjul",
     "da": "Bageste hjul, højre side",
     "pl": "Prawy tylny",
-    "ro": "Roata spate dreapta"
+    "ro": "Roata spate dreapta",
+    "no": "Hakk bak, høyre"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
@@ -851,7 +911,8 @@
     "sv": "Bakre zoom",
     "da": "Bagudzoom",
     "pl": "Powiększenie tylnej części",
-    "ro": "Zoom spate"
+    "ro": "Zoom spate",
+    "no": "Bakre visning"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
@@ -865,7 +926,8 @@
     "sv": "Vänster tröskel",
     "da": "Venstre sidepanel",
     "pl": "Lewy próg",
-    "ro": "Panou lateral stânga"
+    "ro": "Panou lateral stânga",
+    "no": "Venstre sidepanel"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
@@ -879,7 +941,8 @@
     "sv": "Tröskel, vänster bak",
     "da": "Bageste venstre sidepanel",
     "pl": "Osłona progowa, lewa strona, tył",
-    "ro": "Panou lateral inferior spate stânga"
+    "ro": "Panou lateral inferior spate stânga",
+    "no": "Bakre venstre sidepanel"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
@@ -893,7 +956,8 @@
     "sv": "Höger tröskel",
     "da": "Højre sidepanel",
     "pl": "Prawy próg",
-    "ro": "Panou lateral drept"
+    "ro": "Panou lateral drept",
+    "no": "Venstre sidepanel"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
@@ -907,7 +971,8 @@
     "sv": "Tröskel, bakre, höger",
     "da": "Højre bageste dørkarm",
     "pl": "Prawy tylny osłona progowa",
-    "ro": "Panou lateral inferior spate, partea dreaptă"
+    "ro": "Panou lateral inferior spate, partea dreaptă",
+    "no": "Bakre høyre sidepanel"
   },
   "trunk": {
     "key": "trunk",
@@ -921,7 +986,8 @@
     "sv": "Bagageutrymme",
     "da": "bagagerum",
     "pl": "Bagażnik",
-    "ro": "Portbagaj"
+    "ro": "Portbagaj",
+    "no": "Bagasje"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -935,7 +1001,8 @@
     "sv": "Bagageutrymmets vänstra sida",
     "da": "Bagagerummets venstre side",
     "pl": "Lewa strona bagażnika",
-    "ro": "Partea stângă a portbagajului"
+    "ro": "Partea stângă a portbagajului",
+    "no": "Venstre bagdør"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
@@ -949,7 +1016,8 @@
     "sv": "Bagageutrymme, höger sida",
     "da": "Bagagerummets højre side",
     "pl": "Prawa strona bagażnika",
-    "ro": "Partea dreaptă a portbagajului"
+    "ro": "Partea dreaptă a portbagajului",
+    "no": "Høyre side av bagasjerom"
   },
   "vin": {
     "key": "vin",
@@ -963,7 +1031,8 @@
     "sv": "VIN",
     "da": "VIN",
     "pl": "VIN",
-    "ro": "VIN"
+    "ro": "VIN",
+    "no": "VIN"
   },
   "windshield": {
     "key": "windshield",
@@ -977,7 +1046,8 @@
     "sv": "Vindruta",
     "da": "Forrude",
     "pl": "Szyba przednia",
-    "ro": "Parbriz"
+    "ro": "Parbriz",
+    "no": "Søyle"
   },
   "hatchback": {
     "key": "hatchback",
@@ -991,7 +1061,8 @@
     "sv": "Hatchback",
     "da": "Hatchback",
     "pl": "Hatchback",
-    "ro": "Hatchback"
+    "ro": "Hatchback",
+    "no": "Lomobil"
   },
   "cuv": {
     "key": "cuv",
@@ -1005,7 +1076,8 @@
     "sv": "CUV",
     "da": "CUV",
     "pl": "CUV",
-    "ro": "CUV"
+    "ro": "CUV",
+    "no": "Kombinert SUV"
   },
   "pickup": {
     "key": "pickup",
@@ -1019,7 +1091,8 @@
     "sv": "Lastbil",
     "da": "Afhentning",
     "pl": "Odbiór",
-    "ro": "Ridicare"
+    "ro": "Ridicare",
+    "no": "Hente"
   },
   "city": {
     "key": "city",
@@ -1033,7 +1106,8 @@
     "sv": "Stad",
     "da": "By",
     "pl": "Miasto",
-    "ro": "Oraș"
+    "ro": "Oraș",
+    "no": "By"
   },
   "van": {
     "key": "van",
@@ -1047,7 +1121,8 @@
     "sv": "Skåpbil",
     "da": "varevogn",
     "pl": "Van",
-    "ro": "Furgonetă"
+    "ro": "Furgonetă",
+    "no": "Vogn"
   },
   "sedan": {
     "key": "sedan",
@@ -1061,7 +1136,8 @@
     "sv": "Sedan",
     "da": "Sedan",
     "pl": "Sedan",
-    "ro": "Sedan"
+    "ro": "Sedan",
+    "no": "Stasjonsvogn"
   },
   "large-suv": {
     "key": "large-suv",
@@ -1075,7 +1151,8 @@
     "sv": "Stor SUV",
     "da": "Stor SUV",
     "pl": "Duży SUV",
-    "ro": "SUV de mari dimensiuni"
+    "ro": "SUV de mari dimensiuni",
+    "no": "Stor SUV"
   },
   "minivan": {
     "key": "minivan",
@@ -1089,7 +1166,8 @@
     "sv": "Minibuss",
     "da": "Minivan",
     "pl": "Minivan",
-    "ro": "Monovolum"
+    "ro": "Monovolum",
+    "no": "Vogn med flere seter"
   },
   "suv": {
     "key": "suv",
@@ -1103,7 +1181,8 @@
     "sv": "SUV",
     "da": "SUV",
     "pl": "SUV",
-    "ro": "SUV"
+    "ro": "SUV",
+    "no": "SUV"
   },
   "hgv": {
     "key": "hgv",
@@ -1117,7 +1196,8 @@
     "sv": "tungt fordon",
     "da": "tungt køretøj",
     "pl": "pojazd ciężarowy",
-    "ro": "autovehicul greu"
+    "ro": "autovehicul greu",
+    "no": "Stort kjøretøy"
   },
   "front-left-tire": {
     "key": "front-left-tire",
@@ -1131,7 +1211,8 @@
     "sv": "Framdäck, vänster",
     "da": "Forreste venstre dæk",
     "pl": "Przedni lewy opona",
-    "ro": "Anvelopa din față, partea stângă"
+    "ro": "Anvelopa din față, partea stângă",
+    "no": "Venstre forhjulsmekan"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -1145,7 +1226,8 @@
     "sv": "Framdäck, höger",
     "da": "Forreste højre dæk",
     "pl": "Opona przednia, prawa",
-    "ro": "Anvelopa din față, dreapta"
+    "ro": "Anvelopa din față, dreapta",
+    "no": "Høyre fremde hjul"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -1159,7 +1241,8 @@
     "sv": "Bakre vänstra däcket",
     "da": "Baghjulsdæk, venstre",
     "pl": "Lewe tylne koło",
-    "ro": "Anvelopa spate stânga"
+    "ro": "Anvelopa spate stânga",
+    "no": "Venstre bakdekk"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -1173,7 +1256,8 @@
     "sv": "Bakre höger däck",
     "da": "Baghjulsdæk, højre side",
     "pl": "Opona tylna, prawa",
-    "ro": "Anvelopa spate dreapta"
+    "ro": "Anvelopa spate dreapta",
+    "no": "Høyre bakdekk"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -1187,7 +1271,8 @@
     "sv": "Instrumentpanel",
     "da": "Instrumentbræt",
     "pl": "Ekran pulpitu",
-    "ro": "Ecranul principal"
+    "ro": "Ecranul principal",
+    "no": "Dashboard"
   },
   "keys": {
     "key": "keys",
@@ -1201,7 +1286,8 @@
     "sv": "Nycklar",
     "da": "Nøgler",
     "pl": "Klucze",
-    "ro": "Chei"
+    "ro": "Chei",
+    "no": "Nøkler"
   },
   "card-keys": {
     "key": "card-keys",
@@ -1215,7 +1301,8 @@
     "sv": "Kortnycklar",
     "da": "Kortnøgler",
     "pl": "Klucze kartowe",
-    "ro": "Chei cu card"
+    "ro": "Chei cu card",
+    "no": "Nøkler"
   },
   "front-left-penny-test": {
     "key": "front-left-penny-test",
@@ -1229,7 +1316,8 @@
     "sv": "Framvänster, mynttest",
     "da": "Penny-test, forhjul, venstre",
     "pl": "Test zużycia opon – lewa przednia opona",
-    "ro": "Testul cu monedă - față stânga"
+    "ro": "Testul cu monedă - față stânga",
+    "no": "Venstre foran, Penny-test"
   },
   "front-right-penny-test": {
     "key": "front-right-penny-test",
@@ -1243,7 +1331,8 @@
     "sv": "Kontroll av främre högra däck med myntmetoden",
     "da": "Kontrol af forhjul med mønt",
     "pl": "Test „monetą” – prawy przedni",
-    "ro": "Testul cu monedă – față, partea dreaptă"
+    "ro": "Testul cu monedă – față, partea dreaptă",
+    "no": "Venstre side, frem, Penny-test"
   },
   "rear-left-penny-test": {
     "key": "rear-left-penny-test",
@@ -1257,7 +1346,8 @@
     "sv": "Pennytest, bakre vänster",
     "da": "Kontrol af bageste venstre dæk med mønt",
     "pl": "Test zużycia opon – lewe tylne koło",
-    "ro": "Test Penny, spate stânga"
+    "ro": "Test Penny, spate stânga",
+    "no": "Venstre bakre hjul Penny-test"
   },
   "rear-right-penny-test": {
     "key": "rear-right-penny-test",
@@ -1271,6 +1361,7 @@
     "sv": "Pennytest, bakre högra hjulet",
     "da": "Penny-test, bageste højre",
     "pl": "Test zużycia opon – tylne prawe koło",
-    "ro": "Testul cu monedă – spate, partea dreaptă"
+    "ro": "Testul cu monedă – spate, partea dreaptă",
+    "no": "Hakktest bak høyre"
   }
 }

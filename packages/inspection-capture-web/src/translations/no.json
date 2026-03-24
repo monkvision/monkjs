@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Vi opplever problemer med tilkobling. Lasting av bilder kan ta lengre tid.",
+      "confirm": "Jeg forstår"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Skade"
+      },
+      "addDamage": {
+        "cancelBtn": "Avbryt",
+        "damagedPartCounter": "1 / 2 • Skadet del",
+        "closeupPictureCounter": "2 / 2 • Nærbilde",
+        "infoBtn": "Ret det riktige området, deretter trykk på knappen",
+        "infoCloseup": "Ta et nærbilde av skaden",
+        "selectPart": "Trykk på det skadede området. Bruk pilene til å rotere kjøretøyet og se den andre siden.",
+        "selectParts": "Trykk på de skadede delene. Bruk pilene til å rotere kjøretøyet og se den andre siden."
+      },
+      "error": {
+        "retry": "Prøv igjen",
+        "missingTasks": "Inspeksjonen mangler noen oppgaver som kreves av det nåværende modulen.",
+        "invalidToken": "Autentiserings-tokenet er ugyldig.",
+        "expiredToken": "Autentiserings-tokenet er utløpt.",
+        "insufficientAuth": "Du har ikke nødvendige tillatelser for å utføre denne handlingen.",
+        "inspectionLoading": "Det oppstod en feil under innlasting av inspeksjonen. Prøv igjen om noen minutter, eller kontakt support med følgende inspeksjons-ID:"
+      },
+      "closeConfirm": {
+        "message": "Er du sikker på at du vil avslutte opptaket?",
+        "cancel": "Nei",
+        "confirm": "Ja"
+      },
+      "guidelines": {
+        "defaultGuideline": "Bildevisningspunkter kan vises her.",
+        "disable": "Ikke vis dette igjen",
+        "validate": "Ok"
+      },
+      "tutorial": {
+        "welcome": "Velkommen til din første inspeksjon!",
+        "title": "Hvordan bruke det",
+        "guideline": "Gå rundt bilen for å ta alle bilder og følg veiledningen øverst for å plassere kameraet i riktig vinkel.",
+        "sightTutorial": "Bruk bildet nederst til venstre for å hjelpe deg med å komponere bildet.<br>Trykk på det for å se en detaljert forklaring.",
+        "sight": "Juster bilen så godt som mulig med linjene for å få det beste bildet.<br>Trykk på knappen for å ta bildet.",
+        "next": "Neste"
+      },
+      "sightTutorial": {
+        "tip": "Tips",
+        "defaultTutorialWithImage": "Her er et referansebilde\nPrøv å matche rammen din så godt som mulig.",
+        "defaultTutorialWithoutImage": "Plasser deg som vist i diagrammet til venstre\nSørg for at kameraet er på riktig høyde."
+      }
+    },
+    "gallery": {
+      "next": "Neste: bilder av kjøretøy"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Ta opp en video av kjøretøyet"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "For å ta opp video, må du gi appen tilgang til enhetenes kamera"
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "For å oppdage en fullstendig 360 graders sirkulasjon av kjøretøyet, må du gi enheten tilgang til kompasset"
+      },
+      "confirm": "Administrer tillatelser"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Begynn ved foran",
+        "description": "Hold en avstand på 3 til 4 fot og gå sakte rundt kjøretøyet, og ta bilder fra taket og ned til bakken."
+      },
+      "finish": {
+        "title": "Gå tilbake til starten",
+        "description": "Du bør være ferdig med å ta opp om omtrent 45 sekunder."
+      },
+      "photos": {
+        "title": "Ta bilder etter behov",
+        "description": "Trykk på knappen for å ta bilder for markedsføring eller skader, mens du filmer."
+      },
+      "confirm": "Ta opp en video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Vil du slette videoen?",
+        "keepRecording": "Fortsett å ta opp",
+        "discardVideo": "Avvis video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Du kjører for fort! Reduser farten litt, det burde ta omtrent én minutt å fullføre inspeksjonen.",
+        "phoneShaking": "Enheten din vibrerer for mye! Prøv å holde kameraet stabilt mens du tar opp kjøretøyet.",
+        "confirm": "Bekreft"
+      },
+      "tooltip": {
+        "start": "Når du har kjørt opp til bilen, trykk på knappen for å starte videoopptak.",
+        "end": "Når kjøretøyet er inspisert, trykk på knappen for å stoppe opptaket."
+      }
+    },
+    "processing": {
+      "processing": "Behandler video",
+      "uploading": "Lasting video",
+      "success": "Videobehandling fullført!",
+      "error": "En feil oppstod under avsluttet av inspeksjonen. Inspeksjons-ID:",
+      "done": "Ferdig"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Vennligst roter på enheten",
+    "description": "Du må kanskje justere skjermens orientering i telefonens innstillinger."
+  }
+}
