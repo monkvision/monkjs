@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Zkus znovu",
+    "create-inspection": "Došlo k neočekávané chybě při vytváření kontroly.",
+    "missing-inspection-id": "Neplatná URL adresa."
+  }
+}

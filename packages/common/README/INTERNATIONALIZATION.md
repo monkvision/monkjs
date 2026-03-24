@@ -45,6 +45,7 @@ const MyComponent = i18nWrap(function MyComponent(){
 /// in i18n.ts
 import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
+import cs from './translations/cs.json';
 import no from './translations/no.json';
 import ro from './translations/ro.json';
 import pl from './translations/pl.json';
@@ -71,6 +72,7 @@ const i18nMyComponent = i18nCreateSDKInstance({
     pl: { translation: pl },
     ro: { translation: ro },
     no: { translation: no },
+    cs: { translation: cs },
   }
 })
 ```

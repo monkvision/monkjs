@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Nahlásit poškození",
+    "description": "Přidejte fotografie poškození, jako jsou oděrky, škrábance nebo jiné vady.",
+    "button": "Přidat fotografie poškození"
+  },
+  "capture": {
+    "title": "Začněte kontrolu",
+    "description": "Žádné oděrky nebo škrábance? Prohlédněte vozidlo a pořiďte fotografie.",
+    "button": "Načtěte fotografie"
+  }
+}
