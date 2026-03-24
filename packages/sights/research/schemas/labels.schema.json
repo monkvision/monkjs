@@ -53,9 +53,22 @@
           "type": "string"
         }
       },
-      "required": ["key", "en", "fr", "de", "nl", "it", "pt", "es", "sv", "da", "pl", "ro",
+      "required": [
+        "key",
+        "en",
+        "fr",
+        "de",
+        "nl",
+        "it",
+        "pt",
+        "es",
+        "sv",
+        "da",
+        "pl",
+        "ro",
         "no",
-        "cs"],
+        "cs"
+      ],
       "unevaluatedProperties": false
     }
   },

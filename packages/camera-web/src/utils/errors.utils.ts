@@ -42,8 +42,8 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
       return {
         en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
-        cs: "Nelze získat přístup k kameře. Ujistěte se, že jste udělali vše potřebné a povolili přístup k kameře ve vašem prohlížeči na vašem zařízení.",
-        no: "Kunne ikke få tilgang til kameraet. Forsikre deg om at du har gitt tillatelse til kameraet i nettleseren din, i enhetenes innstillinger.",
+        cs: 'Nelze získat přístup k kameře. Ujistěte se, že jste udělali vše potřebné a povolili přístup k kameře ve vašem prohlížeči na vašem zařízení.',
+        no: 'Kunne ikke få tilgang til kameraet. Forsikre deg om at du har gitt tillatelse til kameraet i nettleseren din, i enhetenes innstillinger.',
         ro: 'Nu s-a putut accesa camera. Asigurați-vă că ați acordat permisiunea de acces la cameră pentru browserul dvs. în setările dispozitivului.',
         pl: 'Nie można uzyskać dostępu do kamery. Upewnij się, że w ustawieniach urządzenia przyznałeś dostęp do kamery dla używanej przeglądarki internetowej.',
         da: 'Kunne ikke få adgang til kameraet. Sørg for at give kameraadgang til din aktuelle webbrowser i dine enhedsindstillinger.',
