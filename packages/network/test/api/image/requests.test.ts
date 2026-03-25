@@ -445,8 +445,8 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
-            cs: `Detail${partsTranslation.map((part) => part.en).join(', ')}`,
-            no: `Zoom inn på${partsTranslation.map((part) => part.en).join(', ')}`,
+            cs: `Detail${partsTranslation.map((part) => part.cs).join(', ')}`,
+            no: `Zoom inn på${partsTranslation.map((part) => part.no).join(', ')}`,
             ro: `Prim-plan pe ${partsTranslation.map((part) => part.ro).join(', ')}`,
             pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
             da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
@@ -490,7 +490,7 @@ describe('Image requests', () => {
         additional_data: {
           label: {
             en: `Video Frame ${options.frameIndex}`,
-            cs: `Záznam snímku videa${options.frameIndex}`,
+            cs: `Obraz z videa${options.frameIndex}`,
             no: `Videobilde${options.frameIndex}`,
             ro: `Cadru video ${options.frameIndex}`,
             pl: `Klatka wideo ${options.frameIndex}`,
