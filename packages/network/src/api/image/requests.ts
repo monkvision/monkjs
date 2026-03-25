@@ -242,6 +242,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
     return {
       en: `Video Frame ${options.frameIndex}`,
+      cs: `Obraz z videa${options.frameIndex}`,
+      no: `Videobilde${options.frameIndex}`,
       ro: `Cadru video ${options.frameIndex}`,
       pl: `Klatka wideo ${options.frameIndex}`,
       da: `Videoramme ${options.frameIndex}`,
@@ -257,6 +259,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
     return {
       en: `Video Manual Photo`,
+      cs: `Video, Manuál, Fotografie`,
+      no: `Videoinstruksjon, Bilde`,
       ro: `Fotografie manuală din video`,
       pl: `Zdjęcie ręczne z wideo`,
       da: `Manuelt foto fra video`,
@@ -273,6 +277,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     const partsTranslation = options.vehicleParts.map((part) => vehiclePartLabels[part]);
     return {
       en: `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      cs: `Detail${partsTranslation.map((part) => part.cs).join(', ')}`,
+      no: `Zoom inn på${partsTranslation.map((part) => part.no).join(', ')}`,
       ro: `Prim-plan pe ${partsTranslation.map((part) => part.ro).join(', ')}`,
       pl: `Zbliżenie na ${partsTranslation.map((part) => part.pl).join(', ')}`,
       da: `Nærbillede af ${partsTranslation.map((part) => part.da).join(', ')}`,
@@ -287,6 +293,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
   }
   return {
     en: options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    cs: options.firstShot ? 'Detail (část)' : 'Detail (poškození)',
+    no: options.firstShot ? 'Nærbilde' : 'Detaljert bilde (skade)',
     ro: options.firstShot ? 'Prim-plan (piesă)' : 'Prim-plan (deteriorare)',
     pl: options.firstShot ? 'Zbliżenie (część)' : 'Zbliżenie (uszkodzenie)',
     da: options.firstShot ? 'Nærbillede (del)' : 'Nærbillede (skade)',

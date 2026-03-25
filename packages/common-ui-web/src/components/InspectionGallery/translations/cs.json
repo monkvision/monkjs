@@ -1,0 +1,22 @@
+{
+  "card": {
+    "addDamage": "Přidat škodu"
+  },
+  "topBar": {
+    "submit": "Zkontrolovat",
+    "title": "Fotografie",
+    "retakeFilter": "Zopakování",
+    "approvedFilter": "Schváleno",
+    "beautyShotsFilter": "Fotografie zblízka",
+    "videoFilter": "Záznam videa",
+    "manualFilter": "Ruční fotografie",
+    "completed": "Kontrola byla dokončena"
+  },
+  "list": {
+    "empty": {
+      "capture": "Žádné fotografie zatím. Fotografie budou zde zobrazeny.",
+      "nonCapture": "Žádné fotografie v tomto záznamu.",
+      "filter": "Žádné výsledky pro vybraný filtr."
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Občasné problémy s připojením. Nahrávání obrázků může trvat déle.",
+      "confirm": "Rozumím"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Poškození"
+      },
+      "addDamage": {
+        "cancelBtn": "Zrušit",
+        "damagedPartCounter": "1 / 2 • Poškozená součást",
+        "closeupPictureCounter": "2 / 2 • Detailní snímek",
+        "infoBtn": "Cílový bod nasměrujte na poškozenou část a klepněte na tlačítko.",
+        "infoCloseup": "Pořiďte detailní snímek poškození",
+        "selectPart": "Klepe na poškozenou část. Použijte šipky k otočení vozidla a zobrazení druhé strany.",
+        "selectParts": "Klepejte poškozené části. Použijte šipky k otočení vozidla a zobrazení druhé strany."
+      },
+      "error": {
+        "retry": "Zkus znovu",
+        "missingTasks": "Kontrola obsahuje chybějící úkoly, které jsou požadovány aktuálním modulem.",
+        "invalidToken": "Nesprávný token pro ověření",
+        "expiredToken": "Token pro ověření vypršel.",
+        "insufficientAuth": "Nemáte potřebná oprávnění k provedení této akce.",
+        "inspectionLoading": "Došlo k chybě při načítání kontroly. Zkuste to znovu za několik minut, nebo kontaktujte podporu s následujícím ID kontroly:"
+      },
+      "closeConfirm": {
+        "message": "Jste si jistí, že chcete zavřít nástroj pro snímání?",
+        "cancel": "Ne",
+        "confirm": "Ano"
+      },
+      "guidelines": {
+        "defaultGuideline": "Zde můžete zobrazit pokyny pro nastavení úhlu kamery.",
+        "disable": "Nezobrazovat znovu",
+        "validate": "Zkontrolovat"
+      },
+      "tutorial": {
+        "welcome": "Vítejte při první kontrole!",
+        "title": "Jak to používat",
+        "guideline": "Procházejte vozidlo a pořiďte všechny fotografie. Postupujte podle pokynů nahoře a zajistěte správný úhel.",
+        "sightTutorial": "Použijte obrázek v levém dolním rohu pro správné nastavení záběru.<br>Klepejte na něj, abyste viděli podrobnější vysvětlení.",
+        "sight": "Zarovnejte vozidlo s liniemi, aby bylo snímek co nejlepší.<br>Stiskněte tlačítko, abyste snímali.",
+        "next": "Pokračovat"
+      },
+      "sightTutorial": {
+        "tip": "Nápověda",
+        "defaultTutorialWithImage": "Zde je referenční obrázek\nPokuste se co nejlépe napodobit jeho úhel pohledu.",
+        "defaultTutorialWithoutImage": "Umístěte se podle obrázku vlevo.\nZajistěte, aby kamera byla ve správné výšce."
+      }
+    },
+    "gallery": {
+      "next": "Další: fotografie vozidla"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Nahrát video prohlídky vozidla"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "K nahrávání videa musíte povolit přístup k kameře zařízení"
+      },
+      "compass": {
+        "title": "Směr",
+        "description": "K detekci kompletní 360° rotace vozidla je nutné povolit přístup k kompasu zařízení."
+      },
+      "confirm": "Spravovat oprávnění"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Začněte u předního kola",
+        "description": "Udržujte vzdálenost 90-120 cm a pomalu se pohybujte kolem vozidla, fotografujte od střechy až po zem."
+      },
+      "finish": {
+        "title": "Dokončete, kde jste začali",
+        "description": "Měli byste být hotovi s nahráváním za přibližně 45 sekund."
+      },
+      "photos": {
+        "title": "Pořiďte fotografie podle potřeby",
+        "description": "Stiskněte tlačítko, abyste pořídili fotografie pro účely remarketingu nebo zaznamenali škody během nahrávání."
+      },
+      "confirm": "Nahrát video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Chcete smazat video?\nNeobcházeli jste celý vůz.",
+        "keepRecording": "Pokračovat v nahrávání",
+        "discardVideo": "Zrušit video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Jste příliš rychlý! Zpomalte, prohlídka vozidla by vám měla trvat přibližně jednu minutu.",
+        "phoneShaking": "Vaše zařízení se příliš třese! Snažte se, aby kamera byla během nahrávání vozidla stabilní.",
+        "confirm": "Zavřít"
+      },
+      "tooltip": {
+        "start": "Jakmile se auto dostane do cíle, stiskněte tlačítko pro zahájení nahrávání videa.",
+        "end": "Po dokončení prohlídky vozidla stiskněte tlačítko pro zastavení nahrávání."
+      }
+    },
+    "processing": {
+      "processing": "Zpracovává se video",
+      "uploading": "Nahrazování videa",
+      "success": "Zpracování videa dokončeno!",
+      "error": "Došlo k chybě při dokončování kontroly. ID kontroly:",
+      "done": "Dokončeno"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "otočte zařízení",
+    "description": "Možná budete muset nastavit orientaci zařízení ve vašich telefonních nastaveních."
+  }
+}

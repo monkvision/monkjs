@@ -13,6 +13,8 @@ export const monkLanguages = [
   'da',
   'pl',
   'ro',
+  'no',
+  'cs',
 ] as const;
 
 /**

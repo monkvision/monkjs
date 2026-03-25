@@ -6,6 +6,8 @@ import { DamageType, TranslationObject } from '@monkvision/types';
 export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   [DamageType.SCRATCH]: {
     en: 'Scratch',
+    cs: 'Škrábanec',
+    no: 'Ripe',
     ro: 'Zgârietură',
     pl: 'Zarysowanie',
     da: 'Ridse',
@@ -19,6 +21,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.DENT]: {
     en: 'Dent',
+    cs: 'Promáčklina',
+    no: 'Bulk',
     ro: 'Avarie',
     pl: 'Wgniecenie',
     da: 'bul',
@@ -32,6 +36,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BROKEN_GLASS]: {
     en: 'Broken Glass',
+    cs: 'Rozbité sklo',
+    no: 'Knust glass',
     ro: 'Parbriz spart',
     pl: 'Pęknięta szyba',
     da: 'Knust glas',
@@ -45,6 +51,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BROKEN_LIGHT]: {
     en: 'Broken Light',
+    cs: 'Rozbité světlo',
+    no: 'Ødelagt lys',
     ro: 'Lumină defectă',
     pl: 'Uszkodzone światło',
     da: 'Defekt lygte',
@@ -58,6 +66,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.HUBCAP_SCRATCH]: {
     en: 'Hubcap Scratch',
+    cs: 'Škrábanec na poklici',
+    no: 'Ripe på hjulkapsel',
     ro: 'Zgârietură pe capacul roții',
     pl: 'Zarysowanie kołpaka',
     da: 'Dækhætte-ridse',
@@ -71,6 +81,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSING_HUBCAP]: {
     en: 'Missing Hubcap',
+    cs: 'Chybějící poklice',
+    no: 'Manglende hjulkapsel',
     ro: 'Capac de roată lipsă',
     pl: 'Brak kołpaka',
     da: 'Manglende hjulkapsel',
@@ -84,6 +96,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SMASH]: {
     en: 'Smash',
+    cs: 'Náraz',
+    no: 'Kollisjonsskade',
     ro: 'Lovitură',
     pl: 'Zniszcz',
     da: 'Smadr',
@@ -97,6 +111,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.BODY_CRACK]: {
     en: 'Body Crack',
+    cs: 'Prasklina karoserie',
+    no: 'Sprekk i karosseri',
     ro: 'Fisură în caroserie',
     pl: 'Pęknięcie nadwozia',
     da: 'Karosserirevne',
@@ -110,6 +126,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSING_PIECE]: {
     en: 'Missing Piece',
+    cs: 'Chybějící díl',
+    no: 'Manglende del',
     ro: 'Piesă lipsă',
     pl: 'Brakujący element',
     da: 'Manglende del',
@@ -123,6 +141,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.RUSTINESS]: {
     en: 'Rustiness',
+    cs: 'Rez',
+    no: 'Rust',
     ro: 'Rugină',
     pl: 'Korozja',
     da: 'Rust',
@@ -136,6 +156,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.DIRT]: {
     en: 'Dirt',
+    cs: 'Nečistota',
+    no: 'Skitt',
     ro: 'Murdărie',
     pl: 'Brud',
     da: 'Snavs',
@@ -149,6 +171,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.MISSHAPE]: {
     en: 'Misshape',
+    cs: 'Deformace',
+    no: 'Deformering',
     ro: 'Deformare',
     pl: 'Deformacja',
     da: 'Deformation',
@@ -162,6 +186,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.PAINT_PEELING]: {
     en: 'Paint Peeling',
+    cs: 'Odlupování laku',
+    no: 'Avflassing av lakk',
     ro: 'Desprinderea vopselei',
     pl: 'Łuszcząca się farba',
     da: 'Afskallet maling',
@@ -175,6 +201,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SCATTERED_SCRATCHES]: {
     en: 'Scattered Scratches',
+    cs: 'Roztroušené škrábance',
+    no: 'Spredte riper',
     ro: 'Zgârieturi împrăștiate',
     pl: 'Rozproszone rysy',
     da: 'Spredte ridser',
@@ -188,6 +216,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.LIGHT_REFLECTION]: {
     en: 'Light Reflection',
+    cs: 'Odraz světla',
+    no: 'Lysrefleks',
     ro: 'Reflecția luminii',
     pl: 'Odbicie światła',
     da: 'Lysrefleks',
@@ -201,6 +231,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.SHADOW]: {
     en: 'Shadow',
+    cs: 'Stín',
+    no: 'Skygge',
     ro: 'Umbră',
     pl: 'Cień',
     da: 'Skygge',
@@ -214,6 +246,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.CAR_CURVE]: {
     en: 'Car Curve',
+    cs: 'Křivka vozidla',
+    no: 'Bilkurve',
     ro: 'Curba vehiculului',
     pl: 'Krzywa pojazdu',
     da: 'Bilkurve',
@@ -227,6 +261,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
   },
   [DamageType.PAINT_DAMAGE]: {
     en: 'Paint Damage',
+    cs: 'Poškození laku',
+    no: 'Lakkskade',
     ro: 'Deteriorări ale vopselei',
     pl: 'Uszkodzenie lakieru',
     da: 'Lakskade',

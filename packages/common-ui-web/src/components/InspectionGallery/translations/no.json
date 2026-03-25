@@ -1,0 +1,22 @@
+{
+  "card": {
+    "addDamage": "Legg til skade"
+  },
+  "topBar": {
+    "submit": "Bekreft",
+    "title": "Bilder",
+    "retakeFilter": "Ny prøve",
+    "approvedFilter": "Godkjent",
+    "beautyShotsFilter": "Bilder for presentasjon",
+    "videoFilter": "Video",
+    "manualFilter": "Manuelle bilder",
+    "completed": "Inspeksjonen er fullført"
+  },
+  "list": {
+    "empty": {
+      "capture": "Ingen bilder ennå. Bilder vil vises her.",
+      "nonCapture": "Ingen bilder i denne inspeksjonen.",
+      "filter": "Ingen treff for det valgte filteret."
+    }
+  }
+}

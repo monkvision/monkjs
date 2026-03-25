@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Přihlásit se",
+    "log-out": "Odhlásit se"
+  },
+  "errors": {
+    "popup-closed": "Chyba! Nemůžeme vás přihlásit, protože se okno zavřelo. Zkusíme to znovu!",
+    "token-expired": "Váš token pro přihlášení vypršel. Obnovte přihlášení.",
+    "insufficient-authorization": "Nemáte potřebná oprávnění k použití této aplikace. Vypněte se a použijte jiný účet.",
+    "unknown": "Ups! Došlo k neočekávané chybě při přihlášení. Zkusíme to znovu!",
+    "missing-token": "Neplatná URL adresa."
+  }
+}
