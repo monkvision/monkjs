@@ -1,0 +1,13 @@
+{
+  "actions": {
+    "log-in": "Kirjaudu sisään",
+    "log-out": "Kirjaudu ulos"
+  },
+  "errors": {
+    "popup-closed": "Valitettavasti et pystynyt kirjautumaan sisään, koska pop-up-ikkuna suljettiin. Yritetään uudelleen!",
+    "token-expired": "Todennusavaimesi on vanhentunut. Kirjaudu uudelleen.",
+    "insufficient-authorization": "Sinulla ei ole tarvittavia oikeuksia käyttää tätä sovellusta. Kirjaudu ulos ja käytä toista käyttäjätiliä.",
+    "unknown": "Valitettavasti, odottamaton virhe tapahtui kirjautumisen aikana. Yritetään uudelleen!",
+    "missing-token": "Yritettävän URL:n on virheellinen."
+  }
+}

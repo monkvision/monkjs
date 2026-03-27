@@ -1,0 +1,114 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Meillä on yhteysongelmia. Kuvien lataaminen voi kestää kauemmin.",
+      "confirm": "Ymmärrän"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Vaurio"
+      },
+      "addDamage": {
+        "cancelBtn": "Peruuta",
+        "damagedPartCounter": "1 / 2 • Vaurioitunut osa",
+        "closeupPictureCounter": "2 / 2 • Lähikuva",
+        "infoBtn": "Kohdista kohde vaurioituneelle alueelle ja napauta valokuvatappia",
+        "infoCloseup": "Ota lähikuva vaurioista",
+        "selectPart": "Napauta vaurioitunutta osaa. Käytä nuolia pyörittämään autoa ja katsomaan toista puolta.",
+        "selectParts": "Napauta vaurioituneita osia. Käytä nuolia pyörittämään ajoneuvoa ja katsomaan toista puolta."
+      },
+      "error": {
+        "retry": "Yritä uudelleen",
+        "missingTasks": "Tarkastuksessa puuttuu joitakin nykyisen moduulin vaatimiin tehtäviin.",
+        "invalidToken": "Käytetty tunnistautumistunnus on virheellinen.",
+        "expiredToken": "Todennusavaimen käyttö on päättynyt.",
+        "insufficientAuth": "Et ole oikeutettu suorittamaan tätä toimintoa.",
+        "inspectionLoading": "Tapahtui virhe tarkastuksen lataamisessa. Yritä uudelleen muutaman minuutin kuluttua tai ota yhteyttä tukeen seuraavalla tarkastuksen tunnuksella:"
+      },
+      "closeConfirm": {
+        "message": "Oletko varma, että haluat sulkea tallennustyökalun?",
+        "cancel": "Ei",
+        "confirm": "Kyllä"
+      },
+      "guidelines": {
+        "defaultGuideline": "Kuvan ottopisteet voidaan näyttää täällä.",
+        "disable": "Älä näytä tätä uudelleen",
+        "validate": "Hyvä"
+      },
+      "tutorial": {
+        "welcome": "Tervetuloa ensimmäiseen tarkastukseesi!",
+        "title": "Kuinka käyttää",
+        "guideline": "Kierrä autoa ja ota kaikki kuvat. Noudata ohjeita yläosassa, jotta saat oikean kulman.",
+        "sightTutorial": "Käytä vasemman alakuvakkeen ohjeena.<br>Napauta nähdäksesi yksityiskohtaisen selityksen.",
+        "sight": "Kohdista ajoneuvo mahdollisimman tarkasti linjoihin, jotta saat parhaan kuvan.<br>Paina nappia ottaaksesi valokuvan.",
+        "next": "Seuraava"
+      },
+      "sightTutorial": {
+        "tip": "Vinkki",
+        "defaultTutorialWithImage": "Tässä referenssikuva\nYritä sovittaa kuvaus mahdollisimman tarkasti.",
+        "defaultTutorialWithoutImage": "Aseta itsesi, kuten vasemmassa kaaviossa on esitetty.\nVarmista, että kamera on oikealla korkeudella."
+      }
+    },
+    "gallery": {
+      "next": "Seuraava: ajoneuvon valokuvat"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Nauhoita ajoneuvon tarkastuskierroksen video"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Jotta voit tallentaa videon, sinun on myönnettävä pääsy laitteen kameraan"
+      },
+      "compass": {
+        "title": "Kompassi",
+        "description": "Jotta voit havaita ajoneuvon täyden 360°-kierron, sinun on myönnettävä pääsy laitteen kompassiin"
+      },
+      "confirm": "Hallitse käyttöoikeuksia"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Aloita etuosasta",
+        "description": "Pidä 3-4 metrin etäisyyttä ja kävele hitaasti auton ympärillä, ottaen kuvia katon reunasta maahan asti."
+      },
+      "finish": {
+        "title": "Palaa alkuun",
+        "description": "Sinun tulisi olla valmis lopettamaan tallennuksen noin 45 sekunnin kuluttua."
+      },
+      "photos": {
+        "title": "Ota kuvia tarvittaessa",
+        "description": "Paina laukaisinta, jotta voit ottaa kuvia markkinointitarkoituksiin tai vaurioiden dokumentointiin samalla, kun kuvaat."
+      },
+      "confirm": "Nauhoita video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Haluatko poistaa videon? Olet vielä tehnyt vain osan tarkastuksesta.",
+        "keepRecording": "Jatka tallennusta",
+        "discardVideo": "Poista video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Liikut liian nopeasti! Hidasta hieman, tarkastuksen suorittaminen kestää noin minuutin.",
+        "phoneShaking": "Laitteesi tärisee liikaa! Pyri pitämään kamera vakaana, kun kuvaat ajoneuvoasi.",
+        "confirm": "Hyväksy"
+      },
+      "tooltip": {
+        "start": "Kun ajoneuvo on edessä, paina nappia aloittaaksesi videon tallentamisen.",
+        "end": "Kun ajoneuvon tarkastus on valmis, paina nappia lopettaaksesi nauhoituksen."
+      }
+    },
+    "processing": {
+      "processing": "Videota käsitellään...",
+      "uploading": "Ladataan videota...",
+      "success": "Videon käsittely valmis!",
+      "error": "Tapahtui virhe tarkastuksen lopetuksen yhteydessä. Tarkastuksen tunnus:",
+      "done": "Valmis"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Käännä laitteesi",
+    "description": "Sinun on ehkä avattava laitteesi suuntaus puhelimesi asetuksista."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "addDamage": {
+    "title": "Raportoi vaurio",
+    "description": "Lisää kuvat vaurioista, kuten naarmuista tai kolhuista.",
+    "button": "Lisää vaurioiden kuvat"
+  },
+  "capture": {
+    "title": "Aloita tarkastus",
+    "description": "Ei kolhuja tai naarmuja? Tarkista auto perusteellisesti ja ota kuvia.",
+    "button": "Ota kuvia"
+  }
+}

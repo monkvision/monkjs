@@ -21,6 +21,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOADING]: {
     title: {
       en: 'Uploading',
+      fi: 'Lataa',
       cs: 'Nahrávání',
       no: 'Lasting opp',
       ro: 'Încărcare',
@@ -36,6 +37,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image is being uploaded.',
+      fi: 'Kuva ladataan.',
       cs: 'Obrázek se nahrává.',
       no: 'Bildet lastes opp',
       ro: 'Această fotografie este încărcată.',
@@ -53,6 +55,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.COMPLIANCE_RUNNING]: {
     title: {
       en: 'Analyzing',
+      fi: 'Päättele',
       cs: 'Analyzování',
       no: 'Analyserer',
       ro: 'Analizând',
@@ -68,6 +71,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image is being analyzed.',
+      fi: 'Kuva analysoidaan.',
       cs: 'Obraz je analyzován.',
       no: 'Bildet analyseres',
       ro: 'Această fotografie este analizată.',
@@ -85,6 +89,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.SUCCESS]: {
     title: {
       en: 'Success',
+      fi: 'Onnistui',
       cs: 'Úspěch',
       no: 'Ferdig',
       ro: 'Succes',
@@ -100,6 +105,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'This image seems good, but you can still retake it if you want.',
+      fi: 'Tämä kuva näyttää hyvältä, mutta voit ottaa sen uudelleen, jos haluat.',
       cs: 'Tento obrázek vypadá dobře, ale můžete jej stále zkusit znovu, pokud chcete.',
       no: 'Dette bildet ser bra ut, men du kan ta det på nytt hvis du ønsker det.',
       ro: 'Această fotografie pare bună, dar puteți să o refaceți dacă doriți.',
@@ -117,6 +123,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOAD_FAILED]: {
     title: {
       en: 'Upload failed',
+      fi: 'Lataus epäonnistui',
       cs: 'Nahrání selhalo',
       no: 'Fil opplasting mislyktes',
       ro: 'Încărcarea a eșuat',
@@ -132,6 +139,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'Make sure you have a good connection and take the photo again.',
+      fi: 'Varmista hyvä yhteys ja ota kuva uudelleen.',
       cs: 'Ujistěte se, že máte stabilní připojení a zopakujte snímání.',
       no: 'Sørg for god forbindelse og ta bildet igjen.',
       ro: 'Asigurați-vă că aveți o conexiune bună și faceți fotografia din nou.',
@@ -149,6 +157,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.UPLOAD_ERROR]: {
     title: {
       en: 'Upload error',
+      fi: 'Latausvirhe',
       cs: 'Chyba při nahrávání',
       no: 'Filopplasting feilet',
       ro: 'Eroare la încărcare',
@@ -164,6 +173,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'An error occurred during the image upload.',
+      fi: 'Virhe tapahtui kuvan latauksessa.',
       cs: 'Došlo k chybě při nahrávání obrázku.',
       no: 'En feil oppstod under opplastingen av bildet.',
       ro: 'A apărut o eroare în timpul încărcării fotografiei.',
@@ -181,6 +191,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
   [ImageStatus.NOT_COMPLIANT]: {
     title: {
       en: 'Error',
+      fi: 'Virhe',
       cs: 'Chyba',
       no: 'Feil',
       ro: 'Eroare',
@@ -196,6 +207,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
     },
     description: {
       en: 'Make sure the image quality is good and take the photo again.',
+      fi: 'Varmista, että kuvan laatu on hyvä, ja ota kuva uudelleen.',
       cs: 'Ujistěte se, že kvalita obrazu je dobrá a pořiďte další snímek.',
       no: 'Sørg for at bildet er av god kvalitet og ta bildet igjen.',
       ro: 'Asigurați-vă că fotografia are o calitate bună și faceți fotografia din nou.',
@@ -219,6 +231,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.OTHER]: {
     title: {
       en: 'Not compliant',
+      fi: 'Ei täytä vaatimuksia',
       cs: 'Neodpovídá požadavkům',
       no: 'Ikke i samsvar',
       ro: 'Neconform',
@@ -234,6 +247,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
+      fi: 'Varmista, että kuvan laatu on hyvä ja että ajoneuvo on oikein kohdistettu ohjaimiin.',
       cs: 'Ujistěte se, že kvalita obrazu je dobrá a že vozidlo je správně zarovnáno podle vodítek.',
       no: 'Sørg for at bildet er av god kvalitet og at kjøretøyet er riktig justert med retningslinjene.',
       ro: 'Asigurați-vă că fotografia are o calitate bună și că vehiculul este aliniat corect cu ghidajele.',
@@ -251,6 +265,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LOW_RESOLUTION]: {
     title: {
       en: 'Low resolution',
+      fi: 'Korkea resoluutio',
       cs: 'Nízké rozlišení',
       no: 'Lav oppløsning',
       ro: 'Rezoluție scăzută',
@@ -266,6 +281,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image has a good resolution.',
+      fi: 'Varmista, että kuva on riittävän selkeä.',
       cs: 'Ujistěte se, že obrázek má dobrou kvalitu.',
       no: 'Sørg for at bildet har god oppløsning.',
       ro: 'Asigurați-vă că fotografia are o rezoluție bună.',
@@ -283,6 +299,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.BLURRINESS]: {
     title: {
       en: 'Too blurry',
+      fi: 'Liian epätarkka',
       cs: 'Příliš rozmazané',
       no: 'For uskarpt',
       ro: 'Prea estompată',
@@ -298,6 +315,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the image is not blurry.',
+      fi: 'Varmista, että kuva ei ole epätarkka.',
       cs: 'Ujistěte se, že obrázek není rozmazaný.',
       no: 'Sørg for at bildet ikke er uskarpt.',
       ro: 'Asigurați-vă că fotografia nu este estompată.',
@@ -315,6 +333,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNDEREXPOSURE]: {
     title: {
       en: 'Underexposed',
+      fi: 'Liian vähäinen valo',
       cs: 'Podexponováno',
       no: 'For lite lys',
       ro: 'Subexpus',
@@ -330,6 +349,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that the image isn't too dark.",
+      fi: 'Varmista, että kuva ei ole liian tumma.',
       cs: 'Ujistěte se, že obrázek není příliš tmavý.',
       no: 'Sørg for at bildet ikke er for mørkt.',
       ro: 'Asigurați-vă că imaginea nu este prea întunecată.',
@@ -347,6 +367,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.OVEREXPOSURE]: {
     title: {
       en: 'Overexposed',
+      fi: 'Liian valoisa',
       cs: 'Přeexponováno',
       no: 'Overeksponert',
       ro: 'Supraexpus',
@@ -362,6 +383,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that the image isn't too bright.",
+      fi: 'Varmista, ettei kuva ole liian kirkas.',
       cs: 'Ujistěte se, že obrázek není příliš jasný.',
       no: 'Sørg for at bildet ikke er for lyst.',
       ro: 'Asigurați-vă că imaginea nu este prea luminoasă.',
@@ -379,6 +401,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LENS_FLARE]: {
     title: {
       en: 'Lens flares',
+      fi: 'Valoheijastukset',
       cs: 'Odlesky',
       no: 'Lysrefleksjoner',
       ro: 'Reflexii ale lentilei',
@@ -394,6 +417,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there aren't any bright flare on the image.",
+      fi: 'Varmista, ettei kuvassa ole kirkkaita heijastuksia.',
       cs: 'Ujistěte se, že na obrázku nejsou žádné jasné odlesky.',
       no: 'Sørg for at det ikke er noen sterkt reflekterende områder på bildet.',
       ro: 'Asigurați-vă că nu există reflexii puternice în imagine.',
@@ -411,6 +435,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.DIRTINESS]: {
     title: {
       en: 'Vehicle dirty',
+      fi: 'Ajoneuvo likainen',
       cs: 'Znečištěné vozidlo',
       no: 'Skittent kjøretøy',
       ro: 'Vehicul murdar',
@@ -426,6 +451,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that your vehicle is clean.',
+      fi: 'Varmista, että ajoneuvo on puhdas.',
       cs: 'Ujistěte se, že váš vůz je čistý.',
       no: 'Sørg for at kjøretøyet er rent',
       ro: 'Asigurați-vă că vehiculul dumneavoastră este curat.',
@@ -443,6 +469,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.SNOWNESS]: {
     title: {
       en: 'Vehicle snowy',
+      fi: 'Ajoneuvo lumessa',
       cs: 'Zasněžené vozidlo',
       no: 'Kjøretøy med snø',
       ro: 'Vehicul înzăpezit',
@@ -458,6 +485,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there aren't any snow on the vehicle.",
+      fi: 'Varmista, ettei ajoneuvolla ole lunta.',
       cs: 'Ujistěte se, že na vozidlo neleží žádný sníh.',
       no: 'Sørg for at det ikke er snø på kjøretøyet.',
       ro: 'Asigurați-vă că nu există zăpadă pe vehicul.',
@@ -475,6 +503,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WETNESS]: {
     title: {
       en: 'Vehicle wet',
+      fi: 'Ajoneuvo märkä',
       cs: 'Mokré vozidlo',
       no: 'Vått kjøretøy',
       ro: 'Vehicul umed',
@@ -490,6 +519,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the vehicle is dry.',
+      fi: 'Varmista, että ajoneuvo on kuiva.',
       cs: 'Ujistěte se, že vozidlo je suché.',
       no: 'Sørg for at kjøretøyet er tørt',
       ro: 'Asigurați-vă că vehiculul este uscat.',
@@ -507,6 +537,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.REFLECTIONS]: {
     title: {
       en: 'Reflections',
+      fi: 'Heijastukset',
       cs: 'Odraz',
       no: 'Refleksjoner',
       ro: 'Reflecții',
@@ -522,6 +553,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: "Make sure that there are'nt any reflections on the vehicle.",
+      fi: 'Varmista, ettei ajoneuvolla ole heijastuksia.',
       cs: 'Ujistěte se, že na vozidlo nepadají žádné odlesky.',
       no: 'Sørg for at det ikke er noen refleksjoner på kjøretøyet.',
       ro: 'Asigurați-vă că nu există reflexii pe vehicul.',
@@ -539,6 +571,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNKNOWN_SIGHT]: {
     title: {
       en: 'Unknown sight',
+      fi: 'Ei tunnistettu',
       cs: 'Neznámý úhel pohledu',
       no: 'Ukjent synsvinkel',
       ro: 'Imagine necunoscută',
@@ -554,6 +587,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Unknown sight.',
+      fi: 'Sisäinen virhe: Näkö ei tunnistettu.',
       cs: 'Chyba: Není možné určit pozici.',
       no: 'Intern feil: Ukjent synsvinkel.',
       ro: 'Eroare internă: Vedere necunoscută.',
@@ -571,6 +605,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.UNKNOWN_VIEWPOINT]: {
     title: {
       en: 'Unknown viewpoint',
+      fi: 'Epäselvä näkökulma',
       cs: 'Neznámý úhel pohledu',
       no: 'Ukjent synsvinkel',
       ro: 'Perspectivă necunoscută',
@@ -586,6 +621,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Unknown viewpoint.',
+      fi: 'Sisäinen virhe: Tuntematon näkökulma.',
       cs: 'Chyba: Neznámý úhel pohledu.',
       no: 'Intern feil: Ukjent synsvinkel.',
       ro: 'Eroare internă: punct de vedere necunoscut.',
@@ -603,6 +639,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.NO_VEHICLE]: {
     title: {
       en: 'No vehicle',
+      fi: 'Ei ajoneuvoa',
       cs: 'Žádné vozidlo',
       no: 'Ingen kjøretøy',
       ro: 'Fără vehicul',
@@ -618,6 +655,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that there is a vehicle in the photo.',
+      fi: 'Varmista, että kuvassa on auto.',
       cs: 'Ujistěte se, že na obrázku je vozidlo.',
       no: 'Sørg for at det er et kjøretøy på bildet.',
       ro: 'Asigurați-vă că în fotografie se află un vehicul.',
@@ -635,6 +673,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WRONG_ANGLE]: {
     title: {
       en: 'Wrong angle',
+      fi: 'Väärä kulma',
       cs: 'Špatný úhel',
       no: 'Feil vinkel',
       ro: 'Unghi incorect',
@@ -650,6 +689,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      fi: 'Varmista, että ajoneuvo on oikein kohdistettu ohjaimiin.',
       cs: 'Ujistěte se, že vozidlo správně zarovnáte s vodítky.',
       no: 'Sørg for å justere kjøretøyet riktig med veilederne.',
       ro: 'Asigurați-vă că aliniați corect vehiculul cu ajutorul ghidajelor.',
@@ -667,6 +707,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.WRONG_CENTER_PART]: {
     title: {
       en: 'Wrong center part',
+      fi: 'Väärä keskiosa',
       cs: 'Nesprávná střední část',
       no: 'Feil del',
       ro: 'Partea centrală incorectă',
@@ -682,6 +723,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      fi: 'Varmista, että ajoneuvo on oikein kohdistettu ohjaimiin.',
       cs: 'Ujistěte se, že vozidlo správně zarovnáte s vodítky.',
       no: 'Sørg for å justere kjøretøyet riktig med veilederne.',
       ro: 'Asigurați-vă că aliniați corect vehiculul cu ajutorul ghidajelor.',
@@ -699,6 +741,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.MISSING_PARTS]: {
     title: {
       en: 'Missing parts',
+      fi: 'Puuttuvat osat',
       cs: 'Chybějící díly',
       no: 'Manglende deler',
       ro: 'Piese lipsă',
@@ -714,6 +757,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to properly align the vehicle with the guides.',
+      fi: 'Varmista, että ajoneuvo on oikein kohdistettu ohjaimiin.',
       cs: 'Ujistěte se, že vozidlo správně zarovnáte s vodítky.',
       no: 'Sørg for å justere kjøretøyet riktig i forhold til retningslinjene.',
       ro: 'Asigurați-vă că aliniați corect vehiculul cu ajutorul ghidajelor.',
@@ -731,6 +775,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.HIDDEN_PARTS]: {
     title: {
       en: 'Hidden parts',
+      fi: 'Piilotetut osat',
       cs: 'Skryté části',
       no: 'Skjulte deler',
       ro: 'Piese ascunse',
@@ -746,6 +791,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that nothing is obstructing the vehicule from the camera.',
+      fi: 'Varmista, ettei mitään estä kameran näkymää.',
       cs: 'Ujistěte se, že nic nebrání pohledu kamery na vozidlo.',
       no: 'Sørg for at ingenting hindrer kameraet i å se bilen.',
       ro: 'Asigurați-vă că nimic nu blochează vederea vehiculului din partea camerei.',
@@ -763,6 +809,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.TOO_ZOOMED]: {
     title: {
       en: 'Too close',
+      fi: 'Liian lähellä',
       cs: 'Příliš blízko',
       no: 'For nært',
       ro: 'Prea aproape',
@@ -778,6 +825,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to stand far enough from the vehicle.',
+      fi: 'Pidä riittävä etäisyys ajoneuvosta.',
       cs: 'Ujistěte se, že jste dostatečně daleko od vozidla.',
       no: 'Sørg for å stå langt nok unna kjøretøyet.',
       ro: 'Asigurați-vă că vă aflați la o distanță suficientă de vehicul.',
@@ -795,6 +843,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.NOT_ZOOMED_ENOUGH]: {
     title: {
       en: 'Too far',
+      fi: 'Liian kaukana',
       cs: 'Příliš daleko',
       no: 'For langt',
       ro: 'Prea departe',
@@ -810,6 +859,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure to stand close enough from the vehicle.',
+      fi: 'Varmista, että olet tarpeeksi lähellä ajoneuvoa.',
       cs: 'Ujistěte se, že jste dostatečně blízko vozidlu.',
       no: 'Stå nær nok bilen',
       ro: 'Asigurați-vă că vă aflați la o distanță suficient de mică de vehicul.',
@@ -827,6 +877,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.INTERIOR_NOT_SUPPORTED]: {
     title: {
       en: 'Interior not supported',
+      fi: 'Sisätilan tarkastus ei ole tuettu',
       cs: 'Interiér není podporován',
       no: 'Ikke støttet',
       ro: 'Interiorul nu este acceptat.',
@@ -842,6 +893,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Interior not supported.',
+      fi: 'Sisäinen virhe: Sisätilat eivät ole tuetut.',
       cs: 'Chyba: Interiér není podporován.',
       no: 'Intern feil: Interiør støttes ikke.',
       ro: 'Eroare internă: interiorul nu este acceptat.',
@@ -859,6 +911,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.MISSING]: {
     title: {
       en: 'Missing',
+      fi: 'Puuttuva',
       cs: 'Chybí',
       no: 'Manglende',
       ro: 'Lipsă',
@@ -874,6 +927,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Internal Error : Missing.',
+      fi: 'Sisäinen virhe: Tiedot puuttuvat.',
       cs: 'Chyba: Chybějící data',
       no: 'Intern feil: Mangler',
       ro: 'Eroare internă: lipsă.',
@@ -891,6 +945,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.LOW_QUALITY]: {
     title: {
       en: 'Low quality',
+      fi: 'Huono kunto',
       cs: 'Špatná kvalita',
       no: 'Dårlig kvalitet',
       ro: 'Calitate scăzută',
@@ -906,6 +961,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'Make sure that the photo has a good quality.',
+      fi: 'Varmista, että valokuva on selkeä ja hyvälaatuinen.',
       cs: 'Ujistěte se, že fotografie má dobrou kvalitu.',
       no: 'Sørg for at bildet har god kvalitet.',
       ro: 'Asigurați-vă că fotografia are o calitate bună.',
@@ -923,6 +979,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
   [ComplianceIssue.PORTRAIT_IMAGE]: {
     title: {
       en: 'Portrait Image',
+      fi: 'Kuva (portrityyppinen)',
       cs: 'Portrétní snímek',
       no: 'Bilde (portrett)',
       ro: 'Imagine portret',
@@ -938,6 +995,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
     },
     description: {
       en: 'The picture is in portrait mode, please take it in landscape',
+      fi: 'Kuvassa on pystyasento, ota se vaakatasoon',
       cs: 'Obraz je v portrétním režimu, prosím, pořiďte jej v režimu krajiny.',
       no: 'Bildet er i portrettmodus, vennligst ta det i landskapsmodus',
       ro: 'Imaginea este în modul portret, vă rugăm să o fotografiați în modul peisaj.',
@@ -960,6 +1018,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
 export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   [Viewpoint.FRONT]: {
     en: 'Front',
+    fi: 'Etupuoli',
     cs: 'Přední',
     no: 'Foran',
     fr: 'Avant',
@@ -975,6 +1034,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.FRONT_LEFT]: {
     en: 'Front Left',
+    fi: 'Etulasi, vasen',
     cs: 'Levý přední',
     no: 'Venstre foran',
     fr: 'Avant gauche',
@@ -990,6 +1050,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.LEFT]: {
     en: 'Left',
+    fi: 'Vasemmalla',
     cs: 'Levý',
     no: 'Venstre',
     fr: 'Gauche',
@@ -1005,6 +1066,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.BACK_LEFT]: {
     en: 'Rear Left',
+    fi: 'Takaisin, vasen',
     cs: 'Zadní levý',
     no: 'Bakre venstre',
     fr: 'Arrière gauche',
@@ -1020,6 +1082,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.BACK]: {
     en: 'Rear',
+    fi: 'Takana',
     cs: 'Zadní',
     no: 'Bakre',
     fr: 'Arrière',
@@ -1035,6 +1098,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.BACK_RIGHT]: {
     en: 'Rear Right',
+    fi: 'Takainen oikea',
     cs: 'Zadní pravý',
     no: 'Bakre høyre',
     fr: 'Arrière droit',
@@ -1050,6 +1114,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.RIGHT]: {
     en: 'Right',
+    fi: 'Oikein',
     cs: 'Pravý',
     no: 'Høyre',
     fr: 'Droite',
@@ -1065,6 +1130,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
   },
   [Viewpoint.FRONT_RIGHT]: {
     en: 'Front Right',
+    fi: 'Etupuoli, oikea',
     cs: 'Přední pravý',
     no: 'Høyre foran',
     fr: 'Avant droit',

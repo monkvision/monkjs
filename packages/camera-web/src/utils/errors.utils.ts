@@ -10,6 +10,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.NOT_ALLOWED:
       return {
         en: 'Camera preview unavailable because camera access was not granted to the page.',
+        fi: 'Kameranäkymä ei ole saatavilla, koska kameran käyttöoikeus ei ole myönnetty sivulle.',
         cs: 'Přehled z kamery není dostupný, protože přístup k kameře nebyl povolen pro tuto stránku.',
         no: 'Kamerafeil: Kameraadgang er ikke tillatt for denne siden.',
         ro: 'Previzualizarea camerei nu este disponibilă deoarece accesul la cameră nu a fost acordat paginii.',
@@ -26,6 +27,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.WEBPAGE_NOT_ALLOWED:
       return {
         en: 'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
+        fi: 'Ei pysty hakemaan kameran käyttöoikeutta. Varmista, että painat "Hyväksy", kun pyydetään antamaan käyttöoikeus tälle verkkosivulle.',
         cs: 'Nelze získat přístup k kameře. Ujistěte se, že kliknete na „Povolit“, když budete vyzváni k udělení povolení kamery pro tuto webovou stránku.',
         no: 'Kunne ikke få tilgang til kameraet. Sørg for å trykke på «Tillat» når du blir bedt om å gi tillatelse for kameraet til denne nettsiden.',
         ro: 'Nu s-a putut accesa camera. Asigurați-vă că apăsați „Permite” când vi se solicită să acordați permisiunea de utilizare a camerei pentru această pagină web.',
@@ -42,6 +44,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
       return {
         en: "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
+        fi: 'Ei pysty hakemaan kameran käyttöoikeutta. Varmista, että olet antanut kameran käytön oikeuden nykyiselle verkkoselaimellesi laitteesi asetuksissa.',
         cs: 'Nelze získat přístup k kameře. Ujistěte se, že jste udělali vše potřebné a povolili přístup k kameře ve vašem prohlížeči na vašem zařízení.',
         no: 'Kunne ikke få tilgang til kameraet. Forsikre deg om at du har gitt tillatelse til kameraet i nettleseren din, i enhetenes innstillinger.',
         ro: 'Nu s-a putut accesa camera. Asigurați-vă că ați acordat permisiunea de acces la cameră pentru browserul dvs. în setările dispozitivului.',
@@ -58,6 +61,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
         en: 'The camera video stream was closed unexpectedly.',
+        fi: 'Kamera videovirta katkaistiin odottamatta.',
         cs: 'Videozáznam z kamery byl náhle ukončen.',
         no: 'Kamera-videoen ble avbrutt uventet.',
         ro: 'Fluxul video al camerei a fost închis neașteptat.',
@@ -74,6 +78,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     case UserMediaErrorType.INVALID_STREAM:
       return {
         en: 'Unable to process the camera video stream.',
+        fi: 'Ei pysty käsittelemään kameran videovirtaa.',
         cs: 'Nelze zpracovat video z kamery.',
         no: 'Kan ikke behandle videostrømmen fra kameraet.',
         ro: 'Nu se poate procesa fluxul video al camerei.',
@@ -90,6 +95,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
     default:
       return {
         en: 'An unexpected error occurred when fetching the camera video stream.',
+        fi: 'Virhe tapahtui kameran videovirran hakemisessa.',
         cs: 'Došlo k neočekávané chybě při načítání videozáznamu z kamery.',
         no: 'En uventet feil oppstod under henting av kamera-video.',
         ro: 'A apărut o eroare neașteptată la preluarea fluxului video de la cameră.',
