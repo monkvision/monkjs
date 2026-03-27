@@ -16,6 +16,9 @@
         "en": {
           "type": "string"
         },
+        "fi": {
+          "type": "string"
+        },
         "cs": {
           "type": "string"
         },
@@ -67,7 +70,8 @@
         "pl",
         "ro",
         "no",
-        "cs"
+        "cs",
+        "fi"
       ],
       "unevaluatedProperties": false
     }

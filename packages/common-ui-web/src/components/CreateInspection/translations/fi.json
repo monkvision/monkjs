@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Yritä uudelleen",
+    "create-inspection": "Tapahtui odottamaton virhe tarkastuksen luomisessa.",
+    "missing-inspection-id": "Yritettävän URL:n on virheellinen."
+  }
+}

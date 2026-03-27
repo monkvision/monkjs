@@ -1,0 +1,22 @@
+{
+  "card": {
+    "addDamage": "Lisää vaurio"
+  },
+  "topBar": {
+    "submit": "Vahvista",
+    "title": "Valokuvat",
+    "retakeFilter": "Uudelleen",
+    "approvedFilter": "Hyväksytty",
+    "beautyShotsFilter": "Ulkonäkökuvat",
+    "videoFilter": "Katso video",
+    "manualFilter": "Valokuvat manuaalisesti",
+    "completed": "Tämä tarkastus on valmis"
+  },
+  "list": {
+    "empty": {
+      "capture": "Ei vielä kuvia. Otetut kuvat näytetään täällä.",
+      "nonCapture": "Ei ole kuvia tässä tarkastuksessa.",
+      "filter": "Ei löydetty tuloksia valitun suodattimen perusteella."
+    }
+  }
+}

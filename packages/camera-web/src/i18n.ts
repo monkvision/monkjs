@@ -1,5 +1,6 @@
 import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
+import fi from './translations/fi.json';
 import cs from './translations/cs.json';
 import no from './translations/no.json';
 import ro from './translations/ro.json';
@@ -32,5 +33,6 @@ export const i18nCamera = i18nCreateSDKInstance({
     ro: { translation: ro },
     no: { translation: no },
     cs: { translation: cs },
+    fi: { translation: fi },
   },
 });
