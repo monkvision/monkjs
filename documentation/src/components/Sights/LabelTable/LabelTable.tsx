@@ -1,4 +1,3 @@
-import React from 'react';
 import { labels } from '@monkvision/sights';
 import clsx from 'clsx';
 import styles from './LabelTable.module.css';

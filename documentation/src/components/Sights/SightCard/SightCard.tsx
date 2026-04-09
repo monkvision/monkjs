@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useRef } from 'react';
+import { Fragment, useMemo, useRef } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 import { labels, sights } from '@monkvision/sights';
 import { Sight, VehicleDetails, VehicleModel } from '@monkvision/types';
