@@ -25,6 +25,7 @@ const vehicleModelDisplayOverlays: Record<
   [VehicleModel.TESLAMY]: sights['teslamy-F9Nr3VtK'].overlay,
   [VehicleModel.TESLAMX]: sights['teslamx-aT9LpF7y'].overlay,
   [VehicleModel.TESLAMS]: sights['teslams-Km9XrLp5'].overlay,
+  [VehicleModel.TESLAC]: sights['teslac-Rx8SpL6m'].overlay,
 };
 
 export interface SightCardProps {

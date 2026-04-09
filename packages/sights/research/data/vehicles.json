@@ -89,5 +89,11 @@
     "make": "Tesla",
     "model": "Model X",
     "type": "cuv"
+  },
+  "teslac": {
+    "id": "teslac",
+    "make": "Tesla",
+    "model": "Cybertruck",
+    "type": "pickup"
   }
 }
