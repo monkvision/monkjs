@@ -141,6 +141,10 @@ export const VehicleModel = {
    * Tesla Model X (CUV)
    */
   TESLAMX: 'teslamx',
+  /**
+   * Tesla Cybertruck (Pickup)
+   */
+  TESLAC: 'teslac',
 } as const;
 
 /**

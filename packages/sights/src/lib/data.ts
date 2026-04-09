@@ -40,6 +40,8 @@ import teslamySightsJSON from './data/sights/teslamy.json';
 import teslamxSightsJSON from './data/sights/teslamx.json';
 // @ts-ignore
 import teslamsSightsJSON from './data/sights/teslams.json';
+// @ts-ignore
+import teslacSightsJSON from './data/sights/teslac.json';
 
 /**
  * Object map associating translation keys to sight labels translations.
@@ -70,6 +72,7 @@ const sights = {
   ...teslamySightsJSON,
   ...teslamxSightsJSON,
   ...teslamsSightsJSON,
+  ...teslacSightsJSON,
 } as SightDictionary;
 
 /**

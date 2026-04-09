@@ -1,6 +1,6 @@
-import React from 'react';
 jest.mock('../../../src/components/DynamicSVG/hooks', () => ({
   useXMLParser: jest.fn(() => ({ children: [{ tagName: 'svg' }] })),
+  useSVGUniqueIds: jest.fn((doc) => doc),
 }));
 
 jest.mock('../../../src/components/DynamicSVG/SVGElement.tsx', () => ({

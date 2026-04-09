@@ -1,0 +1,171 @@
+{
+  "teslac-Wp5RqL3x": {
+    "id": "teslac-Wp5RqL3x",
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "teslac-Wp5RqL3x.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Wp5RqL3x.jpeg"
+  },
+  "teslac-Lm3XtY8p": {
+    "id": "teslac-Lm3XtY8p",
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "teslac-Lm3XtY8p.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Lm3XtY8p.jpeg"
+  },
+  "teslac-Rx8SpL6m": {
+    "id": "teslac-Rx8SpL6m",
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "teslac-Rx8SpL6m.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Rx8SpL6m.jpeg"
+  },
+  "teslac-Fk4LvT3n": {
+    "id": "teslac-Fk4LvT3n",
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "teslac-Fk4LvT3n.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 61,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Fk4LvT3n.jpeg"
+  },
+  "teslac-Xz6NmT4k": {
+    "id": "teslac-Xz6NmT4k",
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "teslac-Xz6NmT4k.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Xz6NmT4k.jpeg"
+  },
+  "teslac-Zq3LxN8m": {
+    "id": "teslac-Zq3LxN8m",
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "teslac-Zq3LxN8m.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Zq3LxN8m.jpeg"
+  },
+  "teslac-Cn5WmY9q": {
+    "id": "teslac-Cn5WmY9q",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "teslac-Cn5WmY9q.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Cn5WmY9q.jpeg"
+  },
+  "teslac-Kp9NvR2w": {
+    "id": "teslac-Kp9NvR2w",
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "teslac-Kp9NvR2w.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Kp9NvR2w.jpeg"
+  },
+  "teslac-Dm8RpX6z": {
+    "id": "teslac-Dm8RpX6z",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "teslac-Dm8RpX6z.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Dm8RpX6z.jpeg"
+  },
+  "teslac-Bv7TpK2r": {
+    "id": "teslac-Bv7TpK2r",
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "teslac-Bv7TpK2r.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Bv7TpK2r.jpeg"
+  },
+  "teslac-Yr9PvR7w": {
+    "id": "teslac-Yr9PvR7w",
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "teslac-Yr9PvR7w.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Yr9PvR7w.jpeg"
+  },
+  "teslac-Tn2YpM9v": {
+    "id": "teslac-Tn2YpM9v",
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "teslac-Tn2YpM9v.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 317,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Tn2YpM9v.jpeg"
+  },
+  "teslac-Qr7WzK4n": {
+    "id": "teslac-Qr7WzK4n",
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "teslac-Qr7WzK4n.svg",
+    "vehicle": "teslac",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/teslac-Qr7WzK4n.jpeg"
+  }
+}
