@@ -209,7 +209,7 @@ export enum ComplianceIssue {
   LOW_QUALITY = 'low_quality',
   CONTAIN_FORBIDDEN_PARTS = 'contain_forbidden_parts',
   VEHICLE_NOT_FULLY_IN_FRAME = 'vehicle_not_fully_in_frame',
-  FINGER_ON_LENS = 'finger_on_lens',
+  FINGER_ON_VEHICLE = 'finger_on_vehicle',
 
   // Custom issue(s)
   PORTRAIT_IMAGE = 'portrait_image',
@@ -222,6 +222,10 @@ export enum ComplianceIssue {
 export const COMPLIANCE_ISSUES_PRIORITY = [
   ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.NO_VEHICLE,
+
+  ComplianceIssue.FINGER_ON_VEHICLE,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
 
   ComplianceIssue.BLURRINESS,
   ComplianceIssue.OVEREXPOSURE,
@@ -279,6 +283,9 @@ export const DEFAULT_COMPLIANCE_ISSUES = [
   // ComplianceIssue.INTERIOR_NOT_SUPPORTED,
   ComplianceIssue.MISSING,
   // ComplianceIssue.LOW_QUALITY,
+  ComplianceIssue.FINGER_ON_VEHICLE,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
   ComplianceIssue.PORTRAIT_IMAGE,
 ];
 
@@ -325,6 +332,9 @@ export const CAR_COVERAGE_COMPLIANCE_ISSUES = [
   ComplianceIssue.WRONG_CENTER_PART,
   ComplianceIssue.MISSING_PARTS,
   ComplianceIssue.HIDDEN_PARTS,
+  ComplianceIssue.FINGER_ON_VEHICLE,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
 ];
 
 /**

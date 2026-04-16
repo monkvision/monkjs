@@ -1038,7 +1038,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       nl: 'Zorg ervoor dat het hele voertuig op de foto zichtbaar is.',
     },
   },
-  [ComplianceIssue.FINGER_ON_LENS]: {
+  [ComplianceIssue.FINGER_ON_VEHICLE]: {
     title: {
       en: 'Finger on lens',
       fr: "Doigt sur l'objectif",
