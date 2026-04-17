@@ -25,12 +25,18 @@ const EXPECTED_DEFAULT_COMPLIANCE_ISSUES = [
   ComplianceIssue.TOO_ZOOMED,
   ComplianceIssue.NOT_ZOOMED_ENOUGH,
   ComplianceIssue.MISSING,
+  ComplianceIssue.FINGER_ON_VEHICLE,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
   ComplianceIssue.PORTRAIT_IMAGE,
 ];
 
 const EXPECTED_COMPLIANCE_ISSUES_ORDER = [
   ComplianceIssue.PORTRAIT_IMAGE,
   ComplianceIssue.NO_VEHICLE,
+  ComplianceIssue.FINGER_ON_VEHICLE,
+  ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME,
+  ComplianceIssue.CONTAIN_FORBIDDEN_PARTS,
   ComplianceIssue.BLURRINESS,
   ComplianceIssue.OVEREXPOSURE,
   ComplianceIssue.UNDEREXPOSURE,

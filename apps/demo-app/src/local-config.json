@@ -37,7 +37,10 @@
     "wrong_center_part",
     "missing_parts",
     "hidden_parts",
-    "missing"
+    "missing",
+    "vehicle_not_fully_in_frame",
+    "finger_on_vehicle",
+    "contain_forbidden_parts"
   ],
   "complianceIssuesPerSight": {
     "ff150-nF_oFvhI": [
