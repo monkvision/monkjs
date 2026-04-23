@@ -195,5 +195,11 @@ export function useMonkApi(config: MonkApiConfig) {
       dispatch,
       handleError,
     ),
+    /**
+     * Delete multiple images from an inspection in a single request.
+     *
+     * @param options The options of the request.
+     */
+    deleteImagesBulk: reactify(MonkApi.deleteImagesBulk, config, dispatch, handleError),
   };
 }

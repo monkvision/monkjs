@@ -19,6 +19,8 @@ export {
   type Add2ShotCloseUpImageOptions,
   type AddImageOptions,
   type DeleteImageOptions,
+  type DeleteImagesBulkOptions,
+  type DeleteImagesBulkResponse,
   type AddVideoFrameOptions,
   ImageUploadType,
 } from './image';
