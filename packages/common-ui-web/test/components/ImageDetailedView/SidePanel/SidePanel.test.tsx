@@ -151,6 +151,31 @@ describe('DefaultPanel', () => {
     expectPropsOnChildMock(Button, { disabled: true, icon: 'camera-outline' });
     unmount();
   });
+
+  it('should NOT render camera button for video frames (additionalData present)', () => {
+    const detailedProps = createDetailedViewProps();
+    detailedProps.image = { id: 'video-frame', additionalData: { frame_index: 5 } } as Image;
+    const props = createProps({ hasAlternatives: false, props: detailedProps });
+    const { unmount } = render(<SidePanel {...props} />);
+
+    const cameraButtonCalls = (Button as unknown as jest.Mock).mock.calls.filter(
+      (args: any[]) => args[0].icon === 'camera-outline',
+    );
+    expect(cameraButtonCalls.length).toBe(0);
+
+    unmount();
+  });
+
+  it('should still render gallery button for video frames', () => {
+    const detailedProps = createDetailedViewProps();
+    detailedProps.image = { id: 'video-frame', additionalData: { frame_index: 5 } } as Image;
+    const props = createProps({ hasAlternatives: false, props: detailedProps });
+    const { unmount } = render(<SidePanel {...props} />);
+
+    expectPropsOnChildMock(Button, { icon: 'gallery' });
+
+    unmount();
+  });
 });
 
 describe('AlternativesPanel', () => {

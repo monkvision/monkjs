@@ -4,6 +4,9 @@ jest.mock('../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording', () 
 jest.mock('../../../src/VideoCapture/VideoCaptureProcessing', () => ({
   VideoCaptureProcessing: jest.fn(() => <></>),
 }));
+jest.mock('../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureComplete', () => ({
+  VideoCaptureComplete: jest.fn(() => <></>),
+}));
 jest.mock('../../../src/VideoCapture/hooks', () => ({
   ...jest.requireActual('../../../src/VideoCapture/hooks'),
   useVehicleWalkaround: jest.fn(() => ({ walkaroundPosition: 334, startWalkaround: jest.fn() })),
@@ -40,6 +43,7 @@ import { BackdropDialog } from '@monkvision/common-ui-web';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from '../../../src/VideoCapture/VideoCaptureHUD';
 import { VideoCaptureRecording } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureRecording';
 import { VideoCaptureProcessing } from '../../../src/VideoCapture/VideoCaptureProcessing';
+import { VideoCaptureComplete } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureComplete';
 import {
   FastMovementType,
   useFrameSelection,
@@ -119,6 +123,7 @@ describe('VideoCaptureHUD component', () => {
         apiConfig: props.apiConfig,
         inspectionId: props.inspectionId,
         maxRetryCount: props.maxRetryCount,
+        alpha: props.alpha,
       }),
     );
 
@@ -368,6 +373,54 @@ describe('VideoCaptureHUD component', () => {
       dialogIcon: 'warning-outline',
       dialogIconPrimaryColor: 'caution',
     });
+
+    unmount();
+  });
+
+  it('should move on to VideoCaptureComplete instead of Processing when enableHybridVideo is true', () => {
+    const props = createProps();
+    props.enableHybridVideo = true;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { onRecordingComplete } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    expect(VideoCaptureComplete).not.toHaveBeenCalled();
+    expect(VideoCaptureProcessing).not.toHaveBeenCalled();
+    act(() => {
+      onRecordingComplete();
+    });
+    expect(VideoCaptureComplete).toHaveBeenCalled();
+    expect(VideoCaptureProcessing).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should pass onComplete to the VideoCaptureComplete component', () => {
+    const props = createProps();
+    props.enableHybridVideo = true;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { onRecordingComplete } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onRecordingComplete();
+    });
+    expectPropsOnChildMock(VideoCaptureComplete, {
+      onComplete: props.onComplete,
+    });
+
+    unmount();
+  });
+
+  it('should move on to VideoCaptureProcessing when enableHybridVideo is false', () => {
+    const props = createProps();
+    props.enableHybridVideo = false;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { onRecordingComplete } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onRecordingComplete();
+    });
+    expect(VideoCaptureProcessing).toHaveBeenCalled();
+    expect(VideoCaptureComplete).not.toHaveBeenCalled();
 
     unmount();
   });

@@ -511,6 +511,23 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
+  it('should pass enableBeautyShotExtraction to InspectionGallery', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} enableBeautyShotExtraction={true} />);
+
+    expectPropsOnChildMock(Camera, {
+      hudProps: expect.objectContaining({ onOpenGallery: expect.any(Function) }),
+    });
+    const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
+    act(() => onOpenGallery());
+
+    expectPropsOnChildMock(InspectionGallery, {
+      enableBeautyShotExtraction: true,
+    });
+
+    unmount();
+  });
+
   it('should pass the proper params to the BackdropDialog component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);

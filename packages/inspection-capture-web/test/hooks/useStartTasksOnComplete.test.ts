@@ -34,23 +34,18 @@ describe('useStartTasksOnComplete hook', () => {
     jest.clearAllMocks();
   });
 
-  it('should do nothing if startTasksOnComplete is false', () => {
+  it('should still start tasks even if startTasksOnComplete is false', () => {
     const initialProps = { ...createParams(), startTasksOnComplete: false };
     const { result, unmount } = renderHook(useStartTasksOnComplete, { initialProps });
 
     expect(useMonitoring).toHaveBeenCalled();
-    const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
     expect(useMonkApi).toHaveBeenCalledWith(initialProps.apiConfig);
     const startInspectionTasksMock = (useMonkApi as jest.Mock).mock.results[0].value
       .startInspectionTasks;
 
     result.current();
-    expect(initialProps.loading.start).not.toHaveBeenCalled();
-    expect(initialProps.loading.onSuccess).not.toHaveBeenCalled();
-    expect(initialProps.loading.onError).not.toHaveBeenCalled();
-    expect(initialProps.loading.start).not.toHaveBeenCalled();
-    expect(handleErrorMock).not.toHaveBeenCalled();
-    expect(startInspectionTasksMock).not.toHaveBeenCalled();
+    expect(initialProps.loading.start).toHaveBeenCalled();
+    expect(startInspectionTasksMock).toHaveBeenCalled();
 
     unmount();
   });

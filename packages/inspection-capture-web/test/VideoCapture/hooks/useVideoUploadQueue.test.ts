@@ -13,6 +13,7 @@ function createProps(): VideoUploadQueueParams {
     },
     inspectionId: 'inspection-test-id',
     maxRetryCount: 3,
+    alpha: 123.7,
   };
 }
 
@@ -40,6 +41,7 @@ describe('useVideoUploadQueue hook', () => {
         picture: picture1,
         frameIndex: 0,
         timestamp: 0,
+        alpha: 124,
       }),
     );
 
@@ -58,6 +60,7 @@ describe('useVideoUploadQueue hook', () => {
         picture: picture2,
         frameIndex: 1,
         timestamp: time,
+        alpha: 124,
       }),
     );
 
@@ -80,6 +83,7 @@ describe('useVideoUploadQueue hook', () => {
       frameIndex: 12,
       timestamp: 123,
       retryCount: 0,
+      alpha: 45,
     };
     processingFunction(upload);
     expect(addImage).toHaveBeenCalledWith({
@@ -88,6 +92,7 @@ describe('useVideoUploadQueue hook', () => {
       picture: upload.picture,
       frameIndex: upload.frameIndex,
       timestamp: upload.timestamp,
+      alpha: upload.alpha,
     });
 
     unmount();
@@ -146,6 +151,25 @@ describe('useVideoUploadQueue hook', () => {
 
     expect(result.current.uploadedFrames).toEqual(totalItems - processingCount);
     expect(result.current.totalUploadingFrames).toEqual(totalItems);
+
+    unmount();
+  });
+
+  it('should round the alpha value in the upload objects', () => {
+    const initialProps = { ...createProps(), alpha: 45.6 };
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+
+    const { push } = (useQueue as jest.Mock).mock.results[0].value;
+
+    const picture = { uri: 'test-uri-round' } as unknown as MonkPicture;
+    act(() => {
+      result.current.onFrameSelected(picture);
+    });
+    expect(push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        alpha: 46,
+      }),
+    );
 
     unmount();
   });
