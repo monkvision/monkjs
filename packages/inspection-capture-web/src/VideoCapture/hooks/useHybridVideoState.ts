@@ -24,8 +24,8 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
     apiConfig,
     lang,
     additionalTasks,
-    enforceOrientation,
     startTasksOnComplete,
+    enforceOrientation,
   } = props;
 
   const photoCaptureSights: Sight[] = useMemo(() => {
@@ -76,7 +76,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
       apiConfig,
       lang,
       additionalTasks,
-      enforceOrientation,
+      enforceOrientation: props.enforcePhotoCaptureOrientation ?? enforceOrientation,
       startTasksOnComplete,
       sights: photoCaptureSights,
       vehicleType: props.defaultVehicleType,

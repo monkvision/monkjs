@@ -114,7 +114,7 @@ video) to send vehicle inspection pictures to the Monk API. In reality, no video
 of the camera stream a repeatidly taken while the users walks around their vehicle. An algorithm is run to select the
 best video frames (the less blurry ones), and they are then sent to the Monk API.
 
-Please refer to the [official MonkJs documentation](https://monkvision.github.io/monkjs/docs/photo-capture-workflow) to
+Please refer to the [official MonkJs documentation](https://monkvision.github.io/monkjs/docs/video-capture-workflow) to
 have a detailed overview of the Video Capture workflow.
 
 ## VideoCapture component

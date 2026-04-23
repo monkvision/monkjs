@@ -386,6 +386,44 @@ describe('useHybridVideoState hook', () => {
 
       unmount();
     });
+
+    it('should use enforcePhotoCaptureOrientation when provided', () => {
+      const props = createHybridPropsWithoutSteeringWheel();
+      props.enforceOrientation = DeviceOrientation.LANDSCAPE;
+      (props as any).enforcePhotoCaptureOrientation = DeviceOrientation.PORTRAIT;
+      const params = createParams(props);
+      const { result, unmount } = renderHook(() => useHybridVideoState(params));
+
+      const config = result.current.photoCaptureConfig;
+      expect(config?.enforceOrientation).toBe(DeviceOrientation.PORTRAIT);
+
+      unmount();
+    });
+
+    it('should fall back to enforceOrientation when enforcePhotoCaptureOrientation is not provided', () => {
+      const props = createHybridPropsWithoutSteeringWheel();
+      props.enforceOrientation = DeviceOrientation.LANDSCAPE;
+      const params = createParams(props);
+      const { result, unmount } = renderHook(() => useHybridVideoState(params));
+
+      const config = result.current.photoCaptureConfig;
+      expect(config?.enforceOrientation).toBe(DeviceOrientation.LANDSCAPE);
+
+      unmount();
+    });
+
+    it('should use enforcePhotoCaptureOrientation even when it is undefined and enforceOrientation is set', () => {
+      const props = createHybridPropsWithoutSteeringWheel();
+      props.enforceOrientation = DeviceOrientation.PORTRAIT;
+      (props as any).enforcePhotoCaptureOrientation = undefined;
+      const params = createParams(props);
+      const { result, unmount } = renderHook(() => useHybridVideoState(params));
+
+      const config = result.current.photoCaptureConfig;
+      expect(config?.enforceOrientation).toBe(DeviceOrientation.PORTRAIT);
+
+      unmount();
+    });
   });
 
   describe('memoization', () => {
