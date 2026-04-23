@@ -9,7 +9,11 @@ import {
   useItemListFillers,
 } from './hooks';
 import { i18nInspectionGallery } from './i18n';
-import { InspectionGalleryFilter, InspectionGalleryTopBar } from './InspectionGalleryTopBar';
+import {
+  FILTERS_EXTRACT_BEAUTY_SHOTS,
+  InspectionGalleryFilter,
+  InspectionGalleryTopBar,
+} from './InspectionGalleryTopBar';
 import { InspectionGalleryItemCard } from './InspectionGalleryItemCard';
 import { ImageDetailedView } from '../ImageDetailedView';
 
@@ -36,7 +40,9 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
 ) {
   useI18nSync(props.lang);
   const items = useInspectionGalleryItems(props);
-  const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(null);
+  const [currentFilter, setCurrentFilter] = useState<InspectionGalleryFilter | null>(() =>
+    props.enableBeautyShotExtraction ? FILTERS_EXTRACT_BEAUTY_SHOTS[1] : null,
+  );
   const filteredItems = useMemo(
     () => (currentFilter ? items.filter(currentFilter.callback) : items),
     [items, currentFilter],

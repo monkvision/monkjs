@@ -8,15 +8,11 @@ export interface VehiclePhoneProps {
 }
 
 export function VehiclePhone({ orientation }: VehiclePhoneProps) {
-  const { phoneStyle, getAttributes } = useVehiclePhoneStyles({ orientation });
+  const { phoneStyle, vehicleStyle, getAttributes } = useVehiclePhoneStyles({ orientation });
 
   return (
     <div style={styles['container']}>
-      <DynamicSVG
-        svg={vehicleSurroundings}
-        style={styles['vehicleScaling']}
-        getAttributes={getAttributes}
-      />
+      <DynamicSVG svg={vehicleSurroundings} style={vehicleStyle} getAttributes={getAttributes} />
       <DynamicSVG svg={phone} style={phoneStyle} />
     </div>
   );

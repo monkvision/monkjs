@@ -98,6 +98,7 @@ function AlternativesPanel({ props, onBrowse }: AlternativesPanelProps) {
  * available.
  */
 function DefaultPanel({ props, galleryButton, cameraButton }: DefaultPanelProps) {
+  const isVideoFrame = props.image.additionalData !== undefined;
   return (
     <>
       <Button
@@ -108,12 +109,17 @@ function DefaultPanel({ props, galleryButton, cameraButton }: DefaultPanelProps)
         secondaryColor={galleryButton.secondaryColor}
         style={galleryButton.style}
       />
-      <Button
-        disabled={!props.captureMode || !(props.showCaptureButton ?? true)}
-        onClick={props.captureMode ? props.onNavigateToCapture : undefined}
-        icon='camera-outline'
-        style={cameraButton.style}
-      />
+
+      {isVideoFrame ? (
+        <div></div>
+      ) : (
+        <Button
+          disabled={!props.captureMode || !(props.showCaptureButton ?? true)}
+          onClick={props.captureMode ? props.onNavigateToCapture : undefined}
+          icon='camera-outline'
+          style={cameraButton.style}
+        />
+      )}
     </>
   );
 }
