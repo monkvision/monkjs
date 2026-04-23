@@ -1,8 +1,4 @@
-import {
-  RecordVideoButton,
-  TakePictureButton,
-  VehicleWalkaroundIndicator,
-} from '@monkvision/common-ui-web';
+import { Button, RecordVideoButton, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
 import { useVideoCaptureRecordingStyles } from './VideoCaptureRecordingStyles';
 import { VideoCaptureRecordingProps } from './VideoCaptureRecording.types';
 
@@ -24,7 +20,6 @@ export function VideoCaptureRecording({
   isRecordingPaused,
   recordingDurationMs,
   onClickRecordVideo,
-  onClickTakePicture,
   tooltip,
   recordVideoDisabled,
 }: VideoCaptureRecordingProps) {
@@ -35,14 +30,8 @@ export function VideoCaptureRecording({
     controls,
     takePictureFlash,
     walkaroundIndicator,
-    showTakePictureFlash,
     tooltipPosition,
   } = useVideoCaptureRecordingStyles({ isRecording });
-
-  const handleTakePictureClick = () => {
-    showTakePictureFlash();
-    onClickTakePicture?.();
-  };
 
   return (
     <div style={container}>
@@ -62,7 +51,7 @@ export function VideoCaptureRecording({
           tooltipPosition={tooltipPosition}
           disabled={recordVideoDisabled}
         />
-        <TakePictureButton onClick={handleTakePictureClick} disabled={!isRecording} />
+        <Button icon='close' variant='outline' />
       </div>
       <div style={takePictureFlash} />
     </div>

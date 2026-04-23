@@ -8,18 +8,16 @@ import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
 import type { BaseVideoCaptureConfig, VideoCaptureHybridConfig } from '@monkvision/types';
-import { AddDamage, CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { InspectionGallery } from '@monkvision/common-ui-web';
-import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import { useFastMovementsDetection, useGetInspection } from './hooks';
+import { useFastMovementsDetection, useGetInspection, useHybridVideoState } from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { PhotoCapture, PhotoCaptureProps } from '../PhotoCapture/PhotoCapture';
-import useHybridVideoState from './hooks/useHybridVideoState';
+import { VideoCaptureScreen } from './types';
 
 /**
  * Base props shared by all VideoCapture configurations.
@@ -60,33 +58,25 @@ export type VideoCaptureProps = BaseVideoCaptureProps & BaseVideoCaptureConfig;
  */
 export type HybridVideoProps = BaseVideoCaptureProps & VideoCaptureHybridConfig;
 
-enum VideoCaptureScreen {
-  PERMISSIONS = 'permissions',
-  TUTORIAL = 'tutorial',
-  CAPTURE = 'capture',
-  GALLERY = 'gallery',
-  VEHICLE_SELECTION = 'vehicle-selection',
-  PHOTO_CAPTURE = 'photo-capture',
-}
-
 // No ts-doc for this component : the component exported is VideoCaptureHOC
-export function VideoCapture({
-  inspectionId,
-  apiConfig,
-  additionalTasks,
-  startTasksOnComplete,
-  enforceOrientation,
-  minRecordingDuration = 15000,
-  maxRetryCount = 3,
-  enableFastWalkingWarning = true,
-  enablePhoneShakingWarning = false,
-  fastWalkingWarningCooldown = 1000,
-  phoneShakingWarningCooldown = 1000,
-  enableVideoTutorial = true,
-  enableHybridVideo = false,
-  onComplete,
-  lang,
-}: VideoCaptureProps) {
+export function VideoCapture(props: VideoCaptureProps) {
+  const {
+    inspectionId,
+    apiConfig,
+    additionalTasks,
+    startTasksOnComplete,
+    enforceOrientation,
+    minRecordingDuration = 15000,
+    maxRetryCount = 3,
+    enableFastWalkingWarning = true,
+    enablePhoneShakingWarning = false,
+    fastWalkingWarningCooldown = 1000,
+    phoneShakingWarningCooldown = 1000,
+    enableVideoTutorial = true,
+    enableBeautyShotExtraction = true,
+    onComplete,
+    lang,
+  } = props;
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
@@ -116,20 +106,22 @@ export function VideoCapture({
 
   const handleInspectionCompleted = () => {
     if (enableHybridVideo) {
-      setScreen(VideoCaptureScreen.VEHICLE_SELECTION);
-    startTasks()
-      .then(() => {
-        allowRedirect();
-        onComplete?.();
-      })
-      .catch((err) => {
-        startTasksLoading.onError(err);
-        handleError(err);
-      });
+      setScreen(VideoCaptureScreen.CAPTURE);
+    } else {
+      startTasks()
+        .then(() => {
+          allowRedirect();
+          onComplete?.();
+        })
+        .catch((err) => {
+          startTasksLoading.onError(err);
+          handleError(err);
+        });
+    }
   };
 
   const handleVideoCaptureCompleted = () => {
-    setScreen(VideoCaptureScreen.GALLERY);
+    setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
   };
 
   const handlePermissionsSuccess = () => {
@@ -148,6 +140,7 @@ export function VideoCapture({
     fastMovementsWarning,
     onWarningDismiss,
     startTasksLoading,
+    enableHybridVideo,
     onComplete: handleVideoCaptureCompleted,
   };
 
@@ -170,32 +163,36 @@ export function VideoCapture({
           inspectionId={inspectionId}
           apiConfig={apiConfig}
           captureMode={enableHybridVideo}
-          sights={[]}
+          sights={photoCaptureConfig?.sights ?? []}
           lang={lang}
           showBackButton={true}
-          enableBeautyShotExtraction={true}
-          onBack={() => setScreen(VideoCaptureScreen.CAPTURE)}
+          enableBeautyShotExtraction={enableBeautyShotExtraction}
+          onBack={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
           onValidate={handleInspectionCompleted}
-          addDamage={AddDamage.DISABLED}
+          addDamage={photoCaptureConfig?.addDamage}
           isInspectionCompleted={false}
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
         <Camera HUDComponent={VideoCaptureHUD} hudProps={videoCaptureHudProps} />
       )}
-      {screen === VideoCaptureScreen.VEHICLE_SELECTION && enableHybridVideo && (
-        <VehicleTypeSelection
-          onSelectVehicleType={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
-          selectedVehicleType={photoCaptureConfig?.vehicleType}
-          lang={lang ?? ''}
-          inspectionId={inspectionId ?? ''}
-          authToken={apiConfig.authToken ?? ''}
-          apiDomain={apiConfig.apiDomain}
-          thumbnailDomain={apiConfig.thumbnailDomain}
-        />
-      )}
+      {/* {screen === VideoCaptureScreen.VEHICLE_SELECTION && enableHybridVideo && ( */}
+      {/*   <VehicleTypeSelection */}
+      {/*     onSelectVehicleType={() => setScreen(VideoCaptureScreen.CAPTURE)} */}
+      {/*     selectedVehicleType={photoCaptureConfig?.vehicleType} */}
+      {/*     lang={lang ?? ''} */}
+      {/*     inspectionId={inspectionId ?? ''} */}
+      {/*     authToken={apiConfig.authToken ?? ''} */}
+      {/*     apiDomain={apiConfig.apiDomain} */}
+      {/*     thumbnailDomain={apiConfig.thumbnailDomain} */}
+      {/*   /> */}
+      {/* )} */}
       {screen === VideoCaptureScreen.PHOTO_CAPTURE && photoCaptureConfig && (
-        <PhotoCapture {...photoCaptureConfig} />
+        <PhotoCapture
+          {...photoCaptureConfig}
+          // onGalleryPress={handleGalleryOpen}
+          enableBeautyShotExtraction={enableBeautyShotExtraction}
+        />
       )}
     </div>
   );

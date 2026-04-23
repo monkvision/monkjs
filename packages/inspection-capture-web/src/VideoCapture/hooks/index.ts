@@ -4,3 +4,4 @@ export * from './useVideoRecording';
 export * from './useFrameSelection';
 export * from './useVideoUploadQueue';
 export * from './useFastMovementsDetection';
+export * from './useHybridVideoState';

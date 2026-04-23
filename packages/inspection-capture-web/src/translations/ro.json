@@ -105,6 +105,11 @@
       "success": "Procesarea video s-a finalizat!",
       "error": "A apărut o eroare la finalizarea inspecției. ID inspecție:",
       "done": "Finalizat"
+    },
+    "complete": {
+      "title": "Video vehicul finalizat",
+      "text": "Apoi, faceți câteva fotografii pentru a surprinde detaliile și a finaliza inspecția.",
+      "button": "Începe captura foto"
     }
   },
   "orientationEnforcer": {

@@ -136,6 +136,7 @@ function createVideoFrameOptions(): AddVideoFrameOptions {
     inspectionId: 'test-inspection-id',
     frameIndex: 12,
     timestamp: 2312,
+    alpha: 180,
   };
 }
 
@@ -509,6 +510,7 @@ describe('Image requests', () => {
           created_at: expect.any(String),
           frame_index: options.frameIndex,
           timestamp: options.timestamp,
+          alpha: options.alpha,
         },
       });
       expect(getFileExtensions).toHaveBeenCalledWith(options.picture.mimetype);

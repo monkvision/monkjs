@@ -367,6 +367,13 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         enableVideoTutorial?: boolean;
         /**
+         * Boolean indicating if beauty shot extraction should be enabled or not. When enabled, the best frames of the
+         * video.
+         *
+         * @default true
+         */
+        enableBeautyShotExtraction?: boolean;
+        /**
          * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have
          * the option to take pictures of the vehicle during the video capture process, and these pictures will be added
          * to the inspection as normal images.
@@ -432,7 +439,14 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          *
          * @default false
          */
-        enableHybridVideo?: true;
+        enableHybridVideo: true;
+        /**
+         * Boolean indicating if beauty shot extraction should be enabled or not. When enabled, the best frames of the
+         * video.
+         *
+         * @default true
+         */
+        enableBeautyShotExtraction?: boolean;
         /**
          * Enforces PhotoCapture's orientation in Hybrid Video mode.
          *

@@ -105,6 +105,11 @@
       "success": "Videobearbeitung abgeschlossen!",
       "error": "Beim Abschluss der Inspektion ist ein Fehler aufgetreten. Inspektion ID :",
       "done": "Erledigt"
+    },
+    "complete": {
+      "title": "Fahrzeugvideo abgeschlossen",
+      "text": "Machen Sie als Nächstes ein paar Fotos, um Details festzuhalten und die Inspektion abzuschließen.",
+      "button": "Fotoaufnahme starten"
     }
   },
   "orientationEnforcer": {

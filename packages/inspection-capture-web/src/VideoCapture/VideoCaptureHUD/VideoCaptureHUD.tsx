@@ -20,6 +20,7 @@ import {
 } from '../hooks';
 import { VideoCaptureProcessing } from '../VideoCaptureProcessing';
 import { OrientationEnforcer } from '../../components';
+import { VideoCaptureComplete } from './VideoCaptureComplete';
 
 /**
  * Props accepted by the VideoCaptureHUD component.
@@ -27,7 +28,7 @@ import { OrientationEnforcer } from '../../components';
 export interface VideoCaptureHUDProps
   extends CameraHUDProps,
     Pick<UseVideoRecordingParams, 'minRecordingDuration'>,
-    Pick<VideoCaptureAppConfig, 'enforceOrientation'>,
+    Pick<VideoCaptureAppConfig, 'enforceOrientation' | 'enableHybridVideo'>,
     Pick<DeviceRotation, 'alpha'>,
     Pick<FastMovementsDetectionHandle, 'fastMovementsWarning' | 'onWarningDismiss'> {
   /**
@@ -66,6 +67,7 @@ const FRAME_SELECTION_INTERVAL_MS = 1000;
 
 enum VideoCaptureHUDScreen {
   RECORDING = 'recording',
+  COMPLETE = 'complete',
   PROCESSING = 'processing',
 }
 
@@ -108,6 +110,7 @@ export function VideoCaptureHUD({
   maxRetryCount,
   minRecordingDuration,
   startTasksLoading,
+  enableHybridVideo,
   onComplete,
 }: VideoCaptureHUDProps) {
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
@@ -120,6 +123,7 @@ export function VideoCaptureHUD({
     apiConfig,
     inspectionId,
     maxRetryCount,
+    alpha,
   });
 
   const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
@@ -146,7 +150,13 @@ export function VideoCaptureHUD({
     walkaroundPosition,
     startWalkaround,
     onCaptureVideoFrame,
-    onRecordingComplete: () => setScreen(VideoCaptureHUDScreen.PROCESSING),
+    onRecordingComplete: () => {
+      if (enableHybridVideo) {
+        setScreen(VideoCaptureHUDScreen.COMPLETE);
+      } else {
+        setScreen(VideoCaptureHUDScreen.PROCESSING);
+      }
+    },
   });
 
   const handleTakePictureClick = async () => {
@@ -196,6 +206,9 @@ export function VideoCaptureHUD({
             loading={startTasksLoading}
             onComplete={onComplete}
           />
+        )}
+        {screen === VideoCaptureHUDScreen.COMPLETE && (
+          <VideoCaptureComplete onComplete={onComplete} />
         )}
       </div>
       <BackdropDialog

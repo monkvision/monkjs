@@ -99,6 +99,11 @@
       "success": "Elaborazione del video completata!",
       "error": "Si è verificato un errore durante la finalizzazione dell'ispezione. ID ispezione:",
       "done": "Fatto"
+    },
+    "complete": {
+      "title": "Video del veicolo completato",
+      "text": "Ora scatta alcune foto per acquisire i dettagli e completare l'ispezione.",
+      "button": "Avvia acquisizione foto"
     }
   },
   "orientationEnforcer": {

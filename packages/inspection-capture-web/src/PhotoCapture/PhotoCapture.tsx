@@ -108,6 +108,14 @@ export interface PhotoCaptureProps
    */
   onGalleryPress?: () => void;
   /**
+   * Boolean indicating if beauty shot extraction should be enabled or not. It should only be enabled if PhotoCapture is
+   * used combined with VideoCatpure, and if the user wants to extract beauty shots from the videos taken with
+   * VideoCapture.
+   *
+   * @default false
+   */
+  enableBeautyShotExtraction?: boolean;
+  /**
    * The language to be used by this component.
    *
    * @default en
@@ -159,6 +167,7 @@ export function PhotoCapture({
   vehicleType = VehicleType.SEDAN,
   autoDeletePreviousSightImages = true,
   onGalleryPress,
+  enableBeautyShotExtraction,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -342,6 +351,7 @@ export function PhotoCapture({
           showBackButton={true}
           sights={sights}
           allowSkipRetake={allowSkipRetake}
+          enableBeautyShotExtraction={enableBeautyShotExtraction}
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleInspectionCompleted}

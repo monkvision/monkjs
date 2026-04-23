@@ -18,8 +18,9 @@ import {
   SteeringWheelPosition,
 } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
-import useHybridVideoState, {
-  type UseHybridVideoStateParams,
+import {
+  useHybridVideoState,
+  UseHybridVideoStateParams,
 } from '../../../src/VideoCapture/hooks/useHybridVideoState';
 import type { VideoCaptureProps, HybridVideoProps } from '../../../src/VideoCapture/VideoCapture';
 

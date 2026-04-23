@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { sights } from '@monkvision/sights';
 import { type Sight, VehicleType } from '@monkvision/types';
-import type { PreventExitListenerResult } from '@monkvision/common/lib/PreventExit/store';
+import type { PreventExitListenerResult } from '@monkvision/common';
 import type { HybridVideoProps, VideoCaptureProps } from '../VideoCapture';
 import type { PhotoCaptureProps } from '../../PhotoCapture';
 
@@ -17,7 +17,7 @@ export interface UseHybridVideoStateParams
   props: VideoCaptureProps;
 }
 
-export default function useHybridVideoState({ props, allowRedirect }: UseHybridVideoStateParams) {
+export function useHybridVideoState({ props, allowRedirect }: UseHybridVideoStateParams) {
   const enableHybridVideo = isHybridVideoProps(props);
   const {
     inspectionId,

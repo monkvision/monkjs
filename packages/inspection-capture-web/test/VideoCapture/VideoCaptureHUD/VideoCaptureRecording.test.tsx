@@ -1,11 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import {
-  RecordVideoButton,
-  TakePictureButton,
-  VehicleWalkaroundIndicator,
-} from '@monkvision/common-ui-web';
+import { RecordVideoButton, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
 import {
   VideoCaptureRecording,
   VideoCaptureRecordingProps,
@@ -21,7 +17,6 @@ function createProps(): VideoCaptureRecordingProps {
     isRecordingPaused: false,
     recordingDurationMs: 75800,
     onClickRecordVideo: jest.fn(),
-    onClickTakePicture: jest.fn(),
     tooltip: 'test-tooltip',
   };
 }
@@ -117,41 +112,6 @@ describe('VideoCaptureRecording component', () => {
     const { unmount } = render(<VideoCaptureRecording {...props} />);
 
     expectPropsOnChildMock(RecordVideoButton, { tooltipPosition: 'left' });
-
-    unmount();
-  });
-
-  it('should display the TakePictureButton', () => {
-    const props = createProps();
-    const { unmount } = render(<VideoCaptureRecording {...props} />);
-
-    expect(TakePictureButton).toHaveBeenCalled();
-
-    unmount();
-  });
-
-  it('should disable the TakePictureButton when not recording', () => {
-    const props = createProps();
-    const { rerender, unmount } = render(<VideoCaptureRecording {...props} isRecording={true} />);
-
-    expectPropsOnChildMock(TakePictureButton, { disabled: false });
-    rerender(<VideoCaptureRecording {...props} isRecording={false} />);
-    expectPropsOnChildMock(TakePictureButton, { disabled: true });
-
-    unmount();
-  });
-
-  it('should call the onClickTakePicture callback when the user clicks on the TakePictureButton', () => {
-    const props = createProps();
-    const { unmount } = render(<VideoCaptureRecording {...props} isRecording={true} />);
-
-    expectPropsOnChildMock(TakePictureButton, { onClick: expect.any(Function) });
-    const { onClick } = (TakePictureButton as unknown as jest.Mock).mock.calls[0][0];
-    expect(props.onClickTakePicture).not.toHaveBeenCalled();
-    act(() => {
-      onClick();
-    });
-    expect(props.onClickTakePicture).toHaveBeenCalled();
 
     unmount();
   });

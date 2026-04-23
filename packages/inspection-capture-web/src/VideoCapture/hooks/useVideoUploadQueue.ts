@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { useObjectMemo, useQueue } from '@monkvision/common';
-import { MonkPicture } from '@monkvision/types';
+import { DeviceRotation, MonkPicture } from '@monkvision/types';
 import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback, useRef } from 'react';
 
@@ -10,12 +10,13 @@ interface VideoFrameUpload {
   frameIndex: number;
   timestamp: number;
   retryCount: number;
+  alpha: number;
 }
 
 /**
  * Params accepted by the useVideoUploadQueue hook.
  */
-export interface VideoUploadQueueParams {
+export interface VideoUploadQueueParams extends Pick<DeviceRotation, 'alpha'> {
   /**
    * The config used to communicate with the API.
    */
@@ -55,9 +56,12 @@ export function useVideoUploadQueue({
   apiConfig,
   inspectionId,
   maxRetryCount,
+  alpha,
 }: VideoUploadQueueParams): VideoUploadQueueHandle {
   const frameIndex = useRef<number>(0);
   const frameTimestamp = useRef<number | null>(null);
+  const alphaRef = useRef<number>(Math.round(alpha));
+  alphaRef.current = Math.round(alpha);
   const { addImage } = useMonkApi(apiConfig);
 
   const queue = useQueue(
@@ -68,6 +72,7 @@ export function useVideoUploadQueue({
         picture: upload.picture,
         frameIndex: upload.frameIndex,
         timestamp: upload.timestamp,
+        alpha: upload.alpha,
       }),
     {
       storeFailedItems: true,
@@ -88,6 +93,7 @@ export function useVideoUploadQueue({
         picture,
         frameIndex: frameIndex.current,
         timestamp: frameTimestamp.current === null ? 0 : now - frameTimestamp.current,
+        alpha: alphaRef.current,
       };
       queue.push(upload);
       frameIndex.current += 1;

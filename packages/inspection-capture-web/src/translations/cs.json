@@ -105,6 +105,11 @@
       "success": "Zpracování videa dokončeno!",
       "error": "Došlo k chybě při dokončování kontroly. ID kontroly:",
       "done": "Dokončeno"
+    },
+    "complete": {
+      "title": "Video vozidla dokončeno",
+      "text": "Dále pořiďte několik fotografií pro zachycení detailů a dokončení kontroly.",
+      "button": "Zahájit fotografování"
     }
   },
   "orientationEnforcer": {

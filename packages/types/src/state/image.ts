@@ -46,9 +46,10 @@ export interface ImageAdditionalData extends AdditionalData {
    */
   timestamp?: number;
   /**
-   * Selected image for beauty shot extraction.
+   * The alpha represents the position of the image around the vehicle taken. It is based on the gyroscope and
+   * accelerometer data of the phone, and it is a value between 0 and 360.
    */
-  beautyShotViewpoint?: Viewpoint;
+  alpha?: number;
 }
 
 /**

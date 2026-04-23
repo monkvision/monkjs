@@ -105,6 +105,11 @@
       "success": "Processamento de vídeo concluído!",
       "error": "Ocorreu um erro ao finalizar a inspeção. ID da inspeção:",
       "done": "Concluído"
+    },
+    "complete": {
+      "title": "Vídeo do veículo concluído",
+      "text": "Em seguida, tire algumas fotos para capturar detalhes e finalizar a inspeção.",
+      "button": "Iniciar captura de fotos"
     }
   },
   "orientationEnforcer": {
