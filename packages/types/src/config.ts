@@ -314,64 +314,212 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
 /**
  * The configuration options for inspection capture applications using the VideoCapture workflow.
  */
-export type VideoCaptureAppConfig = SharedCaptureAppConfig & {
-  /**
-   * The capture workflow of the capture app.
-   */
-  workflow: CaptureWorkflow.VIDEO;
-  /**
-   * The minimum duration of a recording in milliseconds.
-   *
-   * @default 15000
-   */
-  minRecordingDuration?: number;
-  /**
-   * The maximum number of retries for failed image uploads.
-   *
-   * @default 3
-   */
-  maxRetryCount?: number;
-  /**
-   * Boolean indicating if a warning should be shown to the user when they are walking too fast around the vehicle.
-   *
-   * @default true
-   */
-  enableFastWalkingWarning?: boolean;
-  /**
-   * Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.
-   *
-   * @default true
-   */
-  enablePhoneShakingWarning?: boolean;
-  /**
-   * The duration (in milliseconds) to wait between fast walking warnings. We recommend setting this value to at least
-   * 1000.
-   *
-   * @default 4000
-   */
-  fastWalkingWarningCooldown?: number;
-  /**
-   * The duration (in milliseconds) to wait between phone shaking warnings. We recommend setting this value to at least
-   * 1000.
-   *
-   * @default 4000
-   */
-  phoneShakingWarningCooldown?: number;
-  /**
-   * Boolean indicating if the video tutorial should be enabled or not.
-   *
-   * @default true
-   */
-  enableVideoTutorial?: boolean;
-  /**
-   * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have the
-   * option to take pictures of the vehicle during the video capture process, and these pictures will be added to the
-   * inspection as normal images.
-   *
-   * @default false
-   */
-  enableHybridVideo?: boolean;
-};
+export type VideoCaptureAppConfig = SharedCaptureAppConfig &
+  (
+    | {
+        /**
+         * The capture workflow of the capture app.
+         */
+        workflow: CaptureWorkflow.VIDEO;
+        /**
+         * The minimum duration of a recording in milliseconds.
+         *
+         * @default 15000
+         */
+        minRecordingDuration?: number;
+        /**
+         * The maximum number of retries for failed image uploads.
+         *
+         * @default 3
+         */
+        maxRetryCount?: number;
+        /**
+         * Boolean indicating if a warning should be shown to the user when they are walking too fast
+         * around the vehicle.
+         *
+         * @default true
+         */
+        enableFastWalkingWarning?: boolean;
+        /**
+         * Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.
+         *
+         * @default true
+         */
+        enablePhoneShakingWarning?: boolean;
+        /**
+         * The duration (in milliseconds) to wait between fast walking warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 4000
+         */
+        fastWalkingWarningCooldown?: number;
+        /**
+         * The duration (in milliseconds) to wait between phone shaking warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 4000
+         */
+        phoneShakingWarningCooldown?: number;
+        /**
+         * Boolean indicating if the video tutorial should be enabled or not.
+         *
+         * @default true
+         */
+        enableVideoTutorial?: boolean;
+        /**
+         * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have
+         * the option to take pictures of the vehicle during the video capture process, and these pictures will be added
+         * to the inspection as normal images.
+         *
+         * @default false
+         */
+        enableHybridVideo?: false;
+      }
+    | ({
+        /**
+         * The capture workflow of the capture app.
+         */
+        workflow: CaptureWorkflow.VIDEO;
+        /**
+         * The minimum duration of a recording in milliseconds.
+         *
+         * @default 15000
+         */
+        minRecordingDuration?: number;
+        /**
+         * The maximum number of retries for failed image uploads.
+         *
+         * @default 3
+         */
+        maxRetryCount?: number;
+        /**
+         * Boolean indicating if a warning should be shown to the user when they are walking too fast around the
+         * vehicle.
+         *
+         * @default true
+         */
+        enableFastWalkingWarning?: boolean;
+        /**
+         * Boolean indicating if a warning should be shown to the user when they are shaking their phone too much.
+         *
+         * @default true
+         */
+        enablePhoneShakingWarning?: boolean;
+        /**
+         * The duration (in milliseconds) to wait between fast walking warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 4000
+         */
+        fastWalkingWarningCooldown?: number;
+        /**
+         * The duration (in milliseconds) to wait between phone shaking warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 4000
+         */
+        phoneShakingWarningCooldown?: number;
+        /**
+         * Boolean indicating if the video tutorial should be enabled or not.
+         *
+         * @default true
+         */
+        enableVideoTutorial?: boolean;
+        /**
+         * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have
+         * the option to take pictures of the vehicle during the video capture process, and these pictures will be added
+         * to the inspection as normal images.
+         *
+         * @default false
+         */
+        enableHybridVideo?: true;
+        /**
+         * The default vehicle type used if no vehicle type is defined.
+         */
+        defaultVehicleType: VehicleType;
+        /**
+         * Boolean indicating if vehicle type selection should be enabled if the vehicle type is not defined.
+         */
+        allowVehicleTypeSelection: boolean;
+      } & ComplianceOptions &
+        Pick<
+          PhotoCaptureAppConfig,
+          | 'tasksBySight'
+          | 'showCloseButton'
+          | 'maxUploadDurationWarning'
+          | 'useAdaptiveImageQuality'
+          | 'allowSkipRetake'
+          | 'addDamage'
+          | 'enableSightGuidelines'
+          | 'sightGuidelines'
+          | 'enableTutorial'
+          | 'allowSkipTutorial'
+          | 'enableSightTutorial'
+          | 'sightTutorial'
+          | 'autoDeletePreviousSightImages'
+        > &
+        (
+          | {
+              /**
+               * Boolean indicating if the capture Sights should vary based on the steering wheel position.
+               */
+              enableSteeringWheelPosition: false;
+              /**
+               * The capture Sights per vehicle type.
+               */
+              sights: Partial<Record<VehicleType, string[]>>;
+            }
+          | {
+              /**
+               * Boolean indicating if the capture Sights should vary based on the steering wheel position.
+               */
+              enableSteeringWheelPosition: true;
+              /**
+               * The default value for the steering wheel position.
+               */
+              defaultSteeringWheelPosition: SteeringWheelPosition;
+              /**
+               * The capture Sights per vehicle type.
+               */
+              sights: Record<SteeringWheelPosition, Partial<Record<VehicleType, string[]>>>;
+            }
+        ))
+  );
+
+/**
+ * Helper type to omit config-file-specific properties.
+ */
+type OmitConfigFileProps<T> = Omit<
+  T,
+  | 'workflow'
+  | 'allowManualLogin'
+  | 'fetchFromSearchParams'
+  | 'apiDomain'
+  | 'thumbnailDomain'
+  | 'requiredApiPermissions'
+  | 'palette'
+  | 'allowCreateInspection'
+  | 'createInspectionOptions'
+>;
+
+/**
+ * Base configuration properties for VideoCapture, without config-file-specific properties.
+ */
+export type BaseVideoCaptureConfig = OmitConfigFileProps<VideoCaptureAppConfig>;
+
+/**
+ * VideoCapture configuration when photo capture is disabled (video-only mode).
+ */
+export type VideoCaptureConfig = OmitConfigFileProps<
+  Extract<VideoCaptureAppConfig, { enablePhotoCapture?: false }>
+>;
+
+/**
+ * VideoCapture configuration when photo capture is enabled (hybrid mode).
+ */
+export type VideoCaptureHybridConfig = OmitConfigFileProps<
+  Extract<VideoCaptureAppConfig, { enablePhotoCapture: true }>
+>;
 
 /**
  * Live configuration used to configure Monk apps on the go.

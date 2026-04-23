@@ -489,6 +489,28 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
+  it('should call the onGalleryPress callback instead of displaying the internal gallery when provided', () => {
+    const props = createProps();
+    const onGalleryPress = jest.fn();
+    const { unmount } = render(<PhotoCapture {...props} onGalleryPress={onGalleryPress} />);
+
+    expect(InspectionGallery).not.toHaveBeenCalled();
+    expectPropsOnChildMock(Camera, {
+      hudProps: expect.objectContaining({ onOpenGallery: expect.any(Function) }),
+    });
+    const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
+
+    expect(onGalleryPress).not.toHaveBeenCalled();
+    expect(InspectionGallery).not.toHaveBeenCalled();
+
+    act(() => onOpenGallery());
+
+    expect(onGalleryPress).toHaveBeenCalledTimes(1);
+    expect(InspectionGallery).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
   it('should pass the proper params to the BackdropDialog component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);

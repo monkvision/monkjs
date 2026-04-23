@@ -21,19 +21,29 @@ jest.mock('../../src/VideoCapture/VideoCaptureHUD', () => ({
 jest.mock('../../src/VideoCapture/VideoCaptureTutorial', () => ({
   VideoCaptureTutorial: jest.fn(() => <></>),
 }));
+jest.mock('@monkvision/common-ui-web', () => ({
+  ...jest.requireActual('@monkvision/common-ui-web'),
+  VehicleTypeSelection: jest.fn(() => <></>),
+}));
+jest.mock('../../src/PhotoCapture/PhotoCapture', () => ({
+  PhotoCapture: jest.fn(() => <></>),
+}));
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
 import { InspectionGallery } from '@monkvision/common-ui-web';
-import { DeviceOrientation, TaskName } from '@monkvision/types';
+import { DeviceOrientation, TaskName, VehicleType } from '@monkvision/types';
 import { act, render, waitFor } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
+import { VehicleTypeSelection } from '@monkvision/common-ui-web';
 import { VideoCapture, VideoCaptureProps } from '../../src';
 import { useFastMovementsDetection } from '../../src/VideoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import { VideoCaptureHUD } from '../../src/VideoCapture/VideoCaptureHUD';
 import { VideoCaptureTutorial } from '../../src/VideoCapture/VideoCaptureTutorial';
+import { PhotoCapture } from '../../src/PhotoCapture/PhotoCapture';
+import type { HybridVideoProps } from '../../src/VideoCapture/VideoCapture';
 
 function createProps(): VideoCaptureProps {
   return {
@@ -54,6 +64,20 @@ function createProps(): VideoCaptureProps {
     phoneShakingWarningCooldown: 6543,
     onComplete: jest.fn(),
     lang: 'us',
+  };
+}
+
+function createHybridProps(): HybridVideoProps {
+  return {
+    ...createProps(),
+    enablePhotoCapture: true,
+    defaultVehicleType: VehicleType.SEDAN,
+    allowVehicleTypeSelection: false,
+    enableSteeringWheelPosition: false,
+    sights: {
+      [VehicleType.SEDAN]: ['test-sight-1', 'test-sight-2'],
+    },
+    tasksBySight: {},
   };
 }
 
@@ -265,5 +289,231 @@ describe('VideoCapture component', () => {
     });
 
     unmount();
+  });
+
+  describe('hybrid mode with photo capture', () => {
+    it('should not render VehicleTypeSelection when enablePhotoCapture is false', () => {
+      const props = createProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(VehicleTypeSelection).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should not render PhotoCapture when enablePhotoCapture is false', () => {
+      const props = createProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should not render VehicleTypeSelection when enablePhotoCapture is undefined', () => {
+      const props = createProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(VehicleTypeSelection).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should not render PhotoCapture when enablePhotoCapture is undefined', () => {
+      const props = createProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should render VehicleTypeSelection when enablePhotoCapture is true and video capture is complete', () => {
+      const props = createHybridProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(VehicleTypeSelection).not.toHaveBeenCalled();
+
+      const { onComplete } = (Camera as jest.Mock).mock.calls[0][0].hudProps;
+      act(() => {
+        onComplete();
+      });
+
+      expect(VehicleTypeSelection).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should pass the proper props to VehicleTypeSelection', () => {
+      const props = createHybridProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      const { onComplete } = (Camera as jest.Mock).mock.calls[0][0].hudProps;
+      act(() => {
+        onComplete();
+      });
+
+      expectPropsOnChildMock(VehicleTypeSelection, {
+        onSelectVehicleType: expect.any(Function),
+        selectedVehicleType: props.defaultVehicleType,
+        lang: props.lang,
+        inspectionId: props.inspectionId,
+        authToken: props.apiConfig.authToken,
+        apiDomain: props.apiConfig.apiDomain,
+        thumbnailDomain: props.apiConfig.thumbnailDomain,
+      });
+
+      unmount();
+    });
+
+    it('should render PhotoCapture when vehicle type is selected', () => {
+      const props = createHybridProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      const { onComplete: onVideoCaptureComplete } = (Camera as jest.Mock).mock.calls[0][0]
+        .hudProps;
+      act(() => {
+        onVideoCaptureComplete();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      const { onSelectVehicleType } = (VehicleTypeSelection as unknown as jest.Mock).mock
+        .calls[0][0];
+      act(() => {
+        onSelectVehicleType();
+      });
+
+      expect(PhotoCapture).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should pass the photo capture config to PhotoCapture component', () => {
+      const props = createHybridProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      const { onComplete: onVideoCaptureComplete } = (Camera as jest.Mock).mock.calls[0][0]
+        .hudProps;
+      act(() => {
+        onVideoCaptureComplete();
+      });
+
+      const { onSelectVehicleType } = (VehicleTypeSelection as unknown as jest.Mock).mock
+        .calls[0][0];
+      act(() => {
+        onSelectVehicleType();
+      });
+
+      expectPropsOnChildMock(PhotoCapture, {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        vehicleType: props.defaultVehicleType,
+        sights: expect.any(Array),
+        tasksBySight: props.tasksBySight,
+      });
+
+      unmount();
+    });
+
+    it('should not render VehicleTypeSelection or PhotoCapture before video capture is complete', () => {
+      const props = createHybridProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(VehicleTypeSelection).not.toHaveBeenCalled();
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
   });
 });
