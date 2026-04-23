@@ -10,3 +10,14 @@
   padding: 20px;
   box-sizing: border-box;
 }
+
+.label {
+  padding-bottom: 16px;
+}
+
+.sublabel {
+  padding-bottom: 16px;
+  position: fixed;
+  opacity: 0.8;
+  bottom: 15px;
+}

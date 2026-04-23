@@ -7,7 +7,11 @@ import {
 import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
-import type { BaseVideoCaptureConfig, VideoCaptureHybridConfig } from '@monkvision/types';
+import {
+  TaskName,
+  type BaseVideoCaptureConfig,
+  type VideoCaptureHybridConfig,
+} from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { InspectionGallery } from '@monkvision/common-ui-web';
 import { styles } from './VideoCapture.styles';
@@ -97,7 +101,7 @@ export function VideoCapture(props: VideoCaptureProps) {
   const startTasks = useStartTasksOnComplete({
     inspectionId,
     apiConfig,
-    additionalTasks,
+    additionalTasks: [...(additionalTasks ?? []), TaskName.DAMAGE_DETECTION],
     startTasksOnComplete,
     loading: startTasksLoading,
   });
@@ -105,23 +109,23 @@ export function VideoCapture(props: VideoCaptureProps) {
   const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
 
   const handleInspectionCompleted = () => {
-    if (enableHybridVideo) {
-      setScreen(VideoCaptureScreen.CAPTURE);
-    } else {
-      startTasks()
-        .then(() => {
-          allowRedirect();
-          onComplete?.();
-        })
-        .catch((err) => {
-          startTasksLoading.onError(err);
-          handleError(err);
-        });
-    }
+    startTasks()
+      .then(() => {
+        allowRedirect();
+        onComplete?.();
+      })
+      .catch((err) => {
+        startTasksLoading.onError(err);
+        handleError(err);
+      });
   };
 
   const handleVideoCaptureCompleted = () => {
-    setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
+    if (enableHybridVideo) {
+      setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
+    } else {
+      handleInspectionCompleted();
+    }
   };
 
   const handlePermissionsSuccess = () => {
@@ -176,21 +180,9 @@ export function VideoCapture(props: VideoCaptureProps) {
       {screen === VideoCaptureScreen.CAPTURE && (
         <Camera HUDComponent={VideoCaptureHUD} hudProps={videoCaptureHudProps} />
       )}
-      {/* {screen === VideoCaptureScreen.VEHICLE_SELECTION && enableHybridVideo && ( */}
-      {/*   <VehicleTypeSelection */}
-      {/*     onSelectVehicleType={() => setScreen(VideoCaptureScreen.CAPTURE)} */}
-      {/*     selectedVehicleType={photoCaptureConfig?.vehicleType} */}
-      {/*     lang={lang ?? ''} */}
-      {/*     inspectionId={inspectionId ?? ''} */}
-      {/*     authToken={apiConfig.authToken ?? ''} */}
-      {/*     apiDomain={apiConfig.apiDomain} */}
-      {/*     thumbnailDomain={apiConfig.thumbnailDomain} */}
-      {/*   /> */}
-      {/* )} */}
       {screen === VideoCaptureScreen.PHOTO_CAPTURE && photoCaptureConfig && (
         <PhotoCapture
           {...photoCaptureConfig}
-          // onGalleryPress={handleGalleryOpen}
           enableBeautyShotExtraction={enableBeautyShotExtraction}
         />
       )}

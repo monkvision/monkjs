@@ -25,7 +25,7 @@ export const styles: Styles = {
     __media: {
       maxHeight: PAGE_LAYOUT_MAX_HEIGHT_BREAKPOINT,
     },
-    padding: '2px 10px',
+    padding: '10px 18px',
   },
   containerFadeOut: {
     opacity: 0,

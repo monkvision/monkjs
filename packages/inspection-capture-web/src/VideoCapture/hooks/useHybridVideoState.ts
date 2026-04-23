@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { sights } from '@monkvision/sights';
-import { type Sight, VehicleType } from '@monkvision/types';
+import { type Sight, TaskName, VehicleType } from '@monkvision/types';
 import type { PreventExitListenerResult } from '@monkvision/common';
 import type { HybridVideoProps, VideoCaptureProps } from '../VideoCapture';
 import type { PhotoCaptureProps } from '../../PhotoCapture';
@@ -75,7 +75,9 @@ export function useHybridVideoState({ props, allowRedirect }: UseHybridVideoStat
       inspectionId,
       apiConfig,
       lang,
-      additionalTasks,
+      additionalTasks: additionalTasks?.includes(TaskName.DAMAGE_DETECTION)
+        ? additionalTasks
+        : [...(additionalTasks ?? []), TaskName.DAMAGE_DETECTION],
       enforceOrientation: props.enforcePhotoCaptureOrientation ?? enforceOrientation,
       startTasksOnComplete,
       sights: photoCaptureSights,

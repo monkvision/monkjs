@@ -4,6 +4,7 @@
   "workflow": "video",
   "allowManualLogin": true,
   "fetchFromSearchParams": true,
+  "allowSkipRetake": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
     "tasks": ["damage_detection", "wheel_analysis"],
@@ -66,62 +67,13 @@
   "defaultVehicleType": "cuv",
   "enableSteeringWheelPosition": false,
   "sights": {
-    "suv": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "cuv": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "sedan": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "hatchback": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "van": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "minivan": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ],
-    "pickup": [
-      "all-qhKA2z",
-      "all-HpolaMLT",
-      "all-rj5mhm",
-      "all-y6329hj8",
-      "all-hJLGOqvb",
-      "all-11w-_e9c"
-    ]
+    "suv": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "cuv": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "sedan": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "hatchback": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "van": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "minivan": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "pickup": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"]
   },
   "sightGuidelines": [
     {
