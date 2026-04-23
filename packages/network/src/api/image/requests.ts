@@ -6,6 +6,7 @@ import {
   MonkCreatedOneImageAction,
   vehiclePartLabels,
   MonkDeletedOneImageAction,
+  MonkDeletedImagesBulkAction,
   MonkUpdatedOneImageAdditionalDataAction,
 } from '@monkvision/common';
 import {
@@ -32,6 +33,7 @@ import {
   ApiImage,
   ApiImagePost,
   ApiImagePostTask,
+  ApiImagesBulkDeleteResponse,
 } from '../models';
 import { MonkApiResponse } from '../types';
 import { mapApiImage } from './mappers';
@@ -747,6 +749,81 @@ export async function updateImageAdditionalData(
     };
   } catch (err) {
     console.error(`Failed to update image additional data: ${(err as Error).message}`);
+    throw err;
+  }
+}
+
+/**
+ * Options specified when deleting multiple images from an inspection.
+ */
+export interface DeleteImagesBulkOptions {
+  /**
+   * The ID of the inspection from which images will be deleted.
+   */
+  inspectionId: string;
+  /**
+   * The list of image IDs to delete (all must belong to the same inspection). Max 100 items.
+   */
+  imageIds: string[];
+}
+
+/**
+ * Type definition for the result of the `deleteImagesBulk` API request.
+ */
+export interface DeleteImagesBulkResponse {
+  /**
+   * A message from the API describing the result.
+   */
+  message: string;
+  /**
+   * The list of image IDs that were successfully deleted.
+   */
+  deletedImageIds: string[];
+  /**
+   * Optional list of images that failed to be deleted, with their reasons.
+   */
+  failed?: Array<{ imageId: string; reason: string }>;
+}
+
+/**
+ * Delete multiple images from an inspection in a single request.
+ *
+ * @param options Deletion options for the images.
+ * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
+ */
+export async function deleteImagesBulk(
+  options: DeleteImagesBulkOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkDeletedImagesBulkAction>,
+): Promise<MonkApiResponse<DeleteImagesBulkResponse, ApiImagesBulkDeleteResponse>> {
+  const kyOptions = getDefaultOptions(config);
+  try {
+    const response = await ky.post(`inspections/${options.inspectionId}/images/delete`, {
+      ...kyOptions,
+      json: {
+        image_ids: options.imageIds,
+        authorized_tasks_statuses: [ProgressStatus.NOT_STARTED],
+      },
+    });
+    const body = await response.json<ApiImagesBulkDeleteResponse>();
+    dispatch?.({
+      type: MonkActionType.DELETED_IMAGES_BULK,
+      payload: {
+        inspectionId: options.inspectionId,
+        imageIds: body.deleted_image_ids,
+      },
+    });
+    return {
+      message: body.message,
+      deletedImageIds: body.deleted_image_ids,
+      failed: body.failed?.map((f) => ({ imageId: f.image_id, reason: f.reason })),
+      response,
+      body,
+    };
+  } catch (err) {
+    console.error(`Failed to bulk delete images: ${(err as Error).message}`);
     throw err;
   }
 }
