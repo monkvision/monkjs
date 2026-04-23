@@ -163,12 +163,13 @@ These options are available for all VideoCapture configurations:
 | fastWalkingWarningCooldown  | `number`  | The duration (in milliseconds) to wait between fast walking warnings.                                                                                                                          |          | `4000`        |
 | phoneShakingWarningCooldown | `number`  | The duration (in milliseconds) to wait between phone shaking warnings.                                                                                                                         |          | `4000`        |
 | enableVideoTutorial         | `boolean` | Boolean indicating if the video tutorial should be enabled or not.                                                                                                                             |          | `true`        |
+| enableBeautyShotExtraction  | `boolean` | Boolean indicating if beauty shot extraction should be enabled or not. When enabled, the best frames of the video will be extracted as beauty shots.                                           |          | `true`        |
 | enableHybridVideo           | `boolean` | Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users can take pictures during the video capture process, and these pictures will be added to the inspection. |          | `false`       |
 
 
 ### Hybrid Mode Options (enableHybridVideo: true)
 
-When `enablePhotoCapture` is set to `true`, VideoCapture enters hybrid mode where users first record a video walkthrough, then capture individual photos. The following additional options become available:
+When `enableHybridVideo` is set to `true`, VideoCapture enters hybrid mode where users first record a video walkthrough, then capture individual photos. The following additional options become available:
 
 | Name                               | Type                                         | Description                                                                                                                                                                                          | Required                                          | Default Value                                |
 | ---------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | -------------------------------------------- |

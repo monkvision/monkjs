@@ -515,17 +515,17 @@ type OmitConfigFileProps<T> = Omit<
 export type BaseVideoCaptureConfig = OmitConfigFileProps<VideoCaptureAppConfig>;
 
 /**
- * VideoCapture configuration when photo capture is disabled (video-only mode).
+ * VideoCapture configuration.
  */
 export type VideoCaptureConfig = OmitConfigFileProps<
-  Extract<VideoCaptureAppConfig, { enablePhotoCapture?: false }>
+  Extract<VideoCaptureAppConfig, { enableHybridVideo?: false }>
 >;
 
 /**
- * VideoCapture configuration when photo capture is enabled (hybrid mode).
+ * VideoCapture configuration when hybrid video mode is enabled.
  */
 export type VideoCaptureHybridConfig = OmitConfigFileProps<
-  Extract<VideoCaptureAppConfig, { enablePhotoCapture: true }>
+  Extract<VideoCaptureAppConfig, { enableHybridVideo: true }>
 >;
 
 /**

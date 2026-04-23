@@ -106,6 +106,7 @@ export function MonkPhotoCapturePage({ authToken }) {
 | maxUploadDurationWarning           | `number`                                     | Max upload duration in milliseconds before showing a bad connection warning to the user. Use `-1` to never display the warning.                                                                  |          | `15000`                                      |
 | useAdaptiveImageQuality            | `boolean`                                    | Boolean indicating if the image quality should be downgraded automatically in case of low connection.                                                                                            |          | `true`                                       |
 | vehicleType                        | `VehicleType`                                | The vehicle type of the inspection.                                                                                                                                                              |          | `VehicleType.SEDAN`                          |
+| enableBeautyShotExtraction         | `boolean`                                    | Boolean indicating if beauty shot extraction should be enabled or not. Should only be enabled when PhotoCapture is used combined with VideoCapture.                                               |          | `false`                                      |
 
 # VideoCapture
 
@@ -166,6 +167,7 @@ Props
 | phoneShakingWarningCooldown | `number`                        | The duration (in milliseconds) to wait between phone shaking warnings.                                                                                                                           |          | `4000`                    |
 | enableVideoTutorial         | `boolean`                       | Boolean indicating if the video tutorial should be enabled or not.                                                                                                                               |          | `true`                    |
 | enableHybridVideo           | `boolean`                       | Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users can take pictures during the video capture process, and these pictures will be added to the inspection. |          | `false`                   |
+| enableBeautyShotExtraction  | `boolean`                       | Boolean indicating if beauty shot extraction should be enabled or not. When enabled, the best frames of the video will be extracted as beauty shots.                                                      |          | `true`                    |
 
 # DamageDisclosure
 

@@ -19,6 +19,14 @@ export const SightGuidelineSchema = z.object({
   nl: z.string(),
 });
 
+export const SightTutorialSchema = z.object({
+  imageReferenceBySightId: z.record(z.string(), z.string().nullable()),
+  en: z.string(),
+  fr: z.string(),
+  de: z.string(),
+  nl: z.string(),
+});
+
 export const PhotoCaptureAppConfigSchema = z
   .object({
     workflow: z.literal(CaptureWorkflow.PHOTO),
@@ -35,6 +43,8 @@ export const PhotoCaptureAppConfigSchema = z
     enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
     enableSightTutorial: z.nativeEnum(PhotoCaptureSightTutorialOption).optional(),
+    sightTutorial: z.array(SightTutorialSchema).optional(),
+    autoDeletePreviousSightImages: z.boolean().optional(),
   })
   .and(SharedCaptureAppConfigSchema)
   .and(ComplianceOptionsSchema)

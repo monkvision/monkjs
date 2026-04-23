@@ -5,8 +5,8 @@ import type { PreventExitListenerResult } from '@monkvision/common/lib/PreventEx
 import type { HybridVideoProps, VideoCaptureProps } from '../VideoCapture';
 import type { PhotoCaptureProps } from '../../PhotoCapture';
 
-function isVideoCapturePropsWithPhoto(props: VideoCaptureProps): props is HybridVideoProps {
-  return props.enablePhotoCapture === true;
+function isHybridVideoProps(props: VideoCaptureProps): props is HybridVideoProps {
+  return props.enableHybridVideo === true;
 }
 
 /**
@@ -18,7 +18,7 @@ export interface UseHybridVideoStateParams
 }
 
 export default function useHybridVideoState({ props, allowRedirect }: UseHybridVideoStateParams) {
-  const enablePhotoCapture = isVideoCapturePropsWithPhoto(props);
+  const enableHybridVideo = isHybridVideoProps(props);
   const {
     inspectionId,
     apiConfig,
@@ -29,7 +29,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
   } = props;
 
   const photoCaptureSights: Sight[] = useMemo(() => {
-    if (!enablePhotoCapture) {
+    if (!enableHybridVideo) {
       return [];
     }
 
@@ -59,7 +59,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
       }
       return sights[id];
     });
-  }, [enablePhotoCapture, props]);
+  }, [enableHybridVideo, props]);
 
   const handlePhotoCaptureComplete = () => {
     allowRedirect();
@@ -67,7 +67,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
   };
 
   const photoCaptureConfig = useMemo((): PhotoCaptureProps | null => {
-    if (!enablePhotoCapture) {
+    if (!enableHybridVideo) {
       return null;
     }
 
@@ -104,7 +104,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
       autoDeletePreviousSightImages: props.autoDeletePreviousSightImages,
     } satisfies PhotoCaptureProps;
   }, [
-    enablePhotoCapture,
+    enableHybridVideo,
     photoCaptureSights,
     inspectionId,
     apiConfig,
@@ -116,7 +116,7 @@ export default function useHybridVideoState({ props, allowRedirect }: UseHybridV
   ]);
 
   return {
-    enablePhotoCapture,
+    enableHybridVideo,
     photoCaptureConfig,
   };
 }
