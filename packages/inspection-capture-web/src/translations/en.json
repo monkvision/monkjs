@@ -105,6 +105,11 @@
       "success": "Video processing completed!",
       "error": "An error occurred when finalizing the inspection. Inspection ID :",
       "done": "Done"
+    },
+    "complete": {
+      "title": "Vehicle video complete",
+      "text": "Next, take a few photos to capture details and finish the inspection.",
+      "button": "Start Photo Capture"
     }
   },
   "orientationEnforcer": {

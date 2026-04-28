@@ -97,7 +97,10 @@ export function useInspectionGalleryItemCardStyles({
     if ([ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(item.image.status)) {
       previewOverlayBackground = colors.previewOverlayBackgroundNetwork;
     }
-    if (item.image.status === ImageStatus.NOT_COMPLIANT) {
+    if (
+      item.image.status === ImageStatus.NOT_COMPLIANT &&
+      item.image.additionalData?.frame_index === undefined
+    ) {
       previewOverlayBackground = colors.previewOverlayBackgroundCompliance;
     }
   }

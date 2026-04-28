@@ -25,7 +25,8 @@ function needsToBeRetaken(item: InspectionGalleryItem): boolean {
     item.isTaken &&
     [ImageStatus.UPLOAD_FAILED, ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_ERROR].includes(
       item.image.status,
-    )
+    ) &&
+    item.image.additionalData?.frame_index === undefined
   );
 }
 

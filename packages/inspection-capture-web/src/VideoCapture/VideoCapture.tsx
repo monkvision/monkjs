@@ -7,35 +7,26 @@ import {
 import { useState } from 'react';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
-import { AddDamage, CameraConfig, VideoCaptureAppConfig } from '@monkvision/types';
+import {
+  TaskName,
+  type BaseVideoCaptureConfig,
+  type VideoCaptureHybridConfig,
+} from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { InspectionGallery } from '@monkvision/common-ui-web';
 import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import { useFastMovementsDetection, useGetInspection } from './hooks';
+import { useFastMovementsDetection, useGetInspection, useHybridVideoState } from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
+import { PhotoCapture, PhotoCaptureProps } from '../PhotoCapture/PhotoCapture';
+import { VideoCaptureScreen } from './types';
 
 /**
- * Props of the VideoCapture component.
+ * Base props shared by all VideoCapture configurations.
  */
-export interface VideoCaptureProps
-  extends Pick<
-    VideoCaptureAppConfig,
-    | keyof CameraConfig
-    | 'additionalTasks'
-    | 'startTasksOnComplete'
-    | 'enforceOrientation'
-    | 'minRecordingDuration'
-    | 'maxRetryCount'
-    | 'enableFastWalkingWarning'
-    | 'enablePhoneShakingWarning'
-    | 'fastWalkingWarningCooldown'
-    | 'phoneShakingWarningCooldown'
-    | 'enableVideoTutorial'
-    | 'enableHybridVideo'
-  > {
+export interface BaseVideoCaptureProps {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -46,7 +37,7 @@ export interface VideoCaptureProps
    */
   apiConfig: MonkApiConfig;
   /**
-   * Callback called when the inspection is complete.
+   * Callback called when the inspection is complete (after all workflows are finished).
    */
   onComplete?: () => void;
   /**
@@ -55,33 +46,41 @@ export interface VideoCaptureProps
    * @default en
    */
   lang?: string | null;
+  /**
+   * Callback called after a picture is taken. Hybrid mode only.
+   */
+  onPictureTaken?: PhotoCaptureProps['onPictureTaken'];
 }
 
-enum VideoCaptureScreen {
-  PERMISSIONS = 'permissions',
-  TUTORIAL = 'tutorial',
-  CAPTURE = 'capture',
-  GALLERY = 'gallery',
-}
+/**
+ * Props of the VideoCapture component.
+ */
+export type VideoCaptureProps = BaseVideoCaptureProps & BaseVideoCaptureConfig;
+
+/**
+ * Props of the VideoCapture component when photo capture is enabled (hybrid mode).
+ */
+export type HybridVideoProps = BaseVideoCaptureProps & VideoCaptureHybridConfig;
 
 // No ts-doc for this component : the component exported is VideoCaptureHOC
-export function VideoCapture({
-  inspectionId,
-  apiConfig,
-  additionalTasks,
-  startTasksOnComplete,
-  enforceOrientation,
-  minRecordingDuration = 15000,
-  maxRetryCount = 3,
-  enableFastWalkingWarning = true,
-  enablePhoneShakingWarning = false,
-  fastWalkingWarningCooldown = 1000,
-  phoneShakingWarningCooldown = 1000,
-  enableVideoTutorial = true,
-  enableHybridVideo = false,
-  onComplete,
-  lang,
-}: VideoCaptureProps) {
+export function VideoCapture(props: VideoCaptureProps) {
+  const {
+    inspectionId,
+    apiConfig,
+    additionalTasks,
+    startTasksOnComplete,
+    enforceOrientation,
+    minRecordingDuration = 15000,
+    maxRetryCount = 3,
+    enableFastWalkingWarning = true,
+    enablePhoneShakingWarning = false,
+    fastWalkingWarningCooldown = 1000,
+    phoneShakingWarningCooldown = 1000,
+    enableVideoTutorial = true,
+    enableBeautyShotExtraction = true,
+    onComplete,
+    lang,
+  } = props;
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
@@ -102,11 +101,12 @@ export function VideoCapture({
   const startTasks = useStartTasksOnComplete({
     inspectionId,
     apiConfig,
-    additionalTasks,
+    additionalTasks: [...(additionalTasks ?? []), TaskName.DAMAGE_DETECTION],
     startTasksOnComplete,
     loading: startTasksLoading,
   });
   const { allowRedirect } = usePreventExit(true);
+  const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
 
   const handleInspectionCompleted = () => {
     startTasks()
@@ -121,14 +121,18 @@ export function VideoCapture({
   };
 
   const handleVideoCaptureCompleted = () => {
-    setScreen(VideoCaptureScreen.GALLERY);
+    if (enableHybridVideo) {
+      setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
+    } else {
+      handleInspectionCompleted();
+    }
   };
 
   const handlePermissionsSuccess = () => {
     setScreen(enableVideoTutorial ? VideoCaptureScreen.TUTORIAL : VideoCaptureScreen.CAPTURE);
   };
 
-  const hudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
+  const videoCaptureHudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
     inspectionId,
     maxRetryCount,
     apiConfig,
@@ -140,6 +144,7 @@ export function VideoCapture({
     fastMovementsWarning,
     onWarningDismiss,
     startTasksLoading,
+    enableHybridVideo,
     onComplete: handleVideoCaptureCompleted,
   };
 
@@ -162,18 +167,24 @@ export function VideoCapture({
           inspectionId={inspectionId}
           apiConfig={apiConfig}
           captureMode={enableHybridVideo}
-          sights={[]}
+          sights={photoCaptureConfig?.sights ?? []}
           lang={lang}
           showBackButton={true}
-          enableBeautyShotExtraction={true}
-          onBack={() => setScreen(VideoCaptureScreen.CAPTURE)}
+          enableBeautyShotExtraction={enableBeautyShotExtraction}
+          onBack={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
           onValidate={handleInspectionCompleted}
-          addDamage={AddDamage.DISABLED}
+          addDamage={photoCaptureConfig?.addDamage}
           isInspectionCompleted={false}
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (
-        <Camera HUDComponent={VideoCaptureHUD} hudProps={hudProps} />
+        <Camera HUDComponent={VideoCaptureHUD} hudProps={videoCaptureHudProps} />
+      )}
+      {screen === VideoCaptureScreen.PHOTO_CAPTURE && photoCaptureConfig && (
+        <PhotoCapture
+          {...photoCaptureConfig}
+          enableBeautyShotExtraction={enableBeautyShotExtraction}
+        />
       )}
     </div>
   );

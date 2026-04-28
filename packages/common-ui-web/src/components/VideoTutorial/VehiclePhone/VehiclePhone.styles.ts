@@ -55,6 +55,10 @@ export function useVehiclePhoneStyles({ orientation }: VehiclePhoneParams) {
       ...{ height: phoneSize },
       ...(orientation === DeviceOrientation.PORTRAIT && styles['phonePortrait']),
     },
+    vehicleStyle: {
+      ...styles['vehicleScaling'],
+      ...{ height: phoneSize * 0.7 },
+    },
     getAttributes,
   };
 }

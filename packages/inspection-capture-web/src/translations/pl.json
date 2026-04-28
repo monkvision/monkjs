@@ -105,6 +105,11 @@
       "success": "Przetwarzanie wideo zakończone!",
       "error": "Wystąpił błąd podczas finalizowania inspekcji. ID inspekcji:",
       "done": "Gotowe"
+    },
+    "complete": {
+      "title": "Nagranie pojazdu zakończone",
+      "text": "Następnie zrób kilka zdjęć, aby uchwycić szczegóły i zakończyć inspekcję.",
+      "button": "Rozpocznij robienie zdjęć"
     }
   },
   "orientationEnforcer": {

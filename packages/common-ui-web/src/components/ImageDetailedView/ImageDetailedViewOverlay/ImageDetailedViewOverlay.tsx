@@ -53,31 +53,37 @@ export function ImageDetailedViewOverlay(props: ImageDetailedViewOverlayProps) {
     <div style={mainContainerStyle}>
       <div style={overlayDisplayStyle}>
         <div style={complianceContainerStyle}>
-          <div style={complianceMessageContainerStyle}>
-            <Icon
-              icon={retakeOverlay.icon}
-              primaryColor={retakeOverlay.iconColor}
-              size={complianceIcon.size}
-            />
-            <div style={complianceMessageStyle}>
-              <div style={complianceTitleStyle}>{retakeOverlay.title}</div>
-              <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
-            </div>
-          </div>
-          {props.captureMode && (
-            <Button
-              style={complianceRetakeButton.style}
-              size={complianceRetakeButton.size}
-              primaryColor={retakeOverlay.buttonColor}
-              onClick={props.onRetake}
-            >
-              {t('retake')}
-            </Button>
+          {props.image.additionalData?.frame_index !== undefined ? (
+            <div></div>
+          ) : (
+            <>
+              <div style={complianceMessageContainerStyle}>
+                <Icon
+                  icon={retakeOverlay.icon}
+                  primaryColor={retakeOverlay.iconColor}
+                  size={complianceIcon.size}
+                />
+                <div style={complianceMessageStyle}>
+                  <div style={complianceTitleStyle}>{retakeOverlay.title}</div>
+                  <div style={complianceDescriptionStyle}>{retakeOverlay.description}</div>
+                </div>
+              </div>
+              {props.captureMode && props.image.additionalData?.frame_index === undefined && (
+                <Button
+                  style={complianceRetakeButton.style}
+                  size={complianceRetakeButton.size}
+                  primaryColor={retakeOverlay.buttonColor}
+                  onClick={props.onRetake}
+                >
+                  {t('retake')}
+                </Button>
+              )}
+            </>
           )}
         </div>
         {props.image.label && (
           <div style={imageLabelStyle}>
-            {labelIcon && (
+            {labelIcon && props.image.additionalData?.frame_index === undefined && (
               <Icon
                 icon={labelIcon.icon}
                 primaryColor={labelIcon.primaryColor}

@@ -164,4 +164,69 @@ describe('ImageDetailedViewOverlay component', () => {
 
     unmount();
   });
+
+  it('should NOT display the compliance overlay for video frames (frame_index defined)', () => {
+    const title = 'compliance-title-vf';
+    const description = 'compliance-desc-vf';
+    (isImageValid as jest.Mock).mockImplementationOnce(() => false);
+    (useRetakeOverlay as jest.Mock).mockImplementationOnce(() => ({
+      title,
+      description,
+      icon: 'test',
+      iconColor: 'red',
+      buttonColor: 'blue',
+    }));
+    const props = createProps();
+    props.image = {
+      id: 'video-frame-id',
+      status: ImageStatus.NOT_COMPLIANT,
+      additionalData: { frame_index: 5 },
+    } as unknown as Image;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(screen.queryByText(title)).toBeNull();
+    expect(screen.queryByText(description)).toBeNull();
+
+    unmount();
+  });
+
+  it('should NOT render the retake button for video frames even in captureMode', () => {
+    (isImageValid as jest.Mock).mockImplementationOnce(() => false);
+    const props = createProps();
+    props.captureMode = true;
+    props.image = {
+      id: 'video-frame-id',
+      status: ImageStatus.NOT_COMPLIANT,
+      additionalData: { frame_index: 3 },
+    } as unknown as Image;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    const retakeButtonCalls = (Button as unknown as jest.Mock).mock.calls.filter(
+      (args: any[]) => args[0].children === 'retake',
+    );
+    expect(retakeButtonCalls.length).toBe(0);
+
+    unmount();
+  });
+
+  it('should NOT render the label icon for video frames', () => {
+    const icon = 'test-icon-vf';
+    const primaryColor = 'test-color-vf';
+    (useImageLabelIcon as jest.Mock).mockImplementationOnce(() => ({ icon, primaryColor }));
+    const props = createProps();
+    props.image = {
+      id: 'video-frame-id',
+      status: ImageStatus.SUCCESS,
+      label: { en: 'test-label' },
+      additionalData: { frame_index: 10 },
+    } as unknown as Image;
+    const { unmount } = render(<ImageDetailedViewOverlay {...props} />);
+
+    expect(Icon).not.toHaveBeenCalledWith(
+      expect.objectContaining({ icon, primaryColor }),
+      expect.anything(),
+    );
+
+    unmount();
+  });
 });

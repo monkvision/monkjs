@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import {
   useInspectionGalleryItemLabel,
   useInspectionGalleryItemStatusIconName,
+  useInspectionGalleryItemCardStyles,
 } from '../../../../src/components/InspectionGallery/InspectionGalleryItemCard/hooks';
 import { InspectionGalleryItem } from '../../../../src/components/InspectionGallery/types';
-import { Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, InteractiveStatus } from '@monkvision/types';
 
 describe('InspectionGalleryItemCard hooks', () => {
   afterEach(() => {
@@ -220,6 +221,64 @@ describe('InspectionGalleryItemCard hooks', () => {
       });
 
       expect(result.current).toEqual(null);
+
+      unmount();
+    });
+  });
+
+  describe('useInspectionGalleryItemCardStyles hook', () => {
+    it('should NOT apply compliance overlay background for video frames with frame_index', () => {
+      const item: InspectionGalleryItem = {
+        isAddDamage: false,
+        isTaken: true,
+        image: {
+          status: ImageStatus.NOT_COMPLIANT,
+          additionalData: { frame_index: 5 },
+          thumbnailPath: '/thumb.jpg',
+        } as unknown as Image,
+      };
+      const { result, unmount } = renderHook(useInspectionGalleryItemCardStyles, {
+        initialProps: { item, status: InteractiveStatus.DEFAULT, captureMode: true },
+      });
+
+      expect(result.current.previewOverlayStyle.backgroundColor).toEqual('transparent');
+
+      unmount();
+    });
+
+    it('should apply compliance overlay background for non-video frames with NOT_COMPLIANT status', () => {
+      const item: InspectionGalleryItem = {
+        isAddDamage: false,
+        isTaken: true,
+        image: {
+          status: ImageStatus.NOT_COMPLIANT,
+          thumbnailPath: '/thumb.jpg',
+        } as unknown as Image,
+      };
+      const { result, unmount } = renderHook(useInspectionGalleryItemCardStyles, {
+        initialProps: { item, status: InteractiveStatus.DEFAULT, captureMode: true },
+      });
+
+      expect(result.current.previewOverlayStyle.backgroundColor).not.toEqual('transparent');
+
+      unmount();
+    });
+
+    it('should apply network overlay background for video frames with UPLOAD_FAILED status', () => {
+      const item: InspectionGalleryItem = {
+        isAddDamage: false,
+        isTaken: true,
+        image: {
+          status: ImageStatus.UPLOAD_FAILED,
+          additionalData: { frame_index: 5 },
+          thumbnailPath: '/thumb.jpg',
+        } as unknown as Image,
+      };
+      const { result, unmount } = renderHook(useInspectionGalleryItemCardStyles, {
+        initialProps: { item, status: InteractiveStatus.DEFAULT, captureMode: true },
+      });
+
+      expect(result.current.previewOverlayStyle.backgroundColor).not.toEqual('transparent');
 
       unmount();
     });

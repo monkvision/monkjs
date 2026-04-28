@@ -105,6 +105,11 @@
       "success": "Video behandlingen er fuldført!",
       "error": "Der opstod en fejl under afslutningen af inspektionen. Inspektions-ID:",
       "done": "Færdig"
+    },
+    "complete": {
+      "title": "Køretøjsvideo fuldført",
+      "text": "Tag derefter et par billeder for at fange detaljer og afslutte inspektionen.",
+      "button": "Start fotooptagelse"
     }
   },
   "orientationEnforcer": {

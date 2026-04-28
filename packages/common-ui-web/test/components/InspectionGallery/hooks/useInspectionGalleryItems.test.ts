@@ -147,6 +147,47 @@ describe('useInspectionGalleryItems hook', () => {
     unmount();
   });
 
+  it('should not mark video frames as needing retake even if NOT_COMPLIANT', () => {
+    const initialProps = createProps();
+    const state = createEmptyMonkState();
+    state.images.push(
+      {
+        id: 'sight-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-1',
+        status: ImageStatus.SUCCESS,
+      } as unknown as Image,
+      {
+        id: 'video-frame-nc',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.NOT_COMPLIANT,
+        additionalData: { frame_index: 0 },
+      } as unknown as Image,
+      {
+        id: 'regular-nc',
+        inspectionId: initialProps.inspectionId,
+        status: ImageStatus.NOT_COMPLIANT,
+      } as unknown as Image,
+    );
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+    const { result, unmount: unmount2 } = renderHook(
+      (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+      { initialProps },
+    );
+
+    const items = result.current.filter((item) => !item.isAddDamage && item.isTaken);
+    const regularNcIndex = items.findIndex(
+      (item) => !item.isAddDamage && item.isTaken && item.image.id === 'regular-nc',
+    );
+    const videoFrameIndex = items.findIndex(
+      (item) => !item.isAddDamage && item.isTaken && item.image.id === 'video-frame-nc',
+    );
+    // regular NOT_COMPLIANT should be sorted before (needs retake), video frames should not
+    expect(regularNcIndex).toBeLessThan(videoFrameIndex);
+
+    unmount2();
+  });
+
   it('should not add the add damage item if not in capture mode', () => {
     const initialProps = createProps();
     initialProps.captureMode = false;

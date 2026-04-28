@@ -105,6 +105,11 @@
       "success": "Videobewerking voltooid!",
       "error": "Er is een fout opgetreden bij het afronden van de inspectie. Inspectie ID :",
       "done": "Gedaan"
+    },
+    "complete": {
+      "title": "Voertuigvideo voltooid",
+      "text": "Maak vervolgens een paar foto's om details vast te leggen en de inspectie af te ronden.",
+      "button": "Foto-opname starten"
     }
   },
   "orientationEnforcer": {

@@ -74,7 +74,8 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
           (item.isTaken &&
             item.image.status === ImageStatus.NOT_COMPLIANT &&
             props.allowSkipRetake) ||
-          (item.isTaken && item.image.status === ImageStatus.SUCCESS),
+          (item.isTaken && item.image.status === ImageStatus.SUCCESS) ||
+          (item.isTaken && item.image.additionalData?.frame_index !== undefined),
       ),
     [props.items, props.allowSkipRetake],
   );

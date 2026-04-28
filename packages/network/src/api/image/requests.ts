@@ -192,6 +192,11 @@ export interface AddVideoFrameOptions {
    * the video, this value is equal to 0.
    */
   timestamp: number;
+  /**
+   * The alpha represents the position of the image around the vehicle taken. It is based on the gyroscope and
+   * accelerometer data of the phone, and it is a value between 0 and 360.
+   */
+  alpha: number;
 }
 
 /**
@@ -323,6 +328,7 @@ function getAdditionalData(options: AddImageOptions): ImageAdditionalData {
   if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
     additionalData.frame_index = options.frameIndex;
     additionalData.timestamp = options.timestamp;
+    additionalData.alpha = options.alpha;
   }
   return additionalData;
 }

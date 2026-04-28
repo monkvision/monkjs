@@ -80,9 +80,6 @@ export function useStartTasksOnComplete({
   const { handleError } = useMonitoring();
 
   return useCallback(async () => {
-    if (!startTasksOnComplete) {
-      return;
-    }
     const names = getTasksToStart({ sights, additionalTasks, tasksBySight, startTasksOnComplete });
 
     try {

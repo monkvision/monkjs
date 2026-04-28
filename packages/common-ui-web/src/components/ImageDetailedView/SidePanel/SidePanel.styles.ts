@@ -64,8 +64,7 @@ export function useSidePanelStyles() {
     thumbnailWrapperStyle: styles['thumbnailWrapper'],
     selectedBadgeStyle: {
       ...styles['selectedBadge'],
-      backgroundColor: palette.success.base,
-      color: palette.text.white,
+      color: palette.success.base,
     },
     getThumbnailStyle: (isSelected: boolean): CSSProperties => ({
       ...styles['thumbnail'],

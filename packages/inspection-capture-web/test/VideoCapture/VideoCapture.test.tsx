@@ -8,6 +8,10 @@ jest.mock('../../src/VideoCapture/hooks', () => ({
     onWarningDismiss: jest.fn(),
   })),
   useGetInspection: jest.fn(),
+  useHybridVideoState: jest.fn(() => ({
+    enableHybridVideo: false,
+    photoCaptureConfig: null,
+  })),
 }));
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn(() => Promise.resolve())),
@@ -21,19 +25,27 @@ jest.mock('../../src/VideoCapture/VideoCaptureHUD', () => ({
 jest.mock('../../src/VideoCapture/VideoCaptureTutorial', () => ({
   VideoCaptureTutorial: jest.fn(() => <></>),
 }));
+jest.mock('@monkvision/common-ui-web', () => ({
+  ...jest.requireActual('@monkvision/common-ui-web'),
+  VehicleTypeSelection: jest.fn(() => <></>),
+}));
+jest.mock('../../src/PhotoCapture/PhotoCapture', () => ({
+  PhotoCapture: jest.fn(() => <></>),
+}));
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
-import { InspectionGallery } from '@monkvision/common-ui-web';
-import { DeviceOrientation, TaskName } from '@monkvision/types';
-import { act, render, waitFor } from '@testing-library/react';
+import { DeviceOrientation, TaskName, VehicleType } from '@monkvision/types';
+import { act, render } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
 import { VideoCapture, VideoCaptureProps } from '../../src';
-import { useFastMovementsDetection } from '../../src/VideoCapture/hooks';
+import { useFastMovementsDetection, useHybridVideoState } from '../../src/VideoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import { VideoCaptureHUD } from '../../src/VideoCapture/VideoCaptureHUD';
 import { VideoCaptureTutorial } from '../../src/VideoCapture/VideoCaptureTutorial';
+import { PhotoCapture } from '../../src/PhotoCapture/PhotoCapture';
+import type { HybridVideoProps } from '../../src/VideoCapture/VideoCapture';
 
 function createProps(): VideoCaptureProps {
   return {
@@ -54,6 +66,20 @@ function createProps(): VideoCaptureProps {
     phoneShakingWarningCooldown: 6543,
     onComplete: jest.fn(),
     lang: 'us',
+  };
+}
+
+function createHybridProps(): HybridVideoProps {
+  return {
+    ...createProps(),
+    enableHybridVideo: true,
+    defaultVehicleType: VehicleType.SEDAN,
+    allowVehicleTypeSelection: false,
+    enableSteeringWheelPosition: false,
+    sights: {
+      [VehicleType.SEDAN]: ['test-sight-1', 'test-sight-2'],
+    },
+    tasksBySight: {},
   };
 }
 
@@ -102,7 +128,10 @@ describe('VideoCapture component', () => {
       expect.objectContaining({
         inspectionId: props.inspectionId,
         apiConfig: props.apiConfig,
-        additionalTasks: props.additionalTasks,
+        additionalTasks: expect.arrayContaining([
+          ...props.additionalTasks!,
+          TaskName.DAMAGE_DETECTION,
+        ]),
         startTasksOnComplete: props.startTasksOnComplete,
         loading: expect.anything(),
       }),
@@ -212,6 +241,7 @@ describe('VideoCapture component', () => {
         fastMovementsWarning,
         onWarningDismiss,
         startTasksLoading: expect.anything(),
+        enableHybridVideo: false,
         onComplete: expect.any(Function),
       }),
     });
@@ -219,7 +249,7 @@ describe('VideoCapture component', () => {
     unmount();
   });
 
-  it('should start the tasks on capture complete and then call the onComplete callback', async () => {
+  it('should transition to PHOTO_CAPTURE screen on capture complete', () => {
     const props = createProps();
     const { unmount } = render(<VideoCapture {...props} />);
 
@@ -240,30 +270,140 @@ describe('VideoCapture component', () => {
     });
     const { onComplete } = (Camera as jest.Mock).mock.calls[0][0].hudProps;
 
-    expect(props.onComplete).not.toHaveBeenCalled();
-
     act(() => {
       onComplete();
     });
 
-    expectPropsOnChildMock(InspectionGallery, {
-      onValidate: expect.any(Function),
-    });
-    const { onValidate } = (InspectionGallery as unknown as jest.Mock).mock.calls[0][0];
-
-    act(() => {
-      onValidate();
-    });
-
-    const useStartTasksOnCompleteResults = (useStartTasksOnComplete as jest.Mock).mock.results;
-    const startTasks =
-      useStartTasksOnCompleteResults[useStartTasksOnCompleteResults.length - 1].value;
-
-    await waitFor(() => {
-      expect(startTasks).toHaveBeenCalled();
-      expect(props.onComplete).toHaveBeenCalled();
-    });
+    expect(PhotoCapture).not.toHaveBeenCalled();
 
     unmount();
+  });
+
+  describe('hybrid mode with photo capture', () => {
+    it('should not render PhotoCapture when enableHybridVideo is false', () => {
+      const props = createProps();
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should render PhotoCapture when enableHybridVideo is true and video capture is complete', () => {
+      const props = createHybridProps();
+      const mockPhotoCaptureConfig = {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        sights: [],
+      };
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: mockPhotoCaptureConfig,
+      });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      const { onComplete } = (Camera as jest.Mock).mock.calls[0][0].hudProps;
+      act(() => {
+        onComplete();
+      });
+
+      expect(PhotoCapture).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should pass the photo capture config to PhotoCapture component', () => {
+      const props = createHybridProps();
+      const mockPhotoCaptureConfig = {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        sights: [],
+        vehicleType: props.defaultVehicleType,
+        tasksBySight: props.tasksBySight,
+      };
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: mockPhotoCaptureConfig,
+      });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      const { onComplete: onVideoCaptureComplete } = (Camera as jest.Mock).mock.calls[0][0]
+        .hudProps;
+      act(() => {
+        onVideoCaptureComplete();
+      });
+
+      expectPropsOnChildMock(PhotoCapture, {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        vehicleType: props.defaultVehicleType,
+        sights: expect.any(Array),
+        tasksBySight: props.tasksBySight,
+      });
+
+      unmount();
+    });
+
+    it('should not render PhotoCapture before video capture is complete', () => {
+      const props = createHybridProps();
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: {
+          inspectionId: props.inspectionId,
+          apiConfig: props.apiConfig,
+          sights: [],
+        },
+      });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onClose();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
   });
 });
