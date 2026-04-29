@@ -2,10 +2,11 @@ jest.mock('@monkvision/network');
 jest.mock('@monkvision/monitoring');
 jest.mock('@monkvision/common');
 
-import { renderHook } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useAsyncEffect } from '@monkvision/common';
+import { ProgressStatus } from '@monkvision/types';
 import {
   useGetInspection,
   UseGetInspectionParams,
@@ -61,9 +62,66 @@ describe('useGetInspection', () => {
     renderHook(useGetInspection, { initialProps: props });
 
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
-    onResolve();
+    onResolve({ entities: { tasks: [] } });
 
     expect(props.loading.onSuccess).toHaveBeenCalled();
+  });
+
+  it('should return isInspectionCompleted as false initially', () => {
+    const props = createProps();
+    const { result } = renderHook(useGetInspection, { initialProps: props });
+
+    expect(result.current.isInspectionCompleted).toBe(false);
+  });
+
+  it('should set isInspectionCompleted to true when tasks have non-NOT_STARTED status', () => {
+    const props = createProps();
+    const { result } = renderHook(useGetInspection, { initialProps: props });
+
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => {
+      onResolve({
+        entities: {
+          tasks: [
+            { status: ProgressStatus.NOT_STARTED },
+            { status: ProgressStatus.DONE },
+          ],
+        },
+      });
+    });
+
+    expect(result.current.isInspectionCompleted).toBe(true);
+  });
+
+  it('should keep isInspectionCompleted false when all tasks are NOT_STARTED', () => {
+    const props = createProps();
+    const { result } = renderHook(useGetInspection, { initialProps: props });
+
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => {
+      onResolve({
+        entities: {
+          tasks: [
+            { status: ProgressStatus.NOT_STARTED },
+            { status: ProgressStatus.NOT_STARTED },
+          ],
+        },
+      });
+    });
+
+    expect(result.current.isInspectionCompleted).toBe(false);
+  });
+
+  it('should keep isInspectionCompleted false when there are no tasks', () => {
+    const props = createProps();
+    const { result } = renderHook(useGetInspection, { initialProps: props });
+
+    const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
+    act(() => {
+      onResolve({ entities: { tasks: [] } });
+    });
+
+    expect(result.current.isInspectionCompleted).toBe(false);
   });
 
   it('should call handleError and loading.onError when the async effect rejects', () => {
