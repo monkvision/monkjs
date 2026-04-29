@@ -12,6 +12,7 @@ jest.mock('../../src/VideoCapture/hooks', () => ({
     enableHybridVideo: false,
     photoCaptureConfig: null,
   })),
+  useCarCoverageCheck: jest.fn(() => false),
 }));
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn(() => Promise.resolve())),
@@ -39,7 +40,7 @@ import { DeviceOrientation, TaskName, VehicleType } from '@monkvision/types';
 import { act, render } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
 import { VideoCapture, VideoCaptureProps } from '../../src';
-import { useFastMovementsDetection, useHybridVideoState } from '../../src/VideoCapture/hooks';
+import { useFastMovementsDetection, useHybridVideoState, useCarCoverageCheck } from '../../src/VideoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import { VideoCaptureHUD } from '../../src/VideoCapture/VideoCaptureHUD';
@@ -402,6 +403,83 @@ describe('VideoCapture component', () => {
       });
 
       expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should skip video capture and go directly to PhotoCapture when car coverage is sufficient', () => {
+      const props = createHybridProps();
+      const mockPhotoCaptureConfig = {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        sights: [],
+      };
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: mockPhotoCaptureConfig,
+      });
+      (useCarCoverageCheck as jest.Mock).mockReturnValue(true);
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      expect(Camera).not.toHaveBeenCalled();
+      expect(VideoCaptureTutorial).not.toHaveBeenCalled();
+      expect(PhotoCapture).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should not skip video capture when car coverage is insufficient', () => {
+      const props = createHybridProps();
+      const mockPhotoCaptureConfig = {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        sights: [],
+      };
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: mockPhotoCaptureConfig,
+      });
+      (useCarCoverageCheck as jest.Mock).mockReturnValue(false);
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      expect(PhotoCapture).not.toHaveBeenCalled();
+      expect(VideoCaptureTutorial).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should pass apiConfig to useCarCoverageCheck', () => {
+      const props = createHybridProps();
+      (useHybridVideoState as jest.Mock).mockReturnValue({
+        enableHybridVideo: true,
+        photoCaptureConfig: {
+          inspectionId: props.inspectionId,
+          apiConfig: props.apiConfig,
+          sights: [],
+        },
+      });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      expect(useCarCoverageCheck).toHaveBeenCalledWith(
+        expect.objectContaining({
+          inspectionId: props.inspectionId,
+          apiConfig: props.apiConfig,
+          enableHybridVideo: true,
+        }),
+      );
 
       unmount();
     });
