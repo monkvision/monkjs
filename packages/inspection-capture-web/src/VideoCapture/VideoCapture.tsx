@@ -18,7 +18,12 @@ import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import { useFastMovementsDetection, useGetInspection, useHybridVideoState } from './hooks';
+import {
+  useCarCoverageCheck,
+  useFastMovementsDetection,
+  useGetInspection,
+  useHybridVideoState,
+} from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { PhotoCapture, PhotoCaptureProps } from '../PhotoCapture/PhotoCapture';
 import { VideoCaptureScreen } from './types';
@@ -113,6 +118,7 @@ export function VideoCapture(props: VideoCaptureProps) {
   });
   const { allowRedirect } = usePreventExit(true);
   const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
+  const shouldSkipVideo = useCarCoverageCheck({ inspectionId, apiConfig, enableHybridVideo });
 
   const handleInspectionCompleted = () => {
     startTasks()
@@ -135,7 +141,11 @@ export function VideoCapture(props: VideoCaptureProps) {
   };
 
   const handlePermissionsSuccess = () => {
-    setScreen(enableVideoTutorial ? VideoCaptureScreen.TUTORIAL : VideoCaptureScreen.CAPTURE);
+    if (shouldSkipVideo) {
+      setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
+    } else {
+      setScreen(enableVideoTutorial ? VideoCaptureScreen.TUTORIAL : VideoCaptureScreen.CAPTURE);
+    }
   };
 
   const videoCaptureHudProps: Omit<VideoCaptureHUDProps, keyof CameraHUDProps> = {
