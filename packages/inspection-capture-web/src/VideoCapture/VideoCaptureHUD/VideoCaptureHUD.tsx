@@ -140,12 +140,13 @@ export function VideoCaptureHUD({
     });
   const { addImage } = useMonkApi(apiConfig);
 
-  const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
-    apiConfig,
-    inspectionId,
-    maxRetryCount,
-    alpha,
-  });
+  const { uploadedFrames, totalUploadingFrames, onFrameSelected, discardUploadedImages } =
+    useVideoUploadQueue({
+      apiConfig,
+      inspectionId,
+      maxRetryCount,
+      alpha,
+    });
 
   const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
     handle,
@@ -179,6 +180,7 @@ export function VideoCaptureHUD({
       }
     },
     resetFastMovementDetection: resetDetection,
+    onDiscardVideo: discardUploadedImages,
   });
 
   const handleTakePictureClick = async () => {

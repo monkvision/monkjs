@@ -19,6 +19,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     uploadedFrames: 154,
     totalUploadingFrames: 987,
     onFrameSelected: jest.fn(),
+    discardUploadedImages: jest.fn(),
   })),
   useFrameSelection: jest.fn(() => ({
     processedFrames: 986,
@@ -173,6 +174,7 @@ describe('VideoCaptureHUD component', () => {
         onCaptureVideoFrame,
         onRecordingComplete: expect.any(Function),
         resetFastMovementDetection: expect.any(Function),
+        onDiscardVideo: expect.any(Function),
       }),
     );
 
@@ -432,6 +434,20 @@ describe('VideoCaptureHUD component', () => {
     });
     expect(VideoCaptureProcessing).toHaveBeenCalled();
     expect(VideoCaptureComplete).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should pass discardUploadedImages as onDiscardVideo to useVideoRecording', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { discardUploadedImages } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
+    expect(useVideoRecording).toHaveBeenCalledWith(
+      expect.objectContaining({
+        onDiscardVideo: discardUploadedImages,
+      }),
+    );
 
     unmount();
   });
