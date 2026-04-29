@@ -18,12 +18,7 @@ import { styles } from './VideoCapture.styles';
 import { VideoCapturePermissions } from './VideoCapturePermissions';
 import { VideoCaptureHUD, VideoCaptureHUDProps } from './VideoCaptureHUD';
 import { useStartTasksOnComplete } from '../hooks';
-import {
-  useCarCoverageCheck,
-  useFastMovementsDetection,
-  useGetInspection,
-  useHybridVideoState,
-} from './hooks';
+import { useFastMovementsDetection, useGetInspection, useHybridVideoState } from './hooks';
 import { VideoCaptureTutorial } from './VideoCaptureTutorial';
 import { PhotoCapture, PhotoCaptureProps } from '../PhotoCapture/PhotoCapture';
 import { VideoCaptureScreen } from './types';
@@ -99,8 +94,21 @@ export function VideoCapture(props: VideoCaptureProps) {
       phoneShakingWarningCooldown,
     });
   const { alpha, requestCompassPermission } = useDeviceOrientation({ onDeviceOrientationEvent });
+  const { allowRedirect } = usePreventExit(true);
+  const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
   const inspectionLoading = useLoadingState();
-  useGetInspection({ inspectionId, apiConfig, loading: inspectionLoading });
+  const { isInspectionCompleted, shouldSkipVideo } = useGetInspection({
+    inspectionId,
+    apiConfig,
+    loading: inspectionLoading,
+    enableHybridVideo,
+    onCompleted: () => setScreen(VideoCaptureScreen.GALLERY),
+    onShouldSkipVideo: () => {
+      setScreen((current) =>
+        current !== VideoCaptureScreen.PERMISSIONS ? VideoCaptureScreen.PHOTO_CAPTURE : current,
+      );
+    },
+  });
   const startTasksLoading = useLoadingState();
 
   const startTasks = useStartTasksOnComplete({
@@ -110,9 +118,6 @@ export function VideoCapture(props: VideoCaptureProps) {
     startTasksOnComplete,
     loading: startTasksLoading,
   });
-  const { allowRedirect } = usePreventExit(true);
-  const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
-  const shouldSkipVideo = useCarCoverageCheck({ inspectionId, apiConfig, enableHybridVideo });
 
   const handleInspectionCompleted = () => {
     startTasks()
@@ -154,6 +159,7 @@ export function VideoCapture(props: VideoCaptureProps) {
     fastMovementsWarning,
     onWarningDismiss,
     startTasksLoading,
+    inspectionLoading,
     enableHybridVideo,
     onComplete: handleVideoCaptureCompleted,
   };
@@ -179,12 +185,12 @@ export function VideoCapture(props: VideoCaptureProps) {
           captureMode={enableHybridVideo}
           sights={photoCaptureConfig?.sights ?? []}
           lang={lang}
-          showBackButton={true}
+          showBackButton={!isInspectionCompleted}
           enableBeautyShotExtraction={enableBeautyShotExtraction}
           onBack={() => setScreen(VideoCaptureScreen.PHOTO_CAPTURE)}
           onValidate={handleInspectionCompleted}
           addDamage={photoCaptureConfig?.addDamage}
-          isInspectionCompleted={false}
+          isInspectionCompleted={isInspectionCompleted}
         />
       )}
       {screen === VideoCaptureScreen.CAPTURE && (

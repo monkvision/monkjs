@@ -7,12 +7,11 @@ jest.mock('../../src/VideoCapture/hooks', () => ({
     fastMovementsWarning: FastMovementType.PHONE_SHAKING,
     onWarningDismiss: jest.fn(),
   })),
-  useGetInspection: jest.fn(),
+  useGetInspection: jest.fn(() => ({ isInspectionCompleted: false, shouldSkipVideo: false })),
   useHybridVideoState: jest.fn(() => ({
     enableHybridVideo: false,
     photoCaptureConfig: null,
   })),
-  useCarCoverageCheck: jest.fn(() => false),
 }));
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn(() => Promise.resolve())),
@@ -29,6 +28,7 @@ jest.mock('../../src/VideoCapture/VideoCaptureTutorial', () => ({
 jest.mock('@monkvision/common-ui-web', () => ({
   ...jest.requireActual('@monkvision/common-ui-web'),
   VehicleTypeSelection: jest.fn(() => <></>),
+  InspectionGallery: jest.fn(() => <></>),
 }));
 jest.mock('../../src/PhotoCapture/PhotoCapture', () => ({
   PhotoCapture: jest.fn(() => <></>),
@@ -36,11 +36,12 @@ jest.mock('../../src/PhotoCapture/PhotoCapture', () => ({
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
+import { InspectionGallery } from '@monkvision/common-ui-web';
 import { DeviceOrientation, TaskName, VehicleType } from '@monkvision/types';
 import { act, render } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
 import { VideoCapture, VideoCaptureProps } from '../../src';
-import { useFastMovementsDetection, useHybridVideoState, useCarCoverageCheck } from '../../src/VideoCapture/hooks';
+import { useFastMovementsDetection, useHybridVideoState, useGetInspection } from '../../src/VideoCapture/hooks';
 import { useStartTasksOnComplete } from '../../src/hooks';
 import { VideoCapturePermissions } from '../../src/VideoCapture/VideoCapturePermissions';
 import { VideoCaptureHUD } from '../../src/VideoCapture/VideoCaptureHUD';
@@ -242,6 +243,7 @@ describe('VideoCapture component', () => {
         fastMovementsWarning,
         onWarningDismiss,
         startTasksLoading: expect.anything(),
+        inspectionLoading: expect.anything(),
         enableHybridVideo: false,
         onComplete: expect.any(Function),
       }),
@@ -418,7 +420,7 @@ describe('VideoCapture component', () => {
         enableHybridVideo: true,
         photoCaptureConfig: mockPhotoCaptureConfig,
       });
-      (useCarCoverageCheck as jest.Mock).mockReturnValue(true);
+      (useGetInspection as jest.Mock).mockReturnValue({ isInspectionCompleted: false, shouldSkipVideo: true });
 
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -445,7 +447,7 @@ describe('VideoCapture component', () => {
         enableHybridVideo: true,
         photoCaptureConfig: mockPhotoCaptureConfig,
       });
-      (useCarCoverageCheck as jest.Mock).mockReturnValue(false);
+      (useGetInspection as jest.Mock).mockReturnValue({ isInspectionCompleted: false, shouldSkipVideo: false });
 
       const { unmount } = render(<VideoCapture {...props} />);
 
@@ -459,27 +461,60 @@ describe('VideoCapture component', () => {
 
       unmount();
     });
+  });
 
-    it('should pass apiConfig to useCarCoverageCheck', () => {
-      const props = createHybridProps();
-      (useHybridVideoState as jest.Mock).mockReturnValue({
-        enableHybridVideo: true,
-        photoCaptureConfig: {
-          inspectionId: props.inspectionId,
-          apiConfig: props.apiConfig,
-          sights: [],
-        },
-      });
+  describe('completed inspection', () => {
+    it('should show the gallery screen when the inspection is completed', () => {
+      const props = createProps();
+      (useGetInspection as jest.Mock).mockReturnValue({ isInspectionCompleted: true, shouldSkipVideo: false });
 
       const { unmount } = render(<VideoCapture {...props} />);
 
-      expect(useCarCoverageCheck).toHaveBeenCalledWith(
-        expect.objectContaining({
-          inspectionId: props.inspectionId,
-          apiConfig: props.apiConfig,
-          enableHybridVideo: true,
-        }),
-      );
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      expect(InspectionGallery).toHaveBeenCalled();
+      expect(Camera).not.toHaveBeenCalled();
+      expect(VideoCaptureTutorial).not.toHaveBeenCalled();
+      expect(PhotoCapture).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should pass isInspectionCompleted to InspectionGallery', () => {
+      const props = createProps();
+      (useGetInspection as jest.Mock).mockReturnValue({ isInspectionCompleted: true, shouldSkipVideo: false });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      expectPropsOnChildMock(InspectionGallery, {
+        inspectionId: props.inspectionId,
+        apiConfig: props.apiConfig,
+        isInspectionCompleted: true,
+      });
+
+      unmount();
+    });
+
+    it('should not show gallery when the inspection is not completed', () => {
+      const props = createProps();
+      (useGetInspection as jest.Mock).mockReturnValue({ isInspectionCompleted: false, shouldSkipVideo: false });
+
+      const { unmount } = render(<VideoCapture {...props} />);
+
+      const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+      act(() => {
+        onSuccess();
+      });
+
+      expect(InspectionGallery).not.toHaveBeenCalled();
 
       unmount();
     });

@@ -77,6 +77,7 @@ function createProps(): VideoCaptureHUDProps {
     maxRetryCount: 24,
     minRecordingDuration: 667,
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
+    inspectionLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
   };
 }
@@ -91,6 +92,25 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     expect(screen.queryByTestId(CAMERA_TEST_ID)).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should show the loading overlay when inspectionLoading is loading', () => {
+    const props = createProps();
+    props.inspectionLoading = { isLoading: true } as unknown as LoadingState;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(screen.queryByTestId('inspection-loading-overlay')).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should not show the loading overlay when inspectionLoading is not loading', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(screen.queryByTestId('inspection-loading-overlay')).toBeNull();
 
     unmount();
   });

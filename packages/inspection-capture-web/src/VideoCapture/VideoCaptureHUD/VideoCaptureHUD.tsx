@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
-import { BackdropDialog } from '@monkvision/common-ui-web';
+import { BackdropDialog, Spinner } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { LoadingState } from '@monkvision/common';
@@ -57,6 +57,10 @@ export interface VideoCaptureHUDProps
    */
   startTasksLoading: LoadingState;
   /**
+   * The loading state for the inspection fetch.
+   */
+  inspectionLoading: LoadingState;
+  /**
    * Callback called when the inspection capture is complete.
    */
   onComplete?: () => void;
@@ -110,6 +114,7 @@ export function VideoCaptureHUD({
   maxRetryCount,
   minRecordingDuration,
   startTasksLoading,
+  inspectionLoading,
   enableHybridVideo,
   onComplete,
 }: VideoCaptureHUDProps) {
@@ -185,6 +190,11 @@ export function VideoCaptureHUD({
   return (
     <div style={styles['container']}>
       {cameraPreview}
+      {inspectionLoading.isLoading && (
+        <div style={styles['loadingOverlay']} data-testid='inspection-loading-overlay'>
+          <Spinner size={80} primaryColor='primary' />
+        </div>
+      )}
       <div style={styles['hudContainer']}>
         {screen === VideoCaptureHUDScreen.RECORDING && (
           <VideoCaptureRecording
