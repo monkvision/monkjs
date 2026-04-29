@@ -38,11 +38,13 @@ import {
   AddBeautyShotImageOptions,
   addImage,
   deleteImage,
+  deleteImagesBulk,
   AddPartSelectCloseUpImageOptions,
   AddVideoFrameOptions,
   AddVideoManualPhotoOptions,
   ImageUploadType,
   DeleteImageOptions,
+  DeleteImagesBulkOptions,
   updateImageAdditionalData,
   UpdateImageAdditionalDataOptions,
 } from '../../../src/api/image';
@@ -727,6 +729,90 @@ describe('Image requests', () => {
       const options = createUpdateImageAdditionalDataOptions();
       const dispatch = jest.fn();
       await expect(updateImageAdditionalData(options, apiConfig, dispatch)).rejects.toThrow(err);
+    });
+  });
+
+  describe('deleteImagesBulk request', () => {
+    const bulkDeleteResponse = {
+      message: 'Deleted 2 images',
+      deleted_image_ids: ['image-id-1', 'image-id-2'],
+      failed: [{ image_id: 'image-id-3', reason: 'not found' }],
+    };
+
+    beforeEach(() => {
+      jest.spyOn(ky, 'post').mockImplementation(
+        () =>
+          Promise.resolve({
+            json: jest.fn(() => Promise.resolve(bulkDeleteResponse)),
+          }) as never,
+      );
+    });
+
+    it('should make a POST request to the correct URL with the correct body', async () => {
+      const options: DeleteImagesBulkOptions = {
+        inspectionId: 'test-inspection-id',
+        imageIds: ['image-id-1', 'image-id-2', 'image-id-3'],
+      };
+      const dispatch = jest.fn();
+      await deleteImagesBulk(options, apiConfig, dispatch);
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      const kyOptions = getDefaultOptions(apiConfig);
+      expect(ky.post).toHaveBeenCalledWith(
+        `inspections/${options.inspectionId}/images/delete`,
+        expect.objectContaining({
+          ...kyOptions,
+          json: {
+            image_ids: options.imageIds,
+            authorized_tasks_statuses: [ProgressStatus.NOT_STARTED],
+          },
+        }),
+      );
+    });
+
+    it('should dispatch DELETED_IMAGES_BULK with the deleted image IDs', async () => {
+      const options: DeleteImagesBulkOptions = {
+        inspectionId: 'test-inspection-id',
+        imageIds: ['image-id-1', 'image-id-2', 'image-id-3'],
+      };
+      const dispatch = jest.fn();
+      await deleteImagesBulk(options, apiConfig, dispatch);
+
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.DELETED_IMAGES_BULK,
+        payload: {
+          inspectionId: options.inspectionId,
+          imageIds: ['image-id-1', 'image-id-2'],
+        },
+      });
+    });
+
+    it('should return the correct result shape', async () => {
+      const options: DeleteImagesBulkOptions = {
+        inspectionId: 'test-inspection-id',
+        imageIds: ['image-id-1', 'image-id-2', 'image-id-3'],
+      };
+      const dispatch = jest.fn();
+      const result = await deleteImagesBulk(options, apiConfig, dispatch);
+
+      expect(result.message).toBe('Deleted 2 images');
+      expect(result.deletedImageIds).toEqual(['image-id-1', 'image-id-2']);
+      expect(result.failed).toEqual([{ imageId: 'image-id-3', reason: 'not found' }]);
+      expect(result.body).toEqual(bulkDeleteResponse);
+    });
+
+    it('should throw an error if the request fails', async () => {
+      const err = new Error('test-bulk-delete-error');
+      jest.spyOn(ky, 'post').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options: DeleteImagesBulkOptions = {
+        inspectionId: 'test-inspection-id',
+        imageIds: ['image-id-1'],
+      };
+      const dispatch = jest.fn();
+      await expect(deleteImagesBulk(options, apiConfig, dispatch)).rejects.toThrow(err);
     });
   });
 });
