@@ -19,7 +19,7 @@
   "enforceOrientation": "landscape",
   "minRecordingDuration": 15000,
   "enableFastWalkingWarning": false,
-  "enhblePhoneShakingWarning": false,
+  "enablePhoneShakingWarning": false,
   "maxRetryCount": 3,
   "maxUploadDurationWarning": 15000,
   "useAdaptiveImageQuality": true,
