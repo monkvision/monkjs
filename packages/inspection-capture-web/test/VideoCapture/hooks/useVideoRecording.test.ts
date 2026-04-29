@@ -234,6 +234,32 @@ describe('useVideoRecording hook', () => {
     unmount();
   });
 
+  it('should call onDiscardVideo when the user presses on the discard video button', () => {
+    const onDiscardVideo = jest.fn();
+    const initialProps = { ...createProps(), onDiscardVideo };
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
+    rerender(initialProps);
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    rerender(initialProps);
+    expect(onDiscardVideo).not.toHaveBeenCalled();
+    act(() => {
+      result.current.onDiscardDialogDiscardVideo();
+    });
+    expect(onDiscardVideo).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
   it('should return the start tooltip initially', () => {
     const initialProps = createProps();
     const { result, unmount } = renderHook(

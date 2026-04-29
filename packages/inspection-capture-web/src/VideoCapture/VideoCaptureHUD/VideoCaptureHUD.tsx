@@ -119,12 +119,13 @@ export function VideoCaptureHUD({
   const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
   const { addImage } = useMonkApi(apiConfig);
 
-  const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
-    apiConfig,
-    inspectionId,
-    maxRetryCount,
-    alpha,
-  });
+  const { uploadedFrames, totalUploadingFrames, onFrameSelected, discardUploadedImages } =
+    useVideoUploadQueue({
+      apiConfig,
+      inspectionId,
+      maxRetryCount,
+      alpha,
+    });
 
   const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
     handle,
@@ -157,6 +158,7 @@ export function VideoCaptureHUD({
         setScreen(VideoCaptureHUDScreen.PROCESSING);
       }
     },
+    onDiscardVideo: discardUploadedImages,
   });
 
   const handleTakePictureClick = async () => {

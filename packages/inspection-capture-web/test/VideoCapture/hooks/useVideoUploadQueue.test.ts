@@ -1,7 +1,8 @@
 import { act, renderHook } from '@testing-library/react';
-import { useQueue } from '@monkvision/common';
+import { getInspectionImages, useMonkState, useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
+import { useMonitoring } from '@monkvision/monitoring';
 import { useVideoUploadQueue, VideoUploadQueueParams } from '../../../src/VideoCapture/hooks';
 
 function createProps(): VideoUploadQueueParams {
@@ -143,6 +144,7 @@ describe('useVideoUploadQueue hook', () => {
     const processingCount = 123;
     (useQueue as jest.Mock).mockImplementationOnce(() => ({
       push: jest.fn(),
+      clear: jest.fn(),
       totalItems,
       processingCount,
     }));
@@ -170,6 +172,117 @@ describe('useVideoUploadQueue hook', () => {
         alpha: 46,
       }),
     );
+
+    unmount();
+  });
+
+  it('should clear the queue and delete inspection images on discard', () => {
+    const images = [
+      { id: 'img-1', inspectionId: 'inspection-test-id' },
+      { id: 'img-2', inspectionId: 'inspection-test-id' },
+      { id: 'img-3', inspectionId: 'inspection-test-id' },
+    ];
+    (useMonkState as jest.Mock).mockReturnValueOnce({
+      state: { images },
+      dispatch: jest.fn(),
+    });
+    const deleteImagesBulkMock = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockReturnValueOnce({
+      addImage: jest.fn(() => Promise.resolve()),
+      deleteImagesBulk: deleteImagesBulkMock,
+    });
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+
+    const { clear } = (useQueue as jest.Mock).mock.results[0].value;
+
+    act(() => {
+      result.current.discardUploadedImages();
+    });
+
+    expect(clear).toHaveBeenCalledWith(true);
+    expect(deleteImagesBulkMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      imageIds: ['img-1', 'img-2', 'img-3'],
+    });
+
+    unmount();
+  });
+
+  it('should not call deleteImagesBulk when there are no inspection images', () => {
+    (useMonkState as jest.Mock).mockReturnValueOnce({
+      state: { images: [] },
+      dispatch: jest.fn(),
+    });
+    const deleteImagesBulkMock = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockReturnValueOnce({
+      addImage: jest.fn(() => Promise.resolve()),
+      deleteImagesBulk: deleteImagesBulkMock,
+    });
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+
+    act(() => {
+      result.current.discardUploadedImages();
+    });
+
+    expect(deleteImagesBulkMock).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should report errors when deleteImagesBulk fails', async () => {
+    const images = [{ id: 'img-1', inspectionId: 'inspection-test-id' }];
+    (useMonkState as jest.Mock).mockReturnValueOnce({
+      state: { images },
+      dispatch: jest.fn(),
+    });
+    const error = new Error('bulk delete failed');
+    const deleteImagesBulkMock = jest.fn(() => Promise.reject(error));
+    (useMonkApi as jest.Mock).mockReturnValueOnce({
+      addImage: jest.fn(() => Promise.resolve()),
+      deleteImagesBulk: deleteImagesBulkMock,
+    });
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+
+    await act(async () => {
+      result.current.discardUploadedImages();
+      await jest.runAllTimersAsync();
+    });
+
+    const { handleError } = (useMonitoring as jest.Mock).mock.results[0].value;
+    expect(handleError).toHaveBeenCalledWith(error);
+
+    unmount();
+  });
+
+  it('should only delete images belonging to the current inspection', () => {
+    const images = [
+      { id: 'img-1', inspectionId: 'inspection-test-id' },
+      { id: 'img-other', inspectionId: 'other-inspection-id' },
+      { id: 'img-2', inspectionId: 'inspection-test-id' },
+    ];
+    (useMonkState as jest.Mock).mockReturnValueOnce({
+      state: { images },
+      dispatch: jest.fn(),
+    });
+    const deleteImagesBulkMock = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockReturnValueOnce({
+      addImage: jest.fn(() => Promise.resolve()),
+      deleteImagesBulk: deleteImagesBulkMock,
+    });
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+
+    act(() => {
+      result.current.discardUploadedImages();
+    });
+
+    expect(deleteImagesBulkMock).toHaveBeenCalledWith({
+      inspectionId: initialProps.inspectionId,
+      imageIds: ['img-1', 'img-2'],
+    });
 
     unmount();
   });
