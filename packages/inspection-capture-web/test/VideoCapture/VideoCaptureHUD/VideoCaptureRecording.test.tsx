@@ -31,7 +31,7 @@ describe('VideoCaptureRecording component', () => {
     const { unmount } = render(<VideoCaptureRecording {...props} />);
 
     expectPropsOnChildMock(VehicleWalkaroundIndicator, {
-      walkaroundPosition: props.walkaroundPosition,
+      alpha: props.walkaroundPosition,
     });
 
     unmount();

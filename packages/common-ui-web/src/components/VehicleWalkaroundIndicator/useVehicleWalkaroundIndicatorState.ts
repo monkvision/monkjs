@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { angleToSegment, segmentToAngle } from '@monkvision/common';
 import { CoveredSegment } from './VehicleWalkaroundIndicator.types';
+
+/**
+ * Granularity (in degrees) used for dividing the 360-degree circle into segments for vehicle walkaround tracking.
+ * This constant determines the precision of position tracking during vehicle inspections.
+ */
+export const DEGREE_GRANULARITY = 5;
 
 /**
  * Params passed to the useVehicleWalkaroundIndicatorState hook.
@@ -10,9 +17,9 @@ export interface UseVehicleWalkaroundIndicatorStateParams {
    */
   walkaroundPosition: number;
   /**
-   * Whether segment tracking is active.
+   * Whether video recording is active.
    */
-  isTracking?: boolean;
+  isRecording?: boolean;
 }
 
 /**
@@ -23,21 +30,6 @@ export interface VehicleWalkaroundIndicatorStateHandle {
    * Array of covered segments for visual display.
    */
   coveredSegments: CoveredSegment[];
-}
-
-const DEGREE_GRANULARITY = 5;
-
-function normalizeAngle(angle: number): number {
-  const normalized = angle % 360;
-  return normalized < 0 ? normalized + 360 : normalized;
-}
-
-function angleToSegment(angle: number): number {
-  return Math.floor(normalizeAngle(angle) / DEGREE_GRANULARITY);
-}
-
-function segmentToAngle(segment: number): number {
-  return segment * DEGREE_GRANULARITY;
 }
 
 function segmentsToRanges(coveredSet: Set<number>): CoveredSegment[] {
@@ -56,8 +48,8 @@ function segmentsToRanges(coveredSet: Set<number>): CoveredSegment[] {
       currentEnd = segment;
     } else {
       ranges.push({
-        start: segmentToAngle(currentStart),
-        end: segmentToAngle(currentEnd) + DEGREE_GRANULARITY,
+        start: segmentToAngle(currentStart, DEGREE_GRANULARITY),
+        end: segmentToAngle(currentEnd, DEGREE_GRANULARITY) + DEGREE_GRANULARITY,
       });
       currentStart = segment;
       currentEnd = segment;
@@ -65,8 +57,8 @@ function segmentsToRanges(coveredSet: Set<number>): CoveredSegment[] {
   }
 
   ranges.push({
-    start: segmentToAngle(currentStart),
-    end: segmentToAngle(currentEnd) + DEGREE_GRANULARITY,
+    start: segmentToAngle(currentStart, DEGREE_GRANULARITY),
+    end: segmentToAngle(currentEnd, DEGREE_GRANULARITY) + DEGREE_GRANULARITY,
   });
 
   return ranges;
@@ -78,31 +70,31 @@ function segmentsToRanges(coveredSet: Set<number>): CoveredSegment[] {
  */
 export function useVehicleWalkaroundIndicatorState({
   walkaroundPosition,
-  isTracking = false,
+  isRecording = false,
 }: UseVehicleWalkaroundIndicatorStateParams): VehicleWalkaroundIndicatorStateHandle {
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
-  const prevTrackingRef = useRef(isTracking);
+  const prevTrackingRef = useRef(isRecording);
 
   useEffect(() => {
-    if (!prevTrackingRef.current && isTracking) {
+    if (!prevTrackingRef.current && isRecording) {
       const newSegments = new Set<number>();
       newSegments.add(0);
       setCoveredSegments(newSegments);
-    } else if (prevTrackingRef.current && !isTracking) {
+    } else if (prevTrackingRef.current && !isRecording) {
       setCoveredSegments(new Set());
     }
-    prevTrackingRef.current = isTracking;
-  }, [isTracking]);
+    prevTrackingRef.current = isRecording;
+  }, [isRecording]);
 
   useEffect(() => {
-    if (isTracking) {
-      const segment = angleToSegment(walkaroundPosition);
+    if (isRecording) {
+      const segment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
 
       if (!coveredSegments.has(segment)) {
         setCoveredSegments((prev) => new Set(prev).add(segment));
       }
     }
-  }, [walkaroundPosition, isTracking, coveredSegments]);
+  }, [walkaroundPosition, isRecording, coveredSegments]);
 
   const coveredSegmentRanges = segmentsToRanges(coveredSegments);
 

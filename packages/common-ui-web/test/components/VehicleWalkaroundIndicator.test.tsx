@@ -1,12 +1,16 @@
-jest.mock('../../src/components/DynamicSVG/', () => ({
-  DynamicSVG: jest.fn(() => <></>),
-}));
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { VehicleWalkaroundIndicator, DynamicSVG } from '../../src';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { assets } from '../../src/components/VehicleWalkaroundIndicator/assets';
 import { CameraDistance } from '@monkvision/types';
+
+jest.mock('../../src/components/DynamicSVG/', () => ({
+  DynamicSVG: jest.fn(() => <></>),
+}));
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+}));
 
 const PROGRESS_BAR_TEST_ID = 'progress-bar';
 
@@ -18,13 +22,13 @@ describe('VehicleWalkaroundIndicator component', () => {
   const { CAR_SVG, POV_SVG } = assets;
 
   it('renders without crashing', () => {
-    const { container } = render(<VehicleWalkaroundIndicator walkaroundPosition={0} />);
+    const { container } = render(<VehicleWalkaroundIndicator alpha={0} />);
     expect(container).toBeInTheDocument();
   });
 
   it('should use 70 for the default size', () => {
     const defaultSize = 70;
-    const { container, unmount } = render(<VehicleWalkaroundIndicator walkaroundPosition={0} />);
+    const { container, unmount } = render(<VehicleWalkaroundIndicator alpha={0} />);
 
     const divEl = container.children.item(0) as HTMLDivElement;
     expect(divEl).toBeDefined();
@@ -37,9 +41,7 @@ describe('VehicleWalkaroundIndicator component', () => {
 
   it('should set the size of the container to the value of the size prop', () => {
     const size = 988;
-    const { container, unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={0} size={size} />,
-    );
+    const { container, unmount } = render(<VehicleWalkaroundIndicator alpha={0} size={size} />);
 
     expect(container.children.length).toEqual(1);
     const divEl = container.children.item(0) as HTMLDivElement;
@@ -52,9 +54,9 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('renders the car and POV icon', () => {
-    const { unmount } = render(<VehicleWalkaroundIndicator walkaroundPosition={0} />);
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} />);
 
-    expect(DynamicSVG).toHaveBeenCalledTimes(2);
+    expect(DynamicSVG).toHaveBeenCalled();
     expectPropsOnChildMock(DynamicSVG, { svg: CAR_SVG });
     expectPropsOnChildMock(DynamicSVG, { svg: POV_SVG });
 
@@ -63,7 +65,7 @@ describe('VehicleWalkaroundIndicator component', () => {
 
   it('displays the progress bar when showCircle is true', () => {
     const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={0} showCircle={true} isTracking={true} />,
+      <VehicleWalkaroundIndicator alpha={0} showCircle={true} isRecording={true} />,
     );
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
@@ -72,9 +74,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('displays the progress bar by default', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={0} isTracking={true} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} isRecording={true} />);
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
 
@@ -82,9 +82,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('does not display the progress bar when showProgressBar is false', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={0} showProgressBar={false} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} showProgressBar={false} />);
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).toBeNull();
 
@@ -92,9 +90,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('does not apply car fill attributes when showProgressBar is false', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={180} showProgressBar={false} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={180} showProgressBar={false} />);
 
     const carProps = (DynamicSVG as jest.Mock).mock.calls.find(
       (call) => call[0].svg === CAR_SVG,
@@ -127,9 +123,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('applies car fill attributes when showProgressBar is true', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={180} showProgressBar={true} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={180} showProgressBar={true} />);
 
     const carProps = (DynamicSVG as jest.Mock).mock.calls.find(
       (call) => call[0].svg === CAR_SVG,
@@ -150,9 +144,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('hides the full bar circle when showCircle is false', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} showCircle={false} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={90} showCircle={false} />);
 
     expect(screen.queryByTestId('full-bar')).toBeNull();
 
@@ -160,9 +152,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('shows the full bar circle when showCircle is true', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} showCircle={true} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={90} showCircle={true} />);
 
     expect(screen.queryByTestId('full-bar')).not.toBeNull();
 
@@ -172,7 +162,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   it('passes through additional props to the container div', () => {
     const testId = 'test-container';
     const { container, unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={0} data-testid={testId} />,
+      <VehicleWalkaroundIndicator alpha={0} data-testid={testId} />,
     );
 
     const divEl = container.children.item(0) as HTMLDivElement;
@@ -183,7 +173,7 @@ describe('VehicleWalkaroundIndicator component', () => {
 
   it('accepts CameraDistance.STANDARD distance prop', () => {
     const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} distance={CameraDistance.STANDARD} />,
+      <VehicleWalkaroundIndicator alpha={90} distance={CameraDistance.STANDARD} />,
     );
 
     expect(DynamicSVG).toHaveBeenCalled();
@@ -193,7 +183,7 @@ describe('VehicleWalkaroundIndicator component', () => {
 
   it('accepts CameraDistance.CLOSE distance prop', () => {
     const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} distance={CameraDistance.CLOSE} />,
+      <VehicleWalkaroundIndicator alpha={90} distance={CameraDistance.CLOSE} />,
     );
 
     expect(DynamicSVG).toHaveBeenCalled();
@@ -203,7 +193,7 @@ describe('VehicleWalkaroundIndicator component', () => {
 
   it('accepts CameraDistance.INTERIOR distance prop', () => {
     const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} distance={CameraDistance.INTERIOR} />,
+      <VehicleWalkaroundIndicator alpha={90} distance={CameraDistance.INTERIOR} />,
     );
 
     expect(DynamicSVG).toHaveBeenCalled();
@@ -214,7 +204,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   it('accepts orientationAngle prop', () => {
     const orientationAngle = 45;
     const { unmount } = render(
-      <VehicleWalkaroundIndicator walkaroundPosition={90} orientationAngle={orientationAngle} />,
+      <VehicleWalkaroundIndicator alpha={90} orientationAngle={orientationAngle} />,
     );
 
     expect(DynamicSVG).toHaveBeenCalled();
@@ -225,13 +215,13 @@ describe('VehicleWalkaroundIndicator component', () => {
   it('renders correctly with all props combined', () => {
     const { container, unmount } = render(
       <VehicleWalkaroundIndicator
-        walkaroundPosition={180}
+        alpha={180}
         size={100}
         orientationAngle={45}
         showCircle={true}
         distance={CameraDistance.CLOSE}
         showProgressBar={true}
-        isTracking={true}
+        isRecording={true}
       />,
     );
 

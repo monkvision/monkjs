@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
+import {
+  useObjectMemo,
+  normalizeAngle,
+  getAngleDifference,
+  angleToSegment,
+} from '@monkvision/common';
+import { DEGREE_GRANULARITY } from '@monkvision/common-ui-web';
 
 /**
  * Params passed to the useVehicleWalkaround hook.
@@ -29,30 +35,10 @@ export interface VehicleWalkaroundHandle {
   coveragePercentage: number;
 }
 
-const DEGREE_GRANULARITY = 5;
 const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 const SMOOTHING_FACTOR = 0.3;
 const STABILIZATION_THRESHOLD_DEGREES = 30;
 const STABILIZATION_FRAMES = 3;
-
-function normalizeAngle(angle: number): number {
-  const normalized = angle % 360;
-  return normalized < 0 ? normalized + 360 : normalized;
-}
-
-function getAngleDifference(angle1: number, angle2: number): number {
-  let diff = angle1 - angle2;
-  if (diff > 180) {
-    diff -= 360;
-  } else if (diff < -180) {
-    diff += 360;
-  }
-  return diff;
-}
-
-function angleToSegment(angle: number): number {
-  return Math.floor(normalizeAngle(angle) / DEGREE_GRANULARITY);
-}
 
 /**
  * Custom hook used to manage the vehicle walkaround tracking.
@@ -129,7 +115,7 @@ export function useVehicleWalkaround({
 
   useEffect(() => {
     if (startingAlpha !== null && isStabilizedRef.current) {
-      const segment = angleToSegment(walkaroundPosition);
+      const segment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
 
       if (!coveredSegments.has(segment)) {
         setCoveredSegments((prev) => new Set(prev).add(segment));

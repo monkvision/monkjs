@@ -5,6 +5,10 @@ jest.mock('@monkvision/common-ui-web', () => ({
   ...jest.requireActual('@monkvision/common-ui-web'),
 }));
 
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+}));
+
 describe('useVehicleWalkaround hook', () => {
   it('should return 0 and empty coverage when the walkaround has not been started', () => {
     const { result, rerender, unmount } = renderHook(
