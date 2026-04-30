@@ -1,2 +1,5 @@
 export { VehicleWalkaroundIndicator } from './VehicleWalkaroundIndicator';
-export { type VehicleWalkaroundIndicatorProps } from './VehicleWalkaroundIndicator.types';
+export {
+  type VehicleWalkaroundIndicatorProps,
+  type CoveredSegment,
+} from './VehicleWalkaroundIndicator.types';

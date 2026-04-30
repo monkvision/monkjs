@@ -14,6 +14,7 @@ export function VehicleWalkaroundIndicator({
   showCircle = true,
   distance = CameraDistance.STANDARD,
   showProgressBar = true,
+  coveredSegments,
   ...passThroughProps
 }: VehicleWalkaroundIndicatorProps) {
   const style = useVehicleWalkaroundIndicatorStyles({
@@ -22,12 +23,16 @@ export function VehicleWalkaroundIndicator({
     orientationAngle,
     distance,
     showProgressBar,
+    coveredSegments,
   });
   return (
     <div style={style.containerStyle} {...passThroughProps}>
       <svg style={style.circleStyle}>
         {showCircle && <circle {...style.fullBarProps} data-testid='full-bar' />}
-        {showProgressBar && <circle {...style.progressBarProps} data-testid='progress-bar' />}
+        {showProgressBar &&
+          style.progressBarPropsArray.map((props, index) => (
+            <circle {...props} key={index} data-testid='progress-bar' />
+          ))}
       </svg>
       <DynamicSVG {...style.carProps} />
       <DynamicSVG {...style.povProps} />

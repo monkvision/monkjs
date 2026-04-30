@@ -2,6 +2,7 @@ import { CameraDistance, Styles } from '@monkvision/types';
 import { useResponsiveStyle } from '@monkvision/common';
 import { SVGProps, useCallback } from 'react';
 import { assets } from './assets';
+import { CoveredSegment } from './VehicleWalkaroundIndicator.types';
 
 const PROGRESS_BAR_STROKE_WIDTH_RATIO = 0.05;
 const KNOB_STROKE_WIDTH_RATIO = 0.03;
@@ -11,7 +12,8 @@ const NEXT_STEP_FILL_COLOR = '#f3f3f3';
 const PROGRESS_BAR_FILL_COLOR = '#18e700';
 
 interface IndicatorStep {
-  alpha: number;
+  start?: number;
+  end: number;
   size: number;
   color?: string;
 }
@@ -27,10 +29,16 @@ function getDrawingConstants(size: number) {
   };
 }
 
-function getProgressBarProps({ alpha, size, color }: IndicatorStep): SVGProps<SVGCircleElement> {
+function getProgressBarProps({
+  start = 0,
+  end,
+  size,
+  color,
+}: IndicatorStep): SVGProps<SVGCircleElement> {
   const { r, offset } = getDrawingConstants(size);
   const circumference = r * 2 * Math.PI;
-  const dashSize = (alpha * circumference) / 360;
+  const arcLength = ((end - start) * circumference) / 360;
+  const startOffset = (start * circumference) / 360;
 
   return {
     r,
@@ -41,7 +49,8 @@ function getProgressBarProps({ alpha, size, color }: IndicatorStep): SVGProps<SV
     stroke: color ?? PROGRESS_BAR_FILL_COLOR,
     opacity: 0.64,
     fill: 'none',
-    strokeDasharray: `${dashSize}px ${circumference - dashSize}px`,
+    strokeDasharray: `${arcLength}px ${circumference - arcLength}px`,
+    strokeDashoffset: -startOffset,
     transform: `scale(1 -1) translate(0 -${size + offset}) rotate(-90 ${offset + size / 2} ${
       offset + size / 2
     })`,
@@ -66,6 +75,7 @@ export interface VehicleWalkaroundIndicatorParams {
   distance: CameraDistance;
   orientationAngle?: number;
   showProgressBar?: boolean;
+  coveredSegments?: CoveredSegment[];
 }
 
 function getPointOnCircle(angleDegrees: number, radius: number): { x: number; y: number } {
@@ -99,6 +109,7 @@ export function useVehicleWalkaroundIndicatorStyles({
   distance,
   orientationAngle,
   showProgressBar,
+  coveredSegments,
 }: VehicleWalkaroundIndicatorParams) {
   const { responsive } = useResponsiveStyle();
   const { CAR_SVG, POV_SVG } = assets;
@@ -112,7 +123,32 @@ export function useVehicleWalkaroundIndicatorStyles({
 
   const angle = orientationAngle ?? alpha;
   const closeUpOffset = getCloseUpOffset(distance, alpha, baseRadius);
-  const fillPercentage = Math.min(Math.max(alpha / 360, 0), 1);
+
+  const fillPercentage = coveredSegments
+    ? coveredSegments.reduce((sum, seg) => {
+        let segmentLength = seg.end - seg.start;
+        if (segmentLength < 0) {
+          segmentLength += 360;
+        }
+        return sum + segmentLength;
+      }, 0) / 360
+    : Math.min(Math.max(alpha / 360, 0), 1);
+
+  const progressBarPropsArray = coveredSegments
+    ? coveredSegments.map((segment) =>
+        getProgressBarProps({
+          start: segment.start,
+          end: segment.end,
+          size: size * PROGRESS_BAR_SIZE_RATIO,
+        }),
+      )
+    : [
+        getProgressBarProps({
+          start: 0,
+          end: alpha,
+          size: size * PROGRESS_BAR_SIZE_RATIO,
+        }),
+      ];
 
   const getCarAttributes = useCallback(
     (element: SVGElement) => {
@@ -151,12 +187,10 @@ export function useVehicleWalkaroundIndicatorStyles({
       width: size * PROGRESS_BAR_SIZE_RATIO,
       height: size * PROGRESS_BAR_SIZE_RATIO,
     },
-    progressBarProps: getProgressBarProps({
-      alpha,
-      size: size * PROGRESS_BAR_SIZE_RATIO,
-    }),
+    progressBarPropsArray,
     fullBarProps: getProgressBarProps({
-      alpha: 360,
+      start: 0,
+      end: 360,
       size: size * PROGRESS_BAR_SIZE_RATIO,
       color: NEXT_STEP_FILL_COLOR,
     }),

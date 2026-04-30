@@ -85,7 +85,7 @@ export function VideoCapture(props: VideoCaptureProps) {
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
   const { handleError } = useMonitoring();
-  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss } =
+  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss, resetDetection } =
     useFastMovementsDetection({
       isRecording,
       enableFastWalkingWarning,
@@ -143,6 +143,7 @@ export function VideoCapture(props: VideoCaptureProps) {
     alpha,
     fastMovementsWarning,
     onWarningDismiss,
+    resetDetection,
     startTasksLoading,
     enableHybridVideo,
     onComplete: handleVideoCaptureCompleted,

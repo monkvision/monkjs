@@ -65,10 +65,8 @@ describe('useFastMovementsDetection hook', () => {
     act(() => {
       result.current.onDeviceOrientationEvent(event1);
     });
-    expect(detectFastMovements).toHaveBeenCalledWith(
-      expect.objectContaining(event1),
-      expect.objectContaining({ alpha: 0, beta: 0, gamma: 0 }),
-    );
+    expect(detectFastMovements).not.toHaveBeenCalled();
+
     const event2 = createEvent();
     act(() => {
       result.current.onDeviceOrientationEvent(event2);
@@ -89,10 +87,7 @@ describe('useFastMovementsDetection hook', () => {
     act(() => {
       result.current.onDeviceOrientationEvent(event);
     });
-    expect(detectFastMovements).toHaveBeenCalledWith(
-      expect.objectContaining(event),
-      expect.objectContaining({ alpha: 0, beta: 0, gamma: 0 }),
-    );
+    expect(detectFastMovements).not.toHaveBeenCalled();
     expect(result.current.fastMovementsWarning).toBeNull();
 
     unmount();
@@ -102,6 +97,10 @@ describe('useFastMovementsDetection hook', () => {
     const initialProps = createProps();
     initialProps.isRecording = false;
     const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+    act(() => {
+      result.current.onDeviceOrientationEvent(createEvent());
+    });
 
     detectNextMovement(FastMovementType.PHONE_SHAKING);
     act(() => {
@@ -122,6 +121,10 @@ describe('useFastMovementsDetection hook', () => {
     initialProps.enableFastWalkingWarning = false;
     const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
 
+    act(() => {
+      result.current.onDeviceOrientationEvent(createEvent());
+    });
+
     detectNextMovement(FastMovementType.WALKING_TOO_FAST);
     act(() => {
       result.current.onDeviceOrientationEvent(createEvent());
@@ -136,6 +139,10 @@ describe('useFastMovementsDetection hook', () => {
     initialProps.enablePhoneShakingWarning = false;
     const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
 
+    act(() => {
+      result.current.onDeviceOrientationEvent(createEvent());
+    });
+
     detectNextMovement(FastMovementType.PHONE_SHAKING);
     act(() => {
       result.current.onDeviceOrientationEvent(createEvent());
@@ -148,6 +155,10 @@ describe('useFastMovementsDetection hook', () => {
   it('should display the detected warning and dismiss it properly', () => {
     const initialProps = createProps();
     const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+    act(() => {
+      result.current.onDeviceOrientationEvent(createEvent());
+    });
 
     detectNextMovement(FastMovementType.WALKING_TOO_FAST);
     act(() => {
@@ -165,6 +176,10 @@ describe('useFastMovementsDetection hook', () => {
   it('should not display the same warning if it is on cooldown', () => {
     const initialProps = createProps();
     const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+    act(() => {
+      result.current.onDeviceOrientationEvent(createEvent());
+    });
 
     detectNextMovement(FastMovementType.WALKING_TOO_FAST);
     act(() => {
