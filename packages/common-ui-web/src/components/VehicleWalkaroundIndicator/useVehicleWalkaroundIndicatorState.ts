@@ -73,32 +73,28 @@ export function useVehicleWalkaroundIndicatorState({
   isRecording = false,
 }: UseVehicleWalkaroundIndicatorStateParams): VehicleWalkaroundIndicatorStateHandle {
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
-  const prevTrackingRef = useRef(isRecording);
+  const prevIsRecordingRef = useRef(isRecording);
 
   useEffect(() => {
-    if (!prevTrackingRef.current && isRecording) {
-      const newSegments = new Set<number>();
-      newSegments.add(0);
-      setCoveredSegments(newSegments);
-    } else if (prevTrackingRef.current && !isRecording) {
-      setCoveredSegments(new Set());
+    if (!prevIsRecordingRef.current && isRecording) {
+      const initialSegment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
+      setCoveredSegments(new Set<number>().add(initialSegment));
+    } else if (prevIsRecordingRef.current && !isRecording) {
+      setCoveredSegments(new Set<number>());
     }
-    prevTrackingRef.current = isRecording;
-  }, [isRecording]);
+    prevIsRecordingRef.current = isRecording;
+  }, [isRecording, walkaroundPosition]);
 
   useEffect(() => {
     if (isRecording) {
       const segment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
-
       if (!coveredSegments.has(segment)) {
         setCoveredSegments((prev) => new Set(prev).add(segment));
       }
     }
-  }, [walkaroundPosition, isRecording, coveredSegments]);
-
-  const coveredSegmentRanges = segmentsToRanges(coveredSegments);
+  }, [walkaroundPosition, isRecording]);
 
   return {
-    coveredSegments: coveredSegmentRanges,
+    coveredSegments: segmentsToRanges(coveredSegments),
   };
 }
