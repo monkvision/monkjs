@@ -100,10 +100,8 @@ export function useVehicleWalkaround({
   alpha,
 }: UseVehicleWalkaroundParams): VehicleWalkaroundHandle {
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
-  const coveredSegmentsRef = useRef<Set<number>>(new Set());
-  const [coverageUpdate, setCoverageUpdate] = useState(0);
+  const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
   const smoothedAlphaRef = useRef<number | null>(null);
-  const justStartedRef = useRef<boolean>(false);
 
   const smoothedAlpha = useMemo(() => {
     if (startingAlpha === null) {
@@ -133,42 +131,31 @@ export function useVehicleWalkaround({
 
   useEffect(() => {
     if (startingAlpha !== null) {
-      if (justStartedRef.current) {
-        justStartedRef.current = false;
-        return;
-      }
-
       const segment = angleToSegment(walkaroundPosition);
 
-      if (!coveredSegmentsRef.current.has(segment)) {
-        coveredSegmentsRef.current.add(segment);
-        setCoverageUpdate((prev) => prev + 1);
+      if (!coveredSegments.has(segment)) {
+        setCoveredSegments((prev) => new Set(prev).add(segment));
       }
     }
-  }, [walkaroundPosition, startingAlpha]);
+  }, [walkaroundPosition, startingAlpha, coveredSegments]);
 
-  const coveredSegments = useMemo(
-    () => segmentsToRanges(coveredSegmentsRef.current),
-    [coverageUpdate],
-  );
+  const coveredSegmentRanges = useMemo(() => segmentsToRanges(coveredSegments), [coveredSegments]);
 
   const coveragePercentage = useMemo(
-    () => (coveredSegmentsRef.current.size / TOTAL_SEGMENTS) * 100,
-    [coverageUpdate],
+    () => (coveredSegments.size / TOTAL_SEGMENTS) * 100,
+    [coveredSegments],
   );
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);
     smoothedAlphaRef.current = alpha;
-    coveredSegmentsRef.current.clear();
-    justStartedRef.current = true;
-    setCoverageUpdate((prev) => prev + 1);
+    setCoveredSegments(new Set());
   }, [alpha]);
 
   return useObjectMemo({
     startWalkaround,
     walkaroundPosition,
-    coveredSegments,
+    coveredSegments: coveredSegmentRanges,
     coveragePercentage,
   });
 }
