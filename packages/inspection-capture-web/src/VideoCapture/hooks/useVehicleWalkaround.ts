@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
+import { angleToSegment, normalizeAngle, useObjectMemo } from '@monkvision/common';
+import { DEGREE_GRANULARITY } from '@monkvision/common-ui-web';
+
+const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 
 /**
  * Params passed to the useVehicleWalkaround hook.
@@ -20,9 +23,13 @@ export interface VehicleWalkaroundHandle {
    */
   startWalkaround: () => void;
   /**
-   * The current position of the user around the vehicle (between 0 and 360).
+   * The current angular position of the user relative to start (between 0 and 360).
    */
   walkaroundPosition: number;
+  /**
+   * Percentage of the walkaround completed.
+   */
+  coveragePercentage: number;
 }
 
 /**
@@ -32,34 +39,33 @@ export function useVehicleWalkaround({
   alpha,
 }: UseVehicleWalkaroundParams): VehicleWalkaroundHandle {
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
-  const [checkpoint, setCheckpoint] = useState(45);
-  const [nextCheckpoint, setNextCheckpoint] = useState(90);
+  const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
 
   const walkaroundPosition = useMemo(() => {
-    if (!startingAlpha) {
+    if (startingAlpha === null) {
       return 0;
     }
     const diff = startingAlpha - alpha;
-    const position = diff < 0 ? 360 + diff : diff;
-    const newWalkaroundPosition = position <= nextCheckpoint ? position : 0;
-    if (nextCheckpoint === 405 && newWalkaroundPosition < 180) {
-      return 359;
+    return normalizeAngle(diff);
+  }, [startingAlpha, alpha]);
+
+  useEffect(() => {
+    if (startingAlpha !== null) {
+      const currentSegment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
+      if (!coveredSegments.has(currentSegment)) {
+        setCoveredSegments((prev) => new Set(prev).add(currentSegment));
+      }
     }
-    return newWalkaroundPosition;
-  }, [startingAlpha, alpha, nextCheckpoint]);
+  }, [walkaroundPosition, startingAlpha]);
+
+  const coveragePercentage = useMemo(() => {
+    return (coveredSegments.size / TOTAL_SEGMENTS) * 100;
+  }, [coveredSegments]);
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);
-    setCheckpoint(45);
-    setNextCheckpoint(90);
+    setCoveredSegments(new Set([0]));
   }, [alpha]);
 
-  useEffect(() => {
-    if (walkaroundPosition >= checkpoint) {
-      setCheckpoint(nextCheckpoint);
-      setNextCheckpoint((value) => value + 45);
-    }
-  }, [walkaroundPosition, checkpoint, nextCheckpoint]);
-
-  return useObjectMemo({ startWalkaround, walkaroundPosition });
+  return useObjectMemo({ startWalkaround, walkaroundPosition, coveragePercentage });
 }

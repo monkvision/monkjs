@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useObjectMemo } from './useObjectMemo';
+import { useFilteredAlpha } from './useFilteredAlpha';
 
 enum DeviceOrientationPermissionResponse {
   GRANTED = 'granted',
@@ -66,6 +67,7 @@ export function useDeviceOrientation(
   const [alpha, setAlpha] = useState(0);
   const [beta, setBeta] = useState(0);
   const [gamma, setGamma] = useState(0);
+  const { getFilteredAlpha } = useFilteredAlpha();
 
   const handleDeviceOrientationEvent = useCallback(
     (event: DeviceOrientationEvent) => {
@@ -80,13 +82,14 @@ export function useDeviceOrientation(
         heading = 0;
       }
 
-      setAlpha(heading);
+      const filteredAlpha = getFilteredAlpha(heading);
+      setAlpha(filteredAlpha);
       setBeta(event.beta ?? 0);
       setGamma(event.gamma ?? 0);
 
       options?.onDeviceOrientationEvent?.({
         ...event,
-        alpha: heading,
+        alpha: filteredAlpha,
       });
     },
     [options?.onDeviceOrientationEvent],

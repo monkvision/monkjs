@@ -42,7 +42,10 @@ export function VideoCaptureRecording({
       </div>
       <div style={controls}>
         <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
-          <VehicleWalkaroundIndicator alpha={walkaroundPosition} />
+          <VehicleWalkaroundIndicator
+            alpha={walkaroundPosition}
+            isRecording={isRecording || isRecordingPaused}
+          />
         </div>
         <RecordVideoButton
           isRecording={isRecording}

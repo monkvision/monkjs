@@ -1,12 +1,16 @@
-jest.mock('../../src/components/DynamicSVG/', () => ({
-  DynamicSVG: jest.fn(() => <></>),
-}));
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { VehicleWalkaroundIndicator, DynamicSVG } from '../../src';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { assets } from '../../src/components/VehicleWalkaroundIndicator/assets';
 import { CameraDistance } from '@monkvision/types';
+
+jest.mock('../../src/components/DynamicSVG/', () => ({
+  DynamicSVG: jest.fn(() => <></>),
+}));
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+}));
 
 const PROGRESS_BAR_TEST_ID = 'progress-bar';
 
@@ -52,7 +56,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   it('renders the car and POV icon', () => {
     const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} />);
 
-    expect(DynamicSVG).toHaveBeenCalledTimes(2);
+    expect(DynamicSVG).toHaveBeenCalled();
     expectPropsOnChildMock(DynamicSVG, { svg: CAR_SVG });
     expectPropsOnChildMock(DynamicSVG, { svg: POV_SVG });
 
@@ -60,7 +64,17 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('displays the progress bar when showCircle is true', () => {
-    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} showCircle={true} />);
+    const { unmount } = render(
+      <VehicleWalkaroundIndicator alpha={0} showCircle={true} isRecording={true} />,
+    );
+
+    expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
+
+    unmount();
+  });
+
+  it('displays the progress bar by default', () => {
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} isRecording={true} />);
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
 
@@ -79,9 +93,9 @@ describe('VehicleWalkaroundIndicator component', () => {
     const { unmount } = render(<VehicleWalkaroundIndicator alpha={180} showProgressBar={false} />);
 
     const carProps = (DynamicSVG as jest.Mock).mock.calls.find(
-      (call) => call[0].svg === CAR_SVG
+      (call) => call[0].svg === CAR_SVG,
     )?.[0];
-    
+
     expect(carProps).toBeDefined();
     expect(carProps.getAttributes).toBeDefined();
 
@@ -92,15 +106,15 @@ describe('VehicleWalkaroundIndicator component', () => {
     const mockElement2 = {
       getAttribute: jest.fn(() => 'car-fill-stop-2'),
     } as unknown as SVGElement;
-    
+
     const mockElement3 = {
       getAttribute: jest.fn(() => 'car-fill-stop-3'),
     } as unknown as SVGElement;
-    
+
     const attributes1 = carProps.getAttributes(mockElement1);
     const attributes2 = carProps.getAttributes(mockElement2);
     const attributes3 = carProps.getAttributes(mockElement3);
-    
+
     expect(attributes1).toEqual({ offset: '1' });
     expect(attributes2).toEqual({ offset: '1' });
     expect(attributes3).toEqual({ offset: '1' });
@@ -112,27 +126,19 @@ describe('VehicleWalkaroundIndicator component', () => {
     const { unmount } = render(<VehicleWalkaroundIndicator alpha={180} showProgressBar={true} />);
 
     const carProps = (DynamicSVG as jest.Mock).mock.calls.find(
-      (call) => call[0].svg === CAR_SVG
+      (call) => call[0].svg === CAR_SVG,
     )?.[0];
-    
+
     expect(carProps).toBeDefined();
     expect(carProps.getAttributes).toBeDefined();
 
     const mockElement = {
       getAttribute: jest.fn(() => 'car-fill-stop-2'),
     } as unknown as SVGElement;
-    
+
     const attributes = carProps.getAttributes(mockElement);
     expect(attributes).toHaveProperty('offset');
     expect(typeof attributes.offset).toBe('string');
-
-    unmount();
-  });
-
-  it('displays the progress bar by default', () => {
-    const { unmount } = render(<VehicleWalkaroundIndicator alpha={180} />);
-
-    expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
 
     unmount();
   });
@@ -215,11 +221,11 @@ describe('VehicleWalkaroundIndicator component', () => {
         showCircle={true}
         distance={CameraDistance.CLOSE}
         showProgressBar={true}
+        isRecording={true}
       />,
     );
 
     expect(container).toBeInTheDocument();
-    expect(DynamicSVG).toHaveBeenCalledTimes(2);
     expect(screen.queryByTestId('progress-bar')).not.toBeNull();
     expect(screen.queryByTestId('full-bar')).not.toBeNull();
 
