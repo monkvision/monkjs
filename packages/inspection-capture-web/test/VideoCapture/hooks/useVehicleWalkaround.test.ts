@@ -1,6 +1,10 @@
 import { act, renderHook } from '@testing-library/react';
 import { useVehicleWalkaround } from '../../../src/VideoCapture/hooks';
 
+jest.mock('@monkvision/common-ui-web', () => ({
+  ...jest.requireActual('@monkvision/common-ui-web'),
+}));
+
 describe('useVehicleWalkaround hook', () => {
   it('should return 0 and empty coverage when the walkaround has not been started', () => {
     const { result, rerender, unmount } = renderHook(
@@ -11,7 +15,6 @@ describe('useVehicleWalkaround hook', () => {
     );
 
     expect(result.current.walkaroundPosition).toEqual(0);
-    expect(result.current.coveredSegments).toEqual([]);
     expect(result.current.coveragePercentage).toEqual(0);
     rerender({ alpha: 30 });
     expect(result.current.walkaroundPosition).toEqual(0);
@@ -35,12 +38,16 @@ describe('useVehicleWalkaround hook', () => {
     expect(result.current.walkaroundPosition).toEqual(0);
 
     rerender({ alpha: 90 });
+    rerender({ alpha: 85 });
+    rerender({ alpha: 80 });
+    rerender({ alpha: 75 });
     expect(result.current.walkaroundPosition).toBeGreaterThan(0);
-    expect(result.current.walkaroundPosition).toBeLessThan(15);
+    expect(result.current.walkaroundPosition).toBeLessThan(30);
 
     rerender({ alpha: 50 });
-    expect(result.current.walkaroundPosition).toBeGreaterThan(10);
-    expect(result.current.walkaroundPosition).toBeLessThan(25);
+    rerender({ alpha: 45 });
+    expect(result.current.walkaroundPosition).toBeGreaterThan(20);
+    expect(result.current.walkaroundPosition).toBeLessThan(60);
 
     unmount();
   });
@@ -55,11 +62,20 @@ describe('useVehicleWalkaround hook', () => {
 
     act(() => result.current.startWalkaround());
 
+    const initialCoverage = result.current.coveragePercentage;
+    expect(initialCoverage).toBeGreaterThan(0);
+
+    rerender({ alpha: 95 });
+    rerender({ alpha: 90 });
+    rerender({ alpha: 85 });
     rerender({ alpha: 80 });
     const coverageAfterRight = result.current.coveragePercentage;
-    expect(coverageAfterRight).toBeGreaterThan(0);
+    expect(coverageAfterRight).toBeGreaterThan(initialCoverage);
 
     rerender({ alpha: 100 });
+    rerender({ alpha: 105 });
+    rerender({ alpha: 110 });
+    rerender({ alpha: 115 });
     rerender({ alpha: 120 });
     const coverageAfterBoth = result.current.coveragePercentage;
 
@@ -77,40 +93,22 @@ describe('useVehicleWalkaround hook', () => {
     );
 
     act(() => result.current.startWalkaround());
+    rerender({ alpha: 95 });
+    rerender({ alpha: 90 });
+    rerender({ alpha: 85 });
     rerender({ alpha: 80 });
+    rerender({ alpha: 75 });
+    rerender({ alpha: 70 });
 
     const firstCoverage = result.current.coveragePercentage;
-    expect(firstCoverage).toBeGreaterThan(0);
+    expect(firstCoverage).toBeGreaterThan(1.388);
 
     rerender({ alpha: 200 });
     act(() => result.current.startWalkaround());
 
     expect(result.current.coveragePercentage).toBeLessThan(firstCoverage);
+    expect(result.current.coveragePercentage).toBeGreaterThan(0);
     expect(result.current.walkaroundPosition).toEqual(0);
-
-    unmount();
-  });
-
-  it('should have coverage segments that match the covered areas', () => {
-    const { result, rerender, unmount } = renderHook(
-      (props: { alpha: number }) => useVehicleWalkaround(props),
-      {
-        initialProps: { alpha: 100 },
-      },
-    );
-
-    act(() => result.current.startWalkaround());
-
-    rerender({ alpha: 50 });
-
-    expect(result.current.coveredSegments.length).toBeGreaterThan(0);
-
-    result.current.coveredSegments.forEach((segment) => {
-      expect(segment).toHaveProperty('start');
-      expect(segment).toHaveProperty('end');
-      expect(segment.start).toBeGreaterThanOrEqual(0);
-      expect(segment.end).toBeLessThanOrEqual(360);
-    });
 
     unmount();
   });

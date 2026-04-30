@@ -71,7 +71,7 @@ export const styles: Styles = {
 
 export interface VehicleWalkaroundIndicatorParams {
   size: number;
-  alpha: number;
+  walkaroundPosition: number;
   distance: CameraDistance;
   orientationAngle?: number;
   showProgressBar?: boolean;
@@ -105,7 +105,7 @@ function getCloseUpOffset(
 
 export function useVehicleWalkaroundIndicatorStyles({
   size,
-  alpha,
+  walkaroundPosition,
   distance,
   orientationAngle,
   showProgressBar,
@@ -115,14 +115,14 @@ export function useVehicleWalkaroundIndicatorStyles({
   const { CAR_SVG, POV_SVG } = assets;
 
   const baseRadius = size / 2;
-  const position = getPointOnCircle(alpha, baseRadius);
+  const position = getPointOnCircle(walkaroundPosition, baseRadius);
   const orientation =
     orientationAngle !== undefined ? getPointOnCircle(orientationAngle, size / 2) : null;
   const x = orientation ? position.x - orientation.x : 0;
   const y = orientation ? position.y - orientation.y : 0;
 
-  const angle = orientationAngle ?? alpha;
-  const closeUpOffset = getCloseUpOffset(distance, alpha, baseRadius);
+  const angle = orientationAngle ?? walkaroundPosition;
+  const closeUpOffset = getCloseUpOffset(distance, walkaroundPosition, baseRadius);
 
   const fillPercentage = coveredSegments
     ? coveredSegments.reduce((sum, seg) => {
@@ -132,7 +132,7 @@ export function useVehicleWalkaroundIndicatorStyles({
         }
         return sum + segmentLength;
       }, 0) / 360
-    : Math.min(Math.max(alpha / 360, 0), 1);
+    : Math.min(Math.max(walkaroundPosition / 360, 0), 1);
 
   const progressBarPropsArray = coveredSegments
     ? coveredSegments.map((segment) =>
@@ -145,7 +145,7 @@ export function useVehicleWalkaroundIndicatorStyles({
     : [
         getProgressBarProps({
           start: 0,
-          end: alpha,
+          end: walkaroundPosition,
           size: size * PROGRESS_BAR_SIZE_RATIO,
         }),
       ];

@@ -16,7 +16,6 @@ function formatRecordingDuration(durationMs: number): string {
  */
 export function VideoCaptureRecording({
   walkaroundPosition,
-  coveredSegments,
   isRecording,
   isRecordingPaused,
   recordingDurationMs,
@@ -44,8 +43,8 @@ export function VideoCaptureRecording({
       <div style={controls}>
         <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
           <VehicleWalkaroundIndicator
-            alpha={walkaroundPosition}
-            coveredSegments={coveredSegments}
+            walkaroundPosition={walkaroundPosition}
+            isTracking={isRecording || isRecordingPaused}
           />
         </div>
         <RecordVideoButton
