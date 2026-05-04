@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { getInspectionImages, useMonkState, useQueue } from '@monkvision/common';
+import { useMonkState, useQueue } from '@monkvision/common';
 import { MonkPicture } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';

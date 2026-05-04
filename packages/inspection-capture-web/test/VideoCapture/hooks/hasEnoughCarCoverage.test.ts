@@ -1,7 +1,5 @@
 import { Image, ImageStatus, ImageType, MonkEntityType } from '@monkvision/types';
-import {
-  hasEnoughCarCoverage,
-} from '../../../src/VideoCapture/hooks/useGetInspection';
+import { hasEnoughCarCoverage } from '../../../src/VideoCapture/hooks/useGetInspection';
 
 function createImage(alpha?: number, inspectionId = 'test-inspection'): Image {
   return {
@@ -31,9 +29,7 @@ function createImagesForBucket(bucketIndex: number, count: number): Image[] {
 }
 
 function createFullCoverageImages(imagesPerBucket = 5): Image[] {
-  return Array.from({ length: 6 }, (_, i) =>
-    createImagesForBucket(i, imagesPerBucket),
-  ).flat();
+  return Array.from({ length: 6 }, (_, i) => createImagesForBucket(i, imagesPerBucket)).flat();
 }
 
 describe('hasEnoughCarCoverage', () => {
