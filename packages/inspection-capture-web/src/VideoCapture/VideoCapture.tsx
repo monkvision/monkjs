@@ -140,7 +140,9 @@ export function VideoCapture(props: VideoCaptureProps) {
   };
 
   const handlePermissionsSuccess = () => {
-    if (shouldSkipVideo) {
+    if (isInspectionCompleted) {
+      setScreen(VideoCaptureScreen.GALLERY);
+    } else if (shouldSkipVideo) {
       setScreen(VideoCaptureScreen.PHOTO_CAPTURE);
     } else {
       setScreen(enableVideoTutorial ? VideoCaptureScreen.TUTORIAL : VideoCaptureScreen.CAPTURE);

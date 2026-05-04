@@ -62,7 +62,7 @@ describe('useGetInspection', () => {
     renderHook(useGetInspection, { initialProps: props });
 
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
-    onResolve({ entities: { tasks: [] } });
+    onResolve({ entities: { tasks: [], images: [] } });
 
     expect(props.loading.onSuccess).toHaveBeenCalled();
   });
@@ -82,10 +82,7 @@ describe('useGetInspection', () => {
     act(() => {
       onResolve({
         entities: {
-          tasks: [
-            { status: ProgressStatus.NOT_STARTED },
-            { status: ProgressStatus.DONE },
-          ],
+          tasks: [{ status: ProgressStatus.NOT_STARTED }, { status: ProgressStatus.DONE }],
         },
       });
     });
@@ -101,10 +98,8 @@ describe('useGetInspection', () => {
     act(() => {
       onResolve({
         entities: {
-          tasks: [
-            { status: ProgressStatus.NOT_STARTED },
-            { status: ProgressStatus.NOT_STARTED },
-          ],
+          tasks: [{ status: ProgressStatus.NOT_STARTED }, { status: ProgressStatus.NOT_STARTED }],
+          images: [],
         },
       });
     });
@@ -118,7 +113,7 @@ describe('useGetInspection', () => {
 
     const { onResolve } = (useAsyncEffect as jest.Mock).mock.calls[0][2];
     act(() => {
-      onResolve({ entities: { tasks: [] } });
+      onResolve({ entities: { tasks: [], images: [] } });
     });
 
     expect(result.current.isInspectionCompleted).toBe(false);
