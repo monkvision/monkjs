@@ -1,4 +1,4 @@
-const WORD_PATTERN = /[A-Z][a-z]+|[A-Z]+(?=[A-Z][a-z])|[A-Z]+|[a-z]+|\d+/g;
+const WORD_PATTERN = /[A-Z]?[a-z]+|[A-Z]+(?![a-z])|\d+/g;
 
 /**
  * Suffixes a string with the given suffixes, only if their value is `true` in the suffixes object param.
