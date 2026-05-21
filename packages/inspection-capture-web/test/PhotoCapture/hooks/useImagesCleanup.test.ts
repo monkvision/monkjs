@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
+import { ImageStatus } from '@monkvision/types';
 import { ImagesCleanupParams, useImagesCleanup } from '../../../src/PhotoCapture/hooks';
 
 const apiConfig = {
@@ -11,12 +12,12 @@ const apiConfig = {
 const inspectionId = 'inspection-123';
 const state = {
   images: [
-    { sightId: 'sight-1', id: 'id-1', inspectionId },
-    { sightId: 'sight-1', id: 'id-2', inspectionId },
-    { sightId: 'sight-1', id: 'id-3', inspectionId },
-    { sightId: 'sight-2', id: 'id-4', inspectionId },
-    { sightId: 'sight-2', id: 'id-5', inspectionId },
-    { sightId: 'sight-3', id: 'id-6', inspectionId },
+    { sightId: 'sight-1', id: 'id-1', inspectionId, status: ImageStatus.SUCCESS },
+    { sightId: 'sight-1', id: 'id-2', inspectionId, status: ImageStatus.SUCCESS },
+    { sightId: 'sight-1', id: 'id-3', inspectionId, status: ImageStatus.SUCCESS },
+    { sightId: 'sight-2', id: 'id-4', inspectionId, status: ImageStatus.SUCCESS },
+    { sightId: 'sight-2', id: 'id-5', inspectionId, status: ImageStatus.SUCCESS },
+    { sightId: 'sight-3', id: 'id-6', inspectionId, status: ImageStatus.SUCCESS },
   ],
 };
 
@@ -110,6 +111,35 @@ describe('useImagesCleanup hook', () => {
 
     act(() => {
       result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+
+    expect(deleteImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should not delete images that have not been uploaded to the server', () => {
+    const deleteImage = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    const stateWithNonUploaded = {
+      images: [
+        { sightId: 'sight-1', id: 'id-1', inspectionId, status: ImageStatus.UPLOADING },
+        { sightId: 'sight-1', id: 'id-2', inspectionId, status: ImageStatus.UPLOAD_FAILED },
+        { sightId: 'sight-1', id: 'id-3', inspectionId, status: ImageStatus.UPLOAD_ERROR },
+        { sightId: 'sight-1', id: 'id-4', inspectionId, status: ImageStatus.SUCCESS },
+      ],
+    };
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state: stateWithNonUploaded }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({
+        sightId: 'sight-1',
+        imageId: 'id-4',
+      });
     });
 
     expect(deleteImage).not.toHaveBeenCalled();
