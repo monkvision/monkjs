@@ -5,6 +5,7 @@ import {
   AddDamage2ndShotPictureUpload,
   UploadQueueParams,
   useUploadQueue,
+  isRetryableError,
 } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
 import { ComplianceIssue, TaskName } from '@monkvision/types';
@@ -62,7 +63,12 @@ describe('useUploadQueue hook', () => {
     const initialProps = createParams();
     const { result, unmount } = renderHook(useUploadQueue, { initialProps });
 
-    expect(useQueue).toHaveBeenCalledWith(expect.any(Function));
+    expect(useQueue).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.objectContaining({
+        onItemFail: expect.any(Function),
+      }),
+    );
     const queue = (useQueue as jest.Mock).mock.results[0].value;
     expect(result.current).toBe(queue);
 
@@ -244,7 +250,7 @@ describe('useUploadQueue hook', () => {
       unmount();
     });
 
-    it('should call the onUploadTimeout if the API call times out', async () => {
+    it('should not call onUploadTimeout on first timeout attempt (will be retried)', async () => {
       const err = new Error('test');
       err.name = 'TimeoutError';
       (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
@@ -258,15 +264,17 @@ describe('useUploadQueue hook', () => {
 
       await expect(process(defaultUploadOptions)).rejects.toBe(err);
       initialProps.eventHandlers?.forEach((eventHandlers) => {
-        expect(eventHandlers.onUploadTimeout).toHaveBeenCalledWith();
+        expect(eventHandlers.onUploadTimeout).not.toHaveBeenCalled();
       });
+
+      const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+      expect(handleErrorMock).not.toHaveBeenCalled();
 
       unmount();
     });
 
-    it('should call the onUploadTimeout if the API call fails because of no connection', async () => {
-      const err = new Error('test');
-      err.message = 'Failed to fetch';
+    it('should not call onUploadTimeout on first connection failure (will be retried)', async () => {
+      const err = new Error('Failed to fetch');
       (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
         addImage: jest.fn(() => Promise.reject(err)),
       }));
@@ -278,13 +286,16 @@ describe('useUploadQueue hook', () => {
 
       await expect(process(defaultUploadOptions)).rejects.toBe(err);
       initialProps.eventHandlers?.forEach((eventHandlers) => {
-        expect(eventHandlers.onUploadTimeout).toHaveBeenCalledWith();
+        expect(eventHandlers.onUploadTimeout).not.toHaveBeenCalled();
       });
+
+      const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+      expect(handleErrorMock).not.toHaveBeenCalled();
 
       unmount();
     });
 
-    it('should call the onUploadTimeout if the error is not a timeout', async () => {
+    it('should not call onUploadTimeout if the error is not retryable', async () => {
       const err = new Error('test');
       (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
         addImage: jest.fn(() => Promise.reject(err)),
@@ -300,7 +311,184 @@ describe('useUploadQueue hook', () => {
         expect(eventHandlers.onUploadTimeout).not.toHaveBeenCalledWith();
       });
 
+      const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+      expect(handleErrorMock).toHaveBeenCalledWith(err);
+
       unmount();
     });
+  });
+
+  describe('retry mechanism', () => {
+    it('should provide an onItemFail callback to useQueue', () => {
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      expect(useQueue).toHaveBeenCalledWith(
+        expect.any(Function),
+        expect.objectContaining({
+          onItemFail: expect.any(Function),
+        }),
+      );
+
+      unmount();
+    });
+
+    it('should retry once when a retryable timeout error occurs', async () => {
+      const err = new Error('test');
+      err.name = 'TimeoutError';
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const { push } = (useQueue as jest.Mock).mock.results[0].value;
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+
+      expect(push).not.toHaveBeenCalled();
+      onItemFail(defaultUploadOptions);
+      expect(push).toHaveBeenCalledWith(defaultUploadOptions);
+
+      unmount();
+    });
+
+    it('should retry once when a 5xx server error occurs', async () => {
+      const err = { response: { status: 502 }, message: 'Bad Gateway' };
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const { push } = (useQueue as jest.Mock).mock.results[0].value;
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+
+      expect(push).not.toHaveBeenCalled();
+      onItemFail(defaultUploadOptions);
+      expect(push).toHaveBeenCalledWith(defaultUploadOptions);
+
+      unmount();
+    });
+
+    it('should not retry more than once', async () => {
+      const err = new Error('test');
+      err.name = 'TimeoutError';
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const { push } = (useQueue as jest.Mock).mock.results[0].value;
+
+      // First attempt fails
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      onItemFail(defaultUploadOptions);
+      expect(push).toHaveBeenCalledTimes(1);
+      push.mockClear();
+
+      // Retry attempt also fails
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      onItemFail(defaultUploadOptions);
+      expect(push).not.toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should call onUploadTimeout and handleError after retry exhaustion for timeout', async () => {
+      const err = new Error('test');
+      err.name = 'TimeoutError';
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const handleErrorMock = (useMonitoring as jest.Mock).mock.results[0].value.handleError;
+
+      // First attempt: suppressed
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      onItemFail(defaultUploadOptions);
+      expect(handleErrorMock).not.toHaveBeenCalled();
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadTimeout).not.toHaveBeenCalled();
+      });
+
+      // Retry attempt: reported
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      expect(handleErrorMock).toHaveBeenCalledWith(err);
+      initialProps.eventHandlers?.forEach((eventHandlers) => {
+        expect(eventHandlers.onUploadTimeout).toHaveBeenCalled();
+      });
+
+      unmount();
+    });
+
+    it('should not retry for non-retryable errors (e.g. 4xx)', async () => {
+      const err = { response: { status: 400 }, message: 'Bad Request' };
+      (useMonkApi as jest.Mock).mockImplementationOnce(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const initialProps = createParams();
+      const { unmount } = renderHook(useUploadQueue, { initialProps });
+
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const { push } = (useQueue as jest.Mock).mock.results[0].value;
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      onItemFail(defaultUploadOptions);
+      expect(push).not.toHaveBeenCalled();
+
+      unmount();
+    });
+  });
+});
+
+describe('isRetryableError', () => {
+  it('should return true for TimeoutError', () => {
+    const err = new Error('test');
+    err.name = 'TimeoutError';
+    expect(isRetryableError(err)).toBe(true);
+  });
+
+  it('should return true for "Failed to fetch" errors', () => {
+    const err = new Error('Failed to fetch');
+    expect(isRetryableError(err)).toBe(true);
+  });
+
+  it('should return true for 5xx HTTP errors', () => {
+    expect(isRetryableError({ response: { status: 500 } })).toBe(true);
+    expect(isRetryableError({ response: { status: 502 } })).toBe(true);
+    expect(isRetryableError({ response: { status: 503 } })).toBe(true);
+    expect(isRetryableError({ response: { status: 599 } })).toBe(true);
+  });
+
+  it('should return false for 4xx HTTP errors', () => {
+    expect(isRetryableError({ response: { status: 400 } })).toBe(false);
+    expect(isRetryableError({ response: { status: 401 } })).toBe(false);
+    expect(isRetryableError({ response: { status: 404 } })).toBe(false);
+    expect(isRetryableError({ response: { status: 422 } })).toBe(false);
+  });
+
+  it('should return false for generic errors', () => {
+    expect(isRetryableError(new Error('Something went wrong'))).toBe(false);
+  });
+
+  it('should return false for non-error values', () => {
+    expect(isRetryableError(null)).toBe(false);
+    expect(isRetryableError(undefined)).toBe(false);
+    expect(isRetryableError('string error')).toBe(false);
+    expect(isRetryableError(42)).toBe(false);
   });
 });
