@@ -1,0 +1,128 @@
+name: Deploy Jinx Preview
+run-name: "Deploy ${{ inputs.app }} from ${{ inputs.branch }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'MonkJS branch to deploy (e.g. jinx/my-feature)'
+        required: true
+        type: string
+      app:
+        description: 'App to deploy'
+        required: true
+        default: 'demo-app'
+        type: choice
+        options:
+          - demo-app
+          - demo-app-video
+          - both
+      live_config_id:
+        description: 'Live config ID (filename without .json in jinx-live-configs bucket)'
+        required: true
+        type: string
+
+jobs:
+  build-demo-app:
+    if: ${{ inputs.app == 'demo-app' || inputs.app == 'both' }}
+    name: Build Demo App
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: 💾 Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: ⚙️ Set up MonkJs
+        uses: ./.github/actions/monkjs-set-up
+        with:
+          build-env: production
+      - name: 📱 Build demo-app
+        run: cd apps/demo-app && yarn build:jinx
+        env:
+          REACT_APP_LIVE_CONFIG_ID: ${{ inputs.live_config_id }}
+          REACT_APP_LIVE_CONFIG_BASE_URL: "https://storage.googleapis.com/jinx-live-configs/live-configurations"
+          PUBLIC_URL: "/${{ inputs.branch }}/"
+      - name: 📦 Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-demo-app
+          path: apps/demo-app/build
+          if-no-files-found: error
+
+  build-demo-app-video:
+    if: ${{ inputs.app == 'demo-app-video' || inputs.app == 'both' }}
+    name: Build Demo App Video
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: 💾 Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: ⚙️ Set up MonkJs
+        uses: ./.github/actions/monkjs-set-up
+        with:
+          build-env: production
+      - name: 📱 Build demo-app-video
+        run: cd apps/demo-app-video && yarn build:jinx
+        env:
+          REACT_APP_LIVE_CONFIG_ID: ${{ inputs.live_config_id }}
+          REACT_APP_LIVE_CONFIG_BASE_URL: "https://storage.googleapis.com/jinx-live-configs/live-configurations"
+          PUBLIC_URL: "/${{ inputs.branch }}-video/"
+      - name: 📦 Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-demo-app-video
+          path: apps/demo-app-video/build
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to GKE
+    needs: [build-demo-app, build-demo-app-video]
+    if: always() && (needs.build-demo-app.result == 'success' || needs.build-demo-app.result == 'skipped') && (needs.build-demo-app-video.result == 'success' || needs.build-demo-app-video.result == 'skipped')
+    environment: jinx-preview
+    runs-on: ubuntu-latest
+    container:
+      image: dtzar/helm-kubectl:3.14.2
+    steps:
+      - name: 🔐 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2.1.2
+        with:
+          credentials_json: "${{ secrets.JINX_GKE_SA_KEY }}"
+      - name: 🔐 Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2.1.0
+        with:
+          cluster_name: ${{ secrets.JINX_GKE_CLUSTER }}
+          location: ${{ secrets.JINX_GKE_ZONE }}
+          project_id: ${{ secrets.JINX_GKE_PROJECT }}
+
+      - name: 📦 Download demo-app artifact
+        if: ${{ inputs.app == 'demo-app' || inputs.app == 'both' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: build-demo-app
+          path: demo-app-dist
+      - name: 🌐 Deploy demo-app
+        if: ${{ inputs.app == 'demo-app' || inputs.app == 'both' }}
+        run: |
+          POD=$(kubectl get pods -n demos -l app=jinx-nginx --no-headers | awk '{print $1}')
+          kubectl -n demos exec "$POD" -- rm -rf "/app/${{ inputs.branch }}"
+          kubectl -n demos cp demo-app-dist "demos/${POD}:/app/${{ inputs.branch }}"
+
+      - name: 📦 Download demo-app-video artifact
+        if: ${{ inputs.app == 'demo-app-video' || inputs.app == 'both' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: build-demo-app-video
+          path: demo-app-video-dist
+      - name: 🌐 Deploy demo-app-video
+        if: ${{ inputs.app == 'demo-app-video' || inputs.app == 'both' }}
+        run: |
+          POD=$(kubectl get pods -n demos -l app=jinx-nginx --no-headers | awk '{print $1}')
+          kubectl -n demos exec "$POD" -- rm -rf "/app/${{ inputs.branch }}-video"
+          kubectl -n demos cp demo-app-video-dist "demos/${POD}:/app/${{ inputs.branch }}-video"
