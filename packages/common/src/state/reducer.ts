@@ -14,6 +14,7 @@ import {
   isDeletedOneDamageAction,
   isGotOneInspectionPdfAction,
   isDeletedOneImageAction,
+  isDeletedImagesBulkAction,
   isUpdatedOneImageAdditionalDataAction,
   MonkAction,
   resetState,
@@ -27,6 +28,7 @@ import {
   deletedOneDamage,
   gotOneInspectionPdf,
   deletedOneImage,
+  deletedImagesBulk,
   updatedOneImageAdditionalData,
 } from './actions';
 import { MonkState } from './state';
@@ -49,6 +51,9 @@ export function monkReducer(state: MonkState, action: MonkAction): MonkState {
   }
   if (isDeletedOneImageAction(action)) {
     return deletedOneImage(state, action);
+  }
+  if (isDeletedImagesBulkAction(action)) {
+    return deletedImagesBulk(state, action);
   }
   if (isUpdatedManyTasksAction(action)) {
     return updatedManyTasks(state, action);

@@ -20,6 +20,7 @@ const MonkApi = {
   uploadPdf: jest.fn(() => Promise.resolve()),
   getPdf: jest.fn(() => Promise.resolve()),
   deleteImage: jest.fn(() => Promise.resolve()),
+  deleteImagesBulk: jest.fn(() => Promise.resolve({ deletedImageIds: [], failed: [] })),
   updateImageAdditionalData: jest.fn(() => Promise.resolve()),
 };
 

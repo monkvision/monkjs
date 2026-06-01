@@ -11,6 +11,7 @@ jest.mock('../../src/api/api', () => ({
     getAllInspectionsCount: jest.fn(() => Promise.resolve({ test: 'getAllInspectionsCount' })),
     addImage: jest.fn(() => Promise.resolve({ test: 'addImage' })),
     deleteImage: jest.fn(() => Promise.resolve({ test: 'deleteImage' })),
+    deleteImagesBulk: jest.fn(() => Promise.resolve({ test: 'deleteImagesBulk' })),
     updateInspectionVehicle: jest.fn(() => Promise.resolve({ test: 'updateInspectionVehicle' })),
     updateAdditionalData: jest.fn(() => Promise.resolve({ test: 'updateAdditionalData' })),
     uploadPdf: jest.fn(() => Promise.resolve({ test: 'uploadPdf' })),
@@ -131,6 +132,15 @@ describe('Monk API React utilities', () => {
       param = 'test-deleteImage';
       resultMock = await (result.current.deleteImage as any)(param);
       requestMock = MonkApi.deleteImage as jest.Mock;
+      expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
+      requestResultMock = await requestMock.mock.results[0].value;
+      expect(resultMock).toBe(requestResultMock);
+
+      dispatchMock.mockClear();
+
+      param = 'test-deleteImagesBulk';
+      resultMock = await (result.current.deleteImagesBulk as any)(param);
+      requestMock = MonkApi.deleteImagesBulk as jest.Mock;
       expect(requestMock).toHaveBeenCalledWith(param, config, dispatchMock);
       requestResultMock = await requestMock.mock.results[0].value;
       expect(resultMock).toBe(requestResultMock);

@@ -53,6 +53,10 @@ export interface UseVideoRecordingParams
    * Callback called when the recording is complete.
    */
   onRecordingComplete?: () => void;
+  /**
+   * Callback called when the user discards the current video recording.
+   */
+  onDiscardVideo?: () => void;
 }
 
 /**
@@ -114,6 +118,7 @@ export function useVideoRecording({
   startWalkaround,
   onCaptureVideoFrame,
   onRecordingComplete,
+  onDiscardVideo,
 }: UseVideoRecordingParams): VideoRecordingHandle {
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const [additionalRecordingDuration, setAdditionalRecordingDuration] = useState(0);
@@ -198,7 +203,8 @@ export function useVideoRecording({
     setRecordingStartTimestamp(null);
     setIsRecording(false);
     setDiscardDialogDisplayed(false);
-  }, [setIsRecording]);
+    onDiscardVideo?.();
+  }, [setIsRecording, onDiscardVideo]);
 
   useInterval(
     () => {

@@ -10,4 +10,13 @@ export const styles: Styles = {
     position: 'absolute',
     inset: '0 0 0 0',
   },
+  loadingOverlay: {
+    position: 'absolute',
+    inset: '0 0 0 0',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    zIndex: 10,
+  },
 };
