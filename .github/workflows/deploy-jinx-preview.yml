@@ -115,6 +115,7 @@ jobs:
         if: ${{ inputs.app == 'demo-app' || inputs.app == 'both' }}
         run: |
           POD=$(kubectl get pods -n demos -l app=jinx-nginx --no-headers | awk '{print $1}')
+          kubectl -n demos exec "$POD" -- mkdir -p "/app/${{ inputs.branch }}"
           kubectl -n demos exec "$POD" -- rm -rf "/app/${{ inputs.branch }}"
           kubectl -n demos cp demo-app-dist "demos/${POD}:/app/${{ inputs.branch }}"
 
@@ -128,5 +129,6 @@ jobs:
         if: ${{ inputs.app == 'demo-app-video' || inputs.app == 'both' }}
         run: |
           POD=$(kubectl get pods -n demos -l app=jinx-nginx --no-headers | awk '{print $1}')
+          kubectl -n demos exec "$POD" -- mkdir -p "/app/${{ inputs.branch }}-video"
           kubectl -n demos exec "$POD" -- rm -rf "/app/${{ inputs.branch }}-video"
           kubectl -n demos cp demo-app-video-dist "demos/${POD}:/app/${{ inputs.branch }}-video"
