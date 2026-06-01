@@ -5,20 +5,20 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'MonkJS branch to deploy (e.g. jinx/my-feature)'
+        description: "MonkJS branch to deploy (e.g. jinx/my-feature)"
         required: true
         type: string
       app:
-        description: 'App to deploy'
+        description: "App to deploy"
         required: true
-        default: 'demo-app'
+        default: "demo-app"
         type: choice
         options:
           - demo-app
           - demo-app-video
           - both
       live_config_id:
-        description: 'Live config ID (filename without .json in jinx-live-configs bucket)'
+        description: "Live config ID (filename without .json in jinx-live-configs bucket)"
         required: true
         type: string
 
