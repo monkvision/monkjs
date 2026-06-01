@@ -22,6 +22,8 @@ on:
         required: true
         type: string
 
+permissions: {}
+
 jobs:
   build-demo-app:
     if: ${{ inputs.app == 'demo-app' || inputs.app == 'both' }}
@@ -84,6 +86,8 @@ jobs:
   deploy:
     name: Deploy to GKE
     needs: [build-demo-app, build-demo-app-video]
+    permissions:
+      actions: read
     if: always() && (needs.build-demo-app.result == 'success' || needs.build-demo-app.result == 'skipped') && (needs.build-demo-app-video.result == 'success' || needs.build-demo-app-video.result == 'skipped')
     environment: jinx-preview
     runs-on: ubuntu-latest
