@@ -10,3 +10,4 @@ export * from './state.utils';
 export * from './config.utils';
 export * from './formValidation.utils';
 export * from './vehicle.utils';
+export * from './orientation.utils';
