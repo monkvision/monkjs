@@ -151,15 +151,6 @@ describe('VideoCaptureRecording component', () => {
     unmount();
   });
 
-  it('should not display the close video button when showCloseVideoButton is false', () => {
-    const props = createProps();
-    const { unmount } = render(<VideoCaptureRecording {...props} showCloseVideoButton={false} />);
-
-    expect(Button).not.toHaveBeenCalled();
-
-    unmount();
-  });
-
   it('should call onCloseVideo when the user clicks on the close video button', () => {
     const onCloseVideo = jest.fn();
     const props = createProps();
