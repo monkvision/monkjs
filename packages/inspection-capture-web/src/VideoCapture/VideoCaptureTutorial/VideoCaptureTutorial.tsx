@@ -14,12 +14,22 @@ export interface VideoCaptureTutorialProps {
    * Use this prop to enforce a specific device orientation for the Camera screen.
    */
   enforceOrientation?: DeviceOrientation;
+  /**
+   * The language to be used by this component.
+   *
+   * @default en
+   */
+  lang?: string | null;
 }
 
 /**
  * This component is a tutorial displayed on top of the camera when the user first starts the video capture.
  */
-export function VideoCaptureTutorial({ onClose, enforceOrientation }: VideoCaptureTutorialProps) {
+export function VideoCaptureTutorial({
+  onClose,
+  enforceOrientation,
+  lang,
+}: VideoCaptureTutorialProps) {
   return (
     <VideoCapturePageLayout
       showLogo={false}
@@ -27,7 +37,11 @@ export function VideoCaptureTutorial({ onClose, enforceOrientation }: VideoCaptu
       showBackdrop={true}
       showConfirmButton={false}
     >
-      <VideoTutorial orientation={enforceOrientation} onComplete={onClose} />
+      <VideoTutorial
+        orientation={enforceOrientation}
+        onComplete={onClose}
+        lang={lang ?? undefined}
+      />
     </VideoCapturePageLayout>
   );
 }

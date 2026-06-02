@@ -160,6 +160,7 @@ export function VideoCapture(props: VideoCaptureProps) {
         <VideoCaptureTutorial
           enforceOrientation={enforceOrientation}
           onClose={() => setScreen(VideoCaptureScreen.CAPTURE)}
+          lang={lang}
         />
       )}
       {screen === VideoCaptureScreen.GALLERY && (
