@@ -1,4 +1,4 @@
-import { CameraResolution, CompressionOptions } from './camera';
+import { CameraFocusMode, CameraResolution, CompressionOptions } from './camera';
 import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
@@ -97,6 +97,10 @@ export enum AddDamage {
 
 /**
  * Configuration used to configure the Camera and picture output of the SDK.
+ *
+ * These fields are picked by `PhotoCaptureProps` via `keyof CameraConfig`, so any new
+ * camera-level option that needs to flow from `PhotoCaptureAppConfig` all the way down to
+ * the `<Camera />` component must be declared here.
  */
 export type CameraConfig = Partial<CompressionOptions> & {
   /**
@@ -121,6 +125,21 @@ export type CameraConfig = Partial<CompressionOptions> & {
    * @default false
    */
   allowImageUpscaling?: boolean;
+  /**
+   * The focus mode to request from the device camera.
+   * Applied as an `ideal` constraint — unsupported devices (e.g. iOS Safari) silently fall back.
+   *
+   * @default CameraFocusMode.CONTINUOUS
+   */
+  focusMode?: CameraFocusMode;
+  /**
+   * Whether to enable the torch (flash) while the camera is active.
+   * Useful for macro/close-up shots where ambient light may be insufficient.
+   * Applied as an ideal constraint — silently ignored if torch is not available.
+   *
+   * @default false
+   */
+  enableTorch?: boolean;
 };
 
 /**

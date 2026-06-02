@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import {
   AllOrNone,
   CameraConfig,
+  CameraFocusMode,
   CameraResolution,
   CompressionFormat,
   RequiredKeys,
@@ -74,6 +75,8 @@ export function Camera<T extends object>({
   format = CompressionFormat.JPEG,
   quality = 0.6,
   allowImageUpscaling = false,
+  focusMode = CameraFocusMode.CONTINUOUS,
+  enableTorch = false,
   HUDComponent,
   hudProps,
   monitoring,
@@ -95,6 +98,8 @@ export function Camera<T extends object>({
   } = useCameraPreview({
     resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
+    focusMode,
+    enableTorch,
   });
   const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
     resolution,
