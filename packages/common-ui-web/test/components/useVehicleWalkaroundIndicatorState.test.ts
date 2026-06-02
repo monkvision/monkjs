@@ -11,14 +11,14 @@ describe('useVehicleWalkaroundIndicatorState hook', () => {
       (props: { walkaroundPosition: number; trackingState?: WalkaroundTrackingState }) =>
         useVehicleWalkaroundIndicatorState(props),
       {
-        initialProps: { walkaroundPosition: 35, trackingState: WalkaroundTrackingState.Off },
+        initialProps: { walkaroundPosition: 35, trackingState: WalkaroundTrackingState.OFF },
       },
     );
 
     expect(result.current.coveredSegments).toEqual([]);
-    rerender({ walkaroundPosition: 30, trackingState: WalkaroundTrackingState.Off });
+    rerender({ walkaroundPosition: 30, trackingState: WalkaroundTrackingState.OFF });
     expect(result.current.coveredSegments).toEqual([]);
-    rerender({ walkaroundPosition: 300, trackingState: WalkaroundTrackingState.Off });
+    rerender({ walkaroundPosition: 300, trackingState: WalkaroundTrackingState.OFF });
     expect(result.current.coveredSegments).toEqual([]);
 
     unmount();
@@ -29,19 +29,19 @@ describe('useVehicleWalkaroundIndicatorState hook', () => {
       (props: { walkaroundPosition: number; trackingState?: WalkaroundTrackingState }) =>
         useVehicleWalkaroundIndicatorState(props),
       {
-        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Off },
+        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.OFF },
       },
     );
 
     expect(result.current.coveredSegments).toEqual([]);
 
-    rerender({ walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 0, trackingState: WalkaroundTrackingState.ACTIVE });
     expect(result.current.coveredSegments.length).toBeGreaterThan(0);
 
-    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.ACTIVE });
     expect(result.current.coveredSegments.length).toBeGreaterThan(0);
 
-    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.ACTIVE });
     expect(result.current.coveredSegments.length).toBeGreaterThan(0);
 
     unmount();
@@ -52,25 +52,25 @@ describe('useVehicleWalkaroundIndicatorState hook', () => {
       (props: { walkaroundPosition: number; trackingState?: WalkaroundTrackingState }) =>
         useVehicleWalkaroundIndicatorState(props),
       {
-        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Active },
+        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.ACTIVE },
       },
     );
 
     const initialSegments = result.current.coveredSegments.length;
     expect(initialSegments).toBeGreaterThan(0);
 
-    rerender({ walkaroundPosition: 5, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 15, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 20, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 5, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 15, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 20, trackingState: WalkaroundTrackingState.ACTIVE });
     const segmentsAfterRight = result.current.coveredSegments.length;
     expect(segmentsAfterRight).toBeGreaterThanOrEqual(initialSegments);
 
-    rerender({ walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 355, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 350, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 345, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 340, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 0, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 355, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 350, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 345, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 340, trackingState: WalkaroundTrackingState.ACTIVE });
     const segmentsAfterBoth = result.current.coveredSegments.length;
 
     expect(segmentsAfterBoth).toBeGreaterThanOrEqual(segmentsAfterRight);
@@ -83,25 +83,25 @@ describe('useVehicleWalkaroundIndicatorState hook', () => {
       (props: { walkaroundPosition: number; trackingState?: WalkaroundTrackingState }) =>
         useVehicleWalkaroundIndicatorState(props),
       {
-        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Active },
+        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.ACTIVE },
       },
     );
 
-    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 20, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 30, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 40, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.Active });
-    rerender({ walkaroundPosition: 60, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 10, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 20, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 30, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 40, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.ACTIVE });
+    rerender({ walkaroundPosition: 60, trackingState: WalkaroundTrackingState.ACTIVE });
 
     const firstSegments = result.current.coveredSegments.length;
     expect(firstSegments).toBeGreaterThan(0);
 
-    rerender({ walkaroundPosition: 200, trackingState: WalkaroundTrackingState.Off });
+    rerender({ walkaroundPosition: 200, trackingState: WalkaroundTrackingState.OFF });
 
     expect(result.current.coveredSegments).toEqual([]);
 
-    rerender({ walkaroundPosition: 200, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 200, trackingState: WalkaroundTrackingState.ACTIVE });
     expect(result.current.coveredSegments.length).toBeGreaterThan(0);
     expect(result.current.coveredSegments.length).toBeLessThan(firstSegments);
 
@@ -113,11 +113,11 @@ describe('useVehicleWalkaroundIndicatorState hook', () => {
       (props: { walkaroundPosition: number; trackingState?: WalkaroundTrackingState }) =>
         useVehicleWalkaroundIndicatorState(props),
       {
-        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.Active },
+        initialProps: { walkaroundPosition: 0, trackingState: WalkaroundTrackingState.ACTIVE },
       },
     );
 
-    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.Active });
+    rerender({ walkaroundPosition: 50, trackingState: WalkaroundTrackingState.ACTIVE });
 
     expect(result.current.coveredSegments.length).toBeGreaterThan(0);
 

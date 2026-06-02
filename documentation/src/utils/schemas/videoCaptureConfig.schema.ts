@@ -13,5 +13,6 @@ export const VideoCaptureAppConfigSchema = z
     phoneShakingWarningCooldown: z.number().gte(1000).optional(),
     enableVideoTutorial: z.boolean().optional(),
     enableHybridVideo: z.boolean().optional(),
+    showCloseVideoButton: z.boolean().optional(),
   })
   .and(SharedCaptureAppConfigSchema);

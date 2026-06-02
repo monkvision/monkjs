@@ -8,9 +8,9 @@ import type { CoveredSegment } from '@monkvision/common';
  * - `'paused'`: Tracking is paused. Covered segments are retained but not updated.
  */
 export enum WalkaroundTrackingState {
-  Off = 'off',
-  Active = 'active',
-  Paused = 'paused',
+  OFF = 'off',
+  ACTIVE = 'active',
+  PAUSED = 'paused',
 }
 
 /**

@@ -168,6 +168,8 @@ Props
 | enableVideoTutorial         | `boolean`                       | Boolean indicating if the video tutorial should be enabled or not.                                                                                                                               |          | `true`                    |
 | enableHybridVideo           | `boolean`                       | Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users can take pictures during the video capture process, and these pictures will be added to the inspection. |          | `false`                   |
 | enableBeautyShotExtraction  | `boolean`                       | Boolean indicating if beauty shot extraction should be enabled or not. When enabled, the best frames of the video will be extracted as beauty shots.                                                      |          | `true`                    |
+| showCloseVideoButton        | `boolean`                       | Boolean indicating if the close video button should be displayed in the HUD during the video recording.                                                                                                   |          | `false`                   |
+| onCloseVideo                | `() => void`                    | Callback called when the user clicks on the close video button.                                                                                                                                           |          |                           |
 
 # DamageDisclosure
 

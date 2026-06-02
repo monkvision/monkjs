@@ -64,6 +64,16 @@ export interface VideoCaptureHUDProps
    * Callback called when the inspection capture is complete.
    */
   onComplete?: () => void;
+  /**
+   * Callback called when the user clicks on the close video button.
+   */
+  onCloseVideo?: () => void;
+  /**
+   * Boolean indicating if the close video button should be displayed in the HUD during the video recording.
+   *
+   * @default false
+   */
+  showCloseVideoButton?: boolean;
 }
 
 const SCREENSHOT_INTERVAL_MS = 200;
@@ -117,6 +127,8 @@ export function VideoCaptureHUD({
   startTasksLoading,
   enableHybridVideo,
   onComplete,
+  onCloseVideo,
+  showCloseVideoButton,
 }: VideoCaptureHUDProps) {
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
@@ -206,6 +218,8 @@ export function VideoCaptureHUD({
             onClickTakePicture={handleTakePictureClick}
             tooltip={tooltip ? t(getTooltipLabel(tooltip)) : undefined}
             recordVideoDisabled={handle.isLoading}
+            onCloseVideo={onCloseVideo}
+            showCloseVideoButton={showCloseVideoButton}
           />
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (

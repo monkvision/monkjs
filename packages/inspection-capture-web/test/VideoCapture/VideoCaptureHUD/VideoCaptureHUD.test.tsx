@@ -83,6 +83,8 @@ function createProps(): VideoCaptureHUDProps {
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
     resetDetection: jest.fn(),
+    onCloseVideo: jest.fn(),
+    showCloseVideoButton: true,
   };
 }
 
@@ -206,6 +208,8 @@ describe('VideoCaptureHUD component', () => {
       recordingDurationMs,
       onClickRecordVideo,
       tooltip: undefined,
+      onCloseVideo: props.onCloseVideo,
+      showCloseVideoButton: props.showCloseVideoButton,
     });
 
     unmount();

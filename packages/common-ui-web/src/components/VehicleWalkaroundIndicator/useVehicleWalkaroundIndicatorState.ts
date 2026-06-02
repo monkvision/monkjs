@@ -40,18 +40,18 @@ export interface VehicleWalkaroundIndicatorStateHandle {
  */
 export function useVehicleWalkaroundIndicatorState({
   walkaroundPosition,
-  trackingState = WalkaroundTrackingState.Off,
+  trackingState = WalkaroundTrackingState.OFF,
 }: UseVehicleWalkaroundIndicatorStateParams): VehicleWalkaroundIndicatorStateHandle {
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    if (trackingState === WalkaroundTrackingState.Off) {
+    if (trackingState === WalkaroundTrackingState.OFF) {
       setCoveredSegments(new Set<number>());
     }
   }, [trackingState]);
 
   useEffect(() => {
-    if (trackingState === WalkaroundTrackingState.Active) {
+    if (trackingState === WalkaroundTrackingState.ACTIVE) {
       const segment = Math.floor(walkaroundPosition / DEGREE_GRANULARITY) % TOTAL_SEGMENTS;
       if (!coveredSegments.has(segment)) {
         setCoveredSegments((prev) => new Set(prev).add(segment));

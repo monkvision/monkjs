@@ -42,6 +42,15 @@ export interface VideoCaptureRecordingProps {
    */
   onClickTakePicture?: () => void;
   /**
+   * Callback called when the user clicks on the close video button.
+   */
+  onCloseVideo?: () => void;
+  /**
+   * Boolean indicating if the close video button should be displayed or not.
+   * When false, the close video button is hidden and the onCloseVideo callback is not used.
+   */
+  showCloseVideoButton?: boolean;
+  /**
    * The tooltip to display on top of the recording button.
    */
   tooltip?: string;
