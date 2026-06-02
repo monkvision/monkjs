@@ -5,7 +5,7 @@ import {
   useResponsiveStyle,
   useWindowDimensions,
 } from '@monkvision/common';
-import { useState } from 'react';
+import { CSSProperties, useState } from 'react';
 import { RecordVideoButtonProps } from '@monkvision/common-ui-web';
 import { VideoCaptureRecordingProps } from './VideoCaptureRecording.types';
 
@@ -74,7 +74,8 @@ export const styles: Styles = {
 
 export function useVideoCaptureRecordingStyles({
   isRecording,
-}: Pick<VideoCaptureRecordingProps, 'isRecording'>) {
+  showCloseVideoButton,
+}: Pick<VideoCaptureRecordingProps, 'isRecording' | 'showCloseVideoButton'>) {
   const [isTakePictureFlashVisible, setTakePictureFlashVisible] = useState(false);
   const { palette } = useMonkTheme();
   const { responsive } = useResponsiveStyle();
@@ -118,6 +119,6 @@ export function useVideoCaptureRecordingStyles({
     },
     showTakePictureFlash,
     tooltipPosition: (isPortrait ? 'up' : 'left') as RecordVideoButtonProps['tooltipPosition'],
-    placeholderTopButton: { height: 24, width: 24 },
+    closeButton: { visibility: showCloseVideoButton ? 'visible' : 'hidden' } as CSSProperties,
   };
 }

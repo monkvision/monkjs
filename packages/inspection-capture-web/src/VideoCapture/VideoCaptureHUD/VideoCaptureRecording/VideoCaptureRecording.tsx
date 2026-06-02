@@ -35,8 +35,8 @@ export function VideoCaptureRecording({
     takePictureFlash,
     walkaroundIndicator,
     tooltipPosition,
-    placeholderTopButton,
-  } = useVideoCaptureRecordingStyles({ isRecording });
+    closeButton,
+  } = useVideoCaptureRecordingStyles({ isRecording, showCloseVideoButton });
 
   return (
     <div style={container}>
@@ -61,16 +61,13 @@ export function VideoCaptureRecording({
           disabled={recordVideoDisabled}
         />
 
-        {showCloseVideoButton ? (
-          <Button
-            icon='close'
-            variant='outline'
-            onClick={onCloseVideo}
-            data-testid='close-video-button'
-          />
-        ) : (
-          <div style={placeholderTopButton} />
-        )}
+        <Button
+          icon='close'
+          variant='outline'
+          onClick={onCloseVideo}
+          data-testid='close-video-button'
+          style={closeButton}
+        />
       </div>
       <div style={takePictureFlash} />
     </div>
