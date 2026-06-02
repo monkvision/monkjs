@@ -57,7 +57,7 @@ export interface LiveConfigAppProviderProps extends Omit<MonkAppStateProviderPro
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
 }
 
 /**

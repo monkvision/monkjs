@@ -77,7 +77,7 @@ export interface DamageDisclosureProps
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
 }
 
 // No ts-doc for this component : the component exported is DamageDisclosureHOC

@@ -1,5 +1,6 @@
 import { VideoTutorial } from '@monkvision/common-ui-web';
 import { DeviceOrientation } from '@monkvision/types';
+import { useTranslation } from 'react-i18next';
 import { VideoCapturePageLayout } from '../VideoCapturePageLayout';
 
 /**
@@ -14,22 +15,14 @@ export interface VideoCaptureTutorialProps {
    * Use this prop to enforce a specific device orientation for the Camera screen.
    */
   enforceOrientation?: DeviceOrientation;
-  /**
-   * The language to be used by this component.
-   *
-   * @default en
-   */
-  lang?: string | null;
 }
 
 /**
  * This component is a tutorial displayed on top of the camera when the user first starts the video capture.
  */
-export function VideoCaptureTutorial({
-  onClose,
-  enforceOrientation,
-  lang,
-}: VideoCaptureTutorialProps) {
+export function VideoCaptureTutorial({ onClose, enforceOrientation }: VideoCaptureTutorialProps) {
+  const { i18n } = useTranslation();
+
   return (
     <VideoCapturePageLayout
       showLogo={false}
@@ -37,11 +30,7 @@ export function VideoCaptureTutorial({
       showBackdrop={true}
       showConfirmButton={false}
     >
-      <VideoTutorial
-        orientation={enforceOrientation}
-        onComplete={onClose}
-        lang={lang ?? undefined}
-      />
+      <VideoTutorial orientation={enforceOrientation} onComplete={onClose} lang={i18n.language} />
     </VideoCapturePageLayout>
   );
 }

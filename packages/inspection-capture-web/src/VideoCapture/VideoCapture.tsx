@@ -45,7 +45,7 @@ export interface BaseVideoCaptureProps {
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * Callback called after a picture is taken. Hybrid mode only.
    */
@@ -160,7 +160,6 @@ export function VideoCapture(props: VideoCaptureProps) {
         <VideoCaptureTutorial
           enforceOrientation={enforceOrientation}
           onClose={() => setScreen(VideoCaptureScreen.CAPTURE)}
-          lang={lang}
         />
       )}
       {screen === VideoCaptureScreen.GALLERY && (

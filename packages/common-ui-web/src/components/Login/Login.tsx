@@ -26,7 +26,7 @@ export interface LoginProps {
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * Custom style applied to the main container of the page.
    */

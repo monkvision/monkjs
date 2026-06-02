@@ -84,7 +84,7 @@ export type InspectionGalleryProps = {
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * The delay (in milliseconds) between each `getInspection` request made to the API when polling the status of the
    * inspection.
