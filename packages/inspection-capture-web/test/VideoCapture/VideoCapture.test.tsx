@@ -129,7 +129,7 @@ describe('VideoCapture component', () => {
         inspectionId: props.inspectionId,
         apiConfig: props.apiConfig,
         additionalTasks: expect.arrayContaining([
-          ...props.additionalTasks!,
+          ...(props.additionalTasks as TaskName[]),
           TaskName.DAMAGE_DETECTION,
         ]),
         startTasksOnComplete: props.startTasksOnComplete,

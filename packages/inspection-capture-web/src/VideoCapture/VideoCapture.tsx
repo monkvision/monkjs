@@ -45,7 +45,7 @@ export interface BaseVideoCaptureProps {
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * Callback called after a picture is taken. Hybrid mode only.
    */

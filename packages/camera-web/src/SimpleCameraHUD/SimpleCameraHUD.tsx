@@ -20,7 +20,7 @@ export type SimpleCameraHUDProps = CameraHUDProps & {
    *
    * @default: en
    */
-  lang?: string | null;
+  lang?: string;
 };
 
 /**

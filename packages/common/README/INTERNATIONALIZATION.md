@@ -93,7 +93,7 @@ import i18n from 'i18next';
 import { useI18nSync } from '@monkvision/common';
 
 interface MyComponentProps {
-  lang?: string | null;
+  lang?: string;
 }
 
 function MyComponent(props: MyComponentProps) {

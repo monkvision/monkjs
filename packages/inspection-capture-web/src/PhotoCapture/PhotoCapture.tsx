@@ -120,7 +120,7 @@ export interface PhotoCaptureProps
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * Custom label for validate button in gallery view.
    */

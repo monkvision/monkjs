@@ -8,6 +8,7 @@ import da from './translations/da.json';
 import sv from './translations/sv.json';
 import es from './translations/es.json';
 import pt from './translations/pt.json';
+import it from './translations/it.json';
 import ro from './translations/ro.json';
 
 /**
@@ -17,6 +18,7 @@ import ro from './translations/ro.json';
 const i18nCreateInspection = i18nCreateSDKInstance({
   resources: {
     en: { translation: en },
+    it: { translation: it },
     ro: { translation: ro },
     pt: { translation: pt },
     es: { translation: es },

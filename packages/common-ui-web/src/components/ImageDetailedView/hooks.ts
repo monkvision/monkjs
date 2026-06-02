@@ -32,7 +32,7 @@ export type ImageDetailedViewProps = {
    *
    * @default en
    */
-  lang?: string | null;
+  lang?: string;
   /**
    * Boolean indicating if the gallery button (used to go back to the gallery if this component is used inside the
    * gallery) must be displayed or not.
