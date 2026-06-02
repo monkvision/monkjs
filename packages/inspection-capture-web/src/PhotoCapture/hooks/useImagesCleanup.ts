@@ -1,8 +1,14 @@
 import { useMonkState, useObjectMemo } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback } from 'react';
-import { Image } from '@monkvision/types';
+import { Image, ImageStatus } from '@monkvision/types';
 import { UploadEventHandlers, UploadSuccessPayload } from '../../hooks/useUploadQueue';
+
+const DELETABLE_STATUSES = [
+  ImageStatus.SUCCESS,
+  ImageStatus.COMPLIANCE_RUNNING,
+  ImageStatus.NOT_COMPLIANT,
+];
 
 /**
  * Parameters accepted by the useImagesCleanup hook.
@@ -43,7 +49,9 @@ function extractOtherImagesToDelete(imagesBySight: Record<string, Image[]>): Ima
       const sortedImages = images.sort((a, b) =>
         b.createdAt && a.createdAt ? b.createdAt - a.createdAt : 0,
       );
-      imagesToDelete.push(...sortedImages.slice(1));
+      imagesToDelete.push(
+        ...sortedImages.slice(1).filter((image) => DELETABLE_STATUSES.includes(image.status)),
+      );
     });
 
   return imagesToDelete;
@@ -87,7 +95,10 @@ export function useImagesCleanup({
 
       const sightImagesToDelete = state.images.filter(
         (image) =>
-          image.inspectionId === inspectionId && image.sightId === sightId && image.id !== imageId,
+          image.inspectionId === inspectionId &&
+          image.sightId === sightId &&
+          image.id !== imageId &&
+          DELETABLE_STATUSES.includes(image.status),
       );
 
       const imagesToDelete = [...otherImagesToDelete, ...sightImagesToDelete];
