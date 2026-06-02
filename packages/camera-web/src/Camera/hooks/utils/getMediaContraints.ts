@@ -1,4 +1,4 @@
-import { CameraResolution, PixelDimensions } from '@monkvision/types';
+import { CameraFocusMode, CameraResolution, PixelDimensions } from '@monkvision/types';
 
 /**
  * Enumeration of the facing modes for the camera constraints.
@@ -42,6 +42,22 @@ export interface CameraConfig {
    * exact requirements can't be met, the resulting stream's quality can differ between browsers.
    */
   resolution: CameraResolution;
+  /**
+   * The focus mode to request from the device camera.
+   * Applied as an `ideal` constraint — unsupported devices fall back gracefully.
+   * On iOS Safari, this is silently ignored.
+   *
+   * @default CameraFocusMode.CONTINUOUS
+   */
+  focusMode?: CameraFocusMode;
+  /**
+   * Whether to enable the torch (flash) while the camera is active.
+   * Useful for macro/close-up shots where ambient light may be insufficient.
+   * Applied as an ideal constraint — silently ignored if torch is not available.
+   *
+   * @default false
+   */
+  enableTorch?: boolean;
 }
 
 /**
@@ -70,10 +86,15 @@ export function getResolutionDimensions(
 export function getMediaConstraints(config: CameraConfig): MediaStreamConstraints {
   const { width, height } = getResolutionDimensions(config.resolution);
 
-  const video: MediaTrackConstraints = {
+  const video: MediaTrackConstraints & Record<string, unknown> = {
     width: { ideal: width },
     height: { ideal: height },
     facingMode: config.facingMode,
+    // focusMode and torch are part of the extended MediaTrackConstraints spec but not yet
+    // in the TypeScript lib types. They are passed as ideal constraints so unsupported
+    // browsers (e.g. iOS Safari) silently ignore them — no error, no crash.
+    ...(config.focusMode ? { focusMode: { ideal: config.focusMode } } : {}),
+    ...(config.enableTorch ? { torch: true } : {}),
   };
 
   return {

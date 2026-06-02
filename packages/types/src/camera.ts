@@ -90,3 +90,23 @@ export enum CameraResolution {
    */
   UHD_4K = '4K',
 }
+
+/**
+ * Enumeration of the camera focus modes that can be requested for a video stream.
+ * Browser support varies — the constraint is applied as an ideal (not exact) so
+ * the UA will silently fall back if the mode is not supported on the device.
+ *
+ * Reference: https://www.w3.org/TR/mediacapture-streams/#dom-constraindomstring
+ */
+export enum CameraFocusMode {
+  /**
+   * Standard continuous auto-focus. Good for normal-distance shots.
+   */
+  CONTINUOUS = 'continuous',
+  /**
+   * Macro mode: optimises focus for subjects very close to the lens (< 20 cm).
+   * Supported on most Android browsers via the extended MediaTrackConstraints API.
+   * Not supported on iOS Safari — silently ignored, no fallback needed.
+   */
+  MACRO = 'macro',
+}
