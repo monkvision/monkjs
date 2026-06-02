@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { angleToSegment, segmentToAngle } from '@monkvision/common';
-import { CoveredSegment } from './VehicleWalkaroundIndicator.types';
+import { CoveredSegment, segmentsToRanges } from '@monkvision/common';
+import { WalkaroundTrackingState } from './VehicleWalkaroundIndicator.types';
+
+const DEGREE_GRANULARITY = 5;
+const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 
 /**
  * Params passed to the useVehicleWalkaroundIndicatorState hook.
@@ -11,23 +14,14 @@ export interface UseVehicleWalkaroundIndicatorStateParams {
    */
   walkaroundPosition: number;
   /**
-   * Whether video recording is active.
+   * The current state of coverage tracking.
+   * - `WalkaroundTrackingState.Off`: No tracking. Covered segments are cleared.
+   * - `WalkaroundTrackingState.Active`: Tracking is ongoing. Covered segments are updated as the position changes.
+   * - `WalkaroundTrackingState.Paused`: Tracking is paused. Covered segments are retained but not updated.
    *
-   * @default false
+   * @default WalkaroundTrackingState.Off
    */
-  isRecording?: boolean;
-  /**
-   * Whether video recording is paused.
-   *
-   * @default false
-   */
-  isRecordingPaused?: boolean;
-  /**
-   * Granularity (in degrees) used for dividing the 360-degree circle into segments.
-   *
-   * @default 5
-   */
-  degreeGranularity?: number;
+  trackingState?: WalkaroundTrackingState;
 }
 
 /**
@@ -40,66 +34,32 @@ export interface VehicleWalkaroundIndicatorStateHandle {
   coveredSegments: CoveredSegment[];
 }
 
-function segmentsToRanges(coveredSet: Set<number>, degreeGranularity: number): CoveredSegment[] {
-  if (coveredSet.size === 0) {
-    return [];
-  }
-
-  const sortedSegments = Array.from(coveredSet).sort((a, b) => a - b);
-  const ranges: CoveredSegment[] = [];
-  let currentStart = sortedSegments[0];
-  let currentEnd = sortedSegments[0];
-
-  for (let i = 1; i < sortedSegments.length; i++) {
-    const segment = sortedSegments[i];
-    if (segment === currentEnd + 1) {
-      currentEnd = segment;
-    } else {
-      ranges.push({
-        start: segmentToAngle(currentStart, degreeGranularity),
-        end: segmentToAngle(currentEnd, degreeGranularity) + degreeGranularity,
-      });
-      currentStart = segment;
-      currentEnd = segment;
-    }
-  }
-
-  ranges.push({
-    start: segmentToAngle(currentStart, degreeGranularity),
-    end: segmentToAngle(currentEnd, degreeGranularity) + degreeGranularity,
-  });
-
-  return ranges;
-}
-
 /**
  * Custom hook used to track covered segments for visual display in the VehicleWalkaroundIndicator component.
  * This is an internal hook that manages the visual representation of segment coverage.
  */
 export function useVehicleWalkaroundIndicatorState({
   walkaroundPosition,
-  isRecording = false,
-  isRecordingPaused = false,
-  degreeGranularity = 5,
+  trackingState = WalkaroundTrackingState.Off,
 }: UseVehicleWalkaroundIndicatorStateParams): VehicleWalkaroundIndicatorStateHandle {
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
 
   useEffect(() => {
-    if (!isRecording && !isRecordingPaused) {
+    if (trackingState === WalkaroundTrackingState.Off) {
       setCoveredSegments(new Set<number>());
     }
-  }, [isRecording, isRecordingPaused]);
+  }, [trackingState]);
 
   useEffect(() => {
-    if (isRecording) {
-      const segment = angleToSegment(walkaroundPosition, degreeGranularity);
+    if (trackingState === WalkaroundTrackingState.Active) {
+      const segment = Math.floor(walkaroundPosition / DEGREE_GRANULARITY) % TOTAL_SEGMENTS;
       if (!coveredSegments.has(segment)) {
         setCoveredSegments((prev) => new Set(prev).add(segment));
       }
     }
-  }, [walkaroundPosition, isRecording]);
+  }, [walkaroundPosition, trackingState]);
 
   return {
-    coveredSegments: segmentsToRanges(coveredSegments, degreeGranularity),
+    coveredSegments: segmentsToRanges(coveredSegments, DEGREE_GRANULARITY),
   };
 }

@@ -1,18 +1,5 @@
 import { CameraDistance } from '@monkvision/types';
-
-/**
- * Represents a covered segment of the walkaround (in degrees).
- */
-export interface CoveredSegment {
-  /**
-   * Start angle in degrees (0-360).
-   */
-  start: number;
-  /**
-   * End angle in degrees (0-360).
-   */
-  end: number;
-}
+import type { CoveredSegment } from '@monkvision/common';
 
 /**
  * The current state of coverage tracking in the VehicleWalkaroundIndicator.
@@ -67,10 +54,8 @@ export interface VehicleWalkaroundIndicatorProps {
   showProgressBar?: boolean;
   /**
    * Pre-computed covered segments to render as green arcs on the walkaround circle.
-   * Each segment describes a covered arc as a start and end angle in degrees (0-360).
    *
-   * For self-contained tracking, use the exported `useVehicleWalkaroundIndicatorState` hook
-   * and pass its `coveredSegments` result.
+   * @see `useVehicleWalkaroundIndicatorState` for pre-built logic.
    */
   coveredSegments?: CoveredSegment[];
   /**

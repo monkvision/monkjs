@@ -1,4 +1,4 @@
-import { CoveredSegment } from '@monkvision/common-ui-web';
+import { CoveredSegment } from '@monkvision/common';
 
 /**
  * Props accepted by the VideoCaptureRecording component.

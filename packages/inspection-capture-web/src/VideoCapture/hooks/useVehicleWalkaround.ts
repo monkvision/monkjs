@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { normalizeAngle, useObjectMemo } from '@monkvision/common';
-import { CoveredSegment } from '@monkvision/common-ui-web';
+import {
+  CoveredSegment,
+  normalizeAngle,
+  segmentsToRanges,
+  useObjectMemo,
+} from '@monkvision/common';
 
 const DEGREE_GRANULARITY = 5;
 const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
@@ -72,32 +76,10 @@ export function useVehicleWalkaround({
     return (coveredSegments.size / TOTAL_SEGMENTS) * 100;
   }, [coveredSegments]);
 
-  const coveredSegmentRanges = useMemo((): CoveredSegment[] => {
-    if (coveredSegments.size === 0) {
-      return [];
-    }
-    const sorted = Array.from(coveredSegments).sort((a, b) => a - b);
-    const ranges: CoveredSegment[] = [];
-    let rangeStart = sorted[0];
-    let rangeEnd = sorted[0];
-    for (let i = 1; i < sorted.length; i++) {
-      if (sorted[i] === rangeEnd + 1) {
-        rangeEnd = sorted[i];
-      } else {
-        ranges.push({
-          start: rangeStart * DEGREE_GRANULARITY,
-          end: (rangeEnd + 1) * DEGREE_GRANULARITY,
-        });
-        rangeStart = sorted[i];
-        rangeEnd = sorted[i];
-      }
-    }
-    ranges.push({
-      start: rangeStart * DEGREE_GRANULARITY,
-      end: (rangeEnd + 1) * DEGREE_GRANULARITY,
-    });
-    return ranges;
-  }, [coveredSegments]);
+  const coveredSegmentRanges = useMemo(
+    () => segmentsToRanges(coveredSegments, DEGREE_GRANULARITY),
+    [coveredSegments],
+  );
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);

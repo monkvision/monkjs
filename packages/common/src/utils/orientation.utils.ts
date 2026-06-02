@@ -1,6 +1,60 @@
 export const MAX_ALPHA_JUMP = 50;
 
 /**
+ * Represents a covered arc segment of the walkaround (in degrees).
+ */
+export interface CoveredSegment {
+  /**
+   * Start angle in degrees (0-360).
+   */
+  start: number;
+  /**
+   * End angle in degrees (0-360).
+   */
+  end: number;
+}
+
+/**
+ * Converts a set of covered segment indices to an array of CoveredSegment angle ranges.
+ *
+ * @param coveredSet - Set of covered segment indices.
+ * @param degreeGranularity - The size of each segment in degrees (should be minimum 5 if using camera compass).
+ */
+export function segmentsToRanges(
+  coveredSet: Set<number>,
+  degreeGranularity: number,
+): CoveredSegment[] {
+  if (coveredSet.size === 0) {
+    return [];
+  }
+
+  const sorted = Array.from(coveredSet).sort((a, b) => a - b);
+  const ranges: CoveredSegment[] = [];
+  let currentStart = sorted[0];
+  let currentEnd = sorted[0];
+
+  for (let i = 1; i < sorted.length; i++) {
+    if (sorted[i] === currentEnd + 1) {
+      currentEnd = sorted[i];
+    } else {
+      ranges.push({
+        start: currentStart * degreeGranularity,
+        end: (currentEnd + 1) * degreeGranularity,
+      });
+      currentStart = sorted[i];
+      currentEnd = sorted[i];
+    }
+  }
+
+  ranges.push({
+    start: currentStart * degreeGranularity,
+    end: (currentEnd + 1) * degreeGranularity,
+  });
+
+  return ranges;
+}
+
+/**
  * Normalizes an angle to the range [0, 360).
  */
 export function normalizeAngle(angle: number): number {

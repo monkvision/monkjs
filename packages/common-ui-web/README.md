@@ -871,12 +871,13 @@ function TestComponent() {
 
 ### Props
 
-| Prop             | Type           | Description                                                                         | Required | Default Value             |
-| ---------------- | -------------- | ----------------------------------------------------------------------------------- | -------- | ------------------------- |
-| alpha            | number         | The rotation of the user around the vehicle (0-360 degrees).                        | ✔️       |                           |
-| size             | number         | The size (width and height, in pixels) of the indicator.                            |          | `70`                      |
-| orientationAngle | number         | POV orientation angle: (0: POV is facing north / 180: POV is facing south).         |          |                           |
-| showCircle       | boolean        | Boolean indicating if the circle should be visible.                                 |          | `true`                    |
-| distance         | CameraDistance | POV/Flashlight distance from the vehicle.                                           |          | `CameraDistance.STANDARD` |
-| showProgressBar  | boolean        | Boolean indicating if the progress bar should be visible (circle and vehicle fill). |          | `true`                    |
-| isRecording      | boolean        | Boolean indicating if video recording is ongoing (started or resumed).                                   |          | `false`                   |
+| Prop               | Type               | Description                                                                                                                                   | Required | Default Value             |
+| ------------------ | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------- |
+| alpha              | number             | The rotation of the user around the vehicle (0-360 degrees).                                                                                  | ✔️       |                           |
+| size               | number             | The size (width and height, in pixels) of the indicator.                                                                                      |          | `70`                      |
+| orientationAngle   | number             | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                                                                   |          |                           |
+| showCircle         | boolean            | Boolean indicating if the circle should be visible.                                                                                           |          | `true`                    |
+| distance           | CameraDistance     | POV/Flashlight distance from the vehicle.                                                                                                     |          | `CameraDistance.STANDARD` |
+| showProgressBar    | boolean            | Boolean indicating if the progress bar should be visible (circle and vehicle fill).                                                           |          | `true`                    |
+| coveredSegments    | `CoveredSegment[]` | Pre-computed covered segments to render as green arcs on the walkaround circle. See `useVehicleWalkaroundIndicatorState` for pre-built logic. |          | `undefined`               |
+| showCompletionIcon | boolean            | When true, transitions the car icon to a green checkmark.                                                                                     |          |                           |

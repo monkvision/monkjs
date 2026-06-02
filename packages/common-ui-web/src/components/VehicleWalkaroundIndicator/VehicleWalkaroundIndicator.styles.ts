@@ -1,8 +1,7 @@
 import { CameraDistance, Styles } from '@monkvision/types';
-import { useResponsiveStyle } from '@monkvision/common';
+import { useResponsiveStyle, CoveredSegment } from '@monkvision/common';
 import { CSSProperties, SVGProps, useCallback } from 'react';
 import { assets } from './assets';
-import { CoveredSegment } from './VehicleWalkaroundIndicator.types';
 
 const PROGRESS_BAR_STROKE_WIDTH_RATIO = 0.05;
 const KNOB_STROKE_WIDTH_RATIO = 0.03;
