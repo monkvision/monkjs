@@ -118,5 +118,6 @@ export function useVideoCaptureRecordingStyles({
     },
     showTakePictureFlash,
     tooltipPosition: (isPortrait ? 'up' : 'left') as RecordVideoButtonProps['tooltipPosition'],
+    placeholderTopButton: { height: 24, width: 24 },
   };
 }

@@ -1,6 +1,6 @@
 import { CameraDistance, Styles } from '@monkvision/types';
 import { useResponsiveStyle } from '@monkvision/common';
-import { SVGProps, useCallback } from 'react';
+import { CSSProperties, SVGProps, useCallback } from 'react';
 import { assets } from './assets';
 import { CoveredSegment } from './VehicleWalkaroundIndicator.types';
 
@@ -76,6 +76,7 @@ export interface VehicleWalkaroundIndicatorParams {
   orientationAngle?: number;
   showProgressBar?: boolean;
   coveredSegments?: CoveredSegment[];
+  isComplete?: boolean;
 }
 
 function getPointOnCircle(angleDegrees: number, radius: number): { x: number; y: number } {
@@ -110,9 +111,10 @@ export function useVehicleWalkaroundIndicatorStyles({
   orientationAngle,
   showProgressBar,
   coveredSegments,
+  isComplete,
 }: VehicleWalkaroundIndicatorParams) {
   const { responsive } = useResponsiveStyle();
-  const { CAR_SVG, POV_SVG } = assets;
+  const { CAR_SVG, POV_SVG, CHECKMARK_SVG } = assets;
 
   const baseRadius = size / 2;
   const position = getPointOnCircle(walkaroundPosition, baseRadius);
@@ -210,7 +212,27 @@ export function useVehicleWalkaroundIndicatorStyles({
       width: size * CAR_SIZE_RATIO,
       height: size * CAR_SIZE_RATIO,
       getAttributes: getCarAttributes,
-      style: { ...styles['car'] },
+      style: {
+        ...styles['car'],
+        opacity: isComplete ? 0 : 1,
+        transform: isComplete ? 'scale(0.8)' : 'none',
+        transition:
+          'opacity 0.25s cubic-bezier(0.4, 0, 1, 1), transform 0.25s cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+    checkmarkProps: {
+      'svg': CHECKMARK_SVG,
+      'width': size * CAR_SIZE_RATIO,
+      'height': size * CAR_SIZE_RATIO,
+      'aria-hidden': true,
+      'style': {
+        position: 'absolute',
+        overflow: 'visible',
+        opacity: isComplete ? 1 : 0,
+        transform: isComplete ? 'scale(1)' : 'scale(0.7)',
+        transition:
+          'opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s',
+      } as CSSProperties,
     },
   };
 }

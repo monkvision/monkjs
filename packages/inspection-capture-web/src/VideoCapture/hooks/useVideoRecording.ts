@@ -102,7 +102,7 @@ export interface VideoRecordingHandle {
   tooltip: VideoRecordingTooltip | null;
 }
 
-const MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE = 75;
+export const MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE = 87;
 
 /**
  * Custom hook used to manage the video recording (AKA : The process of taking screenshots of the video stream at a
@@ -234,7 +234,7 @@ export function useVideoRecording({
 
   useEffect(() => {
     if (isRecording) {
-      if (coveragePercentage > 87) {
+      if (coveragePercentage > MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE) {
         setTooltip(VideoRecordingTooltip.END);
       } else {
         setTooltip(null);

@@ -15,6 +15,14 @@ export interface VideoCaptureRecordingProps {
    */
   isRecordingPaused: boolean;
   /**
+   * Granularity (in degrees) used for dividing the walkaround circle into segments.
+   */
+  degreeGranularity: number;
+  /**
+   * When true, the walkaround indicator shows a green checkmark instead of the car icon.
+   */
+  isComplete?: boolean;
+  /**
    * The total duration (in milliseconds) of the current video recording.
    */
   recordingDurationMs: number;

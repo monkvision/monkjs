@@ -60,4 +60,22 @@ export interface VehicleWalkaroundIndicatorProps {
    * @default false
    */
   isRecording?: boolean;
+  /**
+   * Boolean indicating if video recording is paused.
+   * When true, the POV arrow still moves but covered segments are not updated.
+   *
+   * @default false
+   */
+  isRecordingPaused?: boolean;
+  /**
+   * Granularity (in degrees) used for dividing the 360-degree circle into segments.
+   *
+   * @default 5
+   */
+  degreeGranularity?: number;
+  /**
+   * When true, transitions the car icon to a green checkmark to signal the walkaround is complete.
+   * If not provided, falls back to internal detection (all segments covered).
+   */
+  isComplete?: boolean;
 }

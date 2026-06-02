@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { angleToSegment, normalizeAngle, useObjectMemo } from '@monkvision/common';
-import { DEGREE_GRANULARITY } from '@monkvision/common-ui-web';
 
+const DEGREE_GRANULARITY = 5;
 const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 
 /**
@@ -12,6 +12,10 @@ export interface UseVehicleWalkaroundParams {
    * The alpha value of the device orientation.
    */
   alpha: number;
+  /**
+   * Whether video recording is currently active (not paused).
+   */
+  isRecording: boolean;
 }
 
 /**
@@ -30,6 +34,10 @@ export interface VehicleWalkaroundHandle {
    * Percentage of the walkaround completed.
    */
   coveragePercentage: number;
+  /**
+   * Granularity (in degrees) used for segment tracking.
+   */
+  degreeGranularity: number;
 }
 
 /**
@@ -37,6 +45,7 @@ export interface VehicleWalkaroundHandle {
  */
 export function useVehicleWalkaround({
   alpha,
+  isRecording,
 }: UseVehicleWalkaroundParams): VehicleWalkaroundHandle {
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
@@ -50,13 +59,13 @@ export function useVehicleWalkaround({
   }, [startingAlpha, alpha]);
 
   useEffect(() => {
-    if (startingAlpha !== null) {
+    if (startingAlpha !== null && isRecording) {
       const currentSegment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
       if (!coveredSegments.has(currentSegment)) {
         setCoveredSegments((prev) => new Set(prev).add(currentSegment));
       }
     }
-  }, [walkaroundPosition, startingAlpha]);
+  }, [walkaroundPosition, startingAlpha, isRecording]);
 
   const coveragePercentage = useMemo(() => {
     return (coveredSegments.size / TOTAL_SEGMENTS) * 100;
@@ -67,5 +76,10 @@ export function useVehicleWalkaround({
     setCoveredSegments(new Set([0]));
   }, [alpha]);
 
-  return useObjectMemo({ startWalkaround, walkaroundPosition, coveragePercentage });
+  return useObjectMemo({
+    startWalkaround,
+    walkaroundPosition,
+    coveragePercentage,
+    degreeGranularity: DEGREE_GRANULARITY,
+  });
 }

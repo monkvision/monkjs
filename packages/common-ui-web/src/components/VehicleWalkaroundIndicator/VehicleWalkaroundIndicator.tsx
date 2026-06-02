@@ -16,11 +16,16 @@ export function VehicleWalkaroundIndicator({
   distance = CameraDistance.STANDARD,
   showProgressBar = true,
   isRecording = false,
+  isRecordingPaused = false,
+  degreeGranularity,
+  isComplete,
   ...passThroughProps
 }: VehicleWalkaroundIndicatorProps) {
   const { coveredSegments } = useVehicleWalkaroundIndicatorState({
     walkaroundPosition: alpha,
     isRecording,
+    isRecordingPaused,
+    degreeGranularity,
   });
 
   const style = useVehicleWalkaroundIndicatorStyles({
@@ -30,6 +35,7 @@ export function VehicleWalkaroundIndicator({
     distance,
     showProgressBar,
     coveredSegments,
+    isComplete,
   });
   return (
     <div style={style.containerStyle} {...passThroughProps}>
@@ -41,6 +47,7 @@ export function VehicleWalkaroundIndicator({
           ))}
       </svg>
       <DynamicSVG {...style.carProps} />
+      <DynamicSVG {...style.checkmarkProps} />
       <DynamicSVG {...style.povProps} />
     </div>
   );
