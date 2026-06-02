@@ -1,6 +1,20 @@
 import { CameraDistance } from '@monkvision/types';
 
 /**
+ * Represents a covered segment of the walkaround (in degrees).
+ */
+export interface CoveredSegment {
+  /**
+   * Start angle in degrees (0-360).
+   */
+  start: number;
+  /**
+   * End angle in degrees (0-360).
+   */
+  end: number;
+}
+
+/**
  * Props accepted by the VehicleWalkaroundIndicator component.
  */
 export interface VehicleWalkaroundIndicatorProps {
@@ -38,4 +52,10 @@ export interface VehicleWalkaroundIndicatorProps {
    * Boolean indicating if the progress bar should be visible (Circle and vehicle).
    */
   showProgressBar?: boolean;
+  /**
+   * Array of covered segments to display on the indicator.
+   * If provided, multiple progress bars will be rendered for each segment.
+   * If not provided, falls back to showing a single progress bar from 0 to alpha.
+   */
+  coveredSegments?: CoveredSegment[];
 }

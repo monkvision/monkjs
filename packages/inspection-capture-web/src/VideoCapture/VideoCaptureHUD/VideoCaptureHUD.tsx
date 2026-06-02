@@ -30,7 +30,10 @@ export interface VideoCaptureHUDProps
     Pick<UseVideoRecordingParams, 'minRecordingDuration'>,
     Pick<VideoCaptureAppConfig, 'enforceOrientation' | 'enableHybridVideo'>,
     Pick<DeviceRotation, 'alpha'>,
-    Pick<FastMovementsDetectionHandle, 'fastMovementsWarning' | 'onWarningDismiss'> {
+    Pick<
+      FastMovementsDetectionHandle,
+      'fastMovementsWarning' | 'onWarningDismiss' | 'resetDetection'
+    > {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -107,6 +110,7 @@ export function VideoCaptureHUD({
   alpha,
   fastMovementsWarning,
   onWarningDismiss,
+  resetDetection,
   maxRetryCount,
   minRecordingDuration,
   startTasksLoading,
@@ -116,7 +120,10 @@ export function VideoCaptureHUD({
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
-  const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
+  const { walkaroundPosition, startWalkaround, coveredSegments, coveragePercentage } =
+    useVehicleWalkaround({
+      alpha,
+    });
   const { addImage } = useMonkApi(apiConfig);
 
   const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
@@ -147,7 +154,7 @@ export function VideoCaptureHUD({
     screenshotInterval: SCREENSHOT_INTERVAL_MS,
     minRecordingDuration,
     enforceOrientation,
-    walkaroundPosition,
+    coveragePercentage,
     startWalkaround,
     onCaptureVideoFrame,
     onRecordingComplete: () => {
@@ -157,6 +164,7 @@ export function VideoCaptureHUD({
         setScreen(VideoCaptureHUDScreen.PROCESSING);
       }
     },
+    resetFastMovementDetection: resetDetection,
   });
 
   const handleTakePictureClick = async () => {
@@ -187,6 +195,7 @@ export function VideoCaptureHUD({
         {screen === VideoCaptureHUDScreen.RECORDING && (
           <VideoCaptureRecording
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}
+            coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
             recordingDurationMs={recordingDurationMs}

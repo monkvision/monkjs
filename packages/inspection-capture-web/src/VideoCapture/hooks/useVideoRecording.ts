@@ -23,7 +23,7 @@ export enum VideoRecordingTooltip {
  * Params accepted by the useVideoRecording hook.
  */
 export interface UseVideoRecordingParams
-  extends Pick<VehicleWalkaroundHandle, 'walkaroundPosition' | 'startWalkaround'>,
+  extends Pick<VehicleWalkaroundHandle, 'startWalkaround' | 'coveragePercentage'>,
     Pick<VideoCaptureAppConfig, 'enforceOrientation'> {
   /**
    * Boolean indicating if the video is currently recording or not.
@@ -53,6 +53,10 @@ export interface UseVideoRecordingParams
    * Callback called when the recording is complete.
    */
   onRecordingComplete?: () => void;
+  /**
+   * Callback to reset fast movement detection baseline.
+   */
+  resetFastMovementDetection?: () => void;
 }
 
 /**
@@ -98,7 +102,7 @@ export interface VideoRecordingHandle {
   tooltip: VideoRecordingTooltip | null;
 }
 
-const MINIMUM_VEHICLE_WALKAROUND_POSITION = 270;
+const MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE = 75;
 
 /**
  * Custom hook used to manage the video recording (AKA : The process of taking screenshots of the video stream at a
@@ -110,10 +114,11 @@ export function useVideoRecording({
   screenshotInterval,
   minRecordingDuration,
   enforceOrientation,
-  walkaroundPosition,
+  coveragePercentage,
   startWalkaround,
   onCaptureVideoFrame,
   onRecordingComplete,
+  resetFastMovementDetection,
 }: UseVideoRecordingParams): VideoRecordingHandle {
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const [additionalRecordingDuration, setAdditionalRecordingDuration] = useState(0);
@@ -161,7 +166,7 @@ export function useVideoRecording({
     if (isRecording) {
       if (
         getRecordingDurationMs() < minRecordingDuration ||
-        walkaroundPosition < MINIMUM_VEHICLE_WALKAROUND_POSITION
+        coveragePercentage < MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE
       ) {
         pauseRecording();
         setDiscardDialogDisplayed(true);
@@ -173,6 +178,7 @@ export function useVideoRecording({
       setAdditionalRecordingDuration(0);
       setRecordingStartTimestamp(Date.now());
       setIsRecording(true);
+      resetFastMovementDetection?.();
       startWalkaround();
       setTooltip(null);
     }
@@ -180,11 +186,12 @@ export function useVideoRecording({
     isRecording,
     getRecordingDurationMs,
     minRecordingDuration,
-    walkaroundPosition,
+    coveragePercentage,
     pauseRecording,
     onRecordingComplete,
     setIsRecording,
     startWalkaround,
+    resetFastMovementDetection,
   ]);
 
   const onDiscardDialogKeepRecording = useCallback(() => {
@@ -227,13 +234,13 @@ export function useVideoRecording({
 
   useEffect(() => {
     if (isRecording) {
-      if (walkaroundPosition > 315) {
+      if (coveragePercentage > 87) {
         setTooltip(VideoRecordingTooltip.END);
       } else {
         setTooltip(null);
       }
     }
-  }, [walkaroundPosition, isRecording]);
+  }, [coveragePercentage, isRecording]);
 
   return {
     isRecordingPaused,

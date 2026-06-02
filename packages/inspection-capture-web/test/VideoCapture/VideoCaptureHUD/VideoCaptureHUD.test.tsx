@@ -9,7 +9,12 @@ jest.mock('../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureComplete', () =
 }));
 jest.mock('../../../src/VideoCapture/hooks', () => ({
   ...jest.requireActual('../../../src/VideoCapture/hooks'),
-  useVehicleWalkaround: jest.fn(() => ({ walkaroundPosition: 334, startWalkaround: jest.fn() })),
+  useVehicleWalkaround: jest.fn(() => ({
+    walkaroundPosition: 334,
+    startWalkaround: jest.fn(),
+    coveredSegments: [],
+    coveragePercentage: 85,
+  })),
   useVideoUploadQueue: jest.fn(() => ({
     uploadedFrames: 154,
     totalUploadingFrames: 987,
@@ -77,6 +82,7 @@ function createProps(): VideoCaptureHUDProps {
     minRecordingDuration: 667,
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
+    resetDetection: jest.fn(),
   };
 }
 
@@ -151,7 +157,7 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onCaptureVideoFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
-    const { walkaroundPosition, startWalkaround } = (useVehicleWalkaround as jest.Mock).mock
+    const { startWalkaround, coveragePercentage } = (useVehicleWalkaround as jest.Mock).mock
       .results[0].value;
     expect(useVideoRecording).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -160,10 +166,11 @@ describe('VideoCaptureHUD component', () => {
         screenshotInterval: 200,
         minRecordingDuration: props.minRecordingDuration,
         enforceOrientation: props.enforceOrientation,
-        walkaroundPosition,
+        coveragePercentage,
         startWalkaround,
         onCaptureVideoFrame,
         onRecordingComplete: expect.any(Function),
+        resetFastMovementDetection: expect.any(Function),
       }),
     );
 
