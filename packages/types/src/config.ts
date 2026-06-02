@@ -1,4 +1,4 @@
-import { CameraFocusMode, CameraResolution, CompressionOptions } from './camera';
+import { CameraResolution, CompressionOptions } from './camera';
 import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
@@ -125,21 +125,6 @@ export type CameraConfig = Partial<CompressionOptions> & {
    * @default false
    */
   allowImageUpscaling?: boolean;
-  /**
-   * The focus mode to request from the device camera.
-   * Applied as an `ideal` constraint — unsupported devices (e.g. iOS Safari) silently fall back.
-   *
-   * @default CameraFocusMode.CONTINUOUS
-   */
-  focusMode?: CameraFocusMode;
-  /**
-   * Whether to enable the torch (flash) while the camera is active.
-   * Useful for macro/close-up shots where ambient light may be insufficient.
-   * Applied as an ideal constraint — silently ignored if torch is not available.
-   *
-   * @default false
-   */
-  enableTorch?: boolean;
 };
 
 /**
@@ -243,14 +228,6 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      * @default true
      */
     useAdaptiveImageQuality?: boolean;
-    /**
-     * If `true`, the camera will automatically switch to macro focus mode (and enable the torch) when the user
-     * is on a close-up sight (e.g. penny-test shots). Macro mode greatly reduces blurriness on close-up photos
-     * on Android. On iOS, the constraint is silently ignored — no behaviour change.
-     *
-     * @default true
-     */
-    useMacroFocusForCloseSights?: boolean;
     /**
      * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
      * not compliant.

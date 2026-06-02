@@ -1,11 +1,8 @@
 import {
   CameraConfig,
-  CameraDistance,
-  CameraFocusMode,
   CameraResolution,
   PhotoCaptureAppConfig,
   CompressionFormat,
-  Sight,
 } from '@monkvision/types';
 import { useCallback, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
@@ -16,38 +13,19 @@ const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
   format: CompressionFormat.JPEG,
   resolution: CameraResolution.UHD_4K,
   allowImageUpscaling: false,
-  focusMode: CameraFocusMode.CONTINUOUS,
-  enableTorch: false,
 };
-
-/**
- * Sight IDs that require macro focus (close-up penny-test shots).
- * These sights require the user to get very close to the tyre (~5-15 cm),
- * making standard continuous autofocus unreliable.
- */
-const MACRO_SIGHT_IDS = new Set([
-  'all-8jdq7f5m', // front-left penny-test
-  'all-HpolaMLT', // front-right penny-test
-  'all-9U3Vyzhp', // rear-left penny-test
-  'all-mLhPZl0Y', // rear-right penny-test
-]);
 
 /**
  * Props passed to the useAdaptiveCameraConfig hook.
  */
 export type UseAdaptiveCameraConfigOptions = Pick<
   PhotoCaptureAppConfig,
-  'useAdaptiveImageQuality' | 'useMacroFocusForCloseSights'
+  'useAdaptiveImageQuality'
 > & {
   /**
    * The camera config passed as a prop to the PhotoCapture component.
    */
   initialCameraConfig: CameraConfig;
-  /**
-   * The sight currently selected by the user.
-   * Used to detect close-up sights and switch to macro focus mode.
-   */
-  selectedSight?: Sight;
 };
 
 /**
@@ -80,25 +58,12 @@ function getLowestResolutionBetween(a: CameraResolution, b: CameraResolution): C
 const MAX_UPLOAD_DURATION_MS = 15000;
 
 /**
- * Returns true if the given sight requires macro focus.
- * Primary check: uses the positioning.distance field on the Sight type.
- * Fallback: hard-coded set of known penny-test sight IDs.
- */
-function isCloseSight(sight: Sight | undefined): boolean {
-  if (!sight) return false;
-  if (sight.positioning?.distance === CameraDistance.CLOSE) return true;
-  return MACRO_SIGHT_IDS.has(sight.id);
-}
-
-/**
  * Custom hook used to adapt the camera configuration of the PhotoCapture component based on various things suchs as
  * connection quality etc.
  */
 export function useAdaptiveCameraConfig({
   initialCameraConfig,
   useAdaptiveImageQuality,
-  useMacroFocusForCloseSights = true,
-  selectedSight,
 }: UseAdaptiveCameraConfigOptions): AdaptiveCameraConfigHandle {
   const [maxQuality, setMaxQuality] = useState(1);
   const [maxResolution, setMaxResolution] = useState(CameraResolution.UHD_4K);
@@ -126,22 +91,14 @@ export function useAdaptiveCameraConfig({
       initialCameraConfig.allowImageUpscaling ?? DEFAULT_CAMERA_CONFIG.allowImageUpscaling,
   };
 
-  const macroOverrides: Pick<Required<CameraConfig>, 'focusMode' | 'enableTorch'> = useMemo(() => {
-    if (useMacroFocusForCloseSights && isCloseSight(selectedSight)) {
-      return { focusMode: CameraFocusMode.MACRO, enableTorch: true };
-    }
-    return { focusMode: CameraFocusMode.CONTINUOUS, enableTorch: false };
-  }, [useMacroFocusForCloseSights, selectedSight]);
-
   const adaptiveCameraConfig: Required<CameraConfig> = useMemo(() => {
     const adaptiveConfig = {
       quality: Math.min(maxQuality, config.quality),
       resolution: getLowestResolutionBetween(maxResolution, config.resolution),
       format: initialCameraConfig.format ?? config.format,
       allowImageUpscaling: isImageUpscalingAllowed && config.allowImageUpscaling,
-      ...macroOverrides,
     };
-    return useAdaptiveImageQuality ? adaptiveConfig : { ...config, ...macroOverrides };
+    return useAdaptiveImageQuality ? adaptiveConfig : { ...config };
   }, [
     config.quality,
     config.resolution,
@@ -150,7 +107,6 @@ export function useAdaptiveCameraConfig({
     maxQuality,
     maxResolution,
     isImageUpscalingAllowed,
-    macroOverrides,
   ]);
 
   return useObjectMemo({
