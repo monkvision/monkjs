@@ -9,23 +9,23 @@ import { useVehicleWalkaroundIndicatorState } from './useVehicleWalkaroundIndica
  * VideoCapture process.
  */
 export function VehicleWalkaroundIndicator({
-  walkaroundPosition,
+  alpha,
   size = 70,
   orientationAngle,
   showCircle = true,
   distance = CameraDistance.STANDARD,
   showProgressBar = true,
-  isTracking = false,
+  isRecording = false,
   ...passThroughProps
 }: VehicleWalkaroundIndicatorProps) {
   const { coveredSegments } = useVehicleWalkaroundIndicatorState({
-    walkaroundPosition,
-    isTracking,
+    walkaroundPosition: alpha,
+    isRecording,
   });
 
   const style = useVehicleWalkaroundIndicatorStyles({
     size,
-    walkaroundPosition,
+    walkaroundPosition: alpha,
     orientationAngle,
     distance,
     showProgressBar,

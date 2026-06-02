@@ -87,7 +87,7 @@ export function PhotoCaptureHUDSightTutorial({
           <VehicleWalkaroundIndicator
             size={80}
             orientationAngle={selectedSight.positioning?.orientation}
-            walkaroundPosition={selectedSight.positioning?.position ?? 0}
+            alpha={selectedSight.positioning?.position ?? 0}
             distance={selectedSight.positioning?.distance}
             showProgressBar={false}
           />

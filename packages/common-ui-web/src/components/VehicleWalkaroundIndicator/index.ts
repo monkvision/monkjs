@@ -4,6 +4,7 @@ export {
   type CoveredSegment,
 } from './VehicleWalkaroundIndicator.types';
 export {
+  DEGREE_GRANULARITY,
   useVehicleWalkaroundIndicatorState,
   type UseVehicleWalkaroundIndicatorStateParams,
   type VehicleWalkaroundIndicatorStateHandle,

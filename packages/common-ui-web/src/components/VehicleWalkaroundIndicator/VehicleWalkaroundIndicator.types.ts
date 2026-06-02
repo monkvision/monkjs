@@ -24,7 +24,7 @@ export interface VehicleWalkaroundIndicatorProps {
    * - 0: POV in the front of the car
    * - 180: POV is behind the back of the car
    */
-  walkaroundPosition: number;
+  alpha: number;
   /**
    * The size (width and height, in pixels) of the indicator.
    *
@@ -54,10 +54,10 @@ export interface VehicleWalkaroundIndicatorProps {
    */
   showProgressBar?: boolean;
   /**
-   * Boolean indicating if segment tracking is active.
-   * When true, the component will track and display covered segments.
+   * Boolean indicating if video recording is ongoing (started or resumed).
+   * When true, the component will track and display covered segments of the walkaround.
    *
    * @default false
    */
-  isTracking?: boolean;
+  isRecording?: boolean;
 }
