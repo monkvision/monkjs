@@ -54,7 +54,6 @@ export interface PhotoCaptureProps
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
-      | 'useMacroFocusForCloseSights'
       | 'additionalTasks'
       | 'tasksBySight'
       | 'startTasksOnComplete'
@@ -126,6 +125,14 @@ export interface PhotoCaptureProps
    * Custom label for validate button in gallery view.
    */
   validateButtonLabel?: string;
+  /**
+   * If `true`, the camera will automatically switch to macro focus mode (and enable the torch) when the user
+   * is on a close-up sight (e.g. penny-test shots). Macro mode greatly reduces blurriness on close-up photos
+   * on Android. On iOS, the constraint is silently ignored — no behaviour change.
+   *
+   * @default true
+   */
+  useMacroFocusForCloseSights?: boolean;
 }
 
 enum PhotoCaptureScreen {
