@@ -1,18 +1,4 @@
 /**
- * Represents a covered segment of the walkaround (in degrees).
- */
-export interface CoveredSegment {
-  /**
-   * Start angle in degrees (0-360).
-   */
-  start: number;
-  /**
-   * End angle in degrees (0-360).
-   */
-  end: number;
-}
-
-/**
  * Props accepted by the VideoCaptureRecording component.
  */
 export interface VideoCaptureRecordingProps {
@@ -20,10 +6,6 @@ export interface VideoCaptureRecordingProps {
    * The rotation of the user aroundn the vehicle in deg.
    */
   walkaroundPosition: number;
-  /**
-   * Array of covered segments around the vehicle.
-   */
-  coveredSegments?: CoveredSegment[];
   /**
    * Boolean indicating if the video is currently recording or not.
    */

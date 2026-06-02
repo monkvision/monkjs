@@ -20,10 +20,11 @@ export interface CoveredSegment {
 export interface VehicleWalkaroundIndicatorProps {
   /**
    * The rotation of the user around the vehicle (0-360 degrees).
+   * This is calculated from the device orientation alpha and the starting position.
    * - 0: POV in the front of the car
    * - 180: POV is behind the back of the car
    */
-  alpha: number;
+  walkaroundPosition: number;
   /**
    * The size (width and height, in pixels) of the indicator.
    *
@@ -43,7 +44,7 @@ export interface VehicleWalkaroundIndicatorProps {
    */
   showCircle?: boolean;
   /**
-   * POV/Flashlight distance from the vehicule.
+   * POV/Flashlight distance from the vehicle.
    *
    * @default CameraDistance.STANDARD
    */
@@ -53,9 +54,10 @@ export interface VehicleWalkaroundIndicatorProps {
    */
   showProgressBar?: boolean;
   /**
-   * Array of covered segments to display on the indicator.
-   * If provided, multiple progress bars will be rendered for each segment.
-   * If not provided, falls back to showing a single progress bar from 0 to alpha.
+   * Boolean indicating if segment tracking is active.
+   * When true, the component will track and display covered segments.
+   *
+   * @default false
    */
-  coveredSegments?: CoveredSegment[];
+  isTracking?: boolean;
 }

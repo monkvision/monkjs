@@ -1,8 +1,10 @@
 # @monkvision/common-ui-web
+
 This package exports reusable UI components and hooks for React web application. These components are used throughout
 the different MonkJs SDK and web application.
 
 # Installing
+
 To install the package, you can run the following command :
 
 ```shell
@@ -10,14 +12,18 @@ yarn add @monkvision/common-ui-web
 ```
 
 # Available components
+
 ## AuthGuard
+
 ### Description
+
 This component can be used in your application Routers (react-router-dom v6) to protect a given route and redirect the
 user to another page if they are not authorized to access this resource.
 
 **Note : For this component to work properly, it must be the child of a `MonkApplicationStateProvider` component.**
 
 ### Example
+
 ```tsx
 import { AuthGuard } from '@monkvision/common-ui-web';
 
@@ -43,19 +49,23 @@ export function AppRouter() {
 ```
 
 ### Props
+
 | Prop                | Type                | Description                                                                        | Required | Default Value |
-|---------------------|---------------------|------------------------------------------------------------------------------------|----------|---------------|
+| ------------------- | ------------------- | ---------------------------------------------------------------------------------- | -------- | ------------- |
 | redirectTo          | string              | The URL to redirect the user to if they are not authorized to access the resource. | ✔️       |               |
 | requiredPermissions | MonkApiPermission[] | A list of required permissions to access the resource.                             |          |               |
 
 ---
 
 ## BackdropDialog
+
 ### Description
+
 This component can be used to display a fixed dialog on the screen, with a backdrop behind it. You can either pass a
 custom component for the dialog modal, or use the default one and simply pass the text content of the dialog.
 
 ### Example
+
 ```tsx
 import { BackdropDialog } from '@monkvision/common-ui-web';
 
@@ -81,8 +91,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop            | Type         | Description                                                                                                                                     | Required | Default Value |
-|-----------------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| --------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
 | show            | boolean      | Boolean indicating if the backdrop dialog is displayed on the screen.                                                                           |          | `false`       |
 | backdropOpacity | number       | Number between 0 and 1 indicating the opacity of the backdrop behind the dialog.                                                                |          | `0.7`         |
 | message         | string       | Text content of the dialog.                                                                                                                     |          | `''`          |
@@ -97,12 +108,15 @@ function App() {
 ---
 
 ## Button
+
 ### Description
+
 A simple button component. It accepts every common HTML button props, as well as other custom props described below. It
 processes the custom props and passes the extra props to the underlying HTMLButton element. This component also
 forwards its ref to the button element.
 
 ### Example
+
 ```tsx
 import { Button } from '@monkvision/common-ui-web';
 
@@ -122,8 +136,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop                   | Type                                     | Description                                                                                                                                                                                                       | Required | Default Value                                                            |
-|------------------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------|
+| ---------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ |
 | variant                | ButtonVariant                            | Variant describing the look of the button (outlined, fill...)                                                                                                                                                     |          | `'fill'`                                                                 |
 | size                   | ButtonSize                               | Prop describing the size of the button.                                                                                                                                                                           |          | `'normal'`                                                               |
 | primaryColor           | ColorProp                                | The primary color of the button. For filled buttons, it corresponds to the background color, for other buttons, it corresponds to the text color.                                                                 |          | `'primary-xlight'` for outline buttons and `'primary'` for other buttons |
@@ -135,7 +150,9 @@ function App() {
 ---
 
 ## CaptureSelection
+
 ### Description
+
 A single page component that allows the user to select between "Add Damage" or "Photo Capture" workflow.
 
 ### Example
@@ -157,8 +174,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop        | Type       | Description                                                    | Required | Default Value |
-|-------------|------------|----------------------------------------------------------------|----------|---------------|
+| ----------- | ---------- | -------------------------------------------------------------- | -------- | ------------- |
 | lang        | string     | The language used by the component.                            |          | `'en'`        |
 | onAddDamage | () => void | Callback called when the user clicks on "Add Damage" button.   |          |               |
 | onCapture   | () => void | Callback called when the user clicks on "Take Picture" button. |          |               |
@@ -166,10 +184,13 @@ function App() {
 ---
 
 ## Checkbox
+
 ### Description
+
 Custom component implementing a simple checkbox.
 
 ### Example
+
 ```tsx
 import { useState } from 'react';
 import { Checkbox } from '@monkvision/common-ui-web';
@@ -182,8 +203,9 @@ function MyComponent() {
 ```
 
 ### Props
+
 | Prop           | Type                       | Description                                                               | Required | Default Value        |
-|----------------|----------------------------|---------------------------------------------------------------------------|----------|----------------------|
+| -------------- | -------------------------- | ------------------------------------------------------------------------- | -------- | -------------------- |
 | checked        | boolean                    | Boolean indicating if the checkbox is checked or not.                     |          | `false`              |
 | disabled       | boolean                    | Boolean indicating if the checkbox is disabed or not.                     |          | `false`              |
 | onChange       | (checked: boolean) => void | Callback called when the checkbox "checked" value is changed.             |          |                      |
@@ -196,13 +218,16 @@ function MyComponent() {
 ---
 
 ## CreateInspection
+
 ### Description
+
 This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
 inspection creation.
 
 **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**
 
 ### Example
+
 ```tsx
 import { CreateInspection } from '@monkvision/common-ui-web';
 import { useNavigate } from 'react-router-dom';
@@ -215,19 +240,23 @@ function VehicleTypeSelectionPage() {
 ```
 
 ### Props
-| Prop                   | Type                                     | Description                                           | Required | Default Value |
-|------------------------|------------------------------------------|-------------------------------------------------------|----------|---------------|
-| onInspectionCreated    | () => void                               | Callback called when the inspection has been created. |          |               |
-| lang                   | string                                   | The language used by the component.                   |          | `'en'`        |
+
+| Prop                | Type       | Description                                           | Required | Default Value |
+| ------------------- | ---------- | ----------------------------------------------------- | -------- | ------------- |
+| onInspectionCreated | () => void | Callback called when the inspection has been created. |          |               |
+| lang                | string     | The language used by the component.                   |          | `'en'`        |
 
 ---
 
 ## DynamicSVG
+
 ### Description
+
 A component that lets you display an SVG image based on an XML string, and then apply dynamic style and event handlers
 to the SVG elements inside it.
 
 ### Example
+
 ```tsx
 import React, { useCallback } from 'react';
 import { DynamicSVG } from '@monkvision/common-ui-web';
@@ -252,20 +281,24 @@ function App() {
 ```
 
 ### Props
-| Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
-|---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| svg           | string                                                                                     | The XML string representing the SVG to display                                                                                                                                      | ✔️       |               |
+
+| Prop          | Type                                                                                          | Description                                                                                                                                                                         | Required | Default Value |
+| ------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| svg           | string                                                                                        | The XML string representing the SVG to display                                                                                                                                      | ✔️       |               |
 | getAttributes | <code>(element: Element, groups: SVGGElement[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
-| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string &#124; null</code>                  | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
 
 ---
 
 ## Icon
+
 ### Description
+
 An Icon component that displays an icon based on a given name. The list of icons is available in the official Monk SDK
 documentation.
 
 ### Example
+
 ```tsx
 import { Icon } from '@monkvision/common-ui-web';
 
@@ -275,8 +308,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop         | Type      | Description                                                | Required | Default Value |
-|--------------|-----------|------------------------------------------------------------|----------|---------------|
+| ------------ | --------- | ---------------------------------------------------------- | -------- | ------------- |
 | icon         | number    | The name of the icon to display.                           | ✔️       |               |
 | size         | number    | The size (width and height, in pixels) of the icon.        |          | `50`          |
 | primaryColor | ColorProp | The name or the hexcode of the color to apply to the icon. |          | `black`       |
@@ -284,7 +318,9 @@ function App() {
 ---
 
 ## IconVerticalPosition
+
 ### Description
+
 Component used to display an icon representing a vehicle and a point of view (POV) indicator.
 
 ### Example
@@ -301,18 +337,21 @@ function MyComponent() {
 ```
 
 ### Props
-| Prop                  | Type     | Description                                                                                               | Required | Default Value |
-|-----------------------|----------|-----------------------------------------------------------------------------------------------------------|----------|---------------|
-| size                  | number   | The size (width and height, in pixels) of the icon..                                                      |          | `50`          |
-| positionAroundVehicle | number   | Pov position angle to the north (0: POV in the front of the car / 180: POV is behind the back of the car) |          | `0`           |
-| orientationAngle      | number   | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                               |          |               |
-| showCircle            | boolean  | Boolean indicating if the circle should be visible.                                                       |          | `true`        |
-| isPovClose            | boolean  | Boolean indicating if the POV should be closer to the center.                                             |          | `true`        |
+
+| Prop                  | Type    | Description                                                                                               | Required | Default Value |
+| --------------------- | ------- | --------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| size                  | number  | The size (width and height, in pixels) of the icon..                                                      |          | `50`          |
+| positionAroundVehicle | number  | Pov position angle to the north (0: POV in the front of the car / 180: POV is behind the back of the car) |          | `0`           |
+| orientationAngle      | number  | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                               |          |               |
+| showCircle            | boolean | Boolean indicating if the circle should be visible.                                                       |          | `true`        |
+| isPovClose            | boolean | Boolean indicating if the POV should be closer to the center.                                             |          | `true`        |
 
 ---
 
 ## ImageDetailedView
+
 ### Description
+
 This component is used to display the preview of an inspection image, as well as additional data such as its label etc.
 If this component is used mid-capture, set the `captureMode` prop to `true` so that you'll enable features such as
 compliance errors, retakes etc.
@@ -333,26 +372,30 @@ function ImageViewer({ id }: ImageViewerProps) {
 ```
 
 ### Props
-| Prop                | Type                | Description                                                                                                                         | Required | Default Value |
-|---------------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| image               | Image               | The image to display the details of.                                                                                                | ✔️       |               |
-| captureMode         | boolean             | Boolean indicating if this component is displayed in "capture" mode.                                                                | ✔️       | `false`       |
-| lang                | string              | The language to be used by the component.                                                                                           |          | `en`          |
-| showGalleryButton   | boolean             | Boolean indicating if the gallery button must be displayed or not.                                                                  |          | `true`        |
-| onClose             | () => void          | Callback called when the user presses the close button.                                                                             |          |               |
-| onNavigateToGallery | () => void          | Callback called when the user presses the gallery button if it is displayed.                                                        |          |               |
-| showCaptureButton   | boolean             | Boolean indicating if the capture button must be displayed or not. This prop can only be specified if `captureMode` is set to true. |          | `true`        |
-| onNavigateToCapture | () => void          | Callback called when the user presses the capture button. This prop can only be specified if `captureMode` is set to true.          |          |               |
-| onRetake            | () => void          | Callback called when the user presses the retake button. This prop can only be specified if `captureMode` is set to true.           |          |               |
+
+| Prop                | Type       | Description                                                                                                                         | Required | Default Value |
+| ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| image               | Image      | The image to display the details of.                                                                                                | ✔️       |               |
+| captureMode         | boolean    | Boolean indicating if this component is displayed in "capture" mode.                                                                | ✔️       | `false`       |
+| lang                | string     | The language to be used by the component.                                                                                           |          | `en`          |
+| showGalleryButton   | boolean    | Boolean indicating if the gallery button must be displayed or not.                                                                  |          | `true`        |
+| onClose             | () => void | Callback called when the user presses the close button.                                                                             |          |               |
+| onNavigateToGallery | () => void | Callback called when the user presses the gallery button if it is displayed.                                                        |          |               |
+| showCaptureButton   | boolean    | Boolean indicating if the capture button must be displayed or not. This prop can only be specified if `captureMode` is set to true. |          | `true`        |
+| onNavigateToCapture | () => void | Callback called when the user presses the capture button. This prop can only be specified if `captureMode` is set to true.          |          |               |
+| onRetake            | () => void | Callback called when the user presses the retake button. This prop can only be specified if `captureMode` is set to true.           |          |               |
 
 ---
 
 ## InspectionGallery
+
 ### Description
+
 This component is used to display a gallery of pictures taken during an inspection. If this component is used
 mid-capture, set the `captureMode` prop to `true` so that you'll enable features such as compliance errors, retakes etc.
 
 ### Example
+
 ```tsx
 import { InspectionGallery } from '@monkvision/common-ui-web';
 
@@ -362,8 +405,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop                | Type              | Description                                                                                                                                                                                        | Required                        | Default Value |
-|---------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|---------------|
+| ------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------------- |
 | inspectionId        | string            | The ID of the inspection to display the images of.                                                                                                                                                 | ✔️                              |               |
 | apiConfig           | ApiConfig         | The config used to communicate with the API.                                                                                                                                                       | ✔️                              |               |
 | captureMode         | boolean           | Boolean indicating if this component is displayed in "capture" mode.                                                                                                                               | ✔️                              |               |
@@ -382,7 +426,9 @@ function App() {
 ---
 
 ## LiveConfigAppProvider
+
 ### Description
+
 This component is used in Monk web applications that support Live Configurations. It acts as both an automatic live
 configuration fetcher and a MonkAppStateProvider.
 
@@ -402,13 +448,14 @@ function App() {
 ```
 
 ### Props
+
 This component accepts the same props as the `MonkAppStateProvider` component (except for the `config` prop which is
 replaced by the live config). Please refer to the
 [@monkvision/common package documentation](https://github.com/monkvision/monkjs/blob/main/packages/common/README/APP_UTILS.md)
 for more details.
 
 | Prop        | Type                            | Description                                                           | Required | Default Value |
-|-------------|---------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| ----------- | ------------------------------- | --------------------------------------------------------------------- | -------- | ------------- |
 | id          | string                          | The ID of the application Live Config.                                | ✔️       |               |
 | localConfig | PhotoCaptureAppConfig           | Use this prop to configure a configuration on your local environment. |          |               |
 | lang        | <code>string &#124; null</code> | The language used by this component.                                  |          | `en`          |
@@ -416,7 +463,9 @@ for more details.
 ---
 
 ## LoginPage
+
 ### Description
+
 This component is a ready-to-use CreateInspection page that is used throughout the different Monk webapps to handle
 authentication.
 
@@ -438,8 +487,9 @@ function LoginPage() {
 ```
 
 ### Props
+
 | Prop                | Type                            | Description                                                                                                                                    | Required | Default Value |
-|---------------------|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
+| ------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
 | allowManualLogin    | boolean                         | Boolean indicating if manual login by the user should be allowed. If this prop is set to `false`, we never display a login button to the user. |          | `true`        |
 | onLoginSuccessful   | () => void                      | Callback called when the user successfully logs in.                                                                                            |          |               |
 | lang                | <code>string &#124; null</code> | The language used by this component.                                                                                                           |          | `en`          |
@@ -449,10 +499,13 @@ function LoginPage() {
 ---
 
 ## RecordVideoButton
+
 ### Description
+
 Button used on the VideoCapture component, displayed on top of the camera preview to allow the user to record a video.
 
 ### Example
+
 ```tsx
 import { useState } from 'react';
 import { RecordVideoButton } from '@monkvision/common-ui-web';
@@ -464,8 +517,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop            | Type                                              | Description                                                           | Required | Default Value |
-|-----------------|---------------------------------------------------|-----------------------------------------------------------------------|----------|---------------|
+| --------------- | ------------------------------------------------- | --------------------------------------------------------------------- | -------- | ------------- |
 | size            | number                                            | The size of the button in pixels.                                     |          | `80`          |
 | isRecording     | boolean                                           | Boolean indicating if the user is currently recording a video or not. |          | `false`       |
 | tooltip         | string                                            | Optional tooltip that will be displayed around the button.            |          |               |
@@ -474,11 +528,14 @@ function App() {
 ---
 
 ## SightOverlay
+
 ### Description
+
 A component that displays the SVG overlay of the given sight. The SVG element can be customized the exact same way as
 the `DynamicSVG` component described in the section above.
 
 ### Example
+
 ```tsx
 import React, { useCallback } from 'react';
 import { getSightById } from '@monkvision/sights';
@@ -496,16 +553,19 @@ function App() {
 ```
 
 ### Props
-| Prop          | Type                                                                                       | Description                                                                                                                                                                         | Required | Default Value |
-|---------------|--------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------|
-| sight         | Sight                                                                                      | The sight to display the SVG overlay of.                                                                                                                                            | ✔️       |               |
+
+| Prop          | Type                                                                                          | Description                                                                                                                                                                         | Required | Default Value |
+| ------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| sight         | Sight                                                                                         | The sight to display the SVG overlay of.                                                                                                                                            | ✔️       |               |
 | getAttributes | <code>(element: Element, groups: SVGGElement[]) => SVGProps<SVGSVGElement> &#124; null</code> | A customization function that lets you specify custom HTML attributes to give to the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of. |          |               |
-| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string                  &#124; null</code> | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
+| getInnerText  | <code>(element: Element, groups: SVGGElement[]) => string &#124; null</code>                  | A customization function that lets you specify the innner text of the tags in the SVG file based on the HTML element itself and the IDs of the groups it is part of.                |          |               |
 
 ---
 
 ## Slider
+
 ### Description
+
 Slider component that can be used to select a value within a specified range by dragging along a horizontal track.
 
 ### Examples
@@ -521,9 +581,11 @@ function App() {
   return <Slider value={value} min={0} max={1000} step={20} onChange={handleChange}/>;
 }
 ```
+
 ### Props
+
 | Prop           | Type                      | Description                                                                                                  | Required | Default Value        |
-|----------------|---------------------------|--------------------------------------------------------------------------------------------------------------|----------|----------------------|
+| -------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------ | -------- | -------------------- |
 | min            | number                    | The minimum value of the slider.                                                                             |          | `0`                  |
 | max            | number                    | The maximum value of the slider.                                                                             |          | `100`                |
 | value          | number                    | The current value of the slider.                                                                             |          | `(max - min) / 2`    |
@@ -538,10 +600,13 @@ function App() {
 ---
 
 ## Spinner
+
 ### Description
+
 A simple spinner component that displays a loading spinner.
 
 ### Example
+
 ```tsx
 import { Spinner } from '@monkvision/common-ui-web';
 
@@ -551,18 +616,22 @@ function App() {
 ```
 
 ### Props
+
 | Prop         | Type      | Description                                                                                                 | Required | Default Value  |
-|--------------|-----------|-------------------------------------------------------------------------------------------------------------|----------|----------------|
+| ------------ | --------- | ----------------------------------------------------------------------------------------------------------- | -------- | -------------- |
 | size         | number    | The size of the spinner (width and height, in pixels). The width of the spinner line is scaled accordingly. |          | `50`           |
 | primaryColor | ColorProp | The name or hexcode of the spinner's color.                                                                 |          | `'text-white'` |
 
 ---
 
 ## SwitchButton
+
 ### Description
+
 Switch button component that can be used to turn ON or OFF a feature.
 
 ### Example
+
 ```tsx
 import { SwitchButton } from '@monkvision/common-ui-web';
 
@@ -577,8 +646,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop                    | Type                       | Description                                                                                                                                                                         | Required | Default Value     |
-|-------------------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-------------------|
+| ----------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------- |
 | size                    | `'normal' &#124; 'small'`  | The size of the button. Normal buttons are bigger and have their icon and labels inside the button. Small buttons are smaller, accept no label and have their icon inside the knob. |          | `'normal'`        |
 | checked                 | boolean                    | Boolean used to control the SwitchButton. Set to `true` to make the Button switched on and `false` for off.                                                                         |          | `false`           |
 | onSwitch                | `(value: boolean) => void` | Callback called when the SwitchButton is switched. The value passed as the first parameter is the result `checked` value.                                                           |          |                   |
@@ -593,10 +663,13 @@ function App() {
 ---
 
 ## TakePictureButton
+
 ### Description
+
 A custom button that is used as a take-picture button in camera HUDs throughout the MonkJs SDK.
 
 ### Example
+
 ```tsx
 import { TakePictureButton } from '@monkvision/common-ui-web';
 
@@ -606,14 +679,17 @@ function App() {
 ```
 
 ### Props
+
 | Prop | Type   | Description                       | Required | Default Value |
-|------|--------|-----------------------------------|----------|---------------|
+| ---- | ------ | --------------------------------- | -------- | ------------- |
 | size | number | The size of the button in pixels. |          | `60`          |
 
 ---
 
 ## TextField
+
 ### Description
+
 Custom component implementing a simple one-liner text field.
 
 ### Example
@@ -630,8 +706,9 @@ function App() {
 ```
 
 ### Props
+
 | Prop            | Type                                                              | Description                                                                                           | Required | Default Value        |
-|-----------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|----------|----------------------|
+| --------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------- | -------------------- |
 | type            | <code>'email' &#124; 'password' &#124; 'tel' &#124; 'text'</code> | The type of the underlying HTMLInput element.                                                         |          | `'text'`             |
 | value           | string                                                            | The value of the text field.                                                                          |          | `''`                 |
 | onChange        | (newValue: string) => void                                        | Callback called when the value of the text field changes.                                             |          |                      |
@@ -656,10 +733,13 @@ function App() {
 ---
 
 ## VehicleTypeAsset
+
 ### Description
+
 This component displays an example image for the given vehicle type.
 
 ### Example
+
 ```tsx
 import { VehicleType } from '@monkvision/types';
 import { VehicleTypeAsset } from '@monkvision/common-ui-web';
@@ -670,14 +750,17 @@ function App() {
 ```
 
 ### Props
+
 | Prop        | Type        | Description                               | Required | Default Value |
-|-------------|-------------|-------------------------------------------|----------|---------------|
+| ----------- | ----------- | ----------------------------------------- | -------- | ------------- |
 | vehicleType | VehicleType | The vehicle type to display the image of. | ✔️       |               |
 
 ---
 
 ## VehicleTypeSelection
+
 ### Description
+
 A single page component that allows the user to select a vehicle type.
 
 ### Example
@@ -699,8 +782,9 @@ function VehicleSelectionPage() {
 ```
 
 ### Props
+
 | Prop                  | Type                        | Description                                                                                                              | Required | Default Value                                        |
-|-----------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------|----------|------------------------------------------------------|
+| --------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | ---------------------------------------------------- |
 | selectedVehicleType   | VehicleType                 | The initially selected vehicle type.                                                                                     |          | The center-most vehicle type in the list.            |
 | availableVehicleTypes | VehicleType[]               | A list of available vehicle type to choose from. The order of the list will be modified to always follow the same order. |          | `[SUV, CUV, SEDAN, HATCHBACK, VAN, MINIVAN, PICKUP]` |
 | onSelectVehicleType   | (type: VehicleType) => void | Callback called when the user has selected a vehicle type.                                                               |          | The center-most vehicle type in the list.            |
@@ -712,8 +796,11 @@ function VehicleSelectionPage() {
 ---
 
 ## VehicleDynamicWireframe
+
 For the given Vehicle Model and orientation. It shows the wireframe on the view and we can able to select it.
+
 ### Example
+
 ```tsx
 import { PartSelectionOrientation, VehicleModel, VehiclePart } from '@monkvision/types';
 
@@ -731,27 +818,31 @@ function Component() {
   />
 }
 ```
+
 vehicleModel
 orientation
 onClickPart
 getPartAttributes
 
 ### Props
-| Prop              | Type                            | Description                                                                             | Required| Default Value|
-|-------------------|---------------------------------|-----------------------------------------------------------------------------------------|---------|--------------|
-| vehicleModel      | VehicleModel                    | Initial vehicle model.                                                                  | ✔️       |              |
-| orientation       | PartSelectionOrientation        | Orientation where the vehicle want to face.                                             |         | front-left   |
-| parts             | VehiclePart[]                   | Initial selected parts. Mainly used to persist selected parts state between rerendering.|         | []           |
-| onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                 |         |              |
-| getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                  |         |              |
+
+| Prop              | Type                            | Description                                                                              | Required | Default Value |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------------------------- | -------- | ------------- |
+| vehicleModel      | VehicleModel                    | Initial vehicle model.                                                                   | ✔️       |               |
+| orientation       | PartSelectionOrientation        | Orientation where the vehicle want to face.                                              |          | front-left    |
+| parts             | VehiclePart[]                   | Initial selected parts. Mainly used to persist selected parts state between rerendering. |          | []            |
+| onClickPart       | (part: VehiclePart) => void     | Callback called when a part is clicked.                                                  |          |               |
+| getPartAttributes | (part: VehiclePart) => SVGProps | Custom function for HTML attributes to give to the tags based on part.                   |          |               |
 
 ---
 
 ## VehicleWalkaroundIndicator
+
 Component used to display a position indicator to the user when they are walking around their vehicle in the
 VideoCapture process.
 
 ### Example
+
 ```tsx
 import { useState } from 'react';
 import { useDeviceOrientation } from '@monkvision/common';
@@ -777,12 +868,15 @@ function TestComponent() {
   );
 }
 ```
+
 ### Props
-| Prop               | Type           | Description                                                                                 | Required | Default Value             |
-|--------------------|----------------|---------------------------------------------------------------------------------------------|----------|---------------------------|
-| alpha              | number         | The rotation of the user around the vehicle (0-360 degrees).                                | ✔️       |                           |
-| size               | number         | The size (width and height, in pixels) of the indicator.                                    |          | `70`                      |
-| orientationAngle   | number         | POV orientation angle: (0: POV is facing north / 180: POV is facing south).                |          |                           |
-| showCircle         | boolean        | Boolean indicating if the circle should be visible.                                         |          | `true`                    |
-| distance           | CameraDistance | POV/Flashlight distance from the vehicle.                                                   |          | `CameraDistance.STANDARD` |
-| showProgressBar    | boolean        | Boolean indicating if the progress bar should be visible (circle and vehicle fill).         |          | `true`                    |
+
+| Prop               | Type           | Description                                                                         | Required | Default Value             |
+| ------------------ | -------------- | ----------------------------------------------------------------------------------- | -------- | ------------------------- |
+| walkaroundPosition | number         | The rotation of the user around the vehicle (0-360 degrees).                        | ✔️       |                           |
+| size               | number         | The size (width and height, in pixels) of the indicator.                            |          | `70`                      |
+| orientationAngle   | number         | POV orientation angle: (0: POV is facing north / 180: POV is facing south).         |          |                           |
+| showCircle         | boolean        | Boolean indicating if the circle should be visible.                                 |          | `true`                    |
+| distance           | CameraDistance | POV/Flashlight distance from the vehicle.                                           |          | `CameraDistance.STANDARD` |
+| showProgressBar    | boolean        | Boolean indicating if the progress bar should be visible (circle and vehicle fill). |          | `true`                    |
+| isTracking         | boolean        | Boolean indicating if segment tracking is active.                                   |          | `false`                   |

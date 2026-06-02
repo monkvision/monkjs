@@ -120,10 +120,9 @@ export function VideoCaptureHUD({
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
-  const { walkaroundPosition, startWalkaround, coveredSegments, coveragePercentage } =
-    useVehicleWalkaround({
-      alpha,
-    });
+  const { walkaroundPosition, startWalkaround, coveragePercentage } = useVehicleWalkaround({
+    alpha,
+  });
   const { addImage } = useMonkApi(apiConfig);
 
   const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
@@ -195,7 +194,6 @@ export function VideoCaptureHUD({
         {screen === VideoCaptureHUDScreen.RECORDING && (
           <VideoCaptureRecording
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}
-            coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
             recordingDurationMs={recordingDurationMs}

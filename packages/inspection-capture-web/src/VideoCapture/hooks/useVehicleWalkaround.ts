@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import type { CoveredSegment } from '@monkvision/common-ui-web';
 
 /**
  * Params passed to the useVehicleWalkaround hook.
@@ -25,10 +24,6 @@ export interface VehicleWalkaroundHandle {
    */
   walkaroundPosition: number;
   /**
-   * Array of covered segments around the vehicle.
-   */
-  coveredSegments: CoveredSegment[];
-  /**
    * Percentage of the walkaround completed.
    */
   coveragePercentage: number;
@@ -37,6 +32,8 @@ export interface VehicleWalkaroundHandle {
 const DEGREE_GRANULARITY = 5;
 const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 const SMOOTHING_FACTOR = 0.3;
+const STABILIZATION_THRESHOLD_DEGREES = 30;
+const STABILIZATION_FRAMES = 3;
 
 function normalizeAngle(angle: number): number {
   const normalized = angle % 360;
@@ -57,42 +54,6 @@ function angleToSegment(angle: number): number {
   return Math.floor(normalizeAngle(angle) / DEGREE_GRANULARITY);
 }
 
-function segmentToAngle(segment: number): number {
-  return segment * DEGREE_GRANULARITY;
-}
-
-function segmentsToRanges(coveredSet: Set<number>): CoveredSegment[] {
-  if (coveredSet.size === 0) {
-    return [];
-  }
-
-  const sortedSegments = Array.from(coveredSet).sort((a, b) => a - b);
-  const ranges: CoveredSegment[] = [];
-  let currentStart = sortedSegments[0];
-  let currentEnd = sortedSegments[0];
-
-  for (let i = 1; i < sortedSegments.length; i++) {
-    const segment = sortedSegments[i];
-    if (segment === currentEnd + 1) {
-      currentEnd = segment;
-    } else {
-      ranges.push({
-        start: segmentToAngle(currentStart),
-        end: segmentToAngle(currentEnd) + DEGREE_GRANULARITY,
-      });
-      currentStart = segment;
-      currentEnd = segment;
-    }
-  }
-
-  ranges.push({
-    start: segmentToAngle(currentStart),
-    end: segmentToAngle(currentEnd) + DEGREE_GRANULARITY,
-  });
-
-  return ranges;
-}
-
 /**
  * Custom hook used to manage the vehicle walkaround tracking.
  */
@@ -102,9 +63,28 @@ export function useVehicleWalkaround({
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
   const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
   const smoothedAlphaRef = useRef<number | null>(null);
+  const prevStartingAlphaRef = useRef<number | null>(null);
+  const stableFramesCountRef = useRef(0);
+  const isStabilizedRef = useRef(false);
+
+  if (prevStartingAlphaRef.current !== startingAlpha) {
+    smoothedAlphaRef.current = null;
+    prevStartingAlphaRef.current = startingAlpha;
+    stableFramesCountRef.current = 0;
+    isStabilizedRef.current = false;
+  }
+
+  useEffect(() => {
+    if (prevStartingAlphaRef.current === startingAlpha && startingAlpha !== null) {
+      const newSegments = new Set<number>();
+      newSegments.add(0);
+      setCoveredSegments(newSegments);
+    }
+  }, [startingAlpha]);
 
   const smoothedAlpha = useMemo(() => {
     if (startingAlpha === null) {
+      smoothedAlphaRef.current = null;
       return alpha;
     }
 
@@ -114,6 +94,24 @@ export function useVehicleWalkaround({
     }
 
     const diff = getAngleDifference(alpha, smoothedAlphaRef.current);
+
+    if (!isStabilizedRef.current) {
+      if (Math.abs(diff) < STABILIZATION_THRESHOLD_DEGREES) {
+        stableFramesCountRef.current += 1;
+
+        if (stableFramesCountRef.current >= STABILIZATION_FRAMES) {
+          isStabilizedRef.current = true;
+          smoothedAlphaRef.current = startingAlpha;
+          return startingAlpha;
+        }
+      } else {
+        stableFramesCountRef.current = 0;
+      }
+
+      smoothedAlphaRef.current = normalizeAngle(smoothedAlphaRef.current + diff * 0.1);
+      return smoothedAlphaRef.current;
+    }
+
     smoothedAlphaRef.current = normalizeAngle(smoothedAlphaRef.current + diff * SMOOTHING_FACTOR);
     return smoothedAlphaRef.current;
   }, [alpha, startingAlpha]);
@@ -130,7 +128,7 @@ export function useVehicleWalkaround({
   }, [startingAlpha, smoothedAlpha]);
 
   useEffect(() => {
-    if (startingAlpha !== null) {
+    if (startingAlpha !== null && isStabilizedRef.current) {
       const segment = angleToSegment(walkaroundPosition);
 
       if (!coveredSegments.has(segment)) {
@@ -139,8 +137,6 @@ export function useVehicleWalkaround({
     }
   }, [walkaroundPosition, startingAlpha, coveredSegments]);
 
-  const coveredSegmentRanges = useMemo(() => segmentsToRanges(coveredSegments), [coveredSegments]);
-
   const coveragePercentage = useMemo(
     () => (coveredSegments.size / TOTAL_SEGMENTS) * 100,
     [coveredSegments],
@@ -148,14 +144,11 @@ export function useVehicleWalkaround({
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);
-    smoothedAlphaRef.current = alpha;
-    setCoveredSegments(new Set());
   }, [alpha]);
 
   return useObjectMemo({
     startWalkaround,
     walkaroundPosition,
-    coveredSegments: coveredSegmentRanges,
     coveragePercentage,
   });
 }
