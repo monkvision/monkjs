@@ -200,23 +200,11 @@ export function PhotoCapture({
   });
   useTracking({ inspectionId, authToken: apiConfig.authToken });
   const { setIsInitialInspectionFetched } = useComplianceAnalytics({ inspectionId, sights });
-  const sightState = usePhotoCaptureSightState({
-    inspectionId,
-    captureSights: sights,
-    apiConfig,
-    loading,
-    onLastSightTaken,
-    tasksBySight,
-    complianceOptions,
-    setIsInitialInspectionFetched,
-    toggleSightTutorial,
-  });
   const { adaptiveCameraConfig, uploadEventHandlers: adaptiveUploadEventHandlers } =
     useAdaptiveCameraConfig({
       initialCameraConfig,
       useAdaptiveImageQuality,
       useMacroFocusForCloseSights,
-      selectedSight: sightState.selectedSight,
     });
   const startTasks = useStartTasksOnComplete({
     inspectionId,
@@ -240,6 +228,17 @@ export function PhotoCapture({
     enableSightTutorial,
   });
   const { showSightTutorial, toggleSightTutorial } = usePhotoCaptureSightTutorial();
+  const sightState = usePhotoCaptureSightState({
+    inspectionId,
+    captureSights: sights,
+    apiConfig,
+    loading,
+    onLastSightTaken,
+    tasksBySight,
+    complianceOptions,
+    setIsInitialInspectionFetched,
+    toggleSightTutorial,
+  });
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
     enableSightGuidelines,
   });
