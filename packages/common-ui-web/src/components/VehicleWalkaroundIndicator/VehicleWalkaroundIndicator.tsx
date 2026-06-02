@@ -2,7 +2,6 @@ import { CameraDistance } from '@monkvision/types';
 import { DynamicSVG } from '../DynamicSVG';
 import { VehicleWalkaroundIndicatorProps } from './VehicleWalkaroundIndicator.types';
 import { useVehicleWalkaroundIndicatorStyles } from './VehicleWalkaroundIndicator.styles';
-import { useVehicleWalkaroundIndicatorState } from './useVehicleWalkaroundIndicatorState';
 
 /**
  * Component used to display a position indicator to the user when they are walking around their vehicle in the
@@ -15,19 +14,10 @@ export function VehicleWalkaroundIndicator({
   showCircle = true,
   distance = CameraDistance.STANDARD,
   showProgressBar = true,
-  isRecording = false,
-  isRecordingPaused = false,
-  degreeGranularity,
-  isComplete,
+  coveredSegments,
+  showCompletionIcon,
   ...passThroughProps
 }: VehicleWalkaroundIndicatorProps) {
-  const { coveredSegments } = useVehicleWalkaroundIndicatorState({
-    walkaroundPosition: alpha,
-    isRecording,
-    isRecordingPaused,
-    degreeGranularity,
-  });
-
   const style = useVehicleWalkaroundIndicatorStyles({
     size,
     walkaroundPosition: alpha,
@@ -35,7 +25,7 @@ export function VehicleWalkaroundIndicator({
     distance,
     showProgressBar,
     coveredSegments,
-    isComplete,
+    showCompletionIcon,
   });
   return (
     <div style={style.containerStyle} {...passThroughProps}>

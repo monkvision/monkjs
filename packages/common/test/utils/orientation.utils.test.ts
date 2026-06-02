@@ -1,10 +1,4 @@
-import {
-  angleToSegment,
-  filterAlphaJumps,
-  getAngleDifference,
-  normalizeAngle,
-  segmentToAngle,
-} from '../../src';
+import { filterAlphaJumps, getAngleDifference, normalizeAngle } from '../../src';
 
 describe('normalizeAngle', () => {
   it('should return the same angle if it is already in [0, 360)', () => {
@@ -61,69 +55,6 @@ describe('getAngleDifference', () => {
   it('should return 0 for identical angles', () => {
     expect(getAngleDifference(0, 0)).toBe(0);
     expect(getAngleDifference(180, 180)).toBe(0);
-  });
-});
-
-describe('angleToSegment', () => {
-  const GRANULARITY = 5;
-
-  it('should convert angle to correct segment index', () => {
-    expect(angleToSegment(0, GRANULARITY)).toBe(0);
-    expect(angleToSegment(5, GRANULARITY)).toBe(1);
-    expect(angleToSegment(10, GRANULARITY)).toBe(2);
-    expect(angleToSegment(355, GRANULARITY)).toBe(71);
-  });
-
-  it('should floor partial segments', () => {
-    expect(angleToSegment(4, GRANULARITY)).toBe(0);
-    expect(angleToSegment(7, GRANULARITY)).toBe(1);
-    expect(angleToSegment(359, GRANULARITY)).toBe(71);
-  });
-
-  it('should handle negative angles by normalizing first', () => {
-    expect(angleToSegment(-5, GRANULARITY)).toBe(71);
-    expect(angleToSegment(-10, GRANULARITY)).toBe(70);
-  });
-
-  it('should handle different granularities', () => {
-    expect(angleToSegment(0, 10)).toBe(0);
-    expect(angleToSegment(10, 10)).toBe(1);
-    expect(angleToSegment(350, 10)).toBe(35);
-
-    expect(angleToSegment(0, 1)).toBe(0);
-    expect(angleToSegment(180, 1)).toBe(180);
-    expect(angleToSegment(359, 1)).toBe(359);
-  });
-});
-
-describe('segmentToAngle', () => {
-  const GRANULARITY = 5;
-
-  it('should convert segment index to starting angle', () => {
-    expect(segmentToAngle(0, GRANULARITY)).toBe(0);
-    expect(segmentToAngle(1, GRANULARITY)).toBe(5);
-    expect(segmentToAngle(2, GRANULARITY)).toBe(10);
-    expect(segmentToAngle(71, GRANULARITY)).toBe(355);
-  });
-
-  it('should handle different granularities', () => {
-    expect(segmentToAngle(0, 10)).toBe(0);
-    expect(segmentToAngle(1, 10)).toBe(10);
-    expect(segmentToAngle(36, 10)).toBe(360);
-
-    expect(segmentToAngle(0, 1)).toBe(0);
-    expect(segmentToAngle(180, 1)).toBe(180);
-    expect(segmentToAngle(359, 1)).toBe(359);
-  });
-
-  it('should be inverse of angleToSegment', () => {
-    const angles = [0, 45, 90, 135, 180, 225, 270, 315];
-    angles.forEach((angle) => {
-      const segment = angleToSegment(angle, GRANULARITY);
-      const backToAngle = segmentToAngle(segment, GRANULARITY);
-      expect(backToAngle).toBeLessThanOrEqual(angle);
-      expect(backToAngle).toBeGreaterThanOrEqual(angle - GRANULARITY);
-    });
   });
 });
 

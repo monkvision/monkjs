@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { angleToSegment, normalizeAngle, useObjectMemo } from '@monkvision/common';
+import { normalizeAngle, useObjectMemo } from '@monkvision/common';
+import { CoveredSegment } from '@monkvision/common-ui-web';
 
 const DEGREE_GRANULARITY = 5;
 const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
@@ -35,9 +36,9 @@ export interface VehicleWalkaroundHandle {
    */
   coveragePercentage: number;
   /**
-   * Granularity (in degrees) used for segment tracking.
+   * Covered segments as angle ranges.
    */
-  degreeGranularity: number;
+  coveredSegments: CoveredSegment[];
 }
 
 /**
@@ -60,7 +61,7 @@ export function useVehicleWalkaround({
 
   useEffect(() => {
     if (startingAlpha !== null && isRecording) {
-      const currentSegment = angleToSegment(walkaroundPosition, DEGREE_GRANULARITY);
+      const currentSegment = Math.floor(walkaroundPosition / DEGREE_GRANULARITY) % TOTAL_SEGMENTS;
       if (!coveredSegments.has(currentSegment)) {
         setCoveredSegments((prev) => new Set(prev).add(currentSegment));
       }
@@ -69,6 +70,33 @@ export function useVehicleWalkaround({
 
   const coveragePercentage = useMemo(() => {
     return (coveredSegments.size / TOTAL_SEGMENTS) * 100;
+  }, [coveredSegments]);
+
+  const coveredSegmentRanges = useMemo((): CoveredSegment[] => {
+    if (coveredSegments.size === 0) {
+      return [];
+    }
+    const sorted = Array.from(coveredSegments).sort((a, b) => a - b);
+    const ranges: CoveredSegment[] = [];
+    let rangeStart = sorted[0];
+    let rangeEnd = sorted[0];
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i] === rangeEnd + 1) {
+        rangeEnd = sorted[i];
+      } else {
+        ranges.push({
+          start: rangeStart * DEGREE_GRANULARITY,
+          end: (rangeEnd + 1) * DEGREE_GRANULARITY,
+        });
+        rangeStart = sorted[i];
+        rangeEnd = sorted[i];
+      }
+    }
+    ranges.push({
+      start: rangeStart * DEGREE_GRANULARITY,
+      end: (rangeEnd + 1) * DEGREE_GRANULARITY,
+    });
+    return ranges;
   }, [coveredSegments]);
 
   const startWalkaround = useCallback(() => {
@@ -80,6 +108,6 @@ export function useVehicleWalkaround({
     startWalkaround,
     walkaroundPosition,
     coveragePercentage,
-    degreeGranularity: DEGREE_GRANULARITY,
+    coveredSegments: coveredSegmentRanges,
   });
 }

@@ -23,20 +23,6 @@ export function getAngleDifference(angle1: number, angle2: number): number {
 }
 
 /**
- * Converts an angle to a segment index (0-based) based on a given granularity.
- */
-export function angleToSegment(angle: number, degreeGranularity: number): number {
-  return Math.floor(normalizeAngle(angle) / degreeGranularity);
-}
-
-/**
- * Converts a segment index (0-based) to its starting angle based on a given granularity.
- */
-export function segmentToAngle(segment: number, degreeGranularity: number): number {
-  return segment * degreeGranularity;
-}
-
-/**
  * Filters out anomalous alpha value jumps caused by sensor resets, device recalibration, magnetic interference,
  * or other device compass glitches.
  *

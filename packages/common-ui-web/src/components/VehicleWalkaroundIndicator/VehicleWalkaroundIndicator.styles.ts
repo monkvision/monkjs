@@ -76,7 +76,7 @@ export interface VehicleWalkaroundIndicatorParams {
   orientationAngle?: number;
   showProgressBar?: boolean;
   coveredSegments?: CoveredSegment[];
-  isComplete?: boolean;
+  showCompletionIcon?: boolean;
 }
 
 function getPointOnCircle(angleDegrees: number, radius: number): { x: number; y: number } {
@@ -111,7 +111,7 @@ export function useVehicleWalkaroundIndicatorStyles({
   orientationAngle,
   showProgressBar,
   coveredSegments,
-  isComplete,
+  showCompletionIcon,
 }: VehicleWalkaroundIndicatorParams) {
   const { responsive } = useResponsiveStyle();
   const { CAR_SVG, POV_SVG, CHECKMARK_SVG } = assets;
@@ -214,8 +214,8 @@ export function useVehicleWalkaroundIndicatorStyles({
       getAttributes: getCarAttributes,
       style: {
         ...styles['car'],
-        opacity: isComplete ? 0 : 1,
-        transform: isComplete ? 'scale(0.8)' : 'none',
+        opacity: showCompletionIcon ? 0 : 1,
+        transform: showCompletionIcon ? 'scale(0.8)' : 'none',
         transition:
           'opacity 0.25s cubic-bezier(0.4, 0, 1, 1), transform 0.25s cubic-bezier(0.4, 0, 1, 1)',
       },
@@ -228,8 +228,8 @@ export function useVehicleWalkaroundIndicatorStyles({
       'style': {
         position: 'absolute',
         overflow: 'visible',
-        opacity: isComplete ? 1 : 0,
-        transform: isComplete ? 'scale(1)' : 'scale(0.7)',
+        opacity: showCompletionIcon ? 1 : 0,
+        transform: showCompletionIcon ? 'scale(1)' : 'scale(0.7)',
         transition:
           'opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s',
       } as CSSProperties,

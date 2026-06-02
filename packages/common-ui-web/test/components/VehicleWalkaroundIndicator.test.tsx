@@ -64,9 +64,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('displays the progress bar when showCircle is true', () => {
-    const { unmount } = render(
-      <VehicleWalkaroundIndicator alpha={0} showCircle={true} isRecording={true} />,
-    );
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} showCircle={true} />);
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
 
@@ -74,7 +72,7 @@ describe('VehicleWalkaroundIndicator component', () => {
   });
 
   it('displays the progress bar by default', () => {
-    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} isRecording={true} />);
+    const { unmount } = render(<VehicleWalkaroundIndicator alpha={0} />);
 
     expect(screen.queryByTestId(PROGRESS_BAR_TEST_ID)).not.toBeNull();
 
@@ -221,7 +219,6 @@ describe('VehicleWalkaroundIndicator component', () => {
         showCircle={true}
         distance={CameraDistance.CLOSE}
         showProgressBar={true}
-        isRecording={true}
       />,
     );
 

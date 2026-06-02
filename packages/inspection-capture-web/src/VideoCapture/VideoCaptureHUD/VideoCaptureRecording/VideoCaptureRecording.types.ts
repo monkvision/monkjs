@@ -1,3 +1,5 @@
+import { CoveredSegment } from '@monkvision/common-ui-web';
+
 /**
  * Props accepted by the VideoCaptureRecording component.
  */
@@ -15,11 +17,12 @@ export interface VideoCaptureRecordingProps {
    */
   isRecordingPaused: boolean;
   /**
-   * Granularity (in degrees) used for dividing the walkaround circle into segments.
+   * Pre-computed covered segments to pass directly to the walkaround indicator.
    */
-  degreeGranularity: number;
+  coveredSegments?: CoveredSegment[];
   /**
-   * When true, the walkaround indicator shows a green checkmark instead of the car icon.
+   * Boolean indicating if the walkaround is complete or not.
+   * When true, the walkaround indicator transitions the car icon into a green checkmark.
    */
   isComplete?: boolean;
   /**

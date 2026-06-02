@@ -18,7 +18,7 @@ export function VideoCaptureRecording({
   walkaroundPosition,
   isRecording,
   isRecordingPaused,
-  degreeGranularity,
+  coveredSegments,
   isComplete,
   recordingDurationMs,
   onClickRecordVideo,
@@ -47,10 +47,8 @@ export function VideoCaptureRecording({
         <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
           <VehicleWalkaroundIndicator
             alpha={walkaroundPosition}
-            isRecording={isRecording}
-            isRecordingPaused={isRecordingPaused}
-            degreeGranularity={degreeGranularity}
-            isComplete={isComplete}
+            coveredSegments={coveredSegments}
+            showCompletionIcon={isComplete}
           />
         </div>
         <RecordVideoButton

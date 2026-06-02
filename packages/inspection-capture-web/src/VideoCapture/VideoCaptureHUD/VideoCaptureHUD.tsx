@@ -121,7 +121,7 @@ export function VideoCaptureHUD({
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
-  const { walkaroundPosition, startWalkaround, coveragePercentage, degreeGranularity } =
+  const { walkaroundPosition, startWalkaround, coveragePercentage, coveredSegments } =
     useVehicleWalkaround({
       alpha,
       isRecording,
@@ -199,7 +199,7 @@ export function VideoCaptureHUD({
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
-            degreeGranularity={degreeGranularity}
+            coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
             isComplete={coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE}
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}

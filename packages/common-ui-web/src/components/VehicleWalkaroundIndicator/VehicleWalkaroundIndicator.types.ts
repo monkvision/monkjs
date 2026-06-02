@@ -15,6 +15,18 @@ export interface CoveredSegment {
 }
 
 /**
+ * The current state of coverage tracking in the VehicleWalkaroundIndicator.
+ * - `'off'`: No tracking. Covered segments are cleared.
+ * - `'active'`: Tracking is ongoing. Covered segments are updated as the position changes.
+ * - `'paused'`: Tracking is paused. Covered segments are retained but not updated.
+ */
+export enum WalkaroundTrackingState {
+  Off = 'off',
+  Active = 'active',
+  Paused = 'paused',
+}
+
+/**
  * Props accepted by the VehicleWalkaroundIndicator component.
  */
 export interface VehicleWalkaroundIndicatorProps {
@@ -54,28 +66,15 @@ export interface VehicleWalkaroundIndicatorProps {
    */
   showProgressBar?: boolean;
   /**
-   * Boolean indicating if video recording is ongoing (started or resumed).
-   * When true, the component will track and display covered segments of the walkaround.
+   * Pre-computed covered segments to render as green arcs on the walkaround circle.
+   * Each segment describes a covered arc as a start and end angle in degrees (0-360).
    *
-   * @default false
+   * For self-contained tracking, use the exported `useVehicleWalkaroundIndicatorState` hook
+   * and pass its `coveredSegments` result.
    */
-  isRecording?: boolean;
-  /**
-   * Boolean indicating if video recording is paused.
-   * When true, the POV arrow still moves but covered segments are not updated.
-   *
-   * @default false
-   */
-  isRecordingPaused?: boolean;
-  /**
-   * Granularity (in degrees) used for dividing the 360-degree circle into segments.
-   *
-   * @default 5
-   */
-  degreeGranularity?: number;
+  coveredSegments?: CoveredSegment[];
   /**
    * When true, transitions the car icon to a green checkmark to signal the walkaround is complete.
-   * If not provided, falls back to internal detection (all segments covered).
    */
-  isComplete?: boolean;
+  showCompletionIcon?: boolean;
 }
