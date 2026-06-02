@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import {
   AllOrNone,
   CameraConfig,
-  CameraFocusMode,
   CameraResolution,
   CompressionFormat,
   RequiredKeys,
@@ -15,6 +14,7 @@ import {
   useCameraScreenshot,
   useCompression,
   useTakePicture,
+  useSharpnessDetector,
 } from './hooks';
 import { CameraMonitoringConfig } from './monitoring';
 import { styles } from './Camera.styles';
@@ -58,6 +58,26 @@ export type CameraProps<T extends object> = CameraConfig &
      * Additional monitoring config that can be provided to the Camera component.
      */
     monitoring?: CameraMonitoringConfig;
+    /**
+     * Enable sharpness detection. When true the camera samples the live video every 100ms using a
+     * Laplacian-variance algorithm and sets `handle.isSharp` accordingly.
+     * Intended for close-up sights (e.g. penny-test) where the shutter should be gated until the
+     * frame is sharp enough.
+     *
+     * @default false
+     */
+    enableSharpnessDetection?: boolean;
+    /**
+     * Laplacian variance threshold above which the frame is considered sharp.
+     *
+     * @default 30
+     */
+    sharpnessThreshold?: number;
+    /**
+     * Changing this key resets the sharpness detector (e.g. pass the selected sight ID so the
+     * gate resets whenever the user moves to a new penny-test sight).
+     */
+    sharpnessResetKey?: string | number;
   };
 
 /**
@@ -75,8 +95,9 @@ export function Camera<T extends object>({
   format = CompressionFormat.JPEG,
   quality = 0.6,
   allowImageUpscaling = false,
-  focusMode = CameraFocusMode.CONTINUOUS,
-  enableTorch = false,
+  enableSharpnessDetection = false,
+  sharpnessThreshold,
+  sharpnessResetKey,
   HUDComponent,
   hudProps,
   monitoring,
@@ -98,8 +119,6 @@ export function Camera<T extends object>({
   } = useCameraPreview({
     resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
-    focusMode,
-    enableTorch,
   });
   const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
     resolution,
@@ -119,6 +138,13 @@ export function Camera<T extends object>({
     monitoring,
     availableCameraDevices,
     selectedCameraDeviceId,
+  });
+
+  const { isSharp, timedOut } = useSharpnessDetector({
+    videoRef,
+    enabled: enableSharpnessDetection,
+    threshold: sharpnessThreshold,
+    resetKey: sharpnessResetKey,
   });
 
   const isLoading = isPreviewLoading || isTakePictureLoading;
@@ -154,6 +180,8 @@ export function Camera<T extends object>({
         isLoading,
         dimensions: previewDimensions,
         previewDimensions,
+        isSharp,
+        timedOut,
       }}
       cameraPreview={cameraPreview}
       {...((hudProps ?? {}) as T)}

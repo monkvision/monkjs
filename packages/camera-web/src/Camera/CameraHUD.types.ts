@@ -50,6 +50,16 @@ export interface CameraHandle {
    * The effective pixel dimensions of the video stream on the client screen.
    */
   previewDimensions: PixelDimensions | null;
+  /**
+   * Whether the current video frame is sharp enough to capture.
+   * This is `true` by default and when sharpness detection is disabled.
+   */
+  isSharp: boolean;
+  /**
+   * Whether the sharpness gate was bypassed by the safety timeout (5s).
+   * `true` means the frame may still be blurry but the user is unblocked.
+   */
+  timedOut: boolean;
 }
 
 /**
