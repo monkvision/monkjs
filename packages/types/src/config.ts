@@ -225,6 +225,14 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     useAdaptiveImageQuality?: boolean;
     /**
+     * If `true`, the camera will automatically switch to macro focus mode (and enable the torch) when the user
+     * is on a close-up sight (e.g. penny-test shots). Macro mode greatly reduces blurriness on close-up photos
+     * on Android. On iOS, the constraint is silently ignored — no behaviour change.
+     *
+     * @default true
+     */
+    useMacroFocusForCloseSights?: boolean;
+    /**
      * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
      * not compliant.
      *
