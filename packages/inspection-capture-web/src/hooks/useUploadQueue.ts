@@ -1,4 +1,11 @@
-import { Queue, uniq, useMonkState, useQueue } from '@monkvision/common';
+import {
+  isInternalServerError,
+  isTimeoutError,
+  Queue,
+  uniq,
+  useMonkState,
+  useQueue,
+} from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
   PhotoCaptureAppConfig,
@@ -14,21 +21,20 @@ import { CaptureMode } from '../types';
 const MAX_RETRY_COUNT = 1;
 
 /**
- * Checks if an error is retryable (timeout or 5xx server error).
+ * Retry bookkeeping kept for each upload : the number of times it has already been retried and whether its last failure
+ * was a retryable error.
  */
-export function isRetryableError(err: unknown): boolean {
-  if (err instanceof Error) {
-    if (err.name === 'TimeoutError' || err.message === 'Failed to fetch') {
-      return true;
-    }
-  }
-  if (err && typeof err === 'object' && 'response' in err) {
-    const { response } = err as { response?: { status?: number } };
-    if (response && typeof response.status === 'number' && response.status >= 500) {
-      return true;
-    }
-  }
-  return false;
+interface RetryableRequest {
+  count: number;
+  retryable: boolean;
+}
+
+/**
+ * Defines which upload failures should be retried. This is the upload queue's retry policy: a timeout or a 5xx server
+ * error is considered transient and worth retrying, anything else (e.g. 4xx, validation errors) is not.
+ */
+function isRetryableError(err: unknown): boolean {
+  return isTimeoutError(err) || isInternalServerError(err);
 }
 
 /**
@@ -218,7 +224,7 @@ export function useUploadQueue({
   const siblingIdRef = useRef(0);
   const { addImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
-  const retryMapRef = useRef(new Map<PictureUpload, { count: number; retryable: boolean }>());
+  const retryMapRef = useRef(new Map<PictureUpload, RetryableRequest>());
 
   const wheelAnalysisCloseUp = state.tasks.find(
     (task) => task.name === TaskName.WHEEL_ANALYSIS && task.wheelAnalysisCloseUp,
@@ -260,10 +266,7 @@ export function useUploadQueue({
         retryMapRef.current.set(upload, { ...retryData, retryable });
 
         if (!willRetry) {
-          if (
-            err instanceof Error &&
-            (err.name === 'TimeoutError' || err.message === 'Failed to fetch')
-          ) {
+          if (isTimeoutError(err)) {
             eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
           }
           handleError(err);

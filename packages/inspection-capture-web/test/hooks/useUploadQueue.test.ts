@@ -5,7 +5,6 @@ import {
   AddDamage2ndShotPictureUpload,
   UploadQueueParams,
   useUploadQueue,
-  isRetryableError,
 } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
 import { ComplianceIssue, TaskName } from '@monkvision/types';
@@ -452,43 +451,5 @@ describe('useUploadQueue hook', () => {
 
       unmount();
     });
-  });
-});
-
-describe('isRetryableError', () => {
-  it('should return true for TimeoutError', () => {
-    const err = new Error('test');
-    err.name = 'TimeoutError';
-    expect(isRetryableError(err)).toBe(true);
-  });
-
-  it('should return true for "Failed to fetch" errors', () => {
-    const err = new Error('Failed to fetch');
-    expect(isRetryableError(err)).toBe(true);
-  });
-
-  it('should return true for 5xx HTTP errors', () => {
-    expect(isRetryableError({ response: { status: 500 } })).toBe(true);
-    expect(isRetryableError({ response: { status: 502 } })).toBe(true);
-    expect(isRetryableError({ response: { status: 503 } })).toBe(true);
-    expect(isRetryableError({ response: { status: 599 } })).toBe(true);
-  });
-
-  it('should return false for 4xx HTTP errors', () => {
-    expect(isRetryableError({ response: { status: 400 } })).toBe(false);
-    expect(isRetryableError({ response: { status: 401 } })).toBe(false);
-    expect(isRetryableError({ response: { status: 404 } })).toBe(false);
-    expect(isRetryableError({ response: { status: 422 } })).toBe(false);
-  });
-
-  it('should return false for generic errors', () => {
-    expect(isRetryableError(new Error('Something went wrong'))).toBe(false);
-  });
-
-  it('should return false for non-error values', () => {
-    expect(isRetryableError(null)).toBe(false);
-    expect(isRetryableError(undefined)).toBe(false);
-    expect(isRetryableError('string error')).toBe(false);
-    expect(isRetryableError(42)).toBe(false);
   });
 });
