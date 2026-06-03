@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { RecordVideoButton, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
+import { Button, RecordVideoButton, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
 import {
   VideoCaptureRecording,
   VideoCaptureRecordingProps,
@@ -30,7 +30,9 @@ describe('VideoCaptureRecording component', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureRecording {...props} />);
 
-    expectPropsOnChildMock(VehicleWalkaroundIndicator, { alpha: props.walkaroundPosition });
+    expectPropsOnChildMock(VehicleWalkaroundIndicator, {
+      alpha: props.walkaroundPosition,
+    });
 
     unmount();
   });
@@ -136,6 +138,32 @@ describe('VideoCaptureRecording component', () => {
     );
 
     expect(screen.queryByText('01:15')).toBeNull();
+
+    unmount();
+  });
+
+  it('should display the close video button when showCloseVideoButton is true', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureRecording {...props} showCloseVideoButton={true} />);
+
+    expect(Button).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should call onCloseVideo when the user clicks on the close video button', () => {
+    const onCloseVideo = jest.fn();
+    const props = createProps();
+    const { unmount } = render(
+      <VideoCaptureRecording {...props} showCloseVideoButton={true} onCloseVideo={onCloseVideo} />,
+    );
+
+    expect(onCloseVideo).not.toHaveBeenCalled();
+    const { onClick } = (Button as unknown as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClick();
+    });
+    expect(onCloseVideo).toHaveBeenCalled();
 
     unmount();
   });

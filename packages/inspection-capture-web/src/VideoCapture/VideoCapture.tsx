@@ -50,6 +50,10 @@ export interface BaseVideoCaptureProps {
    * Callback called after a picture is taken. Hybrid mode only.
    */
   onPictureTaken?: PhotoCaptureProps['onPictureTaken'];
+  /**
+   * Callback called when the user clicks on the close video button.
+   */
+  onCloseVideo?: () => void;
 }
 
 /**
@@ -80,12 +84,14 @@ export function VideoCapture(props: VideoCaptureProps) {
     enableBeautyShotExtraction = true,
     onComplete,
     lang,
+    onCloseVideo,
+    showCloseVideoButton,
   } = props;
   useI18nSync(lang);
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
   const { handleError } = useMonitoring();
-  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss } =
+  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss, resetDetection } =
     useFastMovementsDetection({
       isRecording,
       enableFastWalkingWarning,
@@ -143,9 +149,12 @@ export function VideoCapture(props: VideoCaptureProps) {
     alpha,
     fastMovementsWarning,
     onWarningDismiss,
+    resetDetection,
     startTasksLoading,
     enableHybridVideo,
     onComplete: handleVideoCaptureCompleted,
+    onCloseVideo,
+    showCloseVideoButton,
   };
 
   return (

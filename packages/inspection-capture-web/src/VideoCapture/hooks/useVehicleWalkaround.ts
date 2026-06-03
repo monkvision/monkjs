@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
+import {
+  CoveredSegment,
+  normalizeAngle,
+  segmentsToRanges,
+  useObjectMemo,
+} from '@monkvision/common';
+
+const DEGREE_GRANULARITY = 5;
+const TOTAL_SEGMENTS = 360 / DEGREE_GRANULARITY;
 
 /**
  * Params passed to the useVehicleWalkaround hook.
@@ -9,6 +17,10 @@ export interface UseVehicleWalkaroundParams {
    * The alpha value of the device orientation.
    */
   alpha: number;
+  /**
+   * Whether video recording is currently active (not paused).
+   */
+  isRecording: boolean;
 }
 
 /**
@@ -20,9 +32,17 @@ export interface VehicleWalkaroundHandle {
    */
   startWalkaround: () => void;
   /**
-   * The current position of the user around the vehicle (between 0 and 360).
+   * The current angular position of the user relative to start (between 0 and 360).
    */
   walkaroundPosition: number;
+  /**
+   * Percentage of the walkaround completed.
+   */
+  coveragePercentage: number;
+  /**
+   * Covered segments as angle ranges.
+   */
+  coveredSegments: CoveredSegment[];
 }
 
 /**
@@ -30,36 +50,46 @@ export interface VehicleWalkaroundHandle {
  */
 export function useVehicleWalkaround({
   alpha,
+  isRecording,
 }: UseVehicleWalkaroundParams): VehicleWalkaroundHandle {
   const [startingAlpha, setStartingAlpha] = useState<number | null>(null);
-  const [checkpoint, setCheckpoint] = useState(45);
-  const [nextCheckpoint, setNextCheckpoint] = useState(90);
+  const [coveredSegments, setCoveredSegments] = useState<Set<number>>(new Set());
 
   const walkaroundPosition = useMemo(() => {
-    if (!startingAlpha) {
+    if (startingAlpha === null) {
       return 0;
     }
     const diff = startingAlpha - alpha;
-    const position = diff < 0 ? 360 + diff : diff;
-    const newWalkaroundPosition = position <= nextCheckpoint ? position : 0;
-    if (nextCheckpoint === 405 && newWalkaroundPosition < 180) {
-      return 359;
+    return normalizeAngle(diff);
+  }, [startingAlpha, alpha]);
+
+  useEffect(() => {
+    if (startingAlpha !== null && isRecording) {
+      const currentSegment = Math.floor(walkaroundPosition / DEGREE_GRANULARITY) % TOTAL_SEGMENTS;
+      if (!coveredSegments.has(currentSegment)) {
+        setCoveredSegments((prev) => new Set(prev).add(currentSegment));
+      }
     }
-    return newWalkaroundPosition;
-  }, [startingAlpha, alpha, nextCheckpoint]);
+  }, [walkaroundPosition, startingAlpha, isRecording]);
+
+  const coveragePercentage = useMemo(() => {
+    return (coveredSegments.size / TOTAL_SEGMENTS) * 100;
+  }, [coveredSegments]);
+
+  const coveredSegmentRanges = useMemo(
+    () => segmentsToRanges(coveredSegments, DEGREE_GRANULARITY),
+    [coveredSegments],
+  );
 
   const startWalkaround = useCallback(() => {
     setStartingAlpha(alpha);
-    setCheckpoint(45);
-    setNextCheckpoint(90);
+    setCoveredSegments(new Set([0]));
   }, [alpha]);
 
-  useEffect(() => {
-    if (walkaroundPosition >= checkpoint) {
-      setCheckpoint(nextCheckpoint);
-      setNextCheckpoint((value) => value + 45);
-    }
-  }, [walkaroundPosition, checkpoint, nextCheckpoint]);
-
-  return useObjectMemo({ startWalkaround, walkaroundPosition });
+  return useObjectMemo({
+    startWalkaround,
+    walkaroundPosition,
+    coveragePercentage,
+    coveredSegments: coveredSegmentRanges,
+  });
 }

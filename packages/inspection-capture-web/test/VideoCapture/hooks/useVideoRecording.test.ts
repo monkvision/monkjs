@@ -15,12 +15,13 @@ function createProps(): UseVideoRecordingParams {
     setIsRecording: jest.fn((param) => {
       isRecording = typeof param === 'boolean' ? param : param(isRecording);
     }),
-    walkaroundPosition: 300,
+    coveragePercentage: 85,
     startWalkaround: jest.fn(),
     screenshotInterval: 200,
     minRecordingDuration: 5000,
     onCaptureVideoFrame: jest.fn(),
     onRecordingComplete: jest.fn(),
+    resetFastMovementDetection: jest.fn(),
   };
 }
 
@@ -139,7 +140,7 @@ describe('useVideoRecording hook', () => {
 
   it('should display the discard warning and pause the recording when stopping the video too soon based on the walkaround position', () => {
     const initialProps = createProps();
-    initialProps.walkaroundPosition = 269;
+    initialProps.coveragePercentage = 74;
     const { result, rerender, unmount } = renderHook(
       (props: UseVideoRecordingParams) => useVideoRecording(props),
       { initialProps },
@@ -271,7 +272,7 @@ describe('useVideoRecording hook', () => {
     act(() => {
       result.current.onClickRecordVideo();
     });
-    rerender({ ...initialProps, walkaroundPosition: 316 });
+    rerender({ ...initialProps, coveragePercentage: 88 });
     expect(result.current.tooltip).toEqual(VideoRecordingTooltip.END);
 
     unmount();

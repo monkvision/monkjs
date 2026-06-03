@@ -39,6 +39,10 @@ export interface FastMovementsDetectionHandle {
    * Callback called when the user dismisses the currently displayed fast movements warning.
    */
   onWarningDismiss: () => void;
+  /**
+   * Callback to reset the detection baseline.
+   */
+  resetDetection: () => void;
 }
 
 /**
@@ -53,7 +57,7 @@ export function useFastMovementsDetection({
   phoneShakingWarningCooldown,
 }: UseFastMovementsDetectionParams): FastMovementsDetectionHandle {
   const [fastMovementsWarning, setFastMovementsWarning] = useState<FastMovementType | null>(null);
-  const lastRotation = useRef<DeviceRotation>({ alpha: 0, beta: 0, gamma: 0 });
+  const lastRotation = useRef<DeviceRotation | null>(null);
   const warningTimestamps = useRef<Record<FastMovementType, number>>({
     [FastMovementType.WALKING_TOO_FAST]: 0,
     [FastMovementType.PHONE_SHAKING]: 0,
@@ -92,6 +96,12 @@ export function useFastMovementsDetection({
       const alpha = event.alpha ?? 0;
       const beta = event.beta ?? 0;
       const gamma = event.gamma ?? 0;
+
+      if (lastRotation.current === null) {
+        lastRotation.current = { alpha, beta, gamma };
+        return;
+      }
+
       if (isRecording) {
         const now = Date.now();
         const type = detectFastMovements({ alpha, beta, gamma }, lastRotation.current);
@@ -112,9 +122,15 @@ export function useFastMovementsDetection({
 
   const onWarningDismiss = useCallback(() => setFastMovementsWarning(null), []);
 
+  const resetDetection = useCallback(() => {
+    lastRotation.current = null;
+    setFastMovementsWarning(null);
+  }, []);
+
   return useObjectMemo({
     onDeviceOrientationEvent,
     fastMovementsWarning,
     onWarningDismiss,
+    resetDetection,
   });
 }

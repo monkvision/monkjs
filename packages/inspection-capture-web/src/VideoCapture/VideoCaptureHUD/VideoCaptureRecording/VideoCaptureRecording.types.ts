@@ -1,3 +1,5 @@
+import { CoveredSegment } from '@monkvision/common';
+
 /**
  * Props accepted by the VideoCaptureRecording component.
  */
@@ -15,6 +17,15 @@ export interface VideoCaptureRecordingProps {
    */
   isRecordingPaused: boolean;
   /**
+   * Pre-computed covered segments to pass directly to the walkaround indicator.
+   */
+  coveredSegments?: CoveredSegment[];
+  /**
+   * Boolean indicating if the walkaround is complete or not.
+   * When true, the walkaround indicator transitions the car icon into a green checkmark.
+   */
+  isComplete?: boolean;
+  /**
    * The total duration (in milliseconds) of the current video recording.
    */
   recordingDurationMs: number;
@@ -30,6 +41,15 @@ export interface VideoCaptureRecordingProps {
    * Callback called when the user clicks on the take picture button.
    */
   onClickTakePicture?: () => void;
+  /**
+   * Callback called when the user clicks on the close video button.
+   */
+  onCloseVideo?: () => void;
+  /**
+   * Boolean indicating if the close video button should be displayed or not.
+   * When false, the close video button is hidden and the onCloseVideo callback is not used.
+   */
+  showCloseVideoButton?: boolean;
   /**
    * The tooltip to display on top of the recording button.
    */

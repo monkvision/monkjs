@@ -11,6 +11,7 @@ import { VideoCaptureRecording } from './VideoCaptureRecording';
 import {
   FastMovementsDetectionHandle,
   FastMovementType,
+  MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
   useFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
@@ -30,7 +31,10 @@ export interface VideoCaptureHUDProps
     Pick<UseVideoRecordingParams, 'minRecordingDuration'>,
     Pick<VideoCaptureAppConfig, 'enforceOrientation' | 'enableHybridVideo'>,
     Pick<DeviceRotation, 'alpha'>,
-    Pick<FastMovementsDetectionHandle, 'fastMovementsWarning' | 'onWarningDismiss'> {
+    Pick<
+      FastMovementsDetectionHandle,
+      'fastMovementsWarning' | 'onWarningDismiss' | 'resetDetection'
+    > {
   /**
    * The ID of the inspection to add the video frames to.
    */
@@ -60,6 +64,16 @@ export interface VideoCaptureHUDProps
    * Callback called when the inspection capture is complete.
    */
   onComplete?: () => void;
+  /**
+   * Callback called when the user clicks on the close video button.
+   */
+  onCloseVideo?: () => void;
+  /**
+   * Boolean indicating if the close video button should be displayed in the HUD during the video recording.
+   *
+   * @default false
+   */
+  showCloseVideoButton?: boolean;
 }
 
 const SCREENSHOT_INTERVAL_MS = 200;
@@ -107,16 +121,23 @@ export function VideoCaptureHUD({
   alpha,
   fastMovementsWarning,
   onWarningDismiss,
+  resetDetection,
   maxRetryCount,
   minRecordingDuration,
   startTasksLoading,
   enableHybridVideo,
   onComplete,
+  onCloseVideo,
+  showCloseVideoButton,
 }: VideoCaptureHUDProps) {
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
-  const { walkaroundPosition, startWalkaround } = useVehicleWalkaround({ alpha });
+  const { walkaroundPosition, startWalkaround, coveragePercentage, coveredSegments } =
+    useVehicleWalkaround({
+      alpha,
+      isRecording,
+    });
   const { addImage } = useMonkApi(apiConfig);
 
   const { uploadedFrames, totalUploadingFrames, onFrameSelected } = useVideoUploadQueue({
@@ -147,7 +168,7 @@ export function VideoCaptureHUD({
     screenshotInterval: SCREENSHOT_INTERVAL_MS,
     minRecordingDuration,
     enforceOrientation,
-    walkaroundPosition,
+    coveragePercentage,
     startWalkaround,
     onCaptureVideoFrame,
     onRecordingComplete: () => {
@@ -157,6 +178,7 @@ export function VideoCaptureHUD({
         setScreen(VideoCaptureHUDScreen.PROCESSING);
       }
     },
+    resetFastMovementDetection: resetDetection,
   });
 
   const handleTakePictureClick = async () => {
@@ -189,11 +211,15 @@ export function VideoCaptureHUD({
             walkaroundPosition={isRecording || isRecordingPaused ? walkaroundPosition : 0}
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
+            coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
+            isComplete={coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE}
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
             tooltip={tooltip ? t(getTooltipLabel(tooltip)) : undefined}
             recordVideoDisabled={handle.isLoading}
+            onCloseVideo={onCloseVideo}
+            showCloseVideoButton={showCloseVideoButton}
           />
         )}
         {screen === VideoCaptureHUDScreen.PROCESSING && (

@@ -66,6 +66,8 @@ function createProps(): VideoCaptureProps {
     phoneShakingWarningCooldown: 6543,
     onComplete: jest.fn(),
     lang: 'us',
+    onCloseVideo: jest.fn(),
+    showCloseVideoButton: true,
   };
 }
 
@@ -243,6 +245,8 @@ describe('VideoCapture component', () => {
         startTasksLoading: expect.anything(),
         enableHybridVideo: false,
         onComplete: expect.any(Function),
+        onCloseVideo: props.onCloseVideo,
+        showCloseVideoButton: props.showCloseVideoButton,
       }),
     });
 

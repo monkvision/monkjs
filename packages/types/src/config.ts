@@ -374,6 +374,12 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         enableBeautyShotExtraction?: boolean;
         /**
+         * Boolean indicating if the close video button should be displayed in the HUD during the video recording.
+         *
+         * @default false
+         */
+        showCloseVideoButton?: boolean;
+        /**
          * Boolean indicating if the hybrid video capture mode should be enabled or not. When enabled, users will have
          * the option to take pictures of the vehicle during the video capture process, and these pictures will be added
          * to the inspection as normal images.
@@ -447,6 +453,12 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          * @default true
          */
         enableBeautyShotExtraction?: boolean;
+        /**
+         * Boolean indicating if the close video button should be displayed in the HUD during the video recording.
+         *
+         * @default false
+         */
+        showCloseVideoButton?: boolean;
         /**
          * Enforces PhotoCapture's orientation in Hybrid Video mode.
          *

@@ -1,113 +1,117 @@
 import { act, renderHook } from '@testing-library/react';
 import { useVehicleWalkaround } from '../../../src/VideoCapture/hooks';
 
+jest.mock('@monkvision/common-ui-web', () => ({
+  ...jest.requireActual('@monkvision/common-ui-web'),
+}));
+
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
+}));
+
 describe('useVehicleWalkaround hook', () => {
-  it('should return 0 when the walkaround has not been started', () => {
+  it('should return 0 and empty coverage when the walkaround has not been started', () => {
     const { result, rerender, unmount } = renderHook(
-      (props: { alpha: number }) => useVehicleWalkaround(props),
+      (props: { alpha: number; isRecording: boolean }) => useVehicleWalkaround(props),
       {
-        initialProps: { alpha: 35 },
+        initialProps: { alpha: 35, isRecording: false },
       },
     );
 
     expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 30 });
+    expect(result.current.coveragePercentage).toEqual(0);
+    rerender({ alpha: 30, isRecording: false });
     expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 300 });
+    rerender({ alpha: 300, isRecording: false });
     expect(result.current.walkaroundPosition).toEqual(0);
 
     unmount();
   });
 
-  it('should start updating the position with the proper values after the walkaround has started', () => {
+  it('should track position relative to starting point', () => {
     const { result, rerender, unmount } = renderHook(
-      (props: { alpha: number }) => useVehicleWalkaround(props),
+      (props: { alpha: number; isRecording: boolean }) => useVehicleWalkaround(props),
       {
-        initialProps: { alpha: 67 },
+        initialProps: { alpha: 100, isRecording: false },
       },
     );
 
     expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());
+
     expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 64 });
-    expect(result.current.walkaroundPosition).toEqual(3);
-    rerender({ alpha: 40 });
-    expect(result.current.walkaroundPosition).toEqual(27);
-    rerender({ alpha: 14 });
-    expect(result.current.walkaroundPosition).toEqual(53);
-    rerender({ alpha: 334 });
-    expect(result.current.walkaroundPosition).toEqual(93);
-    rerender({ alpha: 294 });
-    expect(result.current.walkaroundPosition).toEqual(133);
-    rerender({ alpha: 259 });
-    expect(result.current.walkaroundPosition).toEqual(168);
-    rerender({ alpha: 227 });
-    expect(result.current.walkaroundPosition).toEqual(200);
-    rerender({ alpha: 197 });
-    expect(result.current.walkaroundPosition).toEqual(230);
-    rerender({ alpha: 167 });
-    expect(result.current.walkaroundPosition).toEqual(260);
-    rerender({ alpha: 137 });
-    expect(result.current.walkaroundPosition).toEqual(290);
-    rerender({ alpha: 107 });
-    expect(result.current.walkaroundPosition).toEqual(320);
-    rerender({ alpha: 77 });
-    expect(result.current.walkaroundPosition).toEqual(350);
-    rerender({ alpha: 68 });
-    expect(result.current.walkaroundPosition).toEqual(359);
-    rerender({ alpha: 30 });
-    expect(result.current.walkaroundPosition).toEqual(359);
+
+    rerender({ alpha: 90, isRecording: false });
+    rerender({ alpha: 85, isRecording: false });
+    rerender({ alpha: 80, isRecording: false });
+    rerender({ alpha: 75, isRecording: false });
+    expect(result.current.walkaroundPosition).toBeGreaterThan(0);
+    expect(result.current.walkaroundPosition).toBeLessThan(30);
+
+    rerender({ alpha: 50, isRecording: false });
+    rerender({ alpha: 45, isRecording: false });
+    expect(result.current.walkaroundPosition).toBeGreaterThan(20);
+    expect(result.current.walkaroundPosition).toBeLessThan(60);
 
     unmount();
   });
 
-  it('should return 0 if the user rotates past the next checkpoint', () => {
+  it('should track coverage in both directions', () => {
     const { result, rerender, unmount } = renderHook(
-      (props: { alpha: number }) => useVehicleWalkaround(props),
+      (props: { alpha: number; isRecording: boolean }) => useVehicleWalkaround(props),
       {
-        initialProps: { alpha: 50 },
+        initialProps: { alpha: 100, isRecording: true },
       },
     );
 
-    expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());
-    expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 30 });
-    expect(result.current.walkaroundPosition).toEqual(20);
-    rerender({ alpha: 310 });
-    expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 60 });
-    expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 45 });
-    expect(result.current.walkaroundPosition).toEqual(5);
-    rerender({ alpha: 51 });
-    expect(result.current.walkaroundPosition).toEqual(0);
+
+    const initialCoverage = result.current.coveragePercentage;
+    expect(initialCoverage).toBeGreaterThan(0);
+
+    rerender({ alpha: 95, isRecording: true });
+    rerender({ alpha: 90, isRecording: true });
+    rerender({ alpha: 85, isRecording: true });
+    rerender({ alpha: 80, isRecording: true });
+    const coverageAfterRight = result.current.coveragePercentage;
+    expect(coverageAfterRight).toBeGreaterThan(initialCoverage);
+
+    rerender({ alpha: 100, isRecording: true });
+    rerender({ alpha: 105, isRecording: true });
+    rerender({ alpha: 110, isRecording: true });
+    rerender({ alpha: 115, isRecording: true });
+    rerender({ alpha: 120, isRecording: true });
+    const coverageAfterBoth = result.current.coveragePercentage;
+
+    expect(coverageAfterBoth).toBeGreaterThan(coverageAfterRight);
 
     unmount();
   });
 
-  it('should reset the position and checkpoints on start', () => {
+  it('should reset coverage and position on start', () => {
     const { result, rerender, unmount } = renderHook(
-      (props: { alpha: number }) => useVehicleWalkaround(props),
+      (props: { alpha: number; isRecording: boolean }) => useVehicleWalkaround(props),
       {
-        initialProps: { alpha: 67 },
+        initialProps: { alpha: 100, isRecording: true },
       },
     );
 
-    expect(result.current.startWalkaround).toBeInstanceOf(Function);
     act(() => result.current.startWalkaround());
-    expect(result.current.walkaroundPosition).toEqual(0);
-    rerender({ alpha: 64 });
-    expect(result.current.walkaroundPosition).toEqual(3);
-    rerender({ alpha: 40 });
-    expect(result.current.walkaroundPosition).toEqual(27);
-    act(() => {
-      result.current.startWalkaround();
-    });
-    rerender({ alpha: 38 });
-    expect(result.current.walkaroundPosition).toEqual(2);
-    rerender({ alpha: 45 });
+    rerender({ alpha: 95, isRecording: true });
+    rerender({ alpha: 90, isRecording: true });
+    rerender({ alpha: 85, isRecording: true });
+    rerender({ alpha: 80, isRecording: true });
+    rerender({ alpha: 75, isRecording: true });
+    rerender({ alpha: 70, isRecording: true });
+
+    const firstCoverage = result.current.coveragePercentage;
+    expect(firstCoverage).toBeGreaterThan(1.388);
+
+    rerender({ alpha: 200, isRecording: true });
+    act(() => result.current.startWalkaround());
+
+    expect(result.current.coveragePercentage).toBeLessThan(firstCoverage);
+    expect(result.current.coveragePercentage).toBeGreaterThan(0);
     expect(result.current.walkaroundPosition).toEqual(0);
 
     unmount();

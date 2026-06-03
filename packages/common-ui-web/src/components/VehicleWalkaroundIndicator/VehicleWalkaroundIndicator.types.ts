@@ -1,4 +1,17 @@
 import { CameraDistance } from '@monkvision/types';
+import type { CoveredSegment } from '@monkvision/common';
+
+/**
+ * The current state of coverage tracking in the VehicleWalkaroundIndicator.
+ * - `'off'`: No tracking. Covered segments are cleared.
+ * - `'active'`: Tracking is ongoing. Covered segments are updated as the position changes.
+ * - `'paused'`: Tracking is paused. Covered segments are retained but not updated.
+ */
+export enum WalkaroundTrackingState {
+  OFF = 'off',
+  ACTIVE = 'active',
+  PAUSED = 'paused',
+}
 
 /**
  * Props accepted by the VehicleWalkaroundIndicator component.
@@ -6,6 +19,7 @@ import { CameraDistance } from '@monkvision/types';
 export interface VehicleWalkaroundIndicatorProps {
   /**
    * The rotation of the user around the vehicle (0-360 degrees).
+   * This is calculated from the device orientation alpha and the starting position.
    * - 0: POV in the front of the car
    * - 180: POV is behind the back of the car
    */
@@ -29,7 +43,7 @@ export interface VehicleWalkaroundIndicatorProps {
    */
   showCircle?: boolean;
   /**
-   * POV/Flashlight distance from the vehicule.
+   * POV/Flashlight distance from the vehicle.
    *
    * @default CameraDistance.STANDARD
    */
@@ -38,4 +52,14 @@ export interface VehicleWalkaroundIndicatorProps {
    * Boolean indicating if the progress bar should be visible (Circle and vehicle).
    */
   showProgressBar?: boolean;
+  /**
+   * Pre-computed covered segments to render as green arcs on the walkaround circle.
+   *
+   * @see `useVehicleWalkaroundIndicatorState` for pre-built logic.
+   */
+  coveredSegments?: CoveredSegment[];
+  /**
+   * When true, transitions the car icon to a green checkmark to signal the walkaround is complete.
+   */
+  showCompletionIcon?: boolean;
 }

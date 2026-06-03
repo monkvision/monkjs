@@ -18,10 +18,14 @@ export function VideoCaptureRecording({
   walkaroundPosition,
   isRecording,
   isRecordingPaused,
+  coveredSegments,
+  isComplete,
   recordingDurationMs,
   onClickRecordVideo,
   tooltip,
   recordVideoDisabled,
+  onCloseVideo,
+  showCloseVideoButton,
 }: VideoCaptureRecordingProps) {
   const {
     container,
@@ -31,7 +35,8 @@ export function VideoCaptureRecording({
     takePictureFlash,
     walkaroundIndicator,
     tooltipPosition,
-  } = useVideoCaptureRecordingStyles({ isRecording });
+    closeButton,
+  } = useVideoCaptureRecordingStyles({ isRecording, showCloseVideoButton });
 
   return (
     <div style={container}>
@@ -42,7 +47,11 @@ export function VideoCaptureRecording({
       </div>
       <div style={controls}>
         <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
-          <VehicleWalkaroundIndicator alpha={walkaroundPosition} />
+          <VehicleWalkaroundIndicator
+            alpha={walkaroundPosition}
+            coveredSegments={coveredSegments}
+            showCompletionIcon={isComplete}
+          />
         </div>
         <RecordVideoButton
           isRecording={isRecording}
@@ -51,7 +60,14 @@ export function VideoCaptureRecording({
           tooltipPosition={tooltipPosition}
           disabled={recordVideoDisabled}
         />
-        <Button icon='close' variant='outline' />
+
+        <Button
+          icon='close'
+          variant='outline'
+          onClick={onCloseVideo}
+          data-testid='close-video-button'
+          style={closeButton}
+        />
       </div>
       <div style={takePictureFlash} />
     </div>

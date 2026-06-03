@@ -30,4 +30,7 @@ export = {
   VehicleTypeSelection: jest.fn(() => <></>),
   VehicleWalkaroundIndicator: jest.fn(() => <></>),
   VideoTutorial: jest.fn(() => <></>),
+  useVehicleWalkaroundIndicatorState: jest.fn(() => ({
+    coveredSegments: [],
+  })),
 };
