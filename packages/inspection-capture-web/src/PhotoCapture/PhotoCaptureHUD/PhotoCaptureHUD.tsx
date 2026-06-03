@@ -6,6 +6,7 @@ import {
   Sight,
   VehiclePart,
   VehicleType,
+  CameraDistance,
 } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -198,6 +199,8 @@ export function PhotoCaptureHUD({
     [images],
   );
 
+  const isCloseSight = selectedSight?.positioning?.distance === CameraDistance.CLOSE;
+
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
     trackEvent('Capture Closed');
@@ -231,6 +234,9 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
+          isSharp={handle.isSharp}
+          timedOut={handle.timedOut}
+          isCloseSight={isCloseSight}
         />
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
@@ -242,7 +248,11 @@ export function PhotoCaptureHUD({
           closeDisabled={!!loading.error || !!handle.error}
           galleryDisabled={!!loading.error || !!handle.error}
           takePictureDisabled={
-            !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+            !!loading.error ||
+            !!handle.error ||
+            handle.isLoading ||
+            loading.isLoading ||
+            (isCloseSight && !handle.isSharp)
           }
           showCloseButton={showCloseButton}
           showGalleryBadge={retakeCount > 0}

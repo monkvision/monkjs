@@ -11,6 +11,7 @@ import { MonkApiConfig } from '@monkvision/network';
 import {
   AddDamage,
   CameraConfig,
+  CameraDistance,
   ComplianceOptions,
   MonkPicture,
   PhotoCaptureAppConfig,
@@ -125,14 +126,6 @@ export interface PhotoCaptureProps
    * Custom label for validate button in gallery view.
    */
   validateButtonLabel?: string;
-  /**
-   * If `true`, the camera will automatically switch to macro focus mode (and enable the torch) when the user
-   * is on a close-up sight (e.g. penny-test shots). Macro mode greatly reduces blurriness on close-up photos
-   * on Android. On iOS, the constraint is silently ignored — no behaviour change.
-   *
-   * @default true
-   */
-  useMacroFocusForCloseSights?: boolean;
 }
 
 enum PhotoCaptureScreen {
@@ -169,7 +162,6 @@ export function PhotoCapture({
   sightTutorial,
   enableSightGuidelines = PhotoCaptureSightGuidelinesOption.EPHEMERAL,
   useAdaptiveImageQuality = true,
-  useMacroFocusForCloseSights = true,
   lang,
   enforceOrientation,
   validateButtonLabel,
@@ -211,7 +203,6 @@ export function PhotoCapture({
     useAdaptiveCameraConfig({
       initialCameraConfig,
       useAdaptiveImageQuality,
-      useMacroFocusForCloseSights,
     });
   const startTasks = useStartTasksOnComplete({
     inspectionId,
@@ -306,6 +297,10 @@ export function PhotoCapture({
     }
     setCurrentScreen(PhotoCaptureScreen.CAMERA);
   };
+
+  const isCloseSight =
+    sightState.selectedSight?.positioning?.distance === CameraDistance.CLOSE;
+
   const hudProps: Omit<PhotoCaptureHUDProps, keyof CameraHUDProps> = {
     sights,
     selectedSight: sightState.selectedSight,
@@ -350,6 +345,9 @@ export function PhotoCapture({
           onPictureTaken={handlePictureTaken}
           hudProps={hudProps}
           {...adaptiveCameraConfig}
+          enableSharpnessDetection={isCloseSight}
+          sharpnessThreshold={30}
+          sharpnessResetKey={sightState.selectedSight?.id}
         />
       )}
       {currentScreen === PhotoCaptureScreen.GALLERY && (
