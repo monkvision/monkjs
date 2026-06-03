@@ -3,7 +3,7 @@ import { useObjectMemo } from '@monkvision/common';
 
 const SAMPLE_SIZE = 200;
 const DEFAULT_SHARPNESS_THRESHOLD = 30;
-const SAMPLE_INTERVAL_MS = 100;
+const SAMPLE_INTERVAL_MS = 200;
 const SAFETY_TIMEOUT_MS = 5000;
 
 export interface UseSharpnessDetectorParams {
