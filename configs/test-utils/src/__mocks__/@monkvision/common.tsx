@@ -42,6 +42,8 @@ const {
   MonkSearchParam,
   viewpointLabels,
   vehiclePartLabels,
+  isTimeoutError,
+  isInternalServerError,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -77,6 +79,8 @@ export = {
   MonkSearchParam,
   viewpointLabels,
   vehiclePartLabels,
+  isTimeoutError,
+  isInternalServerError,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

@@ -262,6 +262,27 @@ This function creates and returns a new Promise that will resolve to void after 
 
 ---
 
+# Request Utils
+### isTimeoutError
+```typescript
+import { isTimeoutError } from '@monkvision/common';
+
+console.log(isTimeoutError(err));
+// Output : true or false
+```
+Checks if an error is a timeout error (request timed out or failed to reach the server).
+
+### isInternalServerError
+```typescript
+import { isInternalServerError } from '@monkvision/common';
+
+console.log(isInternalServerError(err));
+// Output : true or false
+```
+Checks if an error is a server error (HTTP status code 5xx).
+
+---
+
 # State Utils
 ### getInspectionImages
 ```typescript

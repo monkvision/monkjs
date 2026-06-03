@@ -1,4 +1,11 @@
-import { Queue, uniq, useMonkState, useQueue } from '@monkvision/common';
+import {
+  isInternalServerError,
+  isTimeoutError,
+  Queue,
+  uniq,
+  useMonkState,
+  useQueue,
+} from '@monkvision/common';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
   PhotoCaptureAppConfig,
@@ -10,6 +17,25 @@ import {
 import { useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';
+
+const MAX_RETRY_COUNT = 1;
+
+/**
+ * Retry bookkeeping kept for each upload : the number of times it has already been retried and whether its last failure
+ * was a retryable error.
+ */
+interface RetryableRequest {
+  count: number;
+  retryable: boolean;
+}
+
+/**
+ * Defines which upload failures should be retried. This is the upload queue's retry policy: a timeout or a 5xx server
+ * error is considered transient and worth retrying, anything else (e.g. 4xx, validation errors) is not.
+ */
+function isRetryableError(err: unknown): boolean {
+  return isTimeoutError(err) || isInternalServerError(err);
+}
 
 /**
  * Payload for the onUploadSuccess event handler.
@@ -198,46 +224,68 @@ export function useUploadQueue({
   const siblingIdRef = useRef(0);
   const { addImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
+  const retryMapRef = useRef(new Map<PictureUpload, RetryableRequest>());
 
   const wheelAnalysisCloseUp = state.tasks.find(
     (task) => task.name === TaskName.WHEEL_ANALYSIS && task.wheelAnalysisCloseUp,
   )?.wheelAnalysisCloseUp;
 
-  return useQueue<PictureUpload>(async (upload: PictureUpload) => {
-    if (upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT) {
-      siblingIdRef.current += 1;
-    }
-    try {
-      const startTs = Date.now();
-      const result = await addImage(
-        createAddImageOptions(
-          upload,
-          inspectionId,
-          siblingIdRef.current,
-          true,
-          additionalTasks,
-          complianceOptions,
-          wheelAnalysisCloseUp,
-        ),
-      );
-      const uploadDurationMs = Date.now() - startTs;
-      const sightId = upload.mode === CaptureMode.SIGHT ? upload.sightId : undefined;
-      eventHandlers?.forEach((handlers) =>
-        handlers.onUploadSuccess?.({
-          durationMs: uploadDurationMs,
-          sightId,
-          imageId: result?.image?.id,
-        }),
-      );
-    } catch (err) {
-      if (
-        err instanceof Error &&
-        (err.name === 'TimeoutError' || err.message === 'Failed to fetch')
-      ) {
-        eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
+  const queue = useQueue<PictureUpload>(
+    async (upload: PictureUpload) => {
+      if (upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT) {
+        siblingIdRef.current += 1;
       }
-      handleError(err);
-      throw err;
-    }
-  });
+      try {
+        const startTs = Date.now();
+        const result = await addImage(
+          createAddImageOptions(
+            upload,
+            inspectionId,
+            siblingIdRef.current,
+            true,
+            additionalTasks,
+            complianceOptions,
+            wheelAnalysisCloseUp,
+          ),
+        );
+        const uploadDurationMs = Date.now() - startTs;
+        const sightId = upload.mode === CaptureMode.SIGHT ? upload.sightId : undefined;
+        eventHandlers?.forEach((handlers) =>
+          handlers.onUploadSuccess?.({
+            durationMs: uploadDurationMs,
+            sightId,
+            imageId: result?.image?.id,
+          }),
+        );
+        retryMapRef.current.delete(upload);
+      } catch (err) {
+        const retryData = retryMapRef.current.get(upload) ?? { count: 0, retryable: false };
+        const retryable = isRetryableError(err);
+        const willRetry = retryable && retryData.count < MAX_RETRY_COUNT;
+
+        retryMapRef.current.set(upload, { ...retryData, retryable });
+
+        if (!willRetry) {
+          if (isTimeoutError(err)) {
+            eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
+          }
+          handleError(err);
+        }
+        throw err;
+      }
+    },
+    {
+      onItemFail: (upload: PictureUpload) => {
+        const retryData = retryMapRef.current.get(upload);
+        if (retryData?.retryable && retryData.count < MAX_RETRY_COUNT) {
+          retryMapRef.current.set(upload, { count: retryData.count + 1, retryable: false });
+          queue.push(upload);
+        } else {
+          retryMapRef.current.delete(upload);
+        }
+      },
+    },
+  );
+
+  return queue;
 }
