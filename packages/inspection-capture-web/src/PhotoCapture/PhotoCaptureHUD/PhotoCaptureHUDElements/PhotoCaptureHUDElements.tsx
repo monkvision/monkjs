@@ -92,6 +92,18 @@ export interface PhotoCaptureHUDElementsProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial?: () => void;
+  /**
+   * Whether the current video frame is sharp enough to capture.
+   */
+  isSharp?: boolean;
+  /**
+   * Whether the sharpness gate was bypassed by the safety timeout.
+   */
+  timedOut?: boolean;
+  /**
+   * Whether the selected sight is a close-up (penny-test) sight.
+   */
+  isCloseSight?: boolean;
 }
 
 /**
@@ -119,6 +131,9 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onDisableSightGuidelines={params.onDisableSightGuidelines}
         enableSightTutorial={params.enableSightTutorial}
         toggleSightTutorial={params.toggleSightTutorial}
+        isSharp={params.isSharp}
+        timedOut={params.timedOut}
+        isCloseSight={params.isCloseSight}
       />
     );
   }

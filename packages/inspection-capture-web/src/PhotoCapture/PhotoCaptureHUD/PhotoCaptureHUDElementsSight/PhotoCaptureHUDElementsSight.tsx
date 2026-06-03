@@ -8,6 +8,7 @@ import { TutorialSteps } from '../../hooks';
 import { SightGuideline } from './SightGuideline';
 import { Counter, SightTutorialButton } from '../../../components';
 import { CaptureMode } from '../../../types';
+import { SharpnessIndicator } from './SharpnessIndicator';
 
 /**
  * Component implementing an HUD displayed on top of the Camera preview during the PhotoCapture process when the current
@@ -29,6 +30,9 @@ export function PhotoCaptureHUDElementsSight({
   tutorialStep,
   enableSightTutorial,
   toggleSightTutorial,
+  isSharp = true,
+  timedOut = false,
+  isCloseSight = false,
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
@@ -72,6 +76,7 @@ export function PhotoCaptureHUDElementsSight({
           </div>
         </div>
       )}
+      {isCloseSight && <SharpnessIndicator isSharp={isSharp} timedOut={timedOut} />}
     </div>
   );
 }

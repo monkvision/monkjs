@@ -57,6 +57,18 @@ export interface PhotoCaptureHUDElementsSightProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial?: () => void;
+  /**
+   * Whether the current video frame is sharp enough to capture. @default true
+   */
+  isSharp?: boolean;
+  /**
+   * Whether the sharpness gate was bypassed by the safety timeout. @default false
+   */
+  timedOut?: boolean;
+  /**
+   * Whether the selected sight is a close-up (penny-test) sight. @default false
+   */
+  isCloseSight?: boolean;
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
