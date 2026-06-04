@@ -36,7 +36,7 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "lerna": "^7.1.4",
+    "lerna": "^9.0.7",
     "rimraf": "^3.0.2"
   },
   "repository": {
