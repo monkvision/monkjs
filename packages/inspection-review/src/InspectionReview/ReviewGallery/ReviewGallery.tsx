@@ -18,17 +18,28 @@ export function ReviewGallery() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 6, gap: 8 }}>
       {currentGalleryItems.map((item) => (
-        <img
-          key={item.image.id}
-          src={item.image.path}
-          onClick={() => onSelectItem(item.image.id)}
-          style={{
-            height: 152,
-            width: 140,
-            backgroundColor: 'gray',
-            textAlign: 'center',
-          }}
-        />
+        <div key={item.image.id} style={{ position: 'relative' }}>
+          <img
+            src={item.image.path}
+            onClick={() => onSelectItem(item.image.id)}
+            style={{
+              height: 152,
+              width: 140,
+              backgroundColor: 'gray',
+              textAlign: 'center',
+            }}
+          />
+          <div
+            style={{
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            <p>{item.sight.label}</p>
+          </div>
+        </div>
       ))}
     </div>
   );
