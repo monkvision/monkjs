@@ -8,6 +8,7 @@ import { DownloadImagesButton } from './DownloadImagesButton';
 import { ActiveTab } from './ActiveTab';
 import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
+import { Image } from '@monkvision/types';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -46,9 +47,15 @@ export type InspectionReviewProps = {
    */
   isPDFGeneratorEnabled?: boolean;
   /**
-   * TODO.
+   * Custom tabs to be displayed along with default ones.
+   *
+   * @default exterior, interior/tire
    */
-  tabs?: string[];
+  customTabs?: Record<string, React.ReactNode>;
+  /**
+   * Callback to handle updates to the gallery items. Useful when changing between custom tabs.
+   */
+  handleGalleryUpdate?: (items: Image[]) => void;
   /**
    * Currency to be used for cost estimates.
    *
@@ -62,7 +69,7 @@ export type InspectionReviewProps = {
  */
 export function InspectionReview(props: InspectionReviewProps) {
   const { galleryItems } = useInspectionReviewState({ inspectionId: props.inspectionId });
-  const { activeTab, handleTabChange } = useTabsState();
+  const { allTabs, activeTab, handleTabChange } = useTabsState({ customTabs: props.customTabs });
 
   return (
     <div style={styles['container']}>
@@ -73,7 +80,11 @@ export function InspectionReview(props: InspectionReviewProps) {
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <div style={{ flex: 6 }}>
-          <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
+          <Tabs
+            allTabs={Object.keys(allTabs)}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+          />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <DownloadImagesButton />

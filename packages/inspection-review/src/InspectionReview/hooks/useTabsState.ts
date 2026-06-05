@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { ActiveTab } from '../ActiveTab';
 
 /**
  * Enumeration of the default tab keys available in the inspection review.
@@ -12,11 +13,13 @@ export interface TabsStateParams {
   /**
    * The initial tab to be selected when the hook is used.
    */
-  initialTab?: TabKeys;
+  initialTab?: string;
   /**
-   * Up to 2 custom tab keys to be added alongside the default tabs.
+   * Custom tabs to be displayed along with default ones.
+   *
+   * @default exterior, interior/tire
    */
-  additionalTabs?: [string?, string?];
+  customTabs?: Record<string, React.ReactNode>;
 }
 
 /**
@@ -26,26 +29,40 @@ export interface HandleTabState {
   /**
    * The currently active tab key.
    */
-  activeTab: TabKeys;
+  activeTab: string;
   /**
    * Function to change the active tab.
    */
-  handleTabChange: (tab: TabKeys) => void;
+  handleTabChange: (tab: string) => void;
+  /**
+   * All tabs including default and custom ones.
+   */
+  allTabs: Record<string, React.ReactNode>;
 }
 
 /**
  * Custom hook to manage the state of tabs in the inspection review, allowing for default and custom tab keys.
  */
 export function useTabsState(params?: TabsStateParams): HandleTabState {
-  const [activeTab, setActiveTab] = useState<TabKeys>(params?.initialTab ?? TabKeys.Exterior);
+  const allTabs: Record<string, React.ReactNode> = useMemo(
+    () => ({
+      [TabKeys.Exterior]: ActiveTab,
+      [TabKeys.Interior]: ActiveTab,
+      ...params?.customTabs,
+    }),
+    [params?.customTabs],
+  );
 
-  const handleTabChange = (tab: TabKeys) => {
-    if (Object.values(TabKeys).includes(tab)) {
+  const [activeTab, setActiveTab] = useState<string>(params?.initialTab ?? TabKeys.Exterior);
+
+  const handleTabChange = (tab: string) => {
+    if (Object.keys(allTabs).includes(tab)) {
       setActiveTab(tab);
     }
   };
 
   return {
+    allTabs,
     activeTab,
     handleTabChange,
   };
