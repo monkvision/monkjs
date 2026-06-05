@@ -1,11 +1,12 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import {
-  LoadingState,
   MonkActionType,
   MonkUpdatedOneInspectionAdditionalDataAction,
   MonkUpdatedOnePricingAction,
+  useLoadingState,
   useMonkState,
 } from '@monkvision/common';
+import { Spinner } from '@monkvision/common-ui-web';
 import {
   AdditionalData,
   DamageType,
@@ -29,7 +30,7 @@ import {
 /**
  * State provided by the InspectionReviewProvider.
  */
-export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes' | 'currency'> & {
+export type InspectionReviewProvider = Pick<InspectionReviewProps, 'vehicleTypes' | 'currency'> & {
   /**
    * The current inspection data.
    */
@@ -70,24 +71,15 @@ export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes' |
   handleConfirmExteriorDamages: (damagedPart: DamagedPartDetails) => void;
 };
 
-/**
- * Props accepted by the InspectionReviewProvider.
- */
-export interface InspectionReviewProviderProps extends InspectionReviewProps {
-  /**
-   * The loading state to manage loading status.
-   */
-  loading: LoadingState;
-}
-
-const InspectionReviewStateContext = createContext<InspectionReviewState | null>(null);
+const InspectionReviewStateContext = createContext<InspectionReviewProvider | null>(null);
 
 /**
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
-export function InspectionReviewState(props: PropsWithChildren<InspectionReviewProviderProps>) {
-  const { inspectionId, loading, apiConfig, vehicleTypes, currency } = props;
+export function InspectionReviewProvider(props: PropsWithChildren<InspectionReviewProps>) {
+  const { inspectionId, apiConfig, vehicleTypes, currency } = props;
 
+  const loading = useLoadingState(true);
   const { t } = useTranslation();
   const { state, dispatch } = useMonkState();
   const { handleError } = useMonitoring();
@@ -333,12 +325,12 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         handleConfirmExteriorDamages,
       }}
     >
-      {props.children}
+      {loading.isLoading ? <Spinner /> : props.children}
     </InspectionReviewStateContext.Provider>
   );
 }
 
-export function useInspectionReviewState(): InspectionReviewState {
+export function useInspectionReviewState(): InspectionReviewProvider {
   const ctx = useContext(InspectionReviewStateContext);
   if (!ctx) {
     throw new Error('useInspectionReviewState must be used inside InspectionReviewStateProvider');
