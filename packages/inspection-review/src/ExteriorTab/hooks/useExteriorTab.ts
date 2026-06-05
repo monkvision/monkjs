@@ -123,8 +123,8 @@ export function useExteriorTab() {
       Object.values(availablePricings).forEach((pricingValue) => {
         if (
           detailedPart.pricing !== undefined &&
-          detailedPart.pricing > pricingValue.min &&
-          detailedPart.pricing <= pricingValue.max
+          detailedPart.pricing >= pricingValue.min &&
+          detailedPart.pricing < pricingValue.max
         ) {
           fillColor = pricingValue.color;
         }

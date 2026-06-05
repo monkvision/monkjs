@@ -28,7 +28,11 @@ export type InspectionReviewProps = {
   /**
    * Mapping of sight images available in the Gallery for each Tab when selected.
    */
-  sightsPerTab: Record<TabKeys | string, string[]>;
+  sightsPerTab: {
+    [key in TabKeys]: string[];
+  } & {
+    [key: string]: string[];
+  };
   /**
    * This prop can be used to specify the language to be used by the InspectionReview component.
    *
@@ -68,7 +72,9 @@ export type InspectionReviewProps = {
   /**
    * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */
-  pricings?: Record<PricingLevels | string, PricingData>;
+  pricings?: Partial<Record<PricingLevels, PricingData>> & {
+    [key: string]: PricingData;
+  };
   /**
    * Callback function triggered when the PDF generation is requested.
    */
