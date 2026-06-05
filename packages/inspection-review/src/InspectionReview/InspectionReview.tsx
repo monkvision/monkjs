@@ -42,15 +42,7 @@ export function InspectionReview(props: InspectionReviewProps) {
           </div>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            gap: 16,
-          }}
-        >
+        <div style={styles['contentRow']}>
           <div style={{ flex: 6 }}>{ActiveTabComponent}</div>
           <ReviewGallery />
         </div>
