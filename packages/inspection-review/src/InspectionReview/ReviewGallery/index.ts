@@ -1,0 +1,1 @@
+export { ReviewGallery } from './ReviewGallery';
