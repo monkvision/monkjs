@@ -21,17 +21,13 @@ export type InspectionReviewProps = {
    */
   steeringWheelPosition: SteeringWheelPosition;
   /**
-   * The types of vehicles involved in the inspection.
+   * The type of vehicle involved in the inspection.
    */
-  vehicleTypes: VehicleType[];
+  vehicleType: VehicleType;
   /**
-   * A mapping of vehicle types to their corresponding sight IDs.
+   * Mapping of sight images available in the Gallery for each Tab when selected.
    */
-  sights: Partial<Record<VehicleType, string[]>>;
-  /**
-   * The tab key to be used for where the unmatched sights should be displayed.
-   */
-  unmatchedSightsTab: TabKeys | string;
+  sightsPerTab: Record<TabKeys | string, string[]>;
   /**
    * This prop can be used to specify the language to be used by the InspectionReview component.
    *
@@ -65,7 +61,7 @@ export type InspectionReviewProps = {
   /**
    * Currency to be used for cost estimates.
    *
-   * @default USD
+   * @default '$'
    */
   currency?: string;
   /**

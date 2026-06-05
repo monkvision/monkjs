@@ -34,15 +34,16 @@ import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
  *   );
  * }
  */
-export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC(
-  props: InspectionReviewProps,
-) {
+export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC({
+  currency = '$',
+  ...props
+}: InspectionReviewProps) {
   useI18nSync(props.lang);
 
   return (
     <MonkProvider>
-      <InspectionReviewProvider {...props}>
-        <InspectionReview {...props} />
+      <InspectionReviewProvider currency={currency} {...props}>
+        <InspectionReview currency={currency} {...props} />
       </InspectionReviewProvider>
     </MonkProvider>
   );

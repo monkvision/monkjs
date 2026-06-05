@@ -1,6 +1,14 @@
 import { GalleryItem } from './gallery.types';
 
 /**
+ * Enumeration of the default tab keys available in the inspection review.
+ */
+export enum TabKeys {
+  Exterior = 'Exterior',
+  Interior = 'Interior/Tire',
+}
+
+/**
  * API provided to tabs upon activation.
  */
 export type TabActivationAPI = {
@@ -12,6 +20,10 @@ export type TabActivationAPI = {
    * All gallery items available in the inspection review.
    */
   allGalleryItems: GalleryItem[];
+  /**
+   *
+   */
+  sights: Record<TabKeys | string, string[]>;
   /**
    * Function to update the current gallery items when the tab is activated.
    */
@@ -40,14 +52,6 @@ export type TabObject = {
  * Type representing the content of a tab, defined as a React functional component.
  */
 export type TabContent = React.FC | React.ReactElement | TabObject;
-
-/**
- * Enumeration of the default tab keys available in the inspection review.
- */
-export enum TabKeys {
-  Exterior = 'Exterior',
-  Interior = 'Interior/Tire',
-}
 
 /**
  * Enumeration of the different views available in the Interior tab.
