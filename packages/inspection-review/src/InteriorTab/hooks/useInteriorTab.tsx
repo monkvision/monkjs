@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useMonkState, useObjectMemo } from '@monkvision/common';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
 import { InteriorDamage, InteriorViews, SelectedInteriorDamageData } from '../../types';
 
@@ -47,7 +47,7 @@ export interface InteriorTabState {
 export function useInteriorTab(): InteriorTabState {
   const { state } = useMonkState();
   const { inspection, handleAddInteriorDamage, handleDeleteInteriorDamage } =
-    useInspectionReviewState();
+    useInspectionReviewProvider();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(InteriorViews) });
   const [selectedDamage, setSelectedDamage] = useState<SelectedInteriorDamageData | null>(null);
 

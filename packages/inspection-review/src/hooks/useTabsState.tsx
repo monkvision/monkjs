@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 
-import { useInspectionReviewState } from './InspectionReviewProvider';
+import { useInspectionReviewProvider } from './InspectionReviewProvider';
 import { TabContent, TabKeys, TabObject } from '../types';
 import { defaultTabs } from '../utils/tabs.utils';
 
@@ -47,10 +47,10 @@ export interface HandleTabState {
  * Custom hook to manage the state of tabs in the inspection review, allowing for default and custom tab keys.
  */
 export function useTabsState(params?: TabsStateParams): HandleTabState {
-  const { allGalleryItems, currentGalleryItems, sightsPerTab, setCurrentGalleryItems } =
-    useInspectionReviewState();
+  const { allGalleryItems, currentGalleryItems, sightsPerTab, setCurrentGalleryItems, inspection } =
+    useInspectionReviewProvider();
 
-  const [hasInitiated, setHasInitiated] = useState<boolean>(false);
+  const [isTabsStateLoaded, setIsTabsStateInitiated] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>(params?.initialTab ?? TabKeys.Exterior);
   const allTabs: Record<string, TabContent> = {
     ...defaultTabs,
@@ -101,12 +101,13 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
     [allTabs, activeTab, allGalleryItems],
   );
 
+  // Initialize the first tab on inspection load
   useEffect(() => {
-    if (currentGalleryItems.length === 0 && !hasInitiated) {
+    if (inspection && !isTabsStateLoaded) {
       handleTabChange(activeTab);
-      setHasInitiated(true);
+      setIsTabsStateInitiated(true);
     }
-  }, [allGalleryItems, currentGalleryItems]);
+  }, [inspection]);
 
   return useObjectMemo({
     allTabs,

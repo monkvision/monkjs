@@ -55,6 +55,18 @@ export type InspectionReviewProvider = Pick<
    */
   damagedPartsDetails: DamagedPartDetails[];
   /**
+   * The currency symbol position indicator autocalculated based on the currency property.
+   * If currency is $, this will be true.
+   *
+   * @example
+   * // For USD
+   * isLeftSideCurrency = true; // $100
+   *
+   * // For EUR
+   * isLeftSideCurrency = false; // 100€
+   */
+  isLeftSideCurrency: boolean;
+  /**
    * Function to update the currently displayed gallery items.
    */
   setCurrentGalleryItems: (items: GalleryItem[]) => void;
@@ -98,6 +110,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
+  const isLeftSideCurrency = useMemo(() => currency === '$', [currency]);
 
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
@@ -126,6 +139,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         };
       }
 
+      // TODO: implement a optimistic update for this, prompt the user with a toast like message if it fails
       const updatedDamages = [...currentDamages, damage];
       return {
         ...additionalData,
@@ -346,6 +360,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         handleDeleteInteriorDamage,
         handleConfirmExteriorDamages,
         sightsPerTab,
+        isLeftSideCurrency,
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}
@@ -355,10 +370,12 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   );
 }
 
-export function useInspectionReviewState(): InspectionReviewProvider {
+export function useInspectionReviewProvider(): InspectionReviewProvider {
   const ctx = useContext(InspectionReviewStateContext);
   if (!ctx) {
-    throw new Error('useInspectionReviewState must be used inside InspectionReviewStateProvider');
+    throw new Error(
+      'useInspectionReviewProvider must be used inside InspectionReviewStateProvider',
+    );
   }
   return ctx;
 }

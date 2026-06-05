@@ -1,6 +1,6 @@
 import { useObjectMemo } from '@monkvision/common';
 import { DamageType } from '@monkvision/types';
-import { useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { DamagedPartDetails } from '../../../types';
 
 /**
@@ -11,6 +11,10 @@ export interface UseExteriorDamageProps {
    * The selected vehicle part being inspected along with its damage details.
    */
   detailedPart: DamagedPartDetails | null;
+  /**
+   * Callback function invoked when the user indicates they are done adding damages and pricing.
+   */
+  handleDone: (damagedPart: DamagedPartDetails) => void;
 }
 
 /**
@@ -38,13 +42,21 @@ export interface UseExteriorDamageState {
    */
   pricing: number | undefined;
   /**
-   * Setter for pricing state.
-   */
-  setPricing: (pricing: number | undefined) => void;
-  /**
    * The selected vehicle part being inspected along with its damage details.
    */
   detailedPart: DamagedPartDetails | null;
+  /**
+   * Indicates whether the Done button should be disabled.
+   */
+  isDoneDisabled: boolean;
+  /**
+   * Handler for pricing input change.
+   */
+  handlePricingChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  /**
+   *
+   */
+  handleDoneClick: () => void;
 }
 
 /**
@@ -52,6 +64,7 @@ export interface UseExteriorDamageState {
  */
 export function useExteriorDamage({
   detailedPart,
+  handleDone,
 }: UseExteriorDamageProps): UseExteriorDamageState {
   const [hasDamage, setHasDamage] = useState<boolean>(
     detailedPart ? detailedPart.damageTypes.length > 0 : false,
@@ -60,7 +73,11 @@ export function useExteriorDamage({
     detailedPart ? detailedPart.damageTypes : [],
   );
   const [pricing, setPricing] = useState<number | undefined>(
-    detailedPart ? detailedPart.pricing : undefined,
+    detailedPart ? detailedPart.pricing ?? 0 : 0,
+  );
+  const isDoneDisabled = useMemo(
+    () => hasDamage && damageTypes.length === 0,
+    [hasDamage, damageTypes],
   );
 
   const onDamageClicked = (damage: DamageType) => {
@@ -71,13 +88,29 @@ export function useExteriorDamage({
     }
   };
 
+  const handlePricingChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value === '' || /^\d*$/.test(value)) {
+      setPricing(value === '' ? undefined : Number(value));
+    }
+  };
+
+  const handleDoneClick = () => {
+    if (!detailedPart) {
+      return;
+    }
+    handleDone({ part: detailedPart.part, damageTypes, pricing, isDamaged: hasDamage });
+  };
+
   return useObjectMemo({
     hasDamage,
     setHasDamage,
     damageTypes,
     onDamageClicked,
     pricing,
-    setPricing,
     detailedPart,
+    isDoneDisabled,
+    handlePricingChange,
+    handleDoneClick,
   });
 }

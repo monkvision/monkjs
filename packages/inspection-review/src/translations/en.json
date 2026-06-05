@@ -18,7 +18,6 @@
       "damageTypes": "Damage Types",
       "damageTypesPlaceholder": "Input Damage types",
       "deduction": "Deduction",
-      "deductionPlaceholder": "0",
       "addDamageButton": "ADD DAMAGE"
     },
     "actionButtons": {

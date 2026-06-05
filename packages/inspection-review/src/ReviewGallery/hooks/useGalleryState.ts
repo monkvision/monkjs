@@ -1,7 +1,7 @@
 import { useObjectMemo } from '@monkvision/common';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { GalleryItem } from '../../types';
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 
 /**
  * Handle used to manage the gallery state.
@@ -13,19 +13,16 @@ export interface HandleGalleryState {
   selectedItem: GalleryItem | null;
   /**
    * Function to select an item by its image ID.
+   * If passing null as parameter, deselects the current item.
    */
-  onSelectItemById: (imageId: string) => void;
-  /**
-   * Function to select or deselect an item.
-   */
-  onSelectItem: (image: GalleryItem | null) => void;
+  onSelectItemById: (imageId: string | null) => void;
 }
 
 /**
  * Custom hook to manage the state of the gallery, including selected image, navigation, and whether to show damage.
  */
 export function useGalleryState(): HandleGalleryState {
-  const { currentGalleryItems } = useInspectionReviewState();
+  const { currentGalleryItems } = useInspectionReviewProvider();
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const isSelectedItemAvailable = useMemo<boolean>(
     () =>
@@ -41,7 +38,11 @@ export function useGalleryState(): HandleGalleryState {
   }, [isSelectedItemAvailable]);
 
   const onSelectItemById = useCallback(
-    (imageId: string) => {
+    (imageId: string | null) => {
+      if (imageId === null) {
+        setSelectedItem(null);
+        return;
+      }
       const image = currentGalleryItems?.find((item) => item.image.id === imageId) || null;
       setSelectedItem(image);
     },
@@ -51,6 +52,5 @@ export function useGalleryState(): HandleGalleryState {
   return useObjectMemo({
     selectedItem,
     onSelectItemById,
-    onSelectItem: setSelectedItem,
   });
 }

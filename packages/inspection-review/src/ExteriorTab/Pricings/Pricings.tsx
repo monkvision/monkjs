@@ -1,4 +1,4 @@
-import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { PricingLegend } from './PricingLegend';
 import { styles } from './pricings.styles';
 
@@ -6,7 +6,7 @@ import { styles } from './pricings.styles';
  * The Pricings component that displays a list of the available pricing legends.
  */
 export function Pricings() {
-  const { availablePricings } = useInspectionReviewState();
+  const { availablePricings } = useInspectionReviewProvider();
 
   return (
     <div style={styles['container']}>
