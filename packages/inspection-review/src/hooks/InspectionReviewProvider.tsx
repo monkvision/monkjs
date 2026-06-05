@@ -1,9 +1,9 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLoadingState, useMonkState, useMonkTheme } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
-import { CurrencySymbol } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
-import { useTranslation } from 'react-i18next';
+import { CurrencySymbol } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps, DamagedPartDetails } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
@@ -29,6 +29,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
   const [selectedExteriorPart, setSelectedExteriorPart] = useState<DamagedPartDetails | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const isLeftSideCurrency = useMemo(() => currency === CurrencySymbol.USD, [currency]);
   const inspection = useMemo(
@@ -56,7 +57,6 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
     allGalleryItems,
     currentGalleryItems,
     setCurrentGalleryItems,
-    inspection,
     sightsPerTab,
     customTabs: props.customTabs,
     onTabChangeListeners: [resetSelectedItem],
@@ -128,6 +128,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
 
       setAllGalleryItems(items);
+      setIsInitialLoad(true);
       loading.onSuccess();
     };
 
@@ -138,6 +139,13 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         loading.onError(error.message);
       });
   }, [inspectionId]);
+
+  useEffect(() => {
+    if (isInitialLoad && allGalleryItems.length > 0) {
+      onTabChange(activeTab);
+      setIsInitialLoad(false);
+    }
+  }, [allGalleryItems, isInitialLoad, activeTab, onTabChange]);
 
   return (
     <InspectionReviewStateContext.Provider
