@@ -61,7 +61,9 @@ export function useExteriorDamage({
   onDone,
 }: UseExteriorDamageProps): UseExteriorDamageState {
   const [hasDamage, setHasDamage] = useState<boolean>(
-    selectedExteriorPart ? selectedExteriorPart.damageTypes.length > 0 : false,
+    selectedExteriorPart
+      ? selectedExteriorPart.damageTypes.length > 0 || selectedExteriorPart.pricing !== undefined
+      : false,
   );
   const [damageTypes, setDamageTypes] = useState<DamageType[]>(
     selectedExteriorPart ? selectedExteriorPart.damageTypes : [],

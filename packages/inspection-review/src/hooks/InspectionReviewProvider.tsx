@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useLoadingState, useMonkState, useMonkTheme } from '@monkvision/common';
 import { Spinner } from '@monkvision/common-ui-web';
 import { useMonkApi } from '@monkvision/network';
-import { CurrencySymbol } from '@monkvision/types';
+import { CurrencySymbol, Sight } from '@monkvision/types';
 import { sights } from '@monkvision/sights';
 import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps, DamagedPartDetails } from '../types';
-import { calculatePolygonArea } from '../utils/galleryItems.utils';
+import { calculatePolygonArea, filterDuplicateSights } from '../utils/galleryItems.utils';
 import useDamagedPartsState from './useDamagedPartsState';
 import useDamagedPartActionsState from './useDamagedPartActionsState';
 import { useGalleryState } from '../components/ReviewGallery/hooks';
@@ -87,7 +87,7 @@ export function InspectionReviewProvider({
         throw new Error(t('errors.inspectionId'));
       });
 
-      const items: GalleryItem[] = [];
+      const newGalleryItem: GalleryItem[] = [];
       const { damages } = fetchedInspection.body;
       const { parts } = fetchedInspection.entities;
 
@@ -98,7 +98,7 @@ export function InspectionReviewProvider({
         }
 
         const sightId = img.sightId || img.additionalData?.sight_id;
-        let sight;
+        let sight: Sight | undefined;
         if (sightId) {
           sight = sights[sightId];
         }
@@ -127,7 +127,7 @@ export function InspectionReviewProvider({
             item.additionalData?.['description'] === 'rendering of detected damages' &&
             img.renderedOutputs.includes(item.id),
         );
-        items.push({
+        newGalleryItem.push({
           image: img,
           sight,
           renderedOutput,
@@ -137,7 +137,7 @@ export function InspectionReviewProvider({
         });
       });
 
-      setAllGalleryItems(items);
+      setAllGalleryItems(filterDuplicateSights(newGalleryItem));
       setIsInitialLoad(true);
       loading.onSuccess();
     };
