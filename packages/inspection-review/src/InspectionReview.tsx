@@ -7,13 +7,16 @@ import { DownloadImagesButton } from './DownloadImagesButton';
 import { InspectionInfo } from './InspectionInfo';
 import { InspectionReviewProps } from './types';
 import { styles } from './InspectionReview.styles';
+import { useGalleryState } from './ReviewGallery/hooks';
 
 /**
  * The Inspection Review component provided by the Monk inspection-review package.
  */
 export function InspectionReview(props: InspectionReviewProps) {
+  const { selectedItem, onSelectItemById, resetSelectedItem } = useGalleryState();
   const { allTabs, activeTab, ActiveTabComponent, onTabChange } = useTabsState({
     customTabs: props.customTabs,
+    onTabChangeListeners: [resetSelectedItem],
   });
 
   return (
@@ -41,7 +44,7 @@ export function InspectionReview(props: InspectionReviewProps) {
           <div style={styles['activeTabContainer']}>
             {React.isValidElement(ActiveTabComponent) && ActiveTabComponent}
           </div>
-          <ReviewGallery />
+          <ReviewGallery selectedItem={selectedItem} onSelectItemById={onSelectItemById} />
         </div>
       </div>
     </div>
