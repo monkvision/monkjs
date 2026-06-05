@@ -1,3 +1,4 @@
+import React from 'react';
 import { Tabs } from './Tabs';
 import { ReviewGallery } from './ReviewGallery';
 import { useTabsState } from './hooks/useTabsState';
@@ -41,7 +42,9 @@ export function InspectionReview(props: InspectionReviewProps) {
         </div>
 
         <div style={styles['contentRow']}>
-          <div style={styles['activeTabContainer']}>{ActiveTabComponent}</div>
+          <div style={styles['activeTabContainer']}>
+            {React.isValidElement(ActiveTabComponent) && ActiveTabComponent}
+          </div>
           <ReviewGallery />
         </div>
       </div>
