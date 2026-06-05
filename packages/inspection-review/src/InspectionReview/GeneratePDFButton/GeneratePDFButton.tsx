@@ -18,6 +18,12 @@ export function GeneratePDFButton(props: GeneratePDFButtonProps) {
   const { palette } = useMonkTheme();
   const loading = useLoadingState();
 
+  const defaultPdfGeneration = () => {
+    loading.start();
+    console.log('Generate PDF clicked');
+    loading.onSuccess();
+  };
+
   const handleGeneratePdf = () => {
     if (props.onDownloadPDF) {
       props.onDownloadPDF();
@@ -25,12 +31,6 @@ export function GeneratePDFButton(props: GeneratePDFButtonProps) {
       defaultPdfGeneration();
     }
   };
-
-  function defaultPdfGeneration() {
-    loading.start();
-    console.log('Generate PDF clicked');
-    loading.onSuccess();
-  }
 
   return (
     <Button

@@ -1,6 +1,6 @@
 import { useMonkTheme } from '@monkvision/common';
-import { styles } from './Tabs.styles';
 import { Button } from '@monkvision/common-ui-web';
+import { styles } from './Tabs.styles';
 
 /**
  * Props accepted by the Tabs component.

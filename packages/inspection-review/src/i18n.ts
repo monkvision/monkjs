@@ -6,8 +6,8 @@ import nl from './translations/nl.json';
 import it from './translations/it.json';
 
 /**
- * i18n instance of the Inspection Review package. You can use this instance to automatically sync your application current
- * language with the one used by the components of the package.
+ * i18n instance of the Inspection Review package. You can use this instance to automatically
+ * sync your application's current language with the one used by the components of the package.
  */
 export const i18nInspectionReview = i18nCreateSDKInstance({
   resources: {

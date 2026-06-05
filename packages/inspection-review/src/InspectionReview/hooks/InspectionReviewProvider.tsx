@@ -9,44 +9,27 @@ import {
 import {
   AdditionalData,
   DamageType,
-  type Image,
   Inspection,
   MonkEntityType,
   PricingV2RelatedItemType,
-  RenderedOutput,
-  Sight,
 } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
-import { InspectionReviewProps } from '../InspectionReview';
 import { sights } from '@monkvision/sights';
-import { InteriorDamage } from '../InteriorTab';
-import { DEFAULT_PRICINGS, PricingData } from '../types/pricing.types';
-import { DamagedPartDetails } from '../types/damage.types';
-
-/**
- * An item in the gallery, consisting of a sights, its image and associated rendered output.
- */
-export interface GalleryItem {
-  /**
-   * The sight of which image will be displayed.
-   */
-  sight: Sight;
-  /**
-   * The image displayed in the gallery.
-   */
-  image: Image;
-  /**
-   * The rendered output associated with the image.
-   */
-  renderedOutput: RenderedOutput | undefined;
-}
+import {
+  GalleryItem,
+  DEFAULT_PRICINGS,
+  PricingData,
+  DamagedPartDetails,
+  InspectionReviewProps,
+  InteriorDamage,
+} from '../types';
 
 /**
  * State provided by the InspectionReviewProvider.
  */
-export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes'> & {
+export type InspectionReviewState = Pick<InspectionReviewProps, 'vehicleTypes' | 'currency'> & {
   /**
    * The current inspection data.
    */
@@ -103,7 +86,7 @@ const InspectionReviewStateContext = createContext<InspectionReviewState | null>
  * The InspectionReviewProvider component that provides inspection review state to its children.
  */
 export function InspectionReviewState(props: PropsWithChildren<InspectionReviewProviderProps>) {
-  const { inspectionId, loading, apiConfig, vehicleTypes } = props;
+  const { inspectionId, loading, apiConfig, vehicleTypes, currency } = props;
 
   const { t } = useTranslation();
   const { state, dispatch } = useMonkState();
@@ -342,6 +325,7 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         currentGalleryItems,
         setCurrentGalleryItems,
         vehicleTypes,
+        currency,
         availablePricings,
         damagedPartsDetails,
         handleAddInteriorDamage,
