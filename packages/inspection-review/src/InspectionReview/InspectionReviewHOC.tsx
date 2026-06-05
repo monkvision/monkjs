@@ -4,12 +4,6 @@ import { InspectionReview, InspectionReviewProps } from './InspectionReview';
 import { InspectionReviewState } from './hooks/InspectionReviewProvider';
 import { Spinner } from '@monkvision/common-ui-web';
 
-// TODO: Props to receive:
-// a single steering wheel direction
-// a list of vehicle type
-//  each vehicle has a list of sights ordered
-//  any sight in the inspection that doesn't match the above list of sights, should go into a specific Tab, decided by the user (mandatory prop)
-
 /**
  * The InspectionReview component is a ready-to-use, single page component that implements an Inspection Review app,
  * allowing users to review inspection data. In order to use this component, you first need to generate an Auth0
@@ -23,10 +17,19 @@ import { Spinner } from '@monkvision/common-ui-web';
  *   const { i18n } = useTranslation();
  *
  *   return (
- *     <InspectionReview
+ *     <InspectionReviewHOC
  *       inspectionId={inspectionId}
  *       apiConfig={apiConfig}
  *       lang={i18n.language}
+ *       steeringWheelPosition={SteeringWheelPosition.LEFT}
+ *       unmatchedSightsTab={TabKeys.EXTERIOR}
+ *       vehicleTypes={[VehicleType.SUV]}
+ *       sights={{
+ *          [VehicleType.SUV]: [
+ *           'jgc21-QIvfeg0X',
+ *           'jgc21-KyUUVU2P',
+ *        ],
+ *      }}
  *     />
  *   );
  * }

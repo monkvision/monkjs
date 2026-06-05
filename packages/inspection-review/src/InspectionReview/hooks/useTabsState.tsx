@@ -1,58 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ExteriorTab } from '../ExteriorTab';
 import { InteriorTab } from '../InteriorTab';
 import { useObjectMemo } from '@monkvision/common';
-import { GalleryItem, useInspectionReviewState } from './InspectionReviewProvider';
+import { useInspectionReviewState } from './InspectionReviewProvider';
 import { SightCategory } from '@monkvision/types';
-
-/**
- * API provided to tabs upon activation.
- */
-export type TabActivationAPI = {
-  /**
-   * The current gallery items displayed.
-   */
-  currentGalleryItems: GalleryItem[];
-  /**
-   * All gallery items available in the inspection review.
-   */
-  allGalleryItems: GalleryItem[];
-  /**
-   * Function to update the current gallery items when the tab is activated.
-   */
-  setCurrentGalleryItems: (items: GalleryItem[]) => void;
-};
-
-/**
- * Object representing a tab with optional activation callback.
- */
-export type TabObject = {
-  /**
-   * The component to be rendered for the tab.
-   */
-  Component: React.FC | React.ReactElement;
-  /**
-   * Optional callback invoked when the tab is activated to manipulate the gallery items.
-   */
-  onActivate?: (api: TabActivationAPI) => void;
-  /**
-   * Optional callback invoked when the tab is deactivated to manipulate the gallery items.
-   */
-  onDeactivate?: (api: TabActivationAPI) => void;
-};
-
-/**
- * Type representing the content of a tab, defined as a React functional component.
- */
-export type TabContent = React.FC | React.ReactElement | TabObject;
-
-/**
- * Enumeration of the default tab keys available in the inspection review.
- */
-enum TabKeys {
-  Exterior = 'Exterior',
-  Interior = 'Interior/Tire',
-}
+import { TabContent, TabKeys, TabObject } from '../types';
 
 /**
  * Default tabs available in the inspection review.
@@ -101,13 +53,17 @@ export interface HandleTabState {
    */
   activeTab: string;
   /**
+   * Tabs list including default and custom ones.
+   */
+  allTabs: Record<string, TabContent>;
+  /**
+   * The component of the currently active tab ready to be rendered.
+   */
+  ActiveTabComponent: React.FC | React.ReactElement | null;
+  /**
    * Function to change the active tab.
    */
   handleTabChange: (tab: string) => void;
-  /**
-   * All tabs including default and custom ones.
-   */
-  allTabs: Record<string, TabContent>;
 }
 
 /**
@@ -123,6 +79,23 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
     ...defaultTabs,
     ...params?.customTabs,
   };
+
+  const ActiveTabComponent = useMemo((): React.FC | React.ReactElement | null => {
+    const activeTabContent = allTabs[activeTab];
+    let tabComponent = activeTabContent;
+
+    if ('Component' in activeTabContent) {
+      tabComponent = activeTabContent.Component;
+    }
+    if (React.isValidElement(tabComponent)) {
+      return tabComponent;
+    }
+    if (typeof tabComponent === 'function') {
+      return React.createElement(tabComponent);
+    }
+
+    return null;
+  }, [activeTab, allTabs]);
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -146,7 +119,7 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
       }
       setActiveTab(tab);
     },
-    [allTabs, activeTab, allGalleryItems, setCurrentGalleryItems],
+    [allTabs, activeTab, allGalleryItems],
   );
 
   useEffect(() => {
@@ -160,5 +133,6 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
     allTabs,
     activeTab,
     handleTabChange,
+    ActiveTabComponent,
   });
 }
