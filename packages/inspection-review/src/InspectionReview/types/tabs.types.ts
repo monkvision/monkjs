@@ -48,3 +48,17 @@ export enum TabKeys {
   Exterior = 'Exterior',
   Interior = 'Interior/Tire',
 }
+
+/**
+ * Enumeration of the different views available in the Interior tab.
+ */
+export enum InteriorViews {
+  /**
+   * The list view showing all interior damages.
+   */
+  DamagesList = 'Damages List',
+  /**
+   * The view for adding or editing an interior damage.
+   */
+  AddDamage = 'Add Damage',
+}

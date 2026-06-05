@@ -1,9 +1,9 @@
 import { DamageType } from '@monkvision/types';
 import { useMonkTheme } from '@monkvision/common';
 import { SwitchButton } from '@monkvision/common-ui-web';
-import { useState } from 'react';
 import { DamageChip } from './DamageChip';
 import { DamagedPartDetails } from '../../types/damage.types';
+import { useExteriorDamage } from './hooks/useExteriorDamage';
 
 const firstColumnDamages = [
   DamageType.BROKEN_GLASS,
@@ -46,24 +46,8 @@ export function AddExteriorDamage({
   handleCancel,
 }: AddExteriorDamageProps) {
   const { palette } = useMonkTheme();
-
-  const [hasDamage, setHasDamage] = useState<boolean>(
-    detailedPart ? detailedPart.damageTypes.length > 0 : false,
-  );
-  const [damageTypes, setDamageTypes] = useState<DamageType[]>(
-    detailedPart ? detailedPart.damageTypes : [],
-  );
-  const [pricing, setPricing] = useState<number | undefined>(
-    detailedPart ? detailedPart.pricing : undefined,
-  );
-
-  const onDamageClicked = (damage: DamageType) => {
-    if (damageTypes.includes(damage)) {
-      setDamageTypes(damageTypes.filter((d) => d !== damage));
-    } else {
-      setDamageTypes([...damageTypes, damage]);
-    }
-  };
+  const { hasDamage, setHasDamage, damageTypes, onDamageClicked, pricing, setPricing } =
+    useExteriorDamage({ detailedPart });
 
   return (
     <div>
