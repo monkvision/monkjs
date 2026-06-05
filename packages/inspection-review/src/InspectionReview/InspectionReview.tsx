@@ -1,9 +1,12 @@
 import { styles } from './InspectionReview.styles';
 import { MonkApiConfig } from '@monkvision/network';
 import { Tabs } from './Tabs';
-import { DocumentActions } from './DocumentActions';
 import { ReviewGallery } from './ReviewGallery';
 import { InspectionReviewHeader } from './InspectionReviewHeader/InspectionReviewHeader';
+import { useInspectionReviewState, useTabsState } from './hooks';
+import { GeneratePDFButton } from './GeneratePDFButton';
+import { DownloadImagesButton } from './DownloadImagesButton';
+import { ActiveTab } from './ActiveTab';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -57,19 +60,28 @@ export type InspectionReviewProps = {
  * The Inspection Review component provided by the Monk inspection-review package.
  */
 export function InspectionReview(props: InspectionReviewProps) {
+  const { galleryItems } = useInspectionReviewState({ inspectionId: props.inspectionId });
+  const { activeTab, handleTabChange } = useTabsState();
+
   return (
     <div style={styles['container']}>
       <InspectionReviewHeader />
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <div style={{ flex: 6 }}>
-          <Tabs />
+          <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
         </div>
-        <DocumentActions />
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <DownloadImagesButton />
+          <GeneratePDFButton />
+        </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div style={{ flex: 6 }}>Current tab logic</div>
-        <ReviewGallery />
+        <div style={{ flex: 6 }}>
+          <ActiveTab activeTab={activeTab} />
+        </div>
+
+        <ReviewGallery galleryItems={galleryItems} />
       </div>
     </div>
   );
