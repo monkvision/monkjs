@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { GalleryItem } from '../../types';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
 import { Shortcuts } from './Shortcuts';
@@ -50,7 +51,15 @@ export function SpotlightImage({
   const { tObj } = useObjectTranslation();
   const { t } = useTranslation();
 
-  const { backgroundImage, isMouseOver, cursorStyle } = useSpotlightImage({
+  const {
+    backgroundImage,
+    isMouseOver,
+    cursorStyle,
+    ref,
+    handleMouseDown,
+    handleMouseUp,
+    activationKeys,
+  } = useSpotlightImage({
     image: selectedItem.image,
     showDamage,
   });
@@ -120,7 +129,17 @@ export function SpotlightImage({
             </div>
           </>
         )}
-        <img src={backgroundImage} alt={selectedItem.image.id} style={imageContainerStyle} />
+        <TransformWrapper
+          ref={ref}
+          wheel={{ activationKeys, smoothStep: 0.005 }}
+          doubleClick={{ disabled: true }}
+          onPanning={handleMouseDown}
+          onPanningStop={handleMouseUp}
+        >
+          <TransformComponent>
+            <img src={backgroundImage} alt={backgroundImage} style={imageContainerStyle} />
+          </TransformComponent>
+        </TransformWrapper>
       </div>
       <div style={shortcutsContainerStyle}>
         <Shortcuts showDamage={showDamage} />
