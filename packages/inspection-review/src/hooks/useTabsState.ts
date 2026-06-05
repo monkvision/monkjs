@@ -8,7 +8,7 @@ import { defaultTabs } from '../config';
  * Parameters accepted by the useTabsState hook.
  */
 export interface TabsStateParams
-  extends Pick<InspectionReviewProps, 'customTabs'>,
+  extends Pick<InspectionReviewProps, 'customTabs' | 'unmatchedSightsTab'>,
     Pick<
       InspectionReviewProviderState,
       'allGalleryItems' | 'currentGalleryItems' | 'setCurrentGalleryItems' | 'sightsPerTab'
@@ -44,12 +44,17 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
     sightsPerTab,
     initialTab,
     onTabChangeListeners,
+    unmatchedSightsTab,
   } = params;
   const [activeTab, setActiveTab] = useState<string>(initialTab ?? TabKeys.Exterior);
   const allTabs: Record<string, TabContent> = {
     ...defaultTabs,
     ...params?.customTabs,
   };
+  const unmatchedGalleryItems = useMemo(() => {
+    const matchedSightIds = Object.values(sightsPerTab).flat();
+    return allGalleryItems.filter((item) => item.sight && !matchedSightIds.includes(item.sight.id));
+  }, [allGalleryItems, sightsPerTab, activeTab]);
 
   const ActiveTabComponent = useMemo((): React.FC | React.ReactElement | null => {
     const activeTabContent = allTabs[activeTab];
@@ -80,6 +85,8 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
           allGalleryItems,
           setCurrentGalleryItems,
           sights: sightsPerTab,
+          unmatchedSightsTab,
+          unmatchedGalleryItems,
         });
       }
       if (allTabs[activeTab] && 'onDeactivate' in allTabs[activeTab]) {
@@ -88,6 +95,8 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
           allGalleryItems,
           setCurrentGalleryItems,
           sights: sightsPerTab,
+          unmatchedSightsTab,
+          unmatchedGalleryItems,
         });
       }
       setActiveTab(tab);

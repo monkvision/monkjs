@@ -2,7 +2,7 @@ import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
 import { CurrencySymbol } from '@monkvision/types';
 import { i18nInspectionReview } from './i18n';
 import { InspectionReview } from './InspectionReview';
-import { InspectionReviewProps } from './types';
+import { InspectionReviewProps, TabKeys } from './types';
 import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
 
 /**
@@ -37,13 +37,18 @@ import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
  */
 export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC({
   currency = CurrencySymbol.USD,
+  unmatchedSightsTab = TabKeys.Exterior,
   ...props
 }: InspectionReviewProps) {
   useI18nSync(props.lang);
 
   return (
     <MonkProvider>
-      <InspectionReviewProvider currency={currency} {...props}>
+      <InspectionReviewProvider
+        currency={currency}
+        unmatchedSightsTab={unmatchedSightsTab}
+        {...props}
+      >
         <InspectionReview currency={currency} {...props} />
       </InspectionReviewProvider>
     </MonkProvider>
