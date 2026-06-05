@@ -24,7 +24,7 @@ export const styles: Styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    border: 'solid rgba(1,1,1,0.4)',
+    border: '1px solid rgba(1,1,1,0.4)',
     margin: '0px 19px 0px 19px',
   },
   inputSectionCurrencyLeft: {

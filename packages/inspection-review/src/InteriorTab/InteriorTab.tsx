@@ -22,7 +22,7 @@ export function InteriorTab() {
     onDeleteInteriorDamage,
     onCancelDamage,
   } = useInteriorTab();
-  const { editIconStyle, deleteIconStyle } = useInteriorTabStyles();
+  const { editIconStyle, deleteIconStyle, addDamageStyle } = useInteriorTabStyles();
 
   if (currentView === InteriorViews.AddDamage) {
     return (
@@ -92,7 +92,12 @@ export function InteriorTab() {
         </tbody>
       </table>
       <div style={styles['addDamageContainer']}>
-        <Button variant='outline' onClick={() => setCurrentView(InteriorViews.AddDamage)}>
+        <Button
+          variant='outline'
+          primaryColor={addDamageStyle.color}
+          secondaryColor={addDamageStyle.backgroundColor}
+          onClick={() => setCurrentView(InteriorViews.AddDamage)}
+        >
           {t('tabs.interior.addDamageButton')}
         </Button>
       </div>
