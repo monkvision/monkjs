@@ -36,5 +36,8 @@
       "closeSpotlight": "Close current image",
       "changeImage": "Change image"
     }
+  },
+  "errors": {
+    "inspectionId": "The requested inspection Id was not found on the server. If you entered the id manually please check your spelling and try again."
   }
 }
