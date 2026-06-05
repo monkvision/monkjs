@@ -149,7 +149,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
     const parts: DamagedPartDetails[] = state.parts
       .filter((part) => part.inspectionId === inspectionId)
       .map((part) => {
-        const damageTypes = part.damages.reduce<DamageType[]>((acc, damageId) => {
+        const damageTypes: DamageType[] = part.damages.reduce<DamageType[]>((acc, damageId) => {
           const damage = state.damages.find((value) => value.id === damageId)?.type;
           if (damage) {
             acc.push(damage);
@@ -280,21 +280,35 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       });
 
       const items: GalleryItem[] = [];
+      const damages = fetchedInspection.body.damages;
+      const parts = fetchedInspection.entities.parts;
+
       fetchedInspection.entities.images.forEach((img) => {
         const sightId = img.sightId || img.additionalData?.sight_id;
-        if (sightId) {
-          const sight = sights[sightId];
-          const renderedOutput = fetchedInspection.entities.renderedOutputs.find(
-            (item) =>
-              item.additionalData?.['description'] === 'rendering of detected damages' &&
-              img.renderedOutputs.includes(item.id),
-          );
-          items.push({
-            image: img,
-            sight,
-            renderedOutput,
-          });
+        const imageBody = fetchedInspection.body.images.find((image) => image.id === img.id);
+        if (!sightId || !imageBody) {
+          return;
         }
+        const sight = sights[sightId];
+        const imageViews = imageBody.views;
+        const imageParts = parts.filter((part) =>
+          imageViews?.some((view) => part.id === view.element_id),
+        );
+        const hasDamage = damages.some((damage) =>
+          imageViews?.find((view) => view.element_id === damage.id),
+        );
+        const renderedOutput = fetchedInspection.entities.renderedOutputs.find(
+          (item) =>
+            item.additionalData?.['description'] === 'rendering of detected damages' &&
+            img.renderedOutputs.includes(item.id),
+        );
+        items.push({
+          image: img,
+          sight,
+          renderedOutput,
+          hasDamage,
+          parts: imageParts,
+        });
       });
 
       setAllGalleryItems(items);
