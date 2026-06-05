@@ -2,7 +2,7 @@ import { SVGProps, useState } from 'react';
 import { PartSelectionOrientation, VehiclePart, VehicleType } from '@monkvision/types';
 import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
 import { useTabViews } from '../../hooks/useTabViews';
-import { DamagedPartDetails } from '../../types';
+import { DamagedPartDetails, GalleryItem } from '../../types';
 
 /**
  * Enumeration of the different views available in the Exterior tab.
@@ -68,10 +68,17 @@ export interface TabExteriorState {
  * Custom hook to manage the state and handlers for the ExteriorTab component.
  */
 export function useExteriorTab() {
-  const { vehicleType, handleConfirmExteriorDamages, damagedPartsDetails, availablePricings } =
-    useInspectionReviewProvider();
+  const {
+    vehicleType,
+    handleConfirmExteriorDamages,
+    damagedPartsDetails,
+    availablePricings,
+    currentGalleryItems,
+    setCurrentGalleryItems,
+  } = useInspectionReviewProvider();
   const { currentView, setCurrentView } = useTabViews({ views: Object.values(ExteriorViews) });
 
+  const [initialGalleryItems, setInitialGalleryItems] = useState<GalleryItem[]>([]);
   const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
   const [orientation, setOrientation] = useState<PartSelectionOrientation>(
     PartSelectionOrientation.FRONT_LEFT,
@@ -96,9 +103,20 @@ export function useExteriorTab() {
     setCurrentView(ExteriorViews.AddPartDamage);
     const damagedPart = damagedPartsDetails.find((d) => d.part === part);
     setSelectedPart(damagedPart ?? { part, isDamaged: false, damageTypes: [], pricing: undefined });
+
+    if (initialGalleryItems.length === 0) {
+      setInitialGalleryItems(currentGalleryItems);
+    }
+
+    const filteredItems = currentGalleryItems.filter((item) =>
+      item.parts?.some((p) => p.type === part),
+    );
+    const sortedItems = [...filteredItems].sort((a, b) => b.totalPolygonArea - a.totalPolygonArea);
+    setCurrentGalleryItems(sortedItems);
   };
 
   const resetToListView = () => {
+    setCurrentGalleryItems(initialGalleryItems);
     setCurrentView(ExteriorViews.SVGCar);
     setSelectedPart(null);
   };

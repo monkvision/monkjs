@@ -26,6 +26,7 @@ import {
   InspectionReviewProps,
   InteriorDamage,
 } from '../types';
+import { calculatePolygonArea } from '../utils/galleryItems.utils';
 
 /**
  * State provided by the InspectionReviewProvider.
@@ -139,7 +140,6 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         };
       }
 
-      // TODO: implement a optimistic update for this, prompt the user with a toast like message if it fails
       const updatedDamages = [...currentDamages, damage];
       return {
         ...additionalData,
@@ -152,6 +152,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
       callback,
     });
 
+    // TODO: implement a optimistic update for this, prompt the user with a toast like message if it fails
     const action: MonkUpdatedOneInspectionAdditionalDataAction = {
       type: MonkActionType.UPDATED_ONE_INSPECTION_ADDITIONAL_DATA,
       payload: {
@@ -319,6 +320,16 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         const hasDamage = damages.some((damage) =>
           imageViews?.find((view) => view.element_id === damage.id),
         );
+
+        let totalPolygonArea = 0;
+        if (hasDamage && imageViews) {
+          if (!imageViews[0].image_region.specification.polygons) return;
+          totalPolygonArea = imageViews[0].image_region.specification.polygons.reduce(
+            (sum, polygon) => sum + calculatePolygonArea(polygon),
+            0,
+          );
+        }
+
         const renderedOutput = fetchedInspection.entities.renderedOutputs.find(
           (item) =>
             item.additionalData?.['description'] === 'rendering of detected damages' &&
@@ -330,6 +341,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
           renderedOutput,
           hasDamage,
           parts: imageParts,
+          totalPolygonArea,
         });
       });
 
