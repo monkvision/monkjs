@@ -2,20 +2,17 @@ import { useMonkState } from '@monkvision/common';
 import { Image } from '@monkvision/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
+import { UseShortcutsState } from '../Shortcuts/hooks/useShortcuts';
 
 /**
  * Hook to manage the spotlight image behavior.
  */
-export interface UseSpotlightImageProps {
+export type UseSpotlightImageProps = Pick<UseShortcutsState, 'showDamage'> & {
   /**
    * The image to be displayed in the spotlight.
    */
-  image: Image;
-  /**
-   * Flag indicating whether to show damage annotations on the image.
-   */
-  showDamage: boolean;
-}
+  image: Image | undefined;
+};
 
 /**
  * State returned by the useSpotlightImage hook.
@@ -24,7 +21,7 @@ export interface UseSpotlightImageState {
   /**
    * Which image to display in the spotlight (with or without damages).
    */
-  backgroundImage: string;
+  backgroundImage: string | undefined;
   /**
    * Indicates if the mouse is currently over the spotlight image.
    */
@@ -98,9 +95,9 @@ export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightIm
     const renderedOutput = state.renderedOutputs.find(
       (item) =>
         item.additionalData?.['description'] === 'rendering of detected damages' &&
-        props.image.renderedOutputs.includes(item.id),
+        props.image?.renderedOutputs.includes(item.id),
     );
-    return props.showDamage ? renderedOutput?.path || props.image.path : props.image.path;
+    return props.showDamage ? renderedOutput?.path || props.image?.path : props.image?.path;
   }, [props.image, state.renderedOutputs, props.showDamage]);
 
   useEffect(() => {

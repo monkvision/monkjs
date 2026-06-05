@@ -1,36 +1,30 @@
 import { useTranslation } from 'react-i18next';
 import { DoneButton } from '../../DoneButton';
 import { useInspectionReviewProvider } from '../../hooks/InspectionReviewProvider';
-import { InteriorDamage, SelectedInteriorDamageData } from '../../types';
 import { styles } from './AddInteriorDamage.styles';
 import { useInteriorDamage } from './hooks/useInteriorDamage';
+import { InteriorTabState } from '../hooks/useInteriorTab';
 
 /*
  * Props for the AddInteriorDamage component.
  */
-export interface AddInteriorDamageProps {
-  /**
-   * The interior damage data to be edited, or null if adding new damage.
-   */
-  damageData: SelectedInteriorDamageData | null;
-  /**
-   * Callback function invoked when the user saves the damage data.
-   */
-  onSave: (data: InteriorDamage) => void;
-  /**
-   * Callback function invoked when the user cancels the operation.
-   */
-  onCancel: () => void;
-}
+export type AddInteriorDamageProps = Pick<
+  InteriorTabState,
+  'selectedDamage' | 'onCancelDamage' | 'onSave'
+>;
 
 /**
  * The AddInteriorDamage component allows users to add new interior damage entries.
  */
-export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorDamageProps) {
+export function AddInteriorDamage({
+  selectedDamage,
+  onCancelDamage,
+  onSave,
+}: AddInteriorDamageProps) {
   const { t } = useTranslation();
   const { currency, isLeftSideCurrency } = useInspectionReviewProvider();
   const { currentDamage, isDoneDisabled, handleInputChange, handleDone } = useInteriorDamage({
-    damageData,
+    selectedDamage,
     onSave,
   });
 
@@ -87,7 +81,7 @@ export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorD
       </div>
 
       <div style={styles['footerContainer']}>
-        <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={onCancel}>
+        <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={onCancelDamage}>
           {t('tabs.actionButtons.cancel')}
         </button>
         <DoneButton onConfirm={handleDone} disabled={isDoneDisabled}>

@@ -2,24 +2,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 
 import { useInspectionReviewProvider } from './InspectionReviewProvider';
-import { TabContent, TabKeys, TabObject } from '../types';
+import { InspectionReviewProps, TabContent, TabKeys, TabObject } from '../types';
 import { defaultTabs } from '../utils/tabs.utils';
 
 /**
  * Parameters accepted by the useTabsState hook.
  */
-export interface TabsStateParams {
+export type TabsStateParams = Pick<InspectionReviewProps, 'customTabs'> & {
   /**
    * The initial tab to be selected when the hook is used.
    */
   initialTab?: string;
-  /**
-   * Custom tabs to be displayed along with default ones.
-   *
-   * @default exterior, interior/tire
-   */
-  customTabs?: Record<string, TabContent>;
-}
+};
 
 /**
  * Handle used to manage the state of tabs in the inspection review.
@@ -40,7 +34,7 @@ export interface HandleTabState {
   /**
    * Function to change the active tab.
    */
-  handleTabChange: (tab: string) => void;
+  onTabChange: (tab: string) => void;
 }
 
 /**
@@ -112,7 +106,7 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
   return useObjectMemo({
     allTabs,
     activeTab,
-    handleTabChange,
+    onTabChange: handleTabChange,
     ActiveTabComponent,
   });
 }

@@ -1,25 +1,22 @@
 import { useInteractiveStatus, useObjectTranslation } from '@monkvision/common';
 import { GalleryItem } from '../../types';
 import { useGalleryItemCardStyles } from './GalleryItemCard.styles';
+import { HandleGalleryState } from '../hooks';
 
 /**
  * Props accepted by the GalleryItemCard component.
  */
-export interface GalleryItemProps {
+export type GalleryItemProps = Pick<HandleGalleryState, 'onSelectItemById'> & {
   /**
    * The gallery item to be displayed.
    */
   item: GalleryItem;
-  /**
-   * Callback function invoked when the item is selected.
-   */
-  onSelectItem: (id: string) => void;
-}
+};
 
 /**
  * The GalleryItemCard component that displays an individual gallery item as a card.
  */
-export function GalleryItemCard({ item, onSelectItem }: GalleryItemProps) {
+export function GalleryItemCard({ item, onSelectItemById }: GalleryItemProps) {
   const { tObj } = useObjectTranslation();
   const { status, eventHandlers } = useInteractiveStatus();
   const { cardStyle, previewStyle, labelStyle } = useGalleryItemCardStyles({
@@ -31,7 +28,7 @@ export function GalleryItemCard({ item, onSelectItem }: GalleryItemProps) {
     <button
       key={item.image.id}
       style={cardStyle}
-      onClick={() => onSelectItem(item.image.id)}
+      onClick={() => onSelectItemById(item.image.id)}
       {...eventHandlers}
     >
       <div style={previewStyle} data-testid='preview' />

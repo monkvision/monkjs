@@ -2,40 +2,20 @@ import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { GalleryItem } from '../../types';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
 import { Shortcuts } from './Shortcuts';
 import { styles, useSpotlightImageStyles } from './SpotlightImage.styles';
+import { HandleGalleryState } from '../hooks';
+import { UseShortcutsState } from './Shortcuts/hooks/useShortcuts';
 
 /**
  * Props accepted by the SpotlightImage component.
  */
-export interface SpotlightImageProps {
-  /**
-   * The image to be displayed in the spotlight.
-   */
-  selectedItem: GalleryItem;
-  /**
-   * Flag indicating whether to show damage on the selected image.
-   */
-  showDamage: boolean;
-  /**
-   * Function to toggle the show damage state.
-   */
-  toggleShowDamage: () => void;
-  /**
-   * Function to navigate to the previous image in the gallery.
-   */
-  goToPreviousImage: () => void;
-  /**
-   * Function to navigate to the next image in the gallery.
-   */
-  goToNextImage: () => void;
-  /**
-   * Function to select or deselect an item by its image ID.
-   */
-  onSelectItemById: (imageId: string | null) => void;
-}
+export type SpotlightImageProps = Pick<HandleGalleryState, 'selectedItem' | 'onSelectItemById'> &
+  Pick<
+    UseShortcutsState,
+    'showDamage' | 'toggleShowDamage' | 'goToPreviousImage' | 'goToNextImage'
+  >;
 
 /**
  * The SpotlightImage component that displays the selected image in a spotlight view instead of the gallery view.
@@ -60,7 +40,7 @@ export function SpotlightImage({
     handleMouseUp,
     activationKeys,
   } = useSpotlightImage({
-    image: selectedItem.image,
+    image: selectedItem?.image,
     showDamage,
   });
   const { iconButtonStyle, showDamageButtonStyle, imageLabelStyle, containerStyle } =
@@ -84,7 +64,7 @@ export function SpotlightImage({
                 />
               </div>
 
-              {selectedItem.hasDamage && (
+              {selectedItem?.hasDamage && (
                 <div style={styles['showDamagesButton']}>
                   <Button
                     onClick={toggleShowDamage}
@@ -109,7 +89,7 @@ export function SpotlightImage({
                 secondaryColor={iconButtonStyle.secondaryColor}
               />
               <div style={imageLabelStyle}>
-                {selectedItem.image.label ? tObj(selectedItem.image.label) : ''}
+                {selectedItem?.image.label ? tObj(selectedItem.image.label) : ''}
               </div>
               <Button
                 style={iconButtonStyle}

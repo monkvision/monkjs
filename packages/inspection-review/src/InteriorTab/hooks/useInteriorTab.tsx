@@ -26,19 +26,19 @@ export interface InteriorTabState {
   setCurrentView: (view: InteriorViews) => void;
   /**  Handler when saving an interior damage.
    */
-  handleSave: (newDamage: InteriorDamage) => void;
+  onSave: (newDamage: InteriorDamage) => void;
   /**
    * Handler when editing an existing interior damage.
    */
-  editDamage: (index: number, damage: InteriorDamage) => void;
+  onEditDamage: (index: number, damage: InteriorDamage) => void;
   /**
    * Handler when deleting an existing interior damage.
    */
-  handleDeleteInteriorDamage: (index: number) => void;
+  onDeleteInteriorDamage: (index: number) => void;
   /**
    * Function to reset the view to the list of damages.
    */
-  resetToListView: () => void;
+  onCancelDamage: () => void;
 }
 
 /**
@@ -69,7 +69,7 @@ export function useInteriorTab(): InteriorTabState {
     resetToListView();
   };
 
-  const editDamage = (index: number, damage: InteriorDamage) => {
+  const handleEditDamage = (index: number, damage: InteriorDamage) => {
     setSelectedDamage({ index, damage });
     setCurrentView(InteriorViews.AddDamage);
   };
@@ -79,9 +79,9 @@ export function useInteriorTab(): InteriorTabState {
     currentView,
     selectedDamage,
     setCurrentView,
-    handleSave,
-    editDamage,
-    handleDeleteInteriorDamage,
-    resetToListView,
+    onSave: handleSave,
+    onEditDamage: handleEditDamage,
+    onDeleteInteriorDamage: handleDeleteInteriorDamage,
+    onCancelDamage: resetToListView,
   });
 }

@@ -45,27 +45,27 @@ export interface TabExteriorState {
   /**
    * Handler when the left orientation button is clicked.
    */
-  handleRotateLeft: () => void;
+  onRotateLeft: () => void;
   /**
    * Handler when the right orientation button is clicked.
    */
-  handleRotateRight: () => void;
+  onRotateRight: () => void;
   /**
    * Handler when a vehicle part is clicked.
    */
-  handlePartClicked: (part: VehiclePart) => void;
+  onPartClicked: (part: VehiclePart) => void;
   /**
    * Handler when the done button is clicked after viewing damage details of a part.
    */
-  handleDone: (partDetails: DamagedPartDetails) => void;
+  onDone: (partDetails: DamagedPartDetails) => void;
   /**
    * Handler to get SVG attributes for a vehicle part.
    */
-  handlePartAttributes: (part: VehiclePart) => SVGProps<SVGElement>;
+  onGetPartAttributes: (part: VehiclePart) => SVGProps<SVGElement>;
   /**
    * Handler to reset the view to the list of parts.
    */
-  resetToListView: () => void;
+  onCancelDamage: () => void;
 }
 
 /**
@@ -174,11 +174,11 @@ export function useExteriorTab(): TabExteriorState {
     orientation,
     vehicleType,
     validatedParts,
-    handleRotateLeft,
-    handleRotateRight,
-    handlePartClicked,
-    handleDone,
-    handlePartAttributes,
-    resetToListView,
+    onRotateLeft: handleRotateLeft,
+    onRotateRight: handleRotateRight,
+    onPartClicked: handlePartClicked,
+    onDone: handleDone,
+    onGetPartAttributes: handlePartAttributes,
+    onCancelDamage: resetToListView,
   };
 }
