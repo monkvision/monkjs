@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { styles } from './InspectionReviewHeader.styles';
+import { styles } from './Shortcuts.styles';
 
 function ShortcutLegend({ letter, text }: { letter: string; text: string }) {
   return (
@@ -12,6 +12,9 @@ function ShortcutLegend({ letter, text }: { letter: string; text: string }) {
   );
 }
 
+/**
+ * The Shortcuts component displaying available keyboard shortcuts while in Gallery.
+ */
 export function Shortcuts() {
   const { t } = useTranslation();
 
