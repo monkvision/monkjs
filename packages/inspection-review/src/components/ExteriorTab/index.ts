@@ -1,0 +1,1 @@
+export { ExteriorTab } from './ExteriorTab';

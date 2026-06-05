@@ -1,0 +1,40 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Carrozzeria",
+      "pricings": {
+        "needsPricing": "Necessita di preventivo"
+      },
+      "addDamage": {
+        "title": "Questa parte è danneggiata",
+        "listTitle": "Danni",
+        "priceLabel": "Prezzo"
+      }
+    },
+    "interior": {
+      "label": "Interni/Pneumatici",
+      "area": "Zona",
+      "areaPlaceholder": "Inserire la zona",
+      "damageTypes": "Tipi di danni",
+      "damageTypesPlaceholder": "Inserire i tipi di danni",
+      "deduction": "Detrazione",
+      "addDamageButton": "AGGIUNGI DANNO"
+    },
+    "actionButtons": {
+      "done": "FATTO",
+      "cancel": "ANNULLA"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "SCARICA LE IMMAGINI",
+    "generatePdf": "GENERARE PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Mostra danni",
+      "hideDamages": "Nascondi danni",
+      "closeSpotlight": "Chiudi l'immagine attuale",
+      "changeImage": "Cambia immagine"
+    }
+  }
+}

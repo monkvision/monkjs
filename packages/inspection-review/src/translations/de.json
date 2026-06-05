@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Karosserie",
+      "pricings": {
+        "needsPricing": "Benötigt Preisgestaltung"
+      },
+      "addDamage": {
+        "title": "Dieser Teil ist beschädigt",
+        "listTitle": "Schäden",
+        "priceLabel": "Preis"
+      }
+    },
+    "interior": {
+      "label": "Innenraum/Reifen",
+      "area": "Bereich",
+      "areaPlaceholder": "Bereich eingeben",
+      "damageTypes": "Schadensarten",
+      "damageTypesPlaceholder": "Schadensarten eingeben",
+      "deduction": "Abzug",
+      "addDamageButton": "SCHADEN HINZUFÜGEN"
+    },
+    "actionButtons": {
+      "done": "FERTIG",
+      "cancel": "ABBRECHEN"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "BILDER HERUNTERLADEN",
+    "generatePdf": "PDF ERZEUGEN"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Schäden anzeigen",
+      "hideDamages": "Schäden verbergen",
+      "closeSpotlight": "Aktuelles Bild schließen",
+      "changeImage": "Bild wechseln"
+    }
+  },
+  "errors": {
+    "inspectionId": "Die angeforderte Inspektions-ID wurde auf dem Server nicht gefunden. Wenn Sie die id manuell eingegeben haben, überprüfen Sie bitte die Schreibweise und versuchen Sie es erneut."
+  }
+}

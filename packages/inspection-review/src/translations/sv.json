@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Exteriör",
+      "pricings": {
+        "needsPricing": "Behöver prissättning"
+      },
+      "addDamage": {
+        "title": "Denna del är skadad",
+        "listTitle": "Skador",
+        "priceLabel": "Pris"
+      }
+    },
+    "interior": {
+      "label": "Interiör/Däck",
+      "area": "Område",
+      "areaPlaceholder": "Ange område",
+      "damageTypes": "Skadetyper",
+      "damageTypesPlaceholder": "Ange skadetyper",
+      "deduction": "Avdrag",
+      "addDamageButton": "LÄGG TILL SKADA"
+    },
+    "actionButtons": {
+      "done": "KLAR",
+      "cancel": "AVBRYT"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "LADDA NER BILDER",
+    "generatePdf": "SKAPA PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Visa skador",
+      "hideDamages": "Dölj skador",
+      "closeSpotlight": "Stäng aktuell bild",
+      "changeImage": "Byt bild"
+    }
+  },
+  "errors": {
+    "inspectionId": "Det begärda inspektions-ID:t hittades inte på servern. Om du angav ID:t manuellt, kontrollera stavningen och försök igen."
+  }
+}
