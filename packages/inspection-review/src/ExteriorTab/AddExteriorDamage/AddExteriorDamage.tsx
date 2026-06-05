@@ -26,23 +26,16 @@ const secondColumnDamages = [
 /**
  * Props for the AddExteriorDamage component.
  */
-export type AddExteriorDamageProps = Pick<
-  TabExteriorState,
-  'selectedPart' | 'onDone' | 'onCancelDamage'
->;
+export type AddExteriorDamageProps = Pick<TabExteriorState, 'onDone' | 'onCancelDamage'>;
 
 /**
  * Component for adding exterior damage details.
  */
-export function AddExteriorDamage({
-  selectedPart,
-  onDone,
-  onCancelDamage,
-}: AddExteriorDamageProps) {
+export function AddExteriorDamage({ onDone, onCancelDamage }: AddExteriorDamageProps) {
   const { palette } = useMonkTheme();
   const { tObj } = useObjectTranslation();
   const { t } = useTranslation();
-  const { currency, isLeftSideCurrency } = useInspectionReviewProvider();
+  const { currency, isLeftSideCurrency, selectedExteriorPart } = useInspectionReviewProvider();
   const {
     hasDamage,
     setHasDamage,
@@ -52,12 +45,16 @@ export function AddExteriorDamage({
     isDoneDisabled,
     handlePricingChange,
     handleDoneClick,
-  } = useExteriorDamage({ selectedPart, onDone });
+  } = useExteriorDamage({ selectedExteriorPart, onDone });
 
   return (
     <div>
       <div style={styles['title']}>
-        <p>{selectedPart?.part ? tObj(vehiclePartLabels[selectedPart?.part]) : 'unknown'}</p>
+        <p>
+          {selectedExteriorPart?.part
+            ? tObj(vehiclePartLabels[selectedExteriorPart?.part])
+            : 'unknown'}
+        </p>
       </div>
       <div style={styles['switchButtonContainer']}>
         <p>{t('tabs.exterior.addDamage.title')}</p>

@@ -28,10 +28,6 @@ export interface TabExteriorState {
    */
   currentView: ExteriorViews;
   /**
-   * The currently selected damaged part details, or null if none is selected.
-   */
-  selectedPart: DamagedPartDetails | null;
-  /**
    * The current orientation of the vehicle part selection.
    */
   orientation: PartSelectionOrientation;
@@ -74,6 +70,7 @@ export interface TabExteriorState {
  */
 export function useExteriorTab(): TabExteriorState {
   const {
+    onChangeSelectedExteriorPart,
     vehicleType,
     handleConfirmExteriorDamages,
     damagedPartsDetails,
@@ -85,7 +82,6 @@ export function useExteriorTab(): TabExteriorState {
   const { palette } = useMonkTheme();
 
   const [initialGalleryItems, setInitialGalleryItems] = useState<GalleryItem[]>([]);
-  const [selectedPart, setSelectedPart] = useState<DamagedPartDetails | null>(null);
   const [validatedParts, setValidatedParts] = useState<VehiclePart[]>([]);
   const [orientation, setOrientation] = useState<PartSelectionOrientation>(
     PartSelectionOrientation.FRONT_LEFT,
@@ -109,7 +105,9 @@ export function useExteriorTab(): TabExteriorState {
   const handlePartClicked = (part: VehiclePart) => {
     setCurrentView(ExteriorViews.AddPartDamage);
     const damagedPart = damagedPartsDetails.find((d) => d.part === part);
-    setSelectedPart(damagedPart ?? { part, isDamaged: false, damageTypes: [], pricing: undefined });
+    onChangeSelectedExteriorPart(
+      damagedPart ?? { part, isDamaged: false, damageTypes: [], pricing: undefined },
+    );
 
     if (initialGalleryItems.length === 0) {
       setInitialGalleryItems(currentGalleryItems);
@@ -131,7 +129,7 @@ export function useExteriorTab(): TabExteriorState {
   const resetToListView = () => {
     setCurrentGalleryItems(initialGalleryItems);
     setCurrentView(ExteriorViews.SVGCar);
-    setSelectedPart(null);
+    onChangeSelectedExteriorPart(null);
   };
 
   const handleDone = (partDetails: DamagedPartDetails) => {
@@ -177,7 +175,6 @@ export function useExteriorTab(): TabExteriorState {
 
   return {
     currentView,
-    selectedPart,
     orientation,
     vehicleType,
     validatedParts,

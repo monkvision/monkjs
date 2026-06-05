@@ -1,13 +1,15 @@
 import { useObjectMemo } from '@monkvision/common';
 import { DamageType } from '@monkvision/types';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { DamagedPartDetails } from '../../../types';
+import { DamagedPartDetails, InspectionReviewProviderState } from '../../../types';
 import { TabExteriorState } from '../../hooks/useExteriorTab';
 
 /**
  * Props for the useExteriorDamage hook.
  */
-export type UseExteriorDamageProps = Pick<TabExteriorState, 'selectedPart' | 'onDone'>;
+export interface UseExteriorDamageProps
+  extends Pick<TabExteriorState, 'onDone'>,
+    Pick<InspectionReviewProviderState, 'selectedExteriorPart'> {}
 
 /**
  * State and handlers for adding exterior damage.
@@ -55,17 +57,17 @@ export interface UseExteriorDamageState {
  * Custom hook to manage state for managing exterior damage state.
  */
 export function useExteriorDamage({
-  selectedPart,
+  selectedExteriorPart,
   onDone,
 }: UseExteriorDamageProps): UseExteriorDamageState {
   const [hasDamage, setHasDamage] = useState<boolean>(
-    selectedPart ? selectedPart.damageTypes.length > 0 : false,
+    selectedExteriorPart ? selectedExteriorPart.damageTypes.length > 0 : false,
   );
   const [damageTypes, setDamageTypes] = useState<DamageType[]>(
-    selectedPart ? selectedPart.damageTypes : [],
+    selectedExteriorPart ? selectedExteriorPart.damageTypes : [],
   );
   const [pricing, setPricing] = useState<number | undefined>(
-    selectedPart ? selectedPart.pricing ?? 0 : 0,
+    selectedExteriorPart ? selectedExteriorPart.pricing ?? 0 : 0,
   );
   const isDoneDisabled = useMemo(
     () => hasDamage && damageTypes.length === 0,
@@ -88,10 +90,10 @@ export function useExteriorDamage({
   };
 
   const handleDoneClick = () => {
-    if (!selectedPart) {
+    if (!selectedExteriorPart) {
       return;
     }
-    onDone({ part: selectedPart.part, damageTypes, pricing, isDamaged: hasDamage });
+    onDone({ part: selectedExteriorPart.part, damageTypes, pricing, isDamaged: hasDamage });
   };
 
   return useObjectMemo({
@@ -100,7 +102,7 @@ export function useExteriorDamage({
     damageTypes,
     onDamageClicked,
     pricing,
-    detailedPart: selectedPart,
+    detailedPart: selectedExteriorPart,
     isDoneDisabled,
     handlePricingChange,
     handleDoneClick,

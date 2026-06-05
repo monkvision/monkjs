@@ -5,7 +5,7 @@ import { CurrencySymbol } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
 import { sights } from '@monkvision/sights';
-import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps } from '../types';
+import { GalleryItem, DEFAULT_PRICINGS, InspectionReviewProps, DamagedPartDetails } from '../types';
 import { calculatePolygonArea } from '../utils/galleryItems.utils';
 import useDamagedPartsState from './useDamagedPartsState';
 import useDamagedPartActionsState from './useDamagedPartActionsState';
@@ -28,6 +28,7 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
 
   const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
   const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
+  const [selectedExteriorPart, setSelectedExteriorPart] = useState<DamagedPartDetails | null>(null);
 
   const isLeftSideCurrency = useMemo(() => currency === CurrencySymbol.USD, [currency]);
   const inspection = useMemo(
@@ -162,6 +163,8 @@ export function InspectionReviewProvider(props: PropsWithChildren<InspectionRevi
         activeTab,
         ActiveTabComponent,
         onTabChange,
+        selectedExteriorPart,
+        onChangeSelectedExteriorPart: setSelectedExteriorPart,
       }}
     >
       {loading.isLoading && <Spinner primaryColor='gray' size={80} />}

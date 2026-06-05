@@ -14,7 +14,6 @@ export const styles: Styles = {
     padding: '16px',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
 
   section: {
