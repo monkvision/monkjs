@@ -1,6 +1,6 @@
 import { ImageType } from '@monkvision/types';
-import { ExteriorTab } from '../ExteriorTab';
-import { InteriorTab } from '../InteriorTab';
+import { ExteriorTab } from '../components/ExteriorTab';
+import { InteriorTab } from '../components/InteriorTab';
 import { TabKeys, type GalleryItem, type TabActivationAPI, type TabContent } from '../types';
 
 function getTabGalleryItems({

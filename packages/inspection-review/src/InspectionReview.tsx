@@ -1,9 +1,9 @@
 import React from 'react';
-import { Tabs } from './Tabs';
-import { ReviewGallery } from './ReviewGallery';
-import { GeneratePDFButton } from './GeneratePDFButton';
-import { DownloadImagesButton } from './DownloadImagesButton';
-import { InspectionInfo } from './InspectionInfo';
+import { Tabs } from './components/Tabs';
+import { ReviewGallery } from './components/ReviewGallery';
+import { GeneratePDFButton } from './components/GeneratePDFButton';
+import { DownloadImagesButton } from './components/DownloadImagesButton';
+import { InspectionInfo } from './components/InspectionInfo';
 import { InspectionReviewProps } from './types';
 import { styles } from './InspectionReview.styles';
 import { useInspectionReviewProvider } from './hooks';
