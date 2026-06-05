@@ -72,7 +72,6 @@ export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightIm
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    const isMac = navigator.userAgent.includes('Mac OS X');
     if ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) {
       setCursorStyle('zoom-in');
     }
