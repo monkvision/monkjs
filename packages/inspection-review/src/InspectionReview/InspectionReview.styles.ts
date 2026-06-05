@@ -2,13 +2,14 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    width: '100%',
-    height: '100%',
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    backgroundColor: 'black',
+    width: '100%',
+    height: '100%',
+    rowGap: 8,
+    backgroundColor: 'white',
+    color: 'black',
+    padding: 16,
   },
 };
