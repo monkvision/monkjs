@@ -1,4 +1,7 @@
+import { DoneButton } from '../../DoneButton';
+import { useInspectionReviewState } from '../../hooks/InspectionReviewProvider';
 import { InteriorDamage, SelectedInteriorDamageData } from '../../types';
+import { styles } from './AddInteriorDamage.styles';
 import { useInteriorDamage } from './hooks/useInteriorDamage';
 
 /*
@@ -23,58 +26,71 @@ export interface AddInteriorDamageProps {
  * The AddInteriorDamage component allows users to add new interior damage entries.
  */
 export function AddInteriorDamage({ damageData, onCancel, onSave }: AddInteriorDamageProps) {
+  const { currency } = useInspectionReviewState();
   const { currentDamage, handleInputChange } = useInteriorDamage({ damageData });
 
   return (
-    <div>
-      <h2>{damageData ? 'Edit Interior Damage' : 'Add Interior Damage'}</h2>
-
-      <div>
-        <label>
-          Area
+    <div style={styles['container']}>
+      <div style={styles['inputSectionContainer']}>
+        <p style={styles['section']}>Area</p>
+        <div style={styles['inputSection']}>
           <input
             type='text'
+            style={styles['price']}
             value={currentDamage?.area || ''}
             onChange={(e) => handleInputChange({ area: e.target.value })}
           />
-        </label>
+        </div>
       </div>
 
-      <div>
-        <label>
-          Damage Type
+      <div style={styles['inputSectionContainer']}>
+        <p style={styles['section']}>Damage Type</p>
+        <div style={styles['inputSection']}>
           <input
             type='text'
+            style={styles['price']}
             value={currentDamage?.damage_type || ''}
             onChange={(e) => handleInputChange({ damage_type: e.target.value })}
           />
-        </label>
+        </div>
       </div>
 
-      <div>
-        <label>
-          Deduction
+      <div style={styles['inputSectionContainer']}>
+        <p style={styles['section']}>Deduction</p>
+        <div style={styles['inputSection']}>
           <input
-            type='number'
+            type='text'
+            style={{
+              ...styles['price'],
+              justifyItems: currency === '$' ? 'start' : 'end',
+            }}
+            maxLength={4}
             value={currentDamage?.repair_cost || ''}
             onChange={(e) =>
               handleInputChange({ repair_cost: e.target.value ? Number(e.target.value) : null })
             }
           />
-        </label>
+          {currency !== '$' && (
+            <div style={{ alignSelf: 'center', paddingLeft: '5px', paddingRight: '20px' }}>
+              {currency}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div style={{ display: 'flex' }}>
-        <button onClick={onCancel}>Cancel</button>
-        <button
-          onClick={() => {
+      <div style={styles['footerContainer']}>
+        <button style={{ ...styles['button'], ...styles['cancel'] }} onClick={onCancel}>
+          CANCEL
+        </button>
+        <DoneButton
+          onConfirm={() => {
             if (currentDamage) {
               onSave(currentDamage);
             }
           }}
         >
-          Save
-        </button>
+          DONE
+        </DoneButton>
       </div>
     </div>
   );
