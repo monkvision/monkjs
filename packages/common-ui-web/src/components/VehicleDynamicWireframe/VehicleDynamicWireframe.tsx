@@ -11,12 +11,14 @@ export function VehicleDynamicWireframe({
   onClickPart = () => {},
   orientation = PartSelectionOrientation.FRONT_LEFT,
   getPartAttributes = () => ({}),
+  validatedParts = [],
 }: VehicleDynamicWireframeProps) {
   const { overlay, getAttributes } = useVehicleDynamicWireframe({
     vehicleType,
     orientation,
     onClickPart,
     getPartAttributes,
+    validatedParts,
   });
 
   return <DynamicSVG svg={overlay} style={styles['svg']} getAttributes={getAttributes} />;
