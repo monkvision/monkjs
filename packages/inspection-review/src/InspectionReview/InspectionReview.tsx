@@ -4,7 +4,6 @@ import { useTabsState } from './hooks/useTabsState';
 import { GeneratePDFButton } from './GeneratePDFButton';
 import { DownloadImagesButton } from './DownloadImagesButton';
 import { InspectionInfo } from './InspectionInfo';
-import { Shortcuts } from './Shortcuts';
 import { InspectionReviewProps } from './types';
 import { styles } from './InspectionReview.styles';
 
@@ -22,7 +21,6 @@ export function InspectionReview(props: InspectionReviewProps) {
         <div style={styles['header']}>
           <div style={styles['headerRow']}>
             <InspectionInfo additionalInfo={props.additionalInfo} />
-            <Shortcuts />
           </div>
 
           <div style={styles['headerRow']}>

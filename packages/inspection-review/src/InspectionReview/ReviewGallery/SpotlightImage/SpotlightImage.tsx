@@ -2,6 +2,7 @@ import { useObjectTranslation } from '@monkvision/common';
 import { GalleryItem } from '../../types';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
 import { styles } from './SpotlightImage.styles';
+import { Shortcuts } from './Shortcuts';
 
 /**
  * Props accepted by the SpotlightImage component.
@@ -28,60 +29,28 @@ export function SpotlightImage({ selectedItem, showDamage }: SpotlightImageProps
   });
 
   return (
-    <div
-      className='spotlight-image'
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flex: 6,
-        width: '100%',
-        height: '100%',
-        cursor: cursorStyle,
-      }}
-    >
-      {isMouseOver && (
-        <>
-          <div
-            style={{
-              position: 'absolute',
-              top: 10,
-              left: 10,
-              cursor: 'pointer',
-            }}
-          >
-            close
-          </div>
+    <div className='spotlight-image' style={{ ...styles['container'], cursor: cursorStyle }}>
+      <div style={{ position: 'relative' }}>
+        {isMouseOver && (
+          <>
+            <div style={styles['closeButton']}>X</div>
 
-          {selectedItem.renderedOutput && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                cursor: 'pointer',
-              }}
-            >
-              Show Damages
+            {selectedItem.renderedOutput && (
+              <div style={styles['showDamagesButton']}>Show Damages</div>
+            )}
+
+            <div style={styles['imageNavigationContainer']}>
+              <div>left</div>
+              <div>{selectedItem.image.label ? tObj(selectedItem.image.label) : ''}</div>
+              <div>right</div>
             </div>
-          )}
-
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              cursor: 'pointer',
-              display: 'flex',
-              justifyContent: 'space-around',
-              width: '100%',
-            }}
-          >
-            <div>left</div>
-            <div>{selectedItem.image.label ? tObj(selectedItem.image.label) : ''}</div>
-            <div>right</div>
-          </div>
-        </>
-      )}
-      <img src={backgroundImage} alt={selectedItem.image.id} style={styles['imageContainer']} />
+          </>
+        )}
+        <img src={backgroundImage} alt={selectedItem.image.id} style={styles['imageContainer']} />
+      </div>
+      <div style={styles['shortcutsContainer']}>
+        <Shortcuts />
+      </div>
     </div>
   );
 }
