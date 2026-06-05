@@ -27,7 +27,7 @@
     }
   },
   "actionButtons": {
-    "downloadPictures": "DOWNLOAD PICTURES",
+    "downloadImages": "DOWNLOAD IMAGES",
     "generatePdf": "GENERATE PDF"
   },
   "gallery": {

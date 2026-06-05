@@ -1,5 +1,5 @@
 import { i18nWrap, MonkProvider, useI18nSync } from '@monkvision/common';
-import { i18nInspectionReview } from '../i18n';
+import { i18nInspectionReview } from './i18n';
 import { InspectionReview } from './InspectionReview';
 import { InspectionReviewProps } from './types';
 import { InspectionReviewProvider } from './hooks/InspectionReviewProvider';
