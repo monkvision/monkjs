@@ -2,7 +2,6 @@ import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
   container: {
-    // width: '150px',
     display: 'flex',
     flexDirection: 'row',
     padding: '16px',

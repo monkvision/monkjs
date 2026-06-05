@@ -5229,7 +5229,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@monkvision/inspection-review@*, @monkvision/inspection-review@workspace:packages/inspection-review":
+"@monkvision/inspection-review@workspace:packages/inspection-review":
   version: 0.0.0-use.local
   resolution: "@monkvision/inspection-review@workspace:packages/inspection-review"
   dependencies:
@@ -19701,7 +19701,6 @@ __metadata:
     "@monkvision/eslint-config-typescript": 5.3.10
     "@monkvision/eslint-config-typescript-react": 5.3.10
     "@monkvision/inspection-capture-web": 5.3.10
-    "@monkvision/inspection-review": "*"
     "@monkvision/jest-config": 5.3.10
     "@monkvision/monitoring": 5.3.10
     "@monkvision/network": 5.3.10
