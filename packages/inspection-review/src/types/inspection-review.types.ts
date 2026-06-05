@@ -5,6 +5,19 @@ import { TabKeys, TabContent } from './tabs.types';
 import { GalleryItem } from './gallery.types';
 
 /**
+ * Props related to the PDF generation feature.
+ */
+export type InspectionReviewPDFProps =
+  | {
+      isPDFGeneratorEnabled?: false;
+      onDownloadPDF?: never;
+    }
+  | {
+      isPDFGeneratorEnabled: true;
+      onDownloadPDF: () => void;
+    };
+
+/**
  * Props accepted by the InspectionReview component.
  */
 export type InspectionReviewProps = {
@@ -83,4 +96,4 @@ export type InspectionReviewProps = {
    * Callback function triggered when the image download is requested.
    */
   onDownloadImages?: (allGalleryItems: GalleryItem[]) => void;
-};
+} & InspectionReviewPDFProps;
