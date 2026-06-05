@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Nadwozie",
+      "pricings": {
+        "needsPricing": "Wymaga wyceny"
+      },
+      "addDamage": {
+        "title": "Ta część jest uszkodzona",
+        "listTitle": "Uszkodzenia",
+        "priceLabel": "Cena"
+      }
+    },
+    "interior": {
+      "label": "Wnętrze/Opony",
+      "area": "Obszar",
+      "areaPlaceholder": "Wprowadź obszar",
+      "damageTypes": "Rodzaje uszkodzeń",
+      "damageTypesPlaceholder": "Wprowadź rodzaje uszkodzeń",
+      "deduction": "Potrącenie",
+      "addDamageButton": "DODAJ USZKODZENIE"
+    },
+    "actionButtons": {
+      "done": "GOTOWE",
+      "cancel": "ANULUJ"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "POBIERZ ZDJĘCIA",
+    "generatePdf": "GENERUJ PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Pokaż uszkodzenia",
+      "hideDamages": "Ukryj uszkodzenia",
+      "closeSpotlight": "Zamknij obecne zdjęcie",
+      "changeImage": "Zmień zdjęcie"
+    }
+  },
+  "errors": {
+    "inspectionId": "Żądany identyfikator inspekcji nie został znaleziony na serwerze. Jeśli wpisałeś identyfikator ręcznie, sprawdź pisownię i spróbuj ponownie."
+  }
+}
