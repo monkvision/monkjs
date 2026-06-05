@@ -1,5 +1,5 @@
 import { Polygon } from '@monkvision/types';
-import { GalleryItem } from '../types';
+import type { GalleryItem } from '../types';
 
 /**
  * Helper function to calculate the area of a polygon using the Shoelace formula.
