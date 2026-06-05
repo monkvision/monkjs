@@ -2,13 +2,13 @@ import { styles } from './InspectionReview.styles';
 import { MonkApiConfig } from '@monkvision/network';
 import { Tabs } from './Tabs';
 import { ReviewGallery } from './ReviewGallery';
-import { useInspectionReviewState, useTabsState } from './hooks';
+import { TabContent, useTabsState } from './hooks';
 import { GeneratePDFButton } from './GeneratePDFButton';
 import { DownloadImagesButton } from './DownloadImagesButton';
-import { ActiveTab } from './ActiveTab';
 import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
 import { Image } from '@monkvision/types';
+import React, { useMemo } from 'react';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -51,7 +51,7 @@ export type InspectionReviewProps = {
    *
    * @default exterior, interior/tire
    */
-  customTabs?: Record<string, React.ReactNode>;
+  customTabs?: Record<string, TabContent>;
   /**
    * Callback to handle updates to the gallery items. Useful when changing between custom tabs.
    */
@@ -68,8 +68,25 @@ export type InspectionReviewProps = {
  * The Inspection Review component provided by the Monk inspection-review package.
  */
 export function InspectionReview(props: InspectionReviewProps) {
-  const { galleryItems } = useInspectionReviewState({ inspectionId: props.inspectionId });
-  const { allTabs, activeTab, handleTabChange } = useTabsState({ customTabs: props.customTabs });
+  const { allTabs, activeTab, handleTabChange } = useTabsState({
+    customTabs: props.customTabs,
+  });
+  const ActiveTab = useMemo(() => {
+    const activeTabContent = allTabs[activeTab];
+    let tabComponent = activeTabContent;
+
+    if ('Component' in activeTabContent) {
+      tabComponent = activeTabContent.Component;
+    }
+    if (React.isValidElement(tabComponent)) {
+      return tabComponent;
+    }
+    if (typeof tabComponent === 'function') {
+      return React.createElement(tabComponent as React.ComponentType<typeof tabComponent>);
+    }
+
+    return null;
+  }, [activeTab, allTabs]);
 
   return (
     <div style={styles['container']}>
@@ -88,16 +105,13 @@ export function InspectionReview(props: InspectionReviewProps) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <DownloadImagesButton />
-          <GeneratePDFButton />
+          {props.isPDFGeneratorEnabled && <GeneratePDFButton />}
         </div>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <div style={{ flex: 6 }}>
-          <ActiveTab activeTab={activeTab} />
-        </div>
-
-        <ReviewGallery galleryItems={galleryItems} />
+        <div style={{ flex: 6 }}>{ActiveTab}</div>
+        <ReviewGallery />
       </div>
     </div>
   );
