@@ -1,15 +1,15 @@
 import { useObjectMemo } from '@monkvision/common';
-import { Image } from '@monkvision/types';
 import { useCallback, useEffect, useState } from 'react';
+import { GalleryItem } from '../../hooks';
 
 /**
  * Props accepted by the useGalleryState hook.
  */
 export interface GalleryStateProps {
   /**
-   * The list of images to be managed by the gallery state.
+   * The list of gallery items to be managed by the gallery state.
    */
-  galleryItems: Image[];
+  galleryItems: GalleryItem[];
 }
 
 /**
@@ -17,9 +17,9 @@ export interface GalleryStateProps {
  */
 export interface HandleGalleryState {
   /**
-   * The currently selected image in the gallery.
+   * The currently selected item in the gallery.
    */
-  selectedImage: Image | null;
+  selectedItem: GalleryItem | null;
   /**
    * Flag indicating whether to show damage on the selected image.
    */
@@ -33,45 +33,49 @@ export interface HandleGalleryState {
    */
   nextImage: () => void;
   /**
-   * Function to select an image by its ID.
+   * Function to select an item by its image ID.
    */
-  onSelectImage: (imageId: string) => void;
+  onSelectItem: (imageId: string) => void;
 }
 
 /**
  * Custom hook to manage the state of the gallery, including selected image, navigation, and whether to show damage.
  */
 export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGalleryState {
-  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [showDamage, setShowDamage] = useState(false);
 
-  const onSelectImage = useCallback(
+  const onSelectItem = useCallback(
     (imageId: string) => {
-      const image = galleryItems?.find((img) => img.id === imageId) || null;
-      setSelectedImage(image);
+      const image = galleryItems?.find((item) => item.image.id === imageId) || null;
+      setSelectedItem(image);
     },
     [galleryItems],
   );
 
   const previousImage = useCallback(() => {
-    if (selectedImage) {
-      const currentIndex = galleryItems?.findIndex((img) => img.id === selectedImage.id);
+    if (selectedItem) {
+      const currentIndex = galleryItems?.findIndex(
+        (item) => item.image.id === selectedItem.image.id,
+      );
       const previousIndex = currentIndex > 0 ? currentIndex - 1 : galleryItems.length - 1;
       const previousImage = galleryItems ? galleryItems[previousIndex] : null;
 
-      setSelectedImage(previousImage);
+      setSelectedItem(previousImage);
     }
-  }, [galleryItems, selectedImage]);
+  }, [galleryItems, selectedItem]);
 
   const nextImage = useCallback(() => {
-    if (selectedImage) {
-      const currentIndex = galleryItems?.findIndex((img) => img.id === selectedImage.id);
+    if (selectedItem) {
+      const currentIndex = galleryItems?.findIndex(
+        (item) => item.image.id === selectedItem.image.id,
+      );
       const nextIndex = currentIndex < galleryItems.length - 1 ? currentIndex + 1 : 0;
       const nextImage = galleryItems ? galleryItems[nextIndex] : null;
 
-      setSelectedImage(nextImage);
+      setSelectedItem(nextImage);
     }
-  }, [galleryItems, selectedImage]);
+  }, [galleryItems, selectedItem]);
 
   useEffect(() => {
     const keyStrokeActions: { [key: string]: () => void } = {
@@ -79,9 +83,9 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
       S: () => setShowDamage(!showDamage),
       ArrowLeft: previousImage,
       ArrowRight: nextImage,
-      q: () => setSelectedImage(null),
-      Q: () => setSelectedImage(null),
-      Escape: () => setSelectedImage(null),
+      q: () => setSelectedItem(null),
+      Q: () => setSelectedItem(null),
+      Escape: () => setSelectedItem(null),
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -97,13 +101,13 @@ export function useGalleryState({ galleryItems }: GalleryStateProps): HandleGall
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedImage, showDamage]);
+  }, [selectedItem, showDamage]);
 
   return useObjectMemo({
-    selectedImage,
+    selectedItem,
     showDamage,
     previousImage,
     nextImage,
-    onSelectImage,
+    onSelectItem,
   });
 }

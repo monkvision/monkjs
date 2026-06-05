@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { styles } from './Shortcuts.styles';
 
 function ShortcutLegend({ letter, text }: { letter: string; text: string }) {
@@ -16,12 +15,10 @@ function ShortcutLegend({ letter, text }: { letter: string; text: string }) {
  * The Shortcuts component displaying available keyboard shortcuts while in Gallery.
  */
 export function Shortcuts() {
-  const { t } = useTranslation();
-
   return (
     <>
-      <ShortcutLegend letter='S' text={t('inspectionReview.header.showHideDamages')} />
-      <ShortcutLegend letter='Q' text={t('inspectionReview.header.closeCurrentImage')} />
+      <ShortcutLegend letter='S' text='Show/Hide damages' />
+      <ShortcutLegend letter='Q' text='Close current image' />
       <div style={styles['legend']}>
         <div style={styles['icon']} color={'white'}>
           <p style={styles['iconText']}>←</p>
@@ -29,7 +26,7 @@ export function Shortcuts() {
         <div style={styles['icon']} color={'white'}>
           <p style={styles['iconText']}>→</p>
         </div>
-        {t('inspectionReview.header.changeImage')}
+        Change image
       </div>
     </>
   );

@@ -1,22 +1,26 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ExteriorTab } from '../ExteriorTab';
 import { InteriorTab } from '../InteriorTab';
 import { useObjectMemo } from '@monkvision/common';
-import { Image } from '@monkvision/types';
-import { useInspectionReviewState } from './InspectionReviewProvider';
+import { GalleryItem, useInspectionReviewState } from './InspectionReviewProvider';
+import { SightCategory } from '@monkvision/types';
 
 /**
  * API provided to tabs upon activation.
  */
 export type TabActivationAPI = {
   /**
-   * The current gallery items.
+   * The current gallery items displayed.
    */
-  galleryItems: Image[];
+  currentGalleryItems: GalleryItem[];
   /**
-   * Function to update the gallery items when the tab is activated.
+   * All gallery items available in the inspection review.
    */
-  setGalleryItems: (items: Image[]) => void;
+  allGalleryItems: GalleryItem[];
+  /**
+   * Function to update the current gallery items when the tab is activated.
+   */
+  setCurrentGalleryItems: (items: GalleryItem[]) => void;
 };
 
 /**
@@ -45,10 +49,32 @@ export type TabContent = React.FC | React.ReactElement | TabObject;
 /**
  * Enumeration of the default tab keys available in the inspection review.
  */
-export enum TabKeys {
+enum TabKeys {
   Exterior = 'Exterior',
   Interior = 'Interior/Tire',
 }
+
+/**
+ * Default tabs available in the inspection review.
+ */
+const defaultTabs: Record<string, TabContent> = {
+  [TabKeys.Exterior]: {
+    Component: ExteriorTab,
+    onActivate: ({ setCurrentGalleryItems, allGalleryItems }) => {
+      setCurrentGalleryItems(
+        allGalleryItems.filter((item) => item.sight.category === SightCategory.EXTERIOR),
+      );
+    },
+  },
+  [TabKeys.Interior]: {
+    Component: InteriorTab,
+    onActivate: ({ setCurrentGalleryItems, allGalleryItems }) => {
+      setCurrentGalleryItems(
+        allGalleryItems.filter((item) => item.sight.category === SightCategory.INTERIOR),
+      );
+    },
+  },
+};
 
 /**
  * Parameters accepted by the useTabsState hook.
@@ -88,16 +114,15 @@ export interface HandleTabState {
  * Custom hook to manage the state of tabs in the inspection review, allowing for default and custom tab keys.
  */
 export function useTabsState(params?: TabsStateParams): HandleTabState {
-  const { galleryItems, setGalleryItems } = useInspectionReviewState();
+  const { allGalleryItems, currentGalleryItems, setCurrentGalleryItems } =
+    useInspectionReviewState();
+
+  const [hasInitiated, setHasInitiated] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>(params?.initialTab ?? TabKeys.Exterior);
-  const allTabs: Record<string, TabContent> = useMemo(
-    () => ({
-      [TabKeys.Exterior]: ExteriorTab,
-      [TabKeys.Interior]: InteriorTab,
-      ...params?.customTabs,
-    }),
-    [params?.customTabs],
-  );
+  const allTabs: Record<string, TabContent> = {
+    ...defaultTabs,
+    ...params?.customTabs,
+  };
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -107,20 +132,29 @@ export function useTabsState(params?: TabsStateParams): HandleTabState {
 
       if (allTabs[tab] && 'onActivate' in allTabs[tab]) {
         (allTabs[tab] as TabObject).onActivate?.({
-          galleryItems,
-          setGalleryItems,
+          currentGalleryItems,
+          allGalleryItems,
+          setCurrentGalleryItems,
         });
       }
       if (allTabs[activeTab] && 'onDeactivate' in allTabs[activeTab]) {
         (allTabs[activeTab] as TabObject).onDeactivate?.({
-          galleryItems,
-          setGalleryItems,
+          currentGalleryItems,
+          allGalleryItems,
+          setCurrentGalleryItems,
         });
       }
       setActiveTab(tab);
     },
-    [allTabs, activeTab, galleryItems, setGalleryItems],
+    [allTabs, activeTab, allGalleryItems, setCurrentGalleryItems],
   );
+
+  useEffect(() => {
+    if (currentGalleryItems.length === 0 && !hasInitiated) {
+      handleTabChange(activeTab);
+      setHasInitiated(true);
+    }
+  }, [allGalleryItems, currentGalleryItems]);
 
   return useObjectMemo({
     allTabs,

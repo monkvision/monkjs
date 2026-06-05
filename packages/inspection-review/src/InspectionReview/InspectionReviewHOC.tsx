@@ -2,6 +2,7 @@ import { i18nWrap, MonkProvider, useI18nSync, useLoadingState } from '@monkvisio
 import { i18nInspectionReview } from '../i18n';
 import { InspectionReview, InspectionReviewProps } from './InspectionReview';
 import { InspectionReviewState } from './hooks/InspectionReviewProvider';
+import { Spinner } from '@monkvision/common-ui-web';
 
 // TODO: Props to receive:
 // a single steering wheel direction
@@ -38,12 +39,8 @@ export const InspectionReviewHOC = i18nWrap(function InspectionReviewHOC(
 
   return (
     <MonkProvider>
-      <InspectionReviewState
-        inspectionId={props.inspectionId}
-        apiConfig={props.apiConfig}
-        loading={loading}
-      >
-        <InspectionReview {...props} />
+      <InspectionReviewState loading={loading} {...props}>
+        {loading.isLoading ? <Spinner /> : <InspectionReview {...props} />}
       </InspectionReviewState>
     </MonkProvider>
   );

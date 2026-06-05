@@ -7,7 +7,7 @@ import { GeneratePDFButton } from './GeneratePDFButton';
 import { DownloadImagesButton } from './DownloadImagesButton';
 import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
-import { Image } from '@monkvision/types';
+import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import React, { useMemo } from 'react';
 
 /**
@@ -23,6 +23,22 @@ export type InspectionReviewProps = {
    * one as the one that created the inspection provided in the `inspectionId` prop.
    */
   apiConfig: MonkApiConfig;
+  /**
+   * The position of the steering wheel in the vehicle being inspected.
+   */
+  steeringWheelPosition: SteeringWheelPosition;
+  /**
+   * The types of vehicles involved in the inspection.
+   */
+  vehicleTypes: VehicleType[];
+  /**
+   * A mapping of vehicle types to their corresponding sight IDs.
+   */
+  sights: Partial<Record<VehicleType, string[]>>;
+  /**
+   * The tab key to be used for where the unmatched sights should be displayed.
+   */
+  unmatchedSightsTab: string;
   /**
    * This prop can be used to specify the language to be used by the InspectionReview component.
    *
@@ -52,10 +68,6 @@ export type InspectionReviewProps = {
    * @default exterior, interior/tire
    */
   customTabs?: Record<string, TabContent>;
-  /**
-   * Callback to handle updates to the gallery items. Useful when changing between custom tabs.
-   */
-  handleGalleryUpdate?: (items: Image[]) => void;
   /**
    * Currency to be used for cost estimates.
    *

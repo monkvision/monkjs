@@ -1,8 +1,28 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { type Image, Inspection } from '@monkvision/types';
+import { type Image, Inspection, RenderedOutput, Sight } from '@monkvision/types';
 import { LoadingState, useMonkState } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useTranslation } from 'react-i18next';
+import { InspectionReviewProps } from '../InspectionReview';
+import { sights } from '@monkvision/sights';
+
+/**
+ * An item in the gallery, consisting of a sights, its image and associated rendered output.
+ */
+export interface GalleryItem {
+  /**
+   * The sight of which image will be displayed.
+   */
+  sight: Sight;
+  /**
+   * The image displayed in the gallery.
+   */
+  image: Image;
+  /**
+   * The rendered output associated with the image.
+   */
+  renderedOutput: RenderedOutput | undefined;
+}
 
 /**
  * State provided by the InspectionReviewProvider.
@@ -13,19 +33,23 @@ export type InspectionReviewState = {
    */
   inspection: Inspection | undefined;
   /**
-   * The list of images displayed in the Gallery View.
+   * The list of images available for this review.
    */
-  galleryItems: Image[];
+  allGalleryItems: GalleryItem[];
   /**
-   * Function to update the gallery items.
+   * The currently items displayed in the gallery.
    */
-  setGalleryItems: (items: Image[]) => void;
+  currentGalleryItems: GalleryItem[];
+  /**
+   * Function to update the currently displayed gallery items.
+   */
+  setCurrentGalleryItems: (items: GalleryItem[]) => void;
 };
 
 /**
  * Props accepted by the InspectionReviewProvider.
  */
-export interface InspectionReviewProviderProps {
+export interface InspectionReviewProviderProps extends Partial<InspectionReviewProps> {
   /**
    * The api config used to communicate with the API.
    */
@@ -52,7 +76,8 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
   const { state } = useMonkState();
   const { getInspection } = useMonkApi(apiConfig);
 
-  const [galleryItems, setGalleryItems] = useState<Image[]>([]);
+  const [allGalleryItems, setAllGalleryItems] = useState<GalleryItem[]>([]);
+  const [currentGalleryItems, setCurrentGalleryItems] = useState<GalleryItem[]>([]);
 
   const inspection = useMemo(
     () => state.inspections.find((i) => i.id === inspectionId),
@@ -69,6 +94,7 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
       }
       const fetchedInspection = await getInspection({
         id: inspectionId,
+        light: false,
       }).catch(() => {
         throw new Error(t('inspectionReview.errors.inspectionId'));
       });
@@ -76,15 +102,40 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
         (i) => i.id === inspectionId,
       ) as Inspection;
 
-      // a single steering wheel direction - This is passed as parent props to the HOC
+      const items: GalleryItem[] = [];
+      fetchedInspection.entities.images.forEach((img) => {
+        const sightId = img.sightId || img.additionalData?.sight_id;
+        if (sightId) {
+          const sight = sights[sightId];
+          const renderedOutput = fetchedInspection.entities.renderedOutputs.find(
+            (item) =>
+              item.additionalData?.['description'] === 'rendering of detected damages' &&
+              img.renderedOutputs.includes(item.id),
+          );
+          items.push({
+            image: img,
+            sight,
+            renderedOutput,
+          });
+        }
+      });
 
-      // a list of vehicle type - This is passed as parent props to the HOC
-      //  each vehicle has a list of sights ordered - This is passed as parent props to the HOC
-      //  any sight in the inspection that doesn't match the above list of sights, should go into a specific Tab, decided by the user (mandatory prop)
+      setAllGalleryItems(items);
+      console.log({ insp, fetchedInspection, items });
 
-      // based on the above detais, we should filter the inspection's sights and assign them to the correct tabs
-
-      setGalleryItems(fetchedInspection.entities.images);
+      // TODO: group sight IDs by category
+      // const exteriorSightIds: Record<string, string> = {};
+      // const interiorSightIds: Record<string, string> = {};
+      // const unmatchedSightIds: Record<string, string> = {};
+      // sightAndImageIds.forEach((sightAndImage) => {
+      //   if (sights[sightAndImage[0]]?.category === 'exterior') {
+      //     exteriorSightIds[sightAndImage[0]] = sightAndImage[1];
+      //   } else if (sights[sightAndImage[0]]?.category === 'interior') {
+      //     interiorSightIds[sightAndImage[0]] = sightAndImage[1];
+      //   } else {
+      //     unmatchedSightIds[sightAndImage[0]] = sightAndImage[1];
+      //   }
+      // });
 
       loading.onSuccess();
     };
@@ -98,7 +149,9 @@ export function InspectionReviewState(props: PropsWithChildren<InspectionReviewP
   }, [inspectionId]);
 
   return (
-    <InspectionReviewStateContext.Provider value={{ inspection, galleryItems, setGalleryItems }}>
+    <InspectionReviewStateContext.Provider
+      value={{ inspection, allGalleryItems, currentGalleryItems, setCurrentGalleryItems }}
+    >
       {props.children}
     </InspectionReviewStateContext.Provider>
   );
