@@ -9,7 +9,7 @@ import { InspectionInfo } from './InspectionInfo';
 import { Shortcuts } from './Shortcuts';
 import { SteeringWheelPosition, VehicleType } from '@monkvision/types';
 import React, { useMemo } from 'react';
-import { PriceData } from './types/pricing.types';
+import { PricingData } from './types/pricing.types';
 
 /**
  * Props accepted by the InspectionReview component.
@@ -76,9 +76,9 @@ export type InspectionReviewProps = {
    */
   currency?: string;
   /**
-   * Custom prices to be used in the prices legend section. They will override the default ones.
+   * Custom pricings to be used in the pricing legend section. They will override the default ones.
    */
-  prices?: Record<string, PriceData>;
+  pricings?: Record<string, PricingData>;
 };
 
 /**
