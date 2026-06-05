@@ -1,29 +1,12 @@
 import { Styles } from '@monkvision/types';
 
 export const styles: Styles = {
-  container: {
-    alignSelf: 'end',
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    borderRadius: '20px 20px 20px 20px',
-    top: '35px',
-    width: '100%',
-  },
   title: {
     padding: '16px',
     display: 'flex',
     justifyContent: 'center',
     fontWeight: '700',
     fontSize: '18px',
-  },
-  isDamageContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-    paddingBottom: '10px',
   },
   switchButtonContainer: {
     display: 'flex',
@@ -33,23 +16,25 @@ export const styles: Styles = {
     alignItems: 'center',
     width: '100%',
   },
+
+  section: {
+    padding: '16px',
+  },
+
+  damageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
+    paddingBottom: '10px',
+  },
   damagesColumnContainer: {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
     gap: '5px',
   },
-  price: {
-    border: 0,
-    outlineWidth: 0,
-    width: '100%',
-    fontSize: '15px',
-    letterSpacing: '0.5px',
-    padding: '16px',
-  },
-  section: {
-    padding: '16px',
-  },
+
   inputSectionContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -59,10 +44,31 @@ export const styles: Styles = {
   inputSection: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     border: 'solid rgba(1,1,1,0.4)',
-    paddingRight: '10px',
     margin: '0px 19px 0px 19px',
   },
+  inputSectionCurrencyLeft: {
+    flexDirection: 'row-reverse',
+  },
+  input: {
+    border: 0,
+    outlineWidth: 0,
+    width: '100%',
+    fontSize: '15px',
+    letterSpacing: '0.5px',
+    padding: '16px',
+  },
+
+  currency: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '-webkit-fill-available',
+    padding: '0px 10px',
+    backgroundColor: 'white',
+    color: 'black',
+  },
+
   footerContainer: {
     width: '100%',
     display: 'flex',
@@ -81,11 +87,6 @@ export const styles: Styles = {
     alignItems: 'center',
     margin: '20px',
     borderRadius: '9px',
-  },
-  currency: {
-    alignSelf: 'center',
-    paddingLeft: '20px',
-    paddingRight: '5px',
   },
   cancel: {
     background: 'white',

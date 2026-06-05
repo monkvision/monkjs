@@ -1,13 +1,18 @@
-import { Button } from '@monkvision/common-ui-web';
+import { useTranslation } from 'react-i18next';
+import { Button, Icon } from '@monkvision/common-ui-web';
 import { InteriorViews } from '../types';
 import { AddInteriorDamage } from './AddInteriorDamage/AddInteriorDamage';
 import { useInteriorTab } from './hooks/useInteriorTab';
 import { styles } from './InteriorTab.styles';
+import { useInteriorTabStyles } from './useInteriorTabStyles';
+import { useInspectionReviewState } from '../hooks/InspectionReviewProvider';
 
 /**
  * The InteriorTab component that displays content based on the currently active tab.
  */
 export function InteriorTab() {
+  const { t } = useTranslation();
+  const { currency } = useInspectionReviewState();
   const {
     interiorDamages,
     currentView,
@@ -18,6 +23,8 @@ export function InteriorTab() {
     handleDeleteInteriorDamage,
     resetToListView,
   } = useInteriorTab();
+  const { editIcon, deleteIcon } = useInteriorTabStyles();
+  const isLeftCurrency = currency === '$';
 
   if (currentView === InteriorViews.AddDamage) {
     return (
@@ -31,25 +38,19 @@ export function InteriorTab() {
 
   return (
     <div style={styles['container']}>
-      <table
-        style={{
-          width: '100%',
-          borderCollapse: 'collapse',
-          borderWidth: '1px',
-          borderColor: '#e5e7eb',
-          borderStyle: 'solid',
-        }}
-      >
+      <table style={styles['table']}>
         <thead>
           <tr>
             <th>
-              <div style={styles['thContent']}>Area</div>
+              <div style={styles['thContent']}>{t('tabs.interior.area')}</div>
             </th>
             <th>
-              <div style={styles['thContent']}>Damage Types</div>
+              <div style={styles['thContent']}>{t('tabs.interior.damageTypes')}</div>
             </th>
             <th>
-              <div style={styles['thContent']}>Deduction</div>
+              <div style={styles['thContent']}>
+                <div>{t('tabs.interior.deduction')}</div>
+              </div>
             </th>
             <th>
               <div style={styles['thContent']} />
@@ -61,11 +62,31 @@ export function InteriorTab() {
             <tr key={index} style={styles['tr']}>
               <td style={styles['td']}>{damage.area}</td>
               <td style={styles['td']}>{damage.damage_type}</td>
-              <td style={styles['td']}>{damage.repair_cost}</td>
               <td style={styles['td']}>
-                <div>
-                  <button onClick={() => editDamage(index, damage)}>Edit</button>
-                  <button onClick={() => handleDeleteInteriorDamage(index)}>Delete</button>
+                <div
+                  style={{
+                    ...styles['tdContent'],
+                    ...(isLeftCurrency ? styles['tdCurrencyLeft'] : {}),
+                  }}
+                >
+                  <div>{damage.repair_cost}</div>
+                  <div>{currency}</div>
+                </div>
+              </td>
+              <td style={styles['td']}>
+                <div style={styles['actionIcons']}>
+                  <Icon
+                    icon='edit'
+                    primaryColor={editIcon.color}
+                    style={editIcon}
+                    onClick={() => editDamage(index, damage)}
+                  />
+                  <Icon
+                    icon='delete'
+                    primaryColor={deleteIcon.color}
+                    style={deleteIcon}
+                    onClick={() => handleDeleteInteriorDamage(index)}
+                  />
                 </div>
               </td>
             </tr>
@@ -74,7 +95,7 @@ export function InteriorTab() {
       </table>
       <div style={styles['addDamageContainer']}>
         <Button variant='outline' onClick={() => setCurrentView(InteriorViews.AddDamage)}>
-          ADD DAMAGE
+          {t('tabs.interior.addDamageButton')}
         </Button>
       </div>
     </div>

@@ -10,17 +10,10 @@ export const styles: Styles = {
     top: '35px',
     width: '100%',
   },
-  price: {
-    border: 0,
-    outlineWidth: 0,
-    width: '100%',
-    fontSize: '15px',
-    letterSpacing: '0.5px',
-    padding: '16px',
-  },
   section: {
     padding: '16px',
   },
+
   inputSectionContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,10 +23,31 @@ export const styles: Styles = {
   inputSection: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     border: 'solid rgba(1,1,1,0.4)',
-    paddingRight: '10px',
     margin: '0px 19px 0px 19px',
   },
+  inputSectionCurrencyLeft: {
+    flexDirection: 'row-reverse',
+  },
+  input: {
+    border: 0,
+    outlineWidth: 0,
+    width: '100%',
+    fontSize: '15px',
+    letterSpacing: '0.5px',
+    padding: '16px',
+  },
+
+  currency: {
+    display: 'flex',
+    alignItems: 'center',
+    height: '-webkit-fill-available',
+    padding: '0px 10px',
+    backgroundColor: 'white',
+    color: 'black',
+  },
+
   footerContainer: {
     width: '100%',
     display: 'flex',
@@ -52,11 +66,6 @@ export const styles: Styles = {
     alignItems: 'center',
     margin: '20px',
     borderRadius: '9px',
-  },
-  currency: {
-    alignSelf: 'center',
-    paddingLeft: '20px',
-    paddingRight: '5px',
   },
   cancel: {
     background: 'white',

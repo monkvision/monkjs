@@ -24,7 +24,7 @@ export function ExteriorTab() {
   if (currentView === ExteriorViews.SVGCar) {
     return (
       <div>
-        <div>
+        <div style={styles['vehicleWireframeContainer']}>
           <VehicleDynamicWireframe
             vehicleType={vehicleType}
             orientation={orientation}

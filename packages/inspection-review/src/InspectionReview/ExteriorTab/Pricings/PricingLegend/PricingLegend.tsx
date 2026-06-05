@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { PricingData, PricingLevels } from '../../../types/pricing.types';
 import { styles } from './pricingLegend.styles';
 
@@ -23,11 +24,13 @@ export interface PricingLegendProps {
  * The PricingLegend component that displays a legend for a specific price level.
  */
 export function PricingLegend({ level, data, isLast }: PricingLegendProps) {
+  const { t } = useTranslation();
+
   return (
     <div style={styles['container']}>
       <span style={{ backgroundColor: data.color, ...styles['colorCircle'] }} />
       {level === PricingLevels.NONE ? (
-        <span style={styles['pricingLabel']}>Need pricing</span>
+        <span style={styles['pricingLabel']}>{t('tabs.exterior.pricings.needsPricing')}</span>
       ) : (
         <span style={styles['pricingLabel']}>{isLast ? `> ${data.min}` : `< ${data.max}`}</span>
       )}

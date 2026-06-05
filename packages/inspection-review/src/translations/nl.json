@@ -1,3 +1,41 @@
 {
-  "test": "test nl"
+  "tabs": {
+    "exterior": {
+      "label": "Buitenkant",
+      "pricings": {
+        "needsPricing": "Prijs nodig"
+      },
+      "addDamage": {
+        "title": "Dit onderdeel is beschadigd",
+        "listTitle": "Schade",
+        "priceLabel": "Prijs"
+      }
+    },
+    "interior": {
+      "label": "Binnenkant/Banden",
+      "area": "Gebied",
+      "areaPlaceholder": "Voer het gebied in",
+      "damageTypes": "Soorten schade",
+      "damageTypesPlaceholder": "Voer soorten schade in",
+      "deduction": "Aftrek",
+      "deductionPlaceholder": "0",
+      "addDamageButton": "SCHADE TOEVOEGEN"
+    },
+    "actionButtons": {
+      "done": "VOLTOOIEN",
+      "cancel": "ANNULEREN"
+    }
+  },
+  "actionButtons": {
+    "downloadPictures": "AFBEELDINGEN DOWNLOADEN",
+    "generatePdf": "PDF GENEREREN"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Schade weergeven",
+      "hideDamages": "Schade verbergen",
+      "closeSpotlight": "Huidige afbeelding sluiten",
+      "changeImage": "Afbeelding wijzigen"
+    }
+  }
 }

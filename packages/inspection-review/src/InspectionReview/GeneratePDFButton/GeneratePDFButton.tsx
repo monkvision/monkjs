@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useMonkTheme } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
 import { useGeneratePDF } from './hooks/useGeneratePDF';
@@ -9,6 +10,7 @@ import { styles } from './GeneratePDFButton.styles';
  */
 export function GeneratePDFButton(props: GeneratePDFButtonProps) {
   const { palette } = useMonkTheme();
+  const { t } = useTranslation();
   const { loading, handleGeneratePdf } = useGeneratePDF(props);
 
   return (
@@ -20,7 +22,7 @@ export function GeneratePDFButton(props: GeneratePDFButtonProps) {
       secondaryColor={palette.secondary.xdark}
       style={styles['pdfButton']}
     >
-      GENERATE PDF
+      {t('actionButtons.generatePdf')}
     </Button>
   );
 }
