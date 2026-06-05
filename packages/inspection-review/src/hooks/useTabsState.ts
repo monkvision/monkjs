@@ -1,13 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
-import { useInspectionReviewProvider } from './InspectionReviewProvider';
 import { InspectionReviewProps, TabContent, TabKeys, TabObject } from '../types';
-import { defaultTabs } from '../utils/tabs.utils';
+import type { InspectionReviewProviderState } from '../types/inspection-review.types';
+import { defaultTabs } from '../config';
 
 /**
  * Parameters accepted by the useTabsState hook.
  */
-export type TabsStateParams = Pick<InspectionReviewProps, 'customTabs'> & {
+export interface TabsStateParams
+  extends Pick<InspectionReviewProps, 'customTabs'>,
+    Pick<
+      InspectionReviewProviderState,
+      | 'allGalleryItems'
+      | 'currentGalleryItems'
+      | 'setCurrentGalleryItems'
+      | 'inspection'
+      | 'sightsPerTab'
+    > {
   /**
    * The initial tab to be selected when the hook is used.
    */
@@ -17,39 +26,32 @@ export type TabsStateParams = Pick<InspectionReviewProps, 'customTabs'> & {
    * Each listener receives the new tab key as a parameter.
    */
   onTabChangeListeners?: Array<(tab: string) => void>;
-};
+}
 
 /**
  * Handle used to manage the state of tabs in the inspection review.
  */
-export interface HandleTabState {
-  /**
-   * The currently active tab key.
-   */
-  activeTab: string;
-  /**
-   * Tabs list including default and custom ones.
-   */
-  allTabs: Record<string, TabContent>;
-  /**
-   * The component of the currently active tab ready to be rendered.
-   */
-  ActiveTabComponent: React.FC | React.ReactElement | null;
-  /**
-   * Function to change the active tab.
-   */
-  onTabChange: (tab: string) => void;
-}
+export interface HandleTabState
+  extends Pick<
+    InspectionReviewProviderState,
+    'allTabs' | 'activeTab' | 'ActiveTabComponent' | 'onTabChange'
+  > {}
 
 /**
  * Custom hook to manage the state of tabs in the inspection review, allowing for default and custom tab keys.
  */
 export function useTabsState(params: TabsStateParams): HandleTabState {
-  const { allGalleryItems, currentGalleryItems, sightsPerTab, setCurrentGalleryItems, inspection } =
-    useInspectionReviewProvider();
-
+  const {
+    currentGalleryItems,
+    allGalleryItems,
+    setCurrentGalleryItems,
+    inspection,
+    sightsPerTab,
+    initialTab,
+    onTabChangeListeners,
+  } = params;
   const [isTabsStateLoaded, setIsTabsStateInitiated] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>(params?.initialTab ?? TabKeys.Exterior);
+  const [activeTab, setActiveTab] = useState<string>(initialTab ?? TabKeys.Exterior);
   const allTabs: Record<string, TabContent> = {
     ...defaultTabs,
     ...params?.customTabs,
@@ -96,11 +98,11 @@ export function useTabsState(params: TabsStateParams): HandleTabState {
       }
       setActiveTab(tab);
 
-      params.onTabChangeListeners?.forEach((listener) => {
+      onTabChangeListeners?.forEach((listener) => {
         listener(tab);
       });
     },
-    [allTabs, activeTab, allGalleryItems, params.onTabChangeListeners],
+    [allTabs, activeTab, allGalleryItems, onTabChangeListeners],
   );
 
   // Initialize the first tab on inspection load

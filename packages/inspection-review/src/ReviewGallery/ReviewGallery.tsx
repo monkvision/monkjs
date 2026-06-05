@@ -1,17 +1,14 @@
-import { useInspectionReviewProvider } from '../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../hooks';
 import { GalleryItemCard } from './GalleryItem/GalleryItemCard';
-import { HandleGalleryState } from './hooks/useGalleryState';
 import { styles } from './ReviewGallery.styles';
 import { SpotlightImage } from './SpotlightImage';
 import { useShortcuts } from './SpotlightImage/Shortcuts/hooks/useShortcuts';
 
-export interface ReviewGalleryProps
-  extends Pick<HandleGalleryState, 'selectedItem' | 'onSelectItemById'> {}
 /**
  * The ReviewGallery component that displays a gallery of images for review.
  */
-export function ReviewGallery({ selectedItem, onSelectItemById }: ReviewGalleryProps) {
-  const { currentGalleryItems } = useInspectionReviewProvider();
+export function ReviewGallery() {
+  const { currentGalleryItems, selectedItem, onSelectItemById } = useInspectionReviewProvider();
   const { showDamage, toggleShowDamage, goToNextImage, goToPreviousImage } = useShortcuts({
     selectedItem,
     onSelectItemById,

@@ -51,5 +51,6 @@ export const styles: Styles = {
   },
   activeTabContainer: {
     flex: 6,
+    maxWidth: 500,
   },
 };

@@ -4,7 +4,7 @@ import { InteriorViews } from '../types';
 import { AddInteriorDamage } from './AddInteriorDamage/AddInteriorDamage';
 import { useInteriorTab } from './hooks/useInteriorTab';
 import { styles, useInteriorTabStyles } from './InteriorTab.styles';
-import { useInspectionReviewProvider } from '../hooks/InspectionReviewProvider';
+import { useInspectionReviewProvider } from '../hooks/useInspectionReviewProvider';
 
 /**
  * The InteriorTab component that displays content based on the currently active tab.

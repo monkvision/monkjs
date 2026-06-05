@@ -1,16 +1,13 @@
 import { styles } from './Tabs.styles';
 import { Tab } from './Tab/Tab';
-import { HandleTabState } from '../hooks/useTabsState';
-
-/**
- * Props accepted by the Tabs component.
- */
-export type TabsProps = Pick<HandleTabState, 'allTabs' | 'activeTab' | 'onTabChange'>;
+import { useInspectionReviewProvider } from '../hooks';
 
 /**
  * The Tabs component that allows users to switch between different inspection review tabs.
  */
-export function Tabs({ allTabs, activeTab, onTabChange }: TabsProps) {
+export function Tabs() {
+  const { allTabs, activeTab, onTabChange } = useInspectionReviewProvider();
+
   return (
     <div style={styles['container']}>
       {Object.keys(allTabs).map((tab, index, array) => (
