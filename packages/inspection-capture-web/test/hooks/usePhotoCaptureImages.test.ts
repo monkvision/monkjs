@@ -78,4 +78,24 @@ describe('usePhotoCaptureImages hook', () => {
 
     unmount();
   });
+
+  it('should filter out video frame images', () => {
+    const beautyShot = { id: 'bs-1', additionalData: { sight_id: 'sight-1' } };
+    const closeUp = { id: 'cu-1', additionalData: undefined };
+    const videoFrame = { id: 'vf-1', additionalData: { frame_index: 0 } };
+    const videoFrameWithHighIndex = { id: 'vf-2', additionalData: { frame_index: 42 } };
+
+    (getInspectionImages as jest.Mock).mockReturnValue([
+      beautyShot,
+      closeUp,
+      videoFrame,
+      videoFrameWithHighIndex,
+    ]);
+
+    const inspectionId = 'test-inspection';
+    const { result, unmount } = renderHook(usePhotoCaptureImages, { initialProps: inspectionId });
+
+    expect(result.current).toEqual([beautyShot, closeUp]);
+    unmount();
+  });
 });
