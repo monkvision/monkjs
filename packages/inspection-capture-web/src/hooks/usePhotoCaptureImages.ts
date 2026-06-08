@@ -9,10 +9,7 @@ export function usePhotoCaptureImages(inspectionId: string): Image[] {
   const { state } = useMonkState();
 
   return useMemo(
-    () =>
-      getInspectionImages(inspectionId, state.images, undefined, true).filter(
-        (image) => image.additionalData?.frame_index === undefined,
-      ),
+    () => getInspectionImages(inspectionId, state.images, undefined, true),
     [state.images, inspectionId],
   );
 }

@@ -195,6 +195,20 @@ describe('PhotoCaptureHUD component', () => {
     });
   });
 
+  it('should not count video frame images in the retake count', () => {
+    const props = createProps();
+    props.images = [
+      { status: ImageStatus.NOT_COMPLIANT },
+      { status: ImageStatus.NOT_COMPLIANT, additionalData: { frame_index: 0 } },
+      { status: ImageStatus.NOT_COMPLIANT, additionalData: { frame_index: 42 } },
+    ] as Image[];
+    const { unmount } = render(<PhotoCaptureHUD {...props} />);
+
+    expectPropsOnChildMock(HUDButtons, { showGalleryBadge: true, retakeCount: 1 });
+
+    unmount();
+  });
+
   it('should not display the gallery badge if there are no images with retake statuses', () => {
     const props = createProps();
     props.images = Object.values(ImageStatus)
