@@ -12,6 +12,7 @@
   },
   "apiDomain": "api.preview.monk.ai/v1",
   "thumbnailDomain": "api.preview.monk.ai/image_resize",
+  "showCloseVideoButton": false,
   "startTasksOnComplete": false,
   "enableVideoTutorial": true,
   "enableTutorial": "disabled",
@@ -19,7 +20,7 @@
   "enforceOrientation": "landscape",
   "minRecordingDuration": 15000,
   "enableFastWalkingWarning": false,
-  "enhblePhoneShakingWarning": false,
+  "enablePhoneShakingWarning": false,
   "maxRetryCount": 3,
   "maxUploadDurationWarning": 15000,
   "useAdaptiveImageQuality": true,
@@ -47,12 +48,16 @@
     "overexposure",
     "lens_flare",
     "reflections",
+    "unknown_sight",
     "unknown_viewpoint",
     "no_vehicle",
     "wrong_center_part",
     "missing_parts",
     "hidden_parts",
-    "missing"
+    "missing",
+    "vehicle_not_fully_in_frame",
+    "finger_on_vehicle",
+    "contain_forbidden_parts"
   ],
   "complianceIssuesPerSight": {
     "ff150-nF_oFvhI": [

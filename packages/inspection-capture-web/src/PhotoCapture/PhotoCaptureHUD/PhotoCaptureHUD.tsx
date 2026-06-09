@@ -190,10 +190,12 @@ export function PhotoCaptureHUD({
   const { trackEvent } = useAnalytics();
   const retakeCount = useMemo(
     () =>
-      images.filter((image) =>
-        [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(
-          image.status,
-        ),
+      images.filter(
+        (image) =>
+          image.additionalData?.frame_index === undefined &&
+          [ImageStatus.NOT_COMPLIANT, ImageStatus.UPLOAD_FAILED, ImageStatus.UPLOAD_ERROR].includes(
+            image.status,
+          ),
       ).length,
     [images],
   );
