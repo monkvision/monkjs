@@ -33,7 +33,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "ky": "^1.2.0",
-    "uuid": "^9.0.1"
+    "uuid": "^11.1.1"
   },
   "peerDependencies": {
     "@auth0/auth0-react": "^2.2.4",
