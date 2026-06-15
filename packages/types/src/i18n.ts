@@ -5,6 +5,7 @@ export const monkLanguages = [
   'fr',
   'en',
   'de',
+  'de-CH',
   'nl',
   'it',
   'pt',

@@ -16,6 +16,7 @@ const obj = {
   pt: 'Olá',
   fr: 'Bonjour',
   de: 'Hallo',
+  'de-CH': 'Hallo',
   nl: 'HalloDt',
   it: 'Ciao',
 } as TranslationObject;

@@ -258,6 +258,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       pt: `Fotograma de vídeo ${options.frameIndex}`,
       fr: `Trame Vidéo ${options.frameIndex}`,
       de: `Videobild ${options.frameIndex}`,
+      'de-CH': `Videobild ${options.frameIndex}`,
       nl: `Videoframe ${options.frameIndex}`,
       it: `Frame Video ${options.frameIndex}`,
     };
@@ -276,6 +277,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       pt: `Foto manual do vídeo`,
       fr: `Photo manuelle de vidéo`,
       de: `Manuelles Videofoto`,
+      'de-CH': `Manuelles Videofoto`,
       nl: `Handmatige videofoto`,
       it: `Foto manuale da video`,
     };
@@ -295,6 +297,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       pt: `Plano Aproximado de ${partsTranslation.map((part) => part.pt).join(', ')}`,
       fr: `Photo Zoomée sur ${partsTranslation.map((part) => part.en).join(', ')}`,
       de: `Gezoomtes an ${partsTranslation.map((part) => part.en).join(', ')}`,
+      'de-CH': `Gezoomtes an ${partsTranslation.map((part) => part['de-CH']).join(', ')}`,
       nl: `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
       it: `Close Up su ${partsTranslation.map((part) => part.en).join(', ')}`,
     };
@@ -312,6 +315,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     pt: options.firstShot ? 'Plano Aproximado (parte)' : 'Plano Aproximado (dano)',
     fr: options.firstShot ? 'Photo Zoomée (partie)' : 'Photo Zoomée (dégât)',
     de: options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
+    'de-CH': options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
     nl: options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
     it: options.firstShot ? 'Close Up (parte)' : 'Close Up (danno)',
   };

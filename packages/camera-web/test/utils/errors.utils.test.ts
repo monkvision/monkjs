@@ -17,6 +17,7 @@ describe('Camera error utils', () => {
           pt: expect.any(String),
           fr: expect.any(String),
           de: expect.any(String),
+          'de-CH': expect.any(String),
           nl: expect.any(String),
           it: expect.any(String),
         });
@@ -37,6 +38,7 @@ describe('Camera error utils', () => {
         pt: expect.any(String),
         fr: expect.any(String),
         de: expect.any(String),
+        'de-CH': expect.any(String),
         nl: expect.any(String),
         it: expect.any(String),
       });
@@ -56,6 +58,7 @@ describe('Camera error utils', () => {
         pt: expect.any(String),
         fr: expect.any(String),
         de: expect.any(String),
+        'de-CH': expect.any(String),
         nl: expect.any(String),
         it: expect.any(String),
       });

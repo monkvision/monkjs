@@ -10,7 +10,10 @@
   "fetchFromSearchParams": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
-    "tasks": ["damage_detection", "wheel_analysis"]
+    "tasks": [
+      "damage_detection",
+      "wheel_analysis"
+    ]
   },
   "enableTutorial": "first_time_only",
   "enableSightTutorial": "modern",
@@ -197,6 +200,7 @@
       "fr": "Agenouillez-vous ou penchez-vous devant la voiture, aligné avec la calandre. Centrez la voiture dans le cadre, en vous assurant que la calandre avant, les phares et la plaque d'immatriculation soient bien visibles. Veillez à inclure le toit de la voiture et le bas du pare-chocs dans la photo.",
       "nl": "Kniel of buk laag voor de auto, uitgelijnd met het rooster. Centreer de auto in het frame, zorg ervoor dat het voorrooster, de koplampen en het kenteken volledig zichtbaar zijn. Zorg ervoor dat de bovenkant van de auto en de onderkant van de bumper in de foto zichtbaar zijn.",
       "de": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stoßstange im Bild zu sehen sind.",
+      "de-CH": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stossstange im Bild zu sehen sind.",
       "sightIds": [
         "ffocus18-XlfgjQb9",
         "jgc21-QIvfeg0X",
@@ -214,6 +218,7 @@
       "fr": "Agenouillez-vous ou penchez-vous devant la voiture, aligné avec la calandre. Centrez la voiture dans le cadre, en vous assurant que la calandre avant, les phares et la plaque d'immatriculation soient bien visibles. Veillez à inclure le toit de la voiture et le bas du pare-chocs dans la photo.",
       "nl": "Kniel of buk laag voor de auto, uitgelijnd met het rooster. Centreer de auto in het frame, zorg ervoor dat het voorrooster, de koplampen en het kenteken volledig zichtbaar zijn. Zorg ervoor dat de bovenkant van de auto en de onderkant van de bumper in de foto zichtbaar zijn.",
       "de": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stoßstange im Bild zu sehen sind.",
+      "de-CH": "Knien oder beugen Sie sich vor dem Auto, ausgerichtet mit dem Kühlergrill. Zentrieren Sie das Auto im Bild, sodass der vordere Kühlergrill, die Scheinwerfer und das Nummernschild vollständig sichtbar sind. Achten Sie darauf, dass das Dach des Autos und der untere Teil der Stossstange im Bild zu sehen sind.",
       "imageReferenceBySightId": {
         "ffocus18-XlfgjQb9": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",
         "jgc21-QIvfeg0X": "https://storage.googleapis.com/core-preview-images/None-8ca68105-1bbc-4f85-84b3-1f5a08e91057.jpeg",

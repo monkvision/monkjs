@@ -1,0 +1,119 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "Wir haben derzeit Verbindungsprobleme. Das Hochladen von Bildern kann länger als gewöhnlich dauern.",
+      "confirm": "Ich verstehe"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Schaden"
+      },
+      "addDamage": {
+        "cancelBtn": "Stornieren",
+        "damagedPartCounter": "1 / 2 • Beschädigtes Teil",
+        "closeupPictureCounter": "2 / 2 • Nahaufnahme-Vorschau",
+        "infoBtn": "Richte das Ziel auf den beschädigten Teil aus und tippe dann auf den Auslöserknopf",
+        "infoCloseup": "Ein Nahaufnahmebild von dem Schaden machen",
+        "selectPart": "Wählen Sie auf den beschädigten Teil. Verwenden Sie die Pfeile, um das Fahrzeug zu drehen und die andere Seite zu sehen.",
+        "selectParts": "Wählen Sie auf die beschädigten Teile. Verwenden Sie die Pfeile, um das Fahrzeug zu drehen und die andere Seite zu sehen."
+      },
+      "error": {
+        "retry": "Erneut versuchen",
+        "missingTasks": "In der vorliegenden Inspektion fehlen einige Aufgaben, die für das aktuelle Erfassungsmodul erforderlich sind.",
+        "invalidToken": "Das verwendete Authentifizierungstoken ist ungültig.",
+        "expiredToken": "Das verwendete Authentifizierungstoken ist abgelaufen.",
+        "insufficientAuth": "Sie haben nicht die erforderlichen Berechtigungen, um diese Aktion durchzuführen.",
+        "inspectionLoading": "Beim Laden der Inspektion ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder kontaktieren Sie den Support mit der folgenden Inspektions-ID:"
+      },
+      "closeConfirm": {
+        "message": "Sind Sie sicher, dass Sie das Erfassungstool schliessen wollen?",
+        "cancel": "Nein",
+        "confirm": "Ja"
+      },
+      "guidelines": {
+        "defaultGuideline": "Blickwinkelanzeigen für Bilder können hier angezeigt werden.",
+        "disable": "Nicht mehr anzeigen",
+        "validate": "Okay"
+      },
+      "tutorial": {
+        "welcome": "Willkommen zu Ihrer ersten Inspektion!",
+        "title": "So verwenden Sie es",
+        "guideline": "Gehen Sie um das Fahrzeug herum, um alle Bilder aufzunehmen und den Anweisungen oben zu folgen, um den richtigen Winkel einzunehmen.",
+        "sightTutorial": "Verwenden Sie das Bild unten links, um sich bei der Rahmung führen zu lassen.<br>Tippen Sie darauf, um eine detaillierte Erklärung zu erhalten.",
+        "sight": "Richten Sie das Fahrzeug so gut wie möglich an den Linien aus, um das beste Foto zu erhalten.<br>Drücken Sie den Auslöser, um das Foto aufzunehmen.",
+        "next": "Weiter"
+      },
+      "sightTutorial": {
+        "tip": "Tipp",
+        "defaultTutorialWithImage": "Hier sehen Sie ein Referenzbild.\nBitte versuchen Sie, den Bildausschnitt möglichst genau nachzustellen.",
+        "defaultTutorialWithoutImage": "Bitte positionieren Sie sich wie in der Abbildung links gezeigt\nund achten Sie darauf, dass sich die Kamera in der richtigen Höhe befindet."
+      }
+    },
+    "gallery": {
+      "next": "Weiter: fahrzeugfotos"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Aufzeichnung eines Videos zur Fahrzeugbegehung"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Kamera",
+        "description": "Um Videos aufzunehmen, müssen Sie den Zugriff auf die Kamera des Geräts erlauben"
+      },
+      "compass": {
+        "title": "Kompass",
+        "description": "Um einen vollständigen 360°-Umlauf des Fahrzeugs zu erfassen, müssen Sie den Zugriff auf den Kompass des Geräts erlauben"
+      },
+      "confirm": "Berechtigungen verwalten"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Beginnen Sie an der Vorderseite",
+        "description": "Halten Sie einen Abstand von 1 Meter und gehen Sie langsam um das Fahrzeug herum, indem Sie es von der Dachlinie bis zum Boden aufnehmen."
+      },
+      "finish": {
+        "title": "Beenden Sie die Aufnahme dort, wo Sie begonnen haben.",
+        "description": "Sie sollten die Aufnahme in etwa 45 Sekunden beenden."
+      },
+      "photos": {
+        "title": "Machen Sie nach Bedarf Fotos",
+        "description": "Drücken Sie den Auslöser, um während der Aufnahme Fotos von der Wiedervermarktung oder von Schäden zu machen."
+      },
+      "confirm": "Ein Video aufnehmen"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Möchten Sie das Video verwerfen? Sie sind noch nicht ganz um das Fahrzeug herumgekommen.",
+        "keepRecording": "Aufnahme beibehalten",
+        "discardVideo": "Video verwerfen"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "Sie sind zu schnell unterwegs! Fahren Sie etwas langsamer, es sollte etwa eine Minute dauern, bis Sie das Fahrzeug umrundet haben.",
+        "phoneShaking": "Ihr Gerät wackelt zu stark! Versuchen Sie, die Kamera ruhig zu halten, während Sie Ihr Fahrzeug aufnehmen.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Sobald Sie sich vor dem Fahrzeug befinden, drücken Sie die Taste, um die Videoaufnahme zu starten.",
+        "end": "Drücken Sie nach Abschluss der Fahrzeugumrundung die Taste, um die Aufnahme zu beenden."
+      }
+    },
+    "processing": {
+      "processing": "Bearbeitung des Videos...",
+      "uploading": "Hochladen des Videos...",
+      "success": "Videobearbeitung abgeschlossen!",
+      "error": "Beim Abschluss der Inspektion ist ein Fehler aufgetreten. Inspektion ID :",
+      "done": "Erledigt"
+    },
+    "complete": {
+      "title": "Fahrzeugvideo abgeschlossen",
+      "text": "Machen Sie als Nächstes ein paar Fotos, um Details festzuhalten und die Inspektion abzuschliessen.",
+      "button": "Fotoaufnahme starten"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Bitte drehen Sie Ihr Gerät.",
+    "description": "Möglicherweise müssen Sie die Ausrichtung Ihres Geräts über die Telefoneinstellungen entsperren."
+  }
+}

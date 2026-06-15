@@ -100,6 +100,10 @@ export function i18nWrap<T, P>(
  * @returns The language prefix if it is supported; otherwise, 'en'.
  */
 export function getLanguage(language: string): MonkLanguage {
+  const exactMatch = monkLanguages.find((lang) => lang === language);
+  if (exactMatch) {
+    return exactMatch;
+  }
   const languagePrefix = language.slice(0, 2) as MonkLanguage;
   return monkLanguages.includes(languagePrefix) ? languagePrefix : 'en';
 }
