@@ -13,8 +13,9 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:prettier/recommended",
     "plugin:promise/recommended",
+    "plugin:markdown/recommended-legacy",
   ],
-  plugins: ["import", "prettier", "jest"],
+  plugins: ["import", "prettier", "jest", "markdown"],
   env: {
     browser: true,
     es6: true,
