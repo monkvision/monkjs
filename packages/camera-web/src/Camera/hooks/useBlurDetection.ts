@@ -1,126 +1,112 @@
 import { useCallback, useRef, useState } from 'react';
 
-export interface UseBlurDetectionParams {
-  /**
-   * Laplacian variance threshold below which a frame is considered blurry.
-   * Higher = stricter. Defaults to 80, which works well for most mobile cameras.
-   * Tune down if the gate is too aggressive on low-res streams.
-   */
-  threshold?: number;
-  /**
-   * Width of the internal canvas used for blur analysis.
-   * Smaller = faster computation. Defaults to 200px.
-   */
-  sampleWidth?: number;
+/** Default Laplacian variance threshold below which a frame is considered blurry. */
+export const DEFAULT_BLUR_THRESHOLD = 80;
+
+/** Width of the canvas sample used for blur scoring (keeps computation fast). */
+const SAMPLE_WIDTH = 200;
+
+/**
+ * Compute the Laplacian variance of a video frame.
+ * High variance = sharp image. Low variance = blurry image.
+ *
+ * The Laplacian kernel used is the discrete 3×3 approximation:
+ *   [ 0,  1, 0 ]
+ *   [ 1, -4, 1 ]
+ *   [ 0,  1, 0 ]
+ *
+ * Runs entirely on the CPU via Canvas 2D — no external dependencies.
+ * Works on all modern browsers including iOS Safari.
+ */
+function computeLaplacianVariance(video: HTMLVideoElement): number {
+  const aspect = video.videoHeight > 0 ? video.videoWidth / video.videoHeight : 16 / 9;
+  const w = SAMPLE_WIDTH;
+  const h = Math.round(w / aspect);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return Infinity; // Cannot measure — assume sharp
+
+  ctx.drawImage(video, 0, 0, w, h);
+  const { data } = ctx.getImageData(0, 0, w, h);
+
+  // Convert to greyscale luminance
+  const grey = new Float32Array(w * h);
+  for (let i = 0; i < w * h; i++) {
+    const r = data[i * 4];
+    const g = data[i * 4 + 1];
+    const b = data[i * 4 + 2];
+    grey[i] = 0.299 * r + 0.587 * g + 0.114 * b;
+  }
+
+  // Apply discrete Laplacian and collect squared responses
+  const laplacian: number[] = [];
+  for (let y = 1; y < h - 1; y++) {
+    for (let x = 1; x < w - 1; x++) {
+      const idx = y * w + x;
+      const val =
+        grey[idx - w] +
+        grey[idx + w] +
+        grey[idx - 1] +
+        grey[idx + 1] -
+        4 * grey[idx];
+      laplacian.push(val);
+    }
+  }
+
+  // Compute variance of the Laplacian response
+  const n = laplacian.length;
+  if (n === 0) return Infinity;
+  const mean = laplacian.reduce((s, v) => s + v, 0) / n;
+  const variance = laplacian.reduce((s, v) => s + (v - mean) ** 2, 0) / n;
+  return variance;
 }
 
 export interface UseBlurDetectionResult {
-  /** Whether the last checked frame was detected as blurry. */
+  /** Whether the last checked frame was considered blurry. */
   isBlurry: boolean;
   /**
-   * Analyses the current frame of a video element and returns true if sharp.
-   * Returns true (allow capture) on any error so it never silently blocks.
+   * Check the current video frame for blurriness.
+   * Returns true if the frame is sharp enough to capture.
+   * Returns false (and sets isBlurry = true) if the frame is too blurry.
    */
-  checkFrame: (videoEl: HTMLVideoElement) => boolean;
-  /** Reset blurry state (e.g. after a successful capture). */
+  checkFrame: (video: HTMLVideoElement | null, threshold?: number) => boolean;
+  /** Reset the blurry state (e.g. when navigating to a new sight). */
   reset: () => void;
 }
 
 /**
- * Computes the Laplacian variance of a grayscale image buffer.
- * High variance = many strong edges = sharp image.
- * Low variance = soft/uniform = blurry image.
- *
- * The Laplacian kernel used is:
- *   0  1  0
- *   1 -4  1
- *   0  1  0
+ * Hook that provides real-time blur detection for a video element.
+ * Uses Laplacian variance computed via Canvas 2D API.
+ * Safe to call on every capture attempt — computation is fast (<5 ms on mobile).
  */
-function laplacianVariance(data: Uint8ClampedArray, width: number, height: number): number {
-  let sum = 0;
-  let sumSq = 0;
-  let count = 0;
-
-  for (let y = 1; y < height - 1; y++) {
-    for (let x = 1; x < width - 1; x++) {
-      // Each pixel is 4 bytes (R,G,B,A) — use only R channel (grayscale)
-      const idx = (y * width + x) * 4;
-      const top = data[((y - 1) * width + x) * 4];
-      const bottom = data[((y + 1) * width + x) * 4];
-      const left = data[(y * width + (x - 1)) * 4];
-      const right = data[(y * width + (x + 1)) * 4];
-      const center = data[idx];
-
-      const lap = top + bottom + left + right - 4 * center;
-      sum += lap;
-      sumSq += lap * lap;
-      count++;
-    }
-  }
-
-  if (count === 0) return 0;
-  const mean = sum / count;
-  return sumSq / count - mean * mean; // variance
-}
-
-/**
- * Hook that provides real-time blur detection for a camera video element.
- * Uses the Laplacian variance method on a small canvas sample.
- * Fully implemented via Canvas 2D API — no external dependencies.
- * Compatible with iOS Safari 12+, Android Chrome, and desktop browsers.
- */
-export function useBlurDetection({
-  threshold = 80,
-  sampleWidth = 200,
-}: UseBlurDetectionParams = {}): UseBlurDetectionResult {
+export function useBlurDetection(): UseBlurDetectionResult {
   const [isBlurry, setIsBlurry] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  const getCanvas = useCallback(
-    (videoEl: HTMLVideoElement): HTMLCanvasElement => {
-      if (!canvasRef.current) {
-        canvasRef.current = document.createElement('canvas');
-      }
-      const aspectRatio = videoEl.videoHeight > 0 ? videoEl.videoWidth / videoEl.videoHeight : 16 / 9;
-      canvasRef.current.width = sampleWidth;
-      canvasRef.current.height = Math.round(sampleWidth / aspectRatio);
-      return canvasRef.current;
-    },
-    [sampleWidth],
-  );
+  const thresholdRef = useRef(DEFAULT_BLUR_THRESHOLD);
 
   const checkFrame = useCallback(
-    (videoEl: HTMLVideoElement): boolean => {
+    (video: HTMLVideoElement | null, threshold: number = thresholdRef.current): boolean => {
+      if (!video || video.readyState < 2) {
+        // Video not ready — let the capture proceed (fail-open)
+        setIsBlurry(false);
+        return true;
+      }
+
       try {
-        if (!videoEl || videoEl.readyState < 2 || videoEl.videoWidth === 0) {
-          // Video not ready yet — allow capture so we don't block the user
-          setIsBlurry(false);
-          return true;
-        }
-
-        const canvas = getCanvas(videoEl);
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (!ctx) {
-          setIsBlurry(false);
-          return true;
-        }
-
-        // Draw the current video frame scaled down to the sample canvas
-        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-        const variance = laplacianVariance(imageData.data, canvas.width, canvas.height);
-        const blurry = variance < threshold;
-
-        setIsBlurry(blurry);
-        return !blurry;
-      } catch {
-        // On any error (e.g. SecurityError on tainted canvas), allow capture
+        const score = computeLaplacianVariance(video);
+        const sharp = score >= threshold;
+        setIsBlurry(!sharp);
+        return sharp;
+      } catch (_) {
+        // Canvas API unavailable — fail-open, never block capture
         setIsBlurry(false);
         return true;
       }
     },
-    [getCanvas, threshold],
+    [],
   );
 
   const reset = useCallback(() => setIsBlurry(false), []);

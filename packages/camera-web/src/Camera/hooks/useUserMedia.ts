@@ -1,24 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { CameraFacingMode, CameraResolution } from '../../Camera.types';
+import { CameraConfig } from '../Camera.types';
 import { applyFocusConstraints, getMediaConstraints } from './utils/getMediaContraints';
 
-export interface UseUserMediaParams {
-  resolution: CameraResolution;
-  facingMode: CameraFacingMode;
-  deviceId?: string;
-}
-
-export interface UseUserMediaResult {
+export interface UserMediaResult {
   stream: MediaStream | null;
   error: Error | null;
   retry: () => void;
 }
 
-export function useUserMedia({
-  resolution,
-  facingMode,
-  deviceId,
-}: UseUserMediaParams): UseUserMediaResult {
+export function useUserMedia(config: CameraConfig, videoRef: React.RefObject<HTMLVideoElement>): UserMediaResult {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const retryCountRef = useRef(0);
@@ -30,41 +20,40 @@ export function useUserMedia({
     }
 
     try {
-      const constraints = getMediaConstraints({ resolution, facingMode });
-      if (deviceId && constraints.video && typeof constraints.video === 'object') {
-        (constraints.video as MediaTrackConstraints).deviceId = { exact: deviceId };
-      }
-
+      const constraints = getMediaConstraints(config);
       const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
 
-      // Apply focus constraints after stream is obtained — some browsers only accept
-      // advanced constraints post-getUserMedia, not at request time.
+      // Apply continuous autofocus on the video track (best-effort, iOS < 17 silently ignores)
       const videoTrack = mediaStream.getVideoTracks()[0];
       if (videoTrack) {
-        // Fire-and-forget: focus improvement is best-effort, never blocks the stream
-        applyFocusConstraints(videoTrack).catch(() => {});
+        await applyFocusConstraints(videoTrack);
       }
 
       setStream(mediaStream);
       setError(null);
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
     } catch (err) {
       setError(err instanceof Error ? err : new Error(String(err)));
       setStream(null);
     }
-  }, [resolution, facingMode, deviceId, retryCountRef.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config, retryCountRef]);
 
   useEffect(() => {
-    startStream();
+    void startStream();
     return () => {
       if (stream) {
         stream.getTracks().forEach((t) => t.stop());
       }
     };
-  }, [resolution, facingMode, deviceId, retryCountRef.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [retryCountRef.current]);
 
   const retry = useCallback(() => {
     retryCountRef.current += 1;
-    setError(null);
   }, []);
 
   return { stream, error, retry };

@@ -1,130 +1,72 @@
 import { useCallback, useState } from 'react';
+import { CompressionOptions, ImageCompression } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
+import { CameraConfig } from '../Camera.types';
 import { useBlurDetection } from './useBlurDetection';
-import { CameraConfig } from '../../Camera.types';
 
 export interface UseTakePictureParams {
+  videoRef: React.RefObject<HTMLVideoElement>;
   config: CameraConfig;
-  handle: {
-    takeScreenshot: () => string | null;
-    videoRef: React.RefObject<HTMLVideoElement>;
-  };
-  onPictureTaken?: (picture: CompressedImage) => void;
+  compressionOptions?: CompressionOptions;
+  /** Laplacian variance threshold below which a frame is considered blurry. Default: 80. */
   blurThreshold?: number;
-}
-
-export interface CompressedImage {
-  blob: Blob;
-  uri: string;
-  width: number;
-  height: number;
-  mimetype: string;
-  size: number;
 }
 
 export interface UseTakePictureResult {
   takePicture: () => Promise<void>;
   isLoading: boolean;
+  /** True if the last capture attempt was blocked because the frame was too blurry. */
   isBlurry: boolean;
+  lastPicture: ImageCompression | null;
 }
 
-async function compressImage(
-  dataUri: string,
-  quality: number,
-  format: string,
-): Promise<CompressedImage> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        reject(new Error('Could not get canvas context'));
-        return;
-      }
-      ctx.drawImage(img, 0, 0);
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error('Canvas toBlob returned null'));
-            return;
-          }
-          const uri = URL.createObjectURL(blob);
-          resolve({
-            blob,
-            uri,
-            width: img.naturalWidth,
-            height: img.naturalHeight,
-            mimetype: format,
-            size: blob.size,
-          });
-        },
-        format,
-        quality,
-      );
-    };
-    img.onerror = () => reject(new Error('Failed to load image for compression'));
-    img.src = dataUri;
-  });
-}
-
-/**
- * Hook that handles the picture taking flow with an integrated blur gate.
- *
- * Before saving a captured frame, it runs a Laplacian variance check on the
- * current video frame. If the frame is below the blur threshold, the capture
- * is blocked and `isBlurry` is set to true so the HUD can show feedback.
- *
- * The blur gate is best-effort: on any error it fails open (allows capture)
- * so it never silently blocks the user on unsupported environments.
- */
 export function useTakePicture({
+  videoRef,
   config,
-  handle,
-  onPictureTaken,
+  compressionOptions,
   blurThreshold,
 }: UseTakePictureParams): UseTakePictureResult {
   const [isLoading, setIsLoading] = useState(false);
+  const [lastPicture, setLastPicture] = useState<ImageCompression | null>(null);
+  const { checkFrame, isBlurry, reset } = useBlurDetection();
   const { handleError } = useMonitoring();
-  const { isBlurry, checkFrame, reset } = useBlurDetection({ threshold: blurThreshold });
 
   const takePicture = useCallback(async () => {
     if (isLoading) return;
 
-    // ── Blur gate ──────────────────────────────────────────────────────────
-    // Check the current video frame before firing the shutter.
-    // If blurry, update isBlurry state for the HUD and bail out.
-    const videoEl = handle.videoRef?.current;
-    if (videoEl) {
-      const isSharp = checkFrame(videoEl);
-      if (!isSharp) {
-        // isBlurry is already set to true inside checkFrame — HUD will react
-        return;
-      }
+    const video = videoRef.current;
+
+    // Blur gate — check sharpness before committing to capture
+    const isSharp = checkFrame(video, blurThreshold);
+    if (!isSharp) {
+      // Frame is blurry — surface isBlurry=true to HUD and bail out
+      return;
     }
-    // ───────────────────────────────────────────────────────────────────────
 
+    reset();
     setIsLoading(true);
+
     try {
-      const screenshot = handle.takeScreenshot();
-      if (!screenshot) {
-        throw new Error('takeScreenshot returned null');
-      }
+      if (!video) throw new Error('Video element is not available.');
 
-      const format = config.pictureFormat ?? 'image/jpeg';
-      const quality = config.quality ?? 0.8;
-      const picture = await compressImage(screenshot, quality, format);
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Could not get 2D context.');
+      ctx.drawImage(video, 0, 0);
 
-      reset();
-      onPictureTaken?.(picture);
+      const quality = compressionOptions?.quality ?? config.quality ?? 0.8;
+      const mimeType = compressionOptions?.format ?? 'image/jpeg';
+      const base64 = canvas.toDataURL(mimeType, quality);
+
+      setLastPicture({ base64, width: canvas.width, height: canvas.height, mimeType });
     } catch (err) {
       handleError(err);
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, handle, config, onPictureTaken, checkFrame, reset, handleError]);
+  }, [isLoading, videoRef, checkFrame, blurThreshold, reset, compressionOptions, config, handleError]);
 
-  return { takePicture, isLoading, isBlurry };
+  return { takePicture, isLoading, isBlurry, lastPicture };
 }
