@@ -3,6 +3,13 @@ import { useMemo } from 'react';
 let idCounter = 0;
 
 /**
+ * Helper function that ensures special characters in IDs don't break the regex.
+ */
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
  * Attributes that can contain URL references to SVG IDs
  */
 const URL_ATTRIBUTES = [
@@ -76,6 +83,24 @@ function makeIdsUnique(doc: Document, prefix: string): void {
         element.setAttribute('style', newStyle);
       }
     }
+  });
+
+  /**
+   * Updates keyframes to point towards the new ID in case collison was avoided.
+   *
+   * @example Rewrites both (#oldId) and url(#oldId)
+   */
+  const styleElements = doc.querySelectorAll('style');
+  styleElements.forEach((styleEl) => {
+    let cssText = styleEl.innerHTML;
+    idMap.forEach((newId, oldId) => {
+      const idSelector = new RegExp(`#${escapeRegex(oldId)}(?![\\w-])`, 'g');
+      cssText = cssText.replace(idSelector, `#${newId}`);
+      const urlRef = new RegExp(`url\\(#${escapeRegex(oldId)}\\)`, 'g');
+      cssText = cssText.replace(urlRef, `url(#${newId})`);
+    });
+    // eslint-disable-next-line no-param-reassign
+    styleEl.innerHTML = cssText;
   });
 }
 

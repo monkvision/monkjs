@@ -81,6 +81,33 @@ describe('useSVGUniqueIds hook', () => {
     }
   });
 
+  it('should update CSS ID selectors inside <style> tags', () => {
+    const svg = `
+      <svg>
+        <style>
+          #orbitingDot { animation: orbit 4s linear infinite; }
+          #vehicleFill { clip-path: inset(100% 0 0 0); }
+        </style>
+        <g id="orbitingDot"/>
+        <path id="vehicleFill"/>
+      </svg>
+    `;
+    const doc = new DOMParser().parseFromString(svg, 'text/xml');
+    const { result } = renderHook(() => useSVGUniqueIds(doc));
+    const uniqueDoc = result.current;
+
+    const cssText = uniqueDoc.querySelector('style')?.innerHTML ?? '';
+    const dotId = uniqueDoc.querySelector('g')?.getAttribute('id');
+    const fillId = uniqueDoc.querySelector('path')?.getAttribute('id');
+
+    expect(dotId).toMatch(/^svg-\d+-orbitingDot$/);
+    expect(fillId).toMatch(/^svg-\d+-vehicleFill$/);
+    expect(cssText).toContain(`#${dotId}`);
+    expect(cssText).toContain(`#${fillId}`);
+    expect(cssText).not.toContain('#orbitingDot ');
+    expect(cssText).not.toContain('#vehicleFill ');
+  });
+
   it('should handle style attribute with url() references', () => {
     const svg = `
       <svg>
