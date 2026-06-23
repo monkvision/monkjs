@@ -1,72 +1,70 @@
 import { useCallback, useState } from 'react';
-import { CompressionOptions, ImageCompression } from '@monkvision/types';
-import { useMonitoring } from '@monkvision/monitoring';
 import { CameraConfig } from '../Camera.types';
+import { useObjectTranslation } from '@monkvision/common';
+import { useMonitoring } from '@monkvision/monitoring';
+import { CompressionOptions, useCompression } from './useCompression';
 import { useBlurDetection } from './useBlurDetection';
+import { CapturedPicture } from '../Camera.types';
 
 export interface UseTakePictureParams {
   videoRef: React.RefObject<HTMLVideoElement>;
   config: CameraConfig;
   compressionOptions?: CompressionOptions;
-  /** Laplacian variance threshold below which a frame is considered blurry. Default: 80. */
+  /** Laplacian variance threshold below which capture is blocked. Default: 80. Set to 0 to disable. */
   blurThreshold?: number;
 }
 
 export interface UseTakePictureResult {
-  takePicture: () => Promise<void>;
+  takePicture: () => Promise<CapturedPicture | null>;
   isLoading: boolean;
-  /** True if the last capture attempt was blocked because the frame was too blurry. */
+  /** True when the current frame is too blurry to capture */
   isBlurry: boolean;
-  lastPicture: ImageCompression | null;
 }
 
 export function useTakePicture({
   videoRef,
   config,
   compressionOptions,
-  blurThreshold,
+  blurThreshold = 80,
 }: UseTakePictureParams): UseTakePictureResult {
   const [isLoading, setIsLoading] = useState(false);
-  const [lastPicture, setLastPicture] = useState<ImageCompression | null>(null);
-  const { checkFrame, isBlurry, reset } = useBlurDetection();
   const { handleError } = useMonitoring();
+  const { compress } = useCompression(compressionOptions);
+  const { tObj } = useObjectTranslation();
+  const { isBlurry, checkFrame } = useBlurDetection({ threshold: blurThreshold });
 
-  const takePicture = useCallback(async () => {
-    if (isLoading) return;
+  const takePicture = useCallback(async (): Promise<CapturedPicture | null> => {
+    if (!videoRef.current) return null;
 
-    const video = videoRef.current;
-
-    // Blur gate — check sharpness before committing to capture
-    const isSharp = checkFrame(video, blurThreshold);
-    if (!isSharp) {
-      // Frame is blurry — surface isBlurry=true to HUD and bail out
-      return;
+    // Blur gate — block capture if frame is not sharp enough
+    if (blurThreshold > 0) {
+      const isSharp = checkFrame(videoRef.current);
+      if (!isSharp) {
+        return null;
+      }
     }
 
-    reset();
     setIsLoading(true);
-
     try {
-      if (!video) throw new Error('Video element is not available.');
-
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
       const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('Could not get 2D context.');
-      ctx.drawImage(video, 0, 0);
-
-      const quality = compressionOptions?.quality ?? config.quality ?? 0.8;
-      const mimeType = compressionOptions?.format ?? 'image/jpeg';
-      const base64 = canvas.toDataURL(mimeType, quality);
-
-      setLastPicture({ base64, width: canvas.width, height: canvas.height, mimeType });
+      if (!ctx) return null;
+      ctx.drawImage(videoRef.current, 0, 0);
+      const blob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob(resolve, config.format ?? 'image/jpeg', 1.0),
+      );
+      if (!blob) return null;
+      const picture = await compress(blob);
+      return picture;
     } catch (err) {
       handleError(err);
+      return null;
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, videoRef, checkFrame, blurThreshold, reset, compressionOptions, config, handleError]);
+  }, [videoRef, config, compress, checkFrame, blurThreshold, handleError]);
 
-  return { takePicture, isLoading, isBlurry, lastPicture };
+  return { takePicture, isLoading, isBlurry };
 }

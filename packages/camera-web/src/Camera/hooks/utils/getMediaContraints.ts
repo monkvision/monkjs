@@ -2,30 +2,30 @@ import { CameraConfig } from '../../Camera.types';
 
 export function getMediaConstraints(config: CameraConfig): MediaStreamConstraints {
   const { resolution, facingMode } = config;
-  const width = resolution?.width ?? 1920;
-  const height = resolution?.height ?? 1080;
-
+  const { width, height } = resolution;
   return {
     audio: false,
     video: {
       width: { ideal: width },
       height: { ideal: height },
-      facingMode: { ideal: facingMode },
+      facingMode,
     },
   };
 }
 
 /**
- * Attempt to apply continuous autofocus on a video track.
- * Silently ignored on unsupported browsers (e.g. iOS Safari < 17).
+ * Attempts to apply continuous autofocus constraints to the first video track of a stream.
+ * Silently ignored on browsers/devices that do not support the focusMode constraint (e.g. iOS < 17).
  */
-export async function applyFocusConstraints(track: MediaStreamTrack): Promise<void> {
+export async function applyFocusConstraints(stream: MediaStream): Promise<void> {
   try {
-    await track.applyConstraints({
-      // @ts-expect-error — focusMode is not yet in lib.dom.d.ts but is supported on modern browsers
-      focusMode: 'continuous',
+    const [track] = stream.getVideoTracks();
+    if (!track) return;
+    // MediaTrackConstraints focusMode is not yet in all TS lib typings — cast to any
+    await (track as any).applyConstraints({
+      advanced: [{ focusMode: 'continuous' } as any],
     });
-  } catch (_) {
-    // Device does not support focus constraints — fail silently
+  } catch {
+    // Silently ignore — device does not support focus constraints
   }
 }

@@ -1,19 +1,17 @@
-import { ImageCompression } from '@monkvision/types';
+import { CapturedPicture } from './Camera.types';
 
 /**
- * Handle exposed by the Camera component to HUD children via the render-prop pattern.
- * Provides camera controls and state that HUD elements can react to.
+ * Handle object passed to the Camera HUD component, giving it access to camera controls.
  */
 export interface CameraHandle {
-  /** Take a picture. Blocked automatically if the current frame is too blurry. */
-  takePicture: () => Promise<void>;
-  /** Whether a picture is currently being processed. */
+  /** Take a picture. Returns null if the frame is too blurry or capture fails. */
+  takePicture: () => Promise<CapturedPicture | null>;
+  /** True while a picture is being processed */
   isLoading: boolean;
-  /**
-   * Whether the last capture attempt was blocked because the frame was blurry.
-   * HUD components should surface a "Hold still" indicator when this is true.
-   */
+  /** True when the current camera frame is too blurry to capture */
   isBlurry: boolean;
-  /** The last picture taken, or null if none yet. */
-  lastPicture: ImageCompression | null;
+}
+
+export interface CameraHUDProps {
+  handle: CameraHandle;
 }
