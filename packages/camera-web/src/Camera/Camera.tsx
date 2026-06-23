@@ -57,6 +57,12 @@ export type CameraProps<T extends object> = CameraConfig &
      * Additional monitoring config that can be provided to the Camera component.
      */
     monitoring?: CameraMonitoringConfig;
+    /**
+     * Laplacian variance threshold for blur detection before capture.
+     * Frames below this score are considered blurry and the shutter is blocked.
+     * Set to 0 to disable. Default: 80.
+     */
+    blurThreshold?: number;
   };
 
 /**
@@ -78,6 +84,7 @@ export function Camera<T extends object>({
   hudProps,
   monitoring,
   onPictureTaken,
+  blurThreshold = 80,
 }: CameraProps<T>) {
   const previewResolution = useMemo(
     () => (isMobileDevice() ? CameraResolution.UHD_4K : CameraResolution.FHD_1080P),
@@ -107,13 +114,15 @@ export function Camera<T extends object>({
     dimensions: canvasDimensions,
   });
   const compress = useCompression({ canvasRef, options: { format, quality } });
-  const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
+  const { takePicture, isLoading: isTakePictureLoading, isBlurry } = useTakePicture({
     compress,
     takeScreenshot,
     onPictureTaken,
     monitoring,
     availableCameraDevices,
     selectedCameraDeviceId,
+    videoRef,
+    blurThreshold,
   });
 
   const isLoading = isPreviewLoading || isTakePictureLoading;
@@ -147,6 +156,7 @@ export function Camera<T extends object>({
         error,
         retry,
         isLoading,
+        isBlurry,
         dimensions: previewDimensions,
         previewDimensions,
       }}
