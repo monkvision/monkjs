@@ -33,14 +33,14 @@ export interface UseTakePictureParams
    */
   monitoring?: CameraMonitoringConfig;
   /**
-   * Ref to the video element — used for blur detection before capture.
+   * Ref to the video element used for blur detection before capture.
    * If not provided, blur detection is skipped.
    */
   videoRef?: RefObject<HTMLVideoElement | null>;
   /**
    * Laplacian variance threshold for blur detection. Frames below this score are
-   * considered blurry and the capture is blocked. Set to 0 to disable.
-   * Default: 80.
+   * considered blurry and the capture is silently blocked (onPictureTaken is not called).
+   * Set to 0 to disable. Default: 80.
    */
   blurThreshold?: number;
 }
@@ -64,8 +64,9 @@ function createTakePictureTransactionData({
 
 /**
  * Custom hook used by the Camera component to create the take picture function.
- * Includes an optional blur gate: if `videoRef` and `blurThreshold` are provided,
- * the shutter is blocked when the current frame's Laplacian variance is below the threshold.
+ * Includes an optional blur gate: if `videoRef` and `blurThreshold > 0` are provided,
+ * the shutter is silently blocked when the current frame is too blurry.
+ * The `isBlurry` flag can be used by the HUD to show a 'Hold still' indicator.
  */
 export function useTakePicture({
   compress,
@@ -82,12 +83,14 @@ export function useTakePicture({
   const { isBlurry, checkFrame } = useBlurDetection({ threshold: blurThreshold });
 
   const takePicture = useCallback(async () => {
-    // Blur gate: check sharpness before firing the shutter.
-    // If the frame is too blurry, return null without capturing.
+    // Blur gate: if the current frame is too blurry, block capture silently.
+    // isBlurry is updated so the HUD can show a 'Hold still' indicator.
     if (videoRef?.current && blurThreshold > 0) {
       const isSharp = checkFrame(videoRef.current);
       if (!isSharp) {
-        return null;
+        // Return a rejected-ish promise that resolves to undefined — callers discard the value.
+        // We cast to satisfy the original return type while not calling onPictureTaken.
+        return undefined as unknown as MonkPicture;
       }
     }
 
