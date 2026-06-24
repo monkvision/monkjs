@@ -35,6 +35,7 @@ export const styles: Styles = {
   },
   containerLandscape: {
     flexDirection: 'row',
+    padding: '10px 36px 10px 0px',
   },
   centerContent: {
     display: 'flex',
