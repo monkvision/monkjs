@@ -10,10 +10,7 @@
   "fetchFromSearchParams": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
-    "tasks": [
-      "damage_detection",
-      "wheel_analysis"
-    ]
+    "tasks": ["damage_detection", "wheel_analysis"]
   },
   "enableTutorial": "first_time_only",
   "enableSightTutorial": "modern",

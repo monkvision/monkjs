@@ -7,10 +7,7 @@
   "allowSkipRetake": true,
   "allowCreateInspection": true,
   "createInspectionOptions": {
-    "tasks": [
-      "damage_detection",
-      "wheel_analysis"
-    ],
+    "tasks": ["damage_detection", "wheel_analysis"],
     "isVideoCapture": true
   },
   "apiDomain": "api.preview.monk.ai/v1",
@@ -74,41 +71,13 @@
   "defaultVehicleType": "cuv",
   "enableSteeringWheelPosition": false,
   "sights": {
-    "suv": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "cuv": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "sedan": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "hatchback": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "van": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "minivan": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ],
-    "pickup": [
-      "all-rj5mhm",
-      "all-e7663823",
-      "all-rSvk2C"
-    ]
+    "suv": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "cuv": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "sedan": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "hatchback": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "van": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "minivan": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"],
+    "pickup": ["all-rj5mhm", "all-e7663823", "all-rSvk2C"]
   },
   "sightGuidelines": [
     {
