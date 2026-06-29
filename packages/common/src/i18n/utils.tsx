@@ -93,11 +93,12 @@ export function i18nWrap<T, P>(
 }
 
 /**
- * This function retrieves the language prefix from a given language string.
- * If the prefix is not found in the list of supported languages (monkLanguages in Types package), defaults to 'en'.
+ * This function retrieves the supported language from a given language string.
+ * If the full language string (including region) matches a supported language, it is returned as-is.
+ * Otherwise, the language prefix is extracted and checked. If neither matches, defaults to 'en'.
  *
- * @param language - The full language string (e.g., 'en-US', 'fr-CA').
- * @returns The language prefix if it is supported; otherwise, 'en'.
+ * @param language - The full language string (e.g., 'en-US', 'fr-CA', 'de-CH').
+ * @returns The matched language (full string or prefix) if supported; otherwise, 'en'.
  */
 export function getLanguage(language: string): MonkLanguage {
   const exactMatch = monkLanguages.find((lang) => lang === language);
