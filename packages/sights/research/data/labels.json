@@ -15,7 +15,9 @@
     "no": "Bakseter",
     "cs": "Zadní sedadla",
     "fi": "Takapenkit",
-    "de-CH": "Rücksitze"
+    "de-CH": "Rücksitze",
+    "en-IE": "Back Seats",
+    "en-GB": "Back Seats"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
@@ -33,7 +35,9 @@
     "no": "Helhetsbilde, venstre",
     "cs": "Celkový záběr zleva",
     "fi": "Kaunis kuva, vasen puoli",
-    "de-CH": "Linke Vollansicht"
+    "de-CH": "Linke Vollansicht",
+    "en-IE": "Beauty Shot Left",
+    "en-GB": "Beauty Shot Left"
   },
   "dashboard": {
     "key": "dashboard",
@@ -51,7 +55,9 @@
     "no": "Dashbord",
     "cs": "Palubní deska",
     "fi": "Päävalikko",
-    "de-CH": "Armaturenbrett"
+    "de-CH": "Armaturenbrett",
+    "en-IE": "Dashboard",
+    "en-GB": "Dashboard"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -69,7 +75,9 @@
     "no": "Dashbord fra baksetet",
     "cs": "Palubní deska ze zadního sedadla",
     "fi": "Näyttö takapenkillä",
-    "de-CH": "Armaturenbrett vom Rücksitz"
+    "de-CH": "Armaturenbrett vom Rücksitz",
+    "en-IE": "Dashboard From Back Seat",
+    "en-GB": "Dashboard From Back Seat"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -87,7 +95,9 @@
     "no": "Dashbord fra førersetet",
     "cs": "Palubní deska z místa řidiče",
     "fi": "Näyttö kuljettajan istuimelta",
-    "de-CH": "Armaturenbrett vom Fahrersitz aus"
+    "de-CH": "Armaturenbrett vom Fahrersitz aus",
+    "en-IE": "Dashboard From Driver Seat",
+    "en-GB": "Dashboard From Driver Seat"
   },
   "doors-left": {
     "key": "doors-left",
@@ -105,7 +115,9 @@
     "no": "Venstre dører",
     "cs": "Levé dveře",
     "fi": "Avaimet vasemmalla",
-    "de-CH": "Linke Tür"
+    "de-CH": "Linke Tür",
+    "en-IE": "Doors Left",
+    "en-GB": "Doors Left"
   },
   "doors-right": {
     "key": "doors-right",
@@ -123,7 +135,9 @@
     "no": "Høyre dører",
     "cs": "Pravé dveře",
     "fi": "Ovet oikealla",
-    "de-CH": "Gerade Türen"
+    "de-CH": "Gerade Türen",
+    "en-IE": "Doors Right",
+    "en-GB": "Doors Right"
   },
   "engine-left-side": {
     "key": "engine-left-side",
@@ -141,7 +155,9 @@
     "no": "Venstre side av motor",
     "cs": "Levá strana motoru",
     "fi": "Moottorin vasen puoli",
-    "de-CH": "Linker Motor"
+    "de-CH": "Linker Motor",
+    "en-IE": "Engine Left Side",
+    "en-GB": "Engine Left Side"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -159,7 +175,9 @@
     "no": "Høyre side av motor",
     "cs": "Pravá strana motoru",
     "fi": "Moottori, oikea puoli",
-    "de-CH": "Rechter Motor"
+    "de-CH": "Rechter Motor",
+    "en-IE": "Engine Right Side",
+    "en-GB": "Engine Right Side"
   },
   "front": {
     "key": "front",
@@ -177,7 +195,9 @@
     "no": "Foran",
     "cs": "Přední",
     "fi": "Etupuoli",
-    "de-CH": "Vorderseite"
+    "de-CH": "Vorderseite",
+    "en-IE": "Front",
+    "en-GB": "Front"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
@@ -195,7 +215,9 @@
     "no": "Venstre side av frontstøtfanger",
     "cs": "Levá strana předního nárazníku",
     "fi": "Etuluukun vasen puoli",
-    "de-CH": "Stossstange vorne links"
+    "de-CH": "Stossstange vorne links",
+    "en-IE": "Front Bumper Side Left",
+    "en-GB": "Front Bumper Side Left"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -213,7 +235,9 @@
     "no": "Høyre side av frontstøtfanger",
     "cs": "Pravá strana předního nárazníku",
     "fi": "Etuluukun oikea sivu",
-    "de-CH": "Stossstange vorne rechts"
+    "de-CH": "Stossstange vorne rechts",
+    "en-IE": "Front Bumper Side Right",
+    "en-GB": "Front Bumper Side Right"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -231,7 +255,9 @@
     "no": "Venstre fordør",
     "cs": "Levé přední dveře",
     "fi": "Vasemman etuoven",
-    "de-CH": "Tür vorne links"
+    "de-CH": "Tür vorne links",
+    "en-IE": "Front Door Left",
+    "en-GB": "Front Door Left"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -249,7 +275,9 @@
     "no": "Høyre fordør",
     "cs": "Pravé přední dveře",
     "fi": "Oikea etuovi",
-    "de-CH": "Vordertür rechts"
+    "de-CH": "Vordertür rechts",
+    "en-IE": "Front Door Right",
+    "en-GB": "Front Door Right"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -267,7 +295,9 @@
     "no": "Venstre framskjerm",
     "cs": "Levý přední blatník",
     "fi": "Etulasi, vasen",
-    "de-CH": "Vorne links"
+    "de-CH": "Vorne links",
+    "en-IE": "Front Left",
+    "en-GB": "Front Left"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -285,7 +315,9 @@
     "no": "Høyre framskjerm",
     "cs": "Pravý přední blatník",
     "fi": "Etupuoli, oikea",
-    "de-CH": "Vorne rechts"
+    "de-CH": "Vorne rechts",
+    "en-IE": "Front Right",
+    "en-GB": "Front Right"
   },
   "front-lateral-full-right": {
     "key": "front-lateral-full-right",
@@ -303,7 +335,9 @@
     "no": "Foran, fullt, høyre",
     "cs": "Přední plný pohled zprava",
     "fi": "Etupuoli, oikea puoli",
-    "de-CH": "Vorne rechts"
+    "de-CH": "Vorne rechts",
+    "en-IE": "Front Full Right",
+    "en-GB": "Front Full Right"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -321,7 +355,9 @@
     "no": "Venstre side, foran",
     "cs": "Přední boční pohled zleva",
     "fi": "Etupuoli, vasen puoli",
-    "de-CH": "Vorderseite seitlich links"
+    "de-CH": "Vorderseite seitlich links",
+    "en-IE": "Front Lateral Left",
+    "en-GB": "Front Lateral Left"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
@@ -339,7 +375,9 @@
     "no": "Foran, side, lavt, venstre",
     "cs": "Přední boční pohled zleva, nízko",
     "fi": "Etupuoli, sivuttainen, vasen, alhaalla",
-    "de-CH": "Vorne Seitlich Niedrig Links"
+    "de-CH": "Vorne Seitlich Niedrig Links",
+    "en-IE": "Front Lateral Low Left",
+    "en-GB": "Front Lateral Low Left"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -357,7 +395,9 @@
     "no": "Foran, side, lav, høyre",
     "cs": "Přední boční pohled zprava, nízko",
     "fi": "Etupuoli, sivuttain, alhaalla, oikealla",
-    "de-CH": "Vorne Seitlich Niedrig Rechts"
+    "de-CH": "Vorne Seitlich Niedrig Rechts",
+    "en-IE": "Front Lateral Low Right",
+    "en-GB": "Front Lateral Low Right"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -375,7 +415,9 @@
     "no": "Foran, side, høyre",
     "cs": "Přední boční pohled zprava",
     "fi": "Etupuoli, sivuttain, oikea",
-    "de-CH": "Vorderseite seitlich rechts"
+    "de-CH": "Vorderseite seitlich rechts",
+    "en-IE": "Front Lateral Right",
+    "en-GB": "Front Lateral Right"
   },
   "front-low": {
     "key": "front-low",
@@ -393,7 +435,9 @@
     "no": "Foran, lav",
     "cs": "Přední, nízko",
     "fi": "Etupuoli, matala",
-    "de-CH": "Vorderseite Niedrig"
+    "de-CH": "Vorderseite Niedrig",
+    "en-IE": "Front Low",
+    "en-GB": "Front Low"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -411,7 +455,9 @@
     "no": "Foran, tak, venstre",
     "cs": "Přední střecha, levá",
     "fi": "Etukuomu Vasen",
-    "de-CH": "Dach vorne links"
+    "de-CH": "Dach vorne links",
+    "en-IE": "Front Roof Left",
+    "en-GB": "Front Roof Left"
   },
   "front-seats": {
     "key": "front-seats",
@@ -429,7 +475,9 @@
     "no": "Forseter",
     "cs": "Přední sedadla",
     "fi": "Etupenkit",
-    "de-CH": "Vordersitze"
+    "de-CH": "Vordersitze",
+    "en-IE": "Front Seats",
+    "en-GB": "Front Seats"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -447,7 +495,9 @@
     "no": "Understell foran",
     "cs": "Přední podvozek",
     "fi": "Etuosa",
-    "de-CH": "Vorderes Fahrwerk"
+    "de-CH": "Vorderes Fahrwerk",
+    "en-IE": "Front Undercarriage",
+    "en-GB": "Front Undercarriage"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
@@ -465,7 +515,9 @@
     "no": "Venstre forhjul",
     "cs": "Levé přední kolo",
     "fi": "Etupyörä vasemmalla",
-    "de-CH": "Vorderrad links"
+    "de-CH": "Vorderrad links",
+    "en-IE": "Front Wheel Left",
+    "en-GB": "Front Wheel Left"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
@@ -483,7 +535,9 @@
     "no": "Høyre forhjul",
     "cs": "Pravé přední kolo",
     "fi": "Etupyörä oikealla",
-    "de-CH": "Rechtes Vorderrad"
+    "de-CH": "Rechtes Vorderrad",
+    "en-IE": "Front Wheel Right",
+    "en-GB": "Front Wheel Right"
   },
   "hood": {
     "key": "hood",
@@ -501,7 +555,9 @@
     "no": "Panser",
     "cs": "Kapota",
     "fi": "Takaluukku",
-    "de-CH": "Abdeckhaube"
+    "de-CH": "Abdeckhaube",
+    "en-IE": "Hood",
+    "en-GB": "Hood"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -519,7 +575,9 @@
     "no": "Panser / Frontrute",
     "cs": "Kapota / Čelní sklo",
     "fi": "Takaluukku / Tuulilasi",
-    "de-CH": "Motorhaube / Windschutzscheibe"
+    "de-CH": "Motorhaube / Windschutzscheibe",
+    "en-IE": "Hood / Windshield",
+    "en-GB": "Hood / Windshield"
   },
   "interior-roof": {
     "key": "interior-roof",
@@ -537,7 +595,9 @@
     "no": "Interiørtak",
     "cs": "Interiér, střecha",
     "fi": "Sisäkatto",
-    "de-CH": "Innen Dach"
+    "de-CH": "Innen Dach",
+    "en-IE": "Interior Roof",
+    "en-GB": "Interior Roof"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
@@ -555,7 +615,9 @@
     "no": "Full venstre side",
     "cs": "Celý levý pohled",
     "fi": "Vasemmalta täysin",
-    "de-CH": "Vollständig links"
+    "de-CH": "Vollständig links",
+    "en-IE": "Full Left",
+    "en-GB": "Full Left"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -573,7 +635,9 @@
     "no": "Full høyre side",
     "cs": "Celý pravý pohled",
     "fi": "täydellinen oikea",
-    "de-CH": "Volles Recht"
+    "de-CH": "Volles Recht",
+    "en-IE": "Full Right",
+    "en-GB": "Full Right"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -591,7 +655,9 @@
     "no": "Venstre side",
     "cs": "Levý bok",
     "fi": "Vasemmalta",
-    "de-CH": "Linke Seite"
+    "de-CH": "Linke Seite",
+    "en-IE": "Lateral Left",
+    "en-GB": "Lateral Left"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
@@ -609,7 +675,9 @@
     "no": "Venstre side, lav",
     "cs": "Levý bok, nízko",
     "fi": "Vasemmalta, alhaalta",
-    "de-CH": "Seitlich tief links"
+    "de-CH": "Seitlich tief links",
+    "en-IE": "Lateral Low Left",
+    "en-GB": "Lateral Low Left"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
@@ -627,7 +695,9 @@
     "no": "Høyre side, lav",
     "cs": "Pravý bok, nízko",
     "fi": "Liikkuva, alhaalta oikealta",
-    "de-CH": "Seitlich Niedrig Rechts"
+    "de-CH": "Seitlich Niedrig Rechts",
+    "en-IE": "Lateral Low Right",
+    "en-GB": "Lateral Low Right"
   },
   "left-front-door": {
     "key": "left-front-door",
@@ -645,7 +715,9 @@
     "no": "Venstre fordør",
     "cs": "Levé přední dveře",
     "fi": "Vasemman etuoven",
-    "de-CH": "Tür vorne links"
+    "de-CH": "Tür vorne links",
+    "en-IE": "Left Front Door",
+    "en-GB": "Left Front Door"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -663,7 +735,9 @@
     "no": "Åpent bagasjerom",
     "cs": "Otevřený kufr",
     "fi": "Avaa takakontti",
-    "de-CH": "Offene Truhe"
+    "de-CH": "Offene Truhe",
+    "en-IE": "Open Trunk",
+    "en-GB": "Open Trunk"
   },
   "rear": {
     "key": "rear",
@@ -681,7 +755,9 @@
     "no": "Bakre",
     "cs": "Zadní",
     "fi": "Takana",
-    "de-CH": "Hinten"
+    "de-CH": "Hinten",
+    "en-IE": "Rear",
+    "en-GB": "Rear"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -699,7 +775,9 @@
     "no": "Venstre side av bakre støtfanger",
     "cs": "Levá strana zadního nárazníku",
     "fi": "Takapuskuri, vasen puoli",
-    "de-CH": "Stossstange hinten links"
+    "de-CH": "Stossstange hinten links",
+    "en-IE": "Rear Bumper Side Left",
+    "en-GB": "Rear Bumper Side Left"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
@@ -717,7 +795,9 @@
     "no": "Høyre side av bakre støtfanger",
     "cs": "Pravá strana zadního nárazníku",
     "fi": "Takapuskuri, oikea puoli",
-    "de-CH": "Stossstange hinten rechts"
+    "de-CH": "Stossstange hinten rechts",
+    "en-IE": "Rear Bumper Side Right",
+    "en-GB": "Rear Bumper Side Right"
   },
   "rear-door-left": {
     "key": "rear-door-left",
@@ -735,7 +815,9 @@
     "no": "Venstre bakdør",
     "cs": "Levé zadní dveře",
     "fi": "Takaportti, vasen",
-    "de-CH": "Tür hinten links"
+    "de-CH": "Tür hinten links",
+    "en-IE": "Rear Door Left",
+    "en-GB": "Rear Door Left"
   },
   "rear-door-right": {
     "key": "rear-door-right",
@@ -753,7 +835,9 @@
     "no": "Høyre bakdør",
     "cs": "Pravé zadní dveře",
     "fi": "Oikea takaluukku",
-    "de-CH": "Tür hinten rechts"
+    "de-CH": "Tür hinten rechts",
+    "en-IE": "Rear Door Right",
+    "en-GB": "Rear Door Right"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
@@ -771,7 +855,9 @@
     "no": "Venstre bakskjerm",
     "cs": "Levý zadní blatník",
     "fi": "Takalauta, vasen",
-    "de-CH": "Kotflügel hinten links"
+    "de-CH": "Kotflügel hinten links",
+    "en-IE": "Rear Fender Left",
+    "en-GB": "Rear Fender Left"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
@@ -789,7 +875,9 @@
     "no": "Høyre bakskjerm",
     "cs": "Pravý zadní blatník",
     "fi": "Takalokero, oikea",
-    "de-CH": "Kotflügel hinten rechts"
+    "de-CH": "Kotflügel hinten rechts",
+    "en-IE": "Rear Fender Right",
+    "en-GB": "Rear Fender Right"
   },
   "rear-lateral-full-left": {
     "key": "rear-lateral-full-left",
@@ -807,7 +895,9 @@
     "no": "Bakre, full venstre side",
     "cs": "Zadní plný pohled zleva",
     "fi": "Takana, vasen puoli, kokonaisuus",
-    "de-CH": "Hinten ganz links"
+    "de-CH": "Hinten ganz links",
+    "en-IE": "Rear Full Left",
+    "en-GB": "Rear Full Left"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -825,7 +915,9 @@
     "no": "Bakre, full høyre side",
     "cs": "Zadní plný pohled zprava",
     "fi": "Takana oikealla",
-    "de-CH": "Hinten ganz rechts"
+    "de-CH": "Hinten ganz rechts",
+    "en-IE": "Rear Full Right",
+    "en-GB": "Rear Full Right"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -843,7 +935,9 @@
     "no": "Bakre, venstre side",
     "cs": "Zadní boční pohled zleva",
     "fi": "Takainen, vasen puoli",
-    "de-CH": "Hinten seitlich links"
+    "de-CH": "Hinten seitlich links",
+    "en-IE": "Rear Lateral Left",
+    "en-GB": "Rear Lateral Left"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -861,7 +955,9 @@
     "no": "Bakre, venstre side, lav",
     "cs": "Zadní boční pohled zleva, nízko",
     "fi": "Takainen, vasen, alhaalla",
-    "de-CH": "Hinten Seitlich Niedrig Links"
+    "de-CH": "Hinten Seitlich Niedrig Links",
+    "en-IE": "Rear Lateral Low Left",
+    "en-GB": "Rear Lateral Low Left"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -879,7 +975,9 @@
     "no": "Bakre, høyre side, lav",
     "cs": "Zadní boční pohled zprava, nízko",
     "fi": "Takainen sivuttainen, alhaalla, oikealla",
-    "de-CH": "Hinten Seitlich Niedrig Rechts"
+    "de-CH": "Hinten Seitlich Niedrig Rechts",
+    "en-IE": "Rear Lateral Low Right",
+    "en-GB": "Rear Lateral Low Right"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
@@ -897,7 +995,9 @@
     "no": "Bakre, høyre side",
     "cs": "Zadní boční pohled zprava",
     "fi": "Takainen, oikea sivun puoli",
-    "de-CH": "Hinten seitlich rechts"
+    "de-CH": "Hinten seitlich rechts",
+    "en-IE": "Rear Lateral Right",
+    "en-GB": "Rear Lateral Right"
   },
   "rear-left": {
     "key": "rear-left",
@@ -915,7 +1015,9 @@
     "no": "Bakre venstre",
     "cs": "Zadní levý",
     "fi": "Takaisin, vasen",
-    "de-CH": "Hinten links"
+    "de-CH": "Hinten links",
+    "en-IE": "Rear Left",
+    "en-GB": "Rear Left"
   },
   "rear-low": {
     "key": "rear-low",
@@ -933,7 +1035,9 @@
     "no": "Bakre, lav",
     "cs": "Zadní, nízko",
     "fi": "Takareuna matala",
-    "de-CH": "Hinten Niedrig"
+    "de-CH": "Hinten Niedrig",
+    "en-IE": "Rear Low",
+    "en-GB": "Rear Low"
   },
   "rear-right": {
     "key": "rear-right",
@@ -951,7 +1055,9 @@
     "no": "Bakre høyre",
     "cs": "Zadní pravý",
     "fi": "Takainen oikea",
-    "de-CH": "Hinten rechts"
+    "de-CH": "Hinten rechts",
+    "en-IE": "Rear Right",
+    "en-GB": "Rear Right"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -969,7 +1075,9 @@
     "no": "Bakre tak",
     "cs": "Zadní střecha",
     "fi": "Takaluukku",
-    "de-CH": "Hinteres Dach"
+    "de-CH": "Hinteres Dach",
+    "en-IE": "Rear Roof",
+    "en-GB": "Rear Roof"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
@@ -987,7 +1095,9 @@
     "no": "Bakre tak, høyre",
     "cs": "Zadní střecha, pravá",
     "fi": "Takaluukku, oikea",
-    "de-CH": "Hinteres Dach rechts"
+    "de-CH": "Hinteres Dach rechts",
+    "en-IE": "Rear Roof Right",
+    "en-GB": "Rear Roof Right"
   },
   "rear-seats": {
     "key": "rear-seats",
@@ -1005,7 +1115,9 @@
     "no": "Bakseter",
     "cs": "Zadní sedadla",
     "fi": "Takapenkit",
-    "de-CH": "Rücksitze"
+    "de-CH": "Rücksitze",
+    "en-IE": "Rear Seats",
+    "en-GB": "Rear Seats"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -1023,7 +1135,9 @@
     "no": "Bakre, oppe, venstre",
     "cs": "Zadní nahoře, levá",
     "fi": "Takaisin, vasen",
-    "de-CH": "Hinten oben links"
+    "de-CH": "Hinten oben links",
+    "en-IE": "Rear Up Left",
+    "en-GB": "Rear Up Left"
   },
   "rear-up-right": {
     "key": "rear-up-right",
@@ -1041,7 +1155,9 @@
     "no": "Bakre, oppe, høyre",
     "cs": "Zadní nahoře, pravá",
     "fi": "Takaisin, oikealla",
-    "de-CH": "Hinten oben rechts"
+    "de-CH": "Hinten oben rechts",
+    "en-IE": "Rear Up Right",
+    "en-GB": "Rear Up Right"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
@@ -1059,7 +1175,9 @@
     "no": "Venstre bakhjul",
     "cs": "Levé zadní kolo",
     "fi": "Takapyörä, vasen",
-    "de-CH": "Linkes Hinterrad"
+    "de-CH": "Linkes Hinterrad",
+    "en-IE": "Rear Wheel Left",
+    "en-GB": "Rear Wheel Left"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
@@ -1077,7 +1195,9 @@
     "no": "Høyre bakhjul",
     "cs": "Pravé zadní kolo",
     "fi": "Takapyörä oikea",
-    "de-CH": "Linkes Hinterrad"
+    "de-CH": "Linkes Hinterrad",
+    "en-IE": "Rear Wheel Right",
+    "en-GB": "Rear Wheel Right"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
@@ -1095,7 +1215,9 @@
     "no": "Bakre, forstørret",
     "cs": "Zadní pohled, přiblížený",
     "fi": "Takakamera, suurennus",
-    "de-CH": "Gezoomter Hinterkopf"
+    "de-CH": "Gezoomter Hinterkopf",
+    "en-IE": "Rear Zoomed",
+    "en-GB": "Rear Zoomed"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
@@ -1113,7 +1235,9 @@
     "no": "Venstre sidepanel",
     "cs": "Levý prahový panel",
     "fi": "Vasemman kyljen alareuna",
-    "de-CH": "Schwellerverkleidung links"
+    "de-CH": "Schwellerverkleidung links",
+    "en-IE": "Rocker Panel Left",
+    "en-GB": "Rocker Panel Left"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
@@ -1131,7 +1255,9 @@
     "no": "Bakre venstre sidepanel",
     "cs": "Levý zadní prahový panel",
     "fi": "Takalaita, vasen",
-    "de-CH": "Schwellerverkleidung hinten links"
+    "de-CH": "Schwellerverkleidung hinten links",
+    "en-IE": "Rocker Panel Rear Left",
+    "en-GB": "Rocker Panel Rear Left"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
@@ -1149,7 +1275,9 @@
     "no": "Høyre sidepanel",
     "cs": "Pravý prahový panel",
     "fi": "Oikea kylkilauta",
-    "de-CH": "Schwellerverkleidung rechts"
+    "de-CH": "Schwellerverkleidung rechts",
+    "en-IE": "Rocker Panel Right",
+    "en-GB": "Rocker Panel Right"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
@@ -1167,7 +1295,9 @@
     "no": "Bakre høyre sidepanel",
     "cs": "Pravý zadní prahový panel",
     "fi": "Takaluukun oikea kylki",
-    "de-CH": "Schwellerverkleidung hinten rechts"
+    "de-CH": "Schwellerverkleidung hinten rechts",
+    "en-IE": "Rocker Panel Rear Right",
+    "en-GB": "Rocker Panel Rear Right"
   },
   "trunk": {
     "key": "trunk",
@@ -1185,7 +1315,9 @@
     "no": "Bagasjerom",
     "cs": "Kufr",
     "fi": "Takakontti",
-    "de-CH": "Kofferraum"
+    "de-CH": "Kofferraum",
+    "en-IE": "Trunk",
+    "en-GB": "Trunk"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -1203,7 +1335,9 @@
     "no": "Venstre side av bagasjerom",
     "cs": "Levá strana kufru",
     "fi": "Takakontti, vasen puoli",
-    "de-CH": "Kofferraum Linke Seite"
+    "de-CH": "Kofferraum Linke Seite",
+    "en-IE": "Trunk Left Side",
+    "en-GB": "Trunk Left Side"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
@@ -1221,7 +1355,9 @@
     "no": "Høyre side av bagasjerom",
     "cs": "Pravá strana kufru",
     "fi": "Takaluukku oikealla puolella",
-    "de-CH": "Kofferraum Rechte Seite"
+    "de-CH": "Kofferraum Rechte Seite",
+    "en-IE": "Trunk Right Side",
+    "en-GB": "Trunk Right Side"
   },
   "vin": {
     "key": "vin",
@@ -1239,7 +1375,9 @@
     "no": "VIN",
     "cs": "VIN",
     "fi": "VIN",
-    "de-CH": "VIN"
+    "de-CH": "VIN",
+    "en-IE": "VIN",
+    "en-GB": "VIN"
   },
   "windshield": {
     "key": "windshield",
@@ -1257,7 +1395,9 @@
     "no": "Frontrute",
     "cs": "Čelní sklo",
     "fi": "Ajolasin",
-    "de-CH": "Windschutzscheibe"
+    "de-CH": "Windschutzscheibe",
+    "en-IE": "Windshield",
+    "en-GB": "Windshield"
   },
   "hatchback": {
     "key": "hatchback",
@@ -1275,7 +1415,9 @@
     "no": "Kombi",
     "cs": "Hatchback",
     "fi": "Peräkoukkumalli",
-    "de-CH": "Schrägheck"
+    "de-CH": "Schrägheck",
+    "en-IE": "Hatchback",
+    "en-GB": "Hatchback"
   },
   "cuv": {
     "key": "cuv",
@@ -1293,7 +1435,9 @@
     "no": "CUV",
     "cs": "CUV",
     "fi": "Kuvioauto",
-    "de-CH": "CUV"
+    "de-CH": "CUV",
+    "en-IE": "CUV",
+    "en-GB": "CUV"
   },
   "pickup": {
     "key": "pickup",
@@ -1311,7 +1455,9 @@
     "no": "Pickup",
     "cs": "Pickup",
     "fi": "Nouto",
-    "de-CH": "Pickup"
+    "de-CH": "Pickup",
+    "en-IE": "Pickup",
+    "en-GB": "Pickup"
   },
   "city": {
     "key": "city",
@@ -1329,7 +1475,9 @@
     "no": "By",
     "cs": "Město",
     "fi": "Kaupunki",
-    "de-CH": "Stadtauto"
+    "de-CH": "Stadtauto",
+    "en-IE": "City",
+    "en-GB": "City"
   },
   "van": {
     "key": "van",
@@ -1347,7 +1495,9 @@
     "no": "Varebil",
     "cs": "Dodávka",
     "fi": "Kuorma-auto",
-    "de-CH": "Van"
+    "de-CH": "Van",
+    "en-IE": "Van",
+    "en-GB": "Van"
   },
   "sedan": {
     "key": "sedan",
@@ -1365,7 +1515,9 @@
     "no": "Sedan",
     "cs": "Sedan",
     "fi": "Sedan",
-    "de-CH": "Limousine"
+    "de-CH": "Limousine",
+    "en-IE": "Saloon",
+    "en-GB": "Saloon"
   },
   "large-suv": {
     "key": "large-suv",
@@ -1383,7 +1535,9 @@
     "no": "Stor SUV",
     "cs": "Velké SUV",
     "fi": "Suuri maasturi",
-    "de-CH": "Grossen Geländewagen"
+    "de-CH": "Grossen Geländewagen",
+    "en-IE": "Large SUV",
+    "en-GB": "Large SUV"
   },
   "minivan": {
     "key": "minivan",
@@ -1401,7 +1555,9 @@
     "no": "Minibuss",
     "cs": "Minivan",
     "fi": "Minibussi",
-    "de-CH": "Minivan"
+    "de-CH": "Minivan",
+    "en-IE": "Minivan",
+    "en-GB": "Minivan"
   },
   "suv": {
     "key": "suv",
@@ -1419,7 +1575,9 @@
     "no": "SUV",
     "cs": "SUV",
     "fi": "Katumaali",
-    "de-CH": "Geländewagen"
+    "de-CH": "Geländewagen",
+    "en-IE": "SUV",
+    "en-GB": "SUV"
   },
   "hgv": {
     "key": "hgv",
@@ -1437,7 +1595,9 @@
     "no": "Tungt kjøretøy",
     "cs": "Těžké nákladní vozidlo",
     "fi": "Suuri kuorma-auto",
-    "de-CH": "HGV"
+    "de-CH": "HGV",
+    "en-IE": "HGV",
+    "en-GB": "HGV"
   },
   "front-left-tire": {
     "key": "front-left-tire",
@@ -1455,7 +1615,9 @@
     "no": "Venstre forhjulsdekk",
     "cs": "Levá přední pneumatika",
     "fi": "Eturenkaan vasen puoli",
-    "de-CH": "Vorderer linker Reifen"
+    "de-CH": "Vorderer linker Reifen",
+    "en-IE": "Front left tire",
+    "en-GB": "Front left tire"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -1473,7 +1635,9 @@
     "no": "Høyre forhjulsdekk",
     "cs": "Přední pravá pneumatika",
     "fi": "Eturenkaan oikea puoli",
-    "de-CH": "Vorderer rechter Reifen"
+    "de-CH": "Vorderer rechter Reifen",
+    "en-IE": "Front right tire",
+    "en-GB": "Front right tire"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -1491,7 +1655,9 @@
     "no": "Venstre bakhjulsdekk",
     "cs": "Levá zadní pneumatika",
     "fi": "Takaisin vasen rengas",
-    "de-CH": "Hinterer linker Reifen"
+    "de-CH": "Hinterer linker Reifen",
+    "en-IE": "Rear left tire",
+    "en-GB": "Rear left tire"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -1509,7 +1675,9 @@
     "no": "Høyre bakhjulsdekk",
     "cs": "Pravá zadní pneumatika",
     "fi": "Takainen oikea rengas",
-    "de-CH": "Hinterer rechter Reifen"
+    "de-CH": "Hinterer rechter Reifen",
+    "en-IE": "Rear right tire",
+    "en-GB": "Rear right tire"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -1527,7 +1695,9 @@
     "no": "Dashbordskjerm",
     "cs": "Obrazovka palubní desky",
     "fi": "Päävalikko",
-    "de-CH": "Armaturenbrett Bildschirm"
+    "de-CH": "Armaturenbrett Bildschirm",
+    "en-IE": "Dashboard Screen",
+    "en-GB": "Dashboard Screen"
   },
   "keys": {
     "key": "keys",
@@ -1545,7 +1715,9 @@
     "no": "Nøkler",
     "cs": "Klíče",
     "fi": "avainten",
-    "de-CH": "Tasten"
+    "de-CH": "Tasten",
+    "en-IE": "Keys",
+    "en-GB": "Keys"
   },
   "card-keys": {
     "key": "card-keys",
@@ -1563,7 +1735,9 @@
     "no": "Kortnøkler",
     "cs": "Kartové klíče",
     "fi": "Avaimet",
-    "de-CH": "Kartenschlüssel"
+    "de-CH": "Kartenschlüssel",
+    "en-IE": "Card Keys",
+    "en-GB": "Card Keys"
   },
   "front-left-penny-test": {
     "key": "front-left-penny-test",
@@ -1581,7 +1755,9 @@
     "no": "Venstre foran, Penny-test",
     "cs": "Přední levý test mincí",
     "fi": "Vasemman etuosan Penny-testi",
-    "de-CH": "Penny-Test vorne links"
+    "de-CH": "Penny-Test vorne links",
+    "en-IE": "Front left Penny Test",
+    "en-GB": "Front left Penny Test"
   },
   "front-right-penny-test": {
     "key": "front-right-penny-test",
@@ -1599,7 +1775,9 @@
     "no": "Høyre foran, Penny-test",
     "cs": "Přední pravý test mincí",
     "fi": "Oikean etuosan Penny-testi",
-    "de-CH": "Penny-Test vorne rechts"
+    "de-CH": "Penny-Test vorne rechts",
+    "en-IE": "Front right Penny Test",
+    "en-GB": "Front right Penny Test"
   },
   "rear-left-penny-test": {
     "key": "rear-left-penny-test",
@@ -1617,7 +1795,9 @@
     "no": "Bakre venstre, Penny-test",
     "cs": "Zadní levý test mincí",
     "fi": "Takaisen vasemman puolen Penny-testi",
-    "de-CH": "Penny-Test hinten links"
+    "de-CH": "Penny-Test hinten links",
+    "en-IE": "Rear left Penny Test",
+    "en-GB": "Rear left Penny Test"
   },
   "rear-right-penny-test": {
     "key": "rear-right-penny-test",
@@ -1635,6 +1815,8 @@
     "no": "Bakre høyre, Penny-test",
     "cs": "Zadní pravý test mincí",
     "fi": "Takaisin oikea Penny-testi",
-    "de-CH": "Penny-Test hinten rechts"
+    "de-CH": "Penny-Test hinten rechts",
+    "en-IE": "Rear right Penny Test",
+    "en-GB": "Rear right Penny Test"
   }
 }

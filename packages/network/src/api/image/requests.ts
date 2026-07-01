@@ -261,6 +261,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'de-CH': `Videobild ${options.frameIndex}`,
       'nl': `Videoframe ${options.frameIndex}`,
       'it': `Frame Video ${options.frameIndex}`,
+      'en-IE': `Video Frame ${options.frameIndex}`,
+      'en-GB': `Video Frame ${options.frameIndex}`,
     };
   }
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
@@ -280,6 +282,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'de-CH': `Manuelles Videofoto`,
       'nl': `Handmatige videofoto`,
       'it': `Foto manuale da video`,
+      'en-IE': `Video Manual Photo`,
+      'en-GB': `Video Manual Photo`,
     };
   }
   if (options.uploadType === ImageUploadType.PART_SELECT_SHOT) {
@@ -300,6 +304,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'de-CH': `Gezoomtes an ${partsTranslation.map((part) => part['de-CH']).join(', ')}`,
       'nl': `Nabij aan ${partsTranslation.map((part) => part.en).join(', ')}`,
       'it': `Close Up su ${partsTranslation.map((part) => part.en).join(', ')}`,
+      'en-IE': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      'en-GB': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
     };
   }
   return {
@@ -318,6 +324,8 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     'de-CH': options.firstShot ? 'Gezoomtes Foto (Teil)' : 'Close Up (Schaden)',
     'nl': options.firstShot ? 'Nabij (onderdeel)' : 'Nabij (schade)',
     'it': options.firstShot ? 'Close Up (parte)' : 'Close Up (danno)',
+    'en-IE': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    'en-GB': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
   };
 }
 

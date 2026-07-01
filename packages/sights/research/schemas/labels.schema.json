@@ -57,6 +57,12 @@
         },
         "it": {
           "type": "string"
+        },
+        "en-IE": {
+          "type": "string"
+        },
+        "en-GB": {
+          "type": "string"
         }
       },
       "required": [
@@ -75,7 +81,9 @@
         "ro",
         "no",
         "cs",
-        "fi"
+        "fi",
+        "en-IE",
+        "en-GB"
       ],
       "unevaluatedProperties": false
     }

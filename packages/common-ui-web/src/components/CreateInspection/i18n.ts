@@ -13,6 +13,8 @@ import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
 import it from './translations/it.json';
+import enIE from './translations/en-IE.json';
+import enGB from './translations/en-GB.json';
 
 /**
  * i18n instance of the CreateInspection component. You can use this instance to automatically sync your application
@@ -20,20 +22,22 @@ import it from './translations/it.json';
  */
 const i18nCreateInspection = i18nCreateSDKInstance({
   resources: {
-    en: { translation: en },
-    fr: { translation: fr },
-    de: { translation: de },
-    nl: { translation: nl },
-    it: { translation: it },
-    pt: { translation: pt },
-    es: { translation: es },
-    sv: { translation: sv },
-    da: { translation: da },
-    pl: { translation: pl },
-    ro: { translation: ro },
-    no: { translation: no },
-    cs: { translation: cs },
-    fi: { translation: fi },
+    'en': { translation: en },
+    'fr': { translation: fr },
+    'de': { translation: de },
+    'nl': { translation: nl },
+    'it': { translation: it },
+    'pt': { translation: pt },
+    'es': { translation: es },
+    'sv': { translation: sv },
+    'da': { translation: da },
+    'pl': { translation: pl },
+    'ro': { translation: ro },
+    'no': { translation: no },
+    'cs': { translation: cs },
+    'fi': { translation: fi },
+    'en-IE': { translation: enIE },
+    'en-GB': { translation: enGB },
   },
 });
 

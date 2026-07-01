@@ -1,0 +1,119 @@
+{
+  "photo": {
+    "badConnectionWarning": {
+      "message": "We are experiencing connectivity issues. Picture uploads might take longer than usual.",
+      "confirm": "I Understand"
+    },
+    "hud": {
+      "sight": {
+        "addDamageBtn": "Damage"
+      },
+      "addDamage": {
+        "cancelBtn": "Cancel",
+        "damagedPartCounter": "1 / 2 • Damaged part",
+        "closeupPictureCounter": "2 / 2 • Closeup Picture",
+        "infoBtn": "Aim the target at the damaged part then tap the shutter button",
+        "infoCloseup": "Take a closeup picture of the damage",
+        "selectPart": "Tap the damaged part. Use arrows to rotate the vehicle and see the other side.",
+        "selectParts": "Tap the damaged parts. Use arrows to rotate the vehicle and see the other side."
+      },
+      "error": {
+        "retry": "Retry",
+        "missingTasks": "The inspection provided is missing some tasks required by the current capture module.",
+        "invalidToken": "The authentication token used is invalid.",
+        "expiredToken": "The authentication token used is expired.",
+        "insufficientAuth": "You do not have the required autorizations to perform this action.",
+        "inspectionLoading": "An error occurred during the loading of the inspection. Please try again in a few minutes or contact the support with the following inspection id :"
+      },
+      "closeConfirm": {
+        "message": "Are you sure you want to close the capture tool?",
+        "cancel": "No",
+        "confirm": "Yes"
+      },
+      "guidelines": {
+        "defaultGuideline": "Picture view point indications can be displayed here.",
+        "disable": "Don't show this again",
+        "validate": "Okay"
+      },
+      "tutorial": {
+        "welcome": "Welcome to your first inspection!",
+        "title": "How to use it",
+        "guideline": "Go around the vehicle to take all picture and follow the guidelines at the top to position at the right angle.",
+        "sightTutorial": "Use bottom left image to guide you with the framing.<br>Tap it to see a detailed explanation.",
+        "sight": "Align the vehicle with the lines as much as possible to get the best shot.<br>Press the shutter button to take the photo.",
+        "next": "Next"
+      },
+      "sightTutorial": {
+        "tip": "Tip",
+        "defaultTutorialWithImage": "Here's a reference image\nTry to match your framing as closely as possible.",
+        "defaultTutorialWithoutImage": "Position yourself as shown in the left diagram\nEnsuring the camera is at the correct height."
+      }
+    },
+    "gallery": {
+      "next": "Next: vehicle photos"
+    }
+  },
+  "video": {
+    "introduction": {
+      "title": "Record a vehicle walkaround video"
+    },
+    "permissions": {
+      "camera": {
+        "title": "Camera",
+        "description": "To record video, you need to allow access to the device's camera"
+      },
+      "compass": {
+        "title": "Compass",
+        "description": "To detect a full 360° circulation of the vehicle, you need to allow access to the device's compass"
+      },
+      "confirm": "Manage Permissions"
+    },
+    "tutorial": {
+      "start": {
+        "title": "Start at the Front",
+        "description": "Keep a 3 to 4-foot distance and walk slowly around the vehicle, capturing from the roofline to the ground."
+      },
+      "finish": {
+        "title": "Finish where you began",
+        "description": "You should be done recording in about 45 seconds."
+      },
+      "photos": {
+        "title": "Take photos as needed",
+        "description": "Press the shutter button to capture remarketing or damage photos while you're recording."
+      },
+      "confirm": "Record a Video"
+    },
+    "recording": {
+      "discardDialog": {
+        "message": "Do you want to discard the video? You haven' t gone all the way around the vehicle.",
+        "keepRecording": "Keep Recording",
+        "discardVideo": "Discard Video"
+      },
+      "fastMovementsDialog": {
+        "walkingTooFast": "You're moving too fast! Slow down a bit, it should take you around one minute to complete the vehicle walkaround.",
+        "phoneShaking": "Your device is shaking too much! Try to keep the camera steady while recording your vehicle.",
+        "confirm": "OK"
+      },
+      "tooltip": {
+        "start": "Once in front of the vehicle, press the button to start recording the video.",
+        "end": "Once the vehicle walkaround is completed, press the button to stop the recording."
+      }
+    },
+    "processing": {
+      "processing": "Processing the video...",
+      "uploading": "Uploading the video...",
+      "success": "Video processing completed!",
+      "error": "An error occurred when finalizing the inspection. Inspection ID :",
+      "done": "Done"
+    },
+    "complete": {
+      "title": "Vehicle video complete",
+      "text": "Next, take a few photos to capture details and finish the inspection.",
+      "button": "Start Photo Capture"
+    }
+  },
+  "orientationEnforcer": {
+    "title": "Please rotate your device.",
+    "description": "You may need to unlock your device orientation through your phone settings."
+  }
+}

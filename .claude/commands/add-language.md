@@ -107,12 +107,15 @@ yarn build
 The `useObjectTranslation` and `useSightLabel` tests iterate over every `MonkLanguage` and will fail if any fixture is missing the new locale. Update fixtures in:
 - `packages/common/test/hooks/useObjectTranslation.test.ts`
 - `packages/common/test/hooks/useSightLabel.test.ts`
+- `packages/common/test/hooks/useSightLabel.test.ts`
+- `packages/network/test/api/image/requests.test.ts`
+- `packages/camera-web/test/utils/errors.utils.test.ts`
 
 Add `<locale>: '<some translated string>'` to every `TranslationObject` fixture in those files. Use a real word in the target language, not a placeholder.
 
 Then run:
 ```bash
-yarn workspace @monkvision/common test
+yarn test
 ```
 
 ### 7. Run lint
@@ -137,6 +140,5 @@ yarn lint:fix
 
 ## Notes
 
-- `inspection-review` and `VideoTutorial` intentionally support fewer languages. Decide with the team whether the new locale belongs there before adding it.
 - `monkLanguages` is imported by the demo apps as `supportedLngs` in their `i18next` init — no extra wiring needed there once the array is updated.
 - When translating, always read at least `en.json` and `fr.json` side by side. French is the closest culturally to many target languages and often reveals the intended tone better than English alone. For languages with gendered nouns or formal/informal registers, use the same formality level as the French copy (which uses the informal "tu" register in instructions).
