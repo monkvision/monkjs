@@ -14,7 +14,8 @@
     "ro": "Scaunele din spate",
     "no": "Bakseter",
     "cs": "Zadní sedadla",
-    "fi": "Takapenkit"
+    "fi": "Takapenkit",
+    "de-CH": "Rücksitze"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
@@ -31,7 +32,8 @@
     "ro": "Fotografie laterală",
     "no": "Helhetsbilde, venstre",
     "cs": "Celkový záběr zleva",
-    "fi": "Kaunis kuva, vasen puoli"
+    "fi": "Kaunis kuva, vasen puoli",
+    "de-CH": "Linke Vollansicht"
   },
   "dashboard": {
     "key": "dashboard",
@@ -48,7 +50,8 @@
     "ro": "Tablou de bord",
     "no": "Dashbord",
     "cs": "Palubní deska",
-    "fi": "Päävalikko"
+    "fi": "Päävalikko",
+    "de-CH": "Armaturenbrett"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -65,7 +68,8 @@
     "ro": "Tablou de bord, vedere din spate",
     "no": "Dashbord fra baksetet",
     "cs": "Palubní deska ze zadního sedadla",
-    "fi": "Näyttö takapenkillä"
+    "fi": "Näyttö takapenkillä",
+    "de-CH": "Armaturenbrett vom Rücksitz"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -82,7 +86,8 @@
     "ro": "Tablou de bord, vedere din locul șoferului",
     "no": "Dashbord fra førersetet",
     "cs": "Palubní deska z místa řidiče",
-    "fi": "Näyttö kuljettajan istuimelta"
+    "fi": "Näyttö kuljettajan istuimelta",
+    "de-CH": "Armaturenbrett vom Fahrersitz aus"
   },
   "doors-left": {
     "key": "doors-left",
@@ -99,7 +104,8 @@
     "ro": "Uși (partea stângă)",
     "no": "Venstre dører",
     "cs": "Levé dveře",
-    "fi": "Avaimet vasemmalla"
+    "fi": "Avaimet vasemmalla",
+    "de-CH": "Linke Tür"
   },
   "doors-right": {
     "key": "doors-right",
@@ -116,7 +122,8 @@
     "ro": "Uși, partea dreaptă",
     "no": "Høyre dører",
     "cs": "Pravé dveře",
-    "fi": "Ovet oikealla"
+    "fi": "Ovet oikealla",
+    "de-CH": "Gerade Türen"
   },
   "engine-left-side": {
     "key": "engine-left-side",
@@ -133,7 +140,8 @@
     "ro": "Partea stângă a motorului",
     "no": "Venstre side av motor",
     "cs": "Levá strana motoru",
-    "fi": "Moottorin vasen puoli"
+    "fi": "Moottorin vasen puoli",
+    "de-CH": "Linker Motor"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -150,7 +158,8 @@
     "ro": "Partea dreaptă a motorului",
     "no": "Høyre side av motor",
     "cs": "Pravá strana motoru",
-    "fi": "Moottori, oikea puoli"
+    "fi": "Moottori, oikea puoli",
+    "de-CH": "Rechter Motor"
   },
   "front": {
     "key": "front",
@@ -167,7 +176,8 @@
     "ro": "Față",
     "no": "Foran",
     "cs": "Přední",
-    "fi": "Etupuoli"
+    "fi": "Etupuoli",
+    "de-CH": "Vorderseite"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
@@ -184,7 +194,8 @@
     "ro": "Partea stângă a barei de protecție față",
     "no": "Venstre side av frontstøtfanger",
     "cs": "Levá strana předního nárazníku",
-    "fi": "Etuluukun vasen puoli"
+    "fi": "Etuluukun vasen puoli",
+    "de-CH": "Stossstange vorne links"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -201,7 +212,8 @@
     "ro": "Partea dreaptă a barei de protecție față",
     "no": "Høyre side av frontstøtfanger",
     "cs": "Pravá strana předního nárazníku",
-    "fi": "Etuluukun oikea sivu"
+    "fi": "Etuluukun oikea sivu",
+    "de-CH": "Stossstange vorne rechts"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -218,7 +230,8 @@
     "ro": "Ușă față, partea stângă",
     "no": "Venstre fordør",
     "cs": "Levé přední dveře",
-    "fi": "Vasemman etuoven"
+    "fi": "Vasemman etuoven",
+    "de-CH": "Tür vorne links"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -235,7 +248,8 @@
     "ro": "Ușă față, partea dreaptă",
     "no": "Høyre fordør",
     "cs": "Pravé přední dveře",
-    "fi": "Oikea etuovi"
+    "fi": "Oikea etuovi",
+    "de-CH": "Vordertür rechts"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -252,7 +266,8 @@
     "ro": "Față stânga",
     "no": "Venstre framskjerm",
     "cs": "Levý přední blatník",
-    "fi": "Etulasi, vasen"
+    "fi": "Etulasi, vasen",
+    "de-CH": "Vorne links"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -269,7 +284,8 @@
     "ro": "Față dreapta",
     "no": "Høyre framskjerm",
     "cs": "Pravý přední blatník",
-    "fi": "Etupuoli, oikea"
+    "fi": "Etupuoli, oikea",
+    "de-CH": "Vorne rechts"
   },
   "front-lateral-full-right": {
     "key": "front-lateral-full-right",
@@ -286,7 +302,8 @@
     "ro": "Față, vedere completă, partea dreaptă",
     "no": "Foran, fullt, høyre",
     "cs": "Přední plný pohled zprava",
-    "fi": "Etupuoli, oikea puoli"
+    "fi": "Etupuoli, oikea puoli",
+    "de-CH": "Vorne rechts"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -303,7 +320,8 @@
     "ro": "Față, lateral stânga",
     "no": "Venstre side, foran",
     "cs": "Přední boční pohled zleva",
-    "fi": "Etupuoli, vasen puoli"
+    "fi": "Etupuoli, vasen puoli",
+    "de-CH": "Vorderseite seitlich links"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
@@ -320,7 +338,8 @@
     "ro": "Stânga jos, lateral față",
     "no": "Foran, side, lavt, venstre",
     "cs": "Přední boční pohled zleva, nízko",
-    "fi": "Etupuoli, sivuttainen, vasen, alhaalla"
+    "fi": "Etupuoli, sivuttainen, vasen, alhaalla",
+    "de-CH": "Vorne Seitlich Niedrig Links"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -337,7 +356,8 @@
     "ro": "Față, lateral, jos, dreapta",
     "no": "Foran, side, lav, høyre",
     "cs": "Přední boční pohled zprava, nízko",
-    "fi": "Etupuoli, sivuttain, alhaalla, oikealla"
+    "fi": "Etupuoli, sivuttain, alhaalla, oikealla",
+    "de-CH": "Vorne Seitlich Niedrig Rechts"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -354,7 +374,8 @@
     "ro": "Partea din față, lateral dreapta",
     "no": "Foran, side, høyre",
     "cs": "Přední boční pohled zprava",
-    "fi": "Etupuoli, sivuttain, oikea"
+    "fi": "Etupuoli, sivuttain, oikea",
+    "de-CH": "Vorderseite seitlich rechts"
   },
   "front-low": {
     "key": "front-low",
@@ -371,7 +392,8 @@
     "ro": "Unghi frontal jos",
     "no": "Foran, lav",
     "cs": "Přední, nízko",
-    "fi": "Etupuoli, matala"
+    "fi": "Etupuoli, matala",
+    "de-CH": "Vorderseite Niedrig"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -388,7 +410,8 @@
     "ro": "Partea din față, acoperiș, stânga",
     "no": "Foran, tak, venstre",
     "cs": "Přední střecha, levá",
-    "fi": "Etukuomu Vasen"
+    "fi": "Etukuomu Vasen",
+    "de-CH": "Dach vorne links"
   },
   "front-seats": {
     "key": "front-seats",
@@ -405,7 +428,8 @@
     "ro": "Scaunele din față",
     "no": "Forseter",
     "cs": "Přední sedadla",
-    "fi": "Etupenkit"
+    "fi": "Etupenkit",
+    "de-CH": "Vordersitze"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -422,7 +446,8 @@
     "ro": "Partea inferioară frontală a șasiului",
     "no": "Understell foran",
     "cs": "Přední podvozek",
-    "fi": "Etuosa"
+    "fi": "Etuosa",
+    "de-CH": "Vorderes Fahrwerk"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
@@ -439,7 +464,8 @@
     "ro": "Roata din față, partea stângă",
     "no": "Venstre forhjul",
     "cs": "Levé přední kolo",
-    "fi": "Etupyörä vasemmalla"
+    "fi": "Etupyörä vasemmalla",
+    "de-CH": "Vorderrad links"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
@@ -456,7 +482,8 @@
     "ro": "Roata din față, partea dreaptă",
     "no": "Høyre forhjul",
     "cs": "Pravé přední kolo",
-    "fi": "Etupyörä oikealla"
+    "fi": "Etupyörä oikealla",
+    "de-CH": "Rechtes Vorderrad"
   },
   "hood": {
     "key": "hood",
@@ -473,7 +500,8 @@
     "ro": "Capotă",
     "no": "Panser",
     "cs": "Kapota",
-    "fi": "Takaluukku"
+    "fi": "Takaluukku",
+    "de-CH": "Abdeckhaube"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -490,7 +518,8 @@
     "ro": "Capotă / Parbriz",
     "no": "Panser / Frontrute",
     "cs": "Kapota / Čelní sklo",
-    "fi": "Takaluukku / Tuulilasi"
+    "fi": "Takaluukku / Tuulilasi",
+    "de-CH": "Motorhaube / Windschutzscheibe"
   },
   "interior-roof": {
     "key": "interior-roof",
@@ -507,7 +536,8 @@
     "ro": "Acoperiș interior",
     "no": "Interiørtak",
     "cs": "Interiér, střecha",
-    "fi": "Sisäkatto"
+    "fi": "Sisäkatto",
+    "de-CH": "Innen Dach"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
@@ -524,7 +554,8 @@
     "ro": "Complet spre stânga",
     "no": "Full venstre side",
     "cs": "Celý levý pohled",
-    "fi": "Vasemmalta täysin"
+    "fi": "Vasemmalta täysin",
+    "de-CH": "Vollständig links"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -541,7 +572,8 @@
     "ro": "Complet spre dreapta",
     "no": "Full høyre side",
     "cs": "Celý pravý pohled",
-    "fi": "täydellinen oikea"
+    "fi": "täydellinen oikea",
+    "de-CH": "Volles Recht"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -558,7 +590,8 @@
     "ro": "Stânga laterală",
     "no": "Venstre side",
     "cs": "Levý bok",
-    "fi": "Vasemmalta"
+    "fi": "Vasemmalta",
+    "de-CH": "Linke Seite"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
@@ -575,7 +608,8 @@
     "ro": "Stânga jos, lateral",
     "no": "Venstre side, lav",
     "cs": "Levý bok, nízko",
-    "fi": "Vasemmalta, alhaalta"
+    "fi": "Vasemmalta, alhaalta",
+    "de-CH": "Seitlich tief links"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
@@ -592,7 +626,8 @@
     "ro": "Colțul din dreapta jos",
     "no": "Høyre side, lav",
     "cs": "Pravý bok, nízko",
-    "fi": "Liikkuva, alhaalta oikealta"
+    "fi": "Liikkuva, alhaalta oikealta",
+    "de-CH": "Seitlich Niedrig Rechts"
   },
   "left-front-door": {
     "key": "left-front-door",
@@ -609,7 +644,8 @@
     "ro": "Ușa din față, partea stângă",
     "no": "Venstre fordør",
     "cs": "Levé přední dveře",
-    "fi": "Vasemman etuoven"
+    "fi": "Vasemman etuoven",
+    "de-CH": "Tür vorne links"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -626,7 +662,8 @@
     "ro": "Deschide portbagajul",
     "no": "Åpent bagasjerom",
     "cs": "Otevřený kufr",
-    "fi": "Avaa takakontti"
+    "fi": "Avaa takakontti",
+    "de-CH": "Offene Truhe"
   },
   "rear": {
     "key": "rear",
@@ -643,7 +680,8 @@
     "ro": "Spate",
     "no": "Bakre",
     "cs": "Zadní",
-    "fi": "Takana"
+    "fi": "Takana",
+    "de-CH": "Hinten"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -660,7 +698,8 @@
     "ro": "Partea stângă a barei de protecție spate",
     "no": "Venstre side av bakre støtfanger",
     "cs": "Levá strana zadního nárazníku",
-    "fi": "Takapuskuri, vasen puoli"
+    "fi": "Takapuskuri, vasen puoli",
+    "de-CH": "Stossstange hinten links"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
@@ -677,7 +716,8 @@
     "ro": "Partea dreaptă a barei de protecție spate",
     "no": "Høyre side av bakre støtfanger",
     "cs": "Pravá strana zadního nárazníku",
-    "fi": "Takapuskuri, oikea puoli"
+    "fi": "Takapuskuri, oikea puoli",
+    "de-CH": "Stossstange hinten rechts"
   },
   "rear-door-left": {
     "key": "rear-door-left",
@@ -694,7 +734,8 @@
     "ro": "Ușa din spate, partea stângă",
     "no": "Venstre bakdør",
     "cs": "Levé zadní dveře",
-    "fi": "Takaportti, vasen"
+    "fi": "Takaportti, vasen",
+    "de-CH": "Tür hinten links"
   },
   "rear-door-right": {
     "key": "rear-door-right",
@@ -711,7 +752,8 @@
     "ro": "Ușă spate dreapta",
     "no": "Høyre bakdør",
     "cs": "Pravé zadní dveře",
-    "fi": "Oikea takaluukku"
+    "fi": "Oikea takaluukku",
+    "de-CH": "Tür hinten rechts"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
@@ -728,7 +770,8 @@
     "ro": "Aripă spate stânga",
     "no": "Venstre bakskjerm",
     "cs": "Levý zadní blatník",
-    "fi": "Takalauta, vasen"
+    "fi": "Takalauta, vasen",
+    "de-CH": "Kotflügel hinten links"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
@@ -745,7 +788,8 @@
     "ro": "Aripă spate dreapta",
     "no": "Høyre bakskjerm",
     "cs": "Pravý zadní blatník",
-    "fi": "Takalokero, oikea"
+    "fi": "Takalokero, oikea",
+    "de-CH": "Kotflügel hinten rechts"
   },
   "rear-lateral-full-left": {
     "key": "rear-lateral-full-left",
@@ -762,7 +806,8 @@
     "ro": "Spate, partea stângă",
     "no": "Bakre, full venstre side",
     "cs": "Zadní plný pohled zleva",
-    "fi": "Takana, vasen puoli, kokonaisuus"
+    "fi": "Takana, vasen puoli, kokonaisuus",
+    "de-CH": "Hinten ganz links"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -779,7 +824,8 @@
     "ro": "Spate, partea dreaptă",
     "no": "Bakre, full høyre side",
     "cs": "Zadní plný pohled zprava",
-    "fi": "Takana oikealla"
+    "fi": "Takana oikealla",
+    "de-CH": "Hinten ganz rechts"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -796,7 +842,8 @@
     "ro": "Spate, lateral stânga",
     "no": "Bakre, venstre side",
     "cs": "Zadní boční pohled zleva",
-    "fi": "Takainen, vasen puoli"
+    "fi": "Takainen, vasen puoli",
+    "de-CH": "Hinten seitlich links"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -813,7 +860,8 @@
     "ro": "Spate, lateral, jos, stânga",
     "no": "Bakre, venstre side, lav",
     "cs": "Zadní boční pohled zleva, nízko",
-    "fi": "Takainen, vasen, alhaalla"
+    "fi": "Takainen, vasen, alhaalla",
+    "de-CH": "Hinten Seitlich Niedrig Links"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -830,7 +878,8 @@
     "ro": "Spate, lateral, jos, dreapta",
     "no": "Bakre, høyre side, lav",
     "cs": "Zadní boční pohled zprava, nízko",
-    "fi": "Takainen sivuttainen, alhaalla, oikealla"
+    "fi": "Takainen sivuttainen, alhaalla, oikealla",
+    "de-CH": "Hinten Seitlich Niedrig Rechts"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
@@ -847,7 +896,8 @@
     "ro": "Spate, lateral dreapta",
     "no": "Bakre, høyre side",
     "cs": "Zadní boční pohled zprava",
-    "fi": "Takainen, oikea sivun puoli"
+    "fi": "Takainen, oikea sivun puoli",
+    "de-CH": "Hinten seitlich rechts"
   },
   "rear-left": {
     "key": "rear-left",
@@ -864,7 +914,8 @@
     "ro": "Spate stânga",
     "no": "Bakre venstre",
     "cs": "Zadní levý",
-    "fi": "Takaisin, vasen"
+    "fi": "Takaisin, vasen",
+    "de-CH": "Hinten links"
   },
   "rear-low": {
     "key": "rear-low",
@@ -881,7 +932,8 @@
     "ro": "Unghi jos spate",
     "no": "Bakre, lav",
     "cs": "Zadní, nízko",
-    "fi": "Takareuna matala"
+    "fi": "Takareuna matala",
+    "de-CH": "Hinten Niedrig"
   },
   "rear-right": {
     "key": "rear-right",
@@ -898,7 +950,8 @@
     "ro": "Spate dreapta",
     "no": "Bakre høyre",
     "cs": "Zadní pravý",
-    "fi": "Takainen oikea"
+    "fi": "Takainen oikea",
+    "de-CH": "Hinten rechts"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -915,7 +968,8 @@
     "ro": "Acoperiș spate",
     "no": "Bakre tak",
     "cs": "Zadní střecha",
-    "fi": "Takaluukku"
+    "fi": "Takaluukku",
+    "de-CH": "Hinteres Dach"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
@@ -932,7 +986,8 @@
     "ro": "Colțul din spate, partea dreaptă",
     "no": "Bakre tak, høyre",
     "cs": "Zadní střecha, pravá",
-    "fi": "Takaluukku, oikea"
+    "fi": "Takaluukku, oikea",
+    "de-CH": "Hinteres Dach rechts"
   },
   "rear-seats": {
     "key": "rear-seats",
@@ -949,7 +1004,8 @@
     "ro": "Scaunele din spate",
     "no": "Bakseter",
     "cs": "Zadní sedadla",
-    "fi": "Takapenkit"
+    "fi": "Takapenkit",
+    "de-CH": "Rücksitze"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -966,7 +1022,8 @@
     "ro": "Sus spate stânga",
     "no": "Bakre, oppe, venstre",
     "cs": "Zadní nahoře, levá",
-    "fi": "Takaisin, vasen"
+    "fi": "Takaisin, vasen",
+    "de-CH": "Hinten oben links"
   },
   "rear-up-right": {
     "key": "rear-up-right",
@@ -983,7 +1040,8 @@
     "ro": "Sus, spate, dreapta",
     "no": "Bakre, oppe, høyre",
     "cs": "Zadní nahoře, pravá",
-    "fi": "Takaisin, oikealla"
+    "fi": "Takaisin, oikealla",
+    "de-CH": "Hinten oben rechts"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
@@ -1000,7 +1058,8 @@
     "ro": "Roata spate stânga",
     "no": "Venstre bakhjul",
     "cs": "Levé zadní kolo",
-    "fi": "Takapyörä, vasen"
+    "fi": "Takapyörä, vasen",
+    "de-CH": "Linkes Hinterrad"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
@@ -1017,7 +1076,8 @@
     "ro": "Roata spate dreapta",
     "no": "Høyre bakhjul",
     "cs": "Pravé zadní kolo",
-    "fi": "Takapyörä oikea"
+    "fi": "Takapyörä oikea",
+    "de-CH": "Linkes Hinterrad"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
@@ -1034,7 +1094,8 @@
     "ro": "Zoom spate",
     "no": "Bakre, forstørret",
     "cs": "Zadní pohled, přiblížený",
-    "fi": "Takakamera, suurennus"
+    "fi": "Takakamera, suurennus",
+    "de-CH": "Gezoomter Hinterkopf"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
@@ -1051,7 +1112,8 @@
     "ro": "Panou lateral stânga",
     "no": "Venstre sidepanel",
     "cs": "Levý prahový panel",
-    "fi": "Vasemman kyljen alareuna"
+    "fi": "Vasemman kyljen alareuna",
+    "de-CH": "Schwellerverkleidung links"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
@@ -1068,7 +1130,8 @@
     "ro": "Panou lateral inferior spate stânga",
     "no": "Bakre venstre sidepanel",
     "cs": "Levý zadní prahový panel",
-    "fi": "Takalaita, vasen"
+    "fi": "Takalaita, vasen",
+    "de-CH": "Schwellerverkleidung hinten links"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
@@ -1085,7 +1148,8 @@
     "ro": "Panou lateral drept",
     "no": "Høyre sidepanel",
     "cs": "Pravý prahový panel",
-    "fi": "Oikea kylkilauta"
+    "fi": "Oikea kylkilauta",
+    "de-CH": "Schwellerverkleidung rechts"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
@@ -1102,7 +1166,8 @@
     "ro": "Panou lateral inferior spate, partea dreaptă",
     "no": "Bakre høyre sidepanel",
     "cs": "Pravý zadní prahový panel",
-    "fi": "Takaluukun oikea kylki"
+    "fi": "Takaluukun oikea kylki",
+    "de-CH": "Schwellerverkleidung hinten rechts"
   },
   "trunk": {
     "key": "trunk",
@@ -1119,7 +1184,8 @@
     "ro": "Portbagaj",
     "no": "Bagasjerom",
     "cs": "Kufr",
-    "fi": "Takakontti"
+    "fi": "Takakontti",
+    "de-CH": "Kofferraum"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -1136,7 +1202,8 @@
     "ro": "Partea stângă a portbagajului",
     "no": "Venstre side av bagasjerom",
     "cs": "Levá strana kufru",
-    "fi": "Takakontti, vasen puoli"
+    "fi": "Takakontti, vasen puoli",
+    "de-CH": "Kofferraum Linke Seite"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
@@ -1153,7 +1220,8 @@
     "ro": "Partea dreaptă a portbagajului",
     "no": "Høyre side av bagasjerom",
     "cs": "Pravá strana kufru",
-    "fi": "Takaluukku oikealla puolella"
+    "fi": "Takaluukku oikealla puolella",
+    "de-CH": "Kofferraum Rechte Seite"
   },
   "vin": {
     "key": "vin",
@@ -1170,7 +1238,8 @@
     "ro": "VIN",
     "no": "VIN",
     "cs": "VIN",
-    "fi": "VIN"
+    "fi": "VIN",
+    "de-CH": "VIN"
   },
   "windshield": {
     "key": "windshield",
@@ -1187,7 +1256,8 @@
     "ro": "Parbriz",
     "no": "Frontrute",
     "cs": "Čelní sklo",
-    "fi": "Ajolasin"
+    "fi": "Ajolasin",
+    "de-CH": "Windschutzscheibe"
   },
   "hatchback": {
     "key": "hatchback",
@@ -1204,7 +1274,8 @@
     "ro": "Hatchback",
     "no": "Kombi",
     "cs": "Hatchback",
-    "fi": "Peräkoukkumalli"
+    "fi": "Peräkoukkumalli",
+    "de-CH": "Schrägheck"
   },
   "cuv": {
     "key": "cuv",
@@ -1221,7 +1292,8 @@
     "ro": "CUV",
     "no": "CUV",
     "cs": "CUV",
-    "fi": "Kuvioauto"
+    "fi": "Kuvioauto",
+    "de-CH": "CUV"
   },
   "pickup": {
     "key": "pickup",
@@ -1238,7 +1310,8 @@
     "ro": "Ridicare",
     "no": "Pickup",
     "cs": "Pickup",
-    "fi": "Nouto"
+    "fi": "Nouto",
+    "de-CH": "Pickup"
   },
   "city": {
     "key": "city",
@@ -1255,7 +1328,8 @@
     "ro": "Oraș",
     "no": "By",
     "cs": "Město",
-    "fi": "Kaupunki"
+    "fi": "Kaupunki",
+    "de-CH": "Stadtauto"
   },
   "van": {
     "key": "van",
@@ -1272,7 +1346,8 @@
     "ro": "Furgonetă",
     "no": "Varebil",
     "cs": "Dodávka",
-    "fi": "Kuorma-auto"
+    "fi": "Kuorma-auto",
+    "de-CH": "Van"
   },
   "sedan": {
     "key": "sedan",
@@ -1289,7 +1364,8 @@
     "ro": "Sedan",
     "no": "Sedan",
     "cs": "Sedan",
-    "fi": "Sedan"
+    "fi": "Sedan",
+    "de-CH": "Limousine"
   },
   "large-suv": {
     "key": "large-suv",
@@ -1306,7 +1382,8 @@
     "ro": "SUV de mari dimensiuni",
     "no": "Stor SUV",
     "cs": "Velké SUV",
-    "fi": "Suuri maasturi"
+    "fi": "Suuri maasturi",
+    "de-CH": "Grossen Geländewagen"
   },
   "minivan": {
     "key": "minivan",
@@ -1323,7 +1400,8 @@
     "ro": "Monovolum",
     "no": "Minibuss",
     "cs": "Minivan",
-    "fi": "Minibussi"
+    "fi": "Minibussi",
+    "de-CH": "Minivan"
   },
   "suv": {
     "key": "suv",
@@ -1340,7 +1418,8 @@
     "ro": "SUV",
     "no": "SUV",
     "cs": "SUV",
-    "fi": "Katumaali"
+    "fi": "Katumaali",
+    "de-CH": "Geländewagen"
   },
   "hgv": {
     "key": "hgv",
@@ -1357,7 +1436,8 @@
     "ro": "autovehicul greu",
     "no": "Tungt kjøretøy",
     "cs": "Těžké nákladní vozidlo",
-    "fi": "Suuri kuorma-auto"
+    "fi": "Suuri kuorma-auto",
+    "de-CH": "HGV"
   },
   "front-left-tire": {
     "key": "front-left-tire",
@@ -1374,7 +1454,8 @@
     "ro": "Anvelopa din față, partea stângă",
     "no": "Venstre forhjulsdekk",
     "cs": "Levá přední pneumatika",
-    "fi": "Eturenkaan vasen puoli"
+    "fi": "Eturenkaan vasen puoli",
+    "de-CH": "Vorderer linker Reifen"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -1391,7 +1472,8 @@
     "ro": "Anvelopa din față, dreapta",
     "no": "Høyre forhjulsdekk",
     "cs": "Přední pravá pneumatika",
-    "fi": "Eturenkaan oikea puoli"
+    "fi": "Eturenkaan oikea puoli",
+    "de-CH": "Vorderer rechter Reifen"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -1408,7 +1490,8 @@
     "ro": "Anvelopa spate stânga",
     "no": "Venstre bakhjulsdekk",
     "cs": "Levá zadní pneumatika",
-    "fi": "Takaisin vasen rengas"
+    "fi": "Takaisin vasen rengas",
+    "de-CH": "Hinterer linker Reifen"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -1425,7 +1508,8 @@
     "ro": "Anvelopa spate dreapta",
     "no": "Høyre bakhjulsdekk",
     "cs": "Pravá zadní pneumatika",
-    "fi": "Takainen oikea rengas"
+    "fi": "Takainen oikea rengas",
+    "de-CH": "Hinterer rechter Reifen"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -1442,7 +1526,8 @@
     "ro": "Ecranul principal",
     "no": "Dashbordskjerm",
     "cs": "Obrazovka palubní desky",
-    "fi": "Päävalikko"
+    "fi": "Päävalikko",
+    "de-CH": "Armaturenbrett Bildschirm"
   },
   "keys": {
     "key": "keys",
@@ -1459,7 +1544,8 @@
     "ro": "Chei",
     "no": "Nøkler",
     "cs": "Klíče",
-    "fi": "avainten"
+    "fi": "avainten",
+    "de-CH": "Tasten"
   },
   "card-keys": {
     "key": "card-keys",
@@ -1476,7 +1562,8 @@
     "ro": "Chei cu card",
     "no": "Kortnøkler",
     "cs": "Kartové klíče",
-    "fi": "Avaimet"
+    "fi": "Avaimet",
+    "de-CH": "Kartenschlüssel"
   },
   "front-left-penny-test": {
     "key": "front-left-penny-test",
@@ -1493,7 +1580,8 @@
     "ro": "Testul cu monedă - față stânga",
     "no": "Venstre foran, Penny-test",
     "cs": "Přední levý test mincí",
-    "fi": "Vasemman etuosan Penny-testi"
+    "fi": "Vasemman etuosan Penny-testi",
+    "de-CH": "Penny-Test vorne links"
   },
   "front-right-penny-test": {
     "key": "front-right-penny-test",
@@ -1510,7 +1598,8 @@
     "ro": "Testul cu monedă – față, partea dreaptă",
     "no": "Høyre foran, Penny-test",
     "cs": "Přední pravý test mincí",
-    "fi": "Oikean etuosan Penny-testi"
+    "fi": "Oikean etuosan Penny-testi",
+    "de-CH": "Penny-Test vorne rechts"
   },
   "rear-left-penny-test": {
     "key": "rear-left-penny-test",
@@ -1527,7 +1616,8 @@
     "ro": "Test Penny, spate stânga",
     "no": "Bakre venstre, Penny-test",
     "cs": "Zadní levý test mincí",
-    "fi": "Takaisen vasemman puolen Penny-testi"
+    "fi": "Takaisen vasemman puolen Penny-testi",
+    "de-CH": "Penny-Test hinten links"
   },
   "rear-right-penny-test": {
     "key": "rear-right-penny-test",
@@ -1544,6 +1634,7 @@
     "ro": "Testul cu monedă – spate, partea dreaptă",
     "no": "Bakre høyre, Penny-test",
     "cs": "Zadní pravý test mincí",
-    "fi": "Takaisin oikea Penny-testi"
+    "fi": "Takaisin oikea Penny-testi",
+    "de-CH": "Penny-Test hinten rechts"
   }
 }

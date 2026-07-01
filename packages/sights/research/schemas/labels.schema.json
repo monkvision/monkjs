@@ -49,6 +49,9 @@
         "de": {
           "type": "string"
         },
+        "de-CH": {
+          "type": "string"
+        },
         "nl": {
           "type": "string"
         },
@@ -61,6 +64,7 @@
         "en",
         "fr",
         "de",
+        "de-CH",
         "nl",
         "it",
         "pt",

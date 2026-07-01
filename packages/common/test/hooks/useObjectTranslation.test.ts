@@ -4,20 +4,21 @@ import { renderHook } from '@testing-library/react';
 import { useObjectTranslation } from '../../src';
 
 const obj = {
-  en: 'Hello',
-  fi: 'Hei',
-  cs: 'Ahoj',
-  no: 'Hei',
-  ro: 'Bună',
-  pl: 'Witaj',
-  da: 'Hej',
-  sv: 'Hej',
-  es: 'Hola',
-  pt: 'Olá',
-  fr: 'Bonjour',
-  de: 'Hallo',
-  nl: 'HalloDt',
-  it: 'Ciao',
+  'en': 'Hello',
+  'fi': 'Hei',
+  'cs': 'Ahoj',
+  'no': 'Hei',
+  'ro': 'Bună',
+  'pl': 'Witaj',
+  'da': 'Hej',
+  'sv': 'Hej',
+  'es': 'Hola',
+  'pt': 'Olá',
+  'fr': 'Bonjour',
+  'de': 'Hallo',
+  'de-CH': 'Hallo',
+  'nl': 'HalloDt',
+  'it': 'Ciao',
 } as TranslationObject;
 
 describe('useObjectTranslation hook', () => {
