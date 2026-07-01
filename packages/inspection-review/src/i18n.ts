@@ -1,5 +1,14 @@
 import { i18nCreateSDKInstance } from '@monkvision/common';
 import en from './translations/en.json';
+import fi from './translations/fi.json';
+import cs from './translations/cs.json';
+import no from './translations/no.json';
+import ro from './translations/ro.json';
+import pl from './translations/pl.json';
+import da from './translations/da.json';
+import sv from './translations/sv.json';
+import es from './translations/es.json';
+import pt from './translations/pt.json';
 import fr from './translations/fr.json';
 import de from './translations/de.json';
 import nl from './translations/nl.json';
@@ -18,6 +27,15 @@ export const i18nInspectionReview = i18nCreateSDKInstance({
     'de': { translation: de },
     'nl': { translation: nl },
     'it': { translation: it },
+    'pt': { translation: pt },
+    'es': { translation: es },
+    'sv': { translation: sv },
+    'da': { translation: da },
+    'pl': { translation: pl },
+    'ro': { translation: ro },
+    'no': { translation: no },
+    'cs': { translation: cs },
+    'fi': { translation: fi },
     'en-IE': { translation: enIE },
     'en-GB': { translation: enGB },
   },

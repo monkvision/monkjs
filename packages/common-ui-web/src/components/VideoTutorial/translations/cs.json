@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Otočte na šířku",
+        "text": "Přepněte telefon do režimu na šířku a začněte nahrávat."
+      },
+      "portrait": {
+        "title": "Otočte na výšku",
+        "text": "Přepněte telefon do režimu na výšku a začněte nahrávat."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "Obchůzka 360°",
+      "text": "Pomalu obejděte auto kolem dokola pro úplný pohled 360° přibližně za 30–40 sekund nahrávání."
+    },
+    "vehicle-surroundings": {
+      "title": "Volný prostor kolem vozidla",
+      "text": "Udržujte prostor kolem vozidla bez překážek pro lepší kvalitu záznamu."
+    },
+    "vehicle-phone": {
+      "title": "Dodržujte správnou vzdálenost",
+      "text": "Udržujte dostatečnou vzdálenost, aby bylo vozidlo celé viditelné v záběru, od střechy po zem."
+    },
+    "vehicle-coverage": {
+      "title": "Ukončete, jakmile je hotovo",
+      "text": "Jakmile se ukazatel průběhu naplní, klepněte znovu na tlačítko 'Nahrávat' a zastavte nahrávání."
+    }
+  },
+  "checkbox": "Příště nezobrazovat",
+  "button": {
+    "get-started": "Začít",
+    "continue": "Pokračovat"
+  }
+}

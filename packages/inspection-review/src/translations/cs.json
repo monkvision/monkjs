@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Exteriér",
+      "pricings": {
+        "needsPricing": "Vyžaduje ocenění"
+      },
+      "addDamage": {
+        "title": "Tato část je poškozena",
+        "listTitle": "Poškození",
+        "priceLabel": "Cena"
+      }
+    },
+    "interior": {
+      "label": "Interiér/Pneumatika",
+      "area": "Oblast",
+      "areaPlaceholder": "Zadejte oblast",
+      "damageTypes": "Typy poškození",
+      "damageTypesPlaceholder": "Zadejte typy poškození",
+      "deduction": "Srážka",
+      "addDamageButton": "PŘIDAT POŠKOZENÍ"
+    },
+    "actionButtons": {
+      "done": "HOTOVO",
+      "cancel": "ZRUŠIT"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "STÁHNOUT OBRÁZKY",
+    "generatePdf": "GENEROVAT PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Zobrazit poškození",
+      "hideDamages": "Skrýt poškození",
+      "closeSpotlight": "Zavřít aktuální obrázek",
+      "changeImage": "Změnit obrázek"
+    }
+  },
+  "errors": {
+    "inspectionId": "Požadované ID prohlídky nebylo na serveru nalezeno. Pokud jste ID zadali ručně, zkontrolujte prosím pravopis a zkuste to znovu."
+  }
+}

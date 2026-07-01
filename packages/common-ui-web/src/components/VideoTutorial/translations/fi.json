@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Käännä vaakatasoon",
+        "text": "Käännä puhelin vaakatasoon aloittaaksesi tallennuksen."
+      },
+      "portrait": {
+        "title": "Käännä pystytasoon",
+        "text": "Käännä puhelin pystytasoon aloittaaksesi tallennuksen."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "360°-kierros",
+      "text": "Kävele hitaasti auton ympäri saadaksesi täydellisen 360°-näkymän noin 30–40 sekunnin tallennuksessa."
+    },
+    "vehicle-surroundings": {
+      "title": "Vapaa tila ympärillä",
+      "text": "Pidä ajoneuvo ympärillä oleva tila vapaana esteistä paremman kuvauslaadun varmistamiseksi."
+    },
+    "vehicle-phone": {
+      "title": "Pidä oikea etäisyys",
+      "text": "Pidä riittävä etäisyys, jotta ajoneuvo näkyy kokonaan kuvassa katosta maahan."
+    },
+    "vehicle-coverage": {
+      "title": "Lopeta kun valmis",
+      "text": "Kun edistymispalkki on täynnä, napauta 'Tallennuspainiketta' uudelleen lopettaaksesi."
+    }
+  },
+  "checkbox": "Älä näytä tätä uudelleen",
+  "button": {
+    "get-started": "Aloita",
+    "continue": "Jatka"
+  }
+}
