@@ -1,4 +1,9 @@
 import { test, expect } from "../fixtures";
+import {
+  completeInspectionSetup,
+  completePhotoCaptureJourney,
+  submitGallery,
+} from "../../../shared/flows";
 
 test.describe("demo-app happy path", () => {
   test("creates inspection, captures all sights, reviews gallery and submits", async ({
@@ -9,17 +14,18 @@ test.describe("demo-app happy path", () => {
     photoCapturePage,
     galleryPage,
   }) => {
-    await createInspectionPage.waitForInspectionCreated();
+    await test.step("create inspection and select vehicle type", () =>
+      completeInspectionSetup(createInspectionPage, vehicleTypeSelectionPage));
 
-    await vehicleTypeSelectionPage.confirmDefaultVehicleType();
+    await test.step("complete photo tutorial and capture all sights", () =>
+      completePhotoCaptureJourney(photoCapturePage, {
+        tutorialPage: photoCaptureTutorialPage,
+      }));
 
-    await photoCaptureTutorialPage.completeTutorial();
-
-    await photoCapturePage.captureAllSights();
-
-    await galleryPage.waitForGallery();
-    expect(await galleryPage.imageCards.count()).toBeGreaterThan(0);
-
-    await galleryPage.submit();
+    await test.step("review gallery and submit", async () => {
+      await galleryPage.waitForGallery();
+      expect(await galleryPage.imageCards.count()).toBeGreaterThan(0);
+      await submitGallery(galleryPage);
+    });
   });
 });

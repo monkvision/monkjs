@@ -38,7 +38,7 @@ You can then start the app by running :
 yarn start
 ```
 
-The application is by default available at `https://localhost:17200/`.
+The application is by default available at `https://localhost:17201/`.
 
 # Building the App
 To build the app, you simply need to run the following command :

@@ -36,10 +36,16 @@ yarn playwright test apps/demo-app/tests/happy-path.spec.ts
 
 ## Prerequisites before running tests
 
-The apps under test must be running **before** launching Playwright — there is no `webServer` block in `playwright.config.ts`. Start both locally:
+Playwright auto-starts both apps via the `webServer` block in `playwright.config.ts` if nothing is bound to their ports. `reuseExistingServer: !CI` — devs running apps in their own terminals are detected and reused; CI always cold-starts.
 
 - `demo-app` → `https://localhost:17200`
 - `demo-app-video` → `https://localhost:17201`
+
+`PORT` and `HTTPS` come from each app's `.env-cmdrc.json` `local` profile (not from Playwright). `env-cmd` overwrites inherited env, so injecting `PORT` via `webServer.env` is silently lost — keep ports in the app's own config and make sure `DEMO_*_URL` in `e2e/.env` matches.
+
+`webServer.command` is `yarn start` (not the raw `env-cmd -e local react-scripts start`) so the app's local `node_modules/.bin/env-cmd` resolves correctly when Playwright spawns the child process.
+
+To run an app manually for debugging: `cd apps/<app> && yarn start`.
 
 URLs are read from `.env`. Copy `.env.example` to `.env` and fill in:
 
@@ -49,19 +55,25 @@ URLs are read from `.env`. Copy `.env.example` to `.env` and fill in:
 
 ## Architecture
 
-The suite follows a strict 3-layer model enforced throughout:
+The suite follows a strict 3-layer model enforced throughout, with named flows on top:
 
 ```
 shared/fixtures/auth.fixture.ts   ← base: navigates to ?t=<token> before each test
-apps/<app>/fixtures/index.ts      ← extends auth fixture; registers all POMs as named fixtures
-apps/<app>/tests/*.spec.ts        ← destructures POM fixtures, asserts with expect()
+apps/<app>/fixtures/index.ts      ← extends auth fixture; registers all POMs as named fixtures; re-exports `expect`
+apps/<app>/tests/*.spec.ts        ← destructures POM fixtures, composes flows in test.step(), asserts with expect()
+shared/flows/                     ← multi-POM journey helpers; specs pass POM instances in (not fixtures)
 ```
 
 **Key rules:**
 
 - Specs import `{ test, expect }` from `../fixtures`, never from `@playwright/test` directly.
 - All DOM interaction (locators, clicks, waits) lives in Page Object Models — specs never call `page.locator/click/waitFor`.
-- All assertions (`expect()`) live in specs — POMs never assert.
+- All assertions (`expect()`) live in specs or in named flow helpers that take `expect` as an explicit parameter — POMs never assert.
+- **No passthrough re-exports.** Re-export only when wrapping, renaming, or merging. The per-app `fixtures/index.ts` is the canonical test API and the only place that re-exports `expect`.
+
+### Flows
+
+`shared/flows/` contains small `async` functions that orchestrate multiple POMs. They are **not** fixtures — specs pass POMs in directly so flows compose across apps without touching fixture wiring. Wrap each flow call in `test.step("…", () => flow(...))` so the HTML report shows named steps. Convention: ≤2 POMs → positional args, 3+ POMs → single object arg.
 
 ### Selectors
 
@@ -91,12 +103,20 @@ For the video walkaround, `simulateWalkaround()` ([shared/utils/compass.ts](shar
 
 ### Parallelism
 
-Tests run serially (`workers: 1`, `fullyParallel: false`) to avoid conflicts with shared inspection state on the API.
+`workers: 2`, `fullyParallel: false`. The two projects (`demo-app`, `demo-app-video`) run in parallel across workers, but each project's specs run serially because they share API state within a single inspection.
 
 ## Adding a new app
 
 1. Create `apps/<new-app>/pages/` with POMs extending `BasePage`.
-2. Create `apps/<new-app>/fixtures/index.ts` extending `authTest` and registering your POMs.
-3. Create `apps/<new-app>/tests/` with specs importing from `../fixtures`.
+2. Create `apps/<new-app>/fixtures/index.ts` extending `authTest`, registering your POMs, and re-exporting `expect` from `@playwright/test`.
+3. Create `apps/<new-app>/tests/` with specs importing from `../fixtures` and composing flows from `shared/flows/`.
 4. Add a new project entry in [playwright.config.ts](playwright.config.ts) pointing at the new `testDir` and `baseURL`.
 5. Add the new URL variable to [shared/config/environments.ts](shared/config/environments.ts) and `.env.example`.
+6. Add a `webServer` entry in [playwright.config.ts](playwright.config.ts) with `command: "yarn start"`, `cwd` pointing at the app dir, `url: env.<new>.baseUrl`, `reuseExistingServer: !process.env["CI"]`. Make sure the app's `.env-cmdrc.json` `local` profile has the right `PORT` and `HTTPS: "true"` — Playwright cannot override these via `webServer.env` because `env-cmd` overwrites inherited env from the file.
+
+## Adding a flow
+
+1. Create `shared/flows/<verbNoun>.ts`. Name it after the user-visible journey (`completePhotoCaptureJourney`, not `clickButtons`).
+2. Take POM instances as args (≤2 positional, 3+ as object).
+3. Do not call `expect()` — unless this is an assertion helper, in which case take `expect` as a parameter.
+4. Re-export from `shared/flows/index.ts`.

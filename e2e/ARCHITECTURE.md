@@ -31,17 +31,17 @@ e2e/
 
 ## Running
 
-Both demo apps must already be running (there is **no `webServer` block** in `playwright.config.ts` — start them yourself in separate terminals).
+`playwright.config.ts` declares both demo apps in a `webServer` array with `reuseExistingServer: !process.env.CI`. Devs running an app locally are detected and reused; if nothing is bound to the port, Playwright cold-starts the app via `yarn start` from the app's directory. CI (`CI=true`) always cold-starts.
 
 ```bash
-yarn test                # both projects
+yarn test                # both projects (cold-starts apps if not already running)
 yarn test:demo-app
 yarn test:demo-app-video
 yarn test:ui             # Playwright UI mode
 yarn report              # open the last HTML report
 ```
 
-`workers: 1`, `fullyParallel: false`, `retries: 2` on CI. Tests share state via the API; keep it serial.
+`workers: 2`, `fullyParallel: false`, `retries: 2` on CI. The two projects (`demo-app`, `demo-app-video`) run in parallel across workers. Tests within each project run serially — they share API state (the same inspection) so order matters inside a project.
 
 ---
 
@@ -50,8 +50,8 @@ yarn report              # open the last HTML report
 | Variable             | Required | Default                 | Notes                                                                                                                     |
 | -------------------- | -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `TEST_TOKEN`         | yes      | —                       | Raw JWT; compressed into `?t=` query param                                                                                |
-| `DEMO_APP_URL`       | no       | `https://localhost:3000` | `.env.example` recommends `17200`                                                                                         |
-| `DEMO_VIDEO_APP_URL` | no       | `https://localhost:3001` | `.env.example` recommends `17201`                                                                                         |
+| `DEMO_APP_URL`       | no       | `https://localhost:17200` | Probed by Playwright `webServer.url`; must match `PORT` in `apps/demo-app/.env-cmdrc.json` `local` profile              |
+| `DEMO_VIDEO_APP_URL` | no       | `https://localhost:17201` | Probed by Playwright `webServer.url`; must match `PORT` in `apps/demo-app-video/.env-cmdrc.json` `local` profile        |
 | `FAKE_VIDEO_PATH`    | no       | —                       | Absolute path to a `.y4m` file for the fake camera. If absent, Chromium uses its default test pattern (tests still pass). |
 
 `API_DOMAIN` in `.env.example` is consumed by the demo apps themselves, not by the test runner.
@@ -96,12 +96,33 @@ test("creates inspection, captures all sights, reviews gallery and submits", asy
 ## POM rules (hard)
 
 - **All DOM interaction lives in POMs.** Specs must not call `page.locator`, `page.click`, `page.waitFor*`, etc.
-- **All assertions live in specs.** POMs must not call `expect()`.
+- **All assertions live in specs or in named flow helpers that take `expect` as a parameter.** POMs must not call `expect()`.
 - POMs extend `BasePage` and use one of:
   - `this.locator(id)` → `data-testid="<id>"` (existing attributes)
   - `this.e2eLocator(id)` → `data-e2e="<id>"` **(preferred for new selectors)**
 - Methods are intent-named, pure async (`captureAllSights()`, `confirmDefaultVehicleType()`). Return values only when meaningful.
 - Shared POMs live in `shared/pages/` and are re-exported from each app's `pages/index.ts` — don't duplicate.
+
+---
+
+## Flows
+
+Specs orchestrate POMs through small named `async` functions in `shared/flows/`. A flow takes the POM instances it needs and runs them in sequence. Specs wrap each flow call in `test.step()` so the HTML report tells the story.
+
+Rules:
+
+- A flow is **not** a fixture. The spec passes its fixture-injected POMs in directly. This keeps flows composable across apps without touching fixture wiring.
+- A flow does **not** call `expect()`. The one explicit exception is an assertion helper that takes `expect` as a parameter (e.g. `assertGalleryUploadsComplete(galleryPage, expect, opts)`) — the rule break is local and visible at every call site.
+- **Arg convention**: ≤2 POMs → positional args; 3+ POMs → a single object arg so call sites stay readable and reorderable.
+- One flow per file under `shared/flows/`, re-exported from `shared/flows/index.ts`.
+
+Before adding a multi-POM sequence inline in a spec, check whether an existing flow covers it — if you'd be the second copy, extract it first.
+
+---
+
+## Module conventions
+
+- **No passthrough re-exports.** Do not re-export a symbol unchanged just to provide a shorter import path. If you are wrapping, renaming, or merging, re-exporting is fine. Otherwise import from the source. The per-app `fixtures/index.ts` is the canonical test API for its specs and is the only place that re-exports `expect` from `@playwright/test`.
 
 ---
 
@@ -132,7 +153,7 @@ test("creates inspection, captures all sights, reviews gallery and submits", asy
   ```
 - **Disabled-button races** — `GalleryPage.submit()` waits for `[data-e2e="gallery-submit"]:not([disabled])` before clicking. Mirror this pattern for any button that becomes enabled only after async work (uploads, processing).
 - **Compass priming** — `VideoCapturePage.recordWalkaround()` dispatches one `DeviceOrientationEvent` _before_ clicking record so coverage starts from a known bearing. Don't reorder those steps.
-- **Compass defaults** — `shared/utils/compass.ts::simulateWalkaround(page, options?)` defaults (`startAlpha=180`, `totalDegrees=370`, `stepDegrees=5`, `intervalMs=210` ≈ 15.5 s) satisfy both 270° min walkaround coverage **and** 15 s min recording duration. Changing one without the other will break recording.
+- **Compass defaults** — `shared/utils/compass.ts::simulateWalkaround(page, options?)` defaults (`startAlpha=180`, `totalDegrees=370`, `stepDegrees=5`, `intervalMs=540` ≈ 40 s) satisfy both 270° min walkaround coverage **and** 15 s min recording duration. Changing one without the other will break recording.
 - **Fake camera** — fake-media Chromium flags are set in `playwright.config.ts`. `FAKE_VIDEO_PATH` is optional; if the file doesn't exist the flag is omitted (`fs.existsSync` check) and Chromium uses its built-in test pattern. CI provides a real `.y4m`.
 - **Auth URL is the only entry point** — both apps read the JWT from `?t=`. Don't try to call API login; the `authenticatedPage` fixture is the only supported way in.
 
@@ -155,6 +176,14 @@ Built by `buildAuthUrl(baseUrl, { inspectionId?, vehicleType? })` in `shared/uti
 1. Create `apps/<app>/tests/<name>.spec.ts`.
 2. `import { test, expect } from "../fixtures";`
 3. Destructure the POM fixtures you need. Add new POMs first if missing.
+4. Compose the test from named flows in `shared/flows/` wrapped in `test.step()`. If your test repeats a multi-POM sequence another spec already uses (or will), extract it into `shared/flows/` first.
+
+### Add a flow
+
+1. Create `shared/flows/<verbNoun>.ts`. Name it after the user-visible journey (`completePhotoCaptureJourney`, not `clickButtons`).
+2. Take the POM instances as args. ≤2 POMs positional, 3+ as a single object arg.
+3. Do not import or call `expect()` — unless this is an assertion helper, in which case take `expect` as a parameter.
+4. Re-export from `shared/flows/index.ts`.
 
 ### Add a POM
 
@@ -174,5 +203,5 @@ Built by `buildAuthUrl(baseUrl, { inspectionId?, vehicleType? })` in `shared/uti
 1. Create `apps/<new>/{fixtures,pages,tests}/`.
 2. Add a project to `playwright.config.ts` using **`testDir: './apps/<new>/tests'`** (not `testMatch`), copying the existing project shape (`...devices["Desktop Chrome"]`, `baseURL: env.<new>.baseUrl`).
 3. Add `<NEW>_URL` to `shared/config/environments.ts` and `.env.example`.
-4. Create `apps/<new>/fixtures/index.ts` extending `shared/fixtures/auth.fixture.ts`.
-5. Start the app on the configured port before running tests (no `webServer` will do it for you).
+4. Create `apps/<new>/fixtures/index.ts` extending `shared/fixtures/auth.fixture.ts`. Re-export `expect` from `@playwright/test` at the bottom.
+5. Add a `webServer` entry in `playwright.config.ts` following the existing pattern: `command: "yarn start"`, `cwd` pointing at the app dir, `url: env.<new>.baseUrl`, `reuseExistingServer: !process.env["CI"]`. Make sure the app's `local` profile in `.env-cmdrc.json` sets the matching `PORT` and `HTTPS: "true"`.

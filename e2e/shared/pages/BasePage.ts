@@ -9,7 +9,4 @@ export abstract class BasePage {
   protected e2eLocator(id: string) {
     return this.page.locator(`[data-e2e="${id}"]`);
   }
-  async waitForVisible(testId: string, timeout?: number) {
-    await this.locator(testId).waitFor({ state: "visible", timeout });
-  }
 }
