@@ -25,7 +25,7 @@ export class VideoCapturePage extends BasePage {
 
     await simulateWalkaround(this.page, {
       startAlpha: START_ALPHA,
-      intervalMs: 220, // covers minRecordDuration (15s)
+      intervalMs: 220, // covers minRecordDuration (10s)
     });
 
     await this.recordButton.click();

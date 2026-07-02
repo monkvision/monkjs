@@ -86,9 +86,10 @@ export class GalleryPage extends BasePage {
     };
   }
 
-  async submit() {
+  async submit(timeout?: number) {
     await this.page.waitForSelector(
-      '[data-e2e="gallery-submit"]:not([disabled])'
+      '[data-e2e="gallery-submit"]:not([disabled])',
+      { timeout }
     );
     await this.submitButton.click();
   }

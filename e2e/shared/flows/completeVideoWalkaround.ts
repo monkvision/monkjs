@@ -10,7 +10,7 @@ export interface CompleteVideoWalkaroundFlowArgs {
   videoCaptureCompletePage: VideoCaptureCompletePage;
 }
 
-export async function completeVideoWalkaroundFlow({
+export async function completeVideoWalkaround({
   permissionsPage,
   tutorialPage,
   videoCapturePage,

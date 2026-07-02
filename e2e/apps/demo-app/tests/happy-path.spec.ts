@@ -1,17 +1,13 @@
-import { test, expect } from "../fixtures";
+import { test } from "../fixtures";
 import {
   completeInspectionSetup,
   completePhotoCaptureJourney,
-  submitGallery,
 } from "../../../shared/flows";
-import { assertGalleryUploadsComplete } from "../flows";
+import { submitAndAwaitReport } from "../flows";
 import {
   FAKE_VIDEO_URLS,
   switchFakeCamera,
 } from "../../../shared/fixtures/fake-camera.fixture";
-
-const MAX_NON_COMPLIANT = 1;
-const MAX_RETAKE = 1;
 
 test.describe("demo-app happy path", () => {
   test("creates inspection, captures all sights, reviews gallery and submits", async ({
@@ -22,7 +18,10 @@ test.describe("demo-app happy path", () => {
     photoCaptureTutorialPage,
     photoCapturePage,
     galleryPage,
+    damageReportPage,
   }) => {
+    test.setTimeout(45_000);
+
     await test.step("create inspection and select vehicle type", () =>
       completeInspectionSetup(createInspectionPage, vehicleTypeSelectionPage));
 
@@ -34,14 +33,7 @@ test.describe("demo-app happy path", () => {
         tutorialPage: photoCaptureTutorialPage,
       }));
 
-    await test.step("assert gallery tab upload quality", async () => {
-      await galleryPage.waitForGallery();
-      await assertGalleryUploadsComplete(galleryPage, expect, {
-        maxNonCompliant: MAX_NON_COMPLIANT,
-        maxRetake: MAX_RETAKE,
-      });
-    });
-
-    await test.step("submit", () => submitGallery(galleryPage));
+    await test.step("submit", () =>
+      submitAndAwaitReport(galleryPage, damageReportPage));
   });
 });

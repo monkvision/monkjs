@@ -9,15 +9,16 @@ import {
   PhotoCaptureTutorialPage,
   PhotoCapturePage,
   GalleryPage,
+  DamageReportPage,
 } from "../pages";
 
-// FakeCameraFixture includes the auto setupFakeCamera fixture (void)
 interface DemoAppFixtures extends FakeCameraFixture {
   createInspectionPage: CreateInspectionPage;
   vehicleTypeSelectionPage: VehicleTypeSelectionPage;
   photoCaptureTutorialPage: PhotoCaptureTutorialPage;
   photoCapturePage: PhotoCapturePage;
   galleryPage: GalleryPage;
+  damageReportPage: DamageReportPage;
 }
 
 export const test = authTest.extend<DemoAppFixtures>({
@@ -30,6 +31,5 @@ export const test = authTest.extend<DemoAppFixtures>({
     use(new PhotoCaptureTutorialPage(page)),
   photoCapturePage: async ({ page }, use) => use(new PhotoCapturePage(page)),
   galleryPage: async ({ page }, use) => use(new GalleryPage(page)),
+  damageReportPage: async ({ page }, use) => use(new DamageReportPage(page)),
 });
-
-export { expect } from "@playwright/test";

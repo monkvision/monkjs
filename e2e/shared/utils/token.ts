@@ -15,7 +15,7 @@ function compressToken(rawToken: string): string {
 }
 
 export function getTestToken(): string {
-  // TODO this should be taken via server
+  // TODO: this should be taken via server
   const token = process.env["TEST_TOKEN"];
   if (!token) {
     throw new Error(

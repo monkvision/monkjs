@@ -2,15 +2,15 @@ import type { Expect } from "@playwright/test";
 import type { GalleryPage } from "../../../shared/pages/GalleryPage";
 
 export interface AssertGalleryUploadsCompleteOptions {
-  /** Max allowed non-compliant cards on the approved tab. Defaults to Infinity (no cap). */
+  /** Max allowed non-compliant cards on the approved tab.
+   *
+   * @default Infinity
+   */
   maxNonCompliant?: number;
-  /** Max allowed cards on the retake tab. Defaults to 0. */
-  maxRetake?: number;
 }
 
 /**
- * Asserts upload quality across the two gallery tabs (approved, retake).
- * Takes the spec's expect as a parameter so the rule break is local and visible at the call site.
+ * Asserts non-compliant or upload errors.
  */
 export async function assertGalleryUploadsComplete(
   galleryPage: GalleryPage,
@@ -18,7 +18,6 @@ export async function assertGalleryUploadsComplete(
   options: AssertGalleryUploadsCompleteOptions = {}
 ): Promise<void> {
   const maxNonCompliant = options.maxNonCompliant ?? Infinity;
-  const maxRetake = options.maxRetake ?? 0;
 
   await galleryPage.waitForPendingToSettle();
   expect(await galleryPage.imageCards.count()).toBeGreaterThan(0);

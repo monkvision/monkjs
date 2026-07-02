@@ -1,4 +1,4 @@
-import { test as base, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 
 declare global {
   interface Window {
@@ -70,15 +70,14 @@ function overrideScriptFn(initialUrl: string): void {
   };
 }
 
-/** Interface for the auto-setup fixture exposed by fakeCameraFixtures. */
 export interface FakeCameraFixture {
   setupFakeCamera: void;
 }
 
 /**
- * Standalone helper — call from anywhere you have `page`.
+ * Standalone helper — call within `page`.
+ *
  * The fake camera must have been initialised by the setupFakeCamera auto-fixture first.
- * Awaits the new video source being ready (canplay) before resolving.
  */
 export async function switchFakeCamera(page: Page, url: string): Promise<void> {
   await page.evaluate((u: string) => {
@@ -94,9 +93,6 @@ export const fakeCameraFixtures = {
   /**
    * Auto fixture: injects the getUserMedia override for every test that uses
    * this fixture set, without needing to be explicitly destructured.
-   * - addInitScript covers full-page navigations that happen after setup.
-   * - page.evaluate covers the page that is already loaded (e.g. after the
-   *   authenticatedPage fixture has already called page.goto()).
    */
   setupFakeCamera: [
     async ({ page }: { page: Page }, use: () => Promise<void>) => {
@@ -126,8 +122,3 @@ export const fakeCameraFixtures = {
     { auto: boolean }
   ],
 };
-
-// Standalone test object, useful when not composing into another chain
-export const fakeCameraTest = base.extend<FakeCameraFixture>(
-  fakeCameraFixtures as Parameters<typeof base.extend>[0]
-);

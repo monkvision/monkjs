@@ -36,9 +36,7 @@ function buildAlphaSequence(
 
 /**
  * Dispatch a single synthetic DeviceOrientationEvent in the page on every
- * orientation event name the app may listen on. Chromium exposes
- * `ondeviceorientationabsolute`, so `useDeviceOrientation` subscribes to the
- * absolute variant — dispatching both keeps the helper environment-agnostic.
+ * orientation event name the app may listen on
  */
 export async function dispatchAlpha(page: Page, alpha: number): Promise<void> {
   await page.evaluate(

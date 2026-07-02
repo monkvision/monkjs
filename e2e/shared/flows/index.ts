@@ -4,7 +4,7 @@ export {
   type CompletePhotoCaptureJourneyOptions,
 } from "./completePhotoCaptureJourney";
 export {
-  completeVideoWalkaroundFlow,
+  completeVideoWalkaround as completeVideoWalkaroundFlow,
   type CompleteVideoWalkaroundFlowArgs,
-} from "./completeVideoWalkaroundFlow";
+} from "./completeVideoWalkaround";
 export { submitGallery } from "./submitGallery";

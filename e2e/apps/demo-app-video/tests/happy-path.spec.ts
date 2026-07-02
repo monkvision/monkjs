@@ -1,4 +1,5 @@
-import { test, expect } from "../fixtures";
+import { expect } from "@playwright/test";
+import { test } from "../fixtures";
 import {
   completeVideoWalkaroundFlow,
   completePhotoCaptureJourney,
@@ -10,10 +11,8 @@ import {
   FAKE_VIDEO_URLS,
 } from "../../../shared/fixtures/fake-camera.fixture";
 
-// TODO: adjust when real-car video is provided.
-// Black-frame camera mock makes every manual photo non-compliant.
-const MAX_MANUAL_NON_COMPLIANT = Infinity;
-const MAX_BEAUTY_NON_COMPLIANT = Infinity;
+const MAX_MANUAL_NON_COMPLIANT = 0;
+const MAX_BEAUTY_NON_COMPLIANT = 0;
 
 test.describe("demo-app-video happy path", () => {
   test("grants permissions, completes tutorial, records walkaround, captures all sights and submits", async ({
@@ -26,7 +25,7 @@ test.describe("demo-app-video happy path", () => {
     photoCapturePage,
     galleryPage,
   }) => {
-    test.setTimeout(180_000);
+    test.setTimeout(120_000);
 
     await test.step("grant permissions, complete tutorial, record walkaround", () =>
       completeVideoWalkaroundFlow({

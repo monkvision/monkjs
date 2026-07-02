@@ -26,9 +26,8 @@ export const test = authTest.extend<DemoVideoAppFixtures>({
   permissionsPage: async ({ page }, use) => use(new PermissionsPage(page)),
   tutorialPage: async ({ page }, use) => use(new TutorialPage(page)),
   videoCapturePage: async ({ page }, use) => use(new VideoCapturePage(page)),
-  videoCaptureCompletePage: async ({ page }, use) => use(new VideoCaptureCompletePage(page)),
+  videoCaptureCompletePage: async ({ page }, use) =>
+    use(new VideoCaptureCompletePage(page)),
   photoCapturePage: async ({ page }, use) => use(new PhotoCapturePage(page)),
   galleryPage: async ({ page }, use) => use(new GalleryPage(page)),
 });
-
-export { expect } from "@playwright/test";
