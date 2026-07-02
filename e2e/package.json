@@ -1,10 +1,11 @@
 {
   "name": "@monkvision/e2e",
-  "version": "1.0.0",
-  "private": true,
-  "description": "End-to-end tests for MonkJs demo apps",
-  "author": "monkvision",
+  "version": "5.3.11",
   "license": "BSD-3-Clause-Clear",
+  "description": "End-to-end tests for MonkJs demo apps",
+  "packageManager": "yarn@3.2.4",
+  "author": "monkvision",
+  "private": true,
   "scripts": {
     "postinstall": "playwright install chromium",
     "test": "playwright test",
@@ -14,7 +15,7 @@
     "report": "playwright show-report"
   },
   "dependencies": {
-    "@monkvision/types": "workspace:*",
+    "@monkvision/types": "5.3.11",
     "dotenv": "^17.4.2"
   },
   "devDependencies": {

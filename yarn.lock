@@ -5145,7 +5145,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/e2e@workspace:e2e"
   dependencies:
-    "@monkvision/types": "workspace:*"
+    "@monkvision/types": 5.3.11
     "@playwright/test": ^1.44.0
     "@types/node": ^20.0.0
     dotenv: ^17.4.2

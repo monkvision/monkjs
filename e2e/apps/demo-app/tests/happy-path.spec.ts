@@ -41,7 +41,7 @@ test.describe("demo-app happy path", () => {
       });
     });
 
-    await test.step("submit", () =>
+    await test.step("submit", async () =>
       submitAndAwaitReport(galleryPage, damageReportPage));
   });
 });
