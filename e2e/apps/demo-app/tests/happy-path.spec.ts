@@ -3,11 +3,12 @@ import {
   completeInspectionSetup,
   completePhotoCaptureJourney,
 } from "../../../shared/flows";
-import { submitAndAwaitReport } from "../flows";
+import { assertGalleryUploadsComplete, submitAndAwaitReport } from "../flows";
 import {
   FAKE_VIDEO_URLS,
   switchFakeCamera,
 } from "../../../shared/fixtures/fake-camera.fixture";
+import { expect } from "@playwright/test";
 
 test.describe("demo-app happy path", () => {
   test("creates inspection, captures all sights, reviews gallery and submits", async ({
@@ -32,6 +33,13 @@ test.describe("demo-app happy path", () => {
       completePhotoCaptureJourney(photoCapturePage, {
         tutorialPage: photoCaptureTutorialPage,
       }));
+
+    await test.step("assert gallery tab upload quality", async () => {
+      await galleryPage.waitForGallery();
+      await assertGalleryUploadsComplete(galleryPage, expect, {
+        maxNonCompliant: 0,
+      });
+    });
 
     await test.step("submit", () =>
       submitAndAwaitReport(galleryPage, damageReportPage));
