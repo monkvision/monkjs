@@ -1,0 +1,7 @@
+{
+  "id": "demo-app-video-local-e2e",
+  "description": "Config for the local-e2e Video Demo App.",
+  "enableVideoTutorial": true,
+  "enableHybridVideo": true,
+  "minRecordingDuration": 10000
+}

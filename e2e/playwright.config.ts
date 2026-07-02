@@ -36,7 +36,7 @@ export default defineConfig({
       ignoreHTTPSErrors: true,
     },
     {
-      command: "yarn start",
+      command: "yarn start:e2e",
       cwd: path.resolve(__dirname, "../apps/demo-app-video"),
       url: env.demoVideoApp.baseUrl,
       reuseExistingServer: !process.env["CI"],

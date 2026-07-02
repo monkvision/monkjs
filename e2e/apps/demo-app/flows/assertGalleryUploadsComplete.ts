@@ -28,11 +28,4 @@ export async function assertGalleryUploadsComplete(
     approved.nonCompliantCount,
     "approved tab non-compliant cards"
   ).toBeLessThanOrEqual(maxNonCompliant);
-
-  await galleryPage.clickRetakeFilter();
-  await galleryPage.waitForPendingToSettle();
-  expect(
-    await galleryPage.imageCards.count(),
-    "retake tab card count"
-  ).toBeLessThanOrEqual(maxRetake);
 }

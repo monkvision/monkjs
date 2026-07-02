@@ -51,7 +51,7 @@ yarn report              # open the last HTML report
 | -------------------- | -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `TEST_TOKEN`         | yes      | —                       | Raw JWT; compressed into `?t=` query param                                                                                |
 | `DEMO_APP_URL`       | no       | `https://localhost:17200` | Probed by Playwright `webServer.url`; must match `PORT` in `apps/demo-app/.env-cmdrc.json` `local` profile              |
-| `DEMO_VIDEO_APP_URL` | no       | `https://localhost:17201` | Probed by Playwright `webServer.url`; must match `PORT` in `apps/demo-app-video/.env-cmdrc.json` `local` profile        |
+| `DEMO_VIDEO_APP_URL` | no       | `https://localhost:17201` | Probed by Playwright `webServer.url`; must match `PORT` in `apps/demo-app-video/.env-cmdrc.json` `e2e` profile        |
 | `FAKE_VIDEO_PATH`    | no       | —                       | Absolute path to a `.y4m` file for the fake camera. If absent, Chromium uses its default test pattern (tests still pass). |
 
 `API_DOMAIN` in `.env.example` is consumed by the demo apps themselves, not by the test runner.
