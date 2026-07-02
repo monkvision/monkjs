@@ -14,7 +14,6 @@ export class VideoCapturePage extends BasePage {
     });
 
     // Prime the compass with the initial alpha before starting recording,
-    // so startWalkaround() captures the correct startingAlpha on button click.
     await this.page.evaluate((alpha: number) => {
       window.dispatchEvent(
         new DeviceOrientationEvent("deviceorientation", {
@@ -32,7 +31,6 @@ export class VideoCapturePage extends BasePage {
     await this.recordButton.click();
 
     // Simulate 370° walkaround at 210ms/step (≈15.5s), satisfying both the
-    // 270° minimum walkaround and the 15-second minimum recording duration.
     await simulateWalkaround(this.page, { startAlpha: START_ALPHA });
 
     await this.recordButton.click();
