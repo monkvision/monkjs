@@ -5,6 +5,10 @@ import {
   assertGalleryUploadsComplete,
   submitGallery,
 } from "../../../shared/flows";
+import {
+  switchFakeCamera,
+  FAKE_VIDEO_URLS,
+} from "../../../shared/fixtures/fake-camera.fixture";
 
 // TODO: adjust when real-car video is provided.
 // Black-frame camera mock makes every manual photo non-compliant.
@@ -13,6 +17,7 @@ const MAX_BEAUTY_NON_COMPLIANT = Infinity;
 
 test.describe("demo-app-video happy path", () => {
   test("grants permissions, completes tutorial, records walkaround, captures all sights and submits", async ({
+    page,
     authenticatedPage,
     permissionsPage,
     tutorialPage,
@@ -30,6 +35,9 @@ test.describe("demo-app-video happy path", () => {
         videoCapturePage,
         videoCaptureCompletePage,
       }));
+
+    await test.step("switch fake camera for photo capture", () =>
+      switchFakeCamera(page, FAKE_VIDEO_URLS.SEDAN_INTERIOR));
 
     await test.step("capture all manual photo sights", () =>
       completePhotoCaptureJourney(photoCapturePage));

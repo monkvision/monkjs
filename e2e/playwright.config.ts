@@ -1,6 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
-import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
@@ -8,16 +7,9 @@ import { getEnvironment } from "./shared/config/environments";
 
 const env = getEnvironment();
 
-const fakeVideoPath =
-  process.env["FAKE_VIDEO_PATH"] ??
-  path.join(__dirname, "assets", "fake-camera.y4m");
-
 const chromeArgs = [
   "--use-fake-ui-for-media-stream",
   "--use-fake-device-for-media-stream",
-  ...(fs.existsSync(fakeVideoPath)
-    ? [`--use-file-for-fake-video-capture=${path.resolve(fakeVideoPath)}`]
-    : []),
 ];
 
 export default defineConfig({
@@ -36,7 +28,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "yarn start",
+      command: "yarn start:e2e",
       cwd: path.resolve(__dirname, "../apps/demo-app"),
       url: env.demoApp.baseUrl,
       reuseExistingServer: !process.env["CI"],

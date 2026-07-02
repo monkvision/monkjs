@@ -11,13 +11,20 @@ import { LiveConfig } from '@monkvision/types';
 import { getAuthConfig } from '@monkvision/network';
 import { Page } from '../pages';
 import * as config from '../local-config.json';
+import * as configE2e from '../local-config-e2e.json';
 import { AppContainer } from './AppContainer';
 import { authConfigs } from '../auth';
 
-const localConfig =
-  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
-    ? (config as unknown as LiveConfig)
-    : undefined;
+const getLocalConfig = () => {
+  if (process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true') {
+    return config as unknown as LiveConfig;
+  }
+  if (process.env['REACT_APP_USE_LOCAL_E2E_CONFIG'] === 'true') {
+    return configE2e as unknown as LiveConfig;
+  }
+
+  return undefined;
+};
 
 export function App() {
   const navigate = useNavigate();
@@ -30,7 +37,7 @@ export function App() {
         monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ??
         getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')
       }
-      localConfig={localConfig}
+      localConfig={getLocalConfig()}
       apiDomain={getAuthConfig(authConfigs)?.apiDomain}
       thumbnailDomain={getAuthConfig(authConfigs)?.thumbnailDomain}
       onFetchAuthToken={() => navigate(Page.CREATE_INSPECTION)}

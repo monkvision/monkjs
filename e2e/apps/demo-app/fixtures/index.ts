@@ -1,3 +1,7 @@
+import {
+  fakeCameraFixtures,
+  FakeCameraFixture,
+} from "../../../shared/fixtures/fake-camera.fixture";
 import { test as authTest } from "../../../shared/fixtures/auth.fixture";
 import {
   CreateInspectionPage,
@@ -7,7 +11,8 @@ import {
   GalleryPage,
 } from "../pages";
 
-interface DemoAppFixtures {
+// FakeCameraFixture includes the auto setupFakeCamera fixture (void)
+interface DemoAppFixtures extends FakeCameraFixture {
   createInspectionPage: CreateInspectionPage;
   vehicleTypeSelectionPage: VehicleTypeSelectionPage;
   photoCaptureTutorialPage: PhotoCaptureTutorialPage;
@@ -16,9 +21,13 @@ interface DemoAppFixtures {
 }
 
 export const test = authTest.extend<DemoAppFixtures>({
-  createInspectionPage: async ({ page }, use) => use(new CreateInspectionPage(page)),
-  vehicleTypeSelectionPage: async ({ page }, use) => use(new VehicleTypeSelectionPage(page)),
-  photoCaptureTutorialPage: async ({ page }, use) => use(new PhotoCaptureTutorialPage(page)),
+  ...fakeCameraFixtures,
+  createInspectionPage: async ({ page }, use) =>
+    use(new CreateInspectionPage(page)),
+  vehicleTypeSelectionPage: async ({ page }, use) =>
+    use(new VehicleTypeSelectionPage(page)),
+  photoCaptureTutorialPage: async ({ page }, use) =>
+    use(new PhotoCaptureTutorialPage(page)),
   photoCapturePage: async ({ page }, use) => use(new PhotoCapturePage(page)),
   galleryPage: async ({ page }, use) => use(new GalleryPage(page)),
 });

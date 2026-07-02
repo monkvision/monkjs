@@ -3,8 +3,8 @@ import type { VehicleTypeSelectionPage } from "../../apps/demo-app/pages/Vehicle
 
 export async function completeInspectionSetup(
   createInspectionPage: CreateInspectionPage,
-  vehicleTypeSelectionPage: VehicleTypeSelectionPage,
+  vehicleTypeSelectionPage: VehicleTypeSelectionPage
 ): Promise<void> {
   await createInspectionPage.waitForInspectionCreated();
-  await vehicleTypeSelectionPage.confirmDefaultVehicleType();
+  await vehicleTypeSelectionPage.confirmVehicleType("sedan");
 }
