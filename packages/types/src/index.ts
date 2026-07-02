@@ -8,3 +8,4 @@ export * from './i18n';
 export * from './api';
 export * from './utils';
 export * from './typeUtils';
+export * from './testIds';

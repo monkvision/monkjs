@@ -1,0 +1,19 @@
+{
+  "id": "demo-app-local-e2e",
+  "description": "Config for the local E2E Demo App.",
+  "defaultVehicleType": "sedan",
+  "sights": {
+    "sedan": [
+      "haccord-8YjMcu0D",
+      "haccord-hsCc_Nct",
+      "haccord-_YnTubBA",
+      "haccord-Qel0qUky",
+      "haccord-GdWvsqrm",
+      "haccord-6kYUBv_e",
+      "haccord-Jq65fyD4",
+      "haccord-sorgeRJ7",
+      "haccord-PGr3RzzP",
+      "haccord-Z84erkMb"
+    ]
+  }
+}

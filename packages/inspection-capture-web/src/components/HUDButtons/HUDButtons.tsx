@@ -1,5 +1,6 @@
 import { Icon, TakePictureButton } from '@monkvision/common-ui-web';
 import { useInteractiveStatus } from '@monkvision/common';
+import { MonkTestId } from '@monkvision/types';
 import { useHUDButtonsStyles } from './hooks';
 
 /**
@@ -113,7 +114,7 @@ export function HUDButtons({
         disabled={galleryDisabled}
         onClick={onOpenGallery}
         {...galleryEventHandlers}
-        data-testid='monk-gallery-btn'
+        data-testid={MonkTestId.MONK_GALLERY_BTN}
       >
         <>
           {galleryPreview ? (

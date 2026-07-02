@@ -5,24 +5,33 @@ import {
   MonkSearchParam,
   useMonkSearchParams,
 } from '@monkvision/common';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
 import { LiveConfig } from '@monkvision/types';
 import { getAuthConfig } from '@monkvision/network';
 import { Page } from '../pages';
-import * as config from '../local-config.json';
+import config from '../local-config.json';
+import configE2e from '../local-config-e2e.json';
 import { AppContainer } from './AppContainer';
 import { authConfigs } from '../auth';
 
-const localConfig =
-  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
-    ? (config as unknown as LiveConfig)
-    : undefined;
+const getLocalConfig = (): LiveConfig | undefined => {
+  if (process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true') {
+    return config as unknown as LiveConfig;
+  }
+  if (process.env['REACT_APP_USE_LOCAL_E2E_CONFIG'] === 'true') {
+    return { ...config, ...configE2e } as unknown as LiveConfig;
+  }
+
+  return undefined;
+};
 
 export function App() {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const monkSearchParams = useMonkSearchParams();
+  const localConfig = useMemo(getLocalConfig, []);
 
   return (
     <LiveConfigAppProvider

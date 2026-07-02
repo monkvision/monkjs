@@ -1,4 +1,4 @@
-import { VehicleType } from '@monkvision/types';
+import { MonkE2eId, VehicleType } from '@monkvision/types';
 import { useInteractiveStatus, useObjectTranslation } from '@monkvision/common';
 import { labels } from '@monkvision/sights';
 import { useVehicleTypeSelectionCardStyles } from './hooks';
@@ -21,7 +21,12 @@ export function VehicleTypeSelectionCard({
     useVehicleTypeSelectionCardStyles({ isSelected, status });
 
   return (
-    <button style={containerStyle} {...eventHandlers} onClick={!isSelected ? onClick : undefined}>
+    <button
+      style={containerStyle}
+      {...eventHandlers}
+      onClick={!isSelected ? onClick : undefined}
+      data-e2e={`${MonkE2eId.VEHICLE_TYPE_CARD_PREFIX}${vehicleType}`}
+    >
       <div style={assetContainerStyle}>
         <VehicleTypeAsset vehicleType={vehicleType} style={assetStyle} />
       </div>

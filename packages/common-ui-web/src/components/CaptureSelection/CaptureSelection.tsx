@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { i18nWrap, useI18nSync, useMonkTheme } from '@monkvision/common';
+import { MonkTestId } from '@monkvision/types';
 import { styles } from './CaptureSelection.styles';
 import { Button } from '../Button';
 import { i18nCreateInspection } from './i18n';
@@ -62,7 +63,7 @@ export const CaptureSelection = i18nWrap(function CaptureSelection({
           style={styles['button']}
           primaryColor={palette.primary.base}
           onClick={onCapture}
-          data-testid='capture-btn'
+          data-testid={MonkTestId.CAPTURE_BTN}
         >
           {t('capture.button')}
         </Button>

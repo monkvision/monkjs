@@ -6,7 +6,7 @@ import {
   useMonkTheme,
   useResponsiveStyle,
 } from '@monkvision/common';
-import { AllOrNone, VehicleType } from '@monkvision/types';
+import { AllOrNone, MonkE2eId, VehicleType } from '@monkvision/types';
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { decodeMonkJwt, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
@@ -153,7 +153,11 @@ export const VehicleTypeSelection = i18nWrap(function VehicleTypeSelection(
       {!loading.isLoading && !loading.error && (
         <>
           <div style={styles['title']}>{t('header.title')}</div>
-          <Button style={styles['button']} onClick={() => props.onSelectVehicleType?.(selected)}>
+          <Button
+            style={styles['button']}
+            onClick={() => props.onSelectVehicleType?.(selected)}
+            data-e2e={MonkE2eId.VEHICLE_TYPE_CONFIRM}
+          >
             {t('header.confirm')}
           </Button>
           <div

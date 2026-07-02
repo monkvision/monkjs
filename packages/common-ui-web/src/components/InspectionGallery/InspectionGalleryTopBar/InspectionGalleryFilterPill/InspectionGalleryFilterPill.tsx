@@ -5,6 +5,7 @@ export interface InspectionGalleryFilterPillProps {
   isSelected: boolean;
   label: string;
   count: number;
+  id?: string;
   onClick?: () => void;
 }
 
@@ -12,6 +13,7 @@ export function InspectionGalleryFilterPill({
   isSelected,
   label,
   count,
+  id,
   onClick,
 }: InspectionGalleryFilterPillProps) {
   const { pill, countStyle } = useInspectionGalleryFilterPillStyles({ isSelected });
@@ -23,6 +25,7 @@ export function InspectionGalleryFilterPill({
       secondaryColor={pill.secondaryColor}
       shade={pill.shade}
       style={pill.style}
+      data-e2e={id}
     >
       <span>{label}</span>
       <span style={countStyle}>{count}</span>
