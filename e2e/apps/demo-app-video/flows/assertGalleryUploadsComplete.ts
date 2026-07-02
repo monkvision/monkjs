@@ -1,5 +1,5 @@
 import type { Expect } from "@playwright/test";
-import type { GalleryPage } from "../pages/GalleryPage";
+import type { GalleryPage } from "../../../shared/pages/GalleryPage";
 
 export interface AssertGalleryUploadsCompleteOptions {
   /** Max allowed non-compliant cards on the manual tab. Defaults to Infinity (no cap). */

@@ -18,6 +18,8 @@ export class GalleryPage extends BasePage {
     "gallery-filter-beauty-shots"
   );
   readonly videoFilterPill = this.e2eLocator("gallery-filter-video");
+  readonly approvedFilterPill = this.e2eLocator("gallery-filter-approved");
+  readonly retakeFilterPill = this.e2eLocator("gallery-filter-retake");
 
   readonly pendingCards = this.e2eLocator("gallery-card-pending");
   readonly successCards = this.e2eLocator("gallery-card-success");
@@ -45,6 +47,14 @@ export class GalleryPage extends BasePage {
 
   async clickVideoFilter() {
     await this.videoFilterPill.click();
+  }
+
+  async clickApprovedFilter() {
+    await this.approvedFilterPill.click();
+  }
+
+  async clickRetakeFilter() {
+    await this.retakeFilterPill.click();
   }
 
   /** Waits for all cards in the active tab to leave the pending state. */

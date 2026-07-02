@@ -31,6 +31,7 @@ export type InspectionGalleryTopBarProps = Pick<
 export const FILTERS: InspectionGalleryFilter[] = [
   {
     label: 'topBar.retakeFilter',
+    id: 'gallery-filter-retake',
     callback: (item) =>
       !item.isAddDamage &&
       item.isTaken &&
@@ -38,6 +39,7 @@ export const FILTERS: InspectionGalleryFilter[] = [
   },
   {
     label: 'topBar.approvedFilter',
+    id: 'gallery-filter-approved',
     callback: (item) =>
       !item.isAddDamage && item.isTaken && item.image.status === ImageStatus.SUCCESS,
   },

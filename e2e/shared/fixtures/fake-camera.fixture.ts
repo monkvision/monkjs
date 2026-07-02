@@ -7,8 +7,8 @@ declare global {
 }
 
 export const FAKE_VIDEO_URLS = {
-  SEDAN_EXTERIOR: "https://samplelib.com/webm/sample-5s-720p.webm", // TODO: replace with actual asset
-  SEDAN_INTERIOR: "https://samplelib.com/webm/sample-15s-720p.webm", // TODO: replace with actual asset
+  SEDAN_EXTERIOR: "https://localhost:17200/e2e-exterior.mp4", // TODO: replace with actual asset
+  SEDAN_INTERIOR: "https://localhost:17200/e2e-interior.mp4", // TODO: replace with actual asset
 };
 
 function overrideScriptFn(initialUrl: string): void {

@@ -2,9 +2,9 @@ import { test, expect } from "../fixtures";
 import {
   completeVideoWalkaroundFlow,
   completePhotoCaptureJourney,
-  assertGalleryUploadsComplete,
   submitGallery,
 } from "../../../shared/flows";
+import { assertGalleryUploadsComplete } from "../flows";
 import {
   switchFakeCamera,
   FAKE_VIDEO_URLS,

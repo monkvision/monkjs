@@ -146,9 +146,15 @@ export function getInspectionGalleryItemCardE2eAttr(
   item: InspectionGalleryItem,
   captureMode: boolean,
 ): string {
-  if (item.isAddDamage) return 'gallery-card-add-damage';
-  if (!item.isTaken) return 'gallery-card-untaken';
-  if (!captureMode) return 'gallery-card';
+  if (item.isAddDamage) {
+    return 'gallery-card-add-damage';
+  }
+  if (!item.isTaken) {
+    return 'gallery-card-untaken';
+  }
+  if (!captureMode) {
+    return 'gallery-card';
+  }
   const isVideoFrame = item.image.additionalData?.frame_index !== undefined;
   switch (item.image.status) {
     case ImageStatus.UPLOADING:

@@ -7,8 +7,4 @@ export {
   completeVideoWalkaroundFlow,
   type CompleteVideoWalkaroundFlowArgs,
 } from "./completeVideoWalkaroundFlow";
-export {
-  assertGalleryUploadsComplete,
-  type AssertGalleryUploadsCompleteOptions,
-} from "./assertGalleryUploadsComplete";
 export { submitGallery } from "./submitGallery";

@@ -15,9 +15,10 @@ import {
 function expectVideoCapturePageLayoutConfirmButtonProps(): jest.Mock {
   expectPropsOnChildMock(VideoCapturePageLayout, {
     confirmButtonProps: {
-      children: 'video.permissions.confirm',
-      loading: expect.anything(),
-      onClick: expect.any(Function),
+      'children': 'video.permissions.confirm',
+      'loading': expect.anything(),
+      'onClick': expect.any(Function),
+      'data-e2e': expect.any(String),
     },
   });
   const { onClick } = (VideoCapturePageLayout as jest.Mock).mock.calls[0][0].confirmButtonProps;

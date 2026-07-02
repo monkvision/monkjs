@@ -29,7 +29,13 @@ export function InspectionGalleryItemCard({
   const label = useInspectionGalleryItemLabel(item);
 
   return (
-    <button style={cardStyle} onClick={onClick} data-testid='card-btn' data-e2e={getInspectionGalleryItemCardE2eAttr(item, captureMode)} {...eventHandlers}>
+    <button
+      style={cardStyle}
+      onClick={onClick}
+      data-testid='card-btn'
+      data-e2e={getInspectionGalleryItemCardE2eAttr(item, captureMode)}
+      {...eventHandlers}
+    >
       <div style={previewStyle} data-testid='preview'>
         {item.isAddDamage && (
           <Icon

@@ -1,5 +1,8 @@
 import { BasePage } from "../../../shared/pages/BasePage";
-import { dispatchAlpha, simulateWalkaround } from "../../../shared/utils/compass";
+import {
+  dispatchAlpha,
+  simulateWalkaround,
+} from "../../../shared/utils/compass";
 
 const START_ALPHA = 180;
 
@@ -20,7 +23,10 @@ export class VideoCapturePage extends BasePage {
     );
     await this.recordButton.click();
 
-    await simulateWalkaround(this.page, { startAlpha: START_ALPHA });
+    await simulateWalkaround(this.page, {
+      startAlpha: START_ALPHA,
+      intervalMs: 220, // covers minRecordDuration (15s)
+    });
 
     await this.recordButton.click();
   }
