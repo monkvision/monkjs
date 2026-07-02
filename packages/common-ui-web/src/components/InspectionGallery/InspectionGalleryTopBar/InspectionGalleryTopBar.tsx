@@ -113,7 +113,7 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
       {props.isInspectionCompleted ? (
         <div style={titleStyle}>{t('topBar.completed')}</div>
       ) : (
-        <Button disabled={!isSubmitAvailable} onClick={props.onValidate}>
+        <Button disabled={!isSubmitAvailable} onClick={props.onValidate} data-e2e='gallery-submit'>
           {props.validateButtonLabel || t('topBar.submit')}
         </Button>
       )}

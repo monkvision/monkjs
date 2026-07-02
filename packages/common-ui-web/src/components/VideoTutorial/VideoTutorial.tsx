@@ -127,6 +127,7 @@ export const VideoTutorial = i18nWrap(function VideoTutorial({
           secondaryColor='background-base'
           variant='outline'
           onClick={handleContinue}
+          data-e2e='tutorial-continue'
         >
           {t(isLastStep ? 'button.get-started' : 'button.continue')}
         </Button>

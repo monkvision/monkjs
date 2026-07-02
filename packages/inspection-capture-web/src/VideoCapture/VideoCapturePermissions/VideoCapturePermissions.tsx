@@ -50,9 +50,10 @@ export function VideoCapturePermissions({
   };
 
   const confirmButtonProps = {
-    onClick: handleConfirm,
+    'onClick': handleConfirm,
     loading,
-    children: t('video.permissions.confirm'),
+    'children': t('video.permissions.confirm'),
+    'data-e2e': 'permissions-confirm',
   };
 
   return (

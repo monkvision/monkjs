@@ -21,7 +21,12 @@ export function VehicleTypeSelectionCard({
     useVehicleTypeSelectionCardStyles({ isSelected, status });
 
   return (
-    <button style={containerStyle} {...eventHandlers} onClick={!isSelected ? onClick : undefined}>
+    <button
+      style={containerStyle}
+      {...eventHandlers}
+      onClick={!isSelected ? onClick : undefined}
+      data-e2e={`vehicle-type-card-${vehicleType}`}
+    >
       <div style={assetContainerStyle}>
         <VehicleTypeAsset vehicleType={vehicleType} style={assetStyle} />
       </div>

@@ -91,7 +91,12 @@ export function PhotoCaptureHUDTutorial({
           </div>
         </div>
         <DisplayText tutorialStep={currentTutorialStep} />
-        <Button style={styles['nextButton']} primaryColor='primary' onClick={onNextTutorialStep}>
+        <Button
+          style={styles['nextButton']}
+          primaryColor='primary'
+          onClick={onNextTutorialStep}
+          data-e2e='photo-tutorial-next'
+        >
           {t('photo.hud.tutorial.next')}
         </Button>
       </div>

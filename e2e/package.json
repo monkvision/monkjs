@@ -1,0 +1,22 @@
+{
+  "name": "@monkvision/e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end tests for MonkJs demo apps",
+  "author": "monkvision",
+  "license": "BSD-3-Clause-Clear",
+  "scripts": {
+    "postinstall": "playwright install chromium",
+    "test": "playwright test --env-file .env",
+    "test:demo-app": "playwright test --project=demo-app --env-file .env",
+    "test:demo-video-app": "playwright test --project=demo-video-app --env-file .env",
+    "test:ui": "playwright test --ui --env-file .env",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "pako": "^2.1.0",
+    "typescript": "^5.4.5"
+  }
+}

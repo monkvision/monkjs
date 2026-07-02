@@ -19,7 +19,9 @@ export function VideoCaptureComplete({ onComplete }: VideoCaptureCompleteProps) 
     <div style={styles['container']}>
       <div style={styles['title']}>{t('video.complete.title')}</div>
       <div style={styles['text']}>{t('video.complete.text')}</div>
-      <Button onClick={onComplete}>{t('video.complete.button')}</Button>
+      <Button onClick={onComplete} data-e2e='video-capture-proceed'>
+        {t('video.complete.button')}
+      </Button>
     </div>
   );
 }

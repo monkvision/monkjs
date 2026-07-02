@@ -153,7 +153,11 @@ export const VehicleTypeSelection = i18nWrap(function VehicleTypeSelection(
       {!loading.isLoading && !loading.error && (
         <>
           <div style={styles['title']}>{t('header.title')}</div>
-          <Button style={styles['button']} onClick={() => props.onSelectVehicleType?.(selected)}>
+          <Button
+            style={styles['button']}
+            onClick={() => props.onSelectVehicleType?.(selected)}
+            data-e2e='vehicle-type-confirm'
+          >
             {t('header.confirm')}
           </Button>
           <div
