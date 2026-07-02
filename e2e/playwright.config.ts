@@ -1,24 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
-import fs from "fs";
 import path from "path";
-import { getEnvironment } from "./shared/config/environments";
+import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-// Explicitly load .env so env vars are available regardless of how playwright is
-// invoked (yarn script, direct CLI, VS Code extension, CI, etc.).
-// Existing process.env values (e.g. from CI) always take precedence.
-const dotEnvFile = path.join(__dirname, ".env");
-if (fs.existsSync(dotEnvFile)) {
-  for (const line of fs.readFileSync(dotEnvFile, "utf-8").split("\n")) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) continue;
-    const eq = trimmed.indexOf("=");
-    if (eq === -1) continue;
-    const key = trimmed.slice(0, eq).trim();
-    const raw = trimmed.slice(eq + 1).trim();
-    const value = raw.replace(/^(["'])(.*)\1$/, "$2"); // strip surrounding quotes
-    if (key && !(key in process.env)) process.env[key] = value;
-  }
-}
+import { getEnvironment } from "./shared/config/environments";
 
 const env = getEnvironment();
 
@@ -58,8 +44,8 @@ export default defineConfig({
       },
     },
     {
-      name: "demo-video-app",
-      testDir: "./apps/demo-video-app/tests",
+      name: "demo-app-video",
+      testDir: "./apps/demo-app-video/tests",
       use: {
         ...devices["Desktop Chrome"],
         baseURL: env.demoVideoApp.baseUrl,

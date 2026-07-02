@@ -7,10 +7,10 @@
   "license": "BSD-3-Clause-Clear",
   "scripts": {
     "postinstall": "playwright install chromium",
-    "test": "playwright test --env-file .env",
-    "test:demo-app": "playwright test --project=demo-app --env-file .env",
-    "test:demo-video-app": "playwright test --project=demo-video-app --env-file .env",
-    "test:ui": "playwright test --ui --env-file .env",
+    "test": "playwright test",
+    "test:demo-app": "playwright test --project=demo-app",
+    "test:demo-app-video": "playwright test --project=demo-app-video",
+    "test:ui": "playwright test --ui",
     "report": "playwright show-report"
   },
   "devDependencies": {
@@ -18,5 +18,8 @@
     "@types/node": "^20.0.0",
     "pako": "^2.1.0",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }

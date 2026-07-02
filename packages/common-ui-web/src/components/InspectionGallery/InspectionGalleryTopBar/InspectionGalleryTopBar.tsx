@@ -8,6 +8,7 @@ import { InspectionGalleryFilterPill } from './InspectionGalleryFilterPill';
 
 export interface InspectionGalleryFilter {
   label: string;
+  id?: string;
   callback: (item: InspectionGalleryItem) => boolean;
 }
 
@@ -45,14 +46,17 @@ export const FILTERS: InspectionGalleryFilter[] = [
 export const FILTERS_EXTRACT_BEAUTY_SHOTS: InspectionGalleryFilter[] = [
   {
     label: 'topBar.beautyShotsFilter',
+    id: 'gallery-filter-beauty-shots',
     callback: (item) => !item.isAddDamage && item.isTaken && !!item.beautyShotCandidates,
   },
   {
     label: 'topBar.manualFilter',
+    id: 'gallery-filter-manual',
     callback: (item) => !item.isAddDamage && item.isTaken && !!item.image.additionalData?.sight_id,
   },
   {
     label: 'topBar.videoFilter',
+    id: 'gallery-filter-video',
     callback: (item) =>
       !item.isAddDamage &&
       item.isTaken &&
@@ -100,6 +104,7 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
               (filter) => (
                 <InspectionGalleryFilterPill
                   key={filter.label}
+                  id={filter.id}
                   isSelected={props.currentFilter === filter}
                   label={t(filter.label)}
                   count={props.items.filter(filter.callback).length}

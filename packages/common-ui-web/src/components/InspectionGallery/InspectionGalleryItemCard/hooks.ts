@@ -141,3 +141,27 @@ export function useInspectionGalleryItemCardStyles({
     },
   };
 }
+
+export function getInspectionGalleryItemCardE2eAttr(
+  item: InspectionGalleryItem,
+  captureMode: boolean,
+): string {
+  if (item.isAddDamage) return 'gallery-card-add-damage';
+  if (!item.isTaken) return 'gallery-card-untaken';
+  if (!captureMode) return 'gallery-card';
+  const isVideoFrame = item.image.additionalData?.frame_index !== undefined;
+  switch (item.image.status) {
+    case ImageStatus.UPLOADING:
+    case ImageStatus.COMPLIANCE_RUNNING:
+      return 'gallery-card-pending';
+    case ImageStatus.SUCCESS:
+      return isVideoFrame ? 'gallery-card-video' : 'gallery-card-success';
+    case ImageStatus.NOT_COMPLIANT:
+      return isVideoFrame ? 'gallery-card-video' : 'gallery-card-non-compliant';
+    case ImageStatus.UPLOAD_FAILED:
+    case ImageStatus.UPLOAD_ERROR:
+      return 'gallery-card-error';
+    default:
+      return 'gallery-card-pending';
+  }
+}
