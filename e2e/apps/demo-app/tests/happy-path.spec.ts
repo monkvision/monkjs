@@ -10,10 +10,8 @@ import {
   switchFakeCamera,
 } from "../../../shared/fixtures/fake-camera.fixture";
 
-// TODO: adjust when real-car photo mock is provided.
-// Black-frame camera mock makes every photo non-compliant.
-const MAX_NON_COMPLIANT = Infinity;
-const MAX_RETAKE = 0;
+const MAX_NON_COMPLIANT = 1;
+const MAX_RETAKE = 1;
 
 test.describe("demo-app happy path", () => {
   test("creates inspection, captures all sights, reviews gallery and submits", async ({

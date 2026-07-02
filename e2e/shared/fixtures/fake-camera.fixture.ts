@@ -7,8 +7,10 @@ declare global {
 }
 
 export const FAKE_VIDEO_URLS = {
-  SEDAN_EXTERIOR: "https://localhost:17200/e2e-exterior.mp4", // TODO: replace with actual asset
-  SEDAN_INTERIOR: "https://localhost:17200/e2e-interior.mp4", // TODO: replace with actual asset
+  SEDAN_EXTERIOR:
+    "https://storage.googleapis.com/monk-sight-images/e2e-assets/e2e-exterior.mp4",
+  SEDAN_INTERIOR:
+    "https://storage.googleapis.com/monk-sight-images/e2e-assets/e2e-interior.mp4",
 };
 
 function overrideScriptFn(initialUrl: string): void {
@@ -98,6 +100,17 @@ export const fakeCameraFixtures = {
    */
   setupFakeCamera: [
     async ({ page }: { page: Page }, use: () => Promise<void>) => {
+      // GCS public buckets don't emit CORS headers
+      await page.route("https://storage.googleapis.com/**", async (route) => {
+        const response = await route.fetch();
+        await route.fulfill({
+          response,
+          headers: {
+            ...response.headers(),
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      });
       await page.addInitScript(
         overrideScriptFn,
         FAKE_VIDEO_URLS.SEDAN_EXTERIOR

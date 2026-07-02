@@ -15,25 +15,24 @@ export interface AssertGalleryUploadsCompleteOptions {
 export async function assertGalleryUploadsComplete(
   galleryPage: GalleryPage,
   expect: Expect,
-  options: AssertGalleryUploadsCompleteOptions = {},
+  options: AssertGalleryUploadsCompleteOptions = {}
 ): Promise<void> {
   const maxNonCompliant = options.maxNonCompliant ?? Infinity;
   const maxRetake = options.maxRetake ?? 0;
 
-  await galleryPage.clickApprovedFilter();
   await galleryPage.waitForPendingToSettle();
   expect(await galleryPage.imageCards.count()).toBeGreaterThan(0);
   const approved = await galleryPage.getTabCardCounts();
   expect(approved.errorCount, "approved tab upload errors").toBe(0);
   expect(
     approved.nonCompliantCount,
-    "approved tab non-compliant cards",
+    "approved tab non-compliant cards"
   ).toBeLessThanOrEqual(maxNonCompliant);
 
   await galleryPage.clickRetakeFilter();
   await galleryPage.waitForPendingToSettle();
   expect(
     await galleryPage.imageCards.count(),
-    "retake tab card count",
+    "retake tab card count"
   ).toBeLessThanOrEqual(maxRetake);
 }
