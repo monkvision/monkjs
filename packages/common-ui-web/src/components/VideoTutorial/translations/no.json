@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Roter til liggende format",
+        "text": "Bytt telefonen til liggende modus for å begynne opptaket."
+      },
+      "portrait": {
+        "title": "Roter til stående format",
+        "text": "Bytt telefonen til stående modus for å begynne opptaket."
+      }
+    },
+    "vehicle-orbit": {
+      "title": "360°-runde",
+      "text": "Gå sakte rundt bilen for en komplett 360°-visning på ca. 30–40 sekunder med opptak."
+    },
+    "vehicle-surroundings": {
+      "title": "Fritt område rundt kjøretøyet",
+      "text": "Sørg for at området rundt kjøretøyet er fritt for hindringer for bedre opptakskvalitet."
+    },
+    "vehicle-phone": {
+      "title": "Hold riktig avstand",
+      "text": "Hold tilstrekkelig avstand slik at kjøretøyet er fullt synlig i bildet, fra tak til bakke."
+    },
+    "vehicle-coverage": {
+      "title": "Avslutt når det er ferdig",
+      "text": "Når fremdriftslinjen er full, trykk på 'Opptaksknappen' igjen for å stoppe."
+    }
+  },
+  "checkbox": "Ikke vis dette igjen",
+  "button": {
+    "get-started": "Kom i gang",
+    "continue": "Fortsett"
+  }
+}

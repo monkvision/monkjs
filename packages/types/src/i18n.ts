@@ -17,6 +17,8 @@ export const monkLanguages = [
   'no',
   'cs',
   'fi',
+  'en-IE',
+  'en-GB',
 ] as const;
 
 /**

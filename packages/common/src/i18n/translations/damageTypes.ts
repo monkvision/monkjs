@@ -20,6 +20,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Kratzer',
     'nl': 'Kras',
     'it': 'Graffio',
+    'en-IE': 'Scratch',
+    'en-GB': 'Scratch',
   },
   [DamageType.DENT]: {
     'en': 'Dent',
@@ -37,6 +39,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Beule',
     'nl': 'Deuk',
     'it': 'Dente',
+    'en-IE': 'Dent',
+    'en-GB': 'Dent',
   },
   [DamageType.BROKEN_GLASS]: {
     'en': 'Broken Glass',
@@ -54,6 +58,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Zerbrochenes Glas',
     'nl': 'Gebroken glas',
     'it': 'Vetro rotto',
+    'en-IE': 'Broken Glass',
+    'en-GB': 'Broken Glass',
   },
   [DamageType.BROKEN_LIGHT]: {
     'en': 'Broken Light',
@@ -71,6 +77,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Kaputtem Licht',
     'nl': 'Gebroken licht',
     'it': 'Luce rotta',
+    'en-IE': 'Broken Light',
+    'en-GB': 'Broken Light',
   },
   [DamageType.HUBCAP_SCRATCH]: {
     'en': 'Hubcap Scratch',
@@ -88,6 +96,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Zerkratzte Radkappe',
     'nl': 'Gebroken wieldop',
     'it': 'Cerchione graffiato',
+    'en-IE': 'Hubcap Scratch',
+    'en-GB': 'Hubcap Scratch',
   },
   [DamageType.MISSING_HUBCAP]: {
     'en': 'Missing Hubcap',
@@ -105,6 +115,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Fehlende Radkappe',
     'nl': 'Ontbrekende wieldop',
     'it': 'Cerchione mancante',
+    'en-IE': 'Missing Hubcap',
+    'en-GB': 'Missing Hubcap',
   },
   [DamageType.SMASH]: {
     'en': 'Smash',
@@ -122,6 +134,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Zusammenstoss',
     'nl': 'Botsing',
     'it': 'Collisione',
+    'en-IE': 'Smash',
+    'en-GB': 'Smash',
   },
   [DamageType.BODY_CRACK]: {
     'en': 'Body Crack',
@@ -139,6 +153,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Karosserieriss',
     'nl': 'Carrosseriescheur',
     'it': 'Fessura della carrozzeria',
+    'en-IE': 'Body Crack',
+    'en-GB': 'Body Crack',
   },
   [DamageType.MISSING_PIECE]: {
     'en': 'Missing Piece',
@@ -156,6 +172,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Fehlendes Teil',
     'nl': 'Ontbrekend onderdeel',
     'it': 'Pezzo mancante',
+    'en-IE': 'Missing Piece',
+    'en-GB': 'Missing Piece',
   },
   [DamageType.RUSTINESS]: {
     'en': 'Rustiness',
@@ -173,6 +191,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Rostigkeit',
     'nl': 'Roest',
     'it': 'Ruggine',
+    'en-IE': 'Rustiness',
+    'en-GB': 'Rustiness',
   },
   [DamageType.DIRT]: {
     'en': 'Dirt',
@@ -190,6 +210,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Dreck',
     'nl': 'Vuil',
     'it': 'Sporco',
+    'en-IE': 'Dirt',
+    'en-GB': 'Dirt',
   },
   [DamageType.MISSHAPE]: {
     'en': 'Misshape',
@@ -207,6 +229,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Fehlform',
     'nl': 'Misvorm',
     'it': 'Deformazione',
+    'en-IE': 'Misshape',
+    'en-GB': 'Misshape',
   },
   [DamageType.PAINT_PEELING]: {
     'en': 'Paint Peeling',
@@ -224,6 +248,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Abblätternde Farbe',
     'nl': 'Afbladderende verf',
     'it': 'Vernice che si sfalda',
+    'en-IE': 'Paint Peeling',
+    'en-GB': 'Paint Peeling',
   },
   [DamageType.SCATTERED_SCRATCHES]: {
     'en': 'Scattered Scratches',
@@ -241,6 +267,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Verstreute Kratzer',
     'nl': 'Verspreide krassen',
     'it': 'Grazze sparse',
+    'en-IE': 'Scattered Scratches',
+    'en-GB': 'Scattered Scratches',
   },
   [DamageType.LIGHT_REFLECTION]: {
     'en': 'Light Reflection',
@@ -258,6 +286,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Lichtreflexion',
     'nl': 'Licht Reflectie',
     'it': 'Riflesso di luce',
+    'en-IE': 'Light Reflection',
+    'en-GB': 'Light Reflection',
   },
   [DamageType.SHADOW]: {
     'en': 'Shadow',
@@ -275,6 +305,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Schatten',
     'nl': 'Schaduw',
     'it': 'Ombra',
+    'en-IE': 'Shadow',
+    'en-GB': 'Shadow',
   },
   [DamageType.CAR_CURVE]: {
     'en': 'Car Curve',
@@ -292,6 +324,8 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Auto-Kurve',
     'nl': 'Auto kromming',
     'it': "Curva dell'auto",
+    'en-IE': 'Car Curve',
+    'en-GB': 'Car Curve',
   },
   [DamageType.PAINT_DAMAGE]: {
     'en': 'Paint Damage',
@@ -309,5 +343,7 @@ export const damageTypeLabels: Record<DamageType, TranslationObject> = {
     'de-CH': 'Lackschäden',
     'nl': 'Beschadigde verf',
     'it': 'Danno alla vernice',
+    'en-IE': 'Paint Damage',
+    'en-GB': 'Paint Damage',
   },
 };

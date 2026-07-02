@@ -1,0 +1,43 @@
+{
+  "tabs": {
+    "exterior": {
+      "label": "Ulkopuoli",
+      "pricings": {
+        "needsPricing": "Tarvitsee hinnoittelun"
+      },
+      "addDamage": {
+        "title": "Tämä osa on vaurioitunut",
+        "listTitle": "Vauriot",
+        "priceLabel": "Hinta"
+      }
+    },
+    "interior": {
+      "label": "Sisäpuoli/Rengas",
+      "area": "Alue",
+      "areaPlaceholder": "Syötä alue",
+      "damageTypes": "Vauriotyypit",
+      "damageTypesPlaceholder": "Syötä vauriotyypit",
+      "deduction": "Vähennys",
+      "addDamageButton": "LISÄÄ VAURIO"
+    },
+    "actionButtons": {
+      "done": "VALMIS",
+      "cancel": "PERUUTA"
+    }
+  },
+  "actionButtons": {
+    "downloadImages": "LATAA KUVAT",
+    "generatePdf": "LUO PDF"
+  },
+  "gallery": {
+    "spotlight": {
+      "showDamages": "Näytä vauriot",
+      "hideDamages": "Piilota vauriot",
+      "closeSpotlight": "Sulje nykyinen kuva",
+      "changeImage": "Vaihda kuvaa"
+    }
+  },
+  "errors": {
+    "inspectionId": "Pyydettyä tarkastustunnusta ei löydy palvelimelta. Jos syötit tunnuksen manuaalisesti, tarkista kirjoitusasu ja yritä uudelleen."
+  }
+}
