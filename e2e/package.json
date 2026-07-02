@@ -13,13 +13,14 @@
     "test:ui": "playwright test --ui",
     "report": "playwright show-report"
   },
+  "dependencies": {
+    "@monkvision/types": "workspace:*",
+    "dotenv": "^17.4.2"
+  },
   "devDependencies": {
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.0.0",
     "pako": "^2.1.0",
     "typescript": "^5.4.5"
-  },
-  "dependencies": {
-    "dotenv": "^17.4.2"
   }
 }

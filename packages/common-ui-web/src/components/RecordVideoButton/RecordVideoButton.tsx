@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { useInteractiveStatus } from '@monkvision/common';
+import { MonkTestId } from '@monkvision/types';
 import { useRecordVideoButtonStyles } from './RecordVideoButton.styles';
 import { RecordVideoButtonProps } from './RecordVideoButton.types';
 
@@ -49,7 +50,7 @@ export const RecordVideoButton = forwardRef<HTMLButtonElement, RecordVideoButton
         disabled={disabled}
         {...eventHandlers}
         {...passThroughProps}
-        data-testid='record-video-button'
+        data-testid={MonkTestId.RECORD_VIDEO_BUTTON}
       >
         {tooltip && <span style={tooltipContainer}>{tooltip}</span>}
         {tooltip && <span style={tooltipArrow}></span>}

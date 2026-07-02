@@ -3,6 +3,7 @@ import {
   PhotoCaptureAppConfig,
   Image,
   ImageStatus,
+  MonkTestId,
   Sight,
   VehiclePart,
   VehicleType,
@@ -208,7 +209,7 @@ export function PhotoCaptureHUD({
 
   return (
     <div style={style.container}>
-      <div style={style.previewContainer} data-testid='camera-preview'>
+      <div style={style.previewContainer} data-testid={MonkTestId.CAMERA_PREVIEW}>
         {cameraPreview}
         <PhotoCaptureHUDElements
           selectedSight={selectedSight}

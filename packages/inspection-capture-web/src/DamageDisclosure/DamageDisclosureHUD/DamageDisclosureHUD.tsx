@@ -4,6 +4,7 @@ import {
   Image,
   ImageStatus,
   ImageType,
+  MonkTestId,
   VehiclePart,
   VehicleType,
 } from '@monkvision/types';
@@ -132,7 +133,7 @@ export function DamageDisclosureHUD({
 
   return (
     <div style={styles['container']}>
-      <div style={styles['previewContainer']} data-testid='camera-preview'>
+      <div style={styles['previewContainer']} data-testid={MonkTestId.CAMERA_PREVIEW}>
         {cameraPreview}
         {
           <DamageDisclosureHUDElements

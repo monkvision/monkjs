@@ -1,5 +1,6 @@
 import { useInteractiveStatus } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
+import { MonkTestId } from '@monkvision/types';
 import {
   InspectionGalleryItemCardProps,
   getInspectionGalleryItemCardE2eAttr,
@@ -32,7 +33,7 @@ export function InspectionGalleryItemCard({
     <button
       style={cardStyle}
       onClick={onClick}
-      data-testid='card-btn'
+      data-testid={MonkTestId.CARD_BTN}
       data-e2e={getInspectionGalleryItemCardE2eAttr(item, captureMode)}
       {...eventHandlers}
     >

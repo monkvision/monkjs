@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
-import { PhotoCaptureAppConfig } from '@monkvision/types';
+import { MonkE2eId, PhotoCaptureAppConfig } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDTutorial.styles';
 import { TutorialSteps } from '../../hooks';
 import { SightGuideline } from '../PhotoCaptureHUDElementsSight';
@@ -95,7 +95,7 @@ export function PhotoCaptureHUDTutorial({
           style={styles['nextButton']}
           primaryColor='primary'
           onClick={onNextTutorialStep}
-          data-e2e='photo-tutorial-next'
+          data-e2e={MonkE2eId.PHOTO_TUTORIAL_NEXT}
         >
           {t('photo.hud.tutorial.next')}
         </Button>

@@ -1,10 +1,11 @@
+import { MonkE2eId } from "@monkvision/types";
 import { BasePage } from "../../../shared/pages/BasePage";
 
 export class VehicleTypeSelectionPage extends BasePage {
-  readonly confirmButton = this.e2eLocator("vehicle-type-confirm");
+  readonly confirmButton = this.e2eLocator(MonkE2eId.VEHICLE_TYPE_CONFIRM);
 
   vehicleTypeCard(vehicleType: string) {
-    return this.e2eLocator(`vehicle-type-card-${vehicleType}`);
+    return this.e2eLocator(`${MonkE2eId.VEHICLE_TYPE_CARD_PREFIX}${vehicleType}`);
   }
 
   async confirmDefaultVehicleType() {

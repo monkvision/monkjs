@@ -91,5 +91,5 @@ e2e/
 1. Create `apps/<new>/{fixtures,pages,tests}/`.
 2. Add a project to `playwright.config.ts` using **`testDir: './apps/<new>/tests'`** (not `testMatch`), copying the existing project shape (`...devices["Desktop Chrome"]`, `baseURL: env.<new>.baseUrl`).
 3. Add `<NEW>_URL` to `shared/config/environments.ts` and `.env.example`.
-4. Create `apps/<new>/fixtures/index.ts` extending `shared/fixtures/auth.fixture.ts`. Re-export `expect` from `@playwright/test` at the bottom.
+4. Create `apps/<new>/fixtures/index.ts` extending `shared/fixtures/auth.fixture.ts`.
 5. Add a `webServer` entry in `playwright.config.ts` following the existing pattern: `command: "yarn start"`, `cwd` pointing at the app dir, `url: env.<new>.baseUrl`, `reuseExistingServer: !process.env["CI"]`. Make sure the app's `local` profile in `.env-cmdrc.json` sets the matching `PORT` and `HTTPS: "true"`.

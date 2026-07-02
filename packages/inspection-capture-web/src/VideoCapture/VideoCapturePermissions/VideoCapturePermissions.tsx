@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useIsMounted, useLoadingState } from '@monkvision/common';
 import { useCameraPermission } from '@monkvision/camera-web';
 import { useMonitoring } from '@monkvision/monitoring';
+import { MonkE2eId } from '@monkvision/types';
 import { PageLayoutItem, VideoCapturePageLayout } from '../VideoCapturePageLayout';
 
 /**
@@ -53,7 +54,7 @@ export function VideoCapturePermissions({
     'onClick': handleConfirm,
     loading,
     'children': t('video.permissions.confirm'),
-    'data-e2e': 'permissions-confirm',
+    'data-e2e': MonkE2eId.PERMISSIONS_CONFIRM,
   };
 
   return (

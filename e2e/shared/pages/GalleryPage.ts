@@ -1,3 +1,4 @@
+import { MonkE2eId, MonkTestId } from "@monkvision/types";
 import { BasePage } from "./BasePage";
 
 export interface TabCardCounts {
@@ -9,23 +10,21 @@ export interface TabCardCounts {
 }
 
 export class GalleryPage extends BasePage {
-  readonly galleryButton = this.locator("monk-gallery-btn");
-  readonly submitButton = this.e2eLocator("gallery-submit");
-  readonly imageCards = this.locator("card-btn");
+  readonly galleryButton = this.locator(MonkTestId.MONK_GALLERY_BTN);
+  readonly submitButton = this.e2eLocator(MonkE2eId.GALLERY_SUBMIT);
+  readonly imageCards = this.locator(MonkTestId.CARD_BTN);
 
-  readonly manualFilterPill = this.e2eLocator("gallery-filter-manual");
-  readonly beautyShotsFilterPill = this.e2eLocator(
-    "gallery-filter-beauty-shots"
-  );
-  readonly videoFilterPill = this.e2eLocator("gallery-filter-video");
-  readonly approvedFilterPill = this.e2eLocator("gallery-filter-approved");
-  readonly retakeFilterPill = this.e2eLocator("gallery-filter-retake");
+  readonly manualFilterPill = this.e2eLocator(MonkE2eId.GALLERY_FILTER_MANUAL);
+  readonly beautyShotsFilterPill = this.e2eLocator(MonkE2eId.GALLERY_FILTER_BEAUTY_SHOTS);
+  readonly videoFilterPill = this.e2eLocator(MonkE2eId.GALLERY_FILTER_VIDEO);
+  readonly approvedFilterPill = this.e2eLocator(MonkE2eId.GALLERY_FILTER_APPROVED);
+  readonly retakeFilterPill = this.e2eLocator(MonkE2eId.GALLERY_FILTER_RETAKE);
 
-  readonly pendingCards = this.e2eLocator("gallery-card-pending");
-  readonly successCards = this.e2eLocator("gallery-card-success");
-  readonly nonCompliantCards = this.e2eLocator("gallery-card-non-compliant");
-  readonly errorCards = this.e2eLocator("gallery-card-error");
-  readonly videoCards = this.e2eLocator("gallery-card-video");
+  readonly pendingCards = this.e2eLocator(MonkE2eId.GALLERY_CARD_PENDING);
+  readonly successCards = this.e2eLocator(MonkE2eId.GALLERY_CARD_SUCCESS);
+  readonly nonCompliantCards = this.e2eLocator(MonkE2eId.GALLERY_CARD_NON_COMPLIANT);
+  readonly errorCards = this.e2eLocator(MonkE2eId.GALLERY_CARD_ERROR);
+  readonly videoCards = this.e2eLocator(MonkE2eId.GALLERY_CARD_VIDEO);
 
   /** Use when the gallery button is still visible (mid-capture manual navigation). */
   async openFromCapture() {
@@ -88,7 +87,7 @@ export class GalleryPage extends BasePage {
 
   async submit(timeout?: number) {
     await this.page.waitForSelector(
-      '[data-e2e="gallery-submit"]:not([disabled])',
+      `[data-e2e="${MonkE2eId.GALLERY_SUBMIT}"]:not([disabled])`,
       { timeout }
     );
     await this.submitButton.click();

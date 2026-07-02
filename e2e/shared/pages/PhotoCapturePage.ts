@@ -1,9 +1,10 @@
+import { MonkTestId } from "@monkvision/types";
 import { BasePage } from "./BasePage";
 
 export class PhotoCapturePage extends BasePage {
-  readonly cameraPreview = this.locator("camera-preview");
-  readonly shutterButton = this.locator("take-picture-btn");
-  readonly galleryButton = this.locator("monk-gallery-btn");
+  readonly cameraPreview = this.locator(MonkTestId.CAMERA_PREVIEW);
+  readonly shutterButton = this.locator(MonkTestId.TAKE_PICTURE_BTN);
+  readonly galleryButton = this.locator(MonkTestId.MONK_GALLERY_BTN);
 
   async waitForCamera() {
     await this.cameraPreview.waitFor({ state: "visible", timeout: 15_000 });

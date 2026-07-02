@@ -1,4 +1,4 @@
-import { DeviceOrientation } from '@monkvision/types';
+import { DeviceOrientation, MonkE2eId } from '@monkvision/types';
 import { i18nWrap, useI18nSync } from '@monkvision/common';
 import { useTranslation } from 'react-i18next';
 import { i18nCreateInspection } from './i18n';
@@ -127,7 +127,7 @@ export const VideoTutorial = i18nWrap(function VideoTutorial({
           secondaryColor='background-base'
           variant='outline'
           onClick={handleContinue}
-          data-e2e='tutorial-continue'
+          data-e2e={MonkE2eId.TUTORIAL_CONTINUE}
         >
           {t(isLastStep ? 'button.get-started' : 'button.continue')}
         </Button>

@@ -1,3 +1,4 @@
+import { MonkTestId } from "@monkvision/types";
 import { BasePage } from "../../../shared/pages/BasePage";
 import {
   dispatchAlpha,
@@ -7,8 +8,8 @@ import {
 const START_ALPHA = 180;
 
 export class VideoCapturePage extends BasePage {
-  readonly recordButton = this.locator("record-video-button");
-  readonly walkaroundIndicator = this.locator("walkaround-indicator-container");
+  readonly recordButton = this.locator(MonkTestId.RECORD_VIDEO_BUTTON);
+  readonly walkaroundIndicator = this.locator(MonkTestId.WALKAROUND_INDICATOR_CONTAINER);
 
   async recordWalkaround() {
     await this.walkaroundIndicator.waitFor({
@@ -19,7 +20,7 @@ export class VideoCapturePage extends BasePage {
     await dispatchAlpha(this.page, START_ALPHA);
 
     await this.page.waitForSelector(
-      '[data-testid="record-video-button"]:not([disabled])'
+      `[data-testid="${MonkTestId.RECORD_VIDEO_BUTTON}"]:not([disabled])`
     );
     await this.recordButton.click();
 

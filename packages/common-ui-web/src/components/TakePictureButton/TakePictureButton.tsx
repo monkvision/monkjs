@@ -1,5 +1,6 @@
 import { useInteractiveStatus } from '@monkvision/common';
 import React, { ButtonHTMLAttributes, forwardRef } from 'react';
+import { MonkTestId } from '@monkvision/types';
 import { MonkTakePictureButtonProps, useTakePictureButtonStyle } from './hooks';
 
 /**
@@ -55,7 +56,7 @@ export const TakePictureButton = forwardRef<HTMLButtonElement, TakePictureButton
           onClick={onButtonClick}
           {...eventHandlers}
           {...passThroughProps}
-          data-testid='take-picture-btn'
+          data-testid={MonkTestId.TAKE_PICTURE_BTN}
         ></button>
       </div>
     );

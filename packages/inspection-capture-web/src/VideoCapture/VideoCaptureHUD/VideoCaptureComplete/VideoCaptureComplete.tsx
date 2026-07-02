@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@monkvision/common-ui-web';
+import { MonkE2eId } from '@monkvision/types';
 import { styles } from './VideoCaptureComplete.styles';
 
 /**
@@ -19,7 +20,7 @@ export function VideoCaptureComplete({ onComplete }: VideoCaptureCompleteProps) 
     <div style={styles['container']}>
       <div style={styles['title']}>{t('video.complete.title')}</div>
       <div style={styles['text']}>{t('video.complete.text')}</div>
-      <Button onClick={onComplete} data-e2e='video-capture-proceed'>
+      <Button onClick={onComplete} data-e2e={MonkE2eId.VIDEO_CAPTURE_PROCEED}>
         {t('video.complete.button')}
       </Button>
     </div>

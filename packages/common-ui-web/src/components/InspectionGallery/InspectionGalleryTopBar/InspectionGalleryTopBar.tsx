@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { ImageStatus } from '@monkvision/types';
+import { ImageStatus, MonkE2eId } from '@monkvision/types';
 import { InspectionGalleryItem, InspectionGalleryProps } from '../types';
 import { useInspectionGalleryTopBarStyles } from './hooks';
 import { Button } from '../../Button';
@@ -31,7 +31,7 @@ export type InspectionGalleryTopBarProps = Pick<
 export const FILTERS: InspectionGalleryFilter[] = [
   {
     label: 'topBar.retakeFilter',
-    id: 'gallery-filter-retake',
+    id: MonkE2eId.GALLERY_FILTER_RETAKE,
     callback: (item) =>
       !item.isAddDamage &&
       item.isTaken &&
@@ -39,7 +39,7 @@ export const FILTERS: InspectionGalleryFilter[] = [
   },
   {
     label: 'topBar.approvedFilter',
-    id: 'gallery-filter-approved',
+    id: MonkE2eId.GALLERY_FILTER_APPROVED,
     callback: (item) =>
       !item.isAddDamage && item.isTaken && item.image.status === ImageStatus.SUCCESS,
   },
@@ -48,17 +48,17 @@ export const FILTERS: InspectionGalleryFilter[] = [
 export const FILTERS_EXTRACT_BEAUTY_SHOTS: InspectionGalleryFilter[] = [
   {
     label: 'topBar.beautyShotsFilter',
-    id: 'gallery-filter-beauty-shots',
+    id: MonkE2eId.GALLERY_FILTER_BEAUTY_SHOTS,
     callback: (item) => !item.isAddDamage && item.isTaken && !!item.beautyShotCandidates,
   },
   {
     label: 'topBar.manualFilter',
-    id: 'gallery-filter-manual',
+    id: MonkE2eId.GALLERY_FILTER_MANUAL,
     callback: (item) => !item.isAddDamage && item.isTaken && !!item.image.additionalData?.sight_id,
   },
   {
     label: 'topBar.videoFilter',
-    id: 'gallery-filter-video',
+    id: MonkE2eId.GALLERY_FILTER_VIDEO,
     callback: (item) =>
       !item.isAddDamage &&
       item.isTaken &&
@@ -120,7 +120,11 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
       {props.isInspectionCompleted ? (
         <div style={titleStyle}>{t('topBar.completed')}</div>
       ) : (
-        <Button disabled={!isSubmitAvailable} onClick={props.onValidate} data-e2e='gallery-submit'>
+        <Button
+          disabled={!isSubmitAvailable}
+          onClick={props.onValidate}
+          data-e2e={MonkE2eId.GALLERY_SUBMIT}
+        >
           {props.validateButtonLabel || t('topBar.submit')}
         </Button>
       )}

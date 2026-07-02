@@ -7,7 +7,7 @@ import {
   viewpointLabels,
 } from '@monkvision/common';
 import { labels, sights } from '@monkvision/sights';
-import { ImageStatus, InteractiveStatus } from '@monkvision/types';
+import { ImageStatus, InteractiveStatus, MonkE2eId } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { styles } from './InspectionGalleryItemCard.styles';
 import { InspectionGalleryItem } from '../types';
@@ -159,15 +159,15 @@ export function getInspectionGalleryItemCardE2eAttr(
   switch (item.image.status) {
     case ImageStatus.UPLOADING:
     case ImageStatus.COMPLIANCE_RUNNING:
-      return 'gallery-card-pending';
+      return MonkE2eId.GALLERY_CARD_PENDING;
     case ImageStatus.SUCCESS:
-      return isVideoFrame ? 'gallery-card-video' : 'gallery-card-success';
+      return isVideoFrame ? MonkE2eId.GALLERY_CARD_VIDEO : MonkE2eId.GALLERY_CARD_SUCCESS;
     case ImageStatus.NOT_COMPLIANT:
-      return isVideoFrame ? 'gallery-card-video' : 'gallery-card-non-compliant';
+      return isVideoFrame ? MonkE2eId.GALLERY_CARD_VIDEO : MonkE2eId.GALLERY_CARD_NON_COMPLIANT;
     case ImageStatus.UPLOAD_FAILED:
     case ImageStatus.UPLOAD_ERROR:
-      return 'gallery-card-error';
+      return MonkE2eId.GALLERY_CARD_ERROR;
     default:
-      return 'gallery-card-pending';
+      return MonkE2eId.GALLERY_CARD_PENDING;
   }
 }

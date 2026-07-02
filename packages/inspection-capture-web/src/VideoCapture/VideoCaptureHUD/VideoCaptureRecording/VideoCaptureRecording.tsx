@@ -1,4 +1,5 @@
 import { Button, RecordVideoButton, VehicleWalkaroundIndicator } from '@monkvision/common-ui-web';
+import { MonkTestId } from '@monkvision/types';
 import { useVideoCaptureRecordingStyles } from './VideoCaptureRecordingStyles';
 import { VideoCaptureRecordingProps } from './VideoCaptureRecording.types';
 
@@ -46,7 +47,7 @@ export function VideoCaptureRecording({
         )}
       </div>
       <div style={controls}>
-        <div style={walkaroundIndicator} data-testid='walkaround-indicator-container'>
+        <div style={walkaroundIndicator} data-testid={MonkTestId.WALKAROUND_INDICATOR_CONTAINER}>
           <VehicleWalkaroundIndicator
             alpha={walkaroundPosition}
             coveredSegments={coveredSegments}

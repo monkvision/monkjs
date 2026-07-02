@@ -1,7 +1,8 @@
+import { MonkE2eId } from "@monkvision/types";
 import { BasePage } from "../../../shared/pages/BasePage";
 
 export class PermissionsPage extends BasePage {
-  readonly confirmButton = this.e2eLocator("permissions-confirm");
+  readonly confirmButton = this.e2eLocator(MonkE2eId.PERMISSIONS_CONFIRM);
 
   async grantPermissions() {
     await this.confirmButton.waitFor({ state: "visible", timeout: 15_000 });
