@@ -85,6 +85,22 @@ been deleted in the API.
 | ----------|--------------------|----------------------------------------------------|----------|
 | options   | DeleteImageOptions | The options used to specify which image to delete. | ✔️       |
 
+### deleteImagesBulk
+
+```typescript
+import { MonkApi } from '@monkvision/network';
+
+MonkApi.deleteImagesBulk(options, apiConfig, dispatch);
+```
+
+Delete multiple images from an inspection in a single request. All images must belong to the specified inspection and
+all associated tasks must be at NOT_STARTED status. The response includes the list of successfully deleted image IDs
+and any failures with their reasons.
+
+| Parameter | Type                    | Description                                                    | Required |
+|-----------|-------------------------|----------------------------------------------------------------|----------|
+| options   | DeleteImagesBulkOptions | The options used to specify which images to delete (max 100).  | ✔️       |
+
 ### updateTaskStatus
 ```typescript
 import { MonkApi } from '@monkvision/network';

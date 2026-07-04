@@ -126,3 +126,14 @@ export interface ApiImagePost {
   detailed_viewpoint?: ApiViewpointComponent;
   additional_data?: ApiImageAdditionalData;
 }
+
+export interface ApiImageDeleteFailure {
+  image_id: string;
+  reason: string;
+}
+
+export interface ApiImagesBulkDeleteResponse {
+  message: string;
+  deleted_image_ids: string[];
+  failed?: ApiImageDeleteFailure[];
+}
