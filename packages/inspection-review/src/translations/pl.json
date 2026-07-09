@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "Żądany identyfikator inspekcji nie został znaleziony na serwerze. Jeśli wpisałeś identyfikator ręcznie, sprawdź pisownię i spróbuj ponownie."
+    "inspectionId": "Żądany identyfikator inspekcji nie został znaleziony na serwerze. Jeśli wpisałeś identyfikator ręcznie, sprawdź pisownię i spróbuj ponownie.",
+    "notCompleted": "Ta inspekcja nie jest ukończona"
   }
 }

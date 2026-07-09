@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "Požadované ID prohlídky nebylo na serveru nalezeno. Pokud jste ID zadali ručně, zkontrolujte prosím pravopis a zkuste to znovu."
+    "inspectionId": "Požadované ID prohlídky nebylo na serveru nalezeno. Pokud jste ID zadali ručně, zkontrolujte prosím pravopis a zkuste to znovu.",
+    "notCompleted": "Tato prohlídka není dokončena"
   }
 }

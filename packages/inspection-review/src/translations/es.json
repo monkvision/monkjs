@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "El ID de inspección solicitado no se encontró en el servidor. Si ingresó el ID manualmente, verifique la ortografía e intente nuevamente."
+    "inspectionId": "El ID de inspección solicitado no se encontró en el servidor. Si ingresó el ID manualmente, verifique la ortografía e intente nuevamente.",
+    "notCompleted": "Esta inspección no está completada"
   }
 }

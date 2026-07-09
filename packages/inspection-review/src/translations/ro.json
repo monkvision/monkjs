@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "ID-ul inspecției solicitat nu a fost găsit pe server. Dacă ați introdus ID-ul manual, vă rugăm să verificați ortografia și să încercați din nou."
+    "inspectionId": "ID-ul inspecției solicitat nu a fost găsit pe server. Dacă ați introdus ID-ul manual, vă rugăm să verificați ortografia și să încercați din nou.",
+    "notCompleted": "Această inspecție nu este finalizată"
   }
 }

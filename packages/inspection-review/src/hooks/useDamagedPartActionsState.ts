@@ -16,6 +16,7 @@ import {
   handleDeleteOldAndCreateNewDamages,
   handleUpdatePricing,
 } from '../utils/useDamagedPartActionsState.utils';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the useDamageActionsState hook.
@@ -47,6 +48,7 @@ export default function useDamagedPartActionsState({
   const { state, dispatch } = useMonkState();
   const { handleError } = useMonitoring();
   const monkApi = useMonkApi(apiConfig);
+  const { t } = useTranslation();
 
   const handleAddInteriorDamage = (damage: InteriorDamage, index?: number): void => {
     const callback = (additionalData?: AdditionalData) => {
@@ -139,7 +141,7 @@ export default function useDamagedPartActionsState({
       }
     } catch (e) {
       handleError(e);
-      loading.onError();
+      loading.onError(t('errors.notCompleted'));
     }
   };
 

@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "The requested inspection Id was not found on the server. If you entered the id manually please check your spelling and try again."
+    "inspectionId": "The requested inspection Id was not found on the server. If you entered the id manually please check your spelling and try again.",
+    "notCompleted": "This inspection is not completed"
   }
 }
