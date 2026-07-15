@@ -7,6 +7,7 @@ import {
   useMonkState,
 } from '@monkvision/common';
 import { AdditionalData, Inspection } from '@monkvision/types';
+import { useTranslation } from 'react-i18next';
 import { DamagedPartDetails, InspectionReviewProps, InteriorDamage } from '../types';
 import { getChildPartsForAggregation } from '../utils/partAggregation.utils';
 import {
@@ -16,7 +17,6 @@ import {
   handleDeleteOldAndCreateNewDamages,
   handleUpdatePricing,
 } from '../utils/useDamagedPartActionsState.utils';
-import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the useDamageActionsState hook.

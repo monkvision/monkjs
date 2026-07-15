@@ -41,8 +41,7 @@ export function useVehiclePhoneStyles({ orientation }: VehiclePhoneParams) {
 
   const getAttributes = useCallback((element: SVGElement): SVGProps<SVGElement> => {
     const id = element.getAttribute('id');
-    const baseId = id?.split('-').pop();
-    if (baseId === 'person' || baseId === 'plot' || baseId === 'car_behind') {
+    if (id === 'person' || id === 'plot' || id === 'car_behind') {
       return {
         style: { display: 'none' },
       };

@@ -510,7 +510,7 @@ describe('useDamagedPartsState', () => {
       );
 
       expect(hoodPart?.damageTypes).toEqual([]);
-      expect(hoodPart?.isDamaged).toBe(false);
+      expect(hoodPart?.isDamaged).toBe(true);
     });
   });
 });

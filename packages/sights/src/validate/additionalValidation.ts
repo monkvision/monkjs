@@ -31,6 +31,7 @@ interface AdditionalValidationResults {
   mirrorSight: MirrorSightError[];
   missingOverlay: AdditionalValidationError[];
   minifiedOverlay: AdditionalValidationError[];
+  collidingOverlay: AdditionalValidationError[];
   unusedOverlay: AdditionalValidationError[];
 }
 
@@ -109,6 +110,28 @@ function validateMinifiedOverlays(
   return null;
 }
 
+function validateCollidingOverlays(
+  sight: SightForValidation,
+  overlayDirPath: string,
+): AdditionalValidationError | null {
+  const overlayPath = join(overlayDirPath, sight.overlay);
+  if (existsSync(overlayPath)) {
+    const svgStr = readFileSync(overlayPath).toString();
+    // Overlays are inlined together into a single DOM (e.g. the documentation gallery), so
+    // their ids share one global namespace. `prefixIds` (run by `yarn svgo:overlays`)
+    // namespaces every id with the filename + the `_svg__` delimiter. A bare id that is not
+    // prefixed (e.g. a raw `id="a"` export) collides across files. Enforce that any declared
+    // id carries the prefix delimiter.
+    const hasUnprefixedId = [...svgStr.matchAll(/\sid="([^"]*)"/g)].some(
+      ([, id]) => !id.includes('_svg__'),
+    );
+    if (hasUnprefixedId) {
+      return { value: sight.id };
+    }
+  }
+  return null;
+}
+
 function validateUnusedOverlays(
   sights: SightForValidationDictionary,
   overlayDirPath: string,
@@ -168,6 +191,16 @@ function printResults(results: AdditionalValidationResults): boolean {
     });
   }
 
+  if (results.collidingOverlay.length > 0) {
+    containsErrors = true;
+    console.error(
+      '\n⚠️  The following overlays have unprefixed ids that will collide when inlined (run `yarn svgo:overlays`) :',
+    );
+    results.collidingOverlay.forEach((error) => {
+      console.error(`  - ${error.value}`);
+    });
+  }
+
   if (results.unusedOverlay.length > 0) {
     containsErrors = true;
     console.error('\n⚠️  The following overlays are not used by any sight :');
@@ -185,6 +218,7 @@ export function validateAdditionalRules(print = true): void {
     mirrorSight: [],
     missingOverlay: [],
     minifiedOverlay: [],
+    collidingOverlay: [],
     unusedOverlay: [],
   };
 
@@ -207,6 +241,11 @@ export function validateAdditionalRules(print = true): void {
       const minifiedOverlay = validateMinifiedOverlays(sight, overlayDirPath);
       if (minifiedOverlay) {
         results.minifiedOverlay.push(minifiedOverlay);
+      }
+
+      const collidingOverlay = validateCollidingOverlays(sight, overlayDirPath);
+      if (collidingOverlay) {
+        results.collidingOverlay.push(collidingOverlay);
       }
     });
     const unusedOverlay = validateUnusedOverlays(sights, overlayDirPath);
