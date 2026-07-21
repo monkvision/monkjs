@@ -45,13 +45,12 @@ export function InspectionReviewProvider({
     () => state.inspections.find((i) => i.id === inspectionId),
     [state.inspections, inspectionId],
   );
-  const availablePricings = useMemo(
-    () => ({
-      ...DEFAULT_PRICINGS,
-      ...pricings,
-    }),
-    [pricings],
-  );
+  const availablePricings = useMemo(() => {
+    if (pricings && Object.keys(pricings).length > 0) {
+      return pricings;
+    }
+    return DEFAULT_PRICINGS;
+  }, [pricings]);
   const { handleAddInteriorDamage, handleDeleteInteriorDamage, handleConfirmExteriorDamages } =
     useDamagedPartActionsState({
       inspectionId,

@@ -36,5 +36,9 @@
       "closeSpotlight": "Chiudi l'immagine attuale",
       "changeImage": "Cambia immagine"
     }
+  },
+  "errors": {
+    "inspectionId": "L'ID dell'ispezione richiesto non è stato trovato sul server. Se hai inserito l'id manualmente, controlla l'ortografia e riprova.",
+    "notCompleted": "Questa ispezione non è completata"
   }
 }

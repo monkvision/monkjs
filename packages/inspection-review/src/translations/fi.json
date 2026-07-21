@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "Pyydettyä tarkastustunnusta ei löydy palvelimelta. Jos syötit tunnuksen manuaalisesti, tarkista kirjoitusasu ja yritä uudelleen."
+    "inspectionId": "Pyydettyä tarkastustunnusta ei löydy palvelimelta. Jos syötit tunnuksen manuaalisesti, tarkista kirjoitusasu ja yritä uudelleen.",
+    "notCompleted": "Tämä tarkastus ei ole valmis"
   }
 }

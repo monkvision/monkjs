@@ -72,7 +72,7 @@ export default function useDamagedPartsState({ inspectionId }: DamagedPartsProps
           part: part.type,
           damageTypes: aggregatedDamageTypes,
           pricing: aggregatedPricing,
-          isDamaged: aggregatedDamageTypes.length > 0,
+          isDamaged: aggregatedDamageTypes.length > 0 || aggregatedPricing !== undefined,
         };
       });
 

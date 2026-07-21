@@ -201,6 +201,36 @@ describe('Additional validation module', () => {
       expect(() => validateAdditionalRules(false)).toThrow();
     });
 
+    it('should check for overlays with unprefixed (colliding) ids', () => {
+      fs.readFileSync = jest.fn().mockImplementation((path) => {
+        if (
+          pathsEqual(
+            path as string,
+            join(
+              __dirname,
+              `../../research/data/${VehicleModel.AUDIA7}/overlays/${testSights.sight1.overlay}`,
+            ),
+          )
+        ) {
+          return '<svg><mask id="a"></mask><g mask="url(#a)"></g></svg>';
+        }
+        return '';
+      });
+
+      expect(() => validateAdditionalRules(false)).toThrow();
+    });
+
+    it('should allow overlays with prefixed ids', () => {
+      fs.readFileSync = jest
+        .fn()
+        .mockImplementation(
+          () =>
+            '<svg><mask id="overlay-1_svg__a"></mask><g mask="url(#overlay-1_svg__a)"></g></svg>',
+        );
+
+      expect(() => validateAdditionalRules(false)).not.toThrow();
+    });
+
     it('should check for unused overlays', () => {
       jest.spyOn(io, 'readDir').mockImplementation((path: string) => {
         if (pathsEqual(path, join(__dirname, '../../research/data'))) {

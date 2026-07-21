@@ -38,6 +38,7 @@
     }
   },
   "errors": {
-    "inspectionId": "Det begärda inspektions-ID:t hittades inte på servern. Om du angav ID:t manuellt, kontrollera stavningen och försök igen."
+    "inspectionId": "Det begärda inspektions-ID:t hittades inte på servern. Om du angav ID:t manuellt, kontrollera stavningen och försök igen.",
+    "notCompleted": "Denna inspektion är inte slutförd"
   }
 }
