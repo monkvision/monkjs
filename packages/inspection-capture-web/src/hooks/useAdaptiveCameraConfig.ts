@@ -13,6 +13,7 @@ const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
   format: CompressionFormat.JPEG,
   resolution: CameraResolution.UHD_4K,
   allowImageUpscaling: false,
+  ratio: undefined as unknown as Required<CameraConfig>['ratio'],
 };
 
 /**
@@ -89,6 +90,7 @@ export function useAdaptiveCameraConfig({
     format: initialCameraConfig.format ?? DEFAULT_CAMERA_CONFIG.format,
     allowImageUpscaling:
       initialCameraConfig.allowImageUpscaling ?? DEFAULT_CAMERA_CONFIG.allowImageUpscaling,
+    ratio: initialCameraConfig.ratio,
   };
 
   const adaptiveCameraConfig: Required<CameraConfig> = useMemo(() => {
@@ -97,6 +99,7 @@ export function useAdaptiveCameraConfig({
       resolution: getLowestResolutionBetween(maxResolution, config.resolution),
       format: initialCameraConfig.format ?? config.format,
       allowImageUpscaling: isImageUpscalingAllowed && config.allowImageUpscaling,
+      ratio: initialCameraConfig.ratio,
     };
     return useAdaptiveImageQuality ? adaptiveConfig : config;
   }, [

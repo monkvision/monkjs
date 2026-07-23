@@ -1,6 +1,6 @@
-import { PhotoCaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
+import { CameraRatio, PhotoCaptureAppConfig, Image, PixelDimensions, Sight } from '@monkvision/types';
 import { useResponsiveStyle } from '@monkvision/common';
-import { CSSProperties } from 'react';
+import { CSSProperties, useMemo } from 'react';
 import { styles } from './PhotoCaptureHUDElementsSight.styles';
 import { TutorialSteps } from '../../hooks';
 
@@ -57,12 +57,42 @@ export interface PhotoCaptureHUDElementsSightProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial?: () => void;
+  /**
+   * The active crop ratio, or null/undefined if no ratio is configured.
+   * When set, the sight overlay and HUD elements are constrained to the cropped area,
+   * and a dimming overlay with a crop frame border is rendered around it.
+   */
+  cropRatio?: CameraRatio | null;
+}
+
+/**
+ * Given the full preview dimensions on screen and a desired crop ratio, computes the dimensions of the
+ * largest centred rectangle with that ratio that fits within the preview.
+ */
+function computeScreenCropDimensions(
+  previewDimensions: PixelDimensions,
+  cropRatio: CameraRatio,
+): PixelDimensions {
+  const targetRatio = cropRatio.width / cropRatio.height;
+  const screenRatio = previewDimensions.width / previewDimensions.height;
+  if (screenRatio > targetRatio) {
+    const height = previewDimensions.height;
+    return { width: Math.round(height * targetRatio), height };
+  }
+  const width = previewDimensions.width;
+  return { width, height: Math.round(width / targetRatio) };
 }
 
 export function usePhotoCaptureHUDSightPreviewStyle({
   previewDimensions,
-}: Pick<PhotoCaptureHUDElementsSightProps, 'previewDimensions'>) {
+  cropRatio,
+}: Pick<PhotoCaptureHUDElementsSightProps, 'previewDimensions' | 'cropRatio'>) {
   const { responsive } = useResponsiveStyle();
+
+  const cropDimensions = useMemo(() => {
+    if (!cropRatio || !previewDimensions) return previewDimensions ?? null;
+    return computeScreenCropDimensions(previewDimensions, cropRatio);
+  }, [cropRatio, previewDimensions]);
 
   return {
     container: styles['container'],
@@ -73,9 +103,13 @@ export function usePhotoCaptureHUDSightPreviewStyle({
     top: styles['top'],
     bottom: styles['bottom'],
     overlay: {
-      width: previewDimensions?.width,
-      height: previewDimensions?.height,
+      width: cropDimensions?.width,
+      height: cropDimensions?.height,
     },
+    cropFrame:
+      cropRatio && cropDimensions
+        ? { width: cropDimensions.width, height: cropDimensions.height }
+        : null,
     guidelineBtn: styles['guidelineBtn'],
     addDamageBtn: styles['addDamageBtn'],
   };

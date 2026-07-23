@@ -1,4 +1,5 @@
 import {
+  CameraRatio,
   PhotoCaptureAppConfig,
   Image,
   PixelDimensions,
@@ -92,6 +93,11 @@ export interface PhotoCaptureHUDElementsProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial?: () => void;
+  /**
+   * The active crop ratio from the camera handle, or null if no ratio is configured.
+   * Passed down to PhotoCaptureHUDElementsSight to render the crop frame and constrain overlays.
+   */
+  cropRatio?: CameraRatio | null;
 }
 
 /**
@@ -119,6 +125,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onDisableSightGuidelines={params.onDisableSightGuidelines}
         enableSightTutorial={params.enableSightTutorial}
         toggleSightTutorial={params.toggleSightTutorial}
+        cropRatio={params.cropRatio}
       />
     );
   }

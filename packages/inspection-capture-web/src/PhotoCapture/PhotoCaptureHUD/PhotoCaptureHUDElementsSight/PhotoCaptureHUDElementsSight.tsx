@@ -29,13 +29,30 @@ export function PhotoCaptureHUDElementsSight({
   tutorialStep,
   enableSightTutorial,
   toggleSightTutorial,
+  cropRatio,
 }: PhotoCaptureHUDElementsSightProps) {
-  const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
+  const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions, cropRatio });
 
   const showSight = previewDimensions && (!tutorialStep || tutorialStep === TutorialSteps.SIGHT);
 
   return (
     <div style={styles['container']}>
+      {style.cropFrame && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: style.cropFrame.width,
+            height: style.cropFrame.height,
+            boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.5)',
+            border: '2px solid rgba(255, 255, 255, 0.7)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
+      )}
       {showSight && <SightOverlay style={style.overlay} sight={selectedSight} />}
       {!tutorialStep && (
         <div style={style.elementsContainer}>

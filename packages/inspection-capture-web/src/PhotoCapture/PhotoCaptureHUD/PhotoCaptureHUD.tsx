@@ -234,6 +234,7 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
+          cropRatio={handle.cropRatio}
         />
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
