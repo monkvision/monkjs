@@ -12,9 +12,29 @@ This skill performs **irreversible, publicly-visible actions**: publishing packa
 
 ## Steps
 
-1. **Check working tree state.** Run `git status`. If there are uncommitted changes, stop and ask the user how to proceed — do not publish from a dirty tree.
+1. **Check working tree state.** 
 
-2. **Run the npm deployment:**
+   - Make sure the current brand is `main`. 
+   - Run `git status`. If there are uncommitted changes, stop and ask the user how to proceed — do not publish from a dirty tree.
+
+2. **Run the CI pipeline:**
+
+   - Run `yarn ci`
+   - If there are errors, let the user know about them – do not publish with errors
+
+3. **Run the release PR step:**
+
+   ```bash
+   yarn release:pr
+   ```
+
+4. **Report the outcome.**
+
+   - Share the PR URL returned by `gh pr create`.
+   - Remind the user this PR requires manual approval/merge into `main` — the script does not merge it.
+   - Once the user confirms it was merged, continue with the next step
+
+5. **Run the npm deployment:**
 
    ```bash
    yarn deploy:packages
@@ -22,19 +42,9 @@ This skill performs **irreversible, publicly-visible actions**: publishing packa
 
    This runs `build:production` across all `@monkvision/*` packages, then `lerna publish from-package --force-publish --yes`, which publishes every package at its current `package.json` version (no version bump) with public npm access.
 
-3. **Check the result before continuing.**
+6. **Check the result before continuing.**
    - If the command exits non-zero, or lerna reports any package failed to publish, **stop immediately**. Do not run `release:pr`. Report the failure output to the user and wait for guidance — a partial publish may need manual cleanup (e.g. some packages published, others didn't).
    - If it succeeds, confirm which packages/versions were published (visible in the lerna output) before moving on.
-
-4. **Run the release PR step:**
-
-   ```bash
-   yarn release:pr
-   ```
-
-   This runs `lerna version --force-publish --exact --no-push` (bumps the shared version and writes changelogs/tags locally), creates a `release/v<NEW_VERSION>` branch, pushes it, and opens a GitHub PR via `gh pr create` from that branch into `main`.
-
-5. **Report the outcome.** Share the PR URL returned by `gh pr create`. Remind the user this PR requires manual approval/merge into `main` — the script does not merge it.
 
 ## Notes
 

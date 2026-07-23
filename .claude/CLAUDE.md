@@ -39,21 +39,21 @@ Workspace roots:
 
 Done in 2 steps:
 
-1. First, NPM deployment
+1. Open a new GitHub PR to merge the changes
+
+```bash
+yarn release:pr
+```
+
+This has to be approved by a User, due to GitHub direct merge into `main` restrictions, so it's crucial before moving to the next step.
+
+2. First, NPM deployment
 
 ```bash
 yarn deploy:packages
 ```
 
 All packages publish as `@monkvision/*` with `"access": "public"` on npm. Cross-package monorepo dependencies always pin to the exact shared version.
-
-2. Open a new GitHub PR to merge the changes
-
-```bash
-yarn release:pr
-```
-
-This has to be approved by a User, due to GitHub direct merge into `main` restrictions.
 
 ## MCP servers
 
