@@ -10,6 +10,10 @@ import { TutorialSteps } from '../../hooks';
 export interface PhotoCaptureHUDElementsSightProps
   extends Pick<PhotoCaptureAppConfig, 'sightGuidelines' | 'addDamage' | 'enableSightTutorial'> {
   /**
+   * When true, the sight wireframe overlay is hidden (e.g. when OCR is active for this sight).
+   */
+  hideSightOverlay?: boolean;
+  /**
    * The list of sights provided to the PhotoCapture component.
    */
   sights: Sight[];
