@@ -56,6 +56,7 @@
   "enableSteeringWheelPosition": false,
   "sights": {
     "suv": [
+      "all-sLu0CfOt",
       "jgc21-QIvfeg0X",
       "jgc21-KyUUVU2P",
       "jgc21-zCrDwYWE",
@@ -75,6 +76,7 @@
       "jgc21-__JKllz9"
     ],
     "cuv": [
+      "all-sLu0CfOt",
       "fesc20-H1dfdfvH",
       "fesc20-WMUaKDp1",
       "fesc20-LTe3X2bg",
@@ -94,6 +96,7 @@
       "fesc20-Wzdtgqqz"
     ],
     "sedan": [
+      "all-sLu0CfOt",
       "haccord-8YjMcu0D",
       "haccord-DUPnw5jj",
       "haccord-hsCc_Nct",
@@ -113,6 +116,7 @@
       "haccord-Z84erkMb"
     ],
     "hatchback": [
+      "all-sLu0CfOt",
       "ffocus18-XlfgjQb9",
       "ffocus18-3TiCVAaN",
       "ffocus18-43ljK5xC",
@@ -132,6 +136,7 @@
       "ffocus18-lRDlWiwR"
     ],
     "van": [
+      "all-sLu0CfOt",
       "ftransit18-wyXf7MTv",
       "ftransit18-UNAZWJ-r",
       "ftransit18-5SiNC94w",
@@ -153,6 +158,7 @@
       "ftransit18-IIVI_pnX"
     ],
     "minivan": [
+      "all-sLu0CfOt",
       "tsienna20-YwrRNr9n",
       "tsienna20-HykkFbXf",
       "tsienna20-TI4TVvT9",
@@ -172,6 +178,7 @@
       "tsienna20-KHB_Cd9k"
     ],
     "pickup": [
+      "all-sLu0CfOt",
       "ff150-zXbg0l3z",
       "ff150-3he9UOwy",
       "ff150-KgHVkQBW",
