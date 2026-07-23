@@ -12,6 +12,7 @@ import {
   FastMovementsDetectionHandle,
   FastMovementType,
   MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
+  useAdaptiveFrameSelectionInterval,
   useFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
@@ -77,7 +78,6 @@ export interface VideoCaptureHUDProps
 }
 
 const SCREENSHOT_INTERVAL_MS = 200;
-const FRAME_SELECTION_INTERVAL_MS = 1000;
 
 enum VideoCaptureHUDScreen {
   RECORDING = 'recording',
@@ -147,9 +147,11 @@ export function VideoCaptureHUD({
     alpha,
   });
 
+  const frameSelectionInterval = useAdaptiveFrameSelectionInterval({ alpha, isRecording });
+
   const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
     handle,
-    frameSelectionInterval: FRAME_SELECTION_INTERVAL_MS,
+    frameSelectionInterval,
     onFrameSelected,
   });
   const {
