@@ -25,6 +25,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     totalProcessingFrames: 6782,
     onCaptureVideoFrame: jest.fn(),
   })),
+  useAdaptiveFrameSelectionInterval: jest.fn(() => 1357),
   useVideoRecording: jest.fn(() => ({
     isRecordingPaused: true,
     onClickRecordVideo: jest.fn(),
@@ -51,6 +52,7 @@ import { VideoCaptureProcessing } from '../../../src/VideoCapture/VideoCapturePr
 import { VideoCaptureComplete } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureComplete';
 import {
   FastMovementType,
+  useAdaptiveFrameSelectionInterval,
   useFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
@@ -138,15 +140,29 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
+  it('should pass the proper params to the useAdaptiveFrameSelectionInterval hook', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(useAdaptiveFrameSelectionInterval).toHaveBeenCalledWith({
+      alpha: props.alpha,
+      isRecording: props.isRecording,
+    });
+
+    unmount();
+  });
+
   it('should pass the proper props to the useFrameSelection hook', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onFrameSelected } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
+    const frameSelectionInterval = (useAdaptiveFrameSelectionInterval as jest.Mock).mock.results[0]
+      .value;
     expect(useFrameSelection).toHaveBeenCalledWith(
       expect.objectContaining({
         handle: props.handle,
-        frameSelectionInterval: 1000,
+        frameSelectionInterval,
         onFrameSelected,
       }),
     );
