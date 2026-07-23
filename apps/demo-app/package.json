@@ -22,7 +22,8 @@
     "eslint": "eslint --format=pretty ./src",
     "eslint:fix": "eslint --fix --format=pretty ./src",
     "lint": "yarn run prettier && yarn run eslint",
-    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
+    "lint:fix": "yarn run prettier:fix && yarn run eslint:fix",
+    "build:jinx": "env-cmd --no-override -e staging react-scripts build"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
