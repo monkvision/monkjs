@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/e2e",
-  "version": "5.3.11",
+  "version": "5.4.0",
   "license": "BSD-3-Clause-Clear",
   "description": "End-to-end tests for MonkJs demo apps",
   "packageManager": "yarn@3.2.4",
@@ -15,7 +15,7 @@
     "report": "playwright show-report"
   },
   "dependencies": {
-    "@monkvision/types": "5.3.11",
+    "@monkvision/types": "5.4.0",
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
