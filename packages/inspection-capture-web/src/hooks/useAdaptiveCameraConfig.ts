@@ -1,5 +1,6 @@
 import {
   CameraConfig,
+  CameraRatio,
   CameraResolution,
   PhotoCaptureAppConfig,
   CompressionFormat,
@@ -8,12 +9,19 @@ import { useCallback, useMemo, useState } from 'react';
 import { useObjectMemo } from '@monkvision/common';
 import { UploadEventHandlers, UploadSuccessPayload } from './useUploadQueue';
 
-const DEFAULT_CAMERA_CONFIG: Required<CameraConfig> = {
+/**
+ * Resolved camera config where all fields are defined (ratio may still be undefined as it is optional by design).
+ */
+export type ResolvedCameraConfig = Required<Omit<CameraConfig, 'ratio'>> & {
+  ratio?: CameraRatio;
+};
+
+const DEFAULT_CAMERA_CONFIG: ResolvedCameraConfig = {
   quality: 0.6,
   format: CompressionFormat.JPEG,
   resolution: CameraResolution.UHD_4K,
   allowImageUpscaling: false,
-  ratio: undefined as unknown as Required<CameraConfig>['ratio'],
+  ratio: undefined,
 };
 
 /**
@@ -36,7 +44,7 @@ export interface AdaptiveCameraConfigHandle {
   /**
    * The resulting camera configuration, that adapts itself automatically if asked.
    */
-  adaptiveCameraConfig: Required<CameraConfig>;
+  adaptiveCameraConfig: ResolvedCameraConfig;
   /**
    * A set of event handlers listening to upload events.
    */
@@ -84,7 +92,7 @@ export function useAdaptiveCameraConfig({
 
   const onUploadTimeout = useCallback(() => lowerMaxImageQuality(), []);
 
-  const config = {
+  const config: ResolvedCameraConfig = {
     quality: initialCameraConfig.quality ?? DEFAULT_CAMERA_CONFIG.quality,
     resolution: initialCameraConfig.resolution ?? DEFAULT_CAMERA_CONFIG.resolution,
     format: initialCameraConfig.format ?? DEFAULT_CAMERA_CONFIG.format,
@@ -93,8 +101,8 @@ export function useAdaptiveCameraConfig({
     ratio: initialCameraConfig.ratio,
   };
 
-  const adaptiveCameraConfig: Required<CameraConfig> = useMemo(() => {
-    const adaptiveConfig = {
+  const adaptiveCameraConfig: ResolvedCameraConfig = useMemo(() => {
+    const adaptiveConfig: ResolvedCameraConfig = {
       quality: Math.min(maxQuality, config.quality),
       resolution: getLowestResolutionBetween(maxResolution, config.resolution),
       format: initialCameraConfig.format ?? config.format,
