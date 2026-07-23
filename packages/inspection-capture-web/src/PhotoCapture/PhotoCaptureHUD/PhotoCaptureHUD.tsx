@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   PhotoCaptureAppConfig,
   Image,
@@ -14,12 +14,13 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { TutorialSteps } from '../hooks';
+import { TutorialSteps, PhotoCaptureOcrConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../components';
 import { PhotoCaptureHUDSightTutorial } from './PhotoCaptureHUDSightTutorial';
+import { OcrOverlay } from './OcrOverlay';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -141,6 +142,11 @@ export interface PhotoCaptureHUDProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial: () => void;
+  /**
+   * When provided, enables OCR on the live camera preview. A text overlay shows the detected
+   * text and turns green once enough consistent readings confirm it.
+   */
+  ocrConfig?: PhotoCaptureOcrConfig;
 }
 
 /**
@@ -184,11 +190,17 @@ export function PhotoCaptureHUD({
   enableSightTutorial,
   showSightTutorial,
   toggleSightTutorial,
+  ocrConfig,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
   const { trackEvent } = useAnalytics();
+  const getImageDataRef = useRef(handle.getImageData);
+  useEffect(() => { getImageDataRef.current = handle.getImageData; }, [handle.getImageData]);
+  // Stable reference so OcrOverlay's useEffect deps don't change on every render.
+  const stableGetImageData = useRef(() => getImageDataRef.current()).current;
+
   const retakeCount = useMemo(
     () =>
       images.filter(
@@ -234,7 +246,16 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
+          hideSightOverlay={!!ocrConfig?.activeSightId && ocrConfig.activeSightId === selectedSight.id}
         />
+        {ocrConfig && (
+          <OcrOverlay
+            config={ocrConfig}
+            getImageData={stableGetImageData}
+            isCameraLoading={handle.isLoading}
+            isActive={!ocrConfig.activeSightId || ocrConfig.activeSightId === selectedSight.id}
+          />
+        )}
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
         <HUDButtons

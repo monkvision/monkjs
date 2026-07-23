@@ -42,6 +42,7 @@ import {
   usePhotoCaptureSightGuidelines,
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
+  PhotoCaptureOcrConfig,
 } from './hooks';
 import { useImagesCleanup } from './hooks/useImagesCleanup';
 
@@ -125,6 +126,11 @@ export interface PhotoCaptureProps
    * Custom label for validate button in gallery view.
    */
   validateButtonLabel?: string;
+  /**
+   * When provided, enables live OCR on the camera preview (e.g. to read a VIN or license plate).
+   * The OCR models are loaded on demand and unloaded once text is confirmed.
+   */
+  ocrConfig?: PhotoCaptureOcrConfig;
 }
 
 enum PhotoCaptureScreen {
@@ -168,6 +174,7 @@ export function PhotoCapture({
   autoDeletePreviousSightImages = true,
   onGalleryPress,
   enableBeautyShotExtraction,
+  ocrConfig,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -330,6 +337,7 @@ export function PhotoCapture({
     enableSightTutorial,
     showSightTutorial,
     toggleSightTutorial,
+    ocrConfig,
   };
 
   return (
