@@ -1,4 +1,4 @@
-import { CameraResolution, CompressionOptions } from './camera';
+import { CameraRatio, CameraResolution, CompressionOptions } from './camera';
 import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
 import { ComplianceOptions, TaskName } from './state';
@@ -121,6 +121,14 @@ export type CameraConfig = Partial<CompressionOptions> & {
    * @default false
    */
   allowImageUpscaling?: boolean;
+  /**
+   * The desired output aspect ratio of pictures taken by the camera.
+   * The video frame is centred-cropped to this ratio before encoding.
+   * When omitted, no cropping is applied (native stream ratio is used).
+   *
+   * @default undefined (no crop)
+   */
+  ratio?: CameraRatio;
 };
 
 /**

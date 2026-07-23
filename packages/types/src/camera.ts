@@ -90,3 +90,26 @@ export enum CameraResolution {
    */
   UHD_4K = '4K',
 }
+
+/**
+ * Describes the desired output aspect ratio for pictures taken by the camera.
+ * Expressed as a landscape { width, height } pair, e.g. { width: 3, height: 2 } for 3:2.
+ * When omitted, the native stream ratio is preserved (no cropping).
+ */
+export interface CameraRatio {
+  /**
+   * The width component of the ratio (landscape orientation).
+   */
+  width: number;
+  /**
+   * The height component of the ratio (landscape orientation).
+   */
+  height: number;
+}
+
+/** Preset for a 16:9 camera ratio (standard widescreen). */
+export const CAMERA_RATIO_16_9: CameraRatio = { width: 16, height: 9 };
+/** Preset for a 3:2 camera ratio. */
+export const CAMERA_RATIO_3_2: CameraRatio = { width: 3, height: 2 };
+/** Preset for a 4:3 camera ratio. */
+export const CAMERA_RATIO_4_3: CameraRatio = { width: 4, height: 3 };
