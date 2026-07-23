@@ -74,6 +74,7 @@ export function Camera<T extends object>({
   format = CompressionFormat.JPEG,
   quality = 0.6,
   allowImageUpscaling = false,
+  ratio,
   HUDComponent,
   hudProps,
   monitoring,
@@ -96,15 +97,21 @@ export function Camera<T extends object>({
     resolution: previewResolution,
     facingMode: CameraFacingMode.ENVIRONMENT,
   });
-  const { ref: canvasRef, dimensions: canvasDimensions } = useCameraCanvas({
+  const {
+    ref: canvasRef,
+    dimensions: canvasDimensions,
+    cropRegion,
+  } = useCameraCanvas({
     resolution,
     streamDimensions,
     allowImageUpscaling,
+    ratio,
   });
   const takeScreenshot = useCameraScreenshot({
     videoRef,
     canvasRef,
     dimensions: canvasDimensions,
+    cropRegion,
   });
   const compress = useCompression({ canvasRef, options: { format, quality } });
   const { takePicture, isLoading: isTakePictureLoading } = useTakePicture({
@@ -149,6 +156,7 @@ export function Camera<T extends object>({
         isLoading,
         dimensions: previewDimensions,
         previewDimensions,
+        cropRatio: ratio ?? null,
       }}
       cameraPreview={cameraPreview}
       {...((hudProps ?? {}) as T)}

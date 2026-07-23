@@ -6,7 +6,7 @@ import {
   ScreenshotMeasurement,
   ScreenshotSizeMeasurement,
 } from '../monitoring';
-import { getCanvasHandle } from './utils';
+import { CropRegion, getCanvasHandle } from './utils';
 
 /**
  * Configuration parameters for the `useCameraScreenshot` hook.
@@ -24,6 +24,12 @@ export interface CameraScreenshotConfig {
    * The dimensions of the screenshot.
    */
   dimensions: PixelDimensions | null;
+  /**
+   * Optional crop region to apply when drawing the video frame onto the canvas.
+   * When provided, only the specified region of the video frame is drawn.
+   * When null/undefined, the full video frame is drawn (existing behaviour).
+   */
+  cropRegion?: CropRegion | null;
 }
 
 /**
@@ -72,6 +78,7 @@ export function useCameraScreenshot({
   videoRef,
   canvasRef,
   dimensions,
+  cropRegion,
 }: CameraScreenshotConfig): TakeScreenshotFunction {
   return useCallback(
     (monitoring?: InternalCameraMonitoringConfig) => {
@@ -87,12 +94,26 @@ export function useCameraScreenshot({
         stopScreenshotMeasurement(TransactionStatus.UNKNOWN_ERROR, monitoring);
         throw new Error('Unable to take a picture because the video element is null.');
       }
-      context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
+      if (cropRegion) {
+        context.drawImage(
+          videoRef.current,
+          cropRegion.sx,
+          cropRegion.sy,
+          cropRegion.sourceWidth,
+          cropRegion.sourceHeight,
+          0,
+          0,
+          cropRegion.outputWidth,
+          cropRegion.outputHeight,
+        );
+      } else {
+        context.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
+      }
       const imageData = context.getImageData(0, 0, dimensions.width, dimensions.height);
       setScreeshotSizeMeasurement(imageData, monitoring);
       stopScreenshotMeasurement(TransactionStatus.OK, monitoring);
       return imageData;
     },
-    [dimensions],
+    [dimensions, cropRegion],
   );
 }

@@ -1,5 +1,5 @@
 import { ComponentType, ReactElement } from 'react';
-import { PixelDimensions, MonkPicture } from '@monkvision/types';
+import { CameraRatio, PixelDimensions, MonkPicture } from '@monkvision/types';
 import { UserMediaError } from './hooks';
 
 /**
@@ -50,6 +50,12 @@ export interface CameraHandle {
    * The effective pixel dimensions of the video stream on the client screen.
    */
   previewDimensions: PixelDimensions | null;
+  /**
+   * The active crop ratio configured for the camera, or null if no ratio is set (native stream ratio).
+   * HUD components should use this to render a crop frame overlay and constrain sight overlays to the
+   * cropped area.
+   */
+  cropRatio: CameraRatio | null;
 }
 
 /**

@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useMemo, useRef } from 'react';
-import { CameraResolution, PixelDimensions } from '@monkvision/types';
-import { getResolutionDimensions } from './utils';
+import { CameraRatio, CameraResolution, PixelDimensions } from '@monkvision/types';
+import { CropRegion, getCropRegion, getResolutionDimensions } from './utils';
 
 /**
  * Object used to configure the camera canvas.
@@ -19,6 +19,11 @@ export interface CameraCanvasConfig {
    * The dimensions of the video stream.
    */
   streamDimensions: PixelDimensions | null;
+  /**
+   * Optional desired output aspect ratio. When provided, the video frame is centred-cropped to this
+   * ratio before encoding. When omitted, the native stream ratio is preserved.
+   */
+  ratio?: CameraRatio;
 }
 
 /**
@@ -30,9 +35,15 @@ export interface CameraCanvasHandle {
    */
   ref: RefObject<HTMLCanvasElement | null>;
   /**
-   * The dimensions of the canvas.
+   * The dimensions of the canvas (equals the output picture dimensions).
+   * When a ratio is set, this reflects the cropped dimensions, not the full stream dimensions.
    */
   dimensions: PixelDimensions | null;
+  /**
+   * The crop region to apply when drawing the video frame onto the canvas.
+   * Null when no ratio is configured (no cropping).
+   */
+  cropRegion: CropRegion | null;
 }
 
 /**
@@ -50,7 +61,7 @@ function getCanvasDimensions({
   resolution,
   streamDimensions,
   allowImageUpscaling,
-}: CameraCanvasConfig): PixelDimensions | null {
+}: Omit<CameraCanvasConfig, 'ratio'>): PixelDimensions | null {
   if (!streamDimensions) {
     return null;
   }
@@ -82,14 +93,26 @@ export function useCameraCanvas({
   resolution,
   streamDimensions,
   allowImageUpscaling,
+  ratio,
 }: CameraCanvasConfig): CameraCanvasHandle {
   const ref = useRef<HTMLCanvasElement>(null);
+
+  const cropRegion = useMemo(() => {
+    if (!ratio || !streamDimensions) return null;
+    const baseDimensions = getCanvasDimensions({ resolution, streamDimensions, allowImageUpscaling });
+    if (!baseDimensions) return null;
+    return getCropRegion(streamDimensions, baseDimensions, ratio);
+  }, [ratio, streamDimensions, resolution, allowImageUpscaling]);
+
   const handle = useMemo(
     () => ({
       ref,
-      dimensions: getCanvasDimensions({ resolution, streamDimensions, allowImageUpscaling }),
+      dimensions: cropRegion
+        ? { width: cropRegion.outputWidth, height: cropRegion.outputHeight }
+        : getCanvasDimensions({ resolution, streamDimensions, allowImageUpscaling }),
+      cropRegion,
     }),
-    [resolution, streamDimensions],
+    [resolution, streamDimensions, allowImageUpscaling, cropRegion],
   );
 
   useEffect(() => {
