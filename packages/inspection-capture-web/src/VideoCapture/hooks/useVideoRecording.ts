@@ -57,6 +57,7 @@ export interface UseVideoRecordingParams
    * Callback to reset fast movement detection baseline.
    */
   resetFastMovementDetection?: () => void;
+  /**
    * Callback called when the user discards the current video recording.
    */
   onDiscardVideo?: () => void;
