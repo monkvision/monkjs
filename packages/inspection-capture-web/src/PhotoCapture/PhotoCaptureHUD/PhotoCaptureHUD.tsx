@@ -254,6 +254,7 @@ export function PhotoCaptureHUD({
             getImageData={stableGetImageData}
             isCameraLoading={handle.isLoading}
             isActive={!ocrConfig.activeSightId || ocrConfig.activeSightId === selectedSight.id}
+            previewDimensions={handle.previewDimensions}
           />
         )}
       </div>
