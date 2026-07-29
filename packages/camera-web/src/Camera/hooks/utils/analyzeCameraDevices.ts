@@ -6,8 +6,6 @@ function isValidCamera(device: MediaDeviceInfo): boolean {
   return (
     !device.label.includes('Wide') &&
     !device.label.includes('Telephoto') &&
-    !device.label.includes('Triple') &&
-    !device.label.includes('Dual') &&
     !device.label.includes('Ultra')
   );
 }

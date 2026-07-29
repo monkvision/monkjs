@@ -24,7 +24,7 @@ describe('analyzeCameraDevices util function', () => {
     );
   });
 
-  ['Wide', 'Telephoto', 'Triple', 'Dual', 'Ultra'].forEach((blacklistedKeyword) => {
+  ['Wide', 'Telephoto', 'Ultra'].forEach((blacklistedKeyword) => {
     it(`should filter out the "${blacklistedKeyword}" cameras from valid devices`, async () => {
       const gumMock = mockGetUserMedia();
       const devices = [
