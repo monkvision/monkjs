@@ -3,6 +3,7 @@ export * from './resetState';
 export * from './gotOneInspection';
 export * from './createdOneImage';
 export * from './deletedOneImage';
+export * from './deletedImagesBulk';
 export * from './updatedManyTasks';
 export * from './updatedVehicle';
 export * from './createdOnePricing';
