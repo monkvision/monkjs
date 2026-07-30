@@ -33,7 +33,10 @@ export function PhotoCaptureHUDElementsSight({
 }: PhotoCaptureHUDElementsSightProps) {
   const style = usePhotoCaptureHUDSightPreviewStyle({ previewDimensions });
 
-  const showSight = !hideSightOverlay && previewDimensions && (!tutorialStep || tutorialStep === TutorialSteps.SIGHT);
+  const showSight =
+    !hideSightOverlay &&
+    previewDimensions &&
+    (!tutorialStep || tutorialStep === TutorialSteps.SIGHT);
 
   return (
     <div style={styles['container']}>

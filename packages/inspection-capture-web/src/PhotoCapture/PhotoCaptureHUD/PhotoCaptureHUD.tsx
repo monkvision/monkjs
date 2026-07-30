@@ -197,7 +197,9 @@ export function PhotoCaptureHUD({
   const style = usePhotoCaptureHUDStyle();
   const { trackEvent } = useAnalytics();
   const getImageDataRef = useRef(handle.getImageData);
-  useEffect(() => { getImageDataRef.current = handle.getImageData; }, [handle.getImageData]);
+  useEffect(() => {
+    getImageDataRef.current = handle.getImageData;
+  }, [handle.getImageData]);
   // Stable reference so OcrOverlay's useEffect deps don't change on every render.
   const stableGetImageData = useRef(() => getImageDataRef.current()).current;
 
@@ -246,7 +248,9 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
-          hideSightOverlay={!!ocrConfig?.activeSightId && ocrConfig.activeSightId === selectedSight.id}
+          hideSightOverlay={
+            !!ocrConfig?.activeSightId && ocrConfig.activeSightId === selectedSight.id
+          }
         />
         {ocrConfig && (
           <OcrOverlay
@@ -254,6 +258,7 @@ export function PhotoCaptureHUD({
             getImageData={stableGetImageData}
             isCameraLoading={handle.isLoading}
             isActive={!ocrConfig.activeSightId || ocrConfig.activeSightId === selectedSight.id}
+            previewDimensions={handle.previewDimensions}
           />
         )}
       </div>

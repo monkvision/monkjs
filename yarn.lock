@@ -5624,6 +5624,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/typescript-config@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/typescript-config@npm:5.3.11"
+  checksum: 9eeb0fc23903efd1832e19b66ba35f01dc5e6da88ebecc09bce07eff1a7c5781bd10807790e7ade2f733b47454ca6fa30c89201a953ff92b8cccec70eeed00dd
+  languageName: node
+  linkType: hard
+
 "@napi-rs/wasm-runtime@npm:0.2.4":
   version: 0.2.4
   resolution: "@napi-rs/wasm-runtime@npm:0.2.4"
