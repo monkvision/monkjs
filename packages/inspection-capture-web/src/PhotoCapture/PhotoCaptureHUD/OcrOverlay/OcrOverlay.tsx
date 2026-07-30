@@ -7,7 +7,6 @@ const RADIUS = 6;
 const STROKE = 2.5;
 
 const COLOR_IDLE = 'rgba(255,255,255,0.5)';
-const COLOR_MATCH = '#ffffff';
 const COLOR_CONFIRMED = '#22c55e';
 
 function getPerimeter(w: number, h: number): number {
@@ -212,8 +211,6 @@ export function OcrOverlay({
   const isConfirmed = confirmedText !== null;
   const displayText = confirmedText ?? (detectedText || null);
   const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
-  const solidColor = isConfirmed ? COLOR_CONFIRMED : COLOR_MATCH;
-  const glowColor = isConfirmed ? 'rgba(34,197,94,0.4)' : 'transparent';
 
   // Compute SVG dimensions from actual rendered crop box pixels so the perimeter is exact.
   const containerW = previewDimensions ? previewDimensions.width : 0;
@@ -250,8 +247,6 @@ export function OcrOverlay({
           justifyContent: 'flex-end',
           gap: 8,
           paddingBottom: 10,
-          boxShadow: isConfirmed ? `0 0 24px 4px ${glowColor}` : 'none',
-          transition: 'box-shadow 0.3s ease',
         }}
       >
         <svg
@@ -269,7 +264,7 @@ export function OcrOverlay({
           {/* Permanent low-opacity border — always shows the full frame shape */}
           <rect
             {...rectProps}
-            stroke={solidColor}
+            stroke={isConfirmed ? COLOR_CONFIRMED : '#ffffff'}
             strokeWidth={STROKE}
             opacity={0.2}
             style={{ transition: 'stroke 0.3s ease' }}
@@ -285,10 +280,10 @@ export function OcrOverlay({
             style={{ transition: 'opacity 0.3s ease' }}
           />
 
-          {/* Progressive fill — draws around the border, turns green on confirm */}
+          {/* Progressive fill — white while scanning, green on confirm */}
           <rect
             {...rectProps}
-            stroke={solidColor}
+            stroke={isConfirmed ? COLOR_CONFIRMED : '#ffffff'}
             strokeWidth={STROKE}
             strokeDasharray={`${filledLength} ${perimeter}`}
             strokeLinecap='round'
@@ -309,7 +304,6 @@ export function OcrOverlay({
               whiteSpace: 'nowrap',
               fontFamily: 'monospace',
               transition: 'background-color 0.3s ease',
-              boxShadow: isConfirmed ? '0 2px 12px rgba(34,197,94,0.4)' : 'none',
             }}
           >
             {displayText}
