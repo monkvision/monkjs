@@ -256,16 +256,32 @@ export function OcrOverlay({
       >
         <svg
           viewBox={`0 0 ${boxW} ${boxH}`}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'visible' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            pointerEvents: 'none',
+            overflow: 'visible',
+          }}
           xmlns='http://www.w3.org/2000/svg'
         >
+          {/* Permanent low-opacity border — always shows the full frame shape */}
+          <rect
+            {...rectProps}
+            stroke={solidColor}
+            strokeWidth={STROKE}
+            opacity={0.2}
+            style={{ transition: 'stroke 0.3s ease' }}
+          />
+
           {/* Dashed idle border — fades out as steps accumulate */}
           <rect
             {...rectProps}
             stroke={COLOR_IDLE}
             strokeWidth={STROKE}
             strokeDasharray='8 6'
-            opacity={consistencyCount > 0 || isConfirmed ? 0 : 1}
+            opacity={consistencyCount > 0 || isConfirmed ? 0 : 0.6}
             style={{ transition: 'opacity 0.3s ease' }}
           />
 
