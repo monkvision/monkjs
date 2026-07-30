@@ -262,13 +262,7 @@ export function OcrOverlay({
           xmlns='http://www.w3.org/2000/svg'
         >
           {/* Permanent low-opacity border — always shows the full frame shape */}
-          <rect
-            {...rectProps}
-            stroke={isConfirmed ? COLOR_CONFIRMED : '#ffffff'}
-            strokeWidth={STROKE}
-            opacity={0.2}
-            style={{ transition: 'stroke 0.3s ease' }}
-          />
+          <rect {...rectProps} stroke='#ffffff' strokeWidth={STROKE} opacity={0.2} />
 
           {/* Dashed idle border — fades out as steps accumulate */}
           <rect
@@ -280,14 +274,14 @@ export function OcrOverlay({
             style={{ transition: 'opacity 0.3s ease' }}
           />
 
-          {/* Progressive fill — white while scanning, green on confirm */}
+          {/* Progressive fill — green from step 1, grows each consistent read */}
           <rect
             {...rectProps}
-            stroke={isConfirmed ? COLOR_CONFIRMED : '#ffffff'}
+            stroke={COLOR_CONFIRMED}
             strokeWidth={STROKE}
             strokeDasharray={`${filledLength} ${perimeter}`}
             strokeLinecap='round'
-            style={{ transition: 'stroke-dasharray 0.4s ease, stroke 0.3s ease' }}
+            style={{ transition: 'stroke-dasharray 0.4s ease' }}
           />
         </svg>
 
