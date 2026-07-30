@@ -19,6 +19,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     uploadedFrames: 154,
     totalUploadingFrames: 987,
     onFrameSelected: jest.fn(),
+    discardUploadedImages: jest.fn(),
   })),
   useFrameSelection: jest.fn(() => ({
     processedFrames: 986,
@@ -81,6 +82,7 @@ function createProps(): VideoCaptureHUDProps {
     maxRetryCount: 24,
     minRecordingDuration: 667,
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
+    inspectionLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
     resetDetection: jest.fn(),
     onCloseVideo: jest.fn(),
@@ -98,6 +100,25 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     expect(screen.queryByTestId(CAMERA_TEST_ID)).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should show the loading overlay when inspectionLoading is loading', () => {
+    const props = createProps();
+    props.inspectionLoading = { isLoading: true } as unknown as LoadingState;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(screen.queryByTestId('inspection-loading-overlay')).not.toBeNull();
+
+    unmount();
+  });
+
+  it('should not show the loading overlay when inspectionLoading is not loading', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(screen.queryByTestId('inspection-loading-overlay')).toBeNull();
 
     unmount();
   });
@@ -173,6 +194,7 @@ describe('VideoCaptureHUD component', () => {
         onCaptureVideoFrame,
         onRecordingComplete: expect.any(Function),
         resetFastMovementDetection: expect.any(Function),
+        onDiscardVideo: expect.any(Function),
       }),
     );
 
@@ -432,6 +454,20 @@ describe('VideoCaptureHUD component', () => {
     });
     expect(VideoCaptureProcessing).toHaveBeenCalled();
     expect(VideoCaptureComplete).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should pass discardUploadedImages as onDiscardVideo to useVideoRecording', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { discardUploadedImages } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
+    expect(useVideoRecording).toHaveBeenCalledWith(
+      expect.objectContaining({
+        onDiscardVideo: discardUploadedImages,
+      }),
+    );
 
     unmount();
   });
