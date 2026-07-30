@@ -107,8 +107,13 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
 
       inFlightRef.current = false;
 
-      if (fe) { setFatalError(fe); return; }
-      if (recError) { console.error('[useOcr] Recognition error:', recError); }
+      if (fe) {
+        setFatalError(fe);
+        return;
+      }
+      if (recError) {
+        console.error('[useOcr] Recognition error:', recError);
+      }
       if (id !== reqIdRef.current) return;
 
       const resolvedChars = charsData ?? [];
@@ -147,7 +152,9 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
       setFatalError(err.message ?? 'Worker crashed');
     };
 
-    return () => { worker.terminate(); };
+    return () => {
+      worker.terminate();
+    };
   }, [workerKey, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Public API ───────────────────────────────────────────────────────────────

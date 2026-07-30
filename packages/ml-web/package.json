@@ -1,6 +1,6 @@
 {
   "name": "@monkvision/ml-web",
-  "version": "5.3.11",
+  "version": "5.4.0",
   "license": "BSD-3-Clause-Clear",
   "packageManager": "yarn@3.2.4",
   "description": "MonkJs ML package for React (web) — on-device machine learning inference via ONNX Runtime WebAssembly",

@@ -1,5 +1,6 @@
 export const OCR_MODEL_URLS = {
-  recModelUrl: 'https://storage.googleapis.com/monk-front-public/live-configurations/rec_static_int8.onnx',
+  recModelUrl:
+    'https://storage.googleapis.com/monk-front-public/live-configurations/rec_static_int8.onnx',
   dictUrl: 'https://storage.googleapis.com/monk-front-public/live-configurations/dict.txt',
   wasmBaseUrl: 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.27.0/dist/',
 };

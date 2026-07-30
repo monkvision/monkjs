@@ -1,5 +1,10 @@
 import * as ort from 'onnxruntime-web';
-import type { OcrWorkerConfig, OcrWorkerLoadRequest, OcrWorkerRequest, OcrWorkerResponse } from './ocr.types';
+import type {
+  OcrWorkerConfig,
+  OcrWorkerLoadRequest,
+  OcrWorkerRequest,
+  OcrWorkerResponse,
+} from './ocr.types';
 import { OCR_RECOGNITION_CONFIG, OCR_IMAGE_PROCESSING } from './ocr.config';
 import { createCanvas, get2dContext } from './ocr.utils';
 
@@ -61,7 +66,10 @@ function preprocessForRec(pixels: Uint8ClampedArray, width: number, height: numb
   return new ort.Tensor('float32', td, [1, 3, targetHeight, targetWidth]);
 }
 
-function ctcDecode(output: Float32Array, dims: readonly number[]): { char: string; conf: number }[] {
+function ctcDecode(
+  output: Float32Array,
+  dims: readonly number[],
+): { char: string; conf: number }[] {
   const timesteps = dims[1];
   const numClasses = dims[2];
   const result: { char: string; conf: number }[] = [];
@@ -71,9 +79,15 @@ function ctcDecode(output: Float32Array, dims: readonly number[]): { char: strin
     let maxIdx = 0;
     let maxVal = -Infinity;
     for (let c = 0; c < numClasses; c++) {
-      if (output[base + c] > maxVal) { maxVal = output[base + c]; maxIdx = c; }
+      if (output[base + c] > maxVal) {
+        maxVal = output[base + c];
+        maxIdx = c;
+      }
     }
-    if (maxIdx === 0 || maxIdx === prevIdx || maxIdx > dictionary.length) { prevIdx = maxIdx; continue; }
+    if (maxIdx === 0 || maxIdx === prevIdx || maxIdx > dictionary.length) {
+      prevIdx = maxIdx;
+      continue;
+    }
     let expSum = 0;
     for (let c = 0; c < numClasses; c++) expSum += Math.exp(output[base + c] - maxVal);
     result.push({ char: dictionary[maxIdx - 1], conf: 1 / expSum });
@@ -82,7 +96,11 @@ function ctcDecode(output: Float32Array, dims: readonly number[]): { char: strin
   return result;
 }
 
-async function runRecognition(pixels: Uint8ClampedArray, width: number, height: number): Promise<{ char: string; conf: number }[]> {
+async function runRecognition(
+  pixels: Uint8ClampedArray,
+  width: number,
+  height: number,
+): Promise<{ char: string; conf: number }[]> {
   if (!recSession) throw new Error('Recognition model not initialized');
   const tensor = preprocessForRec(pixels, width, height);
   const results = await recSession.run({ [recSession.inputNames[0]]: tensor });

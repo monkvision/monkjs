@@ -28,7 +28,9 @@ export function usePhotoCaptureOcr(config: PhotoCaptureOcrConfig): UsePhotoCaptu
   const { isReady, processFrame, confirmedText, unloadModels } = ocrResult;
 
   const handleRef = useRef<CameraHandle | null>(null);
-  const setCameraHandle = (handle: CameraHandle | null) => { handleRef.current = handle; };
+  const setCameraHandle = (handle: CameraHandle | null) => {
+    handleRef.current = handle;
+  };
 
   // Start OCR polling once models are loaded.
   useEffect(() => {
