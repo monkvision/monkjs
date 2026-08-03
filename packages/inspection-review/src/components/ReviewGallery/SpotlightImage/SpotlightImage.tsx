@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useObjectTranslation } from '@monkvision/common';
 import { Button } from '@monkvision/common-ui-web';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { useSpotlightImage } from './hooks/useSpotlightImage';
+import { useZoomPan } from './hooks/useZoomPan';
 import { Shortcuts } from './Shortcuts';
 import { styles, useSpotlightImageStyles } from './SpotlightImage.styles';
 import { HandleGalleryState } from '../hooks';
@@ -34,7 +35,6 @@ export function SpotlightImage({
     backgroundImage,
     isMouseOver,
     cursorStyle,
-    ref,
     handleMouseDown,
     handleMouseUp,
     activationKeys,
@@ -42,10 +42,27 @@ export function SpotlightImage({
     image: selectedItem?.image,
     showDamage,
   });
+  const {
+    wrapperRef,
+    contentRef,
+    contentStyle,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    reset: resetZoomPan,
+  } = useZoomPan({
+    activationKeys,
+    onPanStart: handleMouseDown,
+    onPanEnd: handleMouseUp,
+  });
   const { iconButtonStyle, showDamageButtonStyle, imageLabelStyle, containerStyle } =
     useSpotlightImageStyles({
       cursorStyle,
     });
+
+  useEffect(() => {
+    resetZoomPan();
+  }, [selectedItem?.image, resetZoomPan]);
 
   return (
     <div className='spotlight-image' style={containerStyle}>
@@ -100,20 +117,25 @@ export function SpotlightImage({
             </div>
           </>
         )}
-        <TransformWrapper
-          ref={ref}
-          wheel={{ activationKeys, smoothStep: 0.005 }}
-          doubleClick={{ disabled: true }}
-          onPanning={handleMouseDown}
-          onPanningStop={handleMouseUp}
+        <div
+          ref={wrapperRef}
+          style={styles['zoomPanWrapper']}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
         >
-          <TransformComponent>
-            <img src={backgroundImage} alt={backgroundImage} style={styles['imageContainer']} />
-          </TransformComponent>
-          <div style={styles['shortcutsContainer']}>
-            <Shortcuts showDamage={showDamage} />
+          <div ref={contentRef} style={{ ...styles['zoomPanContent'], ...contentStyle }}>
+            <img
+              src={backgroundImage}
+              alt={backgroundImage}
+              draggable={false}
+              style={styles['imageContainer']}
+            />
           </div>
-        </TransformWrapper>
+        </div>
+        <div style={styles['shortcutsContainer']}>
+          <Shortcuts showDamage={showDamage} />
+        </div>
       </div>
     </div>
   );

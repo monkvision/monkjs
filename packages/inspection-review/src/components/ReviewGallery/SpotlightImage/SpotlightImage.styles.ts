@@ -58,6 +58,18 @@ export const styles: Styles = {
     maxHeight: '60vh',
     objectFit: 'contain',
   },
+  zoomPanWrapper: {
+    position: 'relative',
+    width: 'fit-content',
+    height: 'fit-content',
+    overflow: 'hidden',
+    touchAction: 'none',
+    userSelect: 'none',
+  },
+  zoomPanContent: {
+    width: 'fit-content',
+    height: 'fit-content',
+  },
   shortcutsContainer: {
     display: 'flex',
     flexWrap: 'wrap',

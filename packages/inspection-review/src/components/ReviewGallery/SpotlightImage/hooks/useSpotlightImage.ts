@@ -1,7 +1,6 @@
 import { useMonkState } from '@monkvision/common';
 import { Image } from '@monkvision/types';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ReactZoomPanPinchContentRef } from 'react-zoom-pan-pinch';
+import { useEffect, useMemo, useState } from 'react';
 import { UseShortcutsState } from '../Shortcuts/hooks/useShortcuts';
 
 /**
@@ -31,10 +30,6 @@ export interface UseSpotlightImageState {
    */
   cursorStyle: string;
   /**
-   * Reference to the TransformWrapper component for zooming the image.
-   */
-  ref: React.RefObject<ReactZoomPanPinchContentRef | null>;
-  /**
    * List of activation keys for zooming.
    */
   activationKeys: string[];
@@ -54,7 +49,6 @@ export interface UseSpotlightImageState {
  */
 export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightImageState {
   const { state } = useMonkState();
-  const ref = useRef<ReactZoomPanPinchContentRef>(null);
   const [isMouseOver, setIsMouseOver] = useState(true);
   const [cursorStyle, setCursorStyle] = useState('grab');
 
@@ -113,16 +107,11 @@ export function useSpotlightImage(props: UseSpotlightImageProps): UseSpotlightIm
     };
   }, []);
 
-  useEffect(() => {
-    ref.current?.resetTransform(0);
-  }, [props.image]);
-
   return {
     backgroundImage,
     isMouseOver,
     handleMouseDown,
     handleMouseUp,
-    ref,
     activationKeys,
     cursorStyle,
   };
