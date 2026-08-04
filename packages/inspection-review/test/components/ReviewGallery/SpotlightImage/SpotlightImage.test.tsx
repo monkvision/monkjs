@@ -18,17 +18,8 @@ jest.mock('react-i18next', () => ({
   useTranslation: jest.fn(() => ({ t: (key: string) => key })),
 }));
 
-jest.mock('react-zoom-pan-pinch', () => ({
-  TransformWrapper: React.forwardRef(
-    ({ children, wheel, doubleClick, onPanning, onPanningStop, ...rest }: any, ref) => (
-      <div data-testid='transform-wrapper' ref={ref} {...rest}>
-        {children}
-      </div>
-    ),
-  ),
-  TransformComponent: ({ children }: any) => (
-    <div data-testid='transform-component'>{children}</div>
-  ),
+jest.mock('../../../../src/components/ReviewGallery/SpotlightImage/hooks/useZoomPan', () => ({
+  useZoomPan: jest.fn(),
 }));
 
 jest.mock(
@@ -53,6 +44,10 @@ const { useSpotlightImage } = jest.requireMock(
   '../../../../src/components/ReviewGallery/SpotlightImage/hooks/useSpotlightImage',
 ) as { useSpotlightImage: jest.Mock };
 
+const { useZoomPan } = jest.requireMock(
+  '../../../../src/components/ReviewGallery/SpotlightImage/hooks/useZoomPan',
+) as { useZoomPan: jest.Mock };
+
 const { useSpotlightImageStyles } = jest.requireMock(
   '../../../../src/components/ReviewGallery/SpotlightImage/SpotlightImage.styles',
 ) as { useSpotlightImageStyles: jest.Mock };
@@ -72,10 +67,20 @@ const baseHookState: ReturnType<typeof useSpotlightImage> = {
   backgroundImage: 'bg.jpg',
   isMouseOver: true,
   cursorStyle: 'grab',
-  ref: { current: null },
   handleMouseDown: jest.fn(),
   handleMouseUp: jest.fn(),
   activationKeys: ['Meta'],
+};
+
+const baseZoomPanState: ReturnType<typeof useZoomPan> = {
+  wrapperRef: { current: null },
+  contentRef: { current: null },
+  contentStyle: {},
+  isPanning: false,
+  onPointerDown: jest.fn(),
+  onPointerMove: jest.fn(),
+  onPointerUp: jest.fn(),
+  reset: jest.fn(),
 };
 
 const baseStyles = {
@@ -94,6 +99,7 @@ describe('SpotlightImage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useSpotlightImage.mockReturnValue(baseHookState);
+    useZoomPan.mockReturnValue(baseZoomPanState);
     useSpotlightImageStyles.mockReturnValue(baseStyles);
   });
 
@@ -168,5 +174,35 @@ describe('SpotlightImage', () => {
     fireEvent.click(screen.getByText('gallery.spotlight.showDamages'));
 
     expect(toggleShowDamage).toHaveBeenCalled();
+  });
+
+  it('resets zoom and pan when the displayed image changes', () => {
+    const { rerender } = render(
+      <SpotlightImage
+        selectedItem={createSelectedItem()}
+        onSelectItemById={onSelectItemById}
+        goToNextImage={goToNextImage}
+        goToPreviousImage={goToPreviousImage}
+        showDamage={false}
+        toggleShowDamage={toggleShowDamage}
+      />,
+    );
+
+    expect(baseZoomPanState.reset).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <SpotlightImage
+        selectedItem={createSelectedItem({
+          image: { id: 'img-2', path: 'other.jpg', label: 'Rear' } as unknown as Image,
+        })}
+        onSelectItemById={onSelectItemById}
+        goToNextImage={goToNextImage}
+        goToPreviousImage={goToPreviousImage}
+        showDamage={false}
+        toggleShowDamage={toggleShowDamage}
+      />,
+    );
+
+    expect(baseZoomPanState.reset).toHaveBeenCalledTimes(2);
   });
 });

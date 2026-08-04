@@ -19,6 +19,6 @@ export const styles: Styles = {
     fontSize: 18,
     margin: 0,
     color: 'white',
-    lineHeight: 1,
+    lineHeight: 1.3,
   },
 };

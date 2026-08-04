@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, renderHook } from '@testing-library/react';
 import { useSpotlightImage } from '../../../../../src/components/ReviewGallery/SpotlightImage/hooks/useSpotlightImage';
 import { Image } from '@monkvision/types';
@@ -103,22 +102,5 @@ describe('useSpotlightImage', () => {
       other.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }));
     });
     expect(result.current.isMouseOver).toBe(false);
-  });
-
-  it('resets transform when image changes', () => {
-    const resetTransform = jest.fn();
-    const refSpy = jest
-      .spyOn(React, 'useRef')
-      .mockReturnValue({ current: { resetTransform } } as any);
-
-    const { rerender } = renderHook(
-      ({ image }) => useSpotlightImage({ image, showDamage: false }),
-      { initialProps: { image: createImage({ id: 'img-1' }) } },
-    );
-
-    rerender({ image: createImage({ id: 'img-2' }) });
-
-    expect(resetTransform).toHaveBeenCalledWith(0);
-    refSpy.mockRestore();
   });
 });

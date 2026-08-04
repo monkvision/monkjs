@@ -5298,7 +5298,6 @@ __metadata:
     mkdirp: ^1.0.4
     prettier: ^2.7.1
     react-i18next: ^13.2.0
-    react-zoom-pan-pinch: ^3.7.0
     rimraf: ^3.0.2
     ts-jest: ^29.4.6
     typescript: ^5.9.2
@@ -23855,16 +23854,6 @@ __metadata:
   bin:
     react-scripts: bin/react-scripts.js
   checksum: 92afa2f245c7092ccc97d5609dc7a2130616262e34da7f15072d9442e2d2e1d4909a91022abd1faac1336eb17c5525a10d9bd43e1ae374c7ec941ca20addca68
-  languageName: node
-  linkType: hard
-
-"react-zoom-pan-pinch@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "react-zoom-pan-pinch@npm:3.7.0"
-  peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: c8f40d7befa8e10ccba6a762f923aa6ab8316714c9af768e49ada55d0854acc84c2018dbb40b6c1408f251441cf9907860bba24e9071db4789dddeda59250829
   languageName: node
   linkType: hard
 
