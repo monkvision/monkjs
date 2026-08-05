@@ -9,6 +9,7 @@ import { Camera, CameraHUDProps } from '@monkvision/camera-web';
 import { MonkApiConfig } from '@monkvision/network';
 import {
   TaskName,
+  VideoUploadStrategy,
   type BaseVideoCaptureConfig,
   type VideoCaptureHybridConfig,
 } from '@monkvision/types';
@@ -76,6 +77,9 @@ export function VideoCapture(props: VideoCaptureProps) {
     enforceOrientation,
     minRecordingDuration = 15000,
     maxRetryCount = 3,
+    videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE,
+    frameSelectionInterval = 1000,
+    targetFramesCount = 40,
     enableFastWalkingWarning = true,
     enablePhoneShakingWarning = false,
     fastWalkingWarningCooldown = 1000,
@@ -143,6 +147,9 @@ export function VideoCapture(props: VideoCaptureProps) {
     maxRetryCount,
     apiConfig,
     minRecordingDuration,
+    videoUploadStrategy,
+    frameSelectionInterval,
+    targetFramesCount,
     enforceOrientation,
     isRecording,
     setIsRecording,

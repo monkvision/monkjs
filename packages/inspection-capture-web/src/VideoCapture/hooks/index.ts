@@ -2,7 +2,7 @@ export * from './useGetInspection';
 export * from './useVehicleWalkaround';
 export * from './useVideoRecording';
 export * from './useFrameSelection';
-export * from './useAdaptiveFrameSelectionInterval';
+export * from './useSegmentFrameSelection';
 export * from './useVideoUploadQueue';
 export * from './useFastMovementsDetection';
 export * from './useHybridVideoState';

@@ -35,7 +35,7 @@ jest.mock('../../src/PhotoCapture/PhotoCapture', () => ({
 
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { useDeviceOrientation } from '@monkvision/common';
-import { DeviceOrientation, TaskName, VehicleType } from '@monkvision/types';
+import { DeviceOrientation, TaskName, VehicleType, VideoUploadStrategy } from '@monkvision/types';
 import { act, render } from '@testing-library/react';
 import { Camera } from '@monkvision/camera-web';
 import { VideoCapture, VideoCaptureProps } from '../../src';
@@ -236,6 +236,9 @@ describe('VideoCapture component', () => {
         maxRetryCount: props.maxRetryCount,
         apiConfig: props.apiConfig,
         minRecordingDuration: props.minRecordingDuration,
+        videoUploadStrategy: VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE,
+        frameSelectionInterval: 1000,
+        targetFramesCount: 40,
         enforceOrientation: props.enforceOrientation,
         isRecording: expect.any(Boolean),
         setIsRecording: expect.any(Function),
@@ -247,6 +250,34 @@ describe('VideoCapture component', () => {
         onComplete: expect.any(Function),
         onCloseVideo: props.onCloseVideo,
         showCloseVideoButton: props.showCloseVideoButton,
+      }),
+    });
+
+    unmount();
+  });
+
+  it('should forward custom videoUploadStrategy, frameSelectionInterval and targetFramesCount values to the VideoCaptureHUD component', () => {
+    const props = createProps();
+    props.videoUploadStrategy = VideoUploadStrategy.FIXED_UPLOAD_RATE;
+    props.frameSelectionInterval = 2468;
+    props.targetFramesCount = 50;
+    const { unmount } = render(<VideoCapture {...props} />);
+
+    const { onSuccess } = (VideoCapturePermissions as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onSuccess();
+    });
+
+    const { onClose } = (VideoCaptureTutorial as jest.Mock).mock.calls[0][0];
+    act(() => {
+      onClose();
+    });
+
+    expectPropsOnChildMock(Camera, {
+      hudProps: expect.objectContaining({
+        videoUploadStrategy: VideoUploadStrategy.FIXED_UPLOAD_RATE,
+        frameSelectionInterval: 2468,
+        targetFramesCount: 50,
       }),
     });
 
