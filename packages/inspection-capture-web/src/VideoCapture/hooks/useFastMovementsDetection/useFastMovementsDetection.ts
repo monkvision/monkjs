@@ -1,7 +1,12 @@
 import { useCallback, useRef, useState } from 'react';
 import { DeviceRotation, VideoCaptureAppConfig } from '@monkvision/types';
 import { useObjectMemo } from '@monkvision/common';
-import { detectFastMovements, FastMovementType } from './fastMovementsDetection';
+import {
+  AlphaSample,
+  detectFastMovements,
+  FastMovementType,
+  pruneAlphaHistory,
+} from './fastMovementsDetection';
 
 /**
  * Params accepted by the useFastMovementsDetection hook.
@@ -27,9 +32,9 @@ export interface UseFastMovementsDetectionParams
  */
 export interface FastMovementsDetectionHandle {
   /**
-   * Event listener for DeviceOrientationEvents.
+   * Event listener for device rotation updates.
    */
-  onDeviceOrientationEvent: (event: DeviceOrientationEvent) => void;
+  onDeviceOrientationEvent: (rotation: DeviceRotation) => void;
   /**
    * The type of fast movements warning that should be displayed to the user. If this value is null, no warning should
    * be displayed.
@@ -58,6 +63,7 @@ export function useFastMovementsDetection({
 }: UseFastMovementsDetectionParams): FastMovementsDetectionHandle {
   const [fastMovementsWarning, setFastMovementsWarning] = useState<FastMovementType | null>(null);
   const lastRotation = useRef<DeviceRotation | null>(null);
+  const alphaHistory = useRef<AlphaSample[]>([]);
   const warningTimestamps = useRef<Record<FastMovementType, number>>({
     [FastMovementType.WALKING_TOO_FAST]: 0,
     [FastMovementType.PHONE_SHAKING]: 0,
@@ -92,10 +98,12 @@ export function useFastMovementsDetection({
   );
 
   const onDeviceOrientationEvent = useCallback(
-    (event: DeviceOrientationEvent) => {
-      const alpha = event.alpha ?? 0;
-      const beta = event.beta ?? 0;
-      const gamma = event.gamma ?? 0;
+    ({ alpha, beta, gamma }: DeviceRotation) => {
+      const now = Date.now();
+      alphaHistory.current = [
+        ...pruneAlphaHistory(alphaHistory.current, now),
+        { alpha, timestamp: now },
+      ];
 
       if (lastRotation.current === null) {
         lastRotation.current = { alpha, beta, gamma };
@@ -103,13 +111,16 @@ export function useFastMovementsDetection({
       }
 
       if (isRecording) {
-        const now = Date.now();
-        const type = detectFastMovements({ alpha, beta, gamma }, lastRotation.current);
+        const type = detectFastMovements(
+          { alpha, beta, gamma },
+          lastRotation.current,
+          alphaHistory.current,
+        );
 
         if (
           type &&
           isWarningEnabled(type) &&
-          Date.now() - warningTimestamps.current[type] > getWarningCooldown(type)
+          now - warningTimestamps.current[type] > getWarningCooldown(type)
         ) {
           setFastMovementsWarning(type);
           warningTimestamps.current[type] = now;
@@ -124,6 +135,7 @@ export function useFastMovementsDetection({
 
   const resetDetection = useCallback(() => {
     lastRotation.current = null;
+    alphaHistory.current = [];
     setFastMovementsWarning(null);
   }, []);
 
