@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
+import { OcrConfirmModal } from './OcrConfirmModal';
 import { PhotoCaptureOcrConfig } from '../../hooks';
 import {
   CROP_REGION,
@@ -20,6 +21,10 @@ export interface OcrOverlayProps {
   isActive: boolean;
   /** Actual rendered pixel dimensions of the video content on screen (excluding letterbox bars). */
   previewDimensions: { width: number; height: number } | null;
+  /** Called when the user confirms the OCR-detected text in the modal. */
+  onConfirm?: (text: string) => void;
+  /** Called when the user rejects the OCR-detected text in the modal. */
+  onReject?: () => void;
 }
 
 const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
@@ -41,6 +46,8 @@ export function OcrOverlay({
   isCameraLoading,
   isActive,
   previewDimensions,
+  onConfirm,
+  onReject,
 }: OcrOverlayProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {
@@ -65,9 +72,26 @@ export function OcrOverlay({
   const cropCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
   const cropCoordsRef = useRef<{ sx: number; sy: number; sw: number; sh: number } | null>(null);
 
+  const [modalImageUri, setModalImageUri] = useState<string | null>(null);
+
   useEffect(() => {
     loadModels();
   }, [loadModels]);
+
+  useEffect(() => {
+    if (!confirmedText || !cropCanvasRef.current) {
+      return;
+    }
+    const canvas = cropCanvasRef.current;
+    if (canvas instanceof HTMLCanvasElement) {
+      setModalImageUri(canvas.toDataURL('image/jpeg', 0.92));
+    } else {
+      canvas
+        .convertToBlob({ type: 'image/jpeg', quality: 0.92 })
+        .then((blob) => setModalImageUri(URL.createObjectURL(blob)))
+        .catch(() => setModalImageUri(null));
+    }
+  }, [confirmedText]);
 
   useInterval(
     () => {
@@ -142,6 +166,17 @@ export function OcrOverlay({
   }
 
   const isConfirmed = confirmedText !== null;
+  const showModal = isConfirmed && modalImageUri !== null;
+
+  const handleConfirm = () => {
+    onConfirm?.(confirmedText ?? '');
+  };
+
+  const handleReject = () => {
+    setModalImageUri(null);
+    onReject?.();
+  };
+
   const displayText = confirmedText ?? (detectedText || null);
   const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
   const containerW = previewDimensions?.width ?? 0;
@@ -171,33 +206,47 @@ export function OcrOverlay({
   })();
 
   return (
-    <div style={overlayStyle}>
-      {debugDots}
-      <div style={styles.cropBox}>
-        <svg viewBox={`0 0 ${boxW} ${boxH}`} style={styles.svg} xmlns='http://www.w3.org/2000/svg'>
-          <rect {...rectProps} stroke='#ffffff' strokeWidth={STROKE} opacity={0.2} />
-          <rect
-            {...rectProps}
-            stroke={COLOR_IDLE}
-            strokeWidth={STROKE}
-            strokeDasharray='8 6'
-            opacity={consistencyCount > 0 || isConfirmed ? 0 : 0.6}
-            style={{ transition: 'opacity 0.3s ease' }}
-          />
-          <rect
-            {...rectProps}
-            stroke={COLOR_CONFIRMED}
-            strokeWidth={STROKE}
-            strokeDasharray={`${filledLength} ${perimeter}`}
-            strokeLinecap='round'
-            style={{ transition: 'stroke-dasharray 0.4s ease' }}
-          />
-        </svg>
+    <>
+      {showModal && (
+        <OcrConfirmModal
+          text={confirmedText ?? ''}
+          imageUri={modalImageUri ?? ''}
+          onConfirm={handleConfirm}
+          onReject={handleReject}
+        />
+      )}
+      <div style={overlayStyle}>
+        {debugDots}
+        <div style={styles.cropBox}>
+          <svg
+            viewBox={`0 0 ${boxW} ${boxH}`}
+            style={styles.svg}
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <rect {...rectProps} stroke='#ffffff' strokeWidth={STROKE} opacity={0.2} />
+            <rect
+              {...rectProps}
+              stroke={COLOR_IDLE}
+              strokeWidth={STROKE}
+              strokeDasharray='8 6'
+              opacity={consistencyCount > 0 || isConfirmed ? 0 : 0.6}
+              style={{ transition: 'opacity 0.3s ease' }}
+            />
+            <rect
+              {...rectProps}
+              stroke={COLOR_CONFIRMED}
+              strokeWidth={STROKE}
+              strokeDasharray={`${filledLength} ${perimeter}`}
+              strokeLinecap='round'
+              style={{ transition: 'stroke-dasharray 0.4s ease' }}
+            />
+          </svg>
 
-        {displayText && <div style={styles.detectedText(isConfirmed)}>{displayText}</div>}
+          {displayText && <div style={styles.detectedText(isConfirmed)}>{displayText}</div>}
 
-        <div style={styles.statusLabel}>{statusText}</div>
+          <div style={styles.statusLabel}>{statusText}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
