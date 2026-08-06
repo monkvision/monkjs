@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useOcr, OCR_STABILIZER_CONFIG } from '@monkvision/ml-web';
+import React, { useEffect, useRef } from 'react';
+import { useInterval } from '@monkvision/common';
+import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { PhotoCaptureOcrConfig } from '../../hooks';
-
-const CROP_REGION = { x: 0.2, y: 0.4, w: 0.6, h: 0.2 };
-const RADIUS = 6;
-const STROKE = 2.5;
-
-const COLOR_IDLE = 'rgba(255,255,255,0.5)';
-const COLOR_CONFIRMED = '#22c55e';
-
-function getPerimeter(w: number, h: number): number {
-  return 2 * (w - 2 * RADIUS) + 2 * (h - 2 * RADIUS) + 2 * Math.PI * RADIUS;
-}
+import {
+  CROP_REGION,
+  RADIUS,
+  STROKE,
+  COLOR_IDLE,
+  COLOR_CONFIRMED,
+  getPerimeter,
+  getOverlayStyle,
+  styles,
+} from './OcrOverlay.styles';
 
 export interface OcrOverlayProps {
   config: PhotoCaptureOcrConfig;
@@ -21,6 +21,19 @@ export interface OcrOverlayProps {
   /** Actual rendered pixel dimensions of the video content on screen (excluding letterbox bars). */
   previewDimensions: { width: number; height: number } | null;
 }
+
+const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
+  if (fatalError) {
+    return '#ff4444';
+  }
+  if (isReady) {
+    return '#44ff88';
+  }
+  if (isLoading) {
+    return '#ffaa00';
+  }
+  return '#888888';
+};
 
 export function OcrOverlay({
   config,
@@ -39,6 +52,7 @@ export function OcrOverlay({
   const {
     isReady,
     isLoading,
+    isInferring,
     fatalError,
     loadModels,
     processFrame,
@@ -47,174 +61,91 @@ export function OcrOverlay({
     consistencyCount,
   } = useOcr({ ...ocrConfig, appearanceCount });
 
-  const cropCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const srcCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  const [inferring, setInferring] = useState(false);
-  const inferTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const setInferringRef = useRef(setInferring);
-  const inferTimerRefRef = useRef(inferTimerRef);
+  const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
+  const cropCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
+  const cropCoordsRef = useRef<{ sx: number; sy: number; sw: number; sh: number } | null>(null);
 
   useEffect(() => {
     loadModels();
   }, [loadModels]);
 
-  useEffect(() => {
-    if (!isReady || !isActive) return;
-    const interval = setInterval(() => {
-      if (isCameraLoading) return;
+  useInterval(
+    () => {
+      if (!isReady || !isActive || isCameraLoading) {
+        return undefined;
+      }
       try {
         const full = getImageData();
-        const sx = Math.round(CROP_REGION.x * full.width);
-        const sy = Math.round(CROP_REGION.y * full.height);
-        const sw = Math.round(CROP_REGION.w * full.width);
-        const sh = Math.round(CROP_REGION.h * full.height);
+
+        if (!cropCoordsRef.current || srcCanvasRef.current?.width !== full.width) {
+          cropCoordsRef.current = {
+            sx: Math.round(CROP_REGION.x * full.width),
+            sy: Math.round(CROP_REGION.y * full.height),
+            sw: Math.round(CROP_REGION.w * full.width),
+            sh: Math.round(CROP_REGION.h * full.height),
+          };
+        }
+        const { sx, sy, sw, sh } = cropCoordsRef.current;
 
         if (
           !srcCanvasRef.current ||
           srcCanvasRef.current.width !== full.width ||
           srcCanvasRef.current.height !== full.height
         ) {
-          srcCanvasRef.current = document.createElement('canvas');
-          srcCanvasRef.current.width = full.width;
-          srcCanvasRef.current.height = full.height;
+          srcCanvasRef.current = createCanvas(full.width, full.height);
         }
         if (
           !cropCanvasRef.current ||
           cropCanvasRef.current.width !== sw ||
           cropCanvasRef.current.height !== sh
         ) {
-          cropCanvasRef.current = document.createElement('canvas');
-          cropCanvasRef.current.width = sw;
-          cropCanvasRef.current.height = sh;
+          cropCanvasRef.current = createCanvas(sw, sh);
         }
 
-        const srcCtx = srcCanvasRef.current.getContext('2d');
-        const cropCtx = cropCanvasRef.current.getContext('2d');
-        if (!srcCtx || !cropCtx) return;
+        const srcCtx = get2dContext(srcCanvasRef.current);
+        const cropCtx = get2dContext(cropCanvasRef.current);
 
         srcCtx.putImageData(full, 0, 0);
         cropCtx.drawImage(srcCanvasRef.current, sx, sy, sw, sh, 0, 0, sw, sh);
         processFrame(cropCtx.getImageData(0, 0, sw, sh));
-
-        setInferringRef.current(true);
-        if (inferTimerRefRef.current.current) clearTimeout(inferTimerRefRef.current.current);
-        inferTimerRefRef.current.current = setTimeout(() => setInferringRef.current(false), 300);
       } catch {
         /* camera not ready */
       }
-    }, captureIntervalMs);
-    return () => clearInterval(interval);
-  }, [isReady, isActive, captureIntervalMs, processFrame, getImageData, isCameraLoading]);
+      return undefined;
+    },
+    isReady && isActive ? captureIntervalMs : null,
+  );
 
-  const modelColor = fatalError
-    ? '#ff4444'
-    : isReady
-    ? '#44ff88'
-    : isLoading
-    ? '#ffaa00'
-    : '#888888';
-  const inferColor = inferring ? '#44ff88' : '#888888';
+  const modelColor = resolveModelColor(fatalError, isReady, isLoading);
+  const inferColor = isInferring ? '#44ff88' : '#888888';
 
   const debugDots = (
-    <div
-      style={{
-        position: 'absolute',
-        top: 8,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 4,
-        pointerEvents: 'none',
-        zIndex: 9999,
-      }}
-    >
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <div
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              backgroundColor: modelColor,
-              boxShadow: `0 0 6px ${modelColor}`,
-            }}
-          />
-          <span
-            style={{
-              color: '#fff',
-              fontSize: 9,
-              fontFamily: 'monospace',
-              textShadow: '0 0 3px #000',
-            }}
-          >
-            model
-          </span>
+    <div style={styles.debugDots}>
+      <div style={styles.debugDotsRow}>
+        <div style={styles.debugDotItem}>
+          <div style={styles.debugDotDot(modelColor)} />
+          <span style={styles.debugDotLabel}>model</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <div
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              backgroundColor: inferColor,
-              boxShadow: `0 0 6px ${inferColor}`,
-            }}
-          />
-          <span
-            style={{
-              color: '#fff',
-              fontSize: 9,
-              fontFamily: 'monospace',
-              textShadow: '0 0 3px #000',
-            }}
-          >
-            infer
-          </span>
+        <div style={styles.debugDotItem}>
+          <div style={styles.debugDotDot(inferColor)} />
+          <span style={styles.debugDotLabel}>infer</span>
         </div>
       </div>
-      {fatalError && (
-        <div
-          style={{
-            color: '#ff4444',
-            fontSize: 9,
-            fontFamily: 'monospace',
-            background: 'rgba(0,0,0,0.8)',
-            padding: '2px 6px',
-            borderRadius: 3,
-            maxWidth: 300,
-            wordBreak: 'break-all',
-          }}
-        >
-          {fatalError}
-        </div>
-      )}
+      {fatalError && <div style={styles.errorText}>{fatalError}</div>}
     </div>
   );
 
-  const overlayStyle: React.CSSProperties = previewDimensions
-    ? {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: previewDimensions.width,
-        height: previewDimensions.height,
-        pointerEvents: 'none',
-      }
-    : { position: 'absolute', inset: 0, pointerEvents: 'none' };
+  const overlayStyle = getOverlayStyle(previewDimensions);
 
-  if (!isActive) return <div style={overlayStyle}>{debugDots}</div>;
+  if (!isActive) {
+    return <div style={overlayStyle}>{debugDots}</div>;
+  }
 
   const isConfirmed = confirmedText !== null;
   const displayText = confirmedText ?? (detectedText || null);
   const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
-
-  // Compute SVG dimensions from actual rendered crop box pixels so the perimeter is exact.
-  const containerW = previewDimensions ? previewDimensions.width : 0;
-  const containerH = previewDimensions ? previewDimensions.height : 0;
+  const containerW = previewDimensions?.width ?? 0;
+  const containerH = previewDimensions?.height ?? 0;
   const boxW = containerW * CROP_REGION.w;
   const boxH = containerH * CROP_REGION.h;
   const perimeter = getPerimeter(boxW, boxH);
@@ -229,42 +160,22 @@ export function OcrOverlay({
     fill: 'none',
   };
 
+  const statusText = (() => {
+    if (isConfirmed) {
+      return '✓ VIN confirmed';
+    }
+    if (consistencyCount > 0) {
+      return `${consistencyCount} / ${appearanceCount} consistent reads`;
+    }
+    return 'Scanning…';
+  })();
+
   return (
     <div style={overlayStyle}>
       {debugDots}
-      <div
-        style={{
-          position: 'absolute',
-          top: `${CROP_REGION.y * 100}%`,
-          left: `${CROP_REGION.x * 100}%`,
-          width: `${CROP_REGION.w * 100}%`,
-          height: `${CROP_REGION.h * 100}%`,
-          pointerEvents: 'none',
-          borderRadius: RADIUS,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          gap: 8,
-          paddingBottom: 10,
-        }}
-      >
-        <svg
-          viewBox={`0 0 ${boxW} ${boxH}`}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
-            overflow: 'visible',
-          }}
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          {/* Permanent low-opacity border — always shows the full frame shape */}
+      <div style={styles.cropBox}>
+        <svg viewBox={`0 0 ${boxW} ${boxH}`} style={styles.svg} xmlns='http://www.w3.org/2000/svg'>
           <rect {...rectProps} stroke='#ffffff' strokeWidth={STROKE} opacity={0.2} />
-
-          {/* Dashed idle border — fades out as steps accumulate */}
           <rect
             {...rectProps}
             stroke={COLOR_IDLE}
@@ -273,8 +184,6 @@ export function OcrOverlay({
             opacity={consistencyCount > 0 || isConfirmed ? 0 : 0.6}
             style={{ transition: 'opacity 0.3s ease' }}
           />
-
-          {/* Progressive fill — green from step 1, grows each consistent read */}
           <rect
             {...rectProps}
             stroke={COLOR_CONFIRMED}
@@ -285,40 +194,9 @@ export function OcrOverlay({
           />
         </svg>
 
-        {displayText && (
-          <div
-            style={{
-              backgroundColor: isConfirmed ? 'rgba(34,197,94,0.92)' : 'rgba(0,0,0,0.72)',
-              color: '#fff',
-              padding: '4px 18px',
-              borderRadius: 6,
-              fontSize: 20,
-              fontWeight: 'bold',
-              letterSpacing: 4,
-              whiteSpace: 'nowrap',
-              fontFamily: 'monospace',
-              transition: 'background-color 0.3s ease',
-            }}
-          >
-            {displayText}
-          </div>
-        )}
+        {displayText && <div style={styles.detectedText(isConfirmed)}>{displayText}</div>}
 
-        <div
-          style={{
-            color: 'rgba(255,255,255,0.85)',
-            fontSize: 11,
-            letterSpacing: 0.5,
-            whiteSpace: 'nowrap',
-            textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-          }}
-        >
-          {isConfirmed
-            ? '✓ VIN confirmed'
-            : consistencyCount > 0
-            ? `${consistencyCount} / ${appearanceCount} consistent reads`
-            : 'Scanning…'}
-        </div>
+        <div style={styles.statusLabel}>{statusText}</div>
       </div>
     </div>
   );

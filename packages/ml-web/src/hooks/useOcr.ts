@@ -32,6 +32,8 @@ export interface UseOcrConfig {
 export interface UseOcrResult {
   isReady: boolean;
   isLoading: boolean;
+  /** True while a frame inference is in flight. */
+  isInferring: boolean;
   fatalError: string | null;
   /** Confirmed text after `appearanceCount` consistent readings; null until confirmed. */
   confirmedText: string | null;
@@ -68,6 +70,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
   // ── Inference state ─────────────────────────────────────────────────────────
   const inFlightRef = useRef(false);
   const reqIdRef = useRef(0);
+  const [isInferring, setIsInferring] = useState(false);
 
   const [detectedText, setDetectedText] = useState('');
   const [chars, setChars] = useState<OcrCharResult[]>([]);
@@ -106,6 +109,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
       }
 
       inFlightRef.current = false;
+      setIsInferring(false);
 
       if (fe) {
         setFatalError(fe);
@@ -149,6 +153,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
 
     worker.onerror = (err) => {
       inFlightRef.current = false;
+      setIsInferring(false);
       setFatalError(err.message ?? 'Worker crashed');
     };
 
@@ -171,6 +176,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
   const processFrame = useCallback((imageData: ImageData) => {
     if (inFlightRef.current || !workerRef.current || isLockedRef.current) return;
     inFlightRef.current = true;
+    setIsInferring(true);
     const id = ++reqIdRef.current;
     workerRef.current.postMessage(
       { id, buffer: imageData.data.buffer, width: imageData.width, height: imageData.height },
@@ -186,11 +192,13 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     setConsistencyCount(0);
     setDetectedText('');
     setChars([]);
+    setIsInferring(false);
   }, []);
 
   return {
     isReady,
     isLoading,
+    isInferring,
     fatalError,
     confirmedText,
     detectedText,
