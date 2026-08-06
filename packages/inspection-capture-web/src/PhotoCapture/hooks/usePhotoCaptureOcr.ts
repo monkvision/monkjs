@@ -34,9 +34,13 @@ export function usePhotoCaptureOcr(config: PhotoCaptureOcrConfig): UsePhotoCaptu
 
   // Start OCR polling once models are loaded.
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady) {
+      return;
+    }
     const interval = setInterval(() => {
-      if (!handleRef.current || handleRef.current.isLoading) return;
+      if (!handleRef.current || handleRef.current.isLoading) {
+        return;
+      }
       try {
         const imageData = handleRef.current.getImageData();
         processFrame(imageData);

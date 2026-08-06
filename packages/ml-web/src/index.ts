@@ -1,4 +1,5 @@
 export { useOcr } from './hooks/useOcr';
+export { createCanvas, get2dContext, isSimilarText } from './ocr.utils';
 export type { UseOcrConfig, UseOcrResult } from './hooks/useOcr';
 export type {
   OcrCharResult,
