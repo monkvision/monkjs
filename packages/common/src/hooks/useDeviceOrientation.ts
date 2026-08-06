@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { DeviceRotation } from '@monkvision/types';
 import { useObjectMemo } from './useObjectMemo';
 import { useFilteredAlpha } from './useFilteredAlpha';
 
@@ -17,9 +18,10 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
  */
 export interface UseDeviceOrientationOptions {
   /**
-   * Custom event handler that will be called every time a device orientation event is fired by the device.
+   * Custom event handler that will be called every time a device orientation event is fired by the device, with the
+   * resulting (filtered) alpha value along with the raw beta and gamma values.
    */
-  onDeviceOrientationEvent?: (event: DeviceOrientationEvent) => void;
+  onDeviceOrientationEvent?: (rotation: DeviceRotation) => void;
 }
 
 /**
@@ -83,13 +85,16 @@ export function useDeviceOrientation(
       }
 
       const filteredAlpha = getFilteredAlpha(heading);
+      const filteredBeta = event.beta ?? 0;
+      const filteredGamma = event.gamma ?? 0;
       setAlpha(filteredAlpha);
-      setBeta(event.beta ?? 0);
-      setGamma(event.gamma ?? 0);
+      setBeta(filteredBeta);
+      setGamma(filteredGamma);
 
       options?.onDeviceOrientationEvent?.({
-        ...event,
         alpha: filteredAlpha,
+        beta: filteredBeta,
+        gamma: filteredGamma,
       });
     },
     [options?.onDeviceOrientationEvent],

@@ -44,6 +44,7 @@ const {
   vehiclePartLabels,
   isTimeoutError,
   isInternalServerError,
+  getAngleDifference,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -81,6 +82,7 @@ export = {
   vehiclePartLabels,
   isTimeoutError,
   isInternalServerError,
+  getAngleDifference,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

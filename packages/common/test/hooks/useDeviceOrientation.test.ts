@@ -194,8 +194,34 @@ describe('useDeviceOrientation hook', () => {
     expect(onDeviceOrientationEvent).not.toHaveBeenCalled();
     act(() => eventHandler(testEvent));
     expect(onDeviceOrientationEvent).toHaveBeenCalledWith({
-      ...testEvent,
       alpha: 360 - testEvent.alpha,
+      beta: 0,
+      gamma: 0,
+    });
+
+    unmount();
+  });
+
+  it('should forward the beta and gamma values to the custom event handler', async () => {
+    const spy = jest.spyOn(window, 'addEventListener');
+    const onDeviceOrientationEvent = jest.fn();
+    const { result, unmount } = renderHook(useDeviceOrientation, {
+      initialProps: { onDeviceOrientationEvent },
+    });
+
+    await act(async () => {
+      await result.current.requestCompassPermission();
+    });
+    const eventHandler = spy.mock.calls.find(([name]) => name === 'deviceorientation')?.[1] as (
+      event: any,
+    ) => void;
+
+    const testEvent = { alpha: 10, beta: 12, gamma: 34 };
+    act(() => eventHandler(testEvent));
+    expect(onDeviceOrientationEvent).toHaveBeenCalledWith({
+      alpha: 360 - testEvent.alpha,
+      beta: testEvent.beta,
+      gamma: testEvent.gamma,
     });
 
     unmount();
