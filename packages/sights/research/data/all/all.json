@@ -523,5 +523,124 @@
       "distance": "close"
     },
     "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-mLhPZl0Y.jpeg"
+  },
+  "all-PNlZmg96": {
+    "id": "all-PNlZmg96",
+    "category": "exterior",
+    "label": "taillight-left",
+    "overlay": "all-PNlZmg96.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-qrqDI9Go",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    }
+  },
+  "all-qrqDI9Go": {
+    "id": "all-qrqDI9Go",
+    "category": "exterior",
+    "label": "taillight-right",
+    "overlay": "all-qrqDI9Go.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-PNlZmg96",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    }
+  },
+  "all-U3sFVCcu": {
+    "id": "all-U3sFVCcu",
+    "category": "exterior",
+    "label": "mirror-left",
+    "overlay": "all-U3sFVCcu.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-mW2oR2CR",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid"
+    }
+  },
+  "all-mW2oR2CR": {
+    "id": "all-mW2oR2CR",
+    "category": "exterior",
+    "label": "mirror-right",
+    "overlay": "all-mW2oR2CR.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-U3sFVCcu",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 270,
+      "height": "mid"
+    }
+  },
+  "all-5pOlJ8JQ": {
+    "id": "all-5pOlJ8JQ",
+    "category": "interior",
+    "label": "rear-door-panel-left",
+    "overlay": "all-5pOlJ8JQ.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-2ZcbN2Vv",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 130,
+      "height": "mid",
+      "distance": "close"
+    }
+  },
+  "all-2ZcbN2Vv": {
+    "id": "all-2ZcbN2Vv",
+    "category": "interior",
+    "label": "rear-door-panel-right",
+    "overlay": "all-2ZcbN2Vv.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-5pOlJ8JQ",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 230,
+      "height": "mid",
+      "distance": "close"
+    }
+  },
+  "all-z5hfaeP1": {
+    "id": "all-z5hfaeP1",
+    "category": "interior",
+    "label": "engine-bay",
+    "overlay": "all-z5hfaeP1.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 0,
+      "height": "mid",
+      "distance": "close"
+    }
+  },
+  "all-jhCxAV6K": {
+    "id": "all-jhCxAV6K",
+    "category": "interior",
+    "label": "pedals",
+    "overlay": "all-jhCxAV6K.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "low",
+      "distance": "interior"
+    }
+  },
+  "all-0q1tiyhv": {
+    "id": "all-0q1tiyhv",
+    "category": "interior",
+    "label": "shifter",
+    "overlay": "all-0q1tiyhv.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 90,
+      "height": "mid",
+      "distance": "interior"
+    }
   }
 }

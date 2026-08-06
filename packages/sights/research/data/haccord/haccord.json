@@ -763,5 +763,31 @@
       "height": "mid"
     },
     "referencePicture": "https://storage.googleapis.com/monk-sight-images/haccord-zNA0vVT0.jpeg"
+  },
+  "haccord-7YyGtydu": {
+    "id": "haccord-7YyGtydu",
+    "category": "exterior",
+    "label": "headlight-left",
+    "overlay": "haccord-7YyGtydu.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-siqzzYAx",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    }
+  },
+  "haccord-siqzzYAx": {
+    "id": "haccord-siqzzYAx",
+    "category": "exterior",
+    "label": "headlight-right",
+    "overlay": "haccord-siqzzYAx.svg",
+    "vehicle": "haccord",
+    "mirror_sight": "haccord-7YyGtydu",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    }
   }
 }
