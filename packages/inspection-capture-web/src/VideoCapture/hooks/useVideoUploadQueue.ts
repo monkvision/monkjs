@@ -4,7 +4,7 @@ import { getInspectionImages, useMonkState, useObjectMemo, useQueue } from '@mon
 import { DeviceRotation, MonkPicture } from '@monkvision/types';
 import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 interface VideoFrameUpload {
   picture: MonkPicture;
@@ -71,6 +71,8 @@ export function useVideoUploadQueue({
   const { addImage, deleteImagesBulk } = useMonkApi(apiConfig);
   const { state } = useMonkState();
   const { handleError } = useMonitoring();
+  const [uploadedFrames, setUploadedFrames] = useState(0);
+  const [totalUploadingFrames, setTotalUploadingFrames] = useState(0);
 
   const queue = useQueue(
     (upload: VideoFrameUpload) =>
@@ -84,6 +86,9 @@ export function useVideoUploadQueue({
       }),
     {
       storeFailedItems: true,
+      onItemComplete: () => {
+        setUploadedFrames((count) => count + 1);
+      },
       onItemFail: (upload: VideoFrameUpload) => {
         upload.retryCount += 1;
         if (upload.retryCount <= maxRetryCount) {
@@ -106,6 +111,7 @@ export function useVideoUploadQueue({
       queue.push(upload);
       frameIndex.current += 1;
       frameTimestamp.current = now;
+      setTotalUploadingFrames((count) => count + 1);
     },
     [queue.push],
   );
@@ -121,8 +127,8 @@ export function useVideoUploadQueue({
   }, [deleteImagesBulk, inspectionId, state.images, handleError, queue]);
 
   return useObjectMemo({
-    uploadedFrames: queue.totalItems - queue.processingCount,
-    totalUploadingFrames: queue.totalItems,
+    uploadedFrames,
+    totalUploadingFrames,
     onFrameSelected,
     discardUploadedImages,
   });

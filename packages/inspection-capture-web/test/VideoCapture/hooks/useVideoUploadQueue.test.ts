@@ -27,10 +27,10 @@ describe('useVideoUploadQueue hook', () => {
 
   it('should push items to the queue with the proper params', () => {
     const initialProps = createProps();
-    const { result, rerender, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
     expect(useQueue).toHaveBeenCalled();
-    let { push } = (useQueue as jest.Mock).mock.results[0].value;
+    let push = (useQueue as jest.Mock).mock.results.at(-1)?.value.push;
 
     expect(push).not.toHaveBeenCalled();
     const picture1 = { uri: 'test-uri-1' } as unknown as MonkPicture;
@@ -48,8 +48,7 @@ describe('useVideoUploadQueue hook', () => {
 
     const time = 5491;
     jest.advanceTimersByTime(time);
-    rerender();
-    push = (useQueue as jest.Mock).mock.results[1].value.push;
+    push = (useQueue as jest.Mock).mock.results.at(-1)?.value.push;
 
     expect(push).not.toHaveBeenCalled();
     const picture2 = { uri: 'test-uri-2' } as unknown as MonkPicture;
@@ -139,20 +138,42 @@ describe('useVideoUploadQueue hook', () => {
     unmount();
   });
 
-  it('should return the uploaded frames and the total uploading frames', () => {
-    const totalItems = 2345;
-    const processingCount = 123;
-    (useQueue as jest.Mock).mockImplementationOnce(() => ({
-      push: jest.fn(),
-      clear: jest.fn(),
-      totalItems,
-      processingCount,
-    }));
+  it('should count uploaded frames only once per distinct frame, regardless of retries', () => {
     const initialProps = createProps();
     const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
 
-    expect(result.current.uploadedFrames).toEqual(totalItems - processingCount);
-    expect(result.current.totalUploadingFrames).toEqual(totalItems);
+    expect(result.current.uploadedFrames).toEqual(0);
+    expect(result.current.totalUploadingFrames).toEqual(0);
+
+    const picture1 = { uri: 'test-uri-1' } as unknown as MonkPicture;
+    const picture2 = { uri: 'test-uri-2' } as unknown as MonkPicture;
+    act(() => {
+      result.current.onFrameSelected(picture1);
+      result.current.onFrameSelected(picture2);
+    });
+
+    expect(result.current.totalUploadingFrames).toEqual(2);
+    expect(result.current.uploadedFrames).toEqual(0);
+
+    const { onItemComplete, onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+    const upload = {
+      picture: picture1,
+      frameIndex: 0,
+      timestamp: 0,
+      retryCount: 0,
+    };
+
+    act(() => {
+      onItemFail(upload);
+    });
+    expect(result.current.uploadedFrames).toEqual(0);
+    expect(result.current.totalUploadingFrames).toEqual(2);
+
+    act(() => {
+      onItemComplete(upload);
+    });
+    expect(result.current.uploadedFrames).toEqual(1);
+    expect(result.current.totalUploadingFrames).toEqual(2);
 
     unmount();
   });
