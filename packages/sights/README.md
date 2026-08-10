@@ -48,5 +48,31 @@ const sight = sights['haccord-8YjMcu0D'];
 console.log(vehicles[sight.vehicle]);
 ```
 
+## Looking up sight IDs by label (and vice versa)
+When you already know a sight's human-readable name (e.g. `"Front low"`) but need its ID for a given vehicle model,
+or you have a list of sight IDs and want their readable names back, use the lookup helpers :
+
+```typescript
+import { VehicleModel } from '@monkvision/types';
+import { resolveSightIdsFromNames, resolveNamesFromSightIds } from '@monkvision/sights';
+
+resolveSightIdsFromNames(['Front low', 'Hood'], VehicleModel.HACCORD);
+// [
+//   { input: 'Front low', labelKey: 'front-low', sightIds: ['haccord-8YjMcu0D'], ambiguous: false },
+//   { input: 'Hood', labelKey: 'hood', sightIds: ['haccord-DUPnw5jj'], ambiguous: false },
+// ]
+
+resolveNamesFromSightIds(['haccord-8YjMcu0D', 'haccord-DUPnw5jj']);
+// [
+//   { sightId: 'haccord-8YjMcu0D', labelKey: 'front-low', englishLabel: 'Front Low' },
+//   { sightId: 'haccord-DUPnw5jj', labelKey: 'hood', englishLabel: 'Hood' },
+// ]
+```
+
+Names are normalized (lower-cased, trimmed, spaces replaced with hyphens) before being matched against label
+dictionary keys. Unmatched names, labels with no sight for the requested vehicle model, and ambiguous labels
+(more than one sight sharing the same label for that vehicle) are reported in the result instead of being guessed —
+see the `error`/`ambiguous` fields.
+
 # Contributing
 Please refer to [this page](CONTRIBUTING.md) for more documentation if you are a developer contributing to this project.
