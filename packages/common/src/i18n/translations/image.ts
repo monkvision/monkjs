@@ -37,6 +37,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Caricamento in corso',
       'en-IE': 'Uploading',
       'en-GB': 'Uploading',
+      'en-hag': 'Uploading',
     },
     description: {
       'en': 'This image is being uploaded.',
@@ -56,6 +57,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Questa immagine è in fase di caricamento.',
       'en-IE': 'This image is being uploaded.',
       'en-GB': 'This image is being uploaded.',
+      'en-hag': 'This image is being uploaded.',
     },
   },
   [ImageStatus.COMPLIANCE_RUNNING]: {
@@ -77,6 +79,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Analizzando',
       'en-IE': 'Analyzing',
       'en-GB': 'Analyzing',
+      'en-hag': 'Analyzing',
     },
     description: {
       'en': 'This image is being analyzed.',
@@ -96,6 +99,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Questa immagine è in fase di analisi.',
       'en-IE': 'This image is being analyzed.',
       'en-GB': 'This image is being analyzed.',
+      'en-hag': 'This image is being analyzed.',
     },
   },
   [ImageStatus.SUCCESS]: {
@@ -117,6 +121,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Successo',
       'en-IE': 'Success',
       'en-GB': 'Success',
+      'en-hag': 'Success',
     },
     description: {
       'en': 'This image seems good, but you can still retake it if you want.',
@@ -137,6 +142,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Questa immagine sembra buona, ma puoi comunque rifarla se vuoi.',
       'en-IE': 'This image seems good, but you can still retake it if you want.',
       'en-GB': 'This image seems good, but you can still retake it if you want.',
+      'en-hag': 'This image seems good, but you can still retake it if you want.',
     },
   },
   [ImageStatus.UPLOAD_FAILED]: {
@@ -158,6 +164,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Caricamento non riuscito',
       'en-IE': 'Upload failed',
       'en-GB': 'Upload failed',
+      'en-hag': 'Upload failed',
     },
     description: {
       'en': 'Make sure you have a good connection and take the photo again.',
@@ -178,6 +185,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Assicurati di avere una buona connessione e scatta di nuovo la foto.',
       'en-IE': 'Make sure you have a good connection and take the photo again.',
       'en-GB': 'Make sure you have a good connection and take the photo again.',
+      'en-hag': 'Make sure you have a good connection and take the photo again.',
     },
   },
   [ImageStatus.UPLOAD_ERROR]: {
@@ -199,6 +207,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Errore di caricamento',
       'en-IE': 'Upload error',
       'en-GB': 'Upload error',
+      'en-hag': 'Upload error',
     },
     description: {
       'en': 'An error occurred during the image upload.',
@@ -218,6 +227,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': "Si è verificato un errore durante il caricamento dell'immagine.",
       'en-IE': 'An error occurred during the image upload.',
       'en-GB': 'An error occurred during the image upload.',
+      'en-hag': 'An error occurred during the image upload.',
     },
   },
   [ImageStatus.NOT_COMPLIANT]: {
@@ -239,6 +249,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': 'Errore',
       'en-IE': 'Error',
       'en-GB': 'Error',
+      'en-hag': 'Error',
     },
     description: {
       'en': 'Make sure the image quality is good and take the photo again.',
@@ -259,6 +270,7 @@ export const imageStatusLabels: Record<ImageStatus, ImageLabels> = {
       'it': "Assicurati che la qualità dell'immagine sia buona e scatta di nuovo la foto.",
       'en-IE': 'Make sure the image quality is good and take the photo again.',
       'en-GB': 'Make sure the image quality is good and take the photo again.',
+      'en-hag': 'Make sure the image quality is good and take the photo again.',
     },
   },
 };
@@ -286,6 +298,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Non conforme',
       'en-IE': 'Not compliant',
       'en-GB': 'Not compliant',
+      'en-hag': 'Not compliant',
     },
     description: {
       'en': 'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
@@ -308,6 +321,8 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
         'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
       'en-GB':
         'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
+      'en-hag':
+        'Make sure that the image quality is good and that the vehicle is properly aligned with the guides.',
     },
   },
   [ComplianceIssue.LOW_RESOLUTION]: {
@@ -329,6 +344,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Bassa risoluzione',
       'en-IE': 'Low resolution',
       'en-GB': 'Low resolution',
+      'en-hag': 'Low resolution',
     },
     description: {
       'en': 'Make sure that the image has a good resolution.',
@@ -348,6 +364,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che l'immagine abbia una buona risoluzione.",
       'en-IE': 'Make sure that the image has a good resolution.',
       'en-GB': 'Make sure that the image has a good resolution.',
+      'en-hag': 'Make sure that the image has a good resolution.',
     },
   },
   [ComplianceIssue.BLURRINESS]: {
@@ -369,6 +386,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Troppo sfocata',
       'en-IE': 'Too blurry',
       'en-GB': 'Too blurry',
+      'en-hag': 'Too blurry',
     },
     description: {
       'en': 'Make sure that the image is not blurry.',
@@ -388,6 +406,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che l'immagine non sia sfocata.",
       'en-IE': 'Make sure that the image is not blurry.',
       'en-GB': 'Make sure that the image is not blurry.',
+      'en-hag': 'Make sure that the image is not blurry.',
     },
   },
   [ComplianceIssue.UNDEREXPOSURE]: {
@@ -409,6 +428,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Sottoesposto',
       'en-IE': 'Underexposed',
       'en-GB': 'Underexposed',
+      'en-hag': 'Underexposed',
     },
     description: {
       'en': "Make sure that the image isn't too dark.",
@@ -428,6 +448,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che l'immagine non sia troppo scura.",
       'en-IE': 'Underexposed',
       'en-GB': 'Underexposed',
+      'en-hag': "Make sure that the image isn't too dark.",
     },
   },
   [ComplianceIssue.OVEREXPOSURE]: {
@@ -449,6 +470,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Sovraesposto',
       'en-IE': 'Overexposed',
       'en-GB': 'Overexposed',
+      'en-hag': 'Overexposed',
     },
     description: {
       'en': "Make sure that the image isn't too bright.",
@@ -468,6 +490,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che l'immagine non sia troppo luminosa.",
       'en-IE': 'Overexposed',
       'en-GB': 'Overexposed',
+      'en-hag': "Make sure that the image isn't too bright.",
     },
   },
   [ComplianceIssue.LENS_FLARE]: {
@@ -489,6 +512,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Riflessi',
       'en-IE': 'Lens flares',
       'en-GB': 'Lens flares',
+      'en-hag': 'Lens flares',
     },
     description: {
       'en': "Make sure that there aren't any bright flare on the image.",
@@ -508,6 +532,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che non ci siano riflessi luminosi sull'immagine.",
       'en-IE': 'Lens flares',
       'en-GB': 'Lens flares',
+      'en-hag': "Make sure that there aren't any bright flare on the image.",
     },
   },
   [ComplianceIssue.DIRTINESS]: {
@@ -529,6 +554,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Veicolo sporco',
       'en-IE': 'Vehicle dirty',
       'en-GB': 'Vehicle dirty',
+      'en-hag': 'Vehicle dirty',
     },
     description: {
       'en': 'Make sure that your vehicle is clean.',
@@ -548,6 +574,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che il tuo veicolo sia pulito.',
       'en-IE': 'Make sure that your vehicle is clean.',
       'en-GB': 'Make sure that your vehicle is clean.',
+      'en-hag': 'Make sure that your vehicle is clean.',
     },
   },
   [ComplianceIssue.SNOWNESS]: {
@@ -569,6 +596,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Veicolo innevato',
       'en-IE': 'Vehicle snowy',
       'en-GB': 'Vehicle snowy',
+      'en-hag': 'Vehicle snowy',
     },
     description: {
       'en': "Make sure that there aren't any snow on the vehicle.",
@@ -588,6 +616,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che non ci sia neve sul veicolo.',
       'en-IE': 'Vehicle snowy',
       'en-GB': 'Vehicle snowy',
+      'en-hag': "Make sure that there aren't any snow on the vehicle.",
     },
   },
   [ComplianceIssue.WETNESS]: {
@@ -609,6 +638,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Veicolo bagnato',
       'en-IE': 'Vehicle wet',
       'en-GB': 'Vehicle wet',
+      'en-hag': 'Vehicle wet',
     },
     description: {
       'en': 'Make sure that the vehicle is dry.',
@@ -628,6 +658,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che il veicolo sia asciutto.',
       'en-IE': 'Make sure that the vehicle is dry.',
       'en-GB': 'Make sure that the vehicle is dry.',
+      'en-hag': 'Make sure that the vehicle is dry.',
     },
   },
   [ComplianceIssue.REFLECTIONS]: {
@@ -649,6 +680,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Riflessi',
       'en-IE': 'Reflections',
       'en-GB': 'Reflections',
+      'en-hag': 'Reflections',
     },
     description: {
       'en': "Make sure that there are'nt any reflections on the vehicle.",
@@ -668,6 +700,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che non ci siano riflessi sul veicolo.',
       'en-IE': 'Reflections',
       'en-GB': 'Reflections',
+      'en-hag': "Make sure that there are'nt any reflections on the vehicle.",
     },
   },
   [ComplianceIssue.UNKNOWN_SIGHT]: {
@@ -689,6 +722,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Unknown sight',
       'en-IE': 'Unknown sight',
       'en-GB': 'Unknown sight',
+      'en-hag': 'Unknown sight',
     },
     description: {
       'en': 'Internal Error : Unknown sight.',
@@ -708,6 +742,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Errore interno: Unknown sight.',
       'en-IE': 'Internal Error : Unknown sight.',
       'en-GB': 'Internal Error : Unknown sight.',
+      'en-hag': 'Internal Error : Unknown sight.',
     },
   },
   [ComplianceIssue.UNKNOWN_VIEWPOINT]: {
@@ -729,6 +764,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Unknown viewpoint',
       'en-IE': 'Unknown viewpoint',
       'en-GB': 'Unknown viewpoint',
+      'en-hag': 'Unknown viewpoint',
     },
     description: {
       'en': 'Internal Error : Unknown viewpoint.',
@@ -748,6 +784,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Errore interno: Unknown viewpoint.',
       'en-IE': 'Internal Error : Unknown viewpoint.',
       'en-GB': 'Internal Error : Unknown viewpoint.',
+      'en-hag': 'Internal Error : Unknown viewpoint.',
     },
   },
   [ComplianceIssue.NO_VEHICLE]: {
@@ -769,6 +806,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Nessun veicolo',
       'en-IE': 'No vehicle',
       'en-GB': 'No vehicle',
+      'en-hag': 'No vehicle',
     },
     description: {
       'en': 'Make sure that there is a vehicle in the photo.',
@@ -788,6 +826,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che ci sia un veicolo nella foto.',
       'en-IE': 'Make sure that there is a vehicle in the photo.',
       'en-GB': 'Make sure that there is a vehicle in the photo.',
+      'en-hag': 'Make sure that there is a vehicle in the photo.',
     },
   },
   [ComplianceIssue.WRONG_ANGLE]: {
@@ -809,6 +848,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Angolo sbagliato',
       'en-IE': 'Wrong angle',
       'en-GB': 'Wrong angle',
+      'en-hag': 'Wrong angle',
     },
     description: {
       'en': 'Make sure to properly align the vehicle with the guides.',
@@ -828,6 +868,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di allineare correttamente il veicolo con le guide.',
       'en-IE': 'Make sure to properly align the vehicle with the guides.',
       'en-GB': 'Make sure to properly align the vehicle with the guides.',
+      'en-hag': 'Make sure to properly align the vehicle with the guides.',
     },
   },
   [ComplianceIssue.WRONG_CENTER_PART]: {
@@ -849,6 +890,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Parte centrale sbagliata',
       'en-IE': 'Wrong center part',
       'en-GB': 'Wrong center part',
+      'en-hag': 'Wrong center part',
     },
     description: {
       'en': 'Make sure to properly align the vehicle with the guides.',
@@ -868,6 +910,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di allineare correttamente il veicolo con le guide.',
       'en-IE': 'Make sure to properly align the vehicle with the guides.',
       'en-GB': 'Make sure to properly align the vehicle with the guides.',
+      'en-hag': 'Make sure to properly align the vehicle with the guides.',
     },
   },
   [ComplianceIssue.MISSING_PARTS]: {
@@ -889,6 +932,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Parti mancanti',
       'en-IE': 'Missing parts',
       'en-GB': 'Missing parts',
+      'en-hag': 'Missing parts',
     },
     description: {
       'en': 'Make sure to properly align the vehicle with the guides.',
@@ -908,6 +952,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di allineare correttamente il veicolo con le guide.',
       'en-IE': 'Make sure to properly align the vehicle with the guides.',
       'en-GB': 'Make sure to properly align the vehicle with the guides.',
+      'en-hag': 'Make sure to properly align the vehicle with the guides.',
     },
   },
   [ComplianceIssue.HIDDEN_PARTS]: {
@@ -929,6 +974,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Parti nascoste',
       'en-IE': 'Hidden parts',
       'en-GB': 'Hidden parts',
+      'en-hag': 'Hidden parts',
     },
     description: {
       'en': 'Make sure that nothing is obstructing the vehicule from the camera.',
@@ -948,6 +994,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che nulla ostruisca il veicolo dalla fotocamera.',
       'en-IE': 'Make sure that nothing is obstructing the vehicule from the camera.',
       'en-GB': 'Make sure that nothing is obstructing the vehicule from the camera.',
+      'en-hag': 'Make sure that nothing is obstructing the vehicule from the camera.',
     },
   },
   [ComplianceIssue.TOO_ZOOMED]: {
@@ -969,6 +1016,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Troppo vicino',
       'en-IE': 'Too close',
       'en-GB': 'Too close',
+      'en-hag': 'Too close',
     },
     description: {
       'en': 'Make sure to stand far enough from the vehicle.',
@@ -988,6 +1036,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di stare abbastanza lontano dal veicolo.',
       'en-IE': 'Make sure to stand far enough from the vehicle.',
       'en-GB': 'Make sure to stand far enough from the vehicle.',
+      'en-hag': 'Make sure to stand far enough from the vehicle.',
     },
   },
   [ComplianceIssue.NOT_ZOOMED_ENOUGH]: {
@@ -1009,6 +1058,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Troppo lontano',
       'en-IE': 'Too far',
       'en-GB': 'Too far',
+      'en-hag': 'Too far',
     },
     description: {
       'en': 'Make sure to stand close enough from the vehicle.',
@@ -1028,6 +1078,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di stare abbastanza vicino al veicolo.',
       'en-IE': 'Make sure to stand close enough from the vehicle.',
       'en-GB': 'Make sure to stand close enough from the vehicle.',
+      'en-hag': 'Make sure to stand close enough from the vehicle.',
     },
   },
   [ComplianceIssue.INTERIOR_NOT_SUPPORTED]: {
@@ -1049,6 +1100,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Interior not supported',
       'en-IE': 'Interior not supported',
       'en-GB': 'Interior not supported',
+      'en-hag': 'Interior not supported',
     },
     description: {
       'en': 'Internal Error : Interior not supported.',
@@ -1068,6 +1120,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Errore interno: Interior not supported.',
       'en-IE': 'Internal Error : Interior not supported.',
       'en-GB': 'Internal Error : Interior not supported.',
+      'en-hag': 'Internal Error : Interior not supported.',
     },
   },
   [ComplianceIssue.MISSING]: {
@@ -1089,6 +1142,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Missing',
       'en-IE': 'Missing',
       'en-GB': 'Missing',
+      'en-hag': 'Missing',
     },
     description: {
       'en': 'Internal Error : Missing.',
@@ -1108,6 +1162,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Errore interno: Missing.',
       'en-IE': 'Internal Error : Missing.',
       'en-GB': 'Internal Error : Missing.',
+      'en-hag': 'Internal Error : Missing.',
     },
   },
   [ComplianceIssue.LOW_QUALITY]: {
@@ -1129,6 +1184,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Bassa qualità',
       'en-IE': 'Low quality',
       'en-GB': 'Low quality',
+      'en-hag': 'Low quality',
     },
     description: {
       'en': 'Make sure that the photo has a good quality.',
@@ -1148,6 +1204,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati che la foto sia di buona qualità.',
       'en-IE': 'Make sure that the photo has a good quality.',
       'en-GB': 'Make sure that the photo has a good quality.',
+      'en-hag': 'Make sure that the photo has a good quality.',
     },
   },
   [ComplianceIssue.PORTRAIT_IMAGE]: {
@@ -1169,6 +1226,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Immagine verticale',
       'en-IE': 'Portrait Image',
       'en-GB': 'Portrait Image',
+      'en-hag': 'Portrait Image',
     },
     description: {
       'en': 'The picture is in portrait mode, please take it in landscape',
@@ -1188,6 +1246,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "L'immagine è in modalità verticale, scattala in orizzontale",
       'en-IE': 'The picture is in portrait mode, please take it in landscape',
       'en-GB': 'The picture is in portrait mode, please take it in landscape',
+      'en-hag': 'The picture is in portrait mode, please take it in landscape',
     },
   },
   [ComplianceIssue.CONTAIN_FORBIDDEN_PARTS]: {
@@ -1209,6 +1268,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Contiene parti vietate',
       'en-IE': 'Contain forbidden parts',
       'en-GB': 'Contain forbidden parts',
+      'en-hag': 'Contain forbidden parts',
     },
     description: {
       'en': 'Make sure to properly align the vehicle with the guides.',
@@ -1228,6 +1288,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Assicurati di allineare correttamente il veicolo con le guide.',
       'en-IE': 'Make sure to properly align the vehicle with the guides.',
       'en-GB': 'Make sure to properly align the vehicle with the guides.',
+      'en-hag': 'Make sure to properly align the vehicle with the guides.',
     },
   },
   [ComplianceIssue.VEHICLE_NOT_FULLY_IN_FRAME]: {
@@ -1249,6 +1310,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': 'Veicolo non completamente inquadrato',
       'en-IE': 'Vehicle not fully in frame',
       'en-GB': 'Vehicle not fully in frame',
+      'en-hag': 'Vehicle not fully in frame',
     },
     description: {
       'en': 'Make sure that the entire vehicle is visible in the photo.',
@@ -1268,6 +1330,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che l'intero veicolo sia visibile nella foto.",
       'en-IE': 'Make sure that the entire vehicle is visible in the photo.',
       'en-GB': 'Make sure that the entire vehicle is visible in the photo.',
+      'en-hag': 'Make sure that the entire vehicle is visible in the photo.',
     },
   },
   [ComplianceIssue.FINGER_ON_VEHICLE]: {
@@ -1289,6 +1352,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Dito sull'obiettivo",
       'en-IE': 'Finger on lens',
       'en-GB': 'Finger on lens',
+      'en-hag': 'Finger on lens',
     },
     description: {
       'en': 'Make sure that there is no finger on the camera lens.',
@@ -1308,6 +1372,7 @@ export const complianceIssueLabels: Record<ComplianceIssue, ImageLabels> = {
       'it': "Assicurati che non ci sia un dito sull'obiettivo della fotocamera.",
       'en-IE': 'Make sure that there is no finger on the camera lens.',
       'en-GB': 'Make sure that there is no finger on the camera lens.',
+      'en-hag': 'Make sure that there is no finger on the camera lens.',
     },
   },
 };
@@ -1334,6 +1399,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Față',
     'en-IE': 'Front',
     'en-GB': 'Front',
+    'en-hag': 'Front',
   },
   [Viewpoint.FRONT_LEFT]: {
     'en': 'Front Left',
@@ -1353,6 +1419,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Față stânga',
     'en-IE': 'Front Left',
     'en-GB': 'Front Left',
+    'en-hag': 'Front Left',
   },
   [Viewpoint.LEFT]: {
     'en': 'Left',
@@ -1372,6 +1439,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Stânga',
     'en-IE': 'Left',
     'en-GB': 'Left',
+    'en-hag': 'Left',
   },
   [Viewpoint.BACK_LEFT]: {
     'en': 'Rear Left',
@@ -1391,6 +1459,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Spate stânga',
     'en-IE': 'Rear Left',
     'en-GB': 'Rear Left',
+    'en-hag': 'Rear Left',
   },
   [Viewpoint.BACK]: {
     'en': 'Rear',
@@ -1410,6 +1479,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Spate',
     'en-IE': 'Rear',
     'en-GB': 'Rear',
+    'en-hag': 'Rear',
   },
   [Viewpoint.BACK_RIGHT]: {
     'en': 'Rear Right',
@@ -1429,6 +1499,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Spate dreapta',
     'en-IE': 'Rear Right',
     'en-GB': 'Rear Right',
+    'en-hag': 'Rear Right',
   },
   [Viewpoint.RIGHT]: {
     'en': 'Right',
@@ -1448,6 +1519,7 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Dreapta',
     'en-IE': 'Right',
     'en-GB': 'Right',
+    'en-hag': 'Right',
   },
   [Viewpoint.FRONT_RIGHT]: {
     'en': 'Front Right',
@@ -1467,5 +1539,6 @@ export const viewpointLabels: Record<Viewpoint, TranslationObject> = {
     'ro': 'Față dreapta',
     'en-IE': 'Front Right',
     'en-GB': 'Front Right',
+    'en-hag': 'Front Right',
   },
 };

@@ -83,17 +83,29 @@ For app-level i18n (which use the full `i18next` init):
 
 These import directly from their own `src/translations/<locale>.json` and pass the object into `resources`.
 
-### 4. Add locale entries to inline `TranslationObject` maps in `@monkvision/common`
+### 4. Add locale entries to inline `TranslationObject` literals
 
-These files define `fr:` string entries for every value and must include the new locale:
+These files hardcode a `fr:`/`en-GB:` string entry per value and must include the new locale:
 
 - `packages/common/src/i18n/translations/vehicleParts.ts`
 - `packages/common/src/i18n/translations/image.ts`
 - `packages/common/src/i18n/translations/damageTypes.ts`
+- `packages/camera-web/src/utils/errors.utils.ts` (`getCameraErrorLabel`)
+- `packages/network/src/api/image/requests.ts` (`getImageLabel`)
 
-For each `TranslationObject` literal in those files, read the `en` and `fr` values as reference, then write a proper translation for the new locale. Vehicle part names (hood, bumper, quarter panel, etc.) and damage types (scratch, dent, crack, etc.) must use the standard automotive terms in the target language.
+For each `TranslationObject` literal in those files, read the `en` and `fr` values as reference, then write a proper translation for the new locale. Vehicle part names (hood, bumper, quarter panel, etc.) and damage types (scratch, dent, crack, etc.) must use the standard automotive terms in the target language. Watch for values split across two lines (`'en-GB':\n  '...'`) — add the new key in the same multi-line style if the string is long.
 
-### 5. Verify TypeScript compiles
+### 5. Add the locale to `@monkvision/sights` label data
+
+Sight labels are translated separately from the rest of the SDK:
+
+- `packages/sights/research/schemas/labels.schema.json` — add the new locale to both `properties` and `required` (schema validation fails the build otherwise).
+- `packages/sights/research/data/labels.json` — add the new locale to every label entry (100+ entries; script it rather than hand-editing).
+- `packages/sights/src/build/buildJSONs.ts` (`mapLabels`) — this function explicitly lists each locale key, so add `'<locale>': labelTranslation['<locale>']` or it will be silently dropped from the compiled output.
+
+Rebuild this package specifically to catch schema/mapping errors early: `yarn workspace @monkvision/sights build`.
+
+### 6. Verify TypeScript compiles
 
 `TranslationObject` is `Record<MonkLanguage, string>`, so TypeScript will error on every `TranslationObject` literal that is missing the new locale. Adding the locale to `monkLanguages` in step 1 makes those errors appear; fixing them is the completion signal.
 
@@ -102,11 +114,10 @@ Run the full build:
 yarn build
 ```
 
-### 6. Run the unit tests
+### 7. Run the unit tests
 
-The `useObjectTranslation` and `useSightLabel` tests iterate over every `MonkLanguage` and will fail if any fixture is missing the new locale. Update fixtures in:
+The `useObjectTranslation` and `useSightLabel` tests iterate over every `MonkLanguage` and will fail if any fixture is missing the new locale. `errors.utils.test.ts` and `requests.test.ts` assert against the full literal from step 4, so they need the matching key too. Update fixtures in:
 - `packages/common/test/hooks/useObjectTranslation.test.ts`
-- `packages/common/test/hooks/useSightLabel.test.ts`
 - `packages/common/test/hooks/useSightLabel.test.ts`
 - `packages/network/test/api/image/requests.test.ts`
 - `packages/camera-web/test/utils/errors.utils.test.ts`
@@ -118,7 +129,7 @@ Then run:
 yarn test
 ```
 
-### 7. Run lint
+### 8. Run lint
 
 ```bash
 yarn lint:fix
@@ -132,7 +143,8 @@ yarn lint:fix
 - [ ] `apps/demo-app/src/translations/<locale>.json` created (empty `{}`)
 - [ ] `apps/demo-app-video/src/translations/<locale>.json` created
 - [ ] All `i18n.ts` files updated with the new import and `resources` entry
-- [ ] All inline `TranslationObject` maps updated (`vehicleParts.ts`, `image.ts`, `damageTypes.ts`)
+- [ ] All inline `TranslationObject` literals updated (`vehicleParts.ts`, `image.ts`, `damageTypes.ts`, `errors.utils.ts`, `requests.ts`)
+- [ ] `@monkvision/sights` updated (`labels.schema.json`, `labels.json`, `buildJSONs.ts`)
 - [ ] Test fixtures updated
 - [ ] `yarn build` passes with no TypeScript errors
 - [ ] `yarn workspace @monkvision/common test` passes

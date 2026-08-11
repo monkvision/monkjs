@@ -7,6 +7,7 @@ describe('Camera error utils', () => {
         expect(getCameraErrorLabel(type)).toEqual({
           'en': expect.any(String),
           'en-GB': expect.any(String),
+          'en-hag': expect.any(String),
           'en-IE': expect.any(String),
           'fi': expect.any(String),
           'cs': expect.any(String),
@@ -30,6 +31,7 @@ describe('Camera error utils', () => {
       expect(getCameraErrorLabel('test' as UserMediaErrorType)).toEqual({
         'en': expect.any(String),
         'en-GB': expect.any(String),
+        'en-hag': expect.any(String),
         'en-IE': expect.any(String),
         'fi': expect.any(String),
         'cs': expect.any(String),
@@ -52,6 +54,7 @@ describe('Camera error utils', () => {
       expect(getCameraErrorLabel()).toEqual({
         'en': expect.any(String),
         'en-GB': expect.any(String),
+        'en-hag': expect.any(String),
         'en-IE': expect.any(String),
         'fi': expect.any(String),
         'cs': expect.any(String),

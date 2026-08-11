@@ -404,6 +404,7 @@ describe('Image requests', () => {
           label: {
             'en': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
             'en-GB': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+            'en-hag': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
             'en-IE': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
             'fi': options.firstShot ? 'Lähikuva (osa)' : 'Lähikuva (vahinko)',
             'cs': options.firstShot ? 'Detail (část)' : 'Detail (poškození)',
@@ -453,6 +454,7 @@ describe('Image requests', () => {
           label: {
             'en': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
             'en-GB': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+            'en-hag': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
             'en-IE': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
             'fi': `Lähikuva: ${partsTranslation.map((part) => part.fi).join(', ')}`,
             'cs': `Detail${partsTranslation.map((part) => part.cs).join(', ')}`,
@@ -502,6 +504,7 @@ describe('Image requests', () => {
           label: {
             'en': `Video Frame ${options.frameIndex}`,
             'en-GB': `Video Frame ${options.frameIndex}`,
+            'en-hag': `Video Frame ${options.frameIndex}`,
             'en-IE': `Video Frame ${options.frameIndex}`,
             'fi': `Videokuva ${options.frameIndex}`,
             'cs': `Obraz z videa${options.frameIndex}`,
@@ -550,6 +553,7 @@ describe('Image requests', () => {
           label: {
             'en': `Video Manual Photo`,
             'en-GB': `Video Manual Photo`,
+            'en-hag': `Video Manual Photo`,
             'en-IE': `Video Manual Photo`,
             'fi': `Manuaalinen videokuva`,
             'cs': `Manuální snímek z videa`,

@@ -18,6 +18,7 @@ import nl from './translations/nl.json';
 import it from './translations/it.json';
 import enIE from './translations/en-IE.json';
 import enGB from './translations/en-GB.json';
+import enHag from './translations/en-hag.json';
 
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -45,6 +46,7 @@ i18n
       'fi': { translation: fi },
       'en-IE': { translation: enIE },
       'en-GB': { translation: enGB },
+      'en-hag': { translation: enHag },
     },
   })
   .catch(console.error);

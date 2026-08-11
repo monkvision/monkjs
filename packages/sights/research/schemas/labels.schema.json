@@ -63,6 +63,9 @@
         },
         "en-GB": {
           "type": "string"
+        },
+        "en-hag": {
+          "type": "string"
         }
       },
       "required": [
@@ -83,7 +86,8 @@
         "cs",
         "fi",
         "en-IE",
-        "en-GB"
+        "en-GB",
+        "en-hag"
       ],
       "unevaluatedProperties": false
     }

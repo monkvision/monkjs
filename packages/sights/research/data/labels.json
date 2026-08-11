@@ -17,7 +17,8 @@
     "fi": "Takapenkit",
     "de-CH": "Rücksitze",
     "en-IE": "Back Seats",
-    "en-GB": "Back Seats"
+    "en-GB": "Back Seats",
+    "en-hag": "Back Seats"
   },
   "beauty-shot-left": {
     "key": "beauty-shot-left",
@@ -37,7 +38,8 @@
     "fi": "Kaunis kuva, vasen puoli",
     "de-CH": "Linke Vollansicht",
     "en-IE": "Beauty Shot Left",
-    "en-GB": "Beauty Shot Left"
+    "en-GB": "Beauty Shot Left",
+    "en-hag": "Beauty Shot Left"
   },
   "dashboard": {
     "key": "dashboard",
@@ -57,7 +59,8 @@
     "fi": "Päävalikko",
     "de-CH": "Armaturenbrett",
     "en-IE": "Dashboard",
-    "en-GB": "Dashboard"
+    "en-GB": "Dashboard",
+    "en-hag": "Dashboard"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -77,7 +80,8 @@
     "fi": "Näyttö takapenkillä",
     "de-CH": "Armaturenbrett vom Rücksitz",
     "en-IE": "Dashboard From Back Seat",
-    "en-GB": "Dashboard From Back Seat"
+    "en-GB": "Dashboard From Back Seat",
+    "en-hag": "Dashboard From Back Seat"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -97,7 +101,8 @@
     "fi": "Näyttö kuljettajan istuimelta",
     "de-CH": "Armaturenbrett vom Fahrersitz aus",
     "en-IE": "Dashboard From Driver Seat",
-    "en-GB": "Dashboard From Driver Seat"
+    "en-GB": "Dashboard From Driver Seat",
+    "en-hag": "Dashboard From Driver Seat"
   },
   "doors-left": {
     "key": "doors-left",
@@ -117,7 +122,8 @@
     "fi": "Avaimet vasemmalla",
     "de-CH": "Linke Tür",
     "en-IE": "Doors Left",
-    "en-GB": "Doors Left"
+    "en-GB": "Doors Left",
+    "en-hag": "Doors Left"
   },
   "doors-right": {
     "key": "doors-right",
@@ -137,7 +143,8 @@
     "fi": "Ovet oikealla",
     "de-CH": "Gerade Türen",
     "en-IE": "Doors Right",
-    "en-GB": "Doors Right"
+    "en-GB": "Doors Right",
+    "en-hag": "Doors Right"
   },
   "engine-left-side": {
     "key": "engine-left-side",
@@ -157,7 +164,8 @@
     "fi": "Moottorin vasen puoli",
     "de-CH": "Linker Motor",
     "en-IE": "Engine Left Side",
-    "en-GB": "Engine Left Side"
+    "en-GB": "Engine Left Side",
+    "en-hag": "Engine Left Side"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -177,7 +185,8 @@
     "fi": "Moottori, oikea puoli",
     "de-CH": "Rechter Motor",
     "en-IE": "Engine Right Side",
-    "en-GB": "Engine Right Side"
+    "en-GB": "Engine Right Side",
+    "en-hag": "Engine Right Side"
   },
   "front": {
     "key": "front",
@@ -197,7 +206,8 @@
     "fi": "Etupuoli",
     "de-CH": "Vorderseite",
     "en-IE": "Front",
-    "en-GB": "Front"
+    "en-GB": "Front",
+    "en-hag": "Front"
   },
   "front-bumper-side-left": {
     "key": "front-bumper-side-left",
@@ -217,7 +227,8 @@
     "fi": "Etuluukun vasen puoli",
     "de-CH": "Stossstange vorne links",
     "en-IE": "Front Bumper Side Left",
-    "en-GB": "Front Bumper Side Left"
+    "en-GB": "Front Bumper Side Left",
+    "en-hag": "Front Bumper Side Left"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -237,7 +248,8 @@
     "fi": "Etuluukun oikea sivu",
     "de-CH": "Stossstange vorne rechts",
     "en-IE": "Front Bumper Side Right",
-    "en-GB": "Front Bumper Side Right"
+    "en-GB": "Front Bumper Side Right",
+    "en-hag": "Front Bumper Side Right"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -257,7 +269,8 @@
     "fi": "Vasemman etuoven",
     "de-CH": "Tür vorne links",
     "en-IE": "Front Door Left",
-    "en-GB": "Front Door Left"
+    "en-GB": "Front Door Left",
+    "en-hag": "Front Door Left"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -277,7 +290,8 @@
     "fi": "Oikea etuovi",
     "de-CH": "Vordertür rechts",
     "en-IE": "Front Door Right",
-    "en-GB": "Front Door Right"
+    "en-GB": "Front Door Right",
+    "en-hag": "Front Door Right"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -297,7 +311,8 @@
     "fi": "Etulasi, vasen",
     "de-CH": "Vorne links",
     "en-IE": "Front Left",
-    "en-GB": "Front Left"
+    "en-GB": "Front Left",
+    "en-hag": "Front Left"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -317,7 +332,8 @@
     "fi": "Etupuoli, oikea",
     "de-CH": "Vorne rechts",
     "en-IE": "Front Right",
-    "en-GB": "Front Right"
+    "en-GB": "Front Right",
+    "en-hag": "Front Right"
   },
   "front-lateral-full-right": {
     "key": "front-lateral-full-right",
@@ -337,7 +353,8 @@
     "fi": "Etupuoli, oikea puoli",
     "de-CH": "Vorne rechts",
     "en-IE": "Front Full Right",
-    "en-GB": "Front Full Right"
+    "en-GB": "Front Full Right",
+    "en-hag": "Front Full Right"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -357,7 +374,8 @@
     "fi": "Etupuoli, vasen puoli",
     "de-CH": "Vorderseite seitlich links",
     "en-IE": "Front Lateral Left",
-    "en-GB": "Front Lateral Left"
+    "en-GB": "Front Lateral Left",
+    "en-hag": "Front Lateral Left"
   },
   "front-lateral-low-left": {
     "key": "front-lateral-low-left",
@@ -377,7 +395,8 @@
     "fi": "Etupuoli, sivuttainen, vasen, alhaalla",
     "de-CH": "Vorne Seitlich Niedrig Links",
     "en-IE": "Front Lateral Low Left",
-    "en-GB": "Front Lateral Low Left"
+    "en-GB": "Front Lateral Low Left",
+    "en-hag": "Front Lateral Low Left"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -397,7 +416,8 @@
     "fi": "Etupuoli, sivuttain, alhaalla, oikealla",
     "de-CH": "Vorne Seitlich Niedrig Rechts",
     "en-IE": "Front Lateral Low Right",
-    "en-GB": "Front Lateral Low Right"
+    "en-GB": "Front Lateral Low Right",
+    "en-hag": "Front Lateral Low Right"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -417,7 +437,8 @@
     "fi": "Etupuoli, sivuttain, oikea",
     "de-CH": "Vorderseite seitlich rechts",
     "en-IE": "Front Lateral Right",
-    "en-GB": "Front Lateral Right"
+    "en-GB": "Front Lateral Right",
+    "en-hag": "Front Lateral Right"
   },
   "front-low": {
     "key": "front-low",
@@ -437,7 +458,8 @@
     "fi": "Etupuoli, matala",
     "de-CH": "Vorderseite Niedrig",
     "en-IE": "Front Low",
-    "en-GB": "Front Low"
+    "en-GB": "Front Low",
+    "en-hag": "Front Low"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -457,7 +479,8 @@
     "fi": "Etukuomu Vasen",
     "de-CH": "Dach vorne links",
     "en-IE": "Front Roof Left",
-    "en-GB": "Front Roof Left"
+    "en-GB": "Front Roof Left",
+    "en-hag": "Front Roof Left"
   },
   "front-seats": {
     "key": "front-seats",
@@ -477,7 +500,8 @@
     "fi": "Etupenkit",
     "de-CH": "Vordersitze",
     "en-IE": "Front Seats",
-    "en-GB": "Front Seats"
+    "en-GB": "Front Seats",
+    "en-hag": "Front Seats"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -497,7 +521,8 @@
     "fi": "Etuosa",
     "de-CH": "Vorderes Fahrwerk",
     "en-IE": "Front Undercarriage",
-    "en-GB": "Front Undercarriage"
+    "en-GB": "Front Undercarriage",
+    "en-hag": "Front Undercarriage"
   },
   "front-wheel-left": {
     "key": "front-wheel-left",
@@ -517,7 +542,8 @@
     "fi": "Etupyörä vasemmalla",
     "de-CH": "Vorderrad links",
     "en-IE": "Front Wheel Left",
-    "en-GB": "Front Wheel Left"
+    "en-GB": "Front Wheel Left",
+    "en-hag": "Front Wheel Left"
   },
   "front-wheel-right": {
     "key": "front-wheel-right",
@@ -537,7 +563,8 @@
     "fi": "Etupyörä oikealla",
     "de-CH": "Rechtes Vorderrad",
     "en-IE": "Front Wheel Right",
-    "en-GB": "Front Wheel Right"
+    "en-GB": "Front Wheel Right",
+    "en-hag": "Front Wheel Right"
   },
   "hood": {
     "key": "hood",
@@ -557,7 +584,8 @@
     "fi": "Takaluukku",
     "de-CH": "Abdeckhaube",
     "en-IE": "Hood",
-    "en-GB": "Hood"
+    "en-GB": "Hood",
+    "en-hag": "Hood"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -577,7 +605,8 @@
     "fi": "Takaluukku / Tuulilasi",
     "de-CH": "Motorhaube / Windschutzscheibe",
     "en-IE": "Hood / Windshield",
-    "en-GB": "Hood / Windshield"
+    "en-GB": "Hood / Windshield",
+    "en-hag": "Hood / Windshield"
   },
   "interior-roof": {
     "key": "interior-roof",
@@ -597,7 +626,8 @@
     "fi": "Sisäkatto",
     "de-CH": "Innen Dach",
     "en-IE": "Interior Roof",
-    "en-GB": "Interior Roof"
+    "en-GB": "Interior Roof",
+    "en-hag": "Interior Roof"
   },
   "lateral-full-left": {
     "key": "lateral-full-left",
@@ -617,7 +647,8 @@
     "fi": "Vasemmalta täysin",
     "de-CH": "Vollständig links",
     "en-IE": "Full Left",
-    "en-GB": "Full Left"
+    "en-GB": "Full Left",
+    "en-hag": "Full Left"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -637,7 +668,8 @@
     "fi": "täydellinen oikea",
     "de-CH": "Volles Recht",
     "en-IE": "Full Right",
-    "en-GB": "Full Right"
+    "en-GB": "Full Right",
+    "en-hag": "Full Right"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -657,7 +689,8 @@
     "fi": "Vasemmalta",
     "de-CH": "Linke Seite",
     "en-IE": "Lateral Left",
-    "en-GB": "Lateral Left"
+    "en-GB": "Lateral Left",
+    "en-hag": "Lateral Left"
   },
   "lateral-low-left": {
     "key": "lateral-low-left",
@@ -677,7 +710,8 @@
     "fi": "Vasemmalta, alhaalta",
     "de-CH": "Seitlich tief links",
     "en-IE": "Lateral Low Left",
-    "en-GB": "Lateral Low Left"
+    "en-GB": "Lateral Low Left",
+    "en-hag": "Lateral Low Left"
   },
   "lateral-low-right": {
     "key": "lateral-low-right",
@@ -697,7 +731,8 @@
     "fi": "Liikkuva, alhaalta oikealta",
     "de-CH": "Seitlich Niedrig Rechts",
     "en-IE": "Lateral Low Right",
-    "en-GB": "Lateral Low Right"
+    "en-GB": "Lateral Low Right",
+    "en-hag": "Lateral Low Right"
   },
   "left-front-door": {
     "key": "left-front-door",
@@ -717,7 +752,8 @@
     "fi": "Vasemman etuoven",
     "de-CH": "Tür vorne links",
     "en-IE": "Left Front Door",
-    "en-GB": "Left Front Door"
+    "en-GB": "Left Front Door",
+    "en-hag": "Left Front Door"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -737,7 +773,8 @@
     "fi": "Avaa takakontti",
     "de-CH": "Offene Truhe",
     "en-IE": "Open Trunk",
-    "en-GB": "Open Trunk"
+    "en-GB": "Open Trunk",
+    "en-hag": "Open Trunk"
   },
   "rear": {
     "key": "rear",
@@ -757,7 +794,8 @@
     "fi": "Takana",
     "de-CH": "Hinten",
     "en-IE": "Rear",
-    "en-GB": "Rear"
+    "en-GB": "Rear",
+    "en-hag": "Rear"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -777,7 +815,8 @@
     "fi": "Takapuskuri, vasen puoli",
     "de-CH": "Stossstange hinten links",
     "en-IE": "Rear Bumper Side Left",
-    "en-GB": "Rear Bumper Side Left"
+    "en-GB": "Rear Bumper Side Left",
+    "en-hag": "Rear Bumper Side Left"
   },
   "rear-bumper-side-right": {
     "key": "rear-bumper-side-right",
@@ -797,7 +836,8 @@
     "fi": "Takapuskuri, oikea puoli",
     "de-CH": "Stossstange hinten rechts",
     "en-IE": "Rear Bumper Side Right",
-    "en-GB": "Rear Bumper Side Right"
+    "en-GB": "Rear Bumper Side Right",
+    "en-hag": "Rear Bumper Side Right"
   },
   "rear-door-left": {
     "key": "rear-door-left",
@@ -817,7 +857,8 @@
     "fi": "Takaportti, vasen",
     "de-CH": "Tür hinten links",
     "en-IE": "Rear Door Left",
-    "en-GB": "Rear Door Left"
+    "en-GB": "Rear Door Left",
+    "en-hag": "Rear Door Left"
   },
   "rear-door-right": {
     "key": "rear-door-right",
@@ -837,7 +878,8 @@
     "fi": "Oikea takaluukku",
     "de-CH": "Tür hinten rechts",
     "en-IE": "Rear Door Right",
-    "en-GB": "Rear Door Right"
+    "en-GB": "Rear Door Right",
+    "en-hag": "Rear Door Right"
   },
   "rear-fender-left": {
     "key": "rear-fender-left",
@@ -857,7 +899,8 @@
     "fi": "Takalauta, vasen",
     "de-CH": "Kotflügel hinten links",
     "en-IE": "Rear Fender Left",
-    "en-GB": "Rear Fender Left"
+    "en-GB": "Rear Fender Left",
+    "en-hag": "Rear Fender Left"
   },
   "rear-fender-right": {
     "key": "rear-fender-right",
@@ -877,7 +920,8 @@
     "fi": "Takalokero, oikea",
     "de-CH": "Kotflügel hinten rechts",
     "en-IE": "Rear Fender Right",
-    "en-GB": "Rear Fender Right"
+    "en-GB": "Rear Fender Right",
+    "en-hag": "Rear Fender Right"
   },
   "rear-lateral-full-left": {
     "key": "rear-lateral-full-left",
@@ -897,7 +941,8 @@
     "fi": "Takana, vasen puoli, kokonaisuus",
     "de-CH": "Hinten ganz links",
     "en-IE": "Rear Full Left",
-    "en-GB": "Rear Full Left"
+    "en-GB": "Rear Full Left",
+    "en-hag": "Rear Full Left"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -917,7 +962,8 @@
     "fi": "Takana oikealla",
     "de-CH": "Hinten ganz rechts",
     "en-IE": "Rear Full Right",
-    "en-GB": "Rear Full Right"
+    "en-GB": "Rear Full Right",
+    "en-hag": "Rear Full Right"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -937,7 +983,8 @@
     "fi": "Takainen, vasen puoli",
     "de-CH": "Hinten seitlich links",
     "en-IE": "Rear Lateral Left",
-    "en-GB": "Rear Lateral Left"
+    "en-GB": "Rear Lateral Left",
+    "en-hag": "Rear Lateral Left"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -957,7 +1004,8 @@
     "fi": "Takainen, vasen, alhaalla",
     "de-CH": "Hinten Seitlich Niedrig Links",
     "en-IE": "Rear Lateral Low Left",
-    "en-GB": "Rear Lateral Low Left"
+    "en-GB": "Rear Lateral Low Left",
+    "en-hag": "Rear Lateral Low Left"
   },
   "rear-lateral-low-right": {
     "key": "rear-lateral-low-right",
@@ -977,7 +1025,8 @@
     "fi": "Takainen sivuttainen, alhaalla, oikealla",
     "de-CH": "Hinten Seitlich Niedrig Rechts",
     "en-IE": "Rear Lateral Low Right",
-    "en-GB": "Rear Lateral Low Right"
+    "en-GB": "Rear Lateral Low Right",
+    "en-hag": "Rear Lateral Low Right"
   },
   "rear-lateral-right": {
     "key": "rear-lateral-right",
@@ -997,7 +1046,8 @@
     "fi": "Takainen, oikea sivun puoli",
     "de-CH": "Hinten seitlich rechts",
     "en-IE": "Rear Lateral Right",
-    "en-GB": "Rear Lateral Right"
+    "en-GB": "Rear Lateral Right",
+    "en-hag": "Rear Lateral Right"
   },
   "rear-left": {
     "key": "rear-left",
@@ -1017,7 +1067,8 @@
     "fi": "Takaisin, vasen",
     "de-CH": "Hinten links",
     "en-IE": "Rear Left",
-    "en-GB": "Rear Left"
+    "en-GB": "Rear Left",
+    "en-hag": "Rear Left"
   },
   "rear-low": {
     "key": "rear-low",
@@ -1037,7 +1088,8 @@
     "fi": "Takareuna matala",
     "de-CH": "Hinten Niedrig",
     "en-IE": "Rear Low",
-    "en-GB": "Rear Low"
+    "en-GB": "Rear Low",
+    "en-hag": "Rear Low"
   },
   "rear-right": {
     "key": "rear-right",
@@ -1057,7 +1109,8 @@
     "fi": "Takainen oikea",
     "de-CH": "Hinten rechts",
     "en-IE": "Rear Right",
-    "en-GB": "Rear Right"
+    "en-GB": "Rear Right",
+    "en-hag": "Rear Right"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -1077,7 +1130,8 @@
     "fi": "Takaluukku",
     "de-CH": "Hinteres Dach",
     "en-IE": "Rear Roof",
-    "en-GB": "Rear Roof"
+    "en-GB": "Rear Roof",
+    "en-hag": "Rear Roof"
   },
   "rear-roof-right": {
     "key": "rear-roof-right",
@@ -1097,7 +1151,8 @@
     "fi": "Takaluukku, oikea",
     "de-CH": "Hinteres Dach rechts",
     "en-IE": "Rear Roof Right",
-    "en-GB": "Rear Roof Right"
+    "en-GB": "Rear Roof Right",
+    "en-hag": "Rear Roof Right"
   },
   "rear-seats": {
     "key": "rear-seats",
@@ -1117,7 +1172,8 @@
     "fi": "Takapenkit",
     "de-CH": "Rücksitze",
     "en-IE": "Rear Seats",
-    "en-GB": "Rear Seats"
+    "en-GB": "Rear Seats",
+    "en-hag": "Rear Seats"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -1137,7 +1193,8 @@
     "fi": "Takaisin, vasen",
     "de-CH": "Hinten oben links",
     "en-IE": "Rear Up Left",
-    "en-GB": "Rear Up Left"
+    "en-GB": "Rear Up Left",
+    "en-hag": "Rear Up Left"
   },
   "rear-up-right": {
     "key": "rear-up-right",
@@ -1157,7 +1214,8 @@
     "fi": "Takaisin, oikealla",
     "de-CH": "Hinten oben rechts",
     "en-IE": "Rear Up Right",
-    "en-GB": "Rear Up Right"
+    "en-GB": "Rear Up Right",
+    "en-hag": "Rear Up Right"
   },
   "rear-wheel-left": {
     "key": "rear-wheel-left",
@@ -1177,7 +1235,8 @@
     "fi": "Takapyörä, vasen",
     "de-CH": "Linkes Hinterrad",
     "en-IE": "Rear Wheel Left",
-    "en-GB": "Rear Wheel Left"
+    "en-GB": "Rear Wheel Left",
+    "en-hag": "Rear Wheel Left"
   },
   "rear-wheel-right": {
     "key": "rear-wheel-right",
@@ -1197,7 +1256,8 @@
     "fi": "Takapyörä oikea",
     "de-CH": "Linkes Hinterrad",
     "en-IE": "Rear Wheel Right",
-    "en-GB": "Rear Wheel Right"
+    "en-GB": "Rear Wheel Right",
+    "en-hag": "Rear Wheel Right"
   },
   "rear-zoomed": {
     "key": "rear-zoomed",
@@ -1217,7 +1277,8 @@
     "fi": "Takakamera, suurennus",
     "de-CH": "Gezoomter Hinterkopf",
     "en-IE": "Rear Zoomed",
-    "en-GB": "Rear Zoomed"
+    "en-GB": "Rear Zoomed",
+    "en-hag": "Rear Zoomed"
   },
   "rocker-panel-left": {
     "key": "rocker-panel-left",
@@ -1237,7 +1298,8 @@
     "fi": "Vasemman kyljen alareuna",
     "de-CH": "Schwellerverkleidung links",
     "en-IE": "Rocker Panel Left",
-    "en-GB": "Rocker Panel Left"
+    "en-GB": "Rocker Panel Left",
+    "en-hag": "Rocker Panel Left"
   },
   "rocker-panel-rear-left": {
     "key": "rocker-panel-rear-left",
@@ -1257,7 +1319,8 @@
     "fi": "Takalaita, vasen",
     "de-CH": "Schwellerverkleidung hinten links",
     "en-IE": "Rocker Panel Rear Left",
-    "en-GB": "Rocker Panel Rear Left"
+    "en-GB": "Rocker Panel Rear Left",
+    "en-hag": "Rocker Panel Rear Left"
   },
   "rocker-panel-right": {
     "key": "rocker-panel-right",
@@ -1277,7 +1340,8 @@
     "fi": "Oikea kylkilauta",
     "de-CH": "Schwellerverkleidung rechts",
     "en-IE": "Rocker Panel Right",
-    "en-GB": "Rocker Panel Right"
+    "en-GB": "Rocker Panel Right",
+    "en-hag": "Rocker Panel Right"
   },
   "rocker-panel-rear-right": {
     "key": "rocker-panel-rear-right",
@@ -1297,7 +1361,8 @@
     "fi": "Takaluukun oikea kylki",
     "de-CH": "Schwellerverkleidung hinten rechts",
     "en-IE": "Rocker Panel Rear Right",
-    "en-GB": "Rocker Panel Rear Right"
+    "en-GB": "Rocker Panel Rear Right",
+    "en-hag": "Rocker Panel Rear Right"
   },
   "trunk": {
     "key": "trunk",
@@ -1317,7 +1382,8 @@
     "fi": "Takakontti",
     "de-CH": "Kofferraum",
     "en-IE": "Trunk",
-    "en-GB": "Trunk"
+    "en-GB": "Trunk",
+    "en-hag": "Trunk"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -1337,7 +1403,8 @@
     "fi": "Takakontti, vasen puoli",
     "de-CH": "Kofferraum Linke Seite",
     "en-IE": "Trunk Left Side",
-    "en-GB": "Trunk Left Side"
+    "en-GB": "Trunk Left Side",
+    "en-hag": "Trunk Left Side"
   },
   "trunk-right-side": {
     "key": "trunk-right-side",
@@ -1357,7 +1424,8 @@
     "fi": "Takaluukku oikealla puolella",
     "de-CH": "Kofferraum Rechte Seite",
     "en-IE": "Trunk Right Side",
-    "en-GB": "Trunk Right Side"
+    "en-GB": "Trunk Right Side",
+    "en-hag": "Trunk Right Side"
   },
   "vin": {
     "key": "vin",
@@ -1377,7 +1445,8 @@
     "fi": "VIN",
     "de-CH": "VIN",
     "en-IE": "VIN",
-    "en-GB": "VIN"
+    "en-GB": "VIN",
+    "en-hag": "VIN"
   },
   "windshield": {
     "key": "windshield",
@@ -1397,7 +1466,8 @@
     "fi": "Ajolasin",
     "de-CH": "Windschutzscheibe",
     "en-IE": "Windshield",
-    "en-GB": "Windshield"
+    "en-GB": "Windshield",
+    "en-hag": "Windshield"
   },
   "hatchback": {
     "key": "hatchback",
@@ -1417,7 +1487,8 @@
     "fi": "Peräkoukkumalli",
     "de-CH": "Schrägheck",
     "en-IE": "Hatchback",
-    "en-GB": "Hatchback"
+    "en-GB": "Hatchback",
+    "en-hag": "Hatchback"
   },
   "cuv": {
     "key": "cuv",
@@ -1437,7 +1508,8 @@
     "fi": "Kuvioauto",
     "de-CH": "CUV",
     "en-IE": "CUV",
-    "en-GB": "CUV"
+    "en-GB": "CUV",
+    "en-hag": "CUV"
   },
   "pickup": {
     "key": "pickup",
@@ -1457,7 +1529,8 @@
     "fi": "Nouto",
     "de-CH": "Pickup",
     "en-IE": "Pickup",
-    "en-GB": "Pickup"
+    "en-GB": "Pickup",
+    "en-hag": "Pickup"
   },
   "city": {
     "key": "city",
@@ -1477,7 +1550,8 @@
     "fi": "Kaupunki",
     "de-CH": "Stadtauto",
     "en-IE": "City",
-    "en-GB": "City"
+    "en-GB": "City",
+    "en-hag": "City"
   },
   "van": {
     "key": "van",
@@ -1497,7 +1571,8 @@
     "fi": "Kuorma-auto",
     "de-CH": "Van",
     "en-IE": "Van",
-    "en-GB": "Van"
+    "en-GB": "Van",
+    "en-hag": "Van"
   },
   "sedan": {
     "key": "sedan",
@@ -1517,7 +1592,8 @@
     "fi": "Sedan",
     "de-CH": "Limousine",
     "en-IE": "Saloon",
-    "en-GB": "Saloon"
+    "en-GB": "Saloon",
+    "en-hag": "Sedan"
   },
   "large-suv": {
     "key": "large-suv",
@@ -1537,7 +1613,8 @@
     "fi": "Suuri maasturi",
     "de-CH": "Grossen Geländewagen",
     "en-IE": "Large SUV",
-    "en-GB": "Large SUV"
+    "en-GB": "Large SUV",
+    "en-hag": "Large SUV"
   },
   "minivan": {
     "key": "minivan",
@@ -1557,7 +1634,8 @@
     "fi": "Minibussi",
     "de-CH": "Minivan",
     "en-IE": "Minivan",
-    "en-GB": "Minivan"
+    "en-GB": "Minivan",
+    "en-hag": "Minivan"
   },
   "suv": {
     "key": "suv",
@@ -1577,7 +1655,8 @@
     "fi": "Katumaali",
     "de-CH": "Geländewagen",
     "en-IE": "SUV",
-    "en-GB": "SUV"
+    "en-GB": "SUV",
+    "en-hag": "SUV"
   },
   "hgv": {
     "key": "hgv",
@@ -1597,7 +1676,8 @@
     "fi": "Suuri kuorma-auto",
     "de-CH": "HGV",
     "en-IE": "HGV",
-    "en-GB": "HGV"
+    "en-GB": "HGV",
+    "en-hag": "HGV"
   },
   "front-left-tire": {
     "key": "front-left-tire",
@@ -1617,7 +1697,8 @@
     "fi": "Eturenkaan vasen puoli",
     "de-CH": "Vorderer linker Reifen",
     "en-IE": "Front left tire",
-    "en-GB": "Front left tire"
+    "en-GB": "Front left tire",
+    "en-hag": "Front left tire"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -1637,7 +1718,8 @@
     "fi": "Eturenkaan oikea puoli",
     "de-CH": "Vorderer rechter Reifen",
     "en-IE": "Front right tire",
-    "en-GB": "Front right tire"
+    "en-GB": "Front right tire",
+    "en-hag": "Front right tire"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -1657,7 +1739,8 @@
     "fi": "Takaisin vasen rengas",
     "de-CH": "Hinterer linker Reifen",
     "en-IE": "Rear left tire",
-    "en-GB": "Rear left tire"
+    "en-GB": "Rear left tire",
+    "en-hag": "Rear left tire"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -1677,7 +1760,8 @@
     "fi": "Takainen oikea rengas",
     "de-CH": "Hinterer rechter Reifen",
     "en-IE": "Rear right tire",
-    "en-GB": "Rear right tire"
+    "en-GB": "Rear right tire",
+    "en-hag": "Rear right tire"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
@@ -1697,7 +1781,8 @@
     "fi": "Päävalikko",
     "de-CH": "Armaturenbrett Bildschirm",
     "en-IE": "Dashboard Screen",
-    "en-GB": "Dashboard Screen"
+    "en-GB": "Dashboard Screen",
+    "en-hag": "Dashboard Screen"
   },
   "keys": {
     "key": "keys",
@@ -1717,7 +1802,8 @@
     "fi": "avainten",
     "de-CH": "Tasten",
     "en-IE": "Keys",
-    "en-GB": "Keys"
+    "en-GB": "Keys",
+    "en-hag": "Keys"
   },
   "card-keys": {
     "key": "card-keys",
@@ -1737,7 +1823,8 @@
     "fi": "Avaimet",
     "de-CH": "Kartenschlüssel",
     "en-IE": "Card Keys",
-    "en-GB": "Card Keys"
+    "en-GB": "Card Keys",
+    "en-hag": "Card Keys"
   },
   "front-left-penny-test": {
     "key": "front-left-penny-test",
@@ -1757,7 +1844,8 @@
     "fi": "Vasemman etuosan Penny-testi",
     "de-CH": "Penny-Test vorne links",
     "en-IE": "Front left Penny Test",
-    "en-GB": "Front left Penny Test"
+    "en-GB": "Front left Penny Test",
+    "en-hag": "Front left Penny Test"
   },
   "front-right-penny-test": {
     "key": "front-right-penny-test",
@@ -1777,7 +1865,8 @@
     "fi": "Oikean etuosan Penny-testi",
     "de-CH": "Penny-Test vorne rechts",
     "en-IE": "Front right Penny Test",
-    "en-GB": "Front right Penny Test"
+    "en-GB": "Front right Penny Test",
+    "en-hag": "Front right Penny Test"
   },
   "rear-left-penny-test": {
     "key": "rear-left-penny-test",
@@ -1797,7 +1886,8 @@
     "fi": "Takaisen vasemman puolen Penny-testi",
     "de-CH": "Penny-Test hinten links",
     "en-IE": "Rear left Penny Test",
-    "en-GB": "Rear left Penny Test"
+    "en-GB": "Rear left Penny Test",
+    "en-hag": "Rear left Penny Test"
   },
   "rear-right-penny-test": {
     "key": "rear-right-penny-test",
@@ -1817,7 +1907,8 @@
     "fi": "Takaisin oikea Penny-testi",
     "de-CH": "Penny-Test hinten rechts",
     "en-IE": "Rear right Penny Test",
-    "en-GB": "Rear right Penny Test"
+    "en-GB": "Rear right Penny Test",
+    "en-hag": "Rear right Penny Test"
   },
   "headlight-left": {
     "key": "headlight-left",
@@ -1837,7 +1928,8 @@
     "fi": "Vasen ajovalo",
     "de-CH": "Scheinwerfer links",
     "en-IE": "Headlight Left",
-    "en-GB": "Headlight Left"
+    "en-GB": "Headlight Left",
+    "en-hag": "Headlight Left"
   },
   "headlight-right": {
     "key": "headlight-right",
@@ -1857,7 +1949,8 @@
     "fi": "Oikea ajovalo",
     "de-CH": "Scheinwerfer rechts",
     "en-IE": "Headlight Right",
-    "en-GB": "Headlight Right"
+    "en-GB": "Headlight Right",
+    "en-hag": "Headlight Right"
   },
   "taillight-left": {
     "key": "taillight-left",
@@ -1877,7 +1970,8 @@
     "fi": "Vasen takavalo",
     "de-CH": "Rückleuchte links",
     "en-IE": "Taillight Left",
-    "en-GB": "Taillight Left"
+    "en-GB": "Taillight Left",
+    "en-hag": "Taillight Left"
   },
   "taillight-right": {
     "key": "taillight-right",
@@ -1897,7 +1991,8 @@
     "fi": "Oikea takavalo",
     "de-CH": "Rückleuchte rechts",
     "en-IE": "Taillight Right",
-    "en-GB": "Taillight Right"
+    "en-GB": "Taillight Right",
+    "en-hag": "Taillight Right"
   },
   "mirror-left": {
     "key": "mirror-left",
@@ -1917,7 +2012,8 @@
     "fi": "Vasen sivupeili",
     "de-CH": "Aussenspiegel links",
     "en-IE": "Mirror Left",
-    "en-GB": "Mirror Left"
+    "en-GB": "Mirror Left",
+    "en-hag": "Mirror Left"
   },
   "mirror-right": {
     "key": "mirror-right",
@@ -1937,7 +2033,8 @@
     "fi": "Oikea sivupeili",
     "de-CH": "Aussenspiegel rechts",
     "en-IE": "Mirror Right",
-    "en-GB": "Mirror Right"
+    "en-GB": "Mirror Right",
+    "en-hag": "Mirror Right"
   },
   "rear-door-panel-left": {
     "key": "rear-door-panel-left",
@@ -1957,7 +2054,8 @@
     "fi": "Vasen takaoven verhoilu",
     "de-CH": "Türverkleidung hinten links",
     "en-IE": "Rear Door Panel Left",
-    "en-GB": "Rear Door Panel Left"
+    "en-GB": "Rear Door Panel Left",
+    "en-hag": "Rear Door Panel Left"
   },
   "rear-door-panel-right": {
     "key": "rear-door-panel-right",
@@ -1977,7 +2075,8 @@
     "fi": "Oikea takaoven verhoilu",
     "de-CH": "Türverkleidung hinten rechts",
     "en-IE": "Rear Door Panel Right",
-    "en-GB": "Rear Door Panel Right"
+    "en-GB": "Rear Door Panel Right",
+    "en-hag": "Rear Door Panel Right"
   },
   "engine-bay": {
     "key": "engine-bay",
@@ -1997,7 +2096,8 @@
     "fi": "Moottoritila",
     "de-CH": "Motorraum",
     "en-IE": "Engine Bay",
-    "en-GB": "Engine Bay"
+    "en-GB": "Engine Bay",
+    "en-hag": "Engine Bay"
   },
   "pedals": {
     "key": "pedals",
@@ -2017,7 +2117,8 @@
     "fi": "Polkimet",
     "de-CH": "Pedale",
     "en-IE": "Pedals",
-    "en-GB": "Pedals"
+    "en-GB": "Pedals",
+    "en-hag": "Pedals"
   },
   "shifter": {
     "key": "shifter",
@@ -2037,6 +2138,7 @@
     "fi": "Vaihdekeppi",
     "de-CH": "Schalthebel",
     "en-IE": "Shifter",
-    "en-GB": "Shifter"
+    "en-GB": "Shifter",
+    "en-hag": "Shifter"
   }
 }
