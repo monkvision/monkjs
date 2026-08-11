@@ -265,6 +265,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'it': `Frame Video ${options.frameIndex}`,
       'en-IE': `Video Frame ${options.frameIndex}`,
       'en-GB': `Video Frame ${options.frameIndex}`,
+      'en-hag': `Video Frame ${options.frameIndex}`,
     };
   }
   if (options.uploadType === ImageUploadType.VIDEO_MANUAL_PHOTO) {
@@ -286,6 +287,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'it': `Foto manuale da video`,
       'en-IE': `Video Manual Photo`,
       'en-GB': `Video Manual Photo`,
+      'en-hag': `Video Manual Photo`,
     };
   }
   if (options.uploadType === ImageUploadType.PART_SELECT_SHOT) {
@@ -308,6 +310,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
       'it': `Close Up su ${partsTranslation.map((part) => part.en).join(', ')}`,
       'en-IE': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
       'en-GB': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
+      'en-hag': `Close Up on ${partsTranslation.map((part) => part.en).join(', ')}`,
     };
   }
   return {
@@ -328,6 +331,7 @@ function getImageLabel(options: AddImageOptions): TranslationObject | undefined 
     'it': options.firstShot ? 'Close Up (parte)' : 'Close Up (danno)',
     'en-IE': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
     'en-GB': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
+    'en-hag': options.firstShot ? 'Close Up (part)' : 'Close Up (damage)',
   };
 }
 

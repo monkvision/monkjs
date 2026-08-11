@@ -21,6 +21,7 @@ const obj = {
   'it': 'Ciao',
   'en-IE': 'Hello',
   'en-GB': 'Hello',
+  'en-hag': 'Hello',
 } as TranslationObject;
 
 describe('useObjectTranslation hook', () => {

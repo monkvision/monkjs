@@ -27,6 +27,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         'it': "L'anteprima della fotocamera non è disponibile perché l'accesso alla fotocamera non è stato concesso alla pagina.",
         'en-IE': 'Camera preview unavailable because camera access was not granted to the page.',
         'en-GB': 'Camera preview unavailable because camera access was not granted to the page.',
+        'en-hag': 'Camera preview unavailable because camera access was not granted to the page.',
       };
     case UserMediaErrorType.WEBPAGE_NOT_ALLOWED:
       return {
@@ -49,6 +50,8 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         'en-IE':
           'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
         'en-GB':
+          'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
+        'en-hag':
           'Unable to get camera access. Make sure to press “Allow” when asked to grant camera permission for this web page.',
       };
     case UserMediaErrorType.BROWSER_NOT_ALLOWED:
@@ -73,6 +76,8 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
           "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
         'en-GB':
           "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
+        'en-hag':
+          "Unable to get camera access. Make sure to grant camera access to your current internet browser in your device's settings.",
       };
     case UserMediaErrorType.STREAM_INACTIVE:
       return {
@@ -93,6 +98,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         'it': 'Il flusso video della fotocamera è stato chiuso inaspettatamente.',
         'en-IE': 'The camera video stream was closed unexpectedly.',
         'en-GB': 'The camera video stream was closed unexpectedly.',
+        'en-hag': 'The camera video stream was closed unexpectedly.',
       };
     case UserMediaErrorType.INVALID_STREAM:
       return {
@@ -113,6 +119,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         'it': 'Impossibile elaborare il flusso video della fotocamera.',
         'en-IE': 'Unable to process the camera video stream.',
         'en-GB': 'Unable to process the camera video stream.',
+        'en-hag': 'Unable to process the camera video stream.',
       };
     default:
       return {
@@ -133,6 +140,7 @@ export function getCameraErrorLabel(error?: UserMediaErrorType): TranslationObje
         'it': 'Si è verificato un errore imprevisto durante il recupero del flusso video della fotocamera.',
         'en-IE': 'An unexpected error occurred when fetching the camera video stream.',
         'en-GB': 'An unexpected error occurred when fetching the camera video stream.',
+        'en-hag': 'An unexpected error occurred when fetching the camera video stream.',
       };
   }
 }

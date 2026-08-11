@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "retry": "Retry",
+    "create-inspection": "An unexpected error occurred while creating the inspection.",
+    "missing-inspection-id": "The URL you are trying to access is invalid."
+  }
+}

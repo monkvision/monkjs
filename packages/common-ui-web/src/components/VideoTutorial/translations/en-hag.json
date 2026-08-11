@@ -1,0 +1,35 @@
+{
+  "steps": {
+    "rotate": {
+      "landscape": {
+        "title": "Rotate to Landscape",
+        "text": "Switch your phone to landscape mode to start recording"
+      },
+      "portrait": {
+        "title": "Rotate to Portrait",
+        "text": "Switch your phone to portrait mode to start recording"
+      }
+    },
+    "vehicle-orbit": {
+      "title": "360° Walkaround",
+      "text": "Walk slowly around the car for a complete 360° view in roughly 30–40 seconds of recording."
+    },
+    "vehicle-surroundings": {
+      "title": "Clear Surroundings",
+      "text": "Keep the space around the vehicle clear of obstacles for better capture quality."
+    },
+    "vehicle-phone": {
+      "title": "Keep the Right Distance",
+      "text": "Keep enough distance to ensure the vehicle is fully visible in the frame, from roof to ground."
+    },
+    "vehicle-coverage": {
+      "title": "Finish When Covered",
+      "text": "When the progress bar fills, tap the ‘Record button’ again to stop."
+    }
+  },
+  "checkbox": "Don’t show this again",
+  "button": {
+    "get-started": "Get Started",
+    "continue": "Continue"
+  }
+}

@@ -19,6 +19,7 @@
     "label": "left-front-door",
     "overlay": "all-35104fb6.svg",
     "vehicle": "all",
+    "mirror_sight": "all-ce56c439",
     "tasks": ["compliances"],
     "positioning": {
       "position": 90,
@@ -27,6 +28,21 @@
       "distance": "close"
     },
     "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-35104fb6.jpeg"
+  },
+  "all-ce56c439": {
+    "id": "all-ce56c439",
+    "category": "interior",
+    "label": "right-front-door",
+    "overlay": "all-ce56c439.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-35104fb6",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 270,
+      "orientation": 0,
+      "height": "mid",
+      "distance": "close"
+    }
   },
   "all-356a10ca": {
     "id": "all-356a10ca",
@@ -45,7 +61,7 @@
   "all-50eebfb7": {
     "id": "all-50eebfb7",
     "category": "interior",
-    "label": "rear-seats",
+    "label": "rear-seats-far",
     "overlay": "all-50eebfb7.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -315,7 +331,7 @@
   "all-rSvk2C": {
     "id": "all-rSvk2C",
     "category": "interior",
-    "label": "dashboard",
+    "label": "dashboard-gauges",
     "overlay": "all-rSvk2C.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
