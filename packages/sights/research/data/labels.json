@@ -39,7 +39,7 @@
     "de-CH": "Linke Vollansicht",
     "en-IE": "Beauty Shot Left",
     "en-GB": "Beauty Shot Left",
-    "en-hag": "Beauty Shot Left"
+    "en-hag": "Driver Front ¾ Full"
   },
   "dashboard": {
     "key": "dashboard",
@@ -60,7 +60,7 @@
     "de-CH": "Armaturenbrett",
     "en-IE": "Dashboard",
     "en-GB": "Dashboard",
-    "en-hag": "Dashboard"
+    "en-hag": "Console Details"
   },
   "dashboard-from-back-seat": {
     "key": "dashboard-from-back-seat",
@@ -81,7 +81,7 @@
     "de-CH": "Armaturenbrett vom Rücksitz",
     "en-IE": "Dashboard From Back Seat",
     "en-GB": "Dashboard From Back Seat",
-    "en-hag": "Dashboard From Back Seat"
+    "en-hag": "Dashboard From Rear Seat"
   },
   "dashboard-from-driver-seat": {
     "key": "dashboard-from-driver-seat",
@@ -102,7 +102,7 @@
     "de-CH": "Armaturenbrett vom Fahrersitz aus",
     "en-IE": "Dashboard From Driver Seat",
     "en-GB": "Dashboard From Driver Seat",
-    "en-hag": "Dashboard From Driver Seat"
+    "en-hag": "Console From Driver Seat"
   },
   "doors-left": {
     "key": "doors-left",
@@ -165,7 +165,7 @@
     "de-CH": "Linker Motor",
     "en-IE": "Engine Left Side",
     "en-GB": "Engine Left Side",
-    "en-hag": "Engine Left Side"
+    "en-hag": "Engine Bay Left"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -186,7 +186,7 @@
     "de-CH": "Rechter Motor",
     "en-IE": "Engine Right Side",
     "en-GB": "Engine Right Side",
-    "en-hag": "Engine Right Side"
+    "en-hag": "Engine Bay Right"
   },
   "front": {
     "key": "front",
@@ -228,7 +228,7 @@
     "de-CH": "Stossstange vorne links",
     "en-IE": "Front Bumper Side Left",
     "en-GB": "Front Bumper Side Left",
-    "en-hag": "Front Bumper Side Left"
+    "en-hag": "Driver Front Bumper Detail"
   },
   "front-bumper-side-right": {
     "key": "front-bumper-side-right",
@@ -249,7 +249,7 @@
     "de-CH": "Stossstange vorne rechts",
     "en-IE": "Front Bumper Side Right",
     "en-GB": "Front Bumper Side Right",
-    "en-hag": "Front Bumper Side Right"
+    "en-hag": "Passenger Front Bumper Detail"
   },
   "front-door-left": {
     "key": "front-door-left",
@@ -270,7 +270,7 @@
     "de-CH": "Tür vorne links",
     "en-IE": "Front Door Left",
     "en-GB": "Front Door Left",
-    "en-hag": "Front Door Left"
+    "en-hag": "Driver Door Area"
   },
   "front-door-right": {
     "key": "front-door-right",
@@ -291,7 +291,7 @@
     "de-CH": "Vordertür rechts",
     "en-IE": "Front Door Right",
     "en-GB": "Front Door Right",
-    "en-hag": "Front Door Right"
+    "en-hag": "Passenger Door Area"
   },
   "front-fender-left": {
     "key": "front-fender-left",
@@ -312,7 +312,7 @@
     "de-CH": "Vorne links",
     "en-IE": "Front Left",
     "en-GB": "Front Left",
-    "en-hag": "Front Left"
+    "en-hag": "Driver Front ¾ Full"
   },
   "front-fender-right": {
     "key": "front-fender-right",
@@ -354,7 +354,7 @@
     "de-CH": "Vorne rechts",
     "en-IE": "Front Full Right",
     "en-GB": "Front Full Right",
-    "en-hag": "Front Full Right"
+    "en-hag": "Passenger Front ¾ Full"
   },
   "front-lateral-left": {
     "key": "front-lateral-left",
@@ -396,7 +396,7 @@
     "de-CH": "Vorne Seitlich Niedrig Links",
     "en-IE": "Front Lateral Low Left",
     "en-GB": "Front Lateral Low Left",
-    "en-hag": "Front Lateral Low Left"
+    "en-hag": "Driver Front Wheel/Tire"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -417,7 +417,7 @@
     "de-CH": "Vorne Seitlich Niedrig Rechts",
     "en-IE": "Front Lateral Low Right",
     "en-GB": "Front Lateral Low Right",
-    "en-hag": "Front Lateral Low Right"
+    "en-hag": "Passenger Front Wheel/Tire"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -459,7 +459,7 @@
     "de-CH": "Vorderseite Niedrig",
     "en-IE": "Front Low",
     "en-GB": "Front Low",
-    "en-hag": "Front Low"
+    "en-hag": "Direct Front Full"
   },
   "front-roof-left": {
     "key": "front-roof-left",
@@ -480,7 +480,7 @@
     "de-CH": "Dach vorne links",
     "en-IE": "Front Roof Left",
     "en-GB": "Front Roof Left",
-    "en-hag": "Front Roof Left"
+    "en-hag": "Roof From Driver Side"
   },
   "front-seats": {
     "key": "front-seats",
@@ -501,7 +501,7 @@
     "de-CH": "Vordersitze",
     "en-IE": "Front Seats",
     "en-GB": "Front Seats",
-    "en-hag": "Front Seats"
+    "en-hag": "Front Seats Driver Side"
   },
   "front-undercarriage": {
     "key": "front-undercarriage",
@@ -585,7 +585,7 @@
     "de-CH": "Abdeckhaube",
     "en-IE": "Hood",
     "en-GB": "Hood",
-    "en-hag": "Hood"
+    "en-hag": "Hood Area"
   },
   "hood-windshield": {
     "key": "hood-windshield",
@@ -648,7 +648,7 @@
     "de-CH": "Vollständig links",
     "en-IE": "Full Left",
     "en-GB": "Full Left",
-    "en-hag": "Full Left"
+    "en-hag": "Driver Side Full"
   },
   "lateral-full-right": {
     "key": "lateral-full-right",
@@ -669,7 +669,7 @@
     "de-CH": "Volles Recht",
     "en-IE": "Full Right",
     "en-GB": "Full Right",
-    "en-hag": "Full Right"
+    "en-hag": "Passenger Side Full"
   },
   "lateral-left": {
     "key": "lateral-left",
@@ -736,7 +736,7 @@
   },
   "left-front-door": {
     "key": "left-front-door",
-    "en": "Left Front Door",
+    "en": "Left Front Door Panel",
     "fr": "Porte avant gauche",
     "de": "Tür vorne links",
     "nl": "Linker voordeur",
@@ -751,9 +751,30 @@
     "cs": "Levé přední dveře",
     "fi": "Vasemman etuoven",
     "de-CH": "Tür vorne links",
-    "en-IE": "Left Front Door",
-    "en-GB": "Left Front Door",
-    "en-hag": "Left Front Door"
+    "en-IE": "Left Front Door Panel",
+    "en-GB": "Left Front Door Panel",
+    "en-hag": "Driver Front Door Panel"
+  },
+  "right-front-door": {
+    "key": "right-front-door",
+    "en": "Right Front Door Panel",
+    "fr": "Porte avant droite",
+    "de": "Tür vorne rechts",
+    "nl": "Rechter voordeur",
+    "it": "Porta anteriore destra",
+    "pt": "Porta dianteira direita",
+    "es": "Puerta delantera derecha",
+    "sv": "Höger framdörr",
+    "da": "Højre fordør",
+    "pl": "Prawe przednie drzwi",
+    "ro": "Ușa din față, partea dreaptă",
+    "no": "Høyre fordør",
+    "cs": "Pravé přední dveře",
+    "fi": "Oikean etuoven",
+    "de-CH": "Tür vorne rechts",
+    "en-IE": "Right Front Door Panel",
+    "en-GB": "Right Front Door Panel",
+    "en-hag": "Passenger Front Door Panel"
   },
   "open-trunk": {
     "key": "open-trunk",
@@ -774,7 +795,7 @@
     "de-CH": "Offene Truhe",
     "en-IE": "Open Trunk",
     "en-GB": "Open Trunk",
-    "en-hag": "Open Trunk"
+    "en-hag": "Open Trunk Full"
   },
   "rear": {
     "key": "rear",
@@ -795,7 +816,7 @@
     "de-CH": "Hinten",
     "en-IE": "Rear",
     "en-GB": "Rear",
-    "en-hag": "Rear"
+    "en-hag": "Direct Rear Full"
   },
   "rear-bumper-side-left": {
     "key": "rear-bumper-side-left",
@@ -942,7 +963,7 @@
     "de-CH": "Hinten ganz links",
     "en-IE": "Rear Full Left",
     "en-GB": "Rear Full Left",
-    "en-hag": "Rear Full Left"
+    "en-hag": "Driver Rear ¾ Full"
   },
   "rear-lateral-full-right": {
     "key": "rear-lateral-full-right",
@@ -963,7 +984,7 @@
     "de-CH": "Hinten ganz rechts",
     "en-IE": "Rear Full Right",
     "en-GB": "Rear Full Right",
-    "en-hag": "Rear Full Right"
+    "en-hag": "Passenger Rear ¾ Full"
   },
   "rear-lateral-left": {
     "key": "rear-lateral-left",
@@ -984,7 +1005,7 @@
     "de-CH": "Hinten seitlich links",
     "en-IE": "Rear Lateral Left",
     "en-GB": "Rear Lateral Left",
-    "en-hag": "Rear Lateral Left"
+    "en-hag": "Driver Rear Wheel/Tire"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -1047,7 +1068,7 @@
     "de-CH": "Hinten seitlich rechts",
     "en-IE": "Rear Lateral Right",
     "en-GB": "Rear Lateral Right",
-    "en-hag": "Rear Lateral Right"
+    "en-hag": "Passenger Rear Wheel/Tire"
   },
   "rear-left": {
     "key": "rear-left",
@@ -1068,7 +1089,7 @@
     "de-CH": "Hinten links",
     "en-IE": "Rear Left",
     "en-GB": "Rear Left",
-    "en-hag": "Rear Left"
+    "en-hag": "Driver Rear ¾ Close"
   },
   "rear-low": {
     "key": "rear-low",
@@ -1110,7 +1131,7 @@
     "de-CH": "Hinten rechts",
     "en-IE": "Rear Right",
     "en-GB": "Rear Right",
-    "en-hag": "Rear Right"
+    "en-hag": "Passenger Rear ¾ Close"
   },
   "rear-roof": {
     "key": "rear-roof",
@@ -1173,7 +1194,7 @@
     "de-CH": "Rücksitze",
     "en-IE": "Rear Seats",
     "en-GB": "Rear Seats",
-    "en-hag": "Rear Seats"
+    "en-hag": "Rear Seats Close"
   },
   "rear-up-left": {
     "key": "rear-up-left",
@@ -1383,7 +1404,7 @@
     "de-CH": "Kofferraum",
     "en-IE": "Trunk",
     "en-GB": "Trunk",
-    "en-hag": "Trunk"
+    "en-hag": "Trunk Area"
   },
   "trunk-left-side": {
     "key": "trunk-left-side",
@@ -1446,7 +1467,7 @@
     "de-CH": "VIN",
     "en-IE": "VIN",
     "en-GB": "VIN",
-    "en-hag": "VIN"
+    "en-hag": "VIN Sticker/Plate"
   },
   "windshield": {
     "key": "windshield",
@@ -1593,7 +1614,7 @@
     "de-CH": "Limousine",
     "en-IE": "Saloon",
     "en-GB": "Saloon",
-    "en-hag": "Sedan"
+    "en-hag": "Car"
   },
   "large-suv": {
     "key": "large-suv",
@@ -1635,7 +1656,7 @@
     "de-CH": "Minivan",
     "en-IE": "Minivan",
     "en-GB": "Minivan",
-    "en-hag": "Minivan"
+    "en-hag": "Van"
   },
   "suv": {
     "key": "suv",
@@ -1929,7 +1950,7 @@
     "de-CH": "Scheinwerfer links",
     "en-IE": "Headlight Left",
     "en-GB": "Headlight Left",
-    "en-hag": "Headlight Left"
+    "en-hag": "Left Headlight"
   },
   "headlight-right": {
     "key": "headlight-right",
@@ -1950,7 +1971,7 @@
     "de-CH": "Scheinwerfer rechts",
     "en-IE": "Headlight Right",
     "en-GB": "Headlight Right",
-    "en-hag": "Headlight Right"
+    "en-hag": "Right Headlight"
   },
   "taillight-left": {
     "key": "taillight-left",
@@ -1971,7 +1992,7 @@
     "de-CH": "Rückleuchte links",
     "en-IE": "Taillight Left",
     "en-GB": "Taillight Left",
-    "en-hag": "Taillight Left"
+    "en-hag": "Left Taillight"
   },
   "taillight-right": {
     "key": "taillight-right",
@@ -1992,7 +2013,7 @@
     "de-CH": "Rückleuchte rechts",
     "en-IE": "Taillight Right",
     "en-GB": "Taillight Right",
-    "en-hag": "Taillight Right"
+    "en-hag": "Right Taillight"
   },
   "mirror-left": {
     "key": "mirror-left",
@@ -2013,7 +2034,7 @@
     "de-CH": "Aussenspiegel links",
     "en-IE": "Mirror Left",
     "en-GB": "Mirror Left",
-    "en-hag": "Mirror Left"
+    "en-hag": "Driver Mirror"
   },
   "mirror-right": {
     "key": "mirror-right",
@@ -2034,11 +2055,11 @@
     "de-CH": "Aussenspiegel rechts",
     "en-IE": "Mirror Right",
     "en-GB": "Mirror Right",
-    "en-hag": "Mirror Right"
+    "en-hag": "Passenger Mirror"
   },
   "rear-door-panel-left": {
     "key": "rear-door-panel-left",
-    "en": "Rear Door Panel Left",
+    "en": "Left Rear Door Panel",
     "fr": "Panneau de porte arrière gauche",
     "de": "Türverkleidung hinten links",
     "nl": "Achterportierpaneel links",
@@ -2053,13 +2074,13 @@
     "cs": "Levý panel zadních dveří",
     "fi": "Vasen takaoven verhoilu",
     "de-CH": "Türverkleidung hinten links",
-    "en-IE": "Rear Door Panel Left",
-    "en-GB": "Rear Door Panel Left",
-    "en-hag": "Rear Door Panel Left"
+    "en-IE": "Left Rear Door Panel",
+    "en-GB": "Left Rear Door Panel",
+    "en-hag": "Driver Rear Door Panel"
   },
   "rear-door-panel-right": {
     "key": "rear-door-panel-right",
-    "en": "Rear Door Panel Right",
+    "en": "Right Rear Door Panel",
     "fr": "Panneau de porte arrière droit",
     "de": "Türverkleidung hinten rechts",
     "nl": "Achterportierpaneel rechts",
@@ -2074,9 +2095,9 @@
     "cs": "Pravý panel zadních dveří",
     "fi": "Oikea takaoven verhoilu",
     "de-CH": "Türverkleidung hinten rechts",
-    "en-IE": "Rear Door Panel Right",
-    "en-GB": "Rear Door Panel Right",
-    "en-hag": "Rear Door Panel Right"
+    "en-IE": "Right Rear Door Panel",
+    "en-GB": "Right Rear Door Panel",
+    "en-hag": "Passenger Rear Door Panel"
   },
   "engine-bay": {
     "key": "engine-bay",
@@ -2097,7 +2118,7 @@
     "de-CH": "Motorraum",
     "en-IE": "Engine Bay",
     "en-GB": "Engine Bay",
-    "en-hag": "Engine Bay"
+    "en-hag": "Engine Bay Full"
   },
   "pedals": {
     "key": "pedals",
@@ -2139,6 +2160,48 @@
     "de-CH": "Schalthebel",
     "en-IE": "Shifter",
     "en-GB": "Shifter",
-    "en-hag": "Shifter"
+    "en-hag": "Shifter Area"
+  },
+  "dashboard-gauges": {
+    "key": "dashboard-gauges",
+    "en": "Dashboard",
+    "fr": "Tableau de bord",
+    "de": "Armaturenbrett",
+    "nl": "Dashboard",
+    "it": "Cruscotto",
+    "pt": "Painel",
+    "es": "Panel de control",
+    "sv": "Instrumentpanel",
+    "da": "Instrumentbræt",
+    "pl": "Deska rozdzielcza",
+    "ro": "Tablou de bord",
+    "no": "Dashbord",
+    "cs": "Palubní deska",
+    "fi": "Päävalikko",
+    "de-CH": "Armaturenbrett",
+    "en-IE": "Dashboard",
+    "en-GB": "Dashboard",
+    "en-hag": "Gauges & Odometer"
+  },
+  "rear-seats-far": {
+    "key": "rear-seats-far",
+    "en": "Rear Seats",
+    "fr": "Sièges arrière",
+    "de": "Rücksitze",
+    "nl": "Achterbank",
+    "it": "Sedili posteriori",
+    "pt": "Bancos Traseiros",
+    "es": "Asientos traseros",
+    "sv": "Baksäten",
+    "da": "Bagsæder",
+    "pl": "Tylne siedzenia",
+    "ro": "Scaunele din spate",
+    "no": "Bakseter",
+    "cs": "Zadní sedadla",
+    "fi": "Takapenkit",
+    "de-CH": "Rücksitze",
+    "en-IE": "Rear Seats",
+    "en-GB": "Rear Seats",
+    "en-hag": "Rear Seats Far"
   }
 }

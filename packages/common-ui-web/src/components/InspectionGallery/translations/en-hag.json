@@ -3,7 +3,7 @@
     "addDamage": "Add Custom Damage"
   },
   "topBar": {
-    "submit": "Validate",
+    "submit": "Submit Photos",
     "title": "Photos",
     "retakeFilter": "Retakes",
     "approvedFilter": "Approved",
