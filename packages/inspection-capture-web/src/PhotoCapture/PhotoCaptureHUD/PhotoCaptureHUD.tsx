@@ -3,6 +3,7 @@ import {
   PhotoCaptureAppConfig,
   Image,
   ImageStatus,
+  MonkPicture,
   MonkTestId,
   Sight,
   VehiclePart,
@@ -14,7 +15,7 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { TutorialSteps, PhotoCaptureOcrConfig } from '../hooks';
+import { TutorialSteps, PhotoCaptureOcrConfig, OcrMode, OcrSightConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';
@@ -147,6 +148,15 @@ export interface PhotoCaptureHUDProps
    * text and turns green once enough consistent readings confirm it.
    */
   ocrConfig?: PhotoCaptureOcrConfig;
+  /**
+   * Maps sight IDs to their OCR mode. OCR overlay is only active on listed sights.
+   */
+  ocrSights?: OcrSightConfig[];
+  /**
+   * Called when the user confirms the OCR-detected text in the modal.
+   * Receives the confirmed text, the crop picture used for recognition, and the active OCR mode.
+   */
+  onOcrConfirm?: (text: string, picture: MonkPicture, mode: OcrMode | undefined) => void;
 }
 
 /**
@@ -191,6 +201,8 @@ export function PhotoCaptureHUD({
   showSightTutorial,
   toggleSightTutorial,
   ocrConfig,
+  ocrSights,
+  onOcrConfirm,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -221,6 +233,10 @@ export function PhotoCaptureHUD({
     onClose?.();
   };
 
+  const handleOcrConfirm = (text: string, picture: MonkPicture, ocrMode: OcrMode | undefined) => {
+    onOcrConfirm?.(text, picture, ocrMode);
+  };
+
   return (
     <div style={style.container}>
       <div style={style.previewContainer} data-testid={MonkTestId.CAMERA_PREVIEW}>
@@ -248,19 +264,22 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
-          hideSightOverlay={
-            !!ocrConfig?.activeSightId && ocrConfig.activeSightId === selectedSight.id
-          }
+          hideSightOverlay={!!ocrSights?.some((s) => s.sightId === selectedSight.id)}
         />
-        {ocrConfig && (
-          <OcrOverlay
-            config={ocrConfig}
-            getImageData={stableGetImageData}
-            isCameraLoading={handle.isLoading}
-            isActive={!ocrConfig.activeSightId || ocrConfig.activeSightId === selectedSight.id}
-            previewDimensions={handle.previewDimensions}
-          />
-        )}
+        {ocrConfig && (() => {
+          const matchedSight = ocrSights?.find((s) => s.sightId === selectedSight.id);
+          return (
+            <OcrOverlay
+              config={ocrConfig}
+              getImageData={stableGetImageData}
+              isCameraLoading={handle.isLoading}
+              isActive={!ocrSights?.length || !!matchedSight}
+              previewDimensions={handle.previewDimensions}
+              mode={matchedSight?.mode}
+              onConfirm={handleOcrConfirm}
+            />
+          );
+        })()}
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
         <HUDButtons

@@ -1,18 +1,22 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMonkAppState } from '@monkvision/common';
-import { PhotoCapture, PhotoCaptureOcrConfig } from '@monkvision/inspection-capture-web';
+import {
+  PhotoCapture,
+  PhotoCaptureOcrConfig,
+  OcrSightConfig,
+} from '@monkvision/inspection-capture-web';
 import { OCR_MODEL_URLS } from '@monkvision/ml-web';
 import { CaptureWorkflow, VehicleType } from '@monkvision/types';
 import styles from './PhotoCapturePage.module.css';
 import { createInspectionReportLink } from './inspectionReport';
 
-const VIN_SIGHT_ID = 'all-sLu0CfOt';
+const ocrConfig: PhotoCaptureOcrConfig = { ...OCR_MODEL_URLS };
 
-const ocrConfig: PhotoCaptureOcrConfig = {
-  ...OCR_MODEL_URLS,
-  activeSightId: VIN_SIGHT_ID,
-};
+const ocrSights: OcrSightConfig[] = [
+  { sightId: 'all-JOhPh4rx', mode: 'odometer' },
+  { sightId: 'all-sLu0CfOt', mode: 'vin' },
+];
 
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
@@ -46,6 +50,7 @@ export function PhotoCapturePage() {
         lang={i18n.language}
         vehicleType={vehicleType ?? VehicleType.SEDAN}
         ocrConfig={ocrConfig}
+        ocrSights={ocrSights}
       />
     </div>
   );
