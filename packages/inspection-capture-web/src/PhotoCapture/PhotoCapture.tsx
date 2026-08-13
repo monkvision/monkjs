@@ -42,7 +42,10 @@ import {
   usePhotoCaptureSightGuidelines,
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
+  usePhotoCaptureOcrConfirm,
   PhotoCaptureOcrConfig,
+  OcrMode,
+  OcrSightConfig,
 } from './hooks';
 import { useImagesCleanup } from './hooks/useImagesCleanup';
 
@@ -131,6 +134,11 @@ export interface PhotoCaptureProps
    * The OCR models are loaded on demand and unloaded once text is confirmed.
    */
   ocrConfig?: PhotoCaptureOcrConfig;
+  /**
+   * Maps sight IDs to their OCR mode. OCR overlay is only active on listed sights.
+   * If omitted while ocrConfig is set, OCR is always active with no mode-specific behavior.
+   */
+  ocrSights?: OcrSightConfig[];
 }
 
 enum PhotoCaptureScreen {
@@ -175,6 +183,7 @@ export function PhotoCapture({
   onGalleryPress,
   enableBeautyShotExtraction,
   ocrConfig,
+  ocrSights,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -280,6 +289,16 @@ export function PhotoCapture({
     apiConfig,
     isInspectionCompleted: sightState.isInspectionCompleted,
   });
+  const { handleOcrConfirm: handleOcrVehicleUpdate } = usePhotoCaptureOcrConfirm({
+    inspectionId,
+    apiConfig,
+  });
+  const handleOcrConfirm = (text: string, picture: MonkPicture, mode: OcrMode | undefined) => {
+    // eslint-disable-next-line no-console
+    console.log('[OCR] handleOcrConfirm triggered', { text, mode });
+    handlePictureTaken(picture);
+    handleOcrVehicleUpdate(text, mode);
+  };
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
     sightState,
@@ -338,6 +357,8 @@ export function PhotoCapture({
     showSightTutorial,
     toggleSightTutorial,
     ocrConfig,
+    ocrSights,
+    onOcrConfirm: handleOcrConfirm,
   };
 
   return (

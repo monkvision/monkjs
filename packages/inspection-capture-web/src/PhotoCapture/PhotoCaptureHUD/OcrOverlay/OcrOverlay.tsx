@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
+import { MonkPicture } from '@monkvision/types';
 import { OcrConfirmModal } from './OcrConfirmModal';
-import { PhotoCaptureOcrConfig } from '../../hooks';
+import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
+import { formatOdometerDisplay, parseOdometerText } from './ocrText.utils';
 import {
   CROP_REGION,
   RADIUS,
@@ -21,8 +23,10 @@ export interface OcrOverlayProps {
   isActive: boolean;
   /** Actual rendered pixel dimensions of the video content on screen (excluding letterbox bars). */
   previewDimensions: { width: number; height: number } | null;
+  /** OCR mode active for the current sight (odometer, vin, …). */
+  mode?: OcrMode;
   /** Called when the user confirms the OCR-detected text in the modal. */
-  onConfirm?: (text: string) => void;
+  onConfirm?: (text: string, picture: MonkPicture, mode: OcrMode | undefined) => void;
   /** Called when the user rejects the OCR-detected text in the modal. */
   onReject?: () => void;
 }
@@ -46,13 +50,12 @@ export function OcrOverlay({
   isCameraLoading,
   isActive,
   previewDimensions,
+  mode,
   onConfirm,
   onReject,
 }: OcrOverlayProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {
     captureIntervalMs = OCR_STABILIZER_CONFIG.captureIntervalMs,
-    activeSightId: _a,
     appearanceCount = OCR_STABILIZER_CONFIG.appearanceCount,
     ...ocrConfig
   } = config;
@@ -73,7 +76,7 @@ export function OcrOverlay({
   const cropCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
   const cropCoordsRef = useRef<{ sx: number; sy: number; sw: number; sh: number } | null>(null);
 
-  const [modalImageUri, setModalImageUri] = useState<string | null>(null);
+  const [ocrPicture, setOcrPicture] = useState<MonkPicture | null>(null);
 
   useEffect(() => {
     loadModels();
@@ -84,13 +87,29 @@ export function OcrOverlay({
       return;
     }
     const canvas = cropCanvasRef.current;
+    const { width, height } = canvas;
+    const mimetype = 'image/jpeg';
+
+    const applyBlob = (blob: Blob) => {
+      const uri = URL.createObjectURL(blob);
+      setOcrPicture({ blob, uri, mimetype, width, height });
+    };
+
     if (canvas instanceof HTMLCanvasElement) {
-      setModalImageUri(canvas.toDataURL('image/jpeg', 0.92));
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            applyBlob(blob);
+          }
+        },
+        mimetype,
+        0.92,
+      );
     } else {
       canvas
-        .convertToBlob({ type: 'image/jpeg', quality: 0.92 })
-        .then((blob) => setModalImageUri(URL.createObjectURL(blob)))
-        .catch(() => setModalImageUri(null));
+        .convertToBlob({ type: mimetype, quality: 0.92 })
+        .then(applyBlob)
+        .catch(() => setOcrPicture(null));
     }
   }, [confirmedText]);
 
@@ -167,19 +186,32 @@ export function OcrOverlay({
   }
 
   const isConfirmed = confirmedText !== null;
-  const showModal = isConfirmed && modalImageUri !== null;
+  const showModal = isConfirmed && ocrPicture !== null;
 
   const handleConfirm = () => {
-    onConfirm?.(confirmedText ?? '');
+    if (ocrPicture) {
+      onConfirm?.(confirmedText ?? '', ocrPicture, mode);
+    }
   };
 
   const handleReject = () => {
-    setModalImageUri(null);
+    setOcrPicture(null);
     reset();
     onReject?.();
   };
 
-  const displayText = confirmedText ?? (detectedText || null);
+  const isOdometer = mode === 'odometer';
+  const rawDisplayText = confirmedText ?? (detectedText || null);
+  const displayText =
+    isOdometer && rawDisplayText
+      ? formatOdometerDisplay(parseOdometerText(rawDisplayText))
+      : rawDisplayText;
+  let modalText = confirmedText ?? '';
+  if (isConfirmed && confirmedText) {
+    modalText = isOdometer
+      ? formatOdometerDisplay(parseOdometerText(confirmedText))
+      : confirmedText;
+  }
   const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
   const containerW = previewDimensions?.width ?? 0;
   const containerH = previewDimensions?.height ?? 0;
@@ -211,8 +243,8 @@ export function OcrOverlay({
     <>
       {showModal && (
         <OcrConfirmModal
-          text={confirmedText ?? ''}
-          imageUri={modalImageUri ?? ''}
+          text={modalText}
+          imageUri={ocrPicture?.uri ?? ''}
           onConfirm={handleConfirm}
           onReject={handleReject}
         />
