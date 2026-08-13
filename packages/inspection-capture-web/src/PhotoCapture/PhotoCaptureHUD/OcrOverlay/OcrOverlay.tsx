@@ -66,6 +66,7 @@ export function OcrOverlay({
     confirmedText,
     detectedText,
     consistencyCount,
+    reset,
   } = useOcr({ ...ocrConfig, appearanceCount });
 
   const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
@@ -174,6 +175,7 @@ export function OcrOverlay({
 
   const handleReject = () => {
     setModalImageUri(null);
+    reset();
     onReject?.();
   };
 
