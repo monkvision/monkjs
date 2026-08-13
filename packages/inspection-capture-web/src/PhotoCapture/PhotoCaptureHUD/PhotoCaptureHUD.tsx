@@ -15,6 +15,7 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
+import { MileageUnit } from '@monkvision/types';
 import { TutorialSteps, PhotoCaptureOcrConfig, OcrMode, OcrSightConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
@@ -156,7 +157,24 @@ export interface PhotoCaptureHUDProps
    * Called when the user confirms the OCR-detected text in the modal.
    * Receives the confirmed text, the crop picture used for recognition, and the active OCR mode.
    */
-  onOcrConfirm?: (text: string, picture: MonkPicture, mode: OcrMode | undefined) => void;
+  onOcrConfirm?: (
+    text: string,
+    picture: MonkPicture,
+    mode: OcrMode | undefined,
+    defaultMileageUnit: MileageUnit | undefined,
+  ) => void;
+  /**
+   * Whether the OCR retry/timeout limit has been reached and the shutter should be unlocked.
+   */
+  isOcrFallbackReady?: boolean;
+  /**
+   * Called by OcrOverlay when the retry/timeout limit is reached (shutter should be unlocked).
+   */
+  onOcrFallbackReady?: () => void;
+  /**
+   * Full-frame picture taken by the user in OCR fallback mode, to run OCR on.
+   */
+  ocrFallbackPicture?: MonkPicture | null;
 }
 
 /**
@@ -203,6 +221,9 @@ export function PhotoCaptureHUD({
   ocrConfig,
   ocrSights,
   onOcrConfirm,
+  isOcrFallbackReady,
+  onOcrFallbackReady,
+  ocrFallbackPicture,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -233,8 +254,13 @@ export function PhotoCaptureHUD({
     onClose?.();
   };
 
-  const handleOcrConfirm = (text: string, picture: MonkPicture, ocrMode: OcrMode | undefined) => {
-    onOcrConfirm?.(text, picture, ocrMode);
+  const handleOcrConfirm = (
+    text: string,
+    picture: MonkPicture,
+    ocrMode: OcrMode | undefined,
+    defaultMileageUnit: MileageUnit | undefined,
+  ) => {
+    onOcrConfirm?.(text, picture, ocrMode, defaultMileageUnit);
   };
 
   return (
@@ -276,7 +302,11 @@ export function PhotoCaptureHUD({
               isActive={!ocrSights?.length || !!matchedSight}
               previewDimensions={handle.previewDimensions}
               mode={matchedSight?.mode}
+              defaultMileageUnit={matchedSight?.defaultMileageUnit}
               onConfirm={handleOcrConfirm}
+              sightId={selectedSight.id}
+              onFallbackReady={onOcrFallbackReady}
+              fallbackPicture={ocrFallbackPicture}
             />
           );
         })()}
@@ -290,7 +320,13 @@ export function PhotoCaptureHUD({
           closeDisabled={!!loading.error || !!handle.error}
           galleryDisabled={!!loading.error || !!handle.error}
           takePictureDisabled={
-            !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+            !!loading.error ||
+            !!handle.error ||
+            handle.isLoading ||
+            loading.isLoading ||
+            (!!ocrConfig &&
+              (!ocrSights?.length || !!ocrSights.find((s) => s.sightId === selectedSight.id)) &&
+              !isOcrFallbackReady)
           }
           showCloseButton={showCloseButton}
           showGalleryBadge={retakeCount > 0}

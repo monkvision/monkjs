@@ -12,6 +12,7 @@ import {
   AddDamage,
   CameraConfig,
   ComplianceOptions,
+  MileageUnit,
   MonkPicture,
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
@@ -20,7 +21,7 @@ import {
   Sight,
   VehicleType,
 } from '@monkvision/types';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
@@ -198,6 +199,8 @@ export function PhotoCapture({
   });
   const { t } = useTranslation();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
+  const [isOcrFallbackReady, setIsOcrFallbackReady] = useState(false);
+  const [ocrFallbackPicture, setOcrFallbackPicture] = useState<MonkPicture | null>(null);
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const handleOpenGallery = () => {
@@ -277,13 +280,36 @@ export function PhotoCapture({
     ],
   });
   const images = usePhotoCaptureImages(inspectionId);
-  const handlePictureTaken = usePictureTaken({
+  const basePictureTaken = usePictureTaken({
     captureState: sightState,
     addDamageHandle,
     uploadQueue,
     tasksBySight,
     onPictureTaken,
   });
+  const isOcrSightActive = useMemo(
+    () => !!ocrSights?.some((s) => s.sightId === sightState.selectedSight.id),
+    [ocrSights, sightState.selectedSight.id],
+  );
+  const handlePictureTaken = useCallback(
+    (picture: MonkPicture) => {
+      if (isOcrFallbackReady && isOcrSightActive) {
+        setOcrFallbackPicture(picture);
+      } else {
+        basePictureTaken(picture);
+      }
+    },
+    [isOcrFallbackReady, isOcrSightActive, basePictureTaken],
+  );
+
+  // Reset OCR fallback state whenever the selected sight changes.
+  const prevSightIdRef = useRef(sightState.selectedSight.id);
+  useEffect(() => {
+    if (sightState.selectedSight.id === prevSightIdRef.current) return;
+    prevSightIdRef.current = sightState.selectedSight.id;
+    setIsOcrFallbackReady(false);
+    setOcrFallbackPicture(null);
+  }, [sightState.selectedSight.id]);
   const { updateDuration } = useCaptureDuration({
     inspectionId,
     apiConfig,
@@ -293,12 +319,24 @@ export function PhotoCapture({
     inspectionId,
     apiConfig,
   });
-  const handleOcrConfirm = (text: string, picture: MonkPicture, mode: OcrMode | undefined) => {
-    // eslint-disable-next-line no-console
-    console.log('[OCR] handleOcrConfirm triggered', { text, mode });
-    handlePictureTaken(picture);
-    handleOcrVehicleUpdate(text, mode);
-  };
+  const handleOcrConfirm = useCallback(
+    (
+      text: string,
+      cropPicture: MonkPicture,
+      mode: OcrMode | undefined,
+      defaultMileageUnit: MileageUnit | undefined,
+    ) => {
+      // eslint-disable-next-line no-console
+      console.log('[OCR] handleOcrConfirm triggered', { text, mode, defaultMileageUnit });
+      // In fallback mode the full camera picture is uploaded; otherwise the OCR crop is used.
+      const pictureToUpload = ocrFallbackPicture ?? cropPicture;
+      basePictureTaken(pictureToUpload);
+      handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
+      setOcrFallbackPicture(null);
+      setIsOcrFallbackReady(false);
+    },
+    [ocrFallbackPicture, basePictureTaken, handleOcrVehicleUpdate],
+  );
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
     sightState,
@@ -359,6 +397,9 @@ export function PhotoCapture({
     ocrConfig,
     ocrSights,
     onOcrConfirm: handleOcrConfirm,
+    isOcrFallbackReady,
+    onOcrFallbackReady: () => setIsOcrFallbackReady(true),
+    ocrFallbackPicture,
   };
 
   return (

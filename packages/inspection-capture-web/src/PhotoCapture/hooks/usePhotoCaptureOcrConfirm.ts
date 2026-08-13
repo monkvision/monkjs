@@ -10,7 +10,11 @@ export interface UsePhotoCaptureOcrConfirmParams {
 }
 
 export interface UsePhotoCaptureOcrConfirmResult {
-  handleOcrConfirm: (text: string, mode: OcrMode | undefined) => void;
+  handleOcrConfirm: (
+    text: string,
+    mode: OcrMode | undefined,
+    defaultMileageUnit: MileageUnit | undefined,
+  ) => void;
 }
 
 /**
@@ -25,9 +29,9 @@ export function usePhotoCaptureOcrConfirm({
   const { updateInspectionVehicle } = useMonkApi(apiConfig);
 
   const handleOcrConfirm = useCallback(
-    (text: string, mode: OcrMode | undefined) => {
+    (text: string, mode: OcrMode | undefined, defaultMileageUnit: MileageUnit | undefined) => {
       // eslint-disable-next-line no-console
-      console.log('[OCR] handleOcrVehicleUpdate called', { text, mode });
+      console.log('[OCR] handleOcrVehicleUpdate called', { text, mode, defaultMileageUnit });
       if (!mode) {
         return;
       }
@@ -35,7 +39,7 @@ export function usePhotoCaptureOcrConfirm({
       if (mode === 'odometer') {
         const { value, unit } = parseOdometerText(text);
         // eslint-disable-next-line no-console
-        console.log('[OCR] odometer parsed', { value, unit });
+        console.log('[OCR] odometer parsed', { value, unit, defaultMileageUnit });
         if (value === null) {
           return;
         }
@@ -43,7 +47,7 @@ export function usePhotoCaptureOcrConfirm({
           inspectionId,
           vehicle: {
             mileageValue: value,
-            mileageUnit: unit ?? MileageUnit.KM,
+            mileageUnit: unit ?? defaultMileageUnit ?? MileageUnit.KM,
           },
         })
           .then((res) => {
