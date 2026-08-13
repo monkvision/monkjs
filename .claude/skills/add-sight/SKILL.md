@@ -20,6 +20,11 @@ else (ids, JSON entries, schema/type wiring) is done by us.
    `packages/sights/research/data/<vehicle>/<vehicle>.json`
    (`id`, `category`, `label`, `overlay`, `vehicle`, `tasks`, `positioning`, `referencePicture`).
 
+   The `label` must reference an existing key in `packages/sights/research/data/labels.json`.
+   If it doesn't exist yet, add it there (alphabetically ordered, all locales from
+   `labels.schema.json` filled in). Before reusing an existing label, check that no other
+   `interior` sight already uses it — two `interior` sights may not point to the same label.
+
 6. **New vehicle only** — add a `VehicleModel` entry in `packages/types/src/sights.ts`.
 
 7. **New vehicle only** — in `packages/sights/src/lib/data.ts`, import the new
@@ -54,3 +59,6 @@ else (ids, JSON entries, schema/type wiring) is done by us.
   existing ids. Uniqueness comes from `prefixIds`, not `<style>`.
 - Build-enforced: any new overlay is auto-prefixed on every `yarn build`, and validation
   fails the build if a raw export is committed without running the pass.
+- `label` referencing a missing `labels.json` key, or two `interior` sights sharing a label,
+  is **not** caught by `yarn validate` (the JSON schemas don't cross-reference labels against
+  sights) — check this manually every time.

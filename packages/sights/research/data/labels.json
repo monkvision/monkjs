@@ -776,6 +776,27 @@
     "en-GB": "Right Front Door Panel",
     "en-hag": "Passenger Front Door Panel"
   },
+  "odometer": {
+    "key": "odometer",
+    "en": "Odometer",
+    "fr": "Compteur kilométrique",
+    "de": "Kilometerzähler",
+    "nl": "Kilometerteller",
+    "it": "Contachilometri",
+    "pt": "Odómetro",
+    "es": "Cuentakilómetros",
+    "sv": "Vägmätare",
+    "da": "Kilometertæller",
+    "pl": "Licznik kilometrów",
+    "ro": "Odometru",
+    "no": "Kilometerteller",
+    "cs": "Počítadlo kilometrů",
+    "fi": "Matkamittari",
+    "de-CH": "Kilometerzähler",
+    "en-IE": "Odometer",
+    "en-GB": "Odometer",
+    "en-hag": "Odometer"
+  },
   "open-trunk": {
     "key": "open-trunk",
     "en": "Open Trunk",
