@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture } from '@monkvision/types';
 import { OcrConfirmModal } from './OcrConfirmModal';
+import { MileageUnit } from '@monkvision/types';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
 import { formatOdometerDisplay, parseOdometerText } from './ocrText.utils';
 import {
@@ -25,10 +26,23 @@ export interface OcrOverlayProps {
   previewDimensions: { width: number; height: number } | null;
   /** OCR mode active for the current sight (odometer, vin, …). */
   mode?: OcrMode;
+  /** Fallback unit used when OCR cannot detect one from the text (odometer mode only). */
+  defaultMileageUnit?: MileageUnit;
   /** Called when the user confirms the OCR-detected text in the modal. */
-  onConfirm?: (text: string, picture: MonkPicture, mode: OcrMode | undefined) => void;
+  onConfirm?: (
+    text: string,
+    picture: MonkPicture,
+    mode: OcrMode | undefined,
+    defaultMileageUnit: MileageUnit | undefined,
+  ) => void;
   /** Called when the user rejects the OCR-detected text in the modal. */
   onReject?: () => void;
+  /** Called once when the retry/timeout limit is reached — signals the parent to unlock the shutter. */
+  onFallbackReady?: () => void;
+  /** Full-frame picture taken by the user in fallback mode. OCR runs on its crop region. */
+  fallbackPicture?: MonkPicture | null;
+  /** Current sight ID — used to reset OCR state when the active sight changes. */
+  sightId?: string;
 }
 
 const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
@@ -51,12 +65,18 @@ export function OcrOverlay({
   isActive,
   previewDimensions,
   mode,
+  defaultMileageUnit,
   onConfirm,
   onReject,
+  onFallbackReady,
+  fallbackPicture,
+  sightId,
 }: OcrOverlayProps) {
   const {
     captureIntervalMs = OCR_STABILIZER_CONFIG.captureIntervalMs,
     appearanceCount = OCR_STABILIZER_CONFIG.appearanceCount,
+    maxOcrRetries = 2,
+    ocrTimeoutMs = 30_000,
     ...ocrConfig
   } = config;
   const {
@@ -75,12 +95,110 @@ export function OcrOverlay({
   const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
   const cropCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
   const cropCoordsRef = useRef<{ sx: number; sy: number; sw: number; sh: number } | null>(null);
+  const processedFallbackUriRef = useRef<string | null>(null);
 
   const [ocrPicture, setOcrPicture] = useState<MonkPicture | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState('');
+  const [retryCount, setRetryCount] = useState(0);
+  const [isTimedOut, setIsTimedOut] = useState(false);
+  const [fallbackProcessed, setFallbackProcessed] = useState(false);
+
+  const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
 
   useEffect(() => {
     loadModels();
   }, [loadModels]);
+
+  // Reset fallback counters when the active sight changes.
+  useEffect(() => {
+    setRetryCount(0);
+    setIsTimedOut(false);
+    setFallbackProcessed(false);
+    processedFallbackUriRef.current = null;
+  }, [sightId]);
+
+  // Also reset when the overlay becomes inactive (non-OCR sight selected).
+  useEffect(() => {
+    if (!isActive) {
+      setRetryCount(0);
+      setIsTimedOut(false);
+      setFallbackProcessed(false);
+      processedFallbackUriRef.current = null;
+    }
+  }, [isActive]);
+
+  // Timeout: if OCR hasn't confirmed within ocrTimeoutMs, unlock the shutter.
+  useEffect(() => {
+    if (!isActive || isFallbackReady || confirmedText !== null) {
+      return undefined;
+    }
+    const timer = setTimeout(() => setIsTimedOut(true), ocrTimeoutMs);
+    return () => clearTimeout(timer);
+  }, [isActive, isFallbackReady, confirmedText, ocrTimeoutMs]);
+
+  // Notify parent once limits are reached.
+  useEffect(() => {
+    if (isFallbackReady) {
+      onFallbackReady?.();
+    }
+  }, [isFallbackReady, onFallbackReady]);
+
+  // Process the fallback picture: crop it and feed it through the OCR engine.
+  const processFallbackPicture = useCallback(() => {
+    if (!fallbackPicture || !isFallbackReady) return;
+    if (processedFallbackUriRef.current === fallbackPicture.uri) return;
+    processedFallbackUriRef.current = fallbackPicture.uri;
+
+    let cancelled = false;
+    const img = new Image();
+    img.src = fallbackPicture.uri;
+    img.onload = () => {
+      if (cancelled) return;
+      const sw = Math.round(CROP_REGION.w * img.naturalWidth);
+      const sh = Math.round(CROP_REGION.h * img.naturalHeight);
+      const sx = Math.round(CROP_REGION.x * img.naturalWidth);
+      const sy = Math.round(CROP_REGION.y * img.naturalHeight);
+
+      if (!cropCanvasRef.current || cropCanvasRef.current.width !== sw || cropCanvasRef.current.height !== sh) {
+        cropCanvasRef.current = createCanvas(sw, sh);
+      }
+      const cropCtx = get2dContext(cropCanvasRef.current);
+      cropCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+      const imageData = cropCtx.getImageData(0, 0, sw, sh);
+
+      reset();
+      for (let i = 0; i < appearanceCount; i++) {
+        processFrame(imageData);
+      }
+      if (!cancelled) {
+        setFallbackProcessed(true);
+      }
+    };
+    return () => { cancelled = true; };
+  }, [fallbackPicture, isFallbackReady, reset, processFrame, appearanceCount]);
+
+  useEffect(() => {
+    const cleanup = processFallbackPicture();
+    return cleanup;
+  }, [processFallbackPicture]);
+
+  // When fallback picture OCR finds no text and manual input is allowed, open edit mode.
+  useEffect(() => {
+    if (!fallbackProcessed || !fallbackPicture || confirmedText !== null) return;
+    if (config.allowManualInput) {
+      setOcrPicture(fallbackPicture);
+      setIsEditing(true);
+      setEditText('');
+    }
+  }, [fallbackProcessed, fallbackPicture, confirmedText, config.allowManualInput]);
+
+  useEffect(() => {
+    if (!confirmedText) {
+      setIsEditing(false);
+      setEditText('');
+    }
+  }, [confirmedText]);
 
   useEffect(() => {
     if (!confirmedText || !cropCanvasRef.current) {
@@ -157,7 +275,7 @@ export function OcrOverlay({
       }
       return undefined;
     },
-    isReady && isActive ? captureIntervalMs : null,
+    isReady && isActive && !isFallbackReady ? captureIntervalMs : null,
   );
 
   const modelColor = resolveModelColor(fatalError, isReady, isLoading);
@@ -190,11 +308,29 @@ export function OcrOverlay({
 
   const handleConfirm = () => {
     if (ocrPicture) {
-      onConfirm?.(confirmedText ?? '', ocrPicture, mode);
+      onConfirm?.(isEditing ? editText : (confirmedText ?? ''), ocrPicture, mode, defaultMileageUnit);
     }
   };
 
   const handleReject = () => {
+    const newCount = retryCount + 1;
+    setRetryCount(newCount);
+    const nowFallback = newCount >= maxOcrRetries || isTimedOut;
+
+    if (!nowFallback && config.allowManualInput) {
+      setIsEditing(true);
+      setEditText(confirmedText ?? '');
+    } else {
+      setOcrPicture(null);
+      reset();
+      onReject?.();
+    }
+  };
+
+  const handleEditCancel = () => {
+    setRetryCount((c) => c + 1);
+    setIsEditing(false);
+    setEditText('');
     setOcrPicture(null);
     reset();
     onReject?.();
@@ -247,6 +383,11 @@ export function OcrOverlay({
           imageUri={ocrPicture?.uri ?? ''}
           onConfirm={handleConfirm}
           onReject={handleReject}
+          isEditing={isEditing}
+          editValue={editText}
+          onEditChange={setEditText}
+          onEditCancel={handleEditCancel}
+          mode={mode}
         />
       )}
       <div style={overlayStyle}>

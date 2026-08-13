@@ -13,13 +13,15 @@ export interface OdometerParseResult {
  * - Detects "km" → KM and "mi"/"miles" → MILES (case-insensitive).
  * - Strips all other non-numeric characters.
  */
-export function parseOdometerText(raw: string): OdometerParseResult {
-  const lower = raw.toLowerCase().replace(/\s/g, '');
+const KM_RE = /km|kilo(?:met(?:er|re)s?)?/i;
+// Covers: mi, mil, mile, miles — and common OCR confusions (ml, m1, mii)
+const MILES_RE = /m(?:i|l|1){1,2}(?:l?e?s?)?(?!\p{L})/u;
 
+export function parseOdometerText(raw: string): OdometerParseResult {
   let unit: MileageUnit | null = null;
-  if (lower.includes('km')) {
+  if (KM_RE.test(raw)) {
     unit = MileageUnit.KM;
-  } else if (lower.includes('mi')) {
+  } else if (MILES_RE.test(raw)) {
     unit = MileageUnit.MILES;
   }
 
