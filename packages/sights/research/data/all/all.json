@@ -658,5 +658,18 @@
       "height": "mid",
       "distance": "interior"
     }
+  },
+  "all-JOhPh4rx": {
+    "id": "all-JOhPh4rx",
+    "category": "interior",
+    "label": "odometer",
+    "overlay": "all-JOhPh4rx.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 0,
+      "height": "mid",
+      "distance": "interior"
+    }
   }
 }
