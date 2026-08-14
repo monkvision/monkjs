@@ -2225,8 +2225,8 @@
     "en-GB": "Rear Seats",
     "en-hag": "Rear Seats Far"
   },
-  "dashboard-from-back-seat-lhd": {
-    "key": "dashboard-from-back-seat-lhd",
+  "dashboard-from-back-seat-left-hand-drive": {
+    "key": "dashboard-from-back-seat-left-hand-drive",
     "en": "Dashboard From Back Seat",
     "fr": "Tableau de bord siège arrière",
     "de": "Armaturenbrett vom Rücksitz",
@@ -2246,8 +2246,8 @@
     "en-GB": "Dashboard From Back Seat",
     "en-hag": "Dashboard From Rear Seat"
   },
-  "dashboard-from-back-seat-rhd": {
-    "key": "dashboard-from-back-seat-rhd",
+  "dashboard-from-back-seat-right-hand-drive": {
+    "key": "dashboard-from-back-seat-right-hand-drive",
     "en": "Dashboard From Back Seat",
     "fr": "Tableau de bord siège arrière",
     "de": "Armaturenbrett vom Rücksitz",
@@ -2288,8 +2288,8 @@
     "en-GB": "Dashboard From Back Seat Close",
     "en-hag": "Dashboard From Rear Seat Close"
   },
-  "dashboard-from-driver-seat-lhd": {
-    "key": "dashboard-from-driver-seat-lhd",
+  "dashboard-from-driver-seat-left-hand-drive": {
+    "key": "dashboard-from-driver-seat-left-hand-drive",
     "en": "Dashboard From Driver Seat Left",
     "fr": "Tableau de bord siège conducteur, volant à gauche",
     "de": "Armaturenbrett vom Fahrersitz, Lenkrad links",
@@ -2309,8 +2309,8 @@
     "en-GB": "Dashboard From Driver Seat Left",
     "en-hag": "Console From Driver Seat Left"
   },
-  "front-seats-lhd": {
-    "key": "front-seats-lhd",
+  "front-seats-left-hand-drive": {
+    "key": "front-seats-left-hand-drive",
     "en": "Front Seats",
     "fr": "Sièges avant",
     "de": "Vordersitze",
@@ -2330,8 +2330,8 @@
     "en-GB": "Front Seats",
     "en-hag": "Front Seats Driver Side"
   },
-  "front-seats-rhd": {
-    "key": "front-seats-rhd",
+  "front-seats-right-hand-drive": {
+    "key": "front-seats-right-hand-drive",
     "en": "Front Seats",
     "fr": "Sièges avant",
     "de": "Vordersitze",
@@ -2351,8 +2351,8 @@
     "en-GB": "Front Seats",
     "en-hag": "Front Seats Driver Side"
   },
-  "front-seats-close-lhd": {
-    "key": "front-seats-close-lhd",
+  "front-seats-close-left-hand-drive": {
+    "key": "front-seats-close-left-hand-drive",
     "en": "Front Seats Close",
     "fr": "Sièges avant, vue rapprochée",
     "de": "Vordersitze, Nahaufnahme",
@@ -2372,8 +2372,8 @@
     "en-GB": "Front Seats Close",
     "en-hag": "Front Seats Close Driver Side"
   },
-  "front-seats-close-rhd": {
-    "key": "front-seats-close-rhd",
+  "front-seats-close-right-hand-drive": {
+    "key": "front-seats-close-right-hand-drive",
     "en": "Front Seats Close",
     "fr": "Sièges avant, vue rapprochée",
     "de": "Vordersitze, Nahaufnahme",

@@ -89,7 +89,7 @@
   "all-545d81e5": {
     "id": "all-545d81e5",
     "category": "interior",
-    "label": "dashboard-from-driver-seat-lhd",
+    "label": "dashboard-from-driver-seat-left-hand-drive",
     "overlay": "all-545d81e5.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -103,7 +103,7 @@
   "all-602375f5": {
     "id": "all-602375f5",
     "category": "interior",
-    "label": "dashboard-from-back-seat-lhd",
+    "label": "dashboard-from-back-seat-left-hand-drive",
     "overlay": "all-602375f5.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -118,7 +118,7 @@
   "all-602375f6": {
     "id": "all-602375f6",
     "category": "interior",
-    "label": "dashboard-from-back-seat-rhd",
+    "label": "dashboard-from-back-seat-right-hand-drive",
     "overlay": "all-602375f6.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -217,7 +217,7 @@
   "all-IqwSM3": {
     "id": "all-IqwSM3",
     "category": "interior",
-    "label": "front-seats-close-lhd",
+    "label": "front-seats-close-left-hand-drive",
     "overlay": "all-IqwSM3.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -232,7 +232,7 @@
   "all-T4HrF8KA": {
     "id": "all-T4HrF8KA",
     "category": "interior",
-    "label": "front-seats-close-rhd",
+    "label": "front-seats-close-right-hand-drive",
     "overlay": "all-T4HrF8KA.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -261,7 +261,7 @@
   "all-e7663823": {
     "id": "all-e7663823",
     "category": "interior",
-    "label": "front-seats-lhd",
+    "label": "front-seats-left-hand-drive",
     "overlay": "all-e7663823.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -275,7 +275,7 @@
   "all-y6329hj8": {
     "id": "all-y6329hj8",
     "category": "interior",
-    "label": "front-seats-rhd",
+    "label": "front-seats-right-hand-drive",
     "overlay": "all-y6329hj8.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
