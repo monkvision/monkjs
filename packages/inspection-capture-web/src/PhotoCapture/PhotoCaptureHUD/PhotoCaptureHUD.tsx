@@ -292,24 +292,25 @@ export function PhotoCaptureHUD({
           toggleSightTutorial={toggleSightTutorial}
           hideSightOverlay={!!ocrSights?.some((s) => s.sightId === selectedSight.id)}
         />
-        {ocrConfig && (() => {
-          const matchedSight = ocrSights?.find((s) => s.sightId === selectedSight.id);
-          return (
-            <OcrOverlay
-              config={ocrConfig}
-              getImageData={stableGetImageData}
-              isCameraLoading={handle.isLoading}
-              isActive={!ocrSights?.length || !!matchedSight}
-              previewDimensions={handle.previewDimensions}
-              mode={matchedSight?.mode}
-              defaultMileageUnit={matchedSight?.defaultMileageUnit}
-              onConfirm={handleOcrConfirm}
-              sightId={selectedSight.id}
-              onFallbackReady={onOcrFallbackReady}
-              fallbackPicture={ocrFallbackPicture}
-            />
-          );
-        })()}
+        {ocrConfig &&
+          (() => {
+            const matchedSight = ocrSights?.find((s) => s.sightId === selectedSight.id);
+            return (
+              <OcrOverlay
+                config={ocrConfig}
+                getImageData={stableGetImageData}
+                isCameraLoading={handle.isLoading}
+                isActive={!ocrSights?.length || !!matchedSight}
+                previewDimensions={handle.previewDimensions}
+                mode={matchedSight?.mode}
+                defaultMileageUnit={matchedSight?.defaultMileageUnit}
+                onConfirm={handleOcrConfirm}
+                sightId={selectedSight.id}
+                onFallbackReady={onOcrFallbackReady}
+                fallbackPicture={ocrFallbackPicture}
+              />
+            );
+          })()}
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
         <HUDButtons

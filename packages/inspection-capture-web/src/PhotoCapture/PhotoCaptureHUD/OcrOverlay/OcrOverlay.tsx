@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture } from '@monkvision/types';
@@ -102,7 +102,6 @@ export function OcrOverlay({
   const [editText, setEditText] = useState('');
   const [retryCount, setRetryCount] = useState(0);
   const [isTimedOut, setIsTimedOut] = useState(false);
-  const [fallbackProcessed, setFallbackProcessed] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
 
@@ -114,7 +113,6 @@ export function OcrOverlay({
   useEffect(() => {
     setRetryCount(0);
     setIsTimedOut(false);
-    setFallbackProcessed(false);
     processedFallbackUriRef.current = null;
   }, [sightId]);
 
@@ -123,7 +121,6 @@ export function OcrOverlay({
     if (!isActive) {
       setRetryCount(0);
       setIsTimedOut(false);
-      setFallbackProcessed(false);
       processedFallbackUriRef.current = null;
     }
   }, [isActive]);
@@ -144,12 +141,20 @@ export function OcrOverlay({
     }
   }, [isFallbackReady, onFallbackReady]);
 
-  // Process the fallback picture: crop it and feed it through the OCR engine.
-  const processFallbackPicture = useCallback(() => {
+  // When a fallback picture arrives: show the confirm modal immediately, then run OCR in background.
+  useEffect(() => {
     if (!fallbackPicture || !isFallbackReady) return;
     if (processedFallbackUriRef.current === fallbackPicture.uri) return;
     processedFallbackUriRef.current = fallbackPicture.uri;
 
+    // Show modal right away — user should not wait for OCR to finish.
+    setOcrPicture(fallbackPicture);
+    if (config.allowManualInput) {
+      setIsEditing(true);
+      setEditText('');
+    }
+
+    // Also attempt OCR on the picture crop so confirmedText auto-fills when available.
     let cancelled = false;
     const img = new Image();
     img.src = fallbackPicture.uri;
@@ -160,48 +165,41 @@ export function OcrOverlay({
       const sx = Math.round(CROP_REGION.x * img.naturalWidth);
       const sy = Math.round(CROP_REGION.y * img.naturalHeight);
 
-      if (!cropCanvasRef.current || cropCanvasRef.current.width !== sw || cropCanvasRef.current.height !== sh) {
+      if (
+        !cropCanvasRef.current ||
+        cropCanvasRef.current.width !== sw ||
+        cropCanvasRef.current.height !== sh
+      ) {
         cropCanvasRef.current = createCanvas(sw, sh);
       }
       const cropCtx = get2dContext(cropCanvasRef.current);
       cropCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
       const imageData = cropCtx.getImageData(0, 0, sw, sh);
 
-      reset();
-      for (let i = 0; i < appearanceCount; i++) {
-        processFrame(imageData);
-      }
       if (!cancelled) {
-        setFallbackProcessed(true);
+        reset();
+        for (let i = 0; i < appearanceCount; i++) {
+          processFrame(imageData);
+        }
       }
     };
-    return () => { cancelled = true; };
-  }, [fallbackPicture, isFallbackReady, reset, processFrame, appearanceCount]);
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fallbackPicture, isFallbackReady, config.allowManualInput]);
 
+  // In normal (non-fallback) mode, clear editing state when OCR resets.
   useEffect(() => {
-    const cleanup = processFallbackPicture();
-    return cleanup;
-  }, [processFallbackPicture]);
-
-  // When fallback picture OCR finds no text and manual input is allowed, open edit mode.
-  useEffect(() => {
-    if (!fallbackProcessed || !fallbackPicture || confirmedText !== null) return;
-    if (config.allowManualInput) {
-      setOcrPicture(fallbackPicture);
-      setIsEditing(true);
-      setEditText('');
-    }
-  }, [fallbackProcessed, fallbackPicture, confirmedText, config.allowManualInput]);
-
-  useEffect(() => {
-    if (!confirmedText) {
+    if (!confirmedText && !isFallbackReady) {
       setIsEditing(false);
       setEditText('');
     }
-  }, [confirmedText]);
+  }, [confirmedText, isFallbackReady]);
 
+  // In normal (non-fallback) mode, create the ocrPicture blob from the crop canvas.
   useEffect(() => {
-    if (!confirmedText || !cropCanvasRef.current) {
+    if (!confirmedText || !cropCanvasRef.current || isFallbackReady) {
       return;
     }
     const canvas = cropCanvasRef.current;
@@ -229,7 +227,7 @@ export function OcrOverlay({
         .then(applyBlob)
         .catch(() => setOcrPicture(null));
     }
-  }, [confirmedText]);
+  }, [confirmedText, isFallbackReady]);
 
   useInterval(
     () => {
@@ -304,11 +302,12 @@ export function OcrOverlay({
   }
 
   const isConfirmed = confirmedText !== null;
-  const showModal = isConfirmed && ocrPicture !== null;
+  // In fallback mode the modal shows as soon as ocrPicture is set (even before OCR confirms).
+  const showModal = ocrPicture !== null && (isConfirmed || isFallbackReady);
 
   const handleConfirm = () => {
     if (ocrPicture) {
-      onConfirm?.(isEditing ? editText : (confirmedText ?? ''), ocrPicture, mode, defaultMileageUnit);
+      onConfirm?.(isEditing ? editText : confirmedText ?? '', ocrPicture, mode, defaultMileageUnit);
     }
   };
 
