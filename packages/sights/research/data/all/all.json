@@ -47,7 +47,7 @@
   "all-356a10ca": {
     "id": "all-356a10ca",
     "category": "interior",
-    "label": "dashboard-from-back-seat",
+    "label": "dashboard-from-back-seat-close",
     "overlay": "all-356a10ca.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -89,7 +89,7 @@
   "all-545d81e5": {
     "id": "all-545d81e5",
     "category": "interior",
-    "label": "dashboard-from-back-seat",
+    "label": "dashboard-from-driver-seat-lhd",
     "overlay": "all-545d81e5.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -103,7 +103,7 @@
   "all-602375f5": {
     "id": "all-602375f5",
     "category": "interior",
-    "label": "dashboard-from-back-seat",
+    "label": "dashboard-from-back-seat-lhd",
     "overlay": "all-602375f5.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -118,7 +118,7 @@
   "all-602375f6": {
     "id": "all-602375f6",
     "category": "interior",
-    "label": "dashboard-from-back-seat",
+    "label": "dashboard-from-back-seat-rhd",
     "overlay": "all-602375f6.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -133,7 +133,7 @@
   "all-6f747948": {
     "id": "all-6f747948",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-door-left",
     "overlay": "all-6f747948.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -217,7 +217,7 @@
   "all-IqwSM3": {
     "id": "all-IqwSM3",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-close-lhd",
     "overlay": "all-IqwSM3.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -232,7 +232,7 @@
   "all-T4HrF8KA": {
     "id": "all-T4HrF8KA",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-close-rhd",
     "overlay": "all-T4HrF8KA.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -261,7 +261,7 @@
   "all-e7663823": {
     "id": "all-e7663823",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-lhd",
     "overlay": "all-e7663823.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -275,7 +275,7 @@
   "all-y6329hj8": {
     "id": "all-y6329hj8",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-rhd",
     "overlay": "all-y6329hj8.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
@@ -303,7 +303,7 @@
   "all-ff87ff59": {
     "id": "all-ff87ff59",
     "category": "interior",
-    "label": "front-seats",
+    "label": "front-seats-door-left-2",
     "overlay": "all-ff87ff59.svg",
     "vehicle": "all",
     "tasks": ["compliances"],
