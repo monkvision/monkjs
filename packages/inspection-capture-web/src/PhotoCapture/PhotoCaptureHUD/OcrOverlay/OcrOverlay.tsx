@@ -521,9 +521,11 @@ export function OcrOverlay({
             />
           </svg>
 
-          {displayText && <div style={styles.detectedText(isConfirmed)}>{displayText}</div>}
+          {!isFallbackReady && displayText && (
+            <div style={styles.detectedText(isConfirmed)}>{displayText}</div>
+          )}
 
-          <div style={styles.statusLabel}>{statusText}</div>
+          {!isFallbackReady && <div style={styles.statusLabel}>{statusText}</div>}
         </div>
       </div>
     </>
