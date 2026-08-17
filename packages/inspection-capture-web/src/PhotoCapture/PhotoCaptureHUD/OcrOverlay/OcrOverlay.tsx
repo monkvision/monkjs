@@ -102,6 +102,7 @@ export function OcrOverlay({
   const [retryCount, setRetryCount] = useState(0);
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [hasFallbackImageData, setHasFallbackImageData] = useState(false);
+  const [fallbackOcrFailed, setFallbackOcrFailed] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
 
@@ -115,6 +116,7 @@ export function OcrOverlay({
     setIsTimedOut(false);
     processedFallbackUriRef.current = null;
     setHasFallbackImageData(false);
+    setFallbackOcrFailed(false);
   }, [sightId]);
 
   // Also reset when the overlay becomes inactive (non-OCR sight selected).
@@ -124,6 +126,7 @@ export function OcrOverlay({
       setIsTimedOut(false);
       processedFallbackUriRef.current = null;
       setHasFallbackImageData(false);
+      setFallbackOcrFailed(false);
     }
   }, [isActive]);
 
@@ -152,6 +155,7 @@ export function OcrOverlay({
       return;
     }
     processedFallbackUriRef.current = fallbackPicture.uri;
+    setFallbackOcrFailed(false);
 
     // Crop the picture to the frame box region, build a MonkPicture from it, then show the modal.
     let cancelled = false;
@@ -223,6 +227,18 @@ export function OcrOverlay({
       setHasFallbackImageData(false);
     }
   }, [isFallbackReady, confirmedText]);
+
+  // If OCR can't confirm within 8 seconds on the fallback image, declare failure.
+  useEffect(() => {
+    if (!hasFallbackImageData || confirmedText !== null) {
+      return undefined;
+    }
+    const timer = setTimeout(() => {
+      setFallbackOcrFailed(true);
+      setHasFallbackImageData(false);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [hasFallbackImageData, confirmedText]);
 
   // In allowManualInput fallback mode, auto-populate editText when OCR confirms.
   useEffect(() => {
@@ -400,6 +416,14 @@ export function OcrOverlay({
     onReject?.();
   };
 
+  const handleOcrFailed = () => {
+    setFallbackOcrFailed(false);
+    setIsEditing(false);
+    setEditText('');
+    setOcrPicture(null);
+    reset();
+  };
+
   const isOdometer = mode === 'odometer';
   const isOcrLoading = hasFallbackImageData && confirmedText === null;
 
@@ -460,6 +484,8 @@ export function OcrOverlay({
           onEditCancel={handleEditCancel}
           mode={mode}
           isOcrLoading={isOcrLoading}
+          ocrFailed={fallbackOcrFailed}
+          onOcrFailed={handleOcrFailed}
         />
       )}
       <div style={overlayStyle}>
