@@ -328,10 +328,10 @@ export function PhotoCapture({
       mode: OcrMode | undefined,
       defaultMileageUnit: MileageUnit | undefined,
     ) => {
-      // eslint-disable-next-line no-console
-      console.log('[OCR] handleOcrConfirm triggered', { text, mode, defaultMileageUnit });
       basePictureTaken(cropPicture);
-      handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
+      if (text) {
+        handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
+      }
       setOcrFallbackPicture(null);
       setIsOcrFallbackReady(false);
     },

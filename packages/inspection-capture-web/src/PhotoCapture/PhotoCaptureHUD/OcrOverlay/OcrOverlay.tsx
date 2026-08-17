@@ -417,6 +417,9 @@ export function OcrOverlay({
   };
 
   const handleOcrFailed = () => {
+    if (ocrPicture) {
+      onConfirm?.('', ocrPicture, mode, defaultMileageUnit);
+    }
     setFallbackOcrFailed(false);
     setIsEditing(false);
     setEditText('');
