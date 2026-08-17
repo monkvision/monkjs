@@ -246,9 +246,14 @@ export function OcrOverlay({
   // In allowManualInput fallback mode, auto-populate editText when OCR confirms.
   useEffect(() => {
     if (isFallbackReady && isEditing && confirmedText && !editText) {
-      setEditText(confirmedText);
+      if (mode === 'odometer') {
+        const { value } = parseOdometerText(confirmedText);
+        setEditText(value !== null ? String(value) : '');
+      } else {
+        setEditText(confirmedText);
+      }
     }
-  }, [isFallbackReady, isEditing, confirmedText, editText]);
+  }, [isFallbackReady, isEditing, confirmedText, editText, mode]);
 
   // In normal (non-fallback) mode, clear editing state when OCR resets.
   useEffect(() => {
@@ -386,7 +391,13 @@ export function OcrOverlay({
 
     if (!nowFallback && config.allowManualInput) {
       setIsEditing(true);
-      setEditText(confirmedText ?? '');
+      const rawEdit = confirmedText ?? '';
+      if (isOdometer && rawEdit) {
+        const { value } = parseOdometerText(rawEdit);
+        setEditText(value !== null ? String(value) : '');
+      } else {
+        setEditText(rawEdit);
+      }
     } else {
       setOcrPicture(null);
       reset();
@@ -404,16 +415,23 @@ export function OcrOverlay({
   };
 
   const isOdometer = mode === 'odometer';
+  const isOcrLoading = hasFallbackImageData && confirmedText === null;
+
   const rawDisplayText = confirmedText ?? (detectedText || null);
   const displayText =
     isOdometer && rawDisplayText
       ? formatOdometerDisplay(parseOdometerText(rawDisplayText))
       : rawDisplayText;
+
+  // Modal shows the number only for odometer (unit is sent to the API separately).
   let modalText = confirmedText ?? '';
   if (isConfirmed && confirmedText) {
-    modalText = isOdometer
-      ? formatOdometerDisplay(parseOdometerText(confirmedText))
-      : confirmedText;
+    if (isOdometer) {
+      const { value } = parseOdometerText(confirmedText);
+      modalText = value !== null ? value.toLocaleString('fr-FR') : '—';
+    } else {
+      modalText = confirmedText;
+    }
   }
   const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
   const containerW = previewDimensions?.width ?? 0;
@@ -455,6 +473,7 @@ export function OcrOverlay({
           onEditChange={setEditText}
           onEditCancel={handleEditCancel}
           mode={mode}
+          isOcrLoading={isOcrLoading}
         />
       )}
       <div style={overlayStyle}>

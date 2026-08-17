@@ -24,7 +24,16 @@ export interface OcrConfirmModalProps {
   onEditCancel?: () => void;
   /** OCR mode — determines the keyboard type and character filter for the input. */
   mode?: OcrMode;
+  /** When true, shows a loading spinner while OCR processes the fallback image. */
+  isOcrLoading?: boolean;
 }
+
+const SPINNER_KEYFRAMES = `
+@keyframes ocrModalSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+`;
 
 const styles = {
   dialog: {
@@ -37,6 +46,15 @@ const styles = {
     padding: '24px 28px',
     maxWidth: 420,
     width: '90vw',
+  } as CSSProperties,
+
+  spinner: {
+    width: 28,
+    height: 28,
+    border: '3px solid rgba(255,255,255,0.15)',
+    borderTopColor: '#ffffff',
+    borderRadius: '50%',
+    animation: 'ocrModalSpin 0.8s linear infinite',
   } as CSSProperties,
 
   image: {
@@ -93,6 +111,7 @@ export function OcrConfirmModal({
   onEditChange,
   onEditCancel,
   mode,
+  isOcrLoading = false,
 }: OcrConfirmModalProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -100,10 +119,15 @@ export function OcrConfirmModal({
     onEditChange?.(filtered);
   };
 
+  const confirmDisabled = isOcrLoading && (isEditing ? !editValue : !text);
+
   const dialog = (
     <div style={styles.dialog}>
+      <style>{SPINNER_KEYFRAMES}</style>
       <img src={imageUri} alt='Detected frame' style={styles.image} />
-      {isEditing ? (
+      {isOcrLoading && !text && !editValue ? (
+        <div style={styles.spinner} />
+      ) : isEditing ? (
         <input
           style={styles.input}
           value={editValue}
@@ -131,6 +155,7 @@ export function OcrConfirmModal({
               primaryColor='primary-xlight'
               secondaryColor='background-dark'
               style={styles.button}
+              disabled={confirmDisabled}
               onClick={onConfirm}
             >
               Confirm
@@ -152,6 +177,7 @@ export function OcrConfirmModal({
               primaryColor='primary-xlight'
               secondaryColor='background-dark'
               style={styles.button}
+              disabled={confirmDisabled}
               onClick={onConfirm}
             >
               Yes
