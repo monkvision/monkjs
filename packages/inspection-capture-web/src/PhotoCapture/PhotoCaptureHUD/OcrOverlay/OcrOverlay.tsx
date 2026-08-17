@@ -446,7 +446,7 @@ export function OcrOverlay({
       modalText = confirmedText;
     }
   }
-  const fillFraction = isConfirmed ? 1 : consistencyCount / appearanceCount;
+  const fillFraction = isFallbackReady ? 0 : isConfirmed ? 1 : consistencyCount / appearanceCount;
   const containerW = previewDimensions?.width ?? 0;
   const containerH = previewDimensions?.height ?? 0;
   const boxW = containerW * CROP_REGION.w;
