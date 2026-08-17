@@ -138,6 +138,5 @@ export const styles = {
     fontWeight: 500,
     whiteSpace: 'nowrap',
     pointerEvents: 'none',
-    animation: 'ocrHintFadeOut 3s ease-out forwards',
   } as CSSProperties,
 };
