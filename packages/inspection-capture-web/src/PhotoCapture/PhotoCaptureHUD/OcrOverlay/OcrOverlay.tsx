@@ -194,7 +194,6 @@ export function OcrOverlay({
       }
       const cropCtx = get2dContext(cropCanvasRef.current);
       cropCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
-      const imageData = cropCtx.getImageData(0, 0, sw, sh);
 
       const cropCanvas = cropCanvasRef.current;
       const mimetype = 'image/jpeg';
@@ -226,9 +225,10 @@ export function OcrOverlay({
           .catch(() => {});
       }
 
-      // Signal the interval to start feeding this canvas to OCR (same path as live frames).
-      setHasFallbackImageData(true);
+      // Clear any in-flight live-OCR state before starting fallback OCR.
       reset();
+      // Signal the interval to start feeding the crop canvas to OCR.
+      setHasFallbackImageData(true);
     };
     return () => {
       cancelled = true;
