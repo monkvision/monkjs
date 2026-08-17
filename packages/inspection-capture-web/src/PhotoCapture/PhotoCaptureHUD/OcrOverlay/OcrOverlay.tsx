@@ -4,7 +4,7 @@ import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monk
 import { MonkPicture, MileageUnit } from '@monkvision/types';
 import { OcrConfirmModal } from './OcrConfirmModal';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
-import { formatOdometerDisplay, parseOdometerText } from './ocrText.utils';
+import { parseOdometerText } from './ocrText.utils';
 import {
   CROP_REGION,
   RADIUS,
@@ -86,7 +86,6 @@ export function OcrOverlay({
     loadModels,
     processFrame,
     confirmedText,
-    detectedText,
     consistencyCount,
     reset,
   } = useOcr({ ...ocrConfig, appearanceCount });
@@ -430,12 +429,6 @@ export function OcrOverlay({
   const isOdometer = mode === 'odometer';
   const isOcrLoading = hasFallbackImageData && confirmedText === null;
 
-  const rawDisplayText = confirmedText ?? (detectedText || null);
-  const displayText =
-    isOdometer && rawDisplayText
-      ? formatOdometerDisplay(parseOdometerText(rawDisplayText))
-      : rawDisplayText;
-
   // Modal shows the number only for odometer (unit is sent to the API separately).
   let modalText = confirmedText ?? '';
   if (isConfirmed && confirmedText) {
@@ -520,10 +513,6 @@ export function OcrOverlay({
               style={{ transition: 'stroke-dasharray 0.4s ease' }}
             />
           </svg>
-
-          {!isFallbackReady && displayText && (
-            <div style={styles.detectedText(isConfirmed)}>{displayText}</div>
-          )}
 
         </div>
       </div>
