@@ -26,6 +26,10 @@ export interface OcrConfirmModalProps {
   mode?: OcrMode;
   /** When true, shows a loading spinner while OCR processes the fallback image. */
   isOcrLoading?: boolean;
+  /** When true, OCR failed to detect any text — shows an error message with a dismiss button. */
+  ocrFailed?: boolean;
+  /** Called when the user dismisses the OCR failure message. */
+  onOcrFailed?: () => void;
 }
 
 const SPINNER_KEYFRAMES = `
@@ -90,6 +94,13 @@ const styles = {
     boxSizing: 'border-box',
   } as CSSProperties,
 
+  errorMessage: {
+    color: 'rgba(255,255,255,0.75)',
+    fontSize: 14,
+    textAlign: 'center',
+    lineHeight: 1.5,
+  } as CSSProperties,
+
   buttons: {
     display: 'flex',
     gap: 16,
@@ -112,6 +123,8 @@ export function OcrConfirmModal({
   onEditCancel,
   mode,
   isOcrLoading = false,
+  ocrFailed = false,
+  onOcrFailed,
 }: OcrConfirmModalProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -119,13 +132,17 @@ export function OcrConfirmModal({
     onEditChange?.(filtered);
   };
 
-  const confirmDisabled = isOcrLoading && (isEditing ? !editValue : !text);
+  const confirmDisabled = isEditing ? !editValue : isOcrLoading && !text;
 
   const dialog = (
     <div style={styles.dialog}>
       <style>{SPINNER_KEYFRAMES}</style>
       <img src={imageUri} alt='Detected frame' style={styles.image} />
-      {isOcrLoading && !text && !editValue ? (
+      {ocrFailed ? (
+        <div style={styles.errorMessage}>
+          Unable to detect the text. You can proceed to the next sight.
+        </div>
+      ) : isOcrLoading && !text && !editValue ? (
         <div style={styles.spinner} />
       ) : isEditing ? (
         <input
@@ -139,7 +156,17 @@ export function OcrConfirmModal({
         <div style={styles.text}>{text}</div>
       )}
       <div style={styles.buttons}>
-        {isEditing ? (
+        {ocrFailed ? (
+          <Button
+            variant='outline'
+            primaryColor='primary-xlight'
+            secondaryColor='background-dark'
+            style={styles.button}
+            onClick={onOcrFailed}
+          >
+            Continue
+          </Button>
+        ) : isEditing ? (
           <>
             <Button
               variant='outline'
