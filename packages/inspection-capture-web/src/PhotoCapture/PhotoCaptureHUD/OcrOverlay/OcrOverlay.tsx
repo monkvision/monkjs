@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture, MileageUnit } from '@monkvision/types';
@@ -43,14 +43,6 @@ export interface OcrOverlayProps {
   /** Current sight ID — used to reset OCR state when the active sight changes. */
   sightId?: string;
 }
-
-const HINT_KEYFRAMES = `
-@keyframes ocrHintFadeOut {
-  0%   { opacity: 1; }
-  65%  { opacity: 1; }
-  100% { opacity: 0; }
-}
-`;
 
 const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
   if (fatalError) {
@@ -109,7 +101,6 @@ export function OcrOverlay({
   const [editText, setEditText] = useState('');
   const [retryCount, setRetryCount] = useState(0);
   const [isTimedOut, setIsTimedOut] = useState(false);
-  const [showShutterHint, setShowShutterHint] = useState(false);
   const [hasFallbackImageData, setHasFallbackImageData] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
@@ -151,16 +142,6 @@ export function OcrOverlay({
       onFallbackReady?.();
     }
   }, [isFallbackReady, onFallbackReady]);
-
-  // Show an ephemeral hint when the OCR timeout fires (not on retry exhaustion).
-  useEffect(() => {
-    if (!isTimedOut) {
-      return;
-    }
-    setShowShutterHint(true);
-    const timer = setTimeout(() => setShowShutterHint(false), 3000);
-    return () => clearTimeout(timer);
-  }, [isTimedOut]);
 
   // When a fallback picture arrives: show the confirm modal immediately, then run OCR in background.
   useEffect(() => {
@@ -389,7 +370,13 @@ export function OcrOverlay({
     setRetryCount(newCount);
     const nowFallback = newCount >= maxOcrRetries || isTimedOut;
 
-    if (!nowFallback && config.allowManualInput) {
+    if (!nowFallback) {
+      // Not at limit yet — reset and let OCR re-scan.
+      setOcrPicture(null);
+      reset();
+      onReject?.();
+    } else if (config.allowManualInput) {
+      // Last chance: offer edit mode so the user can correct the reading.
       setIsEditing(true);
       const rawEdit = confirmedText ?? '';
       if (isOdometer && rawEdit) {
@@ -406,7 +393,6 @@ export function OcrOverlay({
   };
 
   const handleEditCancel = () => {
-    setRetryCount((c) => c + 1);
     setIsEditing(false);
     setEditText('');
     setOcrPicture(null);
@@ -477,9 +463,8 @@ export function OcrOverlay({
         />
       )}
       <div style={overlayStyle}>
-        <style>{HINT_KEYFRAMES}</style>
         {debugDots}
-        {showShutterHint && (
+        {isFallbackReady && !ocrPicture && (
           <div style={styles.shutterHint}>Use the shutter button to take a picture</div>
         )}
         <div style={styles.cropBox}>
