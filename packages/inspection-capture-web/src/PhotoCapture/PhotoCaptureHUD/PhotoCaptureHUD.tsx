@@ -8,6 +8,7 @@ import {
   Sight,
   VehiclePart,
   VehicleType,
+  MileageUnit,
 } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -15,7 +16,6 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { MileageUnit } from '@monkvision/types';
 import { TutorialSteps, PhotoCaptureOcrConfig, OcrMode, OcrSightConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';

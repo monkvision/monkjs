@@ -124,4 +124,20 @@ export const styles = {
     whiteSpace: 'nowrap',
     textShadow: '0 1px 3px rgba(0,0,0,0.8)',
   } as CSSProperties,
+
+  shutterHint: {
+    position: 'absolute',
+    top: `${(CROP_REGION.y + CROP_REGION.h + 0.05) * 100}%`,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    backgroundColor: 'rgba(0,0,0,0.78)',
+    color: '#fff',
+    padding: '9px 22px',
+    borderRadius: 24,
+    fontSize: 13,
+    fontWeight: 500,
+    whiteSpace: 'nowrap',
+    pointerEvents: 'none',
+    animation: 'ocrHintFadeOut 3s ease-out forwards',
+  } as CSSProperties,
 };
