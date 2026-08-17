@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
-import { MonkPicture } from '@monkvision/types';
+import { MonkPicture, MileageUnit } from '@monkvision/types';
 import { OcrConfirmModal } from './OcrConfirmModal';
-import { MileageUnit } from '@monkvision/types';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
 import { formatOdometerDisplay, parseOdometerText } from './ocrText.utils';
 import {
@@ -45,6 +44,14 @@ export interface OcrOverlayProps {
   sightId?: string;
 }
 
+const HINT_KEYFRAMES = `
+@keyframes ocrHintFadeOut {
+  0%   { opacity: 1; }
+  65%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+`;
+
 const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
   if (fatalError) {
     return '#ff4444';
@@ -76,7 +83,7 @@ export function OcrOverlay({
     captureIntervalMs = OCR_STABILIZER_CONFIG.captureIntervalMs,
     appearanceCount = OCR_STABILIZER_CONFIG.appearanceCount,
     maxOcrRetries = 2,
-    ocrTimeoutMs = 30_000,
+    ocrTimeoutMs = 20_000,
     ...ocrConfig
   } = config;
   const {
@@ -102,6 +109,8 @@ export function OcrOverlay({
   const [editText, setEditText] = useState('');
   const [retryCount, setRetryCount] = useState(0);
   const [isTimedOut, setIsTimedOut] = useState(false);
+  const [showShutterHint, setShowShutterHint] = useState(false);
+  const [hasFallbackImageData, setHasFallbackImageData] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
 
@@ -114,6 +123,7 @@ export function OcrOverlay({
     setRetryCount(0);
     setIsTimedOut(false);
     processedFallbackUriRef.current = null;
+    setHasFallbackImageData(false);
   }, [sightId]);
 
   // Also reset when the overlay becomes inactive (non-OCR sight selected).
@@ -122,6 +132,7 @@ export function OcrOverlay({
       setRetryCount(0);
       setIsTimedOut(false);
       processedFallbackUriRef.current = null;
+      setHasFallbackImageData(false);
     }
   }, [isActive]);
 
@@ -141,25 +152,34 @@ export function OcrOverlay({
     }
   }, [isFallbackReady, onFallbackReady]);
 
+  // Show an ephemeral hint when the OCR timeout fires (not on retry exhaustion).
+  useEffect(() => {
+    if (!isTimedOut) {
+      return;
+    }
+    setShowShutterHint(true);
+    const timer = setTimeout(() => setShowShutterHint(false), 3000);
+    return () => clearTimeout(timer);
+  }, [isTimedOut]);
+
   // When a fallback picture arrives: show the confirm modal immediately, then run OCR in background.
   useEffect(() => {
-    if (!fallbackPicture || !isFallbackReady) return;
-    if (processedFallbackUriRef.current === fallbackPicture.uri) return;
+    if (!fallbackPicture || !isFallbackReady) {
+      return;
+    }
+    if (processedFallbackUriRef.current === fallbackPicture.uri) {
+      return;
+    }
     processedFallbackUriRef.current = fallbackPicture.uri;
 
-    // Show modal right away — user should not wait for OCR to finish.
-    setOcrPicture(fallbackPicture);
-    if (config.allowManualInput) {
-      setIsEditing(true);
-      setEditText('');
-    }
-
-    // Also attempt OCR on the picture crop so confirmedText auto-fills when available.
+    // Crop the picture to the frame box region, build a MonkPicture from it, then show the modal.
     let cancelled = false;
     const img = new Image();
     img.src = fallbackPicture.uri;
     img.onload = () => {
-      if (cancelled) return;
+      if (cancelled) {
+        return;
+      }
       const sw = Math.round(CROP_REGION.w * img.naturalWidth);
       const sh = Math.round(CROP_REGION.h * img.naturalHeight);
       const sx = Math.round(CROP_REGION.x * img.naturalWidth);
@@ -176,18 +196,59 @@ export function OcrOverlay({
       cropCtx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
       const imageData = cropCtx.getImageData(0, 0, sw, sh);
 
-      if (!cancelled) {
-        reset();
-        for (let i = 0; i < appearanceCount; i++) {
-          processFrame(imageData);
+      const cropCanvas = cropCanvasRef.current;
+      const mimetype = 'image/jpeg';
+      const applyBlob = (blob: Blob) => {
+        if (cancelled) {
+          return;
         }
+        const uri = URL.createObjectURL(blob);
+        setOcrPicture({ blob, uri, mimetype, width: sw, height: sh });
+        if (config.allowManualInput) {
+          setIsEditing(true);
+          setEditText('');
+        }
+      };
+      if (cropCanvas instanceof HTMLCanvasElement) {
+        cropCanvas.toBlob(
+          (blob) => {
+            if (blob) {
+              applyBlob(blob);
+            }
+          },
+          mimetype,
+          0.92,
+        );
+      } else {
+        cropCanvas
+          .convertToBlob({ type: mimetype, quality: 0.92 })
+          .then(applyBlob)
+          .catch(() => {});
       }
+
+      // Signal the interval to start feeding this canvas to OCR (same path as live frames).
+      setHasFallbackImageData(true);
+      reset();
     };
     return () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fallbackPicture, isFallbackReady, config.allowManualInput]);
+
+  // Stop the fallback OCR interval once text is confirmed.
+  useEffect(() => {
+    if (isFallbackReady && confirmedText !== null) {
+      setHasFallbackImageData(false);
+    }
+  }, [isFallbackReady, confirmedText]);
+
+  // In allowManualInput fallback mode, auto-populate editText when OCR confirms.
+  useEffect(() => {
+    if (isFallbackReady && isEditing && confirmedText && !editText) {
+      setEditText(confirmedText);
+    }
+  }, [isFallbackReady, isEditing, confirmedText, editText]);
 
   // In normal (non-fallback) mode, clear editing state when OCR resets.
   useEffect(() => {
@@ -231,6 +292,13 @@ export function OcrOverlay({
 
   useInterval(
     () => {
+      if (isFallbackReady) {
+        const canvas = cropCanvasRef.current;
+        if (canvas) {
+          processFrame(get2dContext(canvas).getImageData(0, 0, canvas.width, canvas.height));
+        }
+        return undefined;
+      }
       if (!isReady || !isActive || isCameraLoading) {
         return undefined;
       }
@@ -273,7 +341,7 @@ export function OcrOverlay({
       }
       return undefined;
     },
-    isReady && isActive && !isFallbackReady ? captureIntervalMs : null,
+    isReady && isActive && (!isFallbackReady || hasFallbackImageData) ? captureIntervalMs : null,
   );
 
   const modelColor = resolveModelColor(fatalError, isReady, isLoading);
@@ -390,7 +458,11 @@ export function OcrOverlay({
         />
       )}
       <div style={overlayStyle}>
+        <style>{HINT_KEYFRAMES}</style>
         {debugDots}
+        {showShutterHint && (
+          <div style={styles.shutterHint}>Use the shutter button to take a picture</div>
+        )}
         <div style={styles.cropBox}>
           <svg
             viewBox={`0 0 ${boxW} ${boxH}`}

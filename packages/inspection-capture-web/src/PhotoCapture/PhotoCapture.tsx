@@ -305,7 +305,9 @@ export function PhotoCapture({
   // Reset OCR fallback state whenever the selected sight changes.
   const prevSightIdRef = useRef(sightState.selectedSight.id);
   useEffect(() => {
-    if (sightState.selectedSight.id === prevSightIdRef.current) return;
+    if (sightState.selectedSight.id === prevSightIdRef.current) {
+      return;
+    }
     prevSightIdRef.current = sightState.selectedSight.id;
     setIsOcrFallbackReady(false);
     setOcrFallbackPicture(null);
@@ -328,14 +330,12 @@ export function PhotoCapture({
     ) => {
       // eslint-disable-next-line no-console
       console.log('[OCR] handleOcrConfirm triggered', { text, mode, defaultMileageUnit });
-      // In fallback mode the full camera picture is uploaded; otherwise the OCR crop is used.
-      const pictureToUpload = ocrFallbackPicture ?? cropPicture;
-      basePictureTaken(pictureToUpload);
+      basePictureTaken(cropPicture);
       handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
       setOcrFallbackPicture(null);
       setIsOcrFallbackReady(false);
     },
-    [ocrFallbackPicture, basePictureTaken, handleOcrVehicleUpdate],
+    [basePictureTaken, handleOcrVehicleUpdate],
   );
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
