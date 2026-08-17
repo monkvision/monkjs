@@ -7,6 +7,8 @@ interface SightForValidation {
   id: string;
   overlay: string;
   mirror_sight?: string;
+  category?: string;
+  label: string;
 }
 
 type SightForValidationDictionary = {
@@ -26,6 +28,11 @@ interface MirrorSightError extends AdditionalValidationError {
   mirrorId: string;
 }
 
+interface DuplicateInteriorLabelError extends AdditionalValidationError {
+  label: string;
+  sightIds: string[];
+}
+
 interface AdditionalValidationResults {
   vehicles: VehicleFileNameError[];
   mirrorSight: MirrorSightError[];
@@ -33,6 +40,7 @@ interface AdditionalValidationResults {
   minifiedOverlay: AdditionalValidationError[];
   collidingOverlay: AdditionalValidationError[];
   unusedOverlay: AdditionalValidationError[];
+  duplicateInteriorLabel: DuplicateInteriorLabelError[];
 }
 
 function validateVehicleFileNames() {
@@ -145,6 +153,22 @@ function validateUnusedOverlays(
   return errors;
 }
 
+function validateUniqueInteriorLabels(
+  sights: SightForValidationDictionary,
+): DuplicateInteriorLabelError[] {
+  const sightIdsByLabel = new Map<string, string[]>();
+  Object.values(sights)
+    .filter((sight) => sight.category === 'interior')
+    .forEach((sight) => {
+      const sightIds = sightIdsByLabel.get(sight.label) ?? [];
+      sightIds.push(sight.id);
+      sightIdsByLabel.set(sight.label, sightIds);
+    });
+  return Array.from(sightIdsByLabel.entries())
+    .filter(([, sightIds]) => sightIds.length > 1)
+    .map(([label, sightIds]) => ({ value: label, label, sightIds }));
+}
+
 function printResults(results: AdditionalValidationResults): boolean {
   let containsErrors = false;
 
@@ -209,6 +233,14 @@ function printResults(results: AdditionalValidationResults): boolean {
     });
   }
 
+  if (results.duplicateInteriorLabel.length > 0) {
+    containsErrors = true;
+    console.error('\n⚠️  The following interior sights share the same label :');
+    results.duplicateInteriorLabel.forEach((error) => {
+      console.error(`  - ${error.label} : ${error.sightIds.join(', ')}`);
+    });
+  }
+
   return containsErrors;
 }
 
@@ -220,6 +252,7 @@ export function validateAdditionalRules(print = true): void {
     minifiedOverlay: [],
     collidingOverlay: [],
     unusedOverlay: [],
+    duplicateInteriorLabel: [],
   };
 
   readDir(MONK_DATA_PATH).directories.forEach((vehicle) => {
@@ -250,6 +283,9 @@ export function validateAdditionalRules(print = true): void {
     });
     const unusedOverlay = validateUnusedOverlays(sights, overlayDirPath);
     results.unusedOverlay = results.unusedOverlay.concat(unusedOverlay);
+
+    const duplicateInteriorLabel = validateUniqueInteriorLabels(sights);
+    results.duplicateInteriorLabel = results.duplicateInteriorLabel.concat(duplicateInteriorLabel);
   });
 
   const containsErrors = Object.values(results).some(
