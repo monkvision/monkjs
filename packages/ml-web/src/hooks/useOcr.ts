@@ -188,6 +188,9 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     isLockedRef.current = false;
     consistencyCountRef.current = 0;
     prevRawRef.current = '';
+    // Discard any in-flight inference so the next processFrame call goes through immediately.
+    inFlightRef.current = false;
+    reqIdRef.current += 1;
     setConfirmedText(null);
     setConsistencyCount(0);
     setDetectedText('');
