@@ -15,7 +15,9 @@ All translations must use **automotive/inspection vocabulary** appropriate for t
 
 ## When to use
 
-Call `/add-language <locale-code>` (e.g. `/add-language ja`) to add a new language across the entire monorepo. The locale code must be a valid BCP 47 subtag (lowercase, e.g. `ja`, `ko`, `zh`).
+Call `/add-language <locale-code>` (e.g. `/add-language ja`) to add a new language across the entire monorepo. The locale code should normally be a valid BCP 47 subtag (lowercase, e.g. `ja`, `ko`, `zh`).
+
+Some locales are **client-specific overlays** rather than real languages — e.g. `en-hag` (Hagerty), which reuses English UI copy but swaps specific strings. These use a fake, non-ISO region subtag (`hag` is not a real ISO 3166 region) and need the extra step in [Custom/non-standard locale codes](#9-custom-non-standard-locale-codes-client-overlays) below. If the requested locale code's region/variant part is not a real ISO region (2 letters) or ISO script (4 letters), treat it as a custom overlay and apply that step.
 
 ## Steps
 
@@ -135,6 +137,30 @@ yarn test
 yarn lint:fix
 ```
 
+### 9. Custom/non-standard locale codes (client overlays)
+
+Skip this step for real BCP 47 locales (`ja`, `pt-BR`, etc.) — it only applies to fake, client-specific codes like `en-hag`.
+
+**The pitfall:** i18next resolves the active language through `Intl.getCanonicalLocales()`. For a real tag (`en-GB`, `de-CH`) this succeeds and preserves the exact casing used when registering the resource bundle. For an invalid tag like `en-hag` (`hag` isn't a real ISO region), `Intl.getCanonicalLocales('en-hag')` throws, and i18next falls back to its own formatter — which **uppercases the second segment** (`en-hag` → `en-HAG`) when building the language-resolution hierarchy used by `t()`. If the resource bundle is only registered under the lowercase key, it becomes unreachable and every string silently falls back to the base language (`en`), even though `i18n.language` still reports the correct `en-hag`. This caused topBar.submit to show the old "Validate" (`en` fallback) instead of "Submit Photos" (`en-hag`) for a while before being caught.
+
+**The fix:** register the same resource bundle under both the lowercase code and the uppercase-region alias:
+
+```ts
+resources: {
+  // ...
+  'en-hag': { translation: enHag },
+  'en-HAG': { translation: enHag },
+}
+```
+
+This is already handled centrally for every SDK package via `withEnHagCaseAlias()` in [packages/common/src/i18n/utils.tsx](../../../packages/common/src/i18n/utils.tsx) — `i18nCreateSDKInstance` applies it automatically whenever an `en-hag` key is present, so packages using that helper (step 3's first list) need no per-package change.
+
+The two app-level `i18n.ts` files build their own `i18next` instance directly (they don't go through `i18nCreateSDKInstance`), so **each new custom-code locale added there needs the alias added by hand**:
+- `apps/demo-app/src/i18n.ts`
+- `apps/demo-app-video/src/i18n.ts`
+
+If a new custom overlay locale is added (not just `en-hag`), either extend `withEnHagCaseAlias` to a generic helper keyed by locale, or add the same alias pattern for the new code — and add the uppercase-alias entry to both app `i18n.ts` files.
+
 ## Checklist
 
 - [ ] `monkLanguages` updated in `packages/types/src/i18n.ts`
@@ -149,6 +175,7 @@ yarn lint:fix
 - [ ] `yarn build` passes with no TypeScript errors
 - [ ] `yarn workspace @monkvision/common test` passes
 - [ ] `yarn lint:fix` passes
+- [ ] For custom/non-standard locale codes (fake region, e.g. `en-hag`): uppercase-region alias added to `apps/demo-app/src/i18n.ts` and `apps/demo-app-video/src/i18n.ts` (SDK packages get this for free via `withEnHagCaseAlias` in `i18nCreateSDKInstance`)
 
 ## Notes
 

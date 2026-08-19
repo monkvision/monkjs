@@ -51,6 +51,16 @@ export interface I18NSDKOptions {
 }
 
 /**
+ * Utility function to bind the custom `en-hag` language.
+ */
+function withEnHagCaseAlias(resources: Resource): Resource {
+  if (!resources['en-hag']) {
+    return resources;
+  }
+  return { ...resources, 'en-HAG': resources['en-hag'] };
+}
+
+/**
  * This utility function is used my Monk SDK packages to create an i18n instance that can be imported by applications
  * using them in order to link the different instances together (and synchronizes values such as the current language
  * etc.).
@@ -63,7 +73,7 @@ export function i18nCreateSDKInstance({ resources }: I18NSDKOptions): i18n {
     compatibilityJSON: 'v3',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
-    resources,
+    resources: withEnHagCaseAlias(resources),
   });
   instance.use(initReactI18next).init().catch(console.error);
   return instance;

@@ -47,6 +47,7 @@ i18n
       'en-IE': { translation: enIE },
       'en-GB': { translation: enGB },
       'en-hag': { translation: enHag },
+      'en-HAG': { translation: enHag },
     },
   })
   .catch(console.error);
