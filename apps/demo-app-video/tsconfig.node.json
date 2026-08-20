@@ -3,6 +3,7 @@
   "extends": "@monkvision/typescript-config/tsconfig.react.json",
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "noEmit": true
   }
 }

@@ -10,10 +10,10 @@ import configE2e from '../local-config-e2e.json';
 import { AppContainer } from './AppContainer';
 
 const getLocalConfig = (): LiveConfig | undefined => {
-  if (process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true') {
+  if (process.env['VITE_USE_LOCAL_CONFIG'] === 'true') {
     return config as unknown as LiveConfig;
   }
-  if (process.env['REACT_APP_USE_LOCAL_E2E_CONFIG'] === 'true') {
+  if (process.env['VITE_USE_LOCAL_E2E_CONFIG'] === 'true') {
     return { ...config, ...configE2e } as unknown as LiveConfig;
   }
 
