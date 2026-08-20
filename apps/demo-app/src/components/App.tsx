@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   getEnvOrThrow,
   MonkProvider,
@@ -35,10 +35,7 @@ export function App() {
 
   return (
     <LiveConfigAppProvider
-      id={
-        monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ??
-        getEnvOrThrow("VITE_LIVE_CONFIG_ID")
-      }
+      id={monkSearchParams.get(MonkSearchParam.LIVE_CONFIG) ?? getEnvOrThrow('VITE_LIVE_CONFIG_ID')}
       localConfig={localConfig}
       apiDomain={getAuthConfig(authConfigs)?.apiDomain}
       thumbnailDomain={getAuthConfig(authConfigs)?.thumbnailDomain}
