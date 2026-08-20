@@ -28,7 +28,7 @@ export function createInspectionReportLink(
   language: string,
   vehicleType: VehicleType | null,
 ): string {
-  const url = getEnvOrThrow('REACT_APP_INSPECTION_REPORT_URL');
+  const url = getEnvOrThrow('VITE_INSPECTION_REPORT_URL');
   const token = encodeURIComponent(zlibCompress(authToken ?? ''));
   const vType = getSearchParamFromVehicleType(vehicleType);
   return `${url}?c=e5j&lang=${language}&i=${inspectionId}&t=${token}&v=${vType}`;

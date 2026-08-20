@@ -10,10 +10,10 @@ import configE2e from '../local-config-e2e.json';
 import { AppContainer } from './AppContainer';
 
 const getLocalConfig = (): LiveConfig | undefined => {
-  if (process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true') {
+  if (process.env['VITE_USE_LOCAL_CONFIG'] === 'true') {
     return config as unknown as LiveConfig;
   }
-  if (process.env['REACT_APP_USE_LOCAL_E2E_CONFIG'] === 'true') {
+  if (process.env['VITE_USE_LOCAL_E2E_CONFIG'] === 'true') {
     return { ...config, ...configE2e } as unknown as LiveConfig;
   }
 
@@ -27,7 +27,7 @@ export function App() {
 
   return (
     <LiveConfigAppProvider
-      id={getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')}
+      id={getEnvOrThrow('VITE_LIVE_CONFIG_ID')}
       localConfig={localConfig}
       onFetchAuthToken={() => navigate(Page.CREATE_INSPECTION)}
       onFetchLanguage={(lang) => i18n.changeLanguage(lang)}

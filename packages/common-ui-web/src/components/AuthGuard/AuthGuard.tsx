@@ -14,7 +14,7 @@ export interface AuthGuardProps {
 }
 
 /**
- * This component can be used in your application Routers (react-router-dom v6) to protect a given route and redirect
+ * This component can be used in your application Routers (react-router-dom v6/v7) to protect a given route and redirect
  * the user to another page if they are not authorized to access this resource.
  *
  * **Note : For this component to work properly, it must be the child of a `MonkAppStateProvider` component.**

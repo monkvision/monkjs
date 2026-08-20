@@ -5,7 +5,7 @@ export function createInspectionReportLink(
   inspectionId: string | null,
   language: string,
 ): string {
-  const url = getEnvOrThrow('REACT_APP_INSPECTION_REPORT_URL');
+  const url = getEnvOrThrow('VITE_INSPECTION_REPORT_URL');
   const token = encodeURIComponent(zlibCompress(authToken ?? ''));
   return `${url}?c=e5j&lang=${language}&i=${inspectionId}&t=${token}`;
 }
