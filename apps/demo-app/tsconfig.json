@@ -1,4 +1,7 @@
 {
-  "extends": "@monkvision/typescript-config/tsconfig.react.json",
-  "include": ["src", "test"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
