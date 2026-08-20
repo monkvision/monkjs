@@ -396,7 +396,7 @@
     "de-CH": "Vorne Seitlich Niedrig Links",
     "en-IE": "Front Lateral Low Left",
     "en-GB": "Front Lateral Low Left",
-    "en-hag": "Driver Front Wheel/Tire"
+    "en-hag": "Driver Front Side Detail"
   },
   "front-lateral-low-right": {
     "key": "front-lateral-low-right",
@@ -417,7 +417,7 @@
     "de-CH": "Vorne Seitlich Niedrig Rechts",
     "en-IE": "Front Lateral Low Right",
     "en-GB": "Front Lateral Low Right",
-    "en-hag": "Passenger Front Wheel/Tire"
+    "en-hag": "Passenger Front Side Detail"
   },
   "front-lateral-right": {
     "key": "front-lateral-right",
@@ -1026,7 +1026,7 @@
     "de-CH": "Hinten seitlich links",
     "en-IE": "Rear Lateral Left",
     "en-GB": "Rear Lateral Left",
-    "en-hag": "Driver Rear Wheel/Tire"
+    "en-hag": "Driver Rear Side"
   },
   "rear-lateral-low-left": {
     "key": "rear-lateral-low-left",
@@ -1089,7 +1089,7 @@
     "de-CH": "Hinten seitlich rechts",
     "en-IE": "Rear Lateral Right",
     "en-GB": "Rear Lateral Right",
-    "en-hag": "Passenger Rear Wheel/Tire"
+    "en-hag": "Passenger Rear Side"
   },
   "rear-left": {
     "key": "rear-left",
@@ -1740,7 +1740,7 @@
     "de-CH": "Vorderer linker Reifen",
     "en-IE": "Front left tire",
     "en-GB": "Front left tire",
-    "en-hag": "Front left tire"
+    "en-hag": "Driver Front Wheel/Tire"
   },
   "front-right-tire": {
     "key": "front-right-tire",
@@ -1761,7 +1761,7 @@
     "de-CH": "Vorderer rechter Reifen",
     "en-IE": "Front right tire",
     "en-GB": "Front right tire",
-    "en-hag": "Front right tire"
+    "en-hag": "Passenger Front Wheel/Tire"
   },
   "rear-left-tire": {
     "key": "rear-left-tire",
@@ -1782,7 +1782,7 @@
     "de-CH": "Hinterer linker Reifen",
     "en-IE": "Rear left tire",
     "en-GB": "Rear left tire",
-    "en-hag": "Rear left tire"
+    "en-hag": "Driver Rear Wheel/Tire"
   },
   "rear-right-tire": {
     "key": "rear-right-tire",
@@ -1803,7 +1803,7 @@
     "de-CH": "Hinterer rechter Reifen",
     "en-IE": "Rear right tire",
     "en-GB": "Rear right tire",
-    "en-hag": "Rear right tire"
+    "en-hag": "Passenger Rear Wheel/Tire"
   },
   "dashboard-screen": {
     "key": "dashboard-screen",
