@@ -1,11 +1,15 @@
-import { PropsWithChildren } from 'react';
-import { MonkThemeProvider, useMonkAppState, useMonkTheme } from '@monkvision/common';
+import { PropsWithChildren } from "react";
+import {
+  MonkThemeProvider,
+  useMonkAppState,
+  useMonkTheme,
+} from "@monkvision/common";
 
 function RootStylesContainer({ children }: PropsWithChildren<unknown>) {
   const { rootStyles } = useMonkTheme();
 
   return (
-    <div className='app-container' style={rootStyles}>
+    <div className="app-container" style={rootStyles}>
       {children}
     </div>
   );

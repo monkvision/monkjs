@@ -1,1 +1,1 @@
-export * from './CaptureSelectionPage';
+export * from "./CaptureSelectionPage";

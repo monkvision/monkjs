@@ -1,7 +1,7 @@
-import { CaptureSelection } from '@monkvision/common-ui-web';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Page } from '../pages';
+import { CaptureSelection } from "@monkvision/common-ui-web";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Page } from "../pages";
 
 export function CaptureSelectionPage() {
   const navigate = useNavigate();
