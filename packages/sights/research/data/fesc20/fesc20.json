@@ -449,7 +449,7 @@
   "fesc20-YPcJPAZE": {
     "id": "fesc20-YPcJPAZE",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "fesc20-YPcJPAZE.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-W6XrryMO",
@@ -567,7 +567,7 @@
   "fesc20-W6XrryMO": {
     "id": "fesc20-W6XrryMO",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "fesc20-W6XrryMO.svg",
     "vehicle": "fesc20",
     "mirror_sight": "fesc20-YPcJPAZE",

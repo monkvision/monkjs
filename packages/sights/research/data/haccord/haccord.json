@@ -143,7 +143,7 @@
   "haccord-2v-2_QD5": {
     "id": "haccord-2v-2_QD5",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "haccord-2v-2_QD5.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-boMeNVsC",
@@ -244,7 +244,7 @@
   "haccord-boMeNVsC": {
     "id": "haccord-boMeNVsC",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "haccord-boMeNVsC.svg",
     "vehicle": "haccord",
     "mirror_sight": "haccord-2v-2_QD5",

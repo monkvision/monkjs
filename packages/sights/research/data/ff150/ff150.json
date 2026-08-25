@@ -205,7 +205,7 @@
   "ff150-jUBEKij0": {
     "id": "ff150-jUBEKij0",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "ff150-jUBEKij0.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-pNO26q4D",
@@ -266,7 +266,7 @@
   "ff150-pNO26q4D": {
     "id": "ff150-pNO26q4D",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "ff150-pNO26q4D.svg",
     "vehicle": "ff150",
     "mirror_sight": "ff150-jUBEKij0",

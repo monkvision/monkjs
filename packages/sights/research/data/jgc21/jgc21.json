@@ -629,7 +629,7 @@
   "jgc21-S8sE69on": {
     "id": "jgc21-S8sE69on",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "jgc21-S8sE69on.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-nVbhsBaQ",
@@ -688,7 +688,7 @@
   "jgc21-nVbhsBaQ": {
     "id": "jgc21-nVbhsBaQ",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "jgc21-nVbhsBaQ.svg",
     "vehicle": "jgc21",
     "mirror_sight": "jgc21-S8sE69on",

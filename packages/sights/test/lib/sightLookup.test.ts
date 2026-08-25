@@ -33,7 +33,7 @@ describe('getSightIdsByLabelForVehicle', () => {
       'haccord-8YjMcu0D',
     ]);
     expect(getSightIdsByLabelForVehicle('front-lateral-low-left', VehicleModel.HACCORD)).toEqual(
-      expect.arrayContaining(['haccord-GQcZz48C', 'haccord-2v-2_QD5']),
+      expect.arrayContaining(['haccord-GQcZz48C']),
     );
   });
 
@@ -59,9 +59,9 @@ describe('resolveSightIdsFromNames', () => {
   it('should flag ambiguous labels while still returning every matching sight ID', () => {
     const [result] = resolveSightIdsFromNames(['Front lateral low left'], VehicleModel.HACCORD);
     expect(result.error).toBeUndefined();
-    expect(result).toMatchObject({ labelKey: 'front-lateral-low-left', ambiguous: true });
+    expect(result).toMatchObject({ labelKey: 'front-lateral-low-left', ambiguous: false });
     expect((result as { sightIds: string[] }).sightIds).toEqual(
-      expect.arrayContaining(['haccord-GQcZz48C', 'haccord-2v-2_QD5']),
+      expect.arrayContaining(['haccord-GQcZz48C']),
     );
   });
 

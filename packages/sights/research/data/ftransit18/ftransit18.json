@@ -126,7 +126,7 @@
   "ftransit18-7qLSCnFP": {
     "id": "ftransit18-7qLSCnFP",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "ftransit18-7qLSCnFP.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-mGSvkRHz",
@@ -407,7 +407,7 @@
   "ftransit18-mGSvkRHz": {
     "id": "ftransit18-mGSvkRHz",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "ftransit18-mGSvkRHz.svg",
     "vehicle": "ftransit18",
     "mirror_sight": "ftransit18-7qLSCnFP",
