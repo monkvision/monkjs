@@ -226,7 +226,7 @@
   "ffocus18-jkSlWpql": {
     "id": "ffocus18-jkSlWpql",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "ffocus18-jkSlWpql.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-Eo0jqD_a",
@@ -731,7 +731,7 @@
   "ffocus18-Eo0jqD_a": {
     "id": "ffocus18-Eo0jqD_a",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "ffocus18-Eo0jqD_a.svg",
     "vehicle": "ffocus18",
     "mirror_sight": "ffocus18-jkSlWpql",

@@ -30,6 +30,7 @@ export const styles: Styles = {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '0px 10px 0px',
+    minWidth: '300px',
   },
   checkbox: {
     display: 'flex',

@@ -106,7 +106,7 @@
   "tsienna20-uz29ILgw": {
     "id": "tsienna20-uz29ILgw",
     "category": "exterior",
-    "label": "front-lateral-low-left",
+    "label": "front-left-tire-straight",
     "overlay": "tsienna20-uz29ILgw.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-K0ThKmue",
@@ -509,7 +509,7 @@
   "tsienna20-K0ThKmue": {
     "id": "tsienna20-K0ThKmue",
     "category": "exterior",
-    "label": "front-lateral-low-right",
+    "label": "front-right-tire-straight",
     "overlay": "tsienna20-K0ThKmue.svg",
     "vehicle": "tsienna20",
     "mirror_sight": "tsienna20-uz29ILgw",

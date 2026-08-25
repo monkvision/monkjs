@@ -1742,8 +1742,50 @@
     "en-GB": "Front left tire",
     "en-hag": "Driver Front Wheel/Tire"
   },
+  "front-left-tire-straight": {
+    "key": "front-left-tire-straight",
+    "en": "Front left tire",
+    "fr": "Pneu avant gauche",
+    "de": "Vorderer linker Reifen",
+    "nl": "Voorband links",
+    "it": "Pneumatico anteriore sinistro",
+    "pt": "Pneu dianteiro esquerdo",
+    "es": "Neumático delantero izquierdo",
+    "sv": "Framdäck, vänster",
+    "da": "Forreste venstre dæk",
+    "pl": "Przedni lewy opona",
+    "ro": "Anvelopa din față, partea stângă",
+    "no": "Venstre forhjulsdekk",
+    "cs": "Levá přední pneumatika",
+    "fi": "Eturenkaan vasen puoli",
+    "de-CH": "Vorderer linker Reifen",
+    "en-IE": "Front left tire",
+    "en-GB": "Front left tire",
+    "en-hag": "Driver Front Wheel/Tire"
+  },
   "front-right-tire": {
     "key": "front-right-tire",
+    "en": "Front right tire",
+    "fr": "Pneu avant droit",
+    "de": "Vorderer rechter Reifen",
+    "nl": "Voorband rechts",
+    "it": "Pneumatico anteriore destro",
+    "pt": "Pneu dianteiro direito",
+    "es": "Neumático delantero derecho",
+    "sv": "Framdäck, höger",
+    "da": "Forreste højre dæk",
+    "pl": "Opona przednia, prawa",
+    "ro": "Anvelopa din față, dreapta",
+    "no": "Høyre forhjulsdekk",
+    "cs": "Přední pravá pneumatika",
+    "fi": "Eturenkaan oikea puoli",
+    "de-CH": "Vorderer rechter Reifen",
+    "en-IE": "Front right tire",
+    "en-GB": "Front right tire",
+    "en-hag": "Passenger Front Wheel/Tire"
+  },
+  "front-right-tire-straight": {
+    "key": "front-right-tire-straight",
     "en": "Front right tire",
     "fr": "Pneu avant droit",
     "de": "Vorderer rechter Reifen",
@@ -2412,7 +2454,7 @@
     "de-CH": "Vordersitze durch linke Tür",
     "en-IE": "Front Seats Door Left",
     "en-GB": "Front Seats Door Left",
-    "en-hag": "Front Seats Door Left"
+    "en-hag": "Front Seats Driver Side"
   },
   "front-seats-door-left-2": {
     "key": "front-seats-door-left-2",
@@ -2433,6 +2475,6 @@
     "de-CH": "Vordersitze durch linke Tür",
     "en-IE": "Front Seats Door Left",
     "en-GB": "Front Seats Door Left",
-    "en-hag": "Front Seats Door Left"
+    "en-hag": "Front Seats Driver Side"
   }
 }
