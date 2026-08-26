@@ -349,6 +349,7 @@ describe('PhotoCapture component', () => {
       startTasks,
       sightState,
       onUpdateDuration: duration.updateDuration,
+      cleanupImages: expect.any(Function),
       loading,
       onComplete: props.onComplete,
     });

@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { useMonkApi } from '@monkvision/network';
 import { useMonkState } from '@monkvision/common';
 import { ImageStatus } from '@monkvision/types';
+import { createFakePromise, FakePromise, flushPromises } from '@monkvision/test-utils';
 import { ImagesCleanupParams, useImagesCleanup } from '../../../src/PhotoCapture/hooks';
 
 const apiConfig = {
@@ -114,6 +115,126 @@ describe('useImagesCleanup hook', () => {
     });
 
     expect(deleteImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should resolve the cleanupImages promise right away if there is no pending deletion', async () => {
+    const deleteImage = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    await expect(result.current.cleanupImages()).resolves.toBeUndefined();
+    expect(deleteImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should not resolve the cleanupImages promise until the pending deletions are settled', async () => {
+    const deletions: FakePromise<void>[] = [];
+    const deleteImage = jest.fn(() => {
+      const deletion = createFakePromise<void>();
+      deletions.push(deletion);
+      return deletion;
+    });
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deletions.length).toBe(4);
+
+    let isCleanupCompleted = false;
+    const cleanupPromise = result.current.cleanupImages().then(() => {
+      isCleanupCompleted = true;
+    });
+    await flushPromises();
+    expect(isCleanupCompleted).toBe(false);
+
+    deletions.forEach((deletion) => deletion.resolve());
+    await cleanupPromise;
+    expect(isCleanupCompleted).toBe(true);
+
+    unmount();
+  });
+
+  it('should not delete an image that already has a deletion request in flight', async () => {
+    const deletions: FakePromise<void>[] = [];
+    const deleteImage = jest.fn(() => {
+      const deletion = createFakePromise<void>();
+      deletions.push(deletion);
+      return deletion;
+    });
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deleteImage).toHaveBeenCalledTimes(4);
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deleteImage).toHaveBeenCalledTimes(4);
+
+    deletions.forEach((deletion) => deletion.resolve());
+    await expect(result.current.cleanupImages()).resolves.toBeUndefined();
+
+    unmount();
+  });
+
+  it('should delete an image again if its previous deletion request failed', async () => {
+    const deleteImage = jest.fn(() => Promise.reject(new Error('test-error-message')));
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deleteImage).toHaveBeenCalledTimes(4);
+    await flushPromises();
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deleteImage).toHaveBeenCalledTimes(8);
+
+    unmount();
+  });
+
+  it('should resolve the cleanupImages promise even if a deletion request fails', async () => {
+    const deleteImage = jest.fn(() => Promise.reject(new Error('test-error-message')));
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({ sightId: 'sight-1' });
+    });
+    expect(deleteImage).toHaveBeenCalled();
+
+    await expect(result.current.cleanupImages()).resolves.toBeUndefined();
 
     unmount();
   });

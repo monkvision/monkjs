@@ -1,6 +1,6 @@
 import { useMonkState, useObjectMemo } from '@monkvision/common';
-import { MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { useCallback } from 'react';
+import { MonkApiConfig, MonkApiResponse, useMonkApi } from '@monkvision/network';
+import { useCallback, useRef } from 'react';
 import { Image, ImageStatus } from '@monkvision/types';
 import { UploadEventHandlers, UploadSuccessPayload } from '../../hooks/useUploadQueue';
 
@@ -38,6 +38,10 @@ export interface ImagesCleanupHandle {
    * A set of event handlers listening to upload events.
    */
   cleanupEventHandlers: UploadEventHandlers;
+  /**
+   * Function returning a promise that resolves when every pending image deletion request has settled.
+   */
+  cleanupImages: () => Promise<void>;
 }
 
 function extractOtherImagesToDelete(imagesBySight: Record<string, Image[]>): Image[] {
@@ -82,6 +86,23 @@ export function useImagesCleanup({
 }: ImagesCleanupParams): ImagesCleanupHandle {
   const { deleteImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
+  const pendingCleanup = useRef<Promise<unknown>>(Promise.resolve());
+  const pendingDeletionIds = useRef<Set<string>>(new Set());
+
+  const cleanupImages = useCallback(async function cleanup(
+    deletions: Promise<MonkApiResponse>[] = [],
+  ): Promise<void> {
+    if (deletions.length > 0) {
+      pendingCleanup.current = Promise.allSettled([pendingCleanup.current, ...deletions]);
+    }
+    const awaitedCleanup = pendingCleanup.current;
+    await awaitedCleanup;
+
+    if (awaitedCleanup !== pendingCleanup.current) {
+      await cleanup();
+    }
+  },
+  []);
 
   const onUploadSuccess = useCallback(
     ({ sightId, imageId }: UploadSuccessPayload) => {
@@ -101,18 +122,31 @@ export function useImagesCleanup({
           DELETABLE_STATUSES.includes(image.status),
       );
 
-      const imagesToDelete = [...otherImagesToDelete, ...sightImagesToDelete];
+      const imagesToDelete = [...otherImagesToDelete, ...sightImagesToDelete].filter(
+        (image) => !pendingDeletionIds.current.has(image.id),
+      );
 
       if (imagesToDelete.length > 0) {
-        imagesToDelete.forEach((image) => deleteImage({ imageId: image.id, id: inspectionId }));
+        cleanupImages(
+          imagesToDelete.map(async (image) => {
+            pendingDeletionIds.current.add(image.id);
+            try {
+              return await deleteImage({ imageId: image.id, id: inspectionId });
+            } catch (err) {
+              pendingDeletionIds.current.delete(image.id);
+              throw err;
+            }
+          }),
+        );
       }
     },
-    [state.images, inspectionId],
+    [state.images, inspectionId, cleanupImages],
   );
 
   return useObjectMemo({
     cleanupEventHandlers: {
       onUploadSuccess,
     },
+    cleanupImages,
   });
 }
