@@ -244,7 +244,7 @@ export function PhotoCapture({
     closeBadConnectionWarningDialog,
     uploadEventHandlers: badConnectionWarningUploadEventHandlers,
   } = useBadConnectionWarning({ maxUploadDurationWarning });
-  const { cleanupEventHandlers } = useImagesCleanup({
+  const { cleanupEventHandlers, cleanupImages } = useImagesCleanup({
     inspectionId,
     apiConfig,
     autoDeletePreviousSightImages,
@@ -279,6 +279,7 @@ export function PhotoCapture({
     loading,
     startTasksOnComplete,
     onUpdateDuration: updateDuration,
+    cleanupImages,
     onComplete,
   });
   const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);

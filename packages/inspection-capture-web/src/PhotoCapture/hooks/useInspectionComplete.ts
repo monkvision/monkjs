@@ -28,6 +28,10 @@ export interface InspectionCompleteParams
    */
   onUpdateDuration: (forceUpdate?: boolean) => Promise<number>;
   /**
+   * Function returning a promise that resolves when every pending image deletion request has settled.
+   */
+  cleanupImages: () => Promise<void>;
+  /**
    * Callback called when the user clicks on the "Complete" button in the HUD.
    */
   onComplete?: () => void;
@@ -52,6 +56,7 @@ export function useInspectionComplete({
   loading,
   startTasksOnComplete,
   onUpdateDuration,
+  cleanupImages,
   onComplete,
 }: InspectionCompleteParams): InspectionCompleteHandle {
   const analytics = useAnalytics();
@@ -59,6 +64,8 @@ export function useInspectionComplete({
 
   const handleInspectionCompleted = useCallback(async () => {
     const updatedDuration = await onUpdateDuration(true);
+    loading.start();
+    await cleanupImages();
     startTasks()
       .then(() => {
         analytics.trackEvent('Capture Completed', {
@@ -75,7 +82,7 @@ export function useInspectionComplete({
         loading.onError(err);
         monitoring.handleError(err);
       });
-  }, []);
+  }, [cleanupImages]);
 
   useEffect(() => {
     const { isInspectionCompliant, isInspectionCompleted } = sightState;
