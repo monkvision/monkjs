@@ -487,5 +487,148 @@ describe('useDownloadImages', () => {
         expect(mockZipInstance.file).toHaveBeenCalledWith('uppercase-label.jpg', expect.any(Blob));
       });
     });
+
+    it('should escape forward slashes so labels cannot create subdirectories', async () => {
+      mockUseInspectionReviewProvider.mockReturnValue({
+        allGalleryItems: [
+          createMockGalleryItem({
+            image: {
+              id: 'image-1',
+              path: MOCK_IMAGE_PATH_1,
+              label: { [MOCK_LANGUAGE]: 'Rear Wheel/Tire' },
+            } as Image,
+          }),
+        ],
+        inspection: { id: MOCK_INSPECTION_ID } as Inspection,
+        additionalInfo: undefined,
+      } as unknown as InspectionReviewProviderState);
+
+      const props = createMockProps();
+      const { result } = renderHook(() => useDownloadImages(props));
+
+      act(() => {
+        result.current.handleDownloadImages();
+      });
+
+      await waitFor(() => {
+        expect(mockZipInstance.file).toHaveBeenCalledWith('rear-wheel-tire.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).not.toHaveBeenCalledWith(
+          expect.stringContaining('/'),
+          expect.any(Blob),
+        );
+      });
+    });
+
+    it('should escape other filesystem-unsafe characters (backslash, colon, etc.)', async () => {
+      mockUseInspectionReviewProvider.mockReturnValue({
+        allGalleryItems: [
+          createMockGalleryItem({
+            image: {
+              id: 'image-1',
+              path: MOCK_IMAGE_PATH_1,
+              label: { [MOCK_LANGUAGE]: 'Front:Left\\Panel?Bumper' },
+            } as Image,
+          }),
+        ],
+        inspection: { id: MOCK_INSPECTION_ID } as Inspection,
+        additionalInfo: undefined,
+      } as unknown as InspectionReviewProviderState);
+
+      const props = createMockProps();
+      const { result } = renderHook(() => useDownloadImages(props));
+
+      act(() => {
+        result.current.handleDownloadImages();
+      });
+
+      await waitFor(() => {
+        expect(mockZipInstance.file).toHaveBeenCalledWith(
+          'front-left-panel-bumper.jpg',
+          expect.any(Blob),
+        );
+      });
+    });
+  });
+
+  describe('duplicate filename handling', () => {
+    it('should not overwrite images that share the same label', async () => {
+      mockUseInspectionReviewProvider.mockReturnValue({
+        allGalleryItems: [
+          createMockGalleryItem({
+            image: {
+              id: 'image-1',
+              path: MOCK_IMAGE_PATH_1,
+              label: { [MOCK_LANGUAGE]: 'Front View' },
+            } as Image,
+          }),
+          createMockGalleryItem({
+            image: {
+              id: 'image-2',
+              path: MOCK_IMAGE_PATH_2,
+              label: { [MOCK_LANGUAGE]: 'Front View' },
+            } as Image,
+          }),
+        ],
+        inspection: { id: MOCK_INSPECTION_ID } as Inspection,
+        additionalInfo: undefined,
+      } as unknown as InspectionReviewProviderState);
+
+      const props = createMockProps();
+      const { result } = renderHook(() => useDownloadImages(props));
+
+      act(() => {
+        result.current.handleDownloadImages();
+      });
+
+      await waitFor(() => {
+        expect(mockZipInstance.file).toHaveBeenCalledWith('front-view.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).toHaveBeenCalledWith('front-view-1.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).toHaveBeenCalledTimes(2);
+      });
+    });
+
+    it('should increment the suffix for each additional occurrence of the same label', async () => {
+      mockUseInspectionReviewProvider.mockReturnValue({
+        allGalleryItems: [
+          createMockGalleryItem({
+            image: {
+              id: 'image-1',
+              path: MOCK_IMAGE_PATH_1,
+              label: { [MOCK_LANGUAGE]: 'Front View' },
+            } as Image,
+          }),
+          createMockGalleryItem({
+            image: {
+              id: 'image-2',
+              path: MOCK_IMAGE_PATH_2,
+              label: { [MOCK_LANGUAGE]: 'Front View' },
+            } as Image,
+          }),
+          createMockGalleryItem({
+            image: {
+              id: 'image-3',
+              path: MOCK_IMAGE_PATH_1,
+              label: { [MOCK_LANGUAGE]: 'Front View' },
+            } as Image,
+          }),
+        ],
+        inspection: { id: MOCK_INSPECTION_ID } as Inspection,
+        additionalInfo: undefined,
+      } as unknown as InspectionReviewProviderState);
+
+      const props = createMockProps();
+      const { result } = renderHook(() => useDownloadImages(props));
+
+      act(() => {
+        result.current.handleDownloadImages();
+      });
+
+      await waitFor(() => {
+        expect(mockZipInstance.file).toHaveBeenCalledWith('front-view.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).toHaveBeenCalledWith('front-view-1.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).toHaveBeenCalledWith('front-view-2.jpg', expect.any(Blob));
+        expect(mockZipInstance.file).toHaveBeenCalledTimes(3);
+      });
+    });
   });
 });

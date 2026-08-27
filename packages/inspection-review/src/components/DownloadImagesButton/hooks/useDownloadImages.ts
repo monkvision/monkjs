@@ -6,7 +6,10 @@ import { DownloadImagesButtonProps } from '../../../types/download-images.types'
 import { useInspectionReviewProvider } from '../../../hooks';
 
 function transformToKebabCase(input: string): string {
-  return input.replace(/\s+/g, '-').toLowerCase();
+  return input
+    .replace(/[\\/:*?"<>|]+/g, '-')
+    .replace(/\s+/g, '-')
+    .toLowerCase();
 }
 
 /**
@@ -47,8 +50,13 @@ export function useDownloadImages(props: DownloadImagesButtonProps): DownloadIma
     const res = await Promise.all(promises);
     const zip = new JSZip();
 
+    const usedFileNameCounts = new Map<string, number>();
     res.forEach(({ blob, label }, index) => {
-      zip.file(`${label ? transformToKebabCase(label) : index}.jpg`, blob);
+      const baseName = label ? transformToKebabCase(label) : `${index}`;
+      const occurrence = usedFileNameCounts.get(baseName) ?? 0;
+      usedFileNameCounts.set(baseName, occurrence + 1);
+      const fileName = occurrence === 0 ? baseName : `${baseName}-${occurrence}`;
+      zip.file(`${fileName}.jpg`, blob);
     });
 
     const zipFile = await zip.generateAsync({ type: 'blob' });
