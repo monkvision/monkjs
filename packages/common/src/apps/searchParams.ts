@@ -119,7 +119,9 @@ export function useMonkSearchParams({ availableVehicleTypes }: UseMonkSearchPara
         case MonkSearchParam.STEERING_WHEEL:
           return validateParamValue(value, SteeringWheelPosition);
         case MonkSearchParam.LANGUAGE:
-          return validateParamValue(value, monkLanguages);
+          return value
+            ? monkLanguages.find((lang) => lang.toLowerCase() === value.toLowerCase()) ?? null
+            : null;
         case MonkSearchParam.CLIENT_ID:
           return value;
         case MonkSearchParam.LIVE_CONFIG:
