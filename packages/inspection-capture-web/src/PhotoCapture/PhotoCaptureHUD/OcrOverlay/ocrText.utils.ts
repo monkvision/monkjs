@@ -27,8 +27,9 @@ export function parseOdometerText(raw: string): OdometerParseResult {
 
   const intStr = raw.replace(/[^0-9.]/g, '').split('.')[0];
   const parsed = intStr ? parseInt(intStr, 10) : NaN;
+  const value = Number.isNaN(parsed) || parsed < 0 || parsed > 1_000_000 ? null : parsed;
 
-  return { value: Number.isNaN(parsed) ? null : parsed, unit };
+  return { value, unit };
 }
 
 /**

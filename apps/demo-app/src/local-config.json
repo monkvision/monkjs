@@ -16,7 +16,6 @@
   "enableSightTutorial": "modern",
   "startTasksOnComplete": true,
   "showCloseButton": false,
-  "enforceOrientation": "landscape",
   "maxUploadDurationWarning": 15000,
   "useAdaptiveImageQuality": true,
   "format": "image/jpeg",

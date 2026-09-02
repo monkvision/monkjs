@@ -1,6 +1,9 @@
 import { CSSProperties } from 'react';
 
-export const CROP_REGION = { x: 0.2, y: 0.4, w: 0.6, h: 0.2 };
+export function getCropRegion(isPortrait: boolean) {
+  // In portrait the preview is tall: use a wider, shorter strip to avoid an oversized box.
+  return isPortrait ? { x: 0.05, y: 0.45, w: 0.9, h: 0.1 } : { x: 0.2, y: 0.4, w: 0.6, h: 0.2 };
+}
 export const RADIUS = 6;
 export const STROKE = 2.5;
 
@@ -28,63 +31,12 @@ export function getOverlayStyle(
 }
 
 export const styles = {
-  debugDots: {
+  cropBox: (region: ReturnType<typeof getCropRegion>): CSSProperties => ({
     position: 'absolute',
-    top: 8,
-    left: '50%',
-    transform: 'translateX(-50%)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 4,
-    pointerEvents: 'none',
-    zIndex: 9999,
-  } as CSSProperties,
-
-  debugDotsRow: {
-    display: 'flex',
-    gap: 8,
-    alignItems: 'center',
-  } as CSSProperties,
-
-  debugDotItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 4,
-  } as CSSProperties,
-
-  debugDotLabel: {
-    color: '#fff',
-    fontSize: 9,
-    fontFamily: 'monospace',
-    textShadow: '0 0 3px #000',
-  } as CSSProperties,
-
-  debugDotDot: (color: string): CSSProperties => ({
-    width: 10,
-    height: 10,
-    borderRadius: '50%',
-    backgroundColor: color,
-    boxShadow: `0 0 6px ${color}`,
-  }),
-
-  errorText: {
-    color: '#ff4444',
-    fontSize: 9,
-    fontFamily: 'monospace',
-    background: 'rgba(0,0,0,0.8)',
-    padding: '2px 6px',
-    borderRadius: 3,
-    maxWidth: 300,
-    wordBreak: 'break-all',
-  } as CSSProperties,
-
-  cropBox: {
-    position: 'absolute',
-    top: `${CROP_REGION.y * 100}%`,
-    left: `${CROP_REGION.x * 100}%`,
-    width: `${CROP_REGION.w * 100}%`,
-    height: `${CROP_REGION.h * 100}%`,
+    top: `${region.y * 100}%`,
+    left: `${region.x * 100}%`,
+    width: `${region.w * 100}%`,
+    height: `${region.h * 100}%`,
     pointerEvents: 'none',
     borderRadius: RADIUS,
     display: 'flex',
@@ -93,7 +45,7 @@ export const styles = {
     justifyContent: 'flex-end',
     gap: 8,
     paddingBottom: 10,
-  } as CSSProperties,
+  }),
 
   svg: {
     position: 'absolute',
@@ -125,9 +77,9 @@ export const styles = {
     textShadow: '0 1px 3px rgba(0,0,0,0.8)',
   } as CSSProperties,
 
-  shutterHint: {
+  shutterHint: (region: ReturnType<typeof getCropRegion>): CSSProperties => ({
     position: 'absolute',
-    top: `${(CROP_REGION.y + CROP_REGION.h + 0.05) * 100}%`,
+    top: `${(region.y + region.h + 0.05) * 100}%`,
     left: '50%',
     transform: 'translateX(-50%)',
     backgroundColor: 'rgba(0,0,0,0.78)',
@@ -138,5 +90,5 @@ export const styles = {
     fontWeight: 500,
     whiteSpace: 'nowrap',
     pointerEvents: 'none',
-  } as CSSProperties,
+  }),
 };

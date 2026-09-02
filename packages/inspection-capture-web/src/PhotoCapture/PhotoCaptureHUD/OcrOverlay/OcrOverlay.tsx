@@ -6,7 +6,7 @@ import { OcrConfirmModal } from './OcrConfirmModal';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
 import { parseOdometerText } from './ocrText.utils';
 import {
-  CROP_REGION,
+  getCropRegion,
   RADIUS,
   STROKE,
   COLOR_IDLE,
@@ -44,19 +44,6 @@ export interface OcrOverlayProps {
   sightId?: string;
 }
 
-const resolveModelColor = (fatalError: string | null, isReady: boolean, isLoading: boolean) => {
-  if (fatalError) {
-    return '#ff4444';
-  }
-  if (isReady) {
-    return '#44ff88';
-  }
-  if (isLoading) {
-    return '#ffaa00';
-  }
-  return '#888888';
-};
-
 export function OcrOverlay({
   config,
   getImageData,
@@ -78,17 +65,10 @@ export function OcrOverlay({
     ocrTimeoutMs = 20_000,
     ...ocrConfig
   } = config;
-  const {
-    isReady,
-    isLoading,
-    isInferring,
-    fatalError,
-    loadModels,
-    processFrame,
-    confirmedText,
-    consistencyCount,
-    reset,
-  } = useOcr({ ...ocrConfig, appearanceCount });
+  const { isReady, loadModels, processFrame, confirmedText, consistencyCount, reset } = useOcr({
+    ...ocrConfig,
+    appearanceCount,
+  });
 
   const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
   const cropCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
@@ -104,6 +84,8 @@ export function OcrOverlay({
   const [fallbackOcrFailed, setFallbackOcrFailed] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
+  const isPortrait = previewDimensions ? previewDimensions.height > previewDimensions.width : false;
+  const cropRegion = getCropRegion(isPortrait);
 
   useEffect(() => {
     loadModels();
@@ -111,6 +93,7 @@ export function OcrOverlay({
 
   // Reset fallback counters when the active sight changes.
   useEffect(() => {
+    reset();
     setRetryCount(0);
     setIsTimedOut(false);
     processedFallbackUriRef.current = null;
@@ -121,6 +104,7 @@ export function OcrOverlay({
   // Also reset when the overlay becomes inactive (non-OCR sight selected).
   useEffect(() => {
     if (!isActive) {
+      reset();
       setRetryCount(0);
       setIsTimedOut(false);
       processedFallbackUriRef.current = null;
@@ -164,10 +148,10 @@ export function OcrOverlay({
       if (cancelled) {
         return;
       }
-      const sw = Math.round(CROP_REGION.w * img.naturalWidth);
-      const sh = Math.round(CROP_REGION.h * img.naturalHeight);
-      const sx = Math.round(CROP_REGION.x * img.naturalWidth);
-      const sy = Math.round(CROP_REGION.y * img.naturalHeight);
+      const sw = Math.round(cropRegion.w * img.naturalWidth);
+      const sh = Math.round(cropRegion.h * img.naturalHeight);
+      const sx = Math.round(cropRegion.x * img.naturalWidth);
+      const sy = Math.round(cropRegion.y * img.naturalHeight);
 
       if (
         !cropCanvasRef.current ||
@@ -308,10 +292,10 @@ export function OcrOverlay({
 
         if (!cropCoordsRef.current || srcCanvasRef.current?.width !== full.width) {
           cropCoordsRef.current = {
-            sx: Math.round(CROP_REGION.x * full.width),
-            sy: Math.round(CROP_REGION.y * full.height),
-            sw: Math.round(CROP_REGION.w * full.width),
-            sh: Math.round(CROP_REGION.h * full.height),
+            sx: Math.round(cropRegion.x * full.width),
+            sy: Math.round(cropRegion.y * full.height),
+            sw: Math.round(cropRegion.w * full.width),
+            sh: Math.round(cropRegion.h * full.height),
           };
         }
         const { sx, sy, sw, sh } = cropCoordsRef.current;
@@ -345,29 +329,10 @@ export function OcrOverlay({
     isReady && isActive && (!isFallbackReady || hasFallbackImageData) ? captureIntervalMs : null,
   );
 
-  const modelColor = resolveModelColor(fatalError, isReady, isLoading);
-  const inferColor = isInferring ? '#44ff88' : '#888888';
-
-  const debugDots = (
-    <div style={styles.debugDots}>
-      <div style={styles.debugDotsRow}>
-        <div style={styles.debugDotItem}>
-          <div style={styles.debugDotDot(modelColor)} />
-          <span style={styles.debugDotLabel}>model</span>
-        </div>
-        <div style={styles.debugDotItem}>
-          <div style={styles.debugDotDot(inferColor)} />
-          <span style={styles.debugDotLabel}>infer</span>
-        </div>
-      </div>
-      {fatalError && <div style={styles.errorText}>{fatalError}</div>}
-    </div>
-  );
-
   const overlayStyle = getOverlayStyle(previewDimensions);
 
   if (!isActive) {
-    return <div style={overlayStyle}>{debugDots}</div>;
+    return null;
   }
 
   const isConfirmed = confirmedText !== null;
@@ -442,8 +407,8 @@ export function OcrOverlay({
   const fillFraction = isFallbackReady ? 0 : isConfirmed ? 1 : consistencyCount / appearanceCount;
   const containerW = previewDimensions?.width ?? 0;
   const containerH = previewDimensions?.height ?? 0;
-  const boxW = containerW * CROP_REGION.w;
-  const boxH = containerH * CROP_REGION.h;
+  const boxW = containerW * cropRegion.w;
+  const boxH = containerH * cropRegion.h;
   const perimeter = getPerimeter(boxW, boxH);
   const filledLength = fillFraction * perimeter;
 
@@ -485,11 +450,10 @@ export function OcrOverlay({
         />
       )}
       <div style={overlayStyle}>
-        {debugDots}
         {isFallbackReady && !ocrPicture && (
-          <div style={styles.shutterHint}>Use the shutter button to take a picture</div>
+          <div style={styles.shutterHint(cropRegion)}>Use the shutter button to take a picture</div>
         )}
-        <div style={styles.cropBox}>
+        <div style={styles.cropBox(cropRegion)}>
           <svg
             viewBox={`0 0 ${boxW} ${boxH}`}
             style={styles.svg}
@@ -513,7 +477,6 @@ export function OcrOverlay({
               style={{ transition: 'stroke-dasharray 0.4s ease' }}
             />
           </svg>
-
         </div>
       </div>
     </>
