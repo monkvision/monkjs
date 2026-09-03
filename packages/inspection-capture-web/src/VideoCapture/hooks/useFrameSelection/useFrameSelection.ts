@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { MonkPicture } from '@monkvision/types';
 import { useInterval, useObjectMemo, useQueue } from '@monkvision/common';
 import { CameraHandle } from '@monkvision/camera-web';
@@ -14,9 +14,16 @@ export interface UseFrameSelectionParams {
    */
   handle: CameraHandle;
   /**
-   * Interval (in milliseconds) at which camera frames should be taken.
+   * Interval (in milliseconds) at which camera frames should be taken. Ignored if `flushTrigger` is provided.
    */
   frameSelectionInterval: number;
+  /**
+   * If provided, the best buffered frame is flushed every time this value changes, instead of relying on
+   * `frameSelectionInterval`.
+   *
+   * Used for `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE` strategy.
+   */
+  flushTrigger?: number;
   /**
    * Callback called when a frame has been selected and should be uploaded to the API.
    */
@@ -50,6 +57,7 @@ export interface FrameSelectionHandle {
 export function useFrameSelection({
   handle,
   frameSelectionInterval,
+  flushTrigger,
   onFrameSelected,
 }: UseFrameSelectionParams): FrameSelectionHandle {
   const bestScore = useRef<number | null>(null);
@@ -75,7 +83,7 @@ export function useFrameSelection({
     processingQueue.push(handle.getImageData());
   }, [processingQueue.push]);
 
-  useInterval(() => {
+  const flushBestFrame = useCallback(() => {
     if (bestFrame.current !== null) {
       handle
         .compressImage(bestFrame.current)
@@ -84,7 +92,16 @@ export function useFrameSelection({
     }
     bestScore.current = null;
     bestFrame.current = null;
-  }, frameSelectionInterval);
+  }, [handle, onFrameSelected, handleError]);
+
+  useInterval(flushBestFrame, flushTrigger === undefined ? frameSelectionInterval : null);
+
+  useEffect(() => {
+    if (flushTrigger === undefined) {
+      return;
+    }
+    flushBestFrame();
+  }, [flushTrigger]);
 
   return useObjectMemo({
     processedFrames: processingQueue.totalItems - processingQueue.processingCount,
