@@ -380,6 +380,12 @@ export function OcrOverlay({
     onReject?.();
   };
 
+  const handleInvalidReading = () => {
+    setOcrPicture(null);
+    reset();
+    onReject?.();
+  };
+
   const handleOcrFailed = () => {
     if (ocrPicture) {
       onConfirm?.('', ocrPicture, mode, defaultMileageUnit);
@@ -396,10 +402,15 @@ export function OcrOverlay({
 
   // Modal shows the number only for odometer (unit is sent to the API separately).
   let modalText = confirmedText ?? '';
+  let isInvalidReading = false;
   if (isConfirmed && confirmedText) {
     if (isOdometer) {
       const { value } = parseOdometerText(confirmedText);
-      modalText = value !== null ? value.toLocaleString('fr-FR') : '—';
+      if (value !== null) {
+        modalText = value.toLocaleString('fr-FR');
+      } else {
+        isInvalidReading = true;
+      }
     } else {
       modalText = confirmedText;
     }
@@ -447,6 +458,8 @@ export function OcrOverlay({
           isOcrLoading={isOcrLoading}
           ocrFailed={fallbackOcrFailed}
           onOcrFailed={handleOcrFailed}
+          isInvalidReading={isInvalidReading}
+          onInvalidReading={handleInvalidReading}
         />
       )}
       <div style={overlayStyle}>

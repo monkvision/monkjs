@@ -30,6 +30,10 @@ export interface OcrConfirmModalProps {
   ocrFailed?: boolean;
   /** Called when the user dismisses the OCR failure message. */
   onOcrFailed?: () => void;
+  /** When true, the detected value is out of the valid range — shows an error with a Close button. */
+  isInvalidReading?: boolean;
+  /** Called when the user closes the invalid reading message to go back to scanning. */
+  onInvalidReading?: () => void;
 }
 
 const SPINNER_KEYFRAMES = `
@@ -125,6 +129,8 @@ export function OcrConfirmModal({
   isOcrLoading = false,
   ocrFailed = false,
   onOcrFailed,
+  isInvalidReading = false,
+  onInvalidReading,
 }: OcrConfirmModalProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -138,7 +144,9 @@ export function OcrConfirmModal({
     <div style={styles.dialog}>
       <style>{SPINNER_KEYFRAMES}</style>
       <img src={imageUri} alt='Detected frame' style={styles.image} />
-      {ocrFailed ? (
+      {isInvalidReading ? (
+        <div style={styles.errorMessage}>The detected value is not valid. Please scan again.</div>
+      ) : ocrFailed ? (
         <div style={styles.errorMessage}>
           Unable to detect the text. You can proceed to the next sight.
         </div>
@@ -156,7 +164,17 @@ export function OcrConfirmModal({
         <div style={styles.text}>{text}</div>
       )}
       <div style={styles.buttons}>
-        {ocrFailed ? (
+        {isInvalidReading ? (
+          <Button
+            variant='outline'
+            primaryColor='alert-light'
+            secondaryColor='background-dark'
+            style={styles.button}
+            onClick={onInvalidReading}
+          >
+            Close
+          </Button>
+        ) : ocrFailed ? (
           <Button
             variant='outline'
             primaryColor='primary-xlight'
