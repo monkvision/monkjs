@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Vil du slette videoen? Du har ikke filmet hele køretøjet.",
-        "messageMissingFrames": "Vil du slette videoen? Ikke alle nødvendige optagelser er blevet taget endnu.",
+        "messageMissingFrames": "Vil du slette videoen? Ikke alle nødvendige billeder er blevet taget endnu.",
         "keepRecording": "Fortsæt optagelsen",
         "discardVideo": "Kassér video"
       },
