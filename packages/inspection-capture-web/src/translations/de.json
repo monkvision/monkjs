@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Möchten Sie das Video verwerfen? Sie sind noch nicht ganz um das Fahrzeug herumgekommen.",
+        "messageMissingFrames": "Möchten Sie das Video verwerfen? Es wurden noch nicht alle erforderlichen Fotos aufgenommen.",
         "keepRecording": "Aufnahme beibehalten",
         "discardVideo": "Video verwerfen"
       },

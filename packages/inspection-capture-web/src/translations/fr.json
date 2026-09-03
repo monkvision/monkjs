@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Voulez-vous annuler la vidéo ? Vous n'avez pas fait le tour complet du véhicule.",
+        "messageMissingFrames": "Voulez-vous annuler la vidéo ? Toutes les photos requises n'ont pas encore été prises.",
         "keepRecording": "Continuer l'enregistrement",
         "discardVideo": "Annuler la vidéo"
       },
