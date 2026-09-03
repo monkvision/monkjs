@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Vill du ta bort videon? Du har inte filmat hela fordonet än.",
-        "messageMissingFrames": "Vill du ta bort videon? Inte alla nödvändiga bilder har tagits ännu.",
+        "messageMissingFrames": "Vill du ta bort videon? Inte allt nödvändigt material har spelats in ännu.",
         "keepRecording": "Fortsätt spela in",
         "discardVideo": "Radera video"
       },

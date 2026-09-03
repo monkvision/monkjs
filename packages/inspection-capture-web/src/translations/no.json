@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Vil du slette videoen?",
-        "messageMissingFrames": "Vil du slette videoen? Ikke alle nødvendige bilder er tatt ennå.",
+        "messageMissingFrames": "Vil du slette videoen? Ikke alle nødvendige opptak er tatt ennå.",
         "keepRecording": "Fortsett å ta opp",
         "discardVideo": "Avvis video"
       },
