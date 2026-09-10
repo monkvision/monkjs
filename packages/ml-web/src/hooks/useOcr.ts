@@ -5,6 +5,11 @@ import { isSimilarText } from '../ocr.utils';
 
 export interface UseOcrConfig {
   /**
+   * URL of the compiled Web Worker script. Use `OCR_WORKER_URL` exported from this package for
+   * the default (bundler-resolved) URL.
+   */
+  workerUrl: string;
+  /**
    * URL for the recognition ONNX model.
    */
   recModelUrl: string;
@@ -60,6 +65,7 @@ const DEFAULT_WASM_BASE = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.27.0/d
 
 export function useOcr(config: UseOcrConfig): UseOcrResult {
   const {
+    workerUrl,
     recModelUrl,
     dictUrl,
     wasmBaseUrl = DEFAULT_WASM_BASE,
@@ -97,7 +103,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     setFatalError(null);
     inFlightRef.current = false;
 
-    const worker = new Worker(new URL('../ocr.worker.js', import.meta.url), { type: 'module' });
+    const worker = new Worker(workerUrl, { type: 'module' });
     workerRef.current = worker;
 
     worker.postMessage({
@@ -165,7 +171,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     return () => {
       worker.terminate();
     };
-  }, [workerKey, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Public API ───────────────────────────────────────────────────────────────
   const loadModels = useCallback(() => {
