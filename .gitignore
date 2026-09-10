@@ -32,6 +32,10 @@ yarn-error.log*
 # misc
 .DS_Store
 
+# ML model files (large binaries, served from public/ locally — use GCP bucket in prod)
+*.onnx
+apps/demo-app/public/ort-wasm/
+
 # vscode
 .vscode
 
