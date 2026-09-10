@@ -21,6 +21,7 @@ yarn-error.log*
 
 # cache
 .eslintcache
+*.tsbuildinfo
 
 # misc
 .DS_Store

@@ -15,7 +15,10 @@ export default defineConfig({
     'process.env': 'import.meta.env',
   },
   server: {
-    port: 17200,
+    port: Number(process.env['PORT']) || 17200,
+  },
+  preview: {
+    port: Number(process.env['PORT']) || 17200,
   },
   optimizeDeps: {
     include: [
@@ -33,6 +36,7 @@ export default defineConfig({
     ],
   },
   build: {
+    outDir: 'build',
     commonjsOptions: {
       include: [/node_modules/, /packages/],
     },

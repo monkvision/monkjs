@@ -9,15 +9,23 @@ import { useTranslation } from 'react-i18next';
 import { LiveConfigAppProvider } from '@monkvision/common-ui-web';
 import { LiveConfig } from '@monkvision/types';
 import { getAuthConfig } from '@monkvision/network';
-import * as config from '../local-config.json';
+import config from '../local-config.json';
+import configE2e from '../local-config-e2e.json';
 import { AppContainer } from './AppContainer';
 import { authConfigs } from '../auth';
 import { Page } from './pages';
 
-const localConfig =
-  process.env['REACT_APP_USE_LOCAL_CONFIG'] === 'true'
-    ? (config as unknown as LiveConfig)
-    : undefined;
+const getLocalConfig = (): LiveConfig | undefined => {
+  if (process.env['VITE_USE_LOCAL_CONFIG'] === 'true') {
+    return config as unknown as LiveConfig;
+  }
+  if (process.env['VITE_USE_LOCAL_E2E_CONFIG'] === 'true') {
+    return { ...config, ...configE2e } as unknown as LiveConfig;
+  }
+  return undefined;
+};
+
+const localConfig = getLocalConfig();
 
 export function App() {
   const navigate = useNavigate();

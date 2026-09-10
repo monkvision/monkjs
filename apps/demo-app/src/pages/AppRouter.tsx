@@ -13,7 +13,7 @@ import { App } from './App';
 
 export function AppRouter() {
   return (
-    <MemoryRouter future={{ v7_startTransition: true }}>
+    <MemoryRouter>
       <Routes>
         <Route path='/' element={<App />}>
           <Route path='/' element={<Navigate to={Page.CREATE_INSPECTION} />} />
