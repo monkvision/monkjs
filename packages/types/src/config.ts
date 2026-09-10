@@ -96,6 +96,22 @@ export enum AddDamage {
 }
 
 /**
+ * Enumeration of the strategies used to decide when a frame of the video should be selected and uploaded.
+ */
+export enum VideoUploadStrategy {
+  /**
+   * Frames are selected and uploaded at a fixed interval (`frameSelectionInterval`), regardless of the user's
+   * position around the vehicle.
+   */
+  FIXED_UPLOAD_RATE = 'fixedUploadRate',
+  /**
+   * Frames are selected and uploaded based on the user's angular position around the vehicle, so that
+   * `targetFramesCount` frames are captured, evenly spread over the full 360° walkaround.
+   */
+  ADAPTIVE_UPLOAD_RATE = 'adaptiveUploadRate',
+}
+
+/**
  * Configuration used to configure the Camera and picture output of the SDK.
  */
 export type CameraConfig = Partial<CompressionOptions> & {
@@ -334,6 +350,27 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         maxRetryCount?: number;
         /**
+         * The strategy used to decide when a frame of the video should be selected and uploaded.
+         *
+         * @default VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE
+         */
+        videoUploadStrategy?: VideoUploadStrategy;
+        /**
+         * The interval (in milliseconds) at which frames are selected and uploaded when `videoUploadStrategy` is set
+         * to `VideoUploadStrategy.FIXED_UPLOAD_RATE`. Has no effect otherwise.
+         *
+         * @default 1000
+         */
+        frameSelectionInterval?: number;
+        /**
+         * The target number of frames to capture over a full 360° walkaround when `videoUploadStrategy` is set to
+         * `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`. Has no effect otherwise. This value is clamped between 36 and
+         * 72 so that the spacing between two captured frames always stays between 5° and 10°.
+         *
+         * @default 40
+         */
+        targetFramesCount?: number;
+        /**
          * Boolean indicating if a warning should be shown to the user when they are walking too fast
          * around the vehicle.
          *
@@ -405,6 +442,27 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          * @default 3
          */
         maxRetryCount?: number;
+        /**
+         * The strategy used to decide when a frame of the video should be selected and uploaded.
+         *
+         * @default VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE
+         */
+        videoUploadStrategy?: VideoUploadStrategy;
+        /**
+         * The interval (in milliseconds) at which frames are selected and uploaded when `videoUploadStrategy` is set
+         * to `VideoUploadStrategy.FIXED_UPLOAD_RATE`. Has no effect otherwise.
+         *
+         * @default 1000
+         */
+        frameSelectionInterval?: number;
+        /**
+         * The target number of frames to capture over a full 360° walkaround when `videoUploadStrategy` is set to
+         * `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`. Has no effect otherwise. This value is clamped between 36 and
+         * 72 so that the spacing between two captured frames always stays between 5° and 10°.
+         *
+         * @default 40
+         */
+        targetFramesCount?: number;
         /**
          * Boolean indicating if a warning should be shown to the user when they are walking too fast around the
          * vehicle.

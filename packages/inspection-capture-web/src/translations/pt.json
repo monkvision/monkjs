@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Você deseja descartar o vídeo? Você ainda não inspecionou todos os lados do veículo.",
+        "messageMissingFrames": "Você deseja descartar o vídeo? Nem todas as imagens necessárias foram capturadas ainda.",
         "keepRecording": "Continue Gravando",
         "discardVideo": "Descartar vídeo"
       },

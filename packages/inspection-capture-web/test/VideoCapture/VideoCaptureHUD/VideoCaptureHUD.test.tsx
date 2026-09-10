@@ -25,13 +25,23 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     processedFrames: 986,
     totalProcessingFrames: 6782,
     onCaptureVideoFrame: jest.fn(),
+    flushBestFrame: jest.fn(),
+    discardBestFrame: jest.fn(),
+  })),
+  useSegmentFrameSelection: jest.fn(() => ({
+    flushTrigger: 12,
+    capturedFramesCount: 8,
+    targetFramesCount: 40,
+    startSegmentTracking: jest.fn(),
   })),
   useVideoRecording: jest.fn(() => ({
+    targetFramesCount: 40,
     isRecordingPaused: true,
     onClickRecordVideo: jest.fn(),
     onDiscardDialogKeepRecording: jest.fn(),
     onDiscardDialogDiscardVideo: jest.fn(),
     isDiscardDialogDisplayed: false,
+    isMissingTargetFrames: false,
     recordingDurationMs: 234,
     pauseRecording: jest.fn(),
     resumeRecording: jest.fn(),
@@ -42,7 +52,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
 import { act, render, screen } from '@testing-library/react';
 import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { DeviceOrientation } from '@monkvision/types';
+import { DeviceOrientation, VideoUploadStrategy } from '@monkvision/types';
 import { LoadingState } from '@monkvision/common';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -53,6 +63,7 @@ import { VideoCaptureComplete } from '../../../src/VideoCapture/VideoCaptureHUD/
 import {
   FastMovementType,
   useFrameSelection,
+  useSegmentFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
   useVideoUploadQueue,
@@ -80,7 +91,10 @@ function createProps(): VideoCaptureHUDProps {
     fastMovementsWarning: null,
     onWarningDismiss: jest.fn(),
     maxRetryCount: 24,
+    frameSelectionInterval: 1357,
     minRecordingDuration: 667,
+    videoUploadStrategy: VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE,
+    targetFramesCount: 40,
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
     inspectionLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
@@ -88,6 +102,21 @@ function createProps(): VideoCaptureHUDProps {
     onCloseVideo: jest.fn(),
     showCloseVideoButton: true,
   };
+}
+
+function mockNotPaused(): void {
+  (useVideoRecording as jest.Mock).mockImplementationOnce(() => ({
+    isRecordingPaused: false,
+    onClickRecordVideo: jest.fn(),
+    onDiscardDialogKeepRecording: jest.fn(),
+    onDiscardDialogDiscardVideo: jest.fn(),
+    isDiscardDialogDisplayed: false,
+    isMissingTargetFrames: false,
+    recordingDurationMs: 234,
+    pauseRecording: jest.fn(),
+    resumeRecording: jest.fn(),
+    tooltip: null,
+  }));
 }
 
 describe('VideoCaptureHUD component', () => {
@@ -159,17 +188,57 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
+  it('should pass the proper params to the useSegmentFrameSelection hook', () => {
+    const props = createProps();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { walkaroundPosition } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
+    expect(useSegmentFrameSelection).toHaveBeenCalledWith({
+      walkaroundPosition,
+      isRecording: props.isRecording,
+      targetFramesCount: props.targetFramesCount,
+    });
+
+    unmount();
+  });
+
+  it('should not track segments when videoUploadStrategy is fixedUploadRate', () => {
+    const props = createProps();
+    props.videoUploadStrategy = VideoUploadStrategy.FIXED_UPLOAD_RATE;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(useSegmentFrameSelection).toHaveBeenCalledWith(
+      expect.objectContaining({ isRecording: false }),
+    );
+
+    unmount();
+  });
+
   it('should pass the proper props to the useFrameSelection hook', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onFrameSelected } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
+    const { flushTrigger } = (useSegmentFrameSelection as jest.Mock).mock.results[0].value;
     expect(useFrameSelection).toHaveBeenCalledWith(
       expect.objectContaining({
         handle: props.handle,
-        frameSelectionInterval: 1000,
+        frameSelectionInterval: props.frameSelectionInterval,
+        flushTrigger,
         onFrameSelected,
       }),
+    );
+
+    unmount();
+  });
+
+  it('should not pass a flushTrigger to the useFrameSelection hook when videoUploadStrategy is fixedUploadRate', () => {
+    const props = createProps();
+    props.videoUploadStrategy = VideoUploadStrategy.FIXED_UPLOAD_RATE;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(useFrameSelection).toHaveBeenCalledWith(
+      expect.objectContaining({ flushTrigger: undefined }),
     );
 
     unmount();
@@ -180,17 +249,22 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onCaptureVideoFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
-    const { startWalkaround, coveragePercentage } = (useVehicleWalkaround as jest.Mock).mock
-      .results[0].value;
+    const { coveragePercentage } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
+    const { capturedFramesCount, effectiveTargetFramesCount } = (
+      useSegmentFrameSelection as jest.Mock
+    ).mock.results[0].value;
     expect(useVideoRecording).toHaveBeenCalledWith(
       expect.objectContaining({
         isRecording: props.isRecording,
         setIsRecording: props.setIsRecording,
-        screenshotInterval: 200,
+        screenshotInterval: 100,
         minRecordingDuration: props.minRecordingDuration,
         enforceOrientation: props.enforceOrientation,
+        videoUploadStrategy: props.videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount: effectiveTargetFramesCount,
         coveragePercentage,
-        startWalkaround,
+        startWalkaround: expect.any(Function),
         onCaptureVideoFrame,
         onRecordingComplete: expect.any(Function),
         resetFastMovementDetection: expect.any(Function),
@@ -375,6 +449,30 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
+  it('should display the missing frames message in the backdrop dialog when isMissingTargetFrames is true', () => {
+    const props = createProps();
+    const { rerender, unmount } = render(<VideoCaptureHUD {...props} />);
+
+    (useVideoRecording as jest.Mock).mockImplementationOnce(() => ({
+      isRecordingPaused: true,
+      onClickRecordVideo: jest.fn(),
+      onDiscardDialogKeepRecording: jest.fn(),
+      onDiscardDialogDiscardVideo: jest.fn(),
+      isDiscardDialogDisplayed: true,
+      isMissingTargetFrames: true,
+      recordingDurationMs: 234,
+      pauseRecording: jest.fn(),
+      resumeRecording: jest.fn(),
+    }));
+    rerender(<VideoCaptureHUD {...props} />);
+    expectPropsOnChildMock(BackdropDialog, {
+      show: true,
+      message: 'video.recording.discardDialog.messageMissingFrames',
+    });
+
+    unmount();
+  });
+
   it('should display a backdrop dialog when the user moves too fast', () => {
     const props = createProps();
     const { rerender, unmount } = render(<VideoCaptureHUD {...props} />);
@@ -458,16 +556,80 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
-  it('should pass discardUploadedImages as onDiscardVideo to useVideoRecording', () => {
+  it('should discard the buffered frame before deleting the uploaded images when the video is discarded', () => {
+    const props = createProps();
+    mockNotPaused();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { discardBestFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
+    const { discardUploadedImages } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
+    const { onDiscardVideo } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    expect(discardBestFrame).not.toHaveBeenCalled();
+    expect(discardUploadedImages).not.toHaveBeenCalled();
+    act(() => {
+      onDiscardVideo();
+    });
+    expect(discardBestFrame).toHaveBeenCalled();
+    expect(discardUploadedImages).toHaveBeenCalled();
+    expect((discardBestFrame as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
+      (discardUploadedImages as jest.Mock).mock.invocationCallOrder[0],
+    );
+
+    unmount();
+  });
+
+  it('should flush the buffered frame before showing the processing screen when the recording completes', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
-    const { discardUploadedImages } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
-    expect(useVideoRecording).toHaveBeenCalledWith(
-      expect.objectContaining({
-        onDiscardVideo: discardUploadedImages,
-      }),
+    const { flushBestFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
+    const { onRecordingComplete } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    expect(flushBestFrame).not.toHaveBeenCalled();
+    expect(VideoCaptureProcessing).not.toHaveBeenCalled();
+    act(() => {
+      onRecordingComplete();
+    });
+    expect(flushBestFrame).toHaveBeenCalled();
+    expect(VideoCaptureProcessing).toHaveBeenCalled();
+    expect((flushBestFrame as jest.Mock).mock.invocationCallOrder[0]).toBeLessThan(
+      (VideoCaptureProcessing as jest.Mock).mock.invocationCallOrder[0],
     );
+
+    unmount();
+  });
+
+  it('should discard the buffered frame when a new walkaround starts', () => {
+    const props = createProps();
+    mockNotPaused();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { discardBestFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
+    const { startWalkaround } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
+    const { startSegmentTracking } = (useSegmentFrameSelection as jest.Mock).mock.results[0].value;
+    const { startWalkaround: handleStartWalkaround } = (useVideoRecording as jest.Mock).mock
+      .calls[0][0];
+    expect(discardBestFrame).not.toHaveBeenCalled();
+    act(() => {
+      handleStartWalkaround();
+    });
+    expect(discardBestFrame).toHaveBeenCalled();
+    expect(startWalkaround).toHaveBeenCalled();
+    expect(startSegmentTracking).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should discard the buffered frame when the recording is paused', () => {
+    const props = createProps();
+    mockNotPaused();
+    const { rerender, unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const resultsBeforeRerender = (useFrameSelection as jest.Mock).mock.results.length;
+    rerender(<VideoCaptureHUD {...props} />);
+    const { results } = (useFrameSelection as jest.Mock).mock;
+    expect(results.length).toBeGreaterThan(resultsBeforeRerender);
+    const { discardBestFrame } = results[results.length - 1].value;
+    expect(discardBestFrame).toHaveBeenCalled();
 
     unmount();
   });
