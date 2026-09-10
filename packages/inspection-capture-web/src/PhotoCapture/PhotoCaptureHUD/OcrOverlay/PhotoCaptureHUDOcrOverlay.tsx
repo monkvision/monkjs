@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture, MileageUnit } from '@monkvision/types';
@@ -20,6 +20,19 @@ import {
 
 /** Maximum time (ms) to wait for OCR to confirm text on the fallback image before declaring failure. */
 const FALLBACK_OCR_READ_TIMEOUT_MS = 8_000;
+
+function canvasToBlob(
+  canvas: OffscreenCanvas | HTMLCanvasElement,
+  mimetype: string,
+  quality: number,
+): Promise<Blob> {
+  if (canvas instanceof HTMLCanvasElement) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('toBlob returned null'))), mimetype, quality);
+    });
+  }
+  return canvas.convertToBlob({ type: mimetype, quality });
+}
 
 export interface PhotoCaptureHUDOcrOverlayProps {
   /** OCR and capture configuration (models, intervals, retry limits). */
@@ -106,27 +119,26 @@ export function PhotoCaptureHUDOcrOverlay({
     loadModels();
   }, [loadModels]);
 
-  // Reset fallback counters when the active sight changes.
-  useEffect(() => {
+  const resetOcrState = useCallback(() => {
     reset();
     setRetryCount(0);
     setIsTimedOut(false);
     processedFallbackUriRef.current = null;
     setHasFallbackImageData(false);
     setFallbackOcrFailed(false);
-  }, [sightId]);
+  }, [reset]);
+
+  // Reset when the active sight changes.
+  useEffect(() => {
+    resetOcrState();
+  }, [sightId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Also reset when the overlay becomes inactive (non-OCR sight selected).
   useEffect(() => {
     if (!isActive) {
-      reset();
-      setRetryCount(0);
-      setIsTimedOut(false);
-      processedFallbackUriRef.current = null;
-      setHasFallbackImageData(false);
-      setFallbackOcrFailed(false);
+      resetOcrState();
     }
-  }, [isActive]);
+  }, [isActive]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Timeout: if OCR hasn't confirmed within ocrTimeoutMs, unlock the shutter.
   useEffect(() => {
@@ -180,33 +192,17 @@ export function PhotoCaptureHUDOcrOverlay({
 
       const cropCanvas = cropCanvasRef.current;
       const mimetype = 'image/jpeg';
-      const applyBlob = (blob: Blob) => {
-        if (cancelled) {
-          return;
-        }
-        const uri = URL.createObjectURL(blob);
-        setOcrPicture({ blob, uri, mimetype, width: sw, height: sh });
-        if (config.allowManualInput) {
-          setIsEditing(true);
-          setEditText('');
-        }
-      };
-      if (cropCanvas instanceof HTMLCanvasElement) {
-        cropCanvas.toBlob(
-          (blob) => {
-            if (blob) {
-              applyBlob(blob);
-            }
-          },
-          mimetype,
-          0.92,
-        );
-      } else {
-        cropCanvas
-          .convertToBlob({ type: mimetype, quality: 0.92 })
-          .then(applyBlob)
-          .catch(() => {});
-      }
+      canvasToBlob(cropCanvas, mimetype, 0.92)
+        .then((blob) => {
+          if (cancelled) return;
+          const uri = URL.createObjectURL(blob);
+          setOcrPicture({ blob, uri, mimetype, width: sw, height: sh });
+          if (config.allowManualInput) {
+            setIsEditing(true);
+            setEditText('');
+          }
+        })
+        .catch(() => {});
 
       // Clear any in-flight live-OCR state before starting fallback OCR.
       reset();
@@ -266,28 +262,12 @@ export function PhotoCaptureHUDOcrOverlay({
     const canvas = cropCanvasRef.current;
     const { width, height } = canvas;
     const mimetype = 'image/jpeg';
-
-    const applyBlob = (blob: Blob) => {
-      const uri = URL.createObjectURL(blob);
-      setOcrPicture({ blob, uri, mimetype, width, height });
-    };
-
-    if (canvas instanceof HTMLCanvasElement) {
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            applyBlob(blob);
-          }
-        },
-        mimetype,
-        0.92,
-      );
-    } else {
-      canvas
-        .convertToBlob({ type: mimetype, quality: 0.92 })
-        .then(applyBlob)
-        .catch(() => setOcrPicture(null));
-    }
+    canvasToBlob(canvas, mimetype, 0.92)
+      .then((blob) => {
+        const uri = URL.createObjectURL(blob);
+        setOcrPicture({ blob, uri, mimetype, width, height });
+      })
+      .catch(() => setOcrPicture(null));
   }, [confirmedText, isFallbackReady]);
 
   useInterval(
@@ -350,6 +330,7 @@ export function PhotoCaptureHUDOcrOverlay({
     return null;
   }
 
+  const isOdometer = mode === 'odometer';
   const isConfirmed = confirmedText !== null;
   // In fallback mode the modal shows as soon as ocrPicture is set (even before OCR confirms).
   const showModal = ocrPicture !== null && (isConfirmed || isFallbackReady);
@@ -412,7 +393,6 @@ export function PhotoCaptureHUDOcrOverlay({
     reset();
   };
 
-  const isOdometer = mode === 'odometer';
   const isOcrLoading = hasFallbackImageData && confirmedText === null;
 
   // Modal shows the number only for odometer (unit is sent to the API separately).
@@ -427,7 +407,11 @@ export function PhotoCaptureHUDOcrOverlay({
         isInvalidReading = true;
       }
     } else {
-      modalText = confirmedText;
+      if (/[^A-Z0-9]/i.test(confirmedText)) {
+        isInvalidReading = true;
+      } else {
+        modalText = confirmedText;
+      }
     }
   }
   const fillFraction = isFallbackReady ? 0 : isConfirmed ? 1 : consistencyCount / appearanceCount;

@@ -50,6 +50,23 @@ The hook communicates with the worker via `postMessage`. Frames are transferred 
 | `appearanceCount` | `number` | `3` | Consecutive reads needed to confirm text |
 | `fuzzyTolerance` | `number` | `1` | Max Levenshtein distance to count as the same reading |
 
+### `UseOcrResult`
+
+| Field | Type | Description |
+|---|---|---|
+| `isReady` | `boolean` | True once models are loaded and frames can be processed |
+| `isLoading` | `boolean` | True while models are loading |
+| `isInferring` | `boolean` | True while a frame inference is in flight |
+| `fatalError` | `string \| null` | Set when the worker crashes; hook is unusable until remounted |
+| `confirmedText` | `string \| null` | Non-null once `appearanceCount` consistent readings accumulate |
+| `detectedText` | `string` | Raw text from the last processed frame |
+| `chars` | `OcrCharResult[]` | Per-character results (char + confidence) from the last frame |
+| `consistencyCount` | `number` | Consecutive consistent readings so far |
+| `loadModels` | `() => void` | Triggers model loading; no-op if already loading or ready |
+| `unloadModels` | `() => void` | Terminates and restarts the worker, freeing model memory |
+| `processFrame` | `(imageData: ImageData) => void` | Submits a frame for inference; ignored while another is in flight |
+| `reset` | `() => void` | Clears stabilizer state so the hook can confirm a new reading |
+
 ### `OCR_MODEL_URLS`
 
 Pre-configured URLs pointing to Monk's public GCS bucket (recognition model + dictionary).

@@ -123,10 +123,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
         setFatalError(fe);
         return;
       }
-      if (recError) {
-        console.error('[useOcr] Recognition error:', recError);
-      }
-      if (id !== reqIdRef.current) return;
+      if (recError || id !== reqIdRef.current) return;
 
       const resolvedChars = charsData ?? [];
       setChars(resolvedChars);
