@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Do you want to discard the video? You haven' t gone all the way around the vehicle.",
-        "messageMissingFrames": "Do you want to discard the video? Not all of the required photos have been captured yet.",
+        "messageMissingFrames": "Do you want to discard the video? Not all of the required footage has been captured yet.",
         "keepRecording": "Keep Recording",
         "discardVideo": "Discard Video"
       },
