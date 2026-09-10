@@ -5,10 +5,10 @@ import { isSimilarText } from '../ocr.utils';
 
 export interface UseOcrConfig {
   /**
-   * URL of the compiled Web Worker script. Use `OCR_WORKER_URL` exported from this package for
-   * the default (bundler-resolved) URL.
+   * URL of the compiled Web Worker script. Defaults to the bundler-resolved URL when omitted;
+   * override only when you need a custom worker location.
    */
-  workerUrl: string;
+  workerUrl?: string;
   /**
    * URL for the recognition ONNX model.
    */
@@ -103,7 +103,10 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     setFatalError(null);
     inFlightRef.current = false;
 
-    const worker = new Worker(workerUrl, { type: 'module' });
+    // eslint-disable-next-line no-restricted-globals
+    const worker = workerUrl
+      ? new Worker(workerUrl, { type: 'module' })
+      : new Worker(new URL('../ocr.worker.js', import.meta.url), { type: 'module' });
     workerRef.current = worker;
 
     worker.postMessage({
@@ -129,7 +132,9 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
         setFatalError(fe);
         return;
       }
-      if (recError || id !== reqIdRef.current) return;
+      if (recError || id !== reqIdRef.current) {
+        return;
+      }
 
       const resolvedChars = charsData ?? [];
       setChars(resolvedChars);
@@ -138,7 +143,9 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
       setDetectedText(text);
 
       // ── Stabilizer ────────────────────────────────────────────────────────
-      if (isLockedRef.current) return;
+      if (isLockedRef.current) {
+        return;
+      }
 
       if (!text.trim()) {
         consistencyCountRef.current = 0;
@@ -171,11 +178,14 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     return () => {
       worker.terminate();
     };
-  }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]); // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]);
 
   // ── Public API ───────────────────────────────────────────────────────────────
   const loadModels = useCallback(() => {
-    if (!workerRef.current || isReady || isLoading) return;
+    if (!workerRef.current || isReady || isLoading) {
+      return;
+    }
     setIsLoading(true);
     workerRef.current.postMessage({ type: 'load' });
   }, [isReady, isLoading]);
@@ -185,10 +195,13 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
   }, []);
 
   const processFrame = useCallback((imageData: ImageData) => {
-    if (inFlightRef.current || !workerRef.current || isLockedRef.current) return;
+    if (inFlightRef.current || !workerRef.current || isLockedRef.current) {
+      return;
+    }
     inFlightRef.current = true;
     setIsInferring(true);
-    const id = ++reqIdRef.current;
+    reqIdRef.current += 1;
+    const id = reqIdRef.current;
     workerRef.current.postMessage(
       { id, buffer: imageData.data.buffer, width: imageData.width, height: imageData.height },
       [imageData.data.buffer],

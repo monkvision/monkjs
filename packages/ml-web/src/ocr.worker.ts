@@ -40,7 +40,11 @@ function preprocessForRec(pixels: Uint8ClampedArray, width: number, height: numb
     recSrcW = width;
     recSrcH = height;
   }
-  recSrcCtx!.putImageData(
+  const srcCtx = recSrcCtx;
+  if (!srcCtx) {
+    throw new Error('Source canvas context unavailable');
+  }
+  srcCtx.putImageData(
     new ImageData(pixels as unknown as Uint8ClampedArray<ArrayBuffer>, width, height),
     0,
     0,
@@ -49,13 +53,17 @@ function preprocessForRec(pixels: Uint8ClampedArray, width: number, height: numb
     recDstCanvas = createCanvas(targetWidth, targetHeight);
     recDstCtx = get2dContext(recDstCanvas);
   }
-  recDstCtx!.fillStyle = 'white';
-  recDstCtx!.fillRect(0, 0, targetWidth, targetHeight);
+  const dstCtx = recDstCtx;
+  if (!dstCtx) {
+    throw new Error('Destination canvas context unavailable');
+  }
+  dstCtx.fillStyle = 'white';
+  dstCtx.fillRect(0, 0, targetWidth, targetHeight);
   const scale = Math.min(targetWidth / width, targetHeight / height);
   const sw = width * scale;
   const sh = height * scale;
-  recDstCtx!.drawImage(recSrcCanvas, (targetWidth - sw) / 2, (targetHeight - sh) / 2, sw, sh);
-  const img = recDstCtx!.getImageData(0, 0, targetWidth, targetHeight).data;
+  dstCtx.drawImage(recSrcCanvas, (targetWidth - sw) / 2, (targetHeight - sh) / 2, sw, sh);
+  const img = dstCtx.getImageData(0, 0, targetWidth, targetHeight).data;
   const pc = targetHeight * targetWidth;
   const td = new Float32Array(3 * pc);
   for (let i = 0, j = 0; i < pc; i++, j += 4) {
@@ -84,13 +92,13 @@ function ctcDecode(
         maxIdx = c;
       }
     }
-    if (maxIdx === 0 || maxIdx === prevIdx || maxIdx > dictionary.length) {
-      prevIdx = maxIdx;
-      continue;
+    if (maxIdx !== 0 && maxIdx !== prevIdx && maxIdx <= dictionary.length) {
+      let expSum = 0;
+      for (let c = 0; c < numClasses; c++) {
+        expSum += Math.exp(output[base + c] - maxVal);
+      }
+      result.push({ char: dictionary[maxIdx - 1], conf: 1 / expSum });
     }
-    let expSum = 0;
-    for (let c = 0; c < numClasses; c++) expSum += Math.exp(output[base + c] - maxVal);
-    result.push({ char: dictionary[maxIdx - 1], conf: 1 / expSum });
     prevIdx = maxIdx;
   }
   return result;
@@ -101,7 +109,9 @@ async function runRecognition(
   width: number,
   height: number,
 ): Promise<{ char: string; conf: number }[]> {
-  if (!recSession) throw new Error('Recognition model not initialized');
+  if (!recSession) {
+    throw new Error('Recognition model not initialized');
+  }
   const tensor = preprocessForRec(pixels, width, height);
   const results = await recSession.run({ [recSession.inputNames[0]]: tensor });
   tensor.dispose();
@@ -114,11 +124,16 @@ async function runRecognition(
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
 async function init(): Promise<void> {
-  if (initPromise) return initPromise;
-  if (!cfg) throw new Error('Worker not configured');
+  if (initPromise) {
+    return initPromise;
+  }
+  if (!cfg) {
+    throw new Error('Worker not configured');
+  }
+  const currentCfg = cfg;
   initPromise = (async () => {
-    recSession = await ort.InferenceSession.create(cfg!.recUrl, SESSION_OPTIONS);
-    const resp = await fetch(cfg!.dictUrl);
+    recSession = await ort.InferenceSession.create(currentCfg.recUrl, SESSION_OPTIONS);
+    const resp = await fetch(currentCfg.dictUrl);
     dictionary = (await resp.text()).split('\n').filter((l) => l !== '');
     postMessage({ id: -1, ready: true } satisfies OcrWorkerResponse);
   })();
@@ -127,6 +142,7 @@ async function init(): Promise<void> {
 
 // ─── Message handler ──────────────────────────────────────────────────────────
 
+// eslint-disable-next-line no-restricted-globals
 addEventListener('message', async (e: MessageEvent) => {
   if (e.data.type === 'config') {
     cfg = e.data as OcrWorkerConfig;

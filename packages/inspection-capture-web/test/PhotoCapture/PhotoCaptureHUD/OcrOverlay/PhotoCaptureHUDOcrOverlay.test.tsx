@@ -9,12 +9,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import { useOcr } from '@monkvision/ml-web';
-import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import {
   PhotoCaptureHUDOcrOverlay,
   PhotoCaptureHUDOcrOverlayProps,
 } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrOverlay';
-import { PhotoCaptureHUDOcrConfirmModal } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrConfirmModal';
 
 function createOcrResult(overrides: Record<string, unknown> = {}) {
   return {
@@ -34,7 +32,9 @@ function createOcrResult(overrides: Record<string, unknown> = {}) {
   };
 }
 
-function createProps(overrides?: Partial<PhotoCaptureHUDOcrOverlayProps>): PhotoCaptureHUDOcrOverlayProps {
+function createProps(
+  overrides?: Partial<PhotoCaptureHUDOcrOverlayProps>,
+): PhotoCaptureHUDOcrOverlayProps {
   return {
     config: { recModelUrl: 'test-rec-model-url', dictUrl: 'test-dict-url' },
     getImageData: jest.fn(() => new ImageData(100, 100)),
@@ -116,7 +116,9 @@ describe('PhotoCaptureHUDOcrOverlay', () => {
     (useOcr as jest.Mock).mockReturnValue(createOcrResult());
     render(
       <PhotoCaptureHUDOcrOverlay
-        {...createProps({ config: { recModelUrl: 'test-rec', dictUrl: 'test-dict', ocrTimeoutMs: 5000 } })}
+        {...createProps({
+          config: { recModelUrl: 'test-rec', dictUrl: 'test-dict', ocrTimeoutMs: 5000 },
+        })}
       />,
     );
     await act(async () => {

@@ -82,7 +82,9 @@ describe('PhotoCaptureHUDOcrConfirmModal', () => {
 
   describe('editing state (isEditing=true)', () => {
     it('renders a text input', () => {
-      render(<PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, editValue: 'ABC' })} />);
+      render(
+        <PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, editValue: 'ABC' })} />,
+      );
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
@@ -94,7 +96,9 @@ describe('PhotoCaptureHUDOcrConfirmModal', () => {
 
     it('calls onEditCancel when Cancel is clicked', () => {
       const onEditCancel = jest.fn();
-      render(<PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, onEditCancel })} />);
+      render(
+        <PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, onEditCancel })} />,
+      );
       fireEvent.click(screen.getByText('Cancel'));
       expect(onEditCancel).toHaveBeenCalledTimes(1);
     });
@@ -111,7 +115,9 @@ describe('PhotoCaptureHUDOcrConfirmModal', () => {
     });
 
     it('disables Confirm when editValue is empty', () => {
-      render(<PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, editValue: '' })} />);
+      render(
+        <PhotoCaptureHUDOcrConfirmModal {...createProps({ isEditing: true, editValue: '' })} />,
+      );
       expect(screen.getByText('Confirm').closest('button')).toBeDisabled();
     });
 

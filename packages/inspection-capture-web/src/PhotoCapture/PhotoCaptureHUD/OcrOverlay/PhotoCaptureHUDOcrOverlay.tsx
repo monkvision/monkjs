@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
-import { useOcr, OCR_STABILIZER_CONFIG, OCR_WORKER_URL, createCanvas, get2dContext } from '@monkvision/ml-web';
+import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture, MileageUnit } from '@monkvision/types';
 import { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
@@ -28,7 +28,11 @@ function canvasToBlob(
 ): Promise<Blob> {
   if (canvas instanceof HTMLCanvasElement) {
     return new Promise((resolve, reject) => {
-      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('toBlob returned null'))), mimetype, quality);
+      canvas.toBlob(
+        (blob) => (blob ? resolve(blob) : reject(new Error('toBlob returned null'))),
+        mimetype,
+        quality,
+      );
     });
   }
   return canvas.convertToBlob({ type: mimetype, quality });
@@ -91,13 +95,11 @@ export function PhotoCaptureHUDOcrOverlay({
     appearanceCount = OCR_STABILIZER_CONFIG.appearanceCount,
     maxOcrRetries = 2,
     ocrTimeoutMs = 20_000,
-    workerUrl = OCR_WORKER_URL,
     ...ocrConfig
   } = config;
   const { isReady, loadModels, processFrame, confirmedText, consistencyCount, reset } = useOcr({
     ...ocrConfig,
     appearanceCount,
-    workerUrl,
   });
 
   const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);
@@ -161,10 +163,10 @@ export function PhotoCaptureHUDOcrOverlay({
   // When a fallback picture arrives: show the confirm modal immediately, then run OCR in background.
   useEffect(() => {
     if (!fallbackPicture || !isFallbackReady) {
-      return;
+      return undefined;
     }
     if (processedFallbackUriRef.current === fallbackPicture.uri) {
-      return;
+      return undefined;
     }
     processedFallbackUriRef.current = fallbackPicture.uri;
     setFallbackOcrFailed(false);
@@ -196,7 +198,9 @@ export function PhotoCaptureHUDOcrOverlay({
       const mimetype = 'image/jpeg';
       canvasToBlob(cropCanvas, mimetype, 0.92)
         .then((blob) => {
-          if (cancelled) return;
+          if (cancelled) {
+            return;
+          }
           const uri = URL.createObjectURL(blob);
           setOcrPicture({ blob, uri, mimetype, width: sw, height: sh });
           if (config.allowManualInput) {
@@ -408,15 +412,19 @@ export function PhotoCaptureHUDOcrOverlay({
       } else {
         isInvalidReading = true;
       }
+    } else if (/[^A-Z0-9]/i.test(confirmedText)) {
+      isInvalidReading = true;
     } else {
-      if (/[^A-Z0-9]/i.test(confirmedText)) {
-        isInvalidReading = true;
-      } else {
-        modalText = confirmedText;
-      }
+      modalText = confirmedText;
     }
   }
-  const fillFraction = isFallbackReady ? 0 : isConfirmed ? 1 : consistencyCount / appearanceCount;
+  let fillFraction = consistencyCount / appearanceCount;
+  if (isConfirmed) {
+    fillFraction = 1;
+  }
+  if (isFallbackReady) {
+    fillFraction = 0;
+  }
   const containerW = previewDimensions?.width ?? 0;
   const containerH = previewDimensions?.height ?? 0;
   const boxW = containerW * cropRegion.w;
@@ -455,7 +463,9 @@ export function PhotoCaptureHUDOcrOverlay({
       )}
       <div style={overlayStyle}>
         {isFallbackReady && !ocrPicture && (
-          <div style={getShutterHintStyle(cropRegion)}>Use the shutter button to take a picture</div>
+          <div style={getShutterHintStyle(cropRegion)}>
+            Use the shutter button to take a picture
+          </div>
         )}
         <div style={getCropBoxStyle(cropRegion)}>
           <svg

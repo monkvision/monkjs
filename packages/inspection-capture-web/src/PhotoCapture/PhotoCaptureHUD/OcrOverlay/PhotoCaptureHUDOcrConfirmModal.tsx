@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BackdropDialog, Button } from '@monkvision/common-ui-web';
 import { OcrMode } from '../../hooks';
 import { styles, SPINNER_KEYFRAMES } from './PhotoCaptureHUDOcrConfirmModal.styles';
@@ -67,96 +67,121 @@ export function PhotoCaptureHUDOcrConfirmModal({
 
   const confirmDisabled = isEditing ? !editValue : isOcrLoading && !text;
 
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current?.focus();
+    }
+  }, [isEditing]);
+
+  let displayContent: React.ReactNode;
+  if (isInvalidReading) {
+    displayContent = (
+      <div style={styles.errorMessage}>The detected value is not valid. Please scan again.</div>
+    );
+  } else if (ocrFailed) {
+    displayContent = (
+      <div style={styles.errorMessage}>
+        Unable to detect the text. You can proceed to the next sight.
+      </div>
+    );
+  } else if (isOcrLoading && !text && !editValue) {
+    displayContent = <div style={styles.spinner} />;
+  } else if (isEditing) {
+    displayContent = (
+      <input
+        ref={inputRef}
+        style={styles.input}
+        value={editValue}
+        onChange={handleInputChange}
+        inputMode={mode === 'odometer' ? 'numeric' : 'text'}
+      />
+    );
+  } else {
+    displayContent = <div style={styles.text}>{text}</div>;
+  }
+
+  let buttonContent: React.ReactNode;
+  if (isInvalidReading) {
+    buttonContent = (
+      <Button
+        variant='outline'
+        primaryColor='alert-light'
+        secondaryColor='background-dark'
+        style={styles.button}
+        onClick={onInvalidReading}
+      >
+        Close
+      </Button>
+    );
+  } else if (ocrFailed) {
+    buttonContent = (
+      <Button
+        variant='outline'
+        primaryColor='primary-xlight'
+        secondaryColor='background-dark'
+        style={styles.button}
+        onClick={onOcrFailed}
+      >
+        Continue
+      </Button>
+    );
+  } else if (isEditing) {
+    buttonContent = (
+      <>
+        <Button
+          variant='outline'
+          primaryColor='alert-light'
+          secondaryColor='background-dark'
+          style={styles.button}
+          onClick={onEditCancel}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant='outline'
+          primaryColor='primary-xlight'
+          secondaryColor='background-dark'
+          style={styles.button}
+          disabled={confirmDisabled}
+          onClick={onConfirm}
+        >
+          Confirm
+        </Button>
+      </>
+    );
+  } else {
+    buttonContent = (
+      <>
+        <Button
+          variant='outline'
+          primaryColor='alert-light'
+          secondaryColor='background-dark'
+          style={styles.button}
+          onClick={onReject}
+        >
+          No
+        </Button>
+        <Button
+          variant='outline'
+          primaryColor='primary-xlight'
+          secondaryColor='background-dark'
+          style={styles.button}
+          disabled={confirmDisabled}
+          onClick={onConfirm}
+        >
+          Yes
+        </Button>
+      </>
+    );
+  }
+
   const dialog = (
     <div style={styles.dialog}>
       <style>{SPINNER_KEYFRAMES}</style>
       <img src={imageUri} alt='Detected frame' style={styles.image} />
-      {isInvalidReading ? (
-        <div style={styles.errorMessage}>The detected value is not valid. Please scan again.</div>
-      ) : ocrFailed ? (
-        <div style={styles.errorMessage}>
-          Unable to detect the text. You can proceed to the next sight.
-        </div>
-      ) : isOcrLoading && !text && !editValue ? (
-        <div style={styles.spinner} />
-      ) : isEditing ? (
-        <input
-          style={styles.input}
-          value={editValue}
-          onChange={handleInputChange}
-          inputMode={mode === 'odometer' ? 'numeric' : 'text'}
-          autoFocus
-        />
-      ) : (
-        <div style={styles.text}>{text}</div>
-      )}
-      <div style={styles.buttons}>
-        {isInvalidReading ? (
-          <Button
-            variant='outline'
-            primaryColor='alert-light'
-            secondaryColor='background-dark'
-            style={styles.button}
-            onClick={onInvalidReading}
-          >
-            Close
-          </Button>
-        ) : ocrFailed ? (
-          <Button
-            variant='outline'
-            primaryColor='primary-xlight'
-            secondaryColor='background-dark'
-            style={styles.button}
-            onClick={onOcrFailed}
-          >
-            Continue
-          </Button>
-        ) : isEditing ? (
-          <>
-            <Button
-              variant='outline'
-              primaryColor='alert-light'
-              secondaryColor='background-dark'
-              style={styles.button}
-              onClick={onEditCancel}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant='outline'
-              primaryColor='primary-xlight'
-              secondaryColor='background-dark'
-              style={styles.button}
-              disabled={confirmDisabled}
-              onClick={onConfirm}
-            >
-              Confirm
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              variant='outline'
-              primaryColor='alert-light'
-              secondaryColor='background-dark'
-              style={styles.button}
-              onClick={onReject}
-            >
-              No
-            </Button>
-            <Button
-              variant='outline'
-              primaryColor='primary-xlight'
-              secondaryColor='background-dark'
-              style={styles.button}
-              disabled={confirmDisabled}
-              onClick={onConfirm}
-            >
-              Yes
-            </Button>
-          </>
-        )}
-      </div>
+      {displayContent}
+      <div style={styles.buttons}>{buttonContent}</div>
     </div>
   );
 

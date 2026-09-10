@@ -28,12 +28,7 @@ export interface OcrSightConfig {
   defaultMileageUnit?: MileageUnit;
 }
 
-export interface PhotoCaptureOcrConfig extends Omit<UseOcrConfig, 'workerUrl'> {
-  /**
-   * URL of the compiled Web Worker script. Defaults to `OCR_WORKER_URL` from `@monkvision/ml-web`
-   * when not provided.
-   */
-  workerUrl?: string;
+export interface PhotoCaptureOcrConfig extends UseOcrConfig {
   /**
    * How often (in ms) to grab a frame from the camera and feed it to the OCR pipeline.
    * @default 600
@@ -59,4 +54,3 @@ export interface PhotoCaptureOcrConfig extends Omit<UseOcrConfig, 'workerUrl'> {
    */
   ocrTimeoutMs?: number;
 }
-
