@@ -16,7 +16,7 @@ export default defineConfig({
     alias: {
       "react-router-dom": path.resolve(
         __dirname,
-        "node_modules/react-router-dom"
+        "../../node_modules/react-router-dom"
       ),
     },
   },
@@ -38,7 +38,6 @@ export default defineConfig({
       "@monkvision/camera-web",
       "@monkvision/common-ui-web",
       "@monkvision/inspection-capture-web",
-      "@monkvision/inspection-review",
       "@monkvision/posthog",
       "@monkvision/sights",
     ],
