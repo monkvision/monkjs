@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useObjectMemo } from '@monkvision/common';
 
 /**
  * Lower bound of the target frame count, corresponding to the widest allowed spacing between two captured frames
@@ -60,9 +61,11 @@ export interface SegmentFrameSelectionHandle {
 }
 
 /**
- * Custom hook used to trigger a frame capture at evenly-spaced angular positions around the vehicle, so that a
- * predictable number of frames (targetFramesCount, +/- 1) are captured over a full 360° walkaround, regardless of
- * the speed or pattern at which the user walks around the vehicle.
+ * Custom hook used to trigger a frame capture at evenly-spaced angular positions around the vehicle, so that exactly
+ * `targetFramesCount` frames are captured over a full 360° walkaround, regardless of the speed or pattern at which
+ * the user walks around the vehicle.
+ *
+ * Note: buckets skipped entirely by a fast walker still reduce this total.
  *
  * The walkaround is divided into `targetFramesCount` buckets. Every time the user's position enters a bucket that
  * has not already been captured, a new frame is triggered. Because captured buckets are tracked for the whole
@@ -81,28 +84,31 @@ export function useSegmentFrameSelection({
   const bucketSizeDegrees = 360 / totalBuckets;
 
   const [flushTrigger, setFlushTrigger] = useState(0);
-  const [capturedBuckets, setCapturedBuckets] = useState<Set<number>>(new Set());
+  const capturedBuckets = useRef<Set<number>>(new Set());
+  const [capturedFramesCount, setCapturedFramesCount] = useState(0);
 
   useEffect(() => {
     if (!isRecording) {
       return;
     }
     const currentBucket = Math.floor(walkaroundPosition / bucketSizeDegrees) % totalBuckets;
-    if (!capturedBuckets.has(currentBucket)) {
-      setCapturedBuckets((prev) => new Set(prev).add(currentBucket));
-      setFlushTrigger((value) => value + 1);
+    if (capturedBuckets.current.has(currentBucket)) {
+      return;
     }
-  }, [walkaroundPosition, isRecording, bucketSizeDegrees, totalBuckets, capturedBuckets]);
+    capturedBuckets.current.add(currentBucket);
+    setCapturedFramesCount(capturedBuckets.current.size);
+    setFlushTrigger((value) => value + 1);
+  }, [walkaroundPosition, isRecording, bucketSizeDegrees, totalBuckets]);
 
   const startSegmentTracking = useCallback(() => {
-    setCapturedBuckets(new Set([0]));
-    setFlushTrigger((value) => value + 1);
+    capturedBuckets.current = new Set([0]);
+    setCapturedFramesCount(1);
   }, []);
 
-  return {
+  return useObjectMemo({
     flushTrigger,
-    capturedFramesCount: capturedBuckets.size,
+    capturedFramesCount,
     effectiveTargetFramesCount: totalBuckets,
     startSegmentTracking,
-  };
+  });
 }

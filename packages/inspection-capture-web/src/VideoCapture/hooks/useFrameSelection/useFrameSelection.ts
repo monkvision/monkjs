@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MonkPicture } from '@monkvision/types';
 import { useInterval, useObjectMemo, useQueue } from '@monkvision/common';
 import { CameraHandle } from '@monkvision/camera-web';
@@ -46,6 +46,18 @@ export interface FrameSelectionHandle {
    * Callback called when a video frame should be captured.
    */
   onCaptureVideoFrame: () => void;
+  /**
+   * Callback used to upload the currently buffered best frame (if any) to the API, and reset the buffer. Used by the
+   * `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE` strategy to flush the frame captured in the last angular bucket of the
+   * walkaround, once the recording is complete.
+   */
+  flushBestFrame: () => void;
+  /**
+   * Callback used to discard the currently buffered best frame (if any), without uploading it. Used every time the
+   * buffered frame should not be trusted anymore: when the recording is paused (the frame may no longer match the
+   * angle at which the recording resumes), when a new walkaround starts, or when the current recording is discarded.
+   */
+  discardBestFrame: () => void;
 }
 
 /**
@@ -62,14 +74,15 @@ export function useFrameSelection({
 }: UseFrameSelectionParams): FrameSelectionHandle {
   const bestScore = useRef<number | null>(null);
   const bestFrame = useRef<ImageData | null>(null);
+  const generation = useRef(0);
+  const [startedFlushes, setStartedFlushes] = useState(0);
+  const [settledFlushes, setSettledFlushes] = useState(0);
   const { handleError } = useMonitoring();
 
   const processingQueue = useQueue(
     (image: ImageData) =>
       new Promise<void>((resolve) => {
-        // Note : Other array-copying methods might result in performance issues
-        const imagePixelsCopy = image.data.slice();
-        const laplaceScores = calculateLaplaceScores(imagePixelsCopy, image.width, image.height);
+        const laplaceScores = calculateLaplaceScores(image.data, image.width, image.height);
         if (bestScore.current === null || laplaceScores.std > bestScore.current) {
           bestScore.current = laplaceScores.std;
           bestFrame.current = image;
@@ -84,15 +97,30 @@ export function useFrameSelection({
   }, [processingQueue.push]);
 
   const flushBestFrame = useCallback(() => {
-    if (bestFrame.current !== null) {
-      handle
-        .compressImage(bestFrame.current)
-        .then((picture) => onFrameSelected?.(picture))
-        .catch(handleError);
-    }
+    const frame = bestFrame.current;
     bestScore.current = null;
     bestFrame.current = null;
+    if (frame === null) {
+      return;
+    }
+    const flushGeneration = generation.current;
+    setStartedFlushes((count) => count + 1);
+    handle
+      .compressImage(frame)
+      .then((picture) => {
+        if (flushGeneration === generation.current) {
+          onFrameSelected?.(picture);
+        }
+      })
+      .catch(handleError)
+      .finally(() => setSettledFlushes((count) => count + 1));
   }, [handle, onFrameSelected, handleError]);
+
+  const discardBestFrame = useCallback(() => {
+    generation.current += 1;
+    bestScore.current = null;
+    bestFrame.current = null;
+  }, []);
 
   useInterval(flushBestFrame, flushTrigger === undefined ? frameSelectionInterval : null);
 
@@ -104,8 +132,10 @@ export function useFrameSelection({
   }, [flushTrigger]);
 
   return useObjectMemo({
-    processedFrames: processingQueue.totalItems - processingQueue.processingCount,
-    totalProcessingFrames: processingQueue.totalItems,
+    processedFrames: processingQueue.totalItems - processingQueue.processingCount + settledFlushes,
+    totalProcessingFrames: processingQueue.totalItems + startedFlushes,
     onCaptureVideoFrame,
+    flushBestFrame,
+    discardBestFrame,
   });
 }
