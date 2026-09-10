@@ -27,7 +27,7 @@ export function App() {
 
   return (
     <LiveConfigAppProvider
-      id={getEnvOrThrow('REACT_APP_LIVE_CONFIG_ID')}
+      id={getEnvOrThrow('VITE_LIVE_CONFIG_ID')}
       localConfig={localConfig}
       onFetchAuthToken={() => navigate(Page.CREATE_INSPECTION)}
       onFetchLanguage={(lang) => i18n.changeLanguage(lang)}
