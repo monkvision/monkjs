@@ -4944,6 +4944,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/eslint-config-base@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/eslint-config-base@npm:5.3.11"
+  peerDependencies:
+    eslint: ^8.27.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+  checksum: 0c879e2fdd0fb3d0b526fa5894da24953e2ef0d1423d7523b5311e4b16fa1ba218e03c2714318161480d78116a33ad0f3fb6d9afb47640b516a9f7e93a97cb03
+  languageName: node
+  linkType: hard
+
 "@monkvision/eslint-config-typescript-react@5.4.6, @monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript-react@workspace:configs/eslint-config-typescript-react"
@@ -4955,6 +4971,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/eslint-config-typescript-react@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/eslint-config-typescript-react@npm:5.3.11"
+  peerDependencies:
+    "@monkvision/eslint-config-typescript": "*"
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+  checksum: 95c176ef6a47625052ca518c988f1432fe714ef519d1b77cbfb9ba68ca2103498aece750dedce683357d4443ccf61ecbb3819f964561029d9b564fd10b17546e
+  languageName: node
+  linkType: hard
+
 "@monkvision/eslint-config-typescript@5.4.6, @monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript":
   version: 0.0.0-use.local
   resolution: "@monkvision/eslint-config-typescript@workspace:configs/eslint-config-typescript"
@@ -4965,6 +4993,18 @@ __metadata:
     typescript: ^5.9.2
   languageName: unknown
   linkType: soft
+
+"@monkvision/eslint-config-typescript@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/eslint-config-typescript@npm:5.3.11"
+  peerDependencies:
+    "@monkvision/eslint-config-base": "*"
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    typescript: ^5.9.2
+  checksum: 18c2014169b3cd77bc8029f334d3b0443bce2b4c50e188600cfe57bf6bc100e22592374e3d3bb1cdb0c0ba515d2523ea217e527f85b4435188735632aa8fa293
+  languageName: node
+  linkType: hard
 
 "@monkvision/inspection-capture-web@5.4.6, @monkvision/inspection-capture-web@workspace:packages/inspection-capture-web":
   version: 0.0.0-use.local
@@ -5088,6 +5128,58 @@ __metadata:
   resolution: "@monkvision/jest-config@workspace:configs/jest-config"
   peerDependencies:
     prettier: ^2.7.1
+  languageName: unknown
+  linkType: soft
+
+"@monkvision/jest-config@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/jest-config@npm:5.3.11"
+  peerDependencies:
+    prettier: ^2.7.1
+  checksum: 3310ffebdad45b6c550109f4820e7cd0a4425a8440053d71e21145b3e0b4e52dbaa87078f1ed72497f8befa57b501b7de1f6c20bd274697d230ca0880539289d
+  languageName: node
+  linkType: hard
+
+"@monkvision/ml-web@workspace:packages/ml-web":
+  version: 0.0.0-use.local
+  resolution: "@monkvision/ml-web@workspace:packages/ml-web"
+  dependencies:
+    "@monkvision/eslint-config-base": 5.3.11
+    "@monkvision/eslint-config-typescript": 5.3.11
+    "@monkvision/eslint-config-typescript-react": 5.3.11
+    "@monkvision/jest-config": 5.3.11
+    "@monkvision/prettier-config": 5.3.11
+    "@monkvision/test-utils": 5.3.11
+    "@monkvision/typescript-config": 5.3.11
+    "@testing-library/react": ^16.3.0
+    "@types/jest": ^30
+    "@types/node": ^24.5.2
+    "@typescript-eslint/eslint-plugin": ^5.43.0
+    "@typescript-eslint/parser": ^5.43.0
+    eslint: ^8.29.0
+    eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.5.0
+    eslint-formatter-pretty: ^4.1.0
+    eslint-plugin-eslint-comments: ^3.2.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-promise: ^6.1.1
+    eslint-plugin-react: ^7.27.1
+    eslint-plugin-react-hooks: ^4.3.0
+    eslint-utils: ^3.0.0
+    jest: ^30.2
+    jest-environment-jsdom: ^30.2
+    mkdirp: ^1.0.4
+    onnxruntime-web: ^1.27.0
+    prettier: ^2.7.1
+    regexpp: ^3.2.0
+    rimraf: ^3.0.2
+    ts-jest: ^29.4.6
+    typescript: ^5.9.2
+  peerDependencies:
+    react: ^19.2.3
   languageName: unknown
   linkType: soft
 
@@ -5235,6 +5327,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@monkvision/prettier-config@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/prettier-config@npm:5.3.11"
+  peerDependencies:
+    prettier: ^2.7.1
+  checksum: 5701012f26619ee9db7c1967100adc07dd8a378a18c13f4398e12de140bb806416258fe7e33f823c4133482907d308dffde7a0385eb6ecdacaecec96ae57f548
+  languageName: node
+  linkType: hard
+
 "@monkvision/sentry@5.4.6, @monkvision/sentry@workspace:packages/sentry":
   version: 0.0.0-use.local
   resolution: "@monkvision/sentry@workspace:packages/sentry"
@@ -5360,6 +5461,13 @@ __metadata:
     typescript: ^4.8.4
   languageName: unknown
   linkType: soft
+
+"@monkvision/test-utils@npm:5.3.11":
+  version: 5.3.11
+  resolution: "@monkvision/test-utils@npm:5.3.11"
+  checksum: 0f9786053d515eef7f4b1bfe40c4001291b8574dbdb191a30975859280fcc72934448d0fadef6b81d758ac7973e35559559ef88d2bd513ef33b5e68338964b90
+  languageName: node
+  linkType: hard
 
 "@monkvision/types@5.4.6, @monkvision/types@workspace:packages/types":
   version: 0.0.0-use.local
@@ -7529,6 +7637,15 @@ __metadata:
   dependencies:
     undici-types: ~8.9.0
   checksum: eb3f2aa537b2749e851dc40fbd97aefe281d4aa0de36cc93a3772a2f30821c800782119985d6dbf25f0477bbb0cc04a1ad82c97930b3f904aa6601943025f7d6
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=13.7.0":
+  version: 26.1.1
+  resolution: "@types/node@npm:26.1.1"
+  dependencies:
+    undici-types: ~8.3.0
+  checksum: c6727bd4761280b389a2706cc55cbb3511f37f3e2aa609dda65590e1aec5690ce3b14a865edd070c97c5ae4f566dbbae1a811c1b61f69efaee4226015205f304
   languageName: node
   linkType: hard
 
@@ -13064,6 +13181,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flatbuffers@npm:^25.1.24":
+  version: 25.9.23
+  resolution: "flatbuffers@npm:25.9.23"
+  checksum: f20704f6b6bd57c19067dedf1fd0c2635c56cadb41f08470536f61fbb61503f78dfc5122b8d067763c247eee6c29eb382b56cf8d44e56fe78341392f7e2f021e
+  languageName: node
+  linkType: hard
+
 "flatted@npm:^3.2.9":
   version: 3.4.4
   resolution: "flatted@npm:3.4.4"
@@ -13641,6 +13765,13 @@ __metadata:
     section-matter: ^1.0.0
     strip-bom-string: ^1.0.0
   checksum: 37717bd424344487d655392251ce8d8878a1275ee087003e61208fba3bfd59cbb73a85b2159abf742ae95e23db04964813fdc33ae18b074208428b2528205222
+  languageName: node
+  linkType: hard
+
+"guid-typescript@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "guid-typescript@npm:1.0.9"
+  checksum: 829dd87866800a5138aafa0873994028bbc446eb20ff4cae6452d471a2a3d26f7025bed3eb980692c0f022fd22f95ea7396122b46b45a4b5084958505a4fc50c
   languageName: node
   linkType: hard
 
@@ -16869,6 +17000,13 @@ __metadata:
     chalk: ^4.1.0
     is-unicode-supported: ^0.1.0
   checksum: fce1497b3135a0198803f9f07464165e9eb83ed02ceb2273930a6f8a508951178d8cf4f0378e9d28300a2ed2bc49050995d2bd5f53ab716bb15ac84d58c6ef74
+  languageName: node
+  linkType: hard
+
+"long@npm:^5.2.3, long@npm:^5.3.2":
+  version: 5.3.2
+  resolution: "long@npm:5.3.2"
+  checksum: be215816b563f4ca27ad3677678b53415bc489f9e3466414e54d2d85f5f8e86768547fa58493bacfb363ffc57a664debc83403ccc2178aef0c40aca28bad47c9
   languageName: node
   linkType: hard
 
@@ -21054,6 +21192,25 @@ __metadata:
   version: 1.2.4
   resolution: "proto-list@npm:1.2.4"
   checksum: 4d4826e1713cbfa0f15124ab0ae494c91b597a3c458670c9714c36e8baddf5a6aad22842776f2f5b137f259c8533e741771445eb8df82e861eea37a6eaba03f7
+  languageName: node
+  linkType: hard
+
+"protobufjs@npm:^7.2.4":
+  version: 7.6.5
+  resolution: "protobufjs@npm:7.6.5"
+  dependencies:
+    "@protobufjs/aspromise": ^1.1.2
+    "@protobufjs/base64": ^1.1.2
+    "@protobufjs/codegen": ^2.0.5
+    "@protobufjs/eventemitter": ^1.1.1
+    "@protobufjs/fetch": ^1.1.1
+    "@protobufjs/float": ^1.0.2
+    "@protobufjs/path": ^1.1.2
+    "@protobufjs/pool": ^1.1.0
+    "@protobufjs/utf8": ^1.1.1
+    "@types/node": ">=13.7.0"
+    long: ^5.3.2
+  checksum: 6d3f18324942f8cabf003b68b81a445e8089a3f89cfae227feedbe4bfe8aea8629f6332cbe6176842cbe645704e4a25d4773b55c3b63d923034b3e6b4eacbb78
   languageName: node
   linkType: hard
 
