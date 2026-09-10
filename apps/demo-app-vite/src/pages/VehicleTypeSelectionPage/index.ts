@@ -1,1 +1,1 @@
-export * from './VehicleTypeSelectionPage';
+export * from "./VehicleTypeSelectionPage";
