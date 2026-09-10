@@ -107,6 +107,83 @@ export function MonkPhotoCapturePage({ authToken }) {
 | useAdaptiveImageQuality            | `boolean`                                    | Boolean indicating if the image quality should be downgraded automatically in case of low connection.                                                                                            |          | `true`                                       |
 | vehicleType                        | `VehicleType`                                | The vehicle type of the inspection.                                                                                                                                                              |          | `VehicleType.SEDAN`                          |
 | enableBeautyShotExtraction         | `boolean`                                    | Boolean indicating if beauty shot extraction should be enabled or not. Should only be enabled when PhotoCapture is used combined with VideoCapture.                                               |          | `false`                                      |
+| ocrConfig                          | `PhotoCaptureOcrConfig`                      | When provided, enables live on-device OCR on the camera preview (e.g. to read a VIN or odometer). See the OCR section below for details.                                                        |          |                                              |
+| ocrSights                          | `OcrSightConfig[]`                           | Maps sight IDs to their OCR mode. The OCR overlay is only active when one of these sights is selected.                                                                                          |          |                                              |
+
+## Live OCR
+
+The PhotoCapture component supports live on-device OCR for reading vehicle identifiers (VIN, odometer) directly from
+the camera feed — no server round-trip required. Inference runs inside a Web Worker powered by ONNX Runtime WASM.
+
+When OCR is active on a sight, a crop-box overlay highlights the region of interest and a progress bar fills as
+consistent readings accumulate. Once text is confirmed, a modal shows the cropped image alongside the detected value
+and lets the user confirm or reject the reading.
+
+### Enabling OCR
+
+Pass `ocrConfig` and `ocrSights` to `PhotoCapture`. The easiest way to supply model URLs is to use the pre-configured
+`OCR_MODEL_URLS` constant from `@monkvision/ml-web`:
+
+```tsx
+import { OCR_MODEL_URLS } from '@monkvision/ml-web';
+import { MileageUnit } from '@monkvision/types';
+import { PhotoCapture } from '@monkvision/inspection-capture-web';
+
+const ocrSights = [
+  { sightId: 'fesc20-0mJeXBDf', mode: 'vin' },
+  { sightId: 'fesc20-26n47kaO', mode: 'odometer', defaultMileageUnit: MileageUnit.KM },
+];
+
+export function MonkPhotoCapturePage({ authToken }) {
+  return (
+    <PhotoCapture
+      inspectionId={inspectionId}
+      apiConfig={{ apiDomain, authToken }}
+      sights={PHOTO_CAPTURE_SIGHTS}
+      ocrConfig={{ ...OCR_MODEL_URLS }}
+      ocrSights={ocrSights}
+      onComplete={() => { /* Navigate to another page */ }}
+    />
+  );
+}
+```
+
+### `PhotoCaptureOcrConfig`
+
+Extends `UseOcrConfig` from `@monkvision/ml-web`.
+
+| Field              | Type      | Default       | Description                                                                                  |
+|--------------------|-----------|---------------|----------------------------------------------------------------------------------------------|
+| `recModelUrl`      | `string`  | —             | URL of the ONNX recognition model (**required**)                                             |
+| `dictUrl`          | `string`  | —             | URL of the character dictionary, one character per line (**required**)                        |
+| `wasmBaseUrl`      | `string`  | jsDelivr CDN  | Base URL for the ONNX Runtime WASM files                                                     |
+| `appearanceCount`  | `number`  | `3`           | Consecutive consistent readings needed to confirm text                                       |
+| `fuzzyTolerance`   | `number`  | `1`           | Max Levenshtein distance between readings to still count as the same                         |
+| `captureIntervalMs`| `number`  | `600`         | How often (ms) a frame is grabbed from the camera and fed to the OCR pipeline               |
+| `allowManualInput` | `boolean` | `false`       | When true, the final rejection opens a text input so the user can correct the reading manually |
+| `maxOcrRetries`    | `number`  | `2`           | Number of rejected readings before the shutter is unlocked for a manual picture              |
+| `ocrTimeoutMs`     | `number`  | `20000`       | Time (ms) before live OCR gives up and unlocks the shutter button                           |
+
+### `OcrSightConfig`
+
+| Field                | Type                   | Description                                                                           |
+|----------------------|------------------------|---------------------------------------------------------------------------------------|
+| `sightId`            | `string`               | The sight ID that activates this OCR mode                                             |
+| `mode`               | `'vin' \| 'odometer'`  | How the confirmed text is interpreted and sent to the API                             |
+| `defaultMileageUnit` | `MileageUnit`          | Fallback unit when OCR cannot detect one (odometer mode only; defaults to `KM`)       |
+
+### OCR flow
+
+1. **Live scan** — while the sight is active, the component continuously captures frames from the camera and runs the
+   OCR model on the crop-box region. A progress bar fills as consistent readings accumulate.
+2. **Confirmation modal** — once text is confirmed (or the timeout/retry limit is reached and the user takes a manual
+   picture), a modal shows the cropped image alongside the detected value.
+3. **Confirm or reject** — the user confirms the reading (sent to the API via `updateInspectionVehicle`) or rejects
+   it to trigger a new scan. After `maxOcrRetries` rejections, the shutter button is unlocked.
+4. **Validation** — odometer values outside the `0–1 000 000` range and VIN values containing non-alphanumeric
+   characters are flagged as invalid, prompting the user to scan again.
+5. **Manual fallback** — when `allowManualInput` is `true`, the last rejection before the limit opens a text input so
+   the user can correct the detected value before confirming.
 
 # VideoCapture
 

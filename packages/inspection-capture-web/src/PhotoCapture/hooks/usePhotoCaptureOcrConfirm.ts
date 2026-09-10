@@ -6,11 +6,19 @@ import { parseOdometerText } from '../PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUD
 import { OcrMode } from './ocrTypes';
 
 export interface UsePhotoCaptureOcrConfirmParams {
+  /** ID of the inspection this OCR reading will be stored against. */
   inspectionId: string;
+  /** API configuration (auth token, base URL, etc.). */
   apiConfig: MonkApiConfig;
 }
 
 export interface UsePhotoCaptureOcrConfirmResult {
+  /**
+   * Sends the confirmed OCR reading to the Monk API.
+   * - `'odometer'`: parses the mileage value and unit, then calls `updateInspectionVehicle`.
+   * - `'vin'`: calls `updateInspectionVehicle` with the raw VIN string.
+   * No-ops when `mode` is undefined or the odometer value cannot be parsed.
+   */
   handleOcrConfirm: (
     text: string,
     mode: OcrMode | undefined,
