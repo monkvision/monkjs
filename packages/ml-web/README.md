@@ -11,11 +11,12 @@ Inference runs inside a **Web Worker** so the main thread stays unblocked. The w
 ## Usage
 
 ```tsx
-import { useOcr, OCR_MODEL_URLS, OCR_STABILIZER_CONFIG } from '@monkvision/ml-web';
+import { useOcr, OCR_MODEL_URLS, OCR_STABILIZER_CONFIG, OCR_WORKER_URL } from '@monkvision/ml-web';
 
 function MyComponent() {
   const { isReady, loadModels, processFrame, confirmedText, reset } = useOcr({
     ...OCR_MODEL_URLS,
+    workerUrl: OCR_WORKER_URL,
     appearanceCount: OCR_STABILIZER_CONFIG.appearanceCount,
   });
 
@@ -44,6 +45,7 @@ The hook communicates with the worker via `postMessage`. Frames are transferred 
 
 | Config field | Type | Default | Description |
 |---|---|---|---|
+| `workerUrl` | `string` | — | URL of the compiled Web Worker script — use `OCR_WORKER_URL` for the default |
 | `recModelUrl` | `string` | — | URL of the ONNX recognition model |
 | `dictUrl` | `string` | — | URL of the character dictionary (one char per line) |
 | `wasmBaseUrl` | `string` | jsDelivr CDN | Base URL for ONNX Runtime WASM files |
@@ -66,6 +68,13 @@ The hook communicates with the worker via `postMessage`. Frames are transferred 
 | `unloadModels` | `() => void` | Terminates and restarts the worker, freeing model memory |
 | `processFrame` | `(imageData: ImageData) => void` | Submits a frame for inference; ignored while another is in flight |
 | `reset` | `() => void` | Clears stabilizer state so the hook can confirm a new reading |
+
+### `OCR_WORKER_URL`
+
+Bundler-resolved URL of the compiled OCR Web Worker script (`ocr.worker.js`). Pass this as
+`workerUrl` in `UseOcrConfig` to use the default worker. The URL is computed with
+`new URL('./ocr.worker.js', import.meta.url)` so your bundler (Vite, Webpack, etc.) will
+automatically bundle and chunk the worker file.
 
 ### `OCR_MODEL_URLS`
 

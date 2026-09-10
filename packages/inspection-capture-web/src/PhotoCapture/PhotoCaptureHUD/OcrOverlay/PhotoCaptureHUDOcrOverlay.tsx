@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
-import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
+import { useOcr, OCR_STABILIZER_CONFIG, OCR_WORKER_URL, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture, MileageUnit } from '@monkvision/types';
 import { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal';
 import { OcrMode, PhotoCaptureOcrConfig } from '../../hooks';
@@ -91,11 +91,13 @@ export function PhotoCaptureHUDOcrOverlay({
     appearanceCount = OCR_STABILIZER_CONFIG.appearanceCount,
     maxOcrRetries = 2,
     ocrTimeoutMs = 20_000,
+    workerUrl = OCR_WORKER_URL,
     ...ocrConfig
   } = config;
   const { isReady, loadModels, processFrame, confirmedText, consistencyCount, reset } = useOcr({
     ...ocrConfig,
     appearanceCount,
+    workerUrl,
   });
 
   const srcCanvasRef = useRef<OffscreenCanvas | HTMLCanvasElement | null>(null);

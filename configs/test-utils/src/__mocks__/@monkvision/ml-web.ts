@@ -1,4 +1,5 @@
 export = {
+  OCR_WORKER_URL: 'https://test.example/ocr.worker.js',
   OCR_MODEL_URLS: {
     recModelUrl: 'https://test.example/rec.onnx',
     dictUrl: 'https://test.example/dict.txt',
