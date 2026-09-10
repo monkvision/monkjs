@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Doriți să ștergeți videoclipul? Nu ați făcut ocol complet al vehiculului.",
+        "messageMissingFrames": "Doriți să ștergeți videoclipul? Nu au fost încă capturate toate fotografiile necesare.",
         "keepRecording": "Continuă înregistrarea",
         "discardVideo": "Ștergeți videoclipul"
       },

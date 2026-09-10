@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Czy chcesz usunąć nagranie wideo? Nie okrążyłeś/okrążyłaś w pełni pojazdu.",
+        "messageMissingFrames": "Czy chcesz usunąć nagranie wideo? Nie wszystkie wymagane zdjęcia zostały jeszcze zrobione.",
         "keepRecording": "Kontynuuj nagrywanie",
         "discardVideo": "Usuń wideo"
       },

@@ -26,13 +26,20 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     totalProcessingFrames: 6782,
     onCaptureVideoFrame: jest.fn(),
   })),
-  useAdaptiveFrameSelectionInterval: jest.fn(() => 1357),
+  useSegmentFrameSelection: jest.fn(() => ({
+    flushTrigger: 12,
+    capturedFramesCount: 8,
+    targetFramesCount: 40,
+    startSegmentTracking: jest.fn(),
+  })),
   useVideoRecording: jest.fn(() => ({
+    targetFramesCount: 40,
     isRecordingPaused: true,
     onClickRecordVideo: jest.fn(),
     onDiscardDialogKeepRecording: jest.fn(),
     onDiscardDialogDiscardVideo: jest.fn(),
     isDiscardDialogDisplayed: false,
+    isMissingTargetFrames: false,
     recordingDurationMs: 234,
     pauseRecording: jest.fn(),
     resumeRecording: jest.fn(),
@@ -43,7 +50,7 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
 import { act, render, screen } from '@testing-library/react';
 import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { DeviceOrientation } from '@monkvision/types';
+import { DeviceOrientation, VideoUploadStrategy } from '@monkvision/types';
 import { LoadingState } from '@monkvision/common';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -53,8 +60,8 @@ import { VideoCaptureProcessing } from '../../../src/VideoCapture/VideoCapturePr
 import { VideoCaptureComplete } from '../../../src/VideoCapture/VideoCaptureHUD/VideoCaptureComplete';
 import {
   FastMovementType,
-  useAdaptiveFrameSelectionInterval,
   useFrameSelection,
+  useSegmentFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
   useVideoUploadQueue,
@@ -82,7 +89,10 @@ function createProps(): VideoCaptureHUDProps {
     fastMovementsWarning: null,
     onWarningDismiss: jest.fn(),
     maxRetryCount: 24,
+    frameSelectionInterval: 1357,
     minRecordingDuration: 667,
+    videoUploadStrategy: VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE,
+    targetFramesCount: 40,
     startTasksLoading: { isLoading: false } as unknown as LoadingState,
     inspectionLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
@@ -161,14 +171,28 @@ describe('VideoCaptureHUD component', () => {
     unmount();
   });
 
-  it('should pass the proper params to the useAdaptiveFrameSelectionInterval hook', () => {
+  it('should pass the proper params to the useSegmentFrameSelection hook', () => {
     const props = createProps();
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
-    expect(useAdaptiveFrameSelectionInterval).toHaveBeenCalledWith({
-      alpha: props.alpha,
+    const { walkaroundPosition } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
+    expect(useSegmentFrameSelection).toHaveBeenCalledWith({
+      walkaroundPosition,
       isRecording: props.isRecording,
+      targetFramesCount: props.targetFramesCount,
     });
+
+    unmount();
+  });
+
+  it('should not track segments when videoUploadStrategy is fixedUploadRate', () => {
+    const props = createProps();
+    props.videoUploadStrategy = VideoUploadStrategy.FIXED_UPLOAD_RATE;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(useSegmentFrameSelection).toHaveBeenCalledWith(
+      expect.objectContaining({ isRecording: false }),
+    );
 
     unmount();
   });
@@ -178,14 +202,26 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onFrameSelected } = (useVideoUploadQueue as jest.Mock).mock.results[0].value;
-    const frameSelectionInterval = (useAdaptiveFrameSelectionInterval as jest.Mock).mock.results[0]
-      .value;
+    const { flushTrigger } = (useSegmentFrameSelection as jest.Mock).mock.results[0].value;
     expect(useFrameSelection).toHaveBeenCalledWith(
       expect.objectContaining({
         handle: props.handle,
-        frameSelectionInterval,
+        frameSelectionInterval: props.frameSelectionInterval,
+        flushTrigger,
         onFrameSelected,
       }),
+    );
+
+    unmount();
+  });
+
+  it('should not pass a flushTrigger to the useFrameSelection hook when videoUploadStrategy is fixedUploadRate', () => {
+    const props = createProps();
+    props.videoUploadStrategy = VideoUploadStrategy.FIXED_UPLOAD_RATE;
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    expect(useFrameSelection).toHaveBeenCalledWith(
+      expect.objectContaining({ flushTrigger: undefined }),
     );
 
     unmount();
@@ -196,17 +232,22 @@ describe('VideoCaptureHUD component', () => {
     const { unmount } = render(<VideoCaptureHUD {...props} />);
 
     const { onCaptureVideoFrame } = (useFrameSelection as jest.Mock).mock.results[0].value;
-    const { startWalkaround, coveragePercentage } = (useVehicleWalkaround as jest.Mock).mock
-      .results[0].value;
+    const { coveragePercentage } = (useVehicleWalkaround as jest.Mock).mock.results[0].value;
+    const { capturedFramesCount, effectiveTargetFramesCount } = (
+      useSegmentFrameSelection as jest.Mock
+    ).mock.results[0].value;
     expect(useVideoRecording).toHaveBeenCalledWith(
       expect.objectContaining({
         isRecording: props.isRecording,
         setIsRecording: props.setIsRecording,
-        screenshotInterval: 200,
+        screenshotInterval: 100,
         minRecordingDuration: props.minRecordingDuration,
         enforceOrientation: props.enforceOrientation,
+        videoUploadStrategy: props.videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount: effectiveTargetFramesCount,
         coveragePercentage,
-        startWalkaround,
+        startWalkaround: expect.any(Function),
         onCaptureVideoFrame,
         onRecordingComplete: expect.any(Function),
         resetFastMovementDetection: expect.any(Function),
@@ -386,6 +427,30 @@ describe('VideoCaptureHUD component', () => {
       cancelLabel: 'video.recording.discardDialog.discardVideo',
       onConfirm: onDiscardDialogKeepRecording,
       onCancel: onDiscardDialogDiscardVideo,
+    });
+
+    unmount();
+  });
+
+  it('should display the missing frames message in the backdrop dialog when isMissingTargetFrames is true', () => {
+    const props = createProps();
+    const { rerender, unmount } = render(<VideoCaptureHUD {...props} />);
+
+    (useVideoRecording as jest.Mock).mockImplementationOnce(() => ({
+      isRecordingPaused: true,
+      onClickRecordVideo: jest.fn(),
+      onDiscardDialogKeepRecording: jest.fn(),
+      onDiscardDialogDiscardVideo: jest.fn(),
+      isDiscardDialogDisplayed: true,
+      isMissingTargetFrames: true,
+      recordingDurationMs: 234,
+      pauseRecording: jest.fn(),
+      resumeRecording: jest.fn(),
+    }));
+    rerender(<VideoCaptureHUD {...props} />);
+    expectPropsOnChildMock(BackdropDialog, {
+      show: true,
+      message: 'video.recording.discardDialog.messageMissingFrames',
     });
 
     unmount();
