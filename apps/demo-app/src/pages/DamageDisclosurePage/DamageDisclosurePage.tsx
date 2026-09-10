@@ -1,10 +1,10 @@
-import { useTranslation } from "react-i18next";
-import { useMonkAppState } from "@monkvision/common";
-import { DamageDisclosure } from "@monkvision/inspection-capture-web";
-import { useNavigate } from "react-router-dom";
-import { CaptureWorkflow, VehicleType } from "@monkvision/types";
-import styles from "./DamageDisclosurePage.module.css";
-import { Page } from "../pages";
+import { useTranslation } from 'react-i18next';
+import { useMonkAppState } from '@monkvision/common';
+import { DamageDisclosure } from '@monkvision/inspection-capture-web';
+import { useNavigate } from 'react-router-dom';
+import { CaptureWorkflow, VehicleType } from '@monkvision/types';
+import styles from './DamageDisclosurePage.module.css';
+import { Page } from '../pages';
 
 export function DamageDisclosurePage() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function DamageDisclosurePage() {
   });
 
   return (
-    <div className={styles["container"]}>
+    <div className={styles['container']}>
       <DamageDisclosure
         {...config}
         apiConfig={{

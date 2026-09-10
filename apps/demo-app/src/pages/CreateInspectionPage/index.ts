@@ -1,1 +1,1 @@
-export * from "./CreateInspectionPage";
+export * from './CreateInspectionPage';
