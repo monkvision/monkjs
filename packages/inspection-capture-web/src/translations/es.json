@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "¿Desea descartar el video? No ha recorrido completamente el perímetro del vehículo.",
-        "messageMissingFrames": "¿Desea descartar el video? Aún no se ha capturado todo el metraje necesario.",
+        "messageMissingFrames": "¿Desea descartar el video? Aún no se han capturado todas las imágenes necesarias.",
         "keepRecording": "Seguir grabando",
         "discardVideo": "Descartar video"
       },

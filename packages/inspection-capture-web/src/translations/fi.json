@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Haluatko poistaa videon? Olet vielä tehnyt vain osan tarkastuksesta.",
-        "messageMissingFrames": "Haluatko poistaa videon? Kaikkea tarvittavaa kuvamateriaalia ei ole vielä otettu.",
+        "messageMissingFrames": "Haluatko poistaa videon? Kaikkia tarvittavia kuvia ei ole vielä otettu.",
         "keepRecording": "Jatka tallennusta",
         "discardVideo": "Poista video"
       },
