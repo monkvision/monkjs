@@ -8,7 +8,7 @@ import {
   VehicleTypeSelectionPage,
   CaptureSelectionPage,
   DamageDisclosurePage,
-} from '../pages';
+} from '.';
 import { App } from './App';
 
 export function AppRouter() {
