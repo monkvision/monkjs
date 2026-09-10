@@ -9,7 +9,7 @@ describe('createCanvas', () => {
   });
 
   it('returns an OffscreenCanvas when the global is available', () => {
-    const MockOffscreen = jest.fn(function (w: number, h: number) {
+    const MockOffscreen = jest.fn(function MockOffscreenCanvas(w: number, h: number) {
       (this as any).width = w;
       (this as any).height = h;
       (this as any).getContext = jest.fn(() => ({}));
@@ -17,11 +17,10 @@ describe('createCanvas', () => {
     const prev = (global as any).OffscreenCanvas;
     (global as any).OffscreenCanvas = MockOffscreen;
 
-    const canvas = createCanvas(100, 50);
+    expect(createCanvas(100, 50)).toBeDefined();
     expect(MockOffscreen).toHaveBeenCalledWith(100, 50);
 
     (global as any).OffscreenCanvas = prev;
-    void canvas;
   });
 });
 

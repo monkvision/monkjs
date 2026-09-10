@@ -171,7 +171,8 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     return () => {
       worker.terminate();
     };
-  }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]); // eslint-disable-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]);
 
   // ── Public API ───────────────────────────────────────────────────────────────
   const loadModels = useCallback(() => {
@@ -188,7 +189,8 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     if (inFlightRef.current || !workerRef.current || isLockedRef.current) return;
     inFlightRef.current = true;
     setIsInferring(true);
-    const id = ++reqIdRef.current;
+    reqIdRef.current += 1;
+    const id = reqIdRef.current;
     workerRef.current.postMessage(
       { id, buffer: imageData.data.buffer, width: imageData.width, height: imageData.height },
       [imageData.data.buffer],
