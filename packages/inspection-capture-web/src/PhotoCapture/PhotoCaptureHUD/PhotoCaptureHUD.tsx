@@ -1,12 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   PhotoCaptureAppConfig,
   Image,
   ImageStatus,
+  MonkPicture,
   MonkTestId,
   Sight,
   VehiclePart,
   VehicleType,
+  MileageUnit,
 } from '@monkvision/types';
 import { useTranslation } from 'react-i18next';
 import { BackdropDialog } from '@monkvision/common-ui-web';
@@ -14,12 +16,13 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { TutorialSteps } from '../hooks';
+import { TutorialSteps, PhotoCaptureOcrConfig, OcrMode, OcrSightConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../components';
 import { PhotoCaptureHUDSightTutorial } from './PhotoCaptureHUDSightTutorial';
+import { PhotoCaptureHUDOcrOverlay } from './OcrOverlay';
 
 /**
  * Props of the PhotoCaptureHUD component.
@@ -141,6 +144,37 @@ export interface PhotoCaptureHUDProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial: () => void;
+  /**
+   * When provided, enables OCR on the live camera preview. A text overlay shows the detected
+   * text and turns green once enough consistent readings confirm it.
+   */
+  ocrConfig?: PhotoCaptureOcrConfig;
+  /**
+   * Maps sight IDs to their OCR mode. OCR overlay is only active on listed sights.
+   */
+  ocrSights?: OcrSightConfig[];
+  /**
+   * Called when the user confirms the OCR-detected text in the modal.
+   * Receives the confirmed text, the crop picture used for recognition, and the active OCR mode.
+   */
+  onOcrConfirm?: (
+    text: string,
+    picture: MonkPicture,
+    mode: OcrMode | undefined,
+    defaultMileageUnit: MileageUnit | undefined,
+  ) => void;
+  /**
+   * Whether the OCR retry/timeout limit has been reached and the shutter should be unlocked.
+   */
+  isOcrFallbackReady?: boolean;
+  /**
+   * Called by PhotoCaptureHUDOcrOverlay when the retry/timeout limit is reached (shutter should be unlocked).
+   */
+  onOcrFallbackReady?: () => void;
+  /**
+   * Full-frame picture taken by the user in OCR fallback mode, to run OCR on.
+   */
+  ocrFallbackPicture?: MonkPicture | null;
 }
 
 /**
@@ -184,11 +218,24 @@ export function PhotoCaptureHUD({
   enableSightTutorial,
   showSightTutorial,
   toggleSightTutorial,
+  ocrConfig,
+  ocrSights,
+  onOcrConfirm,
+  isOcrFallbackReady,
+  onOcrFallbackReady,
+  ocrFallbackPicture,
 }: PhotoCaptureHUDProps) {
   const { t } = useTranslation();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const style = usePhotoCaptureHUDStyle();
   const { trackEvent } = useAnalytics();
+  const getImageDataRef = useRef(handle.getImageData);
+  useEffect(() => {
+    getImageDataRef.current = handle.getImageData;
+  }, [handle.getImageData]);
+  // Stable reference so PhotoCaptureHUDOcrOverlay's useEffect deps don't change on every render.
+  const stableGetImageData = useRef(() => getImageDataRef.current()).current;
+
   const retakeCount = useMemo(
     () =>
       images.filter(
@@ -234,7 +281,27 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
+          hideSightOverlay={!!ocrSights?.some((s) => s.sightId === selectedSight.id)}
         />
+        {ocrConfig &&
+          (() => {
+            const matchedSight = ocrSights?.find((s) => s.sightId === selectedSight.id);
+            return (
+              <PhotoCaptureHUDOcrOverlay
+                config={ocrConfig}
+                getImageData={stableGetImageData}
+                isCameraLoading={handle.isLoading}
+                isActive={!ocrSights?.length || !!matchedSight}
+                previewDimensions={handle.previewDimensions}
+                mode={matchedSight?.mode}
+                defaultMileageUnit={matchedSight?.defaultMileageUnit}
+                onConfirm={onOcrConfirm}
+                sightId={selectedSight.id}
+                onFallbackReady={onOcrFallbackReady}
+                fallbackPicture={ocrFallbackPicture}
+              />
+            );
+          })()}
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
         <HUDButtons
@@ -245,7 +312,13 @@ export function PhotoCaptureHUD({
           closeDisabled={!!loading.error || !!handle.error}
           galleryDisabled={!!loading.error || !!handle.error}
           takePictureDisabled={
-            !!loading.error || !!handle.error || handle.isLoading || loading.isLoading
+            !!loading.error ||
+            !!handle.error ||
+            handle.isLoading ||
+            loading.isLoading ||
+            (!!ocrConfig &&
+              (!ocrSights?.length || !!ocrSights.find((s) => s.sightId === selectedSight.id)) &&
+              !isOcrFallbackReady)
           }
           showCloseButton={showCloseButton}
           showGalleryBadge={retakeCount > 0}
