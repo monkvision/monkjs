@@ -56,8 +56,6 @@
   "sights": {
     "suv": [
       "jgc21-QIvfeg0X",
-      "all-JOhPh4rx",
-      "all-sLu0CfOt",
       "jgc21-KyUUVU2P",
       "jgc21-zCrDwYWE",
       "jgc21-z15ZdJL6",
@@ -73,10 +71,11 @@
       "jgc21-XXh8GWm8",
       "jgc21-TRN9Des4",
       "jgc21-s7WDTRmE",
-      "jgc21-__JKllz9"
+      "jgc21-__JKllz9",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "cuv": [
-      "all-sLu0CfOt",
       "fesc20-H1dfdfvH",
       "fesc20-WMUaKDp1",
       "fesc20-LTe3X2bg",
@@ -93,10 +92,11 @@
       "fesc20-P0oSEh8p",
       "fesc20-j3H8Z415",
       "fesc20-dKVLig1i",
-      "fesc20-Wzdtgqqz"
+      "fesc20-Wzdtgqqz",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "sedan": [
-      "all-sLu0CfOt",
       "haccord-8YjMcu0D",
       "haccord-DUPnw5jj",
       "haccord-hsCc_Nct",
@@ -113,10 +113,11 @@
       "haccord-Gtt0JNQl",
       "haccord-cXSAj2ez",
       "haccord-KN23XXkX",
-      "haccord-Z84erkMb"
+      "haccord-Z84erkMb",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "hatchback": [
-      "all-sLu0CfOt",
       "ffocus18-XlfgjQb9",
       "ffocus18-3TiCVAaN",
       "ffocus18-43ljK5xC",
@@ -133,10 +134,11 @@
       "ffocus18-ts3buSD1",
       "ffocus18-cXSAj2ez",
       "ffocus18-KkeGvT-F",
-      "ffocus18-lRDlWiwR"
+      "ffocus18-lRDlWiwR",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "van": [
-      "all-sLu0CfOt",
       "ftransit18-wyXf7MTv",
       "ftransit18-UNAZWJ-r",
       "ftransit18-5SiNC94w",
@@ -155,10 +157,11 @@
       "ftransit18-eztNpSRX",
       "ftransit18-TkXihCj4",
       "ftransit18-4NMPqEV6",
-      "ftransit18-IIVI_pnX"
+      "ftransit18-IIVI_pnX",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "minivan": [
-      "all-sLu0CfOt",
       "tsienna20-YwrRNr9n",
       "tsienna20-HykkFbXf",
       "tsienna20-TI4TVvT9",
@@ -175,10 +178,11 @@
       "tsienna20-Rw0Gtt7O",
       "tsienna20-TibS83Qr",
       "tsienna20-cI285Gon",
-      "tsienna20-KHB_Cd9k"
+      "tsienna20-KHB_Cd9k",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ],
     "pickup": [
-      "all-sLu0CfOt",
       "ff150-zXbg0l3z",
       "ff150-3he9UOwy",
       "ff150-KgHVkQBW",
@@ -195,7 +199,9 @@
       "ff150-18YVVN-G",
       "ff150-BmXfb-qD",
       "ff150-gFp78fQO",
-      "ff150-7nvlys8r"
+      "ff150-7nvlys8r",
+      "all-JOhPh4rx",
+      "all-sLu0CfOt"
     ]
   },
   "sightGuidelines": [
