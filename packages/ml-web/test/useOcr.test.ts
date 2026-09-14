@@ -9,32 +9,37 @@ jest.mock('../src/hooks/createOcrWorker', () => ({
 import { act, renderHook } from '@testing-library/react';
 import { UseOcrConfig, useOcr } from '../src/hooks/useOcr';
 
-// jsdom does not ship ImageData; provide a minimal polyfill.
+// jsdom does not ship ImageData; provide a minimal polyfill using a constructor
+// function (not a class) so max-classes-per-file counts only FakeWorker below.
 if (typeof (global as any).ImageData === 'undefined') {
-  (global as any).ImageData = class MockImageData {
-    data: Uint8ClampedArray;
-    width: number;
-    height: number;
-    constructor(w: number, h: number) {
-      this.width = w;
-      this.height = h;
-      this.data = new Uint8ClampedArray(w * h * 4);
-    }
+  (global as any).ImageData = function ImageData(w: number, h: number) {
+    return { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) };
   };
 }
 
 // ─── Worker mock ──────────────────────────────────────────────────────────────
 
-class FakeWorker {
-  static instances: FakeWorker[] = [];
+interface IFakeWorker {
+  onmessage: ((e: MessageEvent) => void) | null;
+  onerror: ((e: ErrorEvent) => void) | null;
+  postMessage: jest.Mock;
+  terminate: jest.Mock;
+  dispatch: (data: unknown) => void;
+  fail: (message: string) => void;
+}
 
+// Declared before the class so the constructor can reference it without
+// triggering no-use-before-define on a self-referencing class type.
+let workerInstances: IFakeWorker[] = [];
+
+class FakeWorker implements IFakeWorker {
   onmessage: ((e: MessageEvent) => void) | null = null;
   onerror: ((e: ErrorEvent) => void) | null = null;
   postMessage = jest.fn();
   terminate = jest.fn();
 
   constructor() {
-    FakeWorker.instances.push(this);
+    workerInstances.push(this);
   }
 
   dispatch(data: unknown) {
@@ -47,7 +52,7 @@ class FakeWorker {
 }
 
 beforeEach(() => {
-  FakeWorker.instances = [];
+  workerInstances = [];
   (global as any).Worker = jest.fn().mockImplementation(() => new FakeWorker());
 });
 
@@ -67,8 +72,8 @@ function createConfig(overrides?: Partial<UseOcrConfig>): UseOcrConfig {
   };
 }
 
-function latestWorker(): FakeWorker {
-  return FakeWorker.instances[FakeWorker.instances.length - 1];
+function latestWorker(): IFakeWorker {
+  return workerInstances[workerInstances.length - 1];
 }
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -418,7 +423,7 @@ describe('useOcr', () => {
       });
 
       expect(firstWorker.terminate).toHaveBeenCalled();
-      expect(FakeWorker.instances.length).toBe(2);
+      expect(workerInstances.length).toBe(2);
     });
 
     it('resets isReady and isLoading after reinitialising', () => {
