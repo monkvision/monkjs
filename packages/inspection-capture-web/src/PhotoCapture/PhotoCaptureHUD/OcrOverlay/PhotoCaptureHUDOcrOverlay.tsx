@@ -21,6 +21,19 @@ import {
 /** Maximum time (ms) to wait for OCR to confirm text on the fallback image before declaring failure. */
 const FALLBACK_OCR_READ_TIMEOUT_MS = 8_000;
 
+const VIN_PATTERN = /^[A-HJ-NPR-Z0-9]{17}$/;
+
+/**
+ * Universal VIN format check (ISO 3779), valid for any country:
+ * - exactly 17 characters
+ * - alphanumeric only
+ * - excludes I, O, Q (never used in VINs, to avoid confusion with 1, 0)
+ */
+function isValidVinFormat(vin: string): boolean {
+  const normalized = vin.trim().toUpperCase();
+  return VIN_PATTERN.test(normalized);
+}
+
 function canvasToBlob(
   canvas: OffscreenCanvas | HTMLCanvasElement,
   mimetype: string,
@@ -412,7 +425,7 @@ export function PhotoCaptureHUDOcrOverlay({
       } else {
         isInvalidReading = true;
       }
-    } else if (/[^A-Z0-9]/i.test(confirmedText)) {
+    } else if (!isValidVinFormat(confirmedText)) {
       isInvalidReading = true;
     } else {
       modalText = confirmedText;
