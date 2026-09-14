@@ -165,7 +165,7 @@
     "de-CH": "Linker Motor",
     "en-IE": "Engine Left Side",
     "en-GB": "Engine Left Side",
-    "en-hag": "Engine Bay Left"
+    "en-hag": "Driver Side Engine Bay"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -186,7 +186,7 @@
     "de-CH": "Rechter Motor",
     "en-IE": "Engine Right Side",
     "en-GB": "Engine Right Side",
-    "en-hag": "Engine Bay Right"
+    "en-hag": "Passenger Side Engine Bay"
   },
   "front": {
     "key": "front",
@@ -2013,7 +2013,7 @@
     "de-CH": "Scheinwerfer links",
     "en-IE": "Headlight Left",
     "en-GB": "Headlight Left",
-    "en-hag": "Left Headlight"
+    "en-hag": "Driver Side Headlight"
   },
   "headlight-right": {
     "key": "headlight-right",
@@ -2034,7 +2034,7 @@
     "de-CH": "Scheinwerfer rechts",
     "en-IE": "Headlight Right",
     "en-GB": "Headlight Right",
-    "en-hag": "Right Headlight"
+    "en-hag": "Passenger Side Headlight"
   },
   "taillight-left": {
     "key": "taillight-left",
@@ -2055,7 +2055,7 @@
     "de-CH": "Rückleuchte links",
     "en-IE": "Taillight Left",
     "en-GB": "Taillight Left",
-    "en-hag": "Left Taillight"
+    "en-hag": "Driver Side Taillight"
   },
   "taillight-right": {
     "key": "taillight-right",
@@ -2076,7 +2076,7 @@
     "de-CH": "Rückleuchte rechts",
     "en-IE": "Taillight Right",
     "en-GB": "Taillight Right",
-    "en-hag": "Right Taillight"
+    "en-hag": "Passenger Side Taillight"
   },
   "mirror-left": {
     "key": "mirror-left",
