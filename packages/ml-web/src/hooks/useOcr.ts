@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { OcrCharResult, OcrWorkerResponse } from '../ocr.types';
 import { OCR_STABILIZER_CONFIG } from '../ocr.config';
 import { isSimilarText } from '../ocr.utils';
+import { createOcrWorker } from './createOcrWorker';
 
 export interface UseOcrConfig {
   /**
@@ -103,10 +104,7 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     setFatalError(null);
     inFlightRef.current = false;
 
-    // eslint-disable-next-line no-restricted-globals
-    const worker = workerUrl
-      ? new Worker(workerUrl, { type: 'module' })
-      : new Worker(new URL('../ocr.worker.js', import.meta.url), { type: 'module' });
+    const worker = createOcrWorker(workerUrl);
     workerRef.current = worker;
 
     worker.postMessage({
