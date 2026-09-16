@@ -94,7 +94,7 @@ describe('useSegmentFrameSelection hook', () => {
     unmount();
   });
 
-  it('should reset the captured buckets when startSegmentTracking is called', () => {
+  it('should reset the captured buckets when startSegmentTracking is called, without triggering a flush', () => {
     const initialProps = createProps();
     const { result, rerender, unmount } = renderHook(
       (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
@@ -106,13 +106,54 @@ describe('useSegmentFrameSelection hook', () => {
     expect(result.current.capturedFramesCount).toBe(2);
 
     rerender({ ...initialProps, walkaroundPosition: 0 });
+    const flushTriggerBeforeReset = result.current.flushTrigger;
     act(() => {
       result.current.startSegmentTracking();
     });
+    expect(result.current.flushTrigger).toBe(flushTriggerBeforeReset);
     expect(result.current.capturedFramesCount).toBe(1);
 
     rerender({ ...initialProps, walkaroundPosition: bucketSize * 3 });
     expect(result.current.capturedFramesCount).toBe(2);
+
+    unmount();
+  });
+
+  it('should trigger exactly targetFramesCount - 1 flushes over a full walkaround', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
+      { initialProps },
+    );
+
+    const initialFlushTrigger = result.current.flushTrigger;
+    const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
+    for (let bucket = 1; bucket < DEFAULT_TARGET_FRAMES_COUNT; bucket += 1) {
+      rerender({ ...initialProps, walkaroundPosition: bucket * bucketSize + bucketSize / 2 });
+    }
+
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger + DEFAULT_TARGET_FRAMES_COUNT - 1);
+    expect(result.current.capturedFramesCount).toBe(DEFAULT_TARGET_FRAMES_COUNT);
+
+    unmount();
+  });
+
+  it('should not increment flushTrigger on re-renders with unchanged props', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
+      { initialProps },
+    );
+
+    const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    const flushTriggerAfterNewBucket = result.current.flushTrigger;
+
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+
+    expect(result.current.flushTrigger).toBe(flushTriggerAfterNewBucket);
 
     unmount();
   });

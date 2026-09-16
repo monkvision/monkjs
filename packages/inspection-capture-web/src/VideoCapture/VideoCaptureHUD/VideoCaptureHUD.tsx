@@ -172,7 +172,13 @@ export function VideoCaptureHUD({
       targetFramesCount,
     });
 
-  const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
+  const {
+    processedFrames,
+    totalProcessingFrames,
+    onCaptureVideoFrame,
+    flushBestFrame,
+    discardBestFrame,
+  } = useFrameSelection({
     handle,
     frameSelectionInterval,
     flushTrigger: isAdaptiveUploadRate ? flushTrigger : undefined,
@@ -180,9 +186,22 @@ export function VideoCaptureHUD({
   });
 
   const handleStartWalkaround = useCallback(() => {
+    discardBestFrame();
     startWalkaround();
     startSegmentTracking();
-  }, [startWalkaround, startSegmentTracking]);
+  }, [discardBestFrame, startWalkaround, startSegmentTracking]);
+
+  const handleDiscardVideo = useCallback(() => {
+    discardBestFrame();
+    discardUploadedImages();
+  }, [discardBestFrame, discardUploadedImages]);
+
+  const handleRecordingComplete = useCallback(() => {
+    flushBestFrame();
+    setScreen(
+      enableHybridVideo ? VideoCaptureHUDScreen.COMPLETE : VideoCaptureHUDScreen.PROCESSING,
+    );
+  }, [flushBestFrame, enableHybridVideo]);
 
   const {
     isRecordingPaused,
@@ -207,16 +226,16 @@ export function VideoCaptureHUD({
     targetFramesCount: effectiveTargetFramesCount,
     startWalkaround: handleStartWalkaround,
     onCaptureVideoFrame,
-    onRecordingComplete: () => {
-      if (enableHybridVideo) {
-        setScreen(VideoCaptureHUDScreen.COMPLETE);
-      } else {
-        setScreen(VideoCaptureHUDScreen.PROCESSING);
-      }
-    },
+    onRecordingComplete: handleRecordingComplete,
     resetFastMovementDetection: resetDetection,
-    onDiscardVideo: discardUploadedImages,
+    onDiscardVideo: handleDiscardVideo,
   });
+
+  useEffect(() => {
+    if (isRecordingPaused) {
+      discardBestFrame();
+    }
+  }, [isRecordingPaused, discardBestFrame]);
 
   const handleTakePictureClick = async () => {
     try {
