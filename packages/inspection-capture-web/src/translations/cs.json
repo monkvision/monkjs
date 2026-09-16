@@ -86,7 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Chcete smazat video?\nNeobcházeli jste celý vůz.",
-        "messageMissingFrames": "Chcete smazat video?\nNebyly ještě pořízeny všechny potřebné záběry.",
+        "messageMissingFrames": "Chcete smazat video?\nNebyly ještě pořízeny všechny potřebné obrázky.",
         "keepRecording": "Pokračovat v nahrávání",
         "discardVideo": "Zrušit video"
       },

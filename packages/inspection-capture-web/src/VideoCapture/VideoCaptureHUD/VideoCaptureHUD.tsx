@@ -167,10 +167,10 @@ export function VideoCaptureHUD({
 
   const { flushTrigger, capturedFramesCount, effectiveTargetFramesCount, startSegmentTracking } =
     useSegmentFrameSelection({
-    walkaroundPosition,
-    isRecording: isRecording && isAdaptiveUploadRate,
-    targetFramesCount,
-  });
+      walkaroundPosition,
+      isRecording: isRecording && isAdaptiveUploadRate,
+      targetFramesCount,
+    });
 
   const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
     handle,
