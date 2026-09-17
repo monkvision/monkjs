@@ -47,6 +47,18 @@
         "tip": "Wskazówka",
         "defaultTutorialWithImage": "Oto obraz referencyjny.\nSpróbuj jak najdokładniej dopasować kadr.",
         "defaultTutorialWithoutImage": "Ustaw się zgodnie z ilustracją po lewej stronie, upewniając się, że kamera znajduje się na odpowiedniej wysokości."
+      },
+      "ocr": {
+        "invalidReading": "Wykryta wartość jest nieprawidłowa. Proszę zeskanować ponownie.",
+        "ocrFailed": "Nie można wykryć tekstu. Możesz przejść do następnego widoku.",
+        "imageAlt": "Wykryta klatka",
+        "shutterHint": "Użyj przycisku migawki, aby zrobić zdjęcie",
+        "close": "Zamknij",
+        "continue": "Kontynuuj",
+        "cancel": "Anuluj",
+        "confirm": "Potwierdź",
+        "no": "Nie",
+        "yes": "Tak"
       }
     },
     "gallery": {

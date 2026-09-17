@@ -1,0 +1,6 @@
+node_modules
+coverage
+.eslintcache
+yarn-error.log
+.idea
+lib
