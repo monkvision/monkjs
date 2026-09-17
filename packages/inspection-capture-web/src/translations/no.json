@@ -47,6 +47,18 @@
         "tip": "Tips",
         "defaultTutorialWithImage": "Her er et referansebilde\nPrøv å matche rammen din så godt som mulig.",
         "defaultTutorialWithoutImage": "Plasser deg som vist i diagrammet til venstre\nSørg for at kameraet er på riktig høyde."
+      },
+      "ocr": {
+        "invalidReading": "Den registrerte verdien er ikke gyldig. Skann på nytt.",
+        "ocrFailed": "Kan ikke registrere teksten. Du kan fortsette til neste visning.",
+        "imageAlt": "Registrert ramme",
+        "shutterHint": "Bruk lukkerknappen til å ta et bilde",
+        "close": "Lukk",
+        "continue": "Fortsett",
+        "cancel": "Avbryt",
+        "confirm": "Bekreft",
+        "no": "Nei",
+        "yes": "Ja"
       }
     },
     "gallery": {

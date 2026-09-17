@@ -12,6 +12,7 @@ import {
   AddDamage,
   CameraConfig,
   ComplianceOptions,
+  MileageUnit,
   MonkPicture,
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
@@ -20,7 +21,7 @@ import {
   Sight,
   VehicleType,
 } from '@monkvision/types';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
@@ -42,6 +43,10 @@ import {
   usePhotoCaptureSightGuidelines,
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
+  usePhotoCaptureOcrConfirm,
+  PhotoCaptureOcrConfig,
+  OcrMode,
+  OcrSightConfig,
 } from './hooks';
 import { useImagesCleanup } from './hooks/useImagesCleanup';
 
@@ -125,6 +130,23 @@ export interface PhotoCaptureProps
    * Custom label for validate button in gallery view.
    */
   validateButtonLabel?: string;
+  /**
+   * When provided, enables live OCR on the camera preview (e.g. to read a VIN or license plate).
+   * The OCR models are loaded on demand and unloaded once text is confirmed.
+   */
+  ocrConfig?: PhotoCaptureOcrConfig;
+  /**
+   * Maps sight IDs to their OCR mode. OCR overlay is only active on listed sights.
+   * If omitted while ocrConfig is set, OCR is always active with no mode-specific behavior.
+   */
+  ocrSights?: OcrSightConfig[];
+  /**
+   * Global default mileage unit used when OCR cannot detect a unit from an odometer reading.
+   * Per-sight `defaultMileageUnit` in `ocrSights` takes precedence over this value.
+   *
+   * @default MileageUnit.KM
+   */
+  odometerUnit?: MileageUnit;
 }
 
 enum PhotoCaptureScreen {
@@ -168,6 +190,9 @@ export function PhotoCapture({
   autoDeletePreviousSightImages = true,
   onGalleryPress,
   enableBeautyShotExtraction,
+  ocrConfig,
+  ocrSights,
+  odometerUnit,
   ...initialCameraConfig
 }: PhotoCaptureProps) {
   useI18nSync(lang);
@@ -182,6 +207,8 @@ export function PhotoCapture({
   });
   const { t } = useTranslation();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
+  const [isOcrFallbackReady, setIsOcrFallbackReady] = useState(false);
+  const [ocrFallbackPicture, setOcrFallbackPicture] = useState<MonkPicture | null>(null);
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const handleOpenGallery = () => {
@@ -261,18 +288,64 @@ export function PhotoCapture({
     ],
   });
   const images = usePhotoCaptureImages(inspectionId);
-  const handlePictureTaken = usePictureTaken({
+  const basePictureTaken = usePictureTaken({
     captureState: sightState,
     addDamageHandle,
     uploadQueue,
     tasksBySight,
     onPictureTaken,
   });
+  // When ocrSights is omitted, OCR is always active on every sight.
+  const isOcrSightActive = useMemo(
+    () => !ocrSights || ocrSights.some((s) => s.sightId === sightState.selectedSight.id),
+    [ocrSights, sightState.selectedSight.id],
+  );
+  const handlePictureTaken = useCallback(
+    (picture: MonkPicture) => {
+      if (isOcrFallbackReady && isOcrSightActive) {
+        setOcrFallbackPicture(picture);
+      } else {
+        basePictureTaken(picture);
+      }
+    },
+    [isOcrFallbackReady, isOcrSightActive, basePictureTaken],
+  );
+
+  // Reset OCR fallback state whenever the selected sight changes.
+  const prevSightIdRef = useRef(sightState.selectedSight.id);
+  useEffect(() => {
+    if (sightState.selectedSight.id === prevSightIdRef.current) {
+      return;
+    }
+    prevSightIdRef.current = sightState.selectedSight.id;
+    setIsOcrFallbackReady(false);
+    setOcrFallbackPicture(null);
+  }, [sightState.selectedSight.id]);
   const { updateDuration } = useCaptureDuration({
     inspectionId,
     apiConfig,
     isInspectionCompleted: sightState.isInspectionCompleted,
   });
+  const { handleOcrConfirm: handleOcrVehicleUpdate } = usePhotoCaptureOcrConfirm({
+    inspectionId,
+    apiConfig,
+  });
+  const handleOcrConfirm = useCallback(
+    (
+      text: string,
+      cropPicture: MonkPicture,
+      mode: OcrMode | undefined,
+      defaultMileageUnit: MileageUnit | undefined,
+    ) => {
+      basePictureTaken(cropPicture);
+      if (text) {
+        handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
+      }
+      setOcrFallbackPicture(null);
+      setIsOcrFallbackReady(false);
+    },
+    [basePictureTaken, handleOcrVehicleUpdate],
+  );
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
     sightState,
@@ -282,7 +355,14 @@ export function PhotoCapture({
     cleanupImages,
     onComplete,
   });
-  const handleGalleryBack = () => setCurrentScreen(PhotoCaptureScreen.CAMERA);
+  // Reset OCR fallback state when returning from gallery — the overlay unmounts while gallery
+  // is open, resetting its internal isFallbackReady, but the parent flag persists. Without this
+  // reset every subsequent shutter press silently drops pictures on the same OCR sight.
+  const handleGalleryBack = () => {
+    setCurrentScreen(PhotoCaptureScreen.CAMERA);
+    setIsOcrFallbackReady(false);
+    setOcrFallbackPicture(null);
+  };
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
       addDamageHandle.handleAddDamage();
@@ -331,6 +411,13 @@ export function PhotoCapture({
     enableSightTutorial,
     showSightTutorial,
     toggleSightTutorial,
+    ocrConfig,
+    ocrSights,
+    odometerUnit,
+    onOcrConfirm: handleOcrConfirm,
+    isOcrFallbackReady,
+    onOcrFallbackReady: () => setIsOcrFallbackReady(true),
+    ocrFallbackPicture,
   };
 
   return (

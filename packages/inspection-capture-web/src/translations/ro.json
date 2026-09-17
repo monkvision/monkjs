@@ -47,6 +47,18 @@
         "tip": "Sfat",
         "defaultTutorialWithImage": "Iată o imagine de referință.\nÎncercați să potriviți cât mai bine încadrarea.",
         "defaultTutorialWithoutImage": "Poziționați-vă conform schemei din stânga.\nAsigurați-vă că înălțimea camerei este corectă."
+      },
+      "ocr": {
+        "invalidReading": "Valoarea detectată nu este validă. Vă rugăm să scanați din nou.",
+        "ocrFailed": "Nu s-a putut detecta textul. Puteți continua la vederea următoare.",
+        "imageAlt": "Cadru detectat",
+        "shutterHint": "Utilizați butonul de obturator pentru a face o fotografie",
+        "close": "Închide",
+        "continue": "Continuă",
+        "cancel": "Anulează",
+        "confirm": "Confirmă",
+        "no": "Nu",
+        "yes": "Da"
       }
     },
     "gallery": {

@@ -16,6 +16,9 @@ jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDSightTutoria
 jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/PhotoCaptureHUDTutorial/', () => ({
   PhotoCaptureHUDTutorial: jest.fn(() => <></>),
 }));
+jest.mock('../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay', () => ({
+  PhotoCaptureHUDOcrOverlay: jest.fn(() => <></>),
+}));
 
 import { useTranslation } from 'react-i18next';
 import { act, render, screen } from '@testing-library/react';
@@ -25,9 +28,11 @@ import { CameraHandle } from '@monkvision/camera-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { PhotoCaptureHUD, PhotoCaptureHUDElements, PhotoCaptureHUDProps } from '../../../src';
+import { PhotoCaptureHUDOcrOverlay } from '../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay';
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../../src/components';
 import { CaptureMode } from '../../../src/types';
-import { ImageStatus, Image, DeviceOrientation, VehicleType } from '@monkvision/types';
+import { ImageStatus, Image, DeviceOrientation, MileageUnit, VehicleType } from '@monkvision/types';
+import { OcrSightConfig } from '../../../src/PhotoCapture/hooks';
 
 const cameraTestId = 'camera-test-id';
 
@@ -228,5 +233,49 @@ describe('PhotoCaptureHUD component', () => {
     expectPropsOnChildMock(OrientationEnforcer, { orientation: props.enforceOrientation });
 
     unmount();
+  });
+
+  describe('odometerUnit', () => {
+    const ocrConfig = { recModelUrl: 'rec-url', dictUrl: 'dict-url' };
+    const ocrSights: OcrSightConfig[] = [{ sightId: 'test-sight-2', mode: 'odometer' }];
+
+    it('should pass odometerUnit as defaultMileageUnit when the sight has no per-sight default', () => {
+      const props = createProps();
+      const { unmount } = render(
+        <PhotoCaptureHUD
+          {...props}
+          ocrConfig={ocrConfig}
+          ocrSights={ocrSights}
+          odometerUnit={MileageUnit.MILES}
+        />,
+      );
+
+      expectPropsOnChildMock(PhotoCaptureHUDOcrOverlay, {
+        defaultMileageUnit: MileageUnit.MILES,
+      });
+
+      unmount();
+    });
+
+    it('should let the per-sight defaultMileageUnit take precedence over odometerUnit', () => {
+      const ocrSightsWithUnit: OcrSightConfig[] = [
+        { sightId: 'test-sight-2', mode: 'odometer', defaultMileageUnit: MileageUnit.KM },
+      ];
+      const props = createProps();
+      const { unmount } = render(
+        <PhotoCaptureHUD
+          {...props}
+          ocrConfig={ocrConfig}
+          ocrSights={ocrSightsWithUnit}
+          odometerUnit={MileageUnit.MILES}
+        />,
+      );
+
+      expectPropsOnChildMock(PhotoCaptureHUDOcrOverlay, {
+        defaultMileageUnit: MileageUnit.KM,
+      });
+
+      unmount();
+    });
   });
 });
