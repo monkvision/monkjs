@@ -47,6 +47,18 @@
         "tip": "Dica",
         "defaultTutorialWithImage": "Aqui está uma imagem de referência.\nTente corresponder à sua composição o mais próximo possível.",
         "defaultTutorialWithoutImage": "Posicione-se conforme mostrado no diagrama da esquerda,\ncertificando-se de que a câmera esteja na altura correta."
+      },
+      "ocr": {
+        "invalidReading": "O valor detetado não é válido. Por favor, faça a leitura novamente.",
+        "ocrFailed": "Não foi possível detetar o texto. Pode continuar para a próxima vista.",
+        "imageAlt": "Fotograma detetado",
+        "shutterHint": "Use o botão do obturador para tirar uma fotografia",
+        "close": "Fechar",
+        "continue": "Continuar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "no": "Não",
+        "yes": "Sim"
       }
     },
     "gallery": {

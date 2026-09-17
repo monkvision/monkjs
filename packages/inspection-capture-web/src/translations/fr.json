@@ -47,6 +47,18 @@
         "tip": "Conseil",
         "defaultTutorialWithImage": "Voici une image de référence.\nVeuillez essayer de reproduire le cadrage le plus fidèlement possible.",
         "defaultTutorialWithoutImage": "Veuillez vous positionner comme indiqué sur le schéma de gauche,\nen vous assurant que la caméra est à la bonne hauteur."
+      },
+      "ocr": {
+        "invalidReading": "La valeur détectée n'est pas valide. Veuillez scanner à nouveau.",
+        "ocrFailed": "Impossible de détecter le texte. Vous pouvez passer à la vue suivante.",
+        "imageAlt": "Image détectée",
+        "shutterHint": "Utilisez le bouton de capture pour prendre une photo",
+        "close": "Fermer",
+        "continue": "Continuer",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "no": "Non",
+        "yes": "Oui"
       }
     },
     "gallery": {

@@ -47,6 +47,18 @@
         "tip": "Tips",
         "defaultTutorialWithImage": "Här är ett exempel på hur bilden ska se ut.\nFörsök att matcha bildens komposition så nära som möjligt.",
         "defaultTutorialWithoutImage": "Placera dig som visas i diagrammet till vänster.\nSe till att kameran är på rätt höjd."
+      },
+      "ocr": {
+        "invalidReading": "Det identifierade värdet är inte giltigt. Skanna igen.",
+        "ocrFailed": "Det gick inte att identifiera texten. Du kan fortsätta till nästa vy.",
+        "imageAlt": "Identifierad ram",
+        "shutterHint": "Använd slutarknappen för att ta en bild",
+        "close": "Stäng",
+        "continue": "Fortsätt",
+        "cancel": "Avbryt",
+        "confirm": "Bekräfta",
+        "no": "Nej",
+        "yes": "Ja"
       }
     },
     "gallery": {
