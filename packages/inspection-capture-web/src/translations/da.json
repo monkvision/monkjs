@@ -47,6 +47,18 @@
         "tip": "Tip",
         "defaultTutorialWithImage": "Her er et referencebillede.\nPrøv at matche din billedkomposition så præcist som muligt.",
         "defaultTutorialWithoutImage": "Placer dig, som vist på diagrammet til venstre.\nSørg for, at kameraet er i den korrekte højde."
+      },
+      "ocr": {
+        "invalidReading": "Den registrerede værdi er ikke gyldig. Scan venligst igen.",
+        "ocrFailed": "Det er ikke muligt at registrere teksten. Du kan gå videre til næste visning.",
+        "imageAlt": "Registreret ramme",
+        "shutterHint": "Brug lukkerknapppens til at tage et billede",
+        "close": "Luk",
+        "continue": "Fortsæt",
+        "cancel": "Annuller",
+        "confirm": "Bekræft",
+        "no": "Nej",
+        "yes": "Ja"
       }
     },
     "gallery": {

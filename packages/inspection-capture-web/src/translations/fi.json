@@ -47,6 +47,18 @@
         "tip": "Vinkki",
         "defaultTutorialWithImage": "Tässä referenssikuva\nYritä sovittaa kuvaus mahdollisimman tarkasti.",
         "defaultTutorialWithoutImage": "Aseta itsesi, kuten vasemmassa kaaviossa on esitetty.\nVarmista, että kamera on oikealla korkeudella."
+      },
+      "ocr": {
+        "invalidReading": "Havaittu arvo ei kelpaa. Skannaa uudelleen.",
+        "ocrFailed": "Tekstiä ei voitu havaita. Voit siirtyä seuraavaan näkymään.",
+        "imageAlt": "Havaittu kehys",
+        "shutterHint": "Ota kuva suljinpainikkeella",
+        "close": "Sulje",
+        "continue": "Jatka",
+        "cancel": "Peruuta",
+        "confirm": "Vahvista",
+        "no": "Ei",
+        "yes": "Kyllä"
       }
     },
     "gallery": {

@@ -5,7 +5,9 @@
       "confirm": "Ho capito"
     },
     "hud": {
-      "sight": { "addDamageBtn": "Danno" },
+      "sight": {
+        "addDamageBtn": "Danno"
+      },
       "addDamage": {
         "cancelBtn": "Annulla",
         "damagedPartCounter": "1 / 2 • Parte danneggiata",
@@ -45,12 +47,28 @@
         "tip": "Consiglio",
         "defaultTutorialWithImage": "Ecco un'immagine di riferimento.\nCerca di riprodurre l'inquadratura il più fedelmente possibile.",
         "defaultTutorialWithoutImage": "Posizionati come indicato nello schema a sinistra,\nassicurandoti che la fotocamera sia all'altezza giusta."
+      },
+      "ocr": {
+        "invalidReading": "Il valore rilevato non è valido. Si prega di riprovare la scansione.",
+        "ocrFailed": "Impossibile rilevare il testo. È possibile passare alla vista successiva.",
+        "imageAlt": "Fotogramma rilevato",
+        "shutterHint": "Usa il pulsante otturatore per scattare una foto",
+        "close": "Chiudi",
+        "continue": "Continua",
+        "cancel": "Annulla",
+        "confirm": "Conferma",
+        "no": "No",
+        "yes": "Sì"
       }
     },
-    "gallery": { "next": "Avanti: foto del veicolo" }
+    "gallery": {
+      "next": "Avanti: foto del veicolo"
+    }
   },
   "video": {
-    "introduction": { "title": "Registra un video di ispezione del veicolo" },
+    "introduction": {
+      "title": "Registra un video di ispezione del veicolo"
+    },
     "permissions": {
       "camera": {
         "title": "Fotocamera",
