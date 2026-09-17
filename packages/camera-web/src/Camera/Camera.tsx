@@ -149,6 +149,8 @@ export function Camera<T extends object>({
         isLoading,
         dimensions: previewDimensions,
         previewDimensions,
+        videoRef,
+        streamDimensions,
       }}
       cameraPreview={cameraPreview}
       {...((hudProps ?? {}) as T)}

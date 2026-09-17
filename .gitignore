@@ -46,3 +46,6 @@ e2e/.env
 
 # MCP secrets (root) — keep .env.example tracked, .env ignored
 .env
+
+# VehicleDetectionPOC model assets. Served at runtime from the demo apps, not committed (7MB+ binaries).
+apps/*/public/models/

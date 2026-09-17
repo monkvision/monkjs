@@ -4706,6 +4706,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mediapipe/tasks-vision@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@mediapipe/tasks-vision@npm:1.0.1"
+  checksum: 4e300f8699960f4130e7878eac324da1e34a7dd39260dc9c952e7fdb477f7ab01c485782c6ac7bd6df837618be1f13271f1281b0a50cccb385c128f155269060
+  languageName: node
+  linkType: hard
+
 "@monkvision/analytics@5.4.7, @monkvision/analytics@workspace:packages/analytics":
   version: 0.0.0-use.local
   resolution: "@monkvision/analytics@workspace:packages/analytics"
@@ -4753,6 +4760,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/camera-web@workspace:packages/camera-web"
   dependencies:
+    "@mediapipe/tasks-vision": ^1.0.1
     "@monkvision/common": 5.4.7
     "@monkvision/common-ui-web": 5.4.7
     "@monkvision/eslint-config-base": 5.4.7
@@ -18370,6 +18378,7 @@ __metadata:
     "@auth0/auth0-react": ^2.2.4
     "@babel/core": ^7.28.6
     "@monkvision/analytics": 5.4.7
+    "@monkvision/camera-web": 5.4.7
     "@monkvision/common": 5.4.7
     "@monkvision/common-ui-web": 5.4.7
     "@monkvision/eslint-config-base": 5.4.7

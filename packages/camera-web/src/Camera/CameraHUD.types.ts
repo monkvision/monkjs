@@ -1,4 +1,4 @@
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType, ReactElement, RefObject } from 'react';
 import { PixelDimensions, MonkPicture } from '@monkvision/types';
 import { UserMediaError } from './hooks';
 
@@ -50,6 +50,26 @@ export interface CameraHandle {
    * The effective pixel dimensions of the video stream on the client screen.
    */
   previewDimensions: PixelDimensions | null;
+  /**
+   * React RefObject referencing the video element displaying the camera preview. You can use it if you need
+   * direct access to the camera frames, for instance to run a real time analysis on the video stream.
+   *
+   * Note: The ref is null until the camera preview has been mounted, and the video element's `videoWidth` and
+   * `videoHeight` properties are equal to 0 until its metadata has been loaded.
+   *
+   * Note: The Camera component registers its own `loadedmetadata` and `resize` handlers using the `onloadedmetadata`
+   * and `onresize` *properties* of the video element. Always use `addEventListener` when listening to events on this
+   * element, otherwise you will silently override the Camera component's handlers and break the preview.
+   */
+  videoRef: RefObject<HTMLVideoElement | null>;
+  /**
+   * The intrinsic dimensions of the camera stream (its full resolution), which can differ from the ones given in the
+   * stream constraints if they are not supported or available on the current device.
+   *
+   * Note: Unlike the `dimensions` property, this property is never scaled down for display : it always describes the
+   * actual resolution of the frames produced by the camera.
+   */
+  streamDimensions: PixelDimensions | null;
 }
 
 /**

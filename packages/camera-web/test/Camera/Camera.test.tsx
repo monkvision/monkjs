@@ -225,6 +225,8 @@ describe('Camera component', () => {
         retry: useCameraPreviewResultMock.retry,
         isLoading: useCameraPreviewResultMock.isLoading || useTakePictureResultMock.isLoading,
         dimensions: useCameraPreviewResultMock.previewDimensions,
+        videoRef: useCameraPreviewResultMock.ref,
+        streamDimensions: useCameraPreviewResultMock.streamDimensions,
       },
       cameraPreview: expect.anything(),
     });

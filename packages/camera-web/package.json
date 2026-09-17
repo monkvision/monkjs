@@ -28,6 +28,7 @@
     "lint:fix": "yarn run prettier:fix && yarn run eslint:fix"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^1.0.1",
     "@monkvision/common": "5.4.7",
     "@monkvision/common-ui-web": "5.4.7",
     "@monkvision/monitoring": "5.4.7",
