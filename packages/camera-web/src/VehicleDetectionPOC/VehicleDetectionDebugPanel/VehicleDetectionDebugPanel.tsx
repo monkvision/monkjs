@@ -1,5 +1,9 @@
 import { useMonkTheme } from '@monkvision/common';
-import { AREA_ENTER_MAX, AREA_ENTER_MIN, CENTER_ENTER, CONTAIN_ENTER } from '../constants';
+import {
+  HORIZONTAL_CENTER_ENTER,
+  VERTICAL_CENTER_ENTER,
+  VERTICAL_FILL_ENTER_MIN,
+} from '../constants';
 import {
   DetectorDelegate,
   DetectorStatus,
@@ -74,12 +78,22 @@ export function VehicleDetectionDebugPanel({
   const rows: [string, string][] = [
     ['state', state],
     ['detector', `${detectorStatus}${delegate ? ` (${delegate})` : ''}`],
+    ['v-fill', metrics ? `${metrics.verticalFill.toFixed(3)} / >${VERTICAL_FILL_ENTER_MIN}` : '—'],
     [
-      'area',
-      metrics ? `${metrics.areaRatio.toFixed(3)} / ${AREA_ENTER_MIN}-${AREA_ENTER_MAX}` : '—',
+      'v-center',
+      metrics ? `${metrics.verticalCenterError.toFixed(3)} / <${VERTICAL_CENTER_ENTER}` : '—',
     ],
-    ['center', metrics ? `${metrics.centerError.toFixed(3)} / <${CENTER_ENTER}` : '—'],
-    ['overflow', metrics ? `${metrics.overflow.toFixed(3)} / <${CONTAIN_ENTER}` : '—'],
+    [
+      'h-center',
+      metrics ? `${metrics.horizontalCenterError.toFixed(3)} / <${HORIZONTAL_CENTER_ENTER}` : '—',
+    ],
+    // The exact "too close" test: both clipped means the full height of the vehicle is no longer visible.
+    [
+      'clipped',
+      metrics
+        ? `${metrics.isTopClipped ? 'roof' : '—'} / ${metrics.isBottomClipped ? 'wheels' : '—'}`
+        : '—',
+    ],
     ['candidates', String(candidateCount)],
     ['inference', `${inferenceMs.toFixed(1)}ms`],
     [

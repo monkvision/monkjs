@@ -8,6 +8,7 @@
   "author": "monkvision",
   "private": true,
   "scripts": {
+    "copy:poc-assets": "mkdir -p public/models && curl -fsSL -o public/models/efficientdet_lite0.tflite https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite",
     "start": "env-cmd -e local vite",
     "start:e2e": "env-cmd -e e2e vite",
     "build": "tsc -b && vite build",

@@ -82,18 +82,18 @@ function getBestCandidate(
  *
  * - While a track exists, the candidate overlapping it the most wins. This temporal continuity is what stops the
  *   smoothing from interpolating between two different vehicles.
- * - When acquiring, the candidate overlapping the *target frame* the most wins, since that single scalar already
+ * - When acquiring, the candidate overlapping the *guide band* the most wins, since that single scalar already
  *   encodes both "big" and "centered". The score only breaks ties.
  *
  * @param candidates The vehicle candidates of the current tick.
  * @param tracked The box currently being tracked, or null if there is no track.
- * @param target The static target frame.
+ * @param guideBox The guide band the vehicle height should span.
  * @return The selected vehicle, or null if there is no candidate.
  */
 export function selectVehicleDetection(
   candidates: VehicleDetection[],
   tracked: CenterBox | null,
-  target: CenterBox,
+  guideBox: CenterBox,
 ): VehicleSelection | null {
   if (candidates.length === 0) {
     return null;
@@ -106,7 +106,7 @@ export function selectVehicleDetection(
   }
   const acquired = getBestCandidate(
     candidates,
-    ({ box, score }) => getIou(box, target) + score * SCORE_TIEBREAK_WEIGHT,
+    ({ box, score }) => getIou(box, guideBox) + score * SCORE_TIEBREAK_WEIGHT,
   );
   return acquired ? { detection: acquired, isNewTrack: true } : null;
 }

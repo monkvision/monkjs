@@ -1,5 +1,6 @@
 import { BoundingBox } from '@mediapipe/tasks-vision';
 import { PixelDimensions } from '@monkvision/types';
+import { EDGE_CLIP_EPSILON, HORIZONTAL_INSET, VERTICAL_BAND_HEIGHT } from '../constants';
 import { CenterBox, CornerBox, PositioningMetrics, VideoContentRect } from '../types';
 
 /**
@@ -49,8 +50,11 @@ export function toCenterBox(box: CornerBox): CenterBox {
  *
  * This is not optional. Despite what the MediaPipe typings suggest, the bounding boxes returned by the model are
  * floating point values that regularly extend past the bounds of the input image (a negative `originX`, or an
- * `originX + width` greater than the image width). Left unclamped, a vehicle that is half out of frame produces an
- * area ratio greater than 1 and completely meaningless containment metrics.
+ * `originX + width` greater than the image width). Left unclamped, a vehicle that is half out of frame produces a
+ * vertical fill well above its real one and a meaningless center.
+ *
+ * Note: Clamping is what makes the clipping flags in `getPositioningMetrics` detectable at all : an edge that was
+ * outside the frame ends up exactly on it.
  *
  * @param box The box to clamp.
  * @return The clamped box, or null if clamping left it degenerate.
@@ -130,52 +134,74 @@ export function getIou(a: CenterBox, b: CenterBox): number {
 }
 
 /**
- * Computes how far a box pokes outside of another one, normalized by the smallest dimension of the target box.
+ * Computes the factor converting a normalized *vertical* extent into units of the camera's narrow field of view.
  *
- * A single scalar is used rather than a boolean so that containment can be given a hysteresis band like every other
- * metric. Negative values mean the box is strictly inside the target, with margin.
+ * Normalized frame coordinates divide y by the frame height, so a given physical height reads differently in portrait
+ * and in landscape: rotating the device swaps which image axis maps to the narrow field of view, and the vertical
+ * extent is measured against the long axis in portrait and the short one in landscape.
  *
- * This metric also catches a failure mode that the area ratio structurally cannot see : a vehicle can have an area
- * ratio of 0.7 while being 1.05 times wider than the target, which is the right area but too wide to fit.
+ * The narrow field of view is a fixed property of the lens, and pixels per degree is the same on both axes for square
+ * pixels, so `min(width, height)` is always the axis spanning that narrow field of view. Scaling by
+ * `height / min(width, height)` therefore turns a normalized height into the fraction of the narrow field of view it
+ * subtends — a quantity that depends only on the distance to the subject, never on how the phone is held.
  *
- * @param box The box to test.
- * @param target The box it should fit inside of.
- * @return The worst axis excursion beyond a target edge, in target box units.
+ * @param frame The intrinsic dimensions of the camera frames.
+ * @return The scale factor, which is 1 in landscape and `height / width` in portrait.
  */
-export function getOverflow(box: CenterBox, target: CenterBox): number {
-  const inner = toCornerBox(box);
-  const outer = toCornerBox(target);
-  const worst = Math.max(
-    outer.x - inner.x,
-    inner.x + inner.width - (outer.x + outer.width),
-    outer.y - inner.y,
-    inner.y + inner.height - (outer.y + outer.height),
-  );
-  return worst / Math.min(target.width, target.height);
+export function getShortAxisScaleY(frame: PixelDimensions): number {
+  return frame.height / Math.min(frame.width, frame.height);
 }
 
 /**
- * Computes the three scalars the positioning state machine runs on.
+ * Computes the guide band the vehicle's height should fill, in normalized frame coordinates.
  *
- * Note: The center error is normalized per axis by the *target box* dimensions, not by the frame. Normalized frame
- * coordinates are anisotropic, so a raw euclidean distance in that space mixes units : on a 3840x2160 frame a `dx` of
- * 0.1 is 384px while a `dy` of 0.1 is only 216px, and a single threshold on that would behave differently in portrait
- * and in landscape. As defined here, the value is dimensionless, aspect-agnostic and identical on every device.
+ * The band's height is fixed in narrow-field-of-view units, so in normalized coordinates it shrinks in portrait and
+ * grows in landscape. That is deliberate: it makes the band the user sees mean exactly the same distance in both
+ * orientations, and it makes the drawing agree with `getPositioningMetrics` by construction.
+ *
+ * Note: The band spans nearly the full frame width, but nothing is ever judged against its horizontal extent. It is
+ * drawn open at the sides for exactly that reason.
+ *
+ * @param frame The intrinsic dimensions of the camera frames.
+ * @return The guide band, clamped so it can never exceed the frame.
+ */
+export function getGuideBox(frame: PixelDimensions): CenterBox {
+  return {
+    xCenter: 0.5,
+    yCenter: 0.5,
+    width: 1 - 2 * HORIZONTAL_INSET,
+    height: Math.min(1, VERTICAL_BAND_HEIGHT / getShortAxisScaleY(frame)),
+  };
+}
+
+/**
+ * Computes the metrics the positioning state machine runs on.
+ *
+ * Only the vehicle's *height* feeds the distance judgement. This is the central decision of the whole feature, and it
+ * follows from what a walkaround physically is: a continuous capture at a roughly constant radius. At a constant
+ * radius a vehicle's apparent length nearly triples between a head-on and a broadside view, while its height barely
+ * changes — so any rule requiring the vehicle to fit inside the frame is unsatisfiable at the sides unless the user
+ * stands far enough back that the head-on views resolve no damage. Height, being viewpoint-invariant, has no such
+ * problem: one band covers every angle.
+ *
+ * "Too close" is therefore not an upper bound on size but the observation that the roof *and* the wheels have both
+ * left the frame. That test is exact where a size threshold would be approximate, and it is the reason there is no
+ * `verticalFill` maximum: once both edges are clipped the box necessarily spans the whole frame height anyway.
  *
  * @param box The smoothed vehicle box.
- * @param target The static target frame.
+ * @param frame The intrinsic dimensions of the camera frames.
  * @return The positioning metrics.
  */
-export function getPositioningMetrics(box: CenterBox, target: CenterBox): PositioningMetrics {
+export function getPositioningMetrics(box: CenterBox, frame: PixelDimensions): PositioningMetrics {
+  const corners = toCornerBox(box);
+  const bandHeight = getGuideBox(frame).height;
+
   return {
-    // Both areas pick up the same 1 / (frameWidth * frameHeight) factor, which cancels out : this ratio is exact
-    // despite the anisotropic normalization.
-    areaRatio: getArea(box) / getArea(target),
-    centerError: Math.max(
-      Math.abs(box.xCenter - target.xCenter) / target.width,
-      Math.abs(box.yCenter - target.yCenter) / target.height,
-    ),
-    overflow: getOverflow(box, target),
+    verticalFill: (box.height * getShortAxisScaleY(frame)) / VERTICAL_BAND_HEIGHT,
+    verticalCenterError: Math.abs(box.yCenter - 0.5) / bandHeight,
+    horizontalCenterError: Math.abs(box.xCenter - 0.5),
+    isTopClipped: corners.y <= EDGE_CLIP_EPSILON,
+    isBottomClipped: corners.y + corners.height >= 1 - EDGE_CLIP_EPSILON,
   };
 }
 

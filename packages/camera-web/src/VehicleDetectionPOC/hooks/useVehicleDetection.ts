@@ -13,6 +13,7 @@ import {
 import { CenterBox, DetectorStatus, PositioningMetrics, VehicleDetection } from '../types';
 import {
   applyEma,
+  getGuideBox,
   getInferenceDimensions,
   getIou,
   getPositioningMetrics,
@@ -46,10 +47,6 @@ export interface UseVehicleDetectionParams {
    * Called when an inference call throws, so that the detector can fall back to another delegate.
    */
   reportInferenceFailure: (error: unknown) => void;
-  /**
-   * The static target frame, used both to acquire a track and to compute the metrics.
-   */
-  targetBox: CenterBox;
   /**
    * The width the camera frames are downscaled to before inference, or null to run on the frames as-is.
    */
@@ -86,9 +83,13 @@ export interface VehicleDetectionHandle {
    */
   rawDetections: VehicleDetection[];
   /**
-   * The metrics of the smoothed box against the target frame, or null if no vehicle is tracked.
+   * The metrics of the smoothed box against the guide band, or null if no vehicle is tracked.
    */
   metrics: PositioningMetrics | null;
+  /**
+   * The guide band derived from the current frame dimensions, or null until the stream has reported them.
+   */
+  guideBox: CenterBox | null;
   /**
    * How long the last inference call took, in milliseconds.
    */
@@ -103,15 +104,15 @@ export interface VehicleDetectionHandle {
  * Custom hook running the object detection loop over the camera stream at a fixed rate, and smoothing the resulting
  * bounding box.
  *
- * The rate is capped at 10 FPS because running inference on every video frame would drain a phone's battery for no
- * benefit : positioning guidance is read by a human, who cannot act faster than that anyway.
+ * The rate is capped well below the video frame rate because running inference on every frame would drain a phone's
+ * battery for no benefit : positioning guidance is read by a human, who cannot act faster than that anyway. See
+ * `DETECTION_INTERVAL_MS`.
  */
 export function useVehicleDetection({
   videoRef,
   detectorRef,
   detectorStatus,
   reportInferenceFailure,
-  targetBox,
   inferenceWidth,
   alphaPosition = EMA_ALPHA_POSITION,
   alphaSize = EMA_ALPHA_SIZE,
@@ -122,6 +123,7 @@ export function useVehicleDetection({
     smoothedBox: null,
     rawDetections: [],
     metrics: null,
+    guideBox: null,
     inferenceMs: 0,
     candidateCount: 0,
   });
@@ -167,7 +169,12 @@ export function useVehicleDetection({
    * Feeds the observation of the current tick into the smoothing accumulator and reports the resulting metrics.
    */
   const updateTracking = useCallback(
-    (detection: VehicleDetection | null, isNewTrack: boolean, now: number) => {
+    (
+      detection: VehicleDetection | null,
+      isNewTrack: boolean,
+      now: number,
+      frame: PixelDimensions,
+    ) => {
       if (!detection) {
         missCountRef.current += 1;
         // Below the grace threshold the last known box is held : a single dropped frame caused by motion blur or a
@@ -176,7 +183,7 @@ export function useVehicleDetection({
           smoothedRef.current = null;
         }
         const metrics = smoothedRef.current
-          ? getPositioningMetrics(smoothedRef.current, targetBox)
+          ? getPositioningMetrics(smoothedRef.current, frame)
           : null;
         onSample(metrics, now);
         return { smoothedBox: smoothedRef.current, metrics };
@@ -200,11 +207,11 @@ export function useVehicleDetection({
             getTimeCorrectedAlpha(alphaSize, dtMs),
           );
       smoothedRef.current = smoothed;
-      const metrics = getPositioningMetrics(smoothed, targetBox);
+      const metrics = getPositioningMetrics(smoothed, frame);
       onSample(metrics, now);
       return { smoothedBox: smoothed, metrics };
     },
-    [targetBox, alphaPosition, alphaSize, onSample],
+    [alphaPosition, alphaSize, onSample],
   );
 
   const tick = useCallback(() => {
@@ -233,6 +240,10 @@ export function useVehicleDetection({
     }
     lastCurrentTimeRef.current = video.currentTime;
 
+    // The guide band depends on the frame's aspect ratio, and iOS lowers the capture resolution under thermal
+    // pressure, so it is derived per tick from the live intrinsic dimensions rather than captured once.
+    const frame = { width: video.videoWidth, height: video.videoHeight };
+    const guideBox = getGuideBox(frame);
     const { source, dimensions } = getInferenceSource(video);
     const timestamp = Math.max(Math.round(now), lastTimestampRef.current + 1);
     lastTimestampRef.current = timestamp;
@@ -255,16 +266,18 @@ export function useVehicleDetection({
       skipUntilRef.current = now + inferenceMs;
     }
 
-    const selection = selectVehicleDetection(candidates, smoothedRef.current, targetBox);
+    const selection = selectVehicleDetection(candidates, smoothedRef.current, guideBox);
     const { smoothedBox, metrics } = updateTracking(
       selection?.detection ?? null,
       selection?.isNewTrack ?? false,
       now,
+      frame,
     );
 
     setHandle({
       smoothedBox,
       metrics,
+      guideBox,
       inferenceMs,
       candidateCount: candidates.length,
       rawDetections: keepRawDetections ? candidates : [],
@@ -274,7 +287,6 @@ export function useVehicleDetection({
     detectorRef,
     reportInferenceFailure,
     getInferenceSource,
-    targetBox,
     updateTracking,
     keepRawDetections,
   ]);

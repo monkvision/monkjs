@@ -8,6 +8,7 @@ export = {
   /* Mocks */
   Camera: jest.fn(() => <></>),
   SimpleCameraHUD: jest.fn(() => <></>),
+  VehicleDetectionOverlay: jest.fn(() => <></>),
   i18nCamera: {},
   getCameraErrorLabel: jest.fn(() => ({ en: '', fr: '', de: '' })),
   useCameraPermission: jest.fn(() => ({

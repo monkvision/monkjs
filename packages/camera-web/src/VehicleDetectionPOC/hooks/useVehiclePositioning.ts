@@ -3,13 +3,11 @@ import { useObjectMemo } from '@monkvision/common';
 import {
   DEFAULT_INFERENCE_WIDTH,
   DEFAULT_MODEL_ASSET_PATH,
-  DEFAULT_TARGET_BOX,
   DEFAULT_WASM_BASE_PATH,
   VIBRATE_COOLDOWN_MS,
   VIBRATE_DURATION_MS,
 } from '../constants';
 import {
-  CenterBox,
   DetectorDelegate,
   PositioningMetrics,
   VehiclePositioningResult,
@@ -27,12 +25,6 @@ export interface UseVehiclePositioningParams {
    * Ref to the video element displaying the camera preview. Available on the Camera handle as `handle.videoRef`.
    */
   videoRef: RefObject<HTMLVideoElement | null>;
-  /**
-   * The static target frame the vehicle should fill, in normalized frame coordinates.
-   *
-   * @default DEFAULT_TARGET_BOX
-   */
-  targetBox?: CenterBox;
   /**
    * The URL of the `.tflite` model to load. The model is not shipped inside the package, it has to be served by the
    * host application.
@@ -101,20 +93,22 @@ function vibrate(): void {
 }
 
 /**
- * Custom hook guiding the user into framing a vehicle inside a target frame.
+ * Custom hook guiding the user into framing a vehicle's height inside the guide band.
  *
- * It runs an EfficientDet-Lite0 object detector over the camera stream at 10 FPS, smooths the detected vehicle box
- * with an exponential moving average, and compares it to the target frame to produce a single, actionable
- * instruction. Three independent layers keep that instruction stable, and all three are needed : the moving average
- * smooths the *geometry*, the hysteresis bands widen the decision *boundaries*, and a dwell timer debounces the
- * discrete *output*.
+ * It runs an EfficientDet-Lite0 object detector over the camera stream, smooths the detected vehicle box with an
+ * exponential moving average, and compares its height to the guide band to produce a single, actionable instruction.
+ * Three independent layers keep that instruction stable, and all three are needed : the moving average smooths the
+ * *geometry*, the hysteresis bands widen the decision *boundaries*, and a dwell timer debounces the discrete
+ * *output*.
+ *
+ * The comparison is built for a *walkaround* rather than for a single shot : the vehicle's length is expected to
+ * overrun the frame at the sides, and only its height is judged. See `getPositioningMetrics` for why.
  *
  * @example
  * const { state, smoothedBox } = useVehiclePositioning({ videoRef: handle.videoRef });
  */
 export function useVehiclePositioning({
   videoRef,
-  targetBox = DEFAULT_TARGET_BOX,
   modelAssetPath = DEFAULT_MODEL_ASSET_PATH,
   wasmBasePath = DEFAULT_WASM_BASE_PATH,
   delegate = DetectorDelegate.AUTO,
@@ -160,18 +154,18 @@ export function useVehiclePositioning({
     [onStateChange],
   );
 
-  const { smoothedBox, rawDetections, metrics, inferenceMs, candidateCount } = useVehicleDetection({
-    videoRef,
-    detectorRef,
-    detectorStatus: status,
-    reportInferenceFailure,
-    targetBox,
-    inferenceWidth,
-    alphaPosition,
-    alphaSize,
-    keepRawDetections,
-    onSample,
-  });
+  const { smoothedBox, rawDetections, metrics, guideBox, inferenceMs, candidateCount } =
+    useVehicleDetection({
+      videoRef,
+      detectorRef,
+      detectorStatus: status,
+      reportInferenceFailure,
+      inferenceWidth,
+      alphaPosition,
+      alphaSize,
+      keepRawDetections,
+      onSample,
+    });
 
   return useObjectMemo({
     state,
@@ -180,7 +174,7 @@ export function useVehiclePositioning({
     smoothedBox,
     rawDetections,
     metrics,
-    targetBox,
+    guideBox,
     inferenceMs,
     candidateCount,
   });

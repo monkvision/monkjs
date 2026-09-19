@@ -1,6 +1,6 @@
 /**
  * The user facing states produced by the vehicle positioning state machine. Each state maps to a single, actionable
- * instruction telling the user how to reposition their device so that the vehicle fills the target frame.
+ * instruction telling the user how to reposition their device so that the vehicle's height fills the guide band.
  */
 export enum VehiclePositioningState {
   /**
@@ -13,18 +13,17 @@ export enum VehiclePositioningState {
    */
   MOVE_CLOSER = 'move_closer',
   /**
-   * A vehicle is detected but it is too big (or it does not fit inside the target frame) : the user needs to move
-   * further away from it.
+   * A vehicle is detected but its roof and wheels are both cut off, so the user is too close to see the full height
+   * of it : the user needs to move further away.
    */
   MOVE_FURTHER_AWAY = 'move_further_away',
   /**
-   * The vehicle has roughly the right size but it is not properly aligned with the target frame : the user needs to
-   * center it.
+   * The vehicle fills the band but sits too high, too low or too far to one side : the user needs to aim back at it.
    */
   CENTER_THE_CAR = 'center_the_car',
   /**
-   * The vehicle is contained in the target frame, properly centered and at the right distance : the user can take the
-   * picture.
+   * The vehicle's full height fills the guide band and the camera is on target. During a walkaround this is a state
+   * to *hold* while moving, not a one-off verdict : the vehicle's length is expected to overrun the frame.
    */
   PERFECT = 'perfect',
 }
@@ -167,25 +166,36 @@ export interface VideoContentRect {
 }
 
 /**
- * The geometric comparison between the smoothed vehicle box and the static target frame. These three scalars are the
- * only inputs of the positioning state machine.
+ * The geometric comparison between the smoothed vehicle box and the guide band. These scalars and flags are the only
+ * inputs of the positioning state machine.
+ *
+ * Note: Nothing here measures the vehicle's *width*, on purpose. See `VERTICAL_BAND_HEIGHT` for why a walkaround
+ * cannot require the vehicle to fit inside the frame horizontally.
  */
 export interface PositioningMetrics {
   /**
-   * The ratio between the area of the vehicle box and the area of the target box. This value is invariant under the
-   * anisotropic normalization of the frame coordinates.
+   * How much of the guide band the vehicle's height fills. A value of `1` means the vehicle spans the band exactly.
+   * This is the distance signal, and it is viewpoint-invariant because a vehicle is the same height from every angle.
    */
-  areaRatio: number;
+  verticalFill: number;
   /**
-   * How far the center of the vehicle box is from the center of the target box, expressed as a fraction of the target
-   * box dimensions (the worst of both axes). A value of `0.15` means "off by 15% of a target dimension".
+   * How far the center of the vehicle box is from the vertical center of the frame, as a fraction of the band height.
+   * This is what distinguishes a camera tilted up or down from one at the wrong distance.
    */
-  centerError: number;
+  verticalCenterError: number;
   /**
-   * How far the vehicle box pokes outside of the target box, expressed as a fraction of the smallest target box
-   * dimension. Negative values mean the vehicle box is strictly inside the target box, with margin.
+   * How far the center of the vehicle box is from the horizontal center of the frame, in frame width units. Only used
+   * to catch the camera drifting off the vehicle entirely, never to judge how much of the vehicle is visible.
    */
-  overflow: number;
+  horizontalCenterError: number;
+  /**
+   * Whether the vehicle box reaches the top edge of the frame, meaning the roof is cut off.
+   */
+  isTopClipped: boolean;
+  /**
+   * Whether the vehicle box reaches the bottom edge of the frame, meaning the wheels are cut off.
+   */
+  isBottomClipped: boolean;
 }
 
 /**
@@ -218,9 +228,10 @@ export interface VehiclePositioningResult {
    */
   metrics: PositioningMetrics | null;
   /**
-   * The target frame the vehicle box is compared against, in normalized frame coordinates.
+   * The guide band the vehicle height is compared against, in normalized frame coordinates, or null until the stream
+   * has reported its intrinsic dimensions (the band depends on the frame's aspect ratio).
    */
-  targetBox: CenterBox;
+  guideBox: CenterBox | null;
   /**
    * How long the last inference call took, in milliseconds. Exposed for the debug panel : this is the single most
    * useful number to watch when evaluating whether this approach is viable on a given device.

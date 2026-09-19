@@ -1,14 +1,12 @@
 import {
-  AREA_ENTER_MAX,
-  AREA_ENTER_MIN,
-  AREA_EXIT_MAX,
-  AREA_EXIT_MIN,
-  CENTER_ENTER,
-  CENTER_EXIT,
-  CONTAIN_ENTER,
-  CONTAIN_EXIT,
+  HORIZONTAL_CENTER_ENTER,
+  HORIZONTAL_CENTER_EXIT,
   MIN_STATE_DURATION_MS,
   PERFECT_DWELL_MS,
+  VERTICAL_CENTER_ENTER,
+  VERTICAL_CENTER_EXIT,
+  VERTICAL_FILL_ENTER_MIN,
+  VERTICAL_FILL_EXIT_MIN,
 } from '../constants';
 import { PositioningMetrics, VehiclePositioningState } from '../types';
 
@@ -16,13 +14,13 @@ import { PositioningMetrics, VehiclePositioningState } from '../types';
  * Decides which instruction should be shown to the user, given the current geometry and the state that is currently
  * displayed.
  *
- * This function is total : every possible input maps to exactly one state. The area ratio is partitioned into
- * `(-inf, 0.4) | [0.4, 0.5) | [0.5, 0.8] | (0.8, 0.9] | (0.9, +inf)`, with the framing rule short-circuiting the
- * middle three bands and the sticky rule short-circuiting everything when the vehicle is already perfectly framed.
+ * This function is total : every possible input maps to exactly one state. Only the vehicle's height and position are
+ * consulted, never its width — see `getPositioningMetrics` for why a walkaround cannot require the vehicle to fit
+ * inside the frame.
  *
- * The `[0.4, 0.5)` and `(0.8, 0.9]` bands left unspecified by the original design are not a gap to be filled : they
- * are exactly the shape of a hysteresis band. `[0.5, 0.8]` is the window to *become* perfectly framed and `[0.4, 0.9]`
- * the window to *remain* so, which is what keeps the frame from flickering at a boundary.
+ * The vertical fill is partitioned into `(-inf, 0.42) | [0.42, 0.5) | [0.5, +inf)`. The middle band is not a gap to
+ * be filled : it is exactly the shape of a hysteresis band. `0.5` is the threshold to *become* well framed and `0.42`
+ * the one to *remain* so, which is what keeps the state from flickering at the boundary.
  *
  * @param metrics The current positioning metrics, or null if no vehicle is tracked. The caller is expected to have
  * already applied the detection loss grace period.
@@ -36,44 +34,57 @@ export function decideVehiclePositioningState(
   if (!metrics) {
     return VehiclePositioningState.NO_CAR_DETECTED;
   }
-  const { areaRatio, centerError, overflow } = metrics;
+  const {
+    verticalFill,
+    verticalCenterError,
+    horizontalCenterError,
+    isTopClipped,
+    isBottomClipped,
+  } = metrics;
+  // The exact "too close" signal : the roof and the wheels have both left the frame, so no amount of panning will
+  // bring the full height of the vehicle back into view. Checked before everything else because it is the one error
+  // the user cannot fix by aiming, and because a size threshold cannot tell it apart from a legitimately large
+  // broadside view.
+  const isTooClose = isTopClipped && isBottomClipped;
 
-  // Sticky PERFECT : once the vehicle is properly framed, only the WIDE exit predicates can unseat it.
+  // Sticky PERFECT : once the framing is good, only the WIDE exit predicates can unseat it.
   if (
     previous === VehiclePositioningState.PERFECT &&
-    areaRatio >= AREA_EXIT_MIN &&
-    areaRatio <= AREA_EXIT_MAX &&
-    centerError <= CENTER_EXIT &&
-    overflow <= CONTAIN_EXIT
+    !isTooClose &&
+    verticalFill >= VERTICAL_FILL_EXIT_MIN &&
+    verticalCenterError <= VERTICAL_CENTER_EXIT &&
+    horizontalCenterError <= HORIZONTAL_CENTER_EXIT
   ) {
     return VehiclePositioningState.PERFECT;
   }
 
-  // Distance dominates framing : there is no point asking someone to center a vehicle that only fills 10% of the
-  // target, and doing so would make the instructions thrash between "move closer" and "center" while they walk. The
-  // WIDE bounds are used here so that the hysteresis bands are never reported as a distance error.
-  if (areaRatio < AREA_EXIT_MIN) {
-    return VehiclePositioningState.MOVE_CLOSER;
-  }
-  if (areaRatio > AREA_EXIT_MAX) {
+  if (isTooClose) {
     return VehiclePositioningState.MOVE_FURTHER_AWAY;
   }
 
-  // Roughly the right size : framing is now the actionable instruction.
-  if (overflow > CONTAIN_ENTER || centerError > CENTER_ENTER) {
+  // Distance dominates aim : there is no point asking someone to center a vehicle that fills a tenth of the band, and
+  // doing so would make the instructions thrash between "move closer" and "center" while they walk. The WIDE bound is
+  // used here so that the hysteresis band is never reported as a distance error.
+  if (verticalFill < VERTICAL_FILL_EXIT_MIN) {
+    return VehiclePositioningState.MOVE_CLOSER;
+  }
+
+  // Roughly the right distance : aim is now the actionable instruction.
+  if (
+    verticalCenterError > VERTICAL_CENTER_ENTER ||
+    horizontalCenterError > HORIZONTAL_CENTER_ENTER
+  ) {
     return VehiclePositioningState.CENTER_THE_CAR;
   }
 
-  // Contained and centered, inside the narrow area window.
-  if (areaRatio >= AREA_ENTER_MIN && areaRatio <= AREA_ENTER_MAX) {
+  // On target, and the vehicle's full height fills the band.
+  if (verticalFill >= VERTICAL_FILL_ENTER_MIN) {
     return VehiclePositioningState.PERFECT;
   }
 
-  // Contained and centered, but inside a hysteresis band without having been perfectly framed before : nudge in the
-  // right direction. This is the rule that makes the function total.
-  return areaRatio < AREA_ENTER_MIN
-    ? VehiclePositioningState.MOVE_CLOSER
-    : VehiclePositioningState.MOVE_FURTHER_AWAY;
+  // On target, but inside the hysteresis band without having been well framed before : nudge in the right direction.
+  // This is the rule that makes the function total.
+  return VehiclePositioningState.MOVE_CLOSER;
 }
 
 /**

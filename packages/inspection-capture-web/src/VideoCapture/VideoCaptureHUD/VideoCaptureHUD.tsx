@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { CameraHUDProps } from '@monkvision/camera-web';
+import { CameraHUDProps, VehicleDetectionOverlay } from '@monkvision/camera-web';
 import { BackdropDialog, Spinner } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
@@ -249,6 +249,13 @@ export function VideoCaptureHUD({
           <VideoCaptureComplete onComplete={onComplete} />
         )}
       </div>
+      {/* Deliberately rendered after the HUD layer rather than under it. The overlay consumes no pointer events, so
+          the record button and the walkaround indicator stay clickable either way, but the hidden debug hotspot only
+          works if it sits above the HUD. Unmounting it outside the recording screen also stops the inference loop
+          once there is nothing left to guide. */}
+      {screen === VideoCaptureHUDScreen.RECORDING && (
+        <VehicleDetectionOverlay videoRef={handle.videoRef} />
+      )}
       <BackdropDialog
         show={isDiscardDialogDisplayed}
         message={t('video.recording.discardDialog.message')}

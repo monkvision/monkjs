@@ -3,7 +3,6 @@ export * from './hooks';
 export * from './types';
 export * from './utils';
 export * from './VehicleDetectionDebugPanel';
-export * from './VehicleDetectionHUD';
-export * from './VehicleDetectionHUD.types';
+export * from './VehicleDetectionOverlay';
 export * from './VehicleInstructionBanner';
 export * from './VehiclePositioningOverlay';

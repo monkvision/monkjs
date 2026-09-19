@@ -22,6 +22,9 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
+      // Pre-bundled explicitly: it is a large CommonJS dependency of @monkvision/camera-web, and discovering it
+      // lazily triggers a full re-bundle in the middle of a dev session.
+      '@mediapipe/tasks-vision',
       '@monkvision/sentry',
       '@monkvision/common',
       '@monkvision/monitoring',
