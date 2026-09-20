@@ -41,6 +41,11 @@ export function calculateLaplaceScores(
     }
   }
   const mean = sum / count;
+  // Note : the single-pass variance formula is safe here, and a second pass over the pixels is not needed. Every
+  // accumulated `value` is an integer in [-127, 128], so `sum` and `sumOfSquares` stay exactly representable, and the
+  // Laplacian of a picture has a mean close to 0, which makes `mean * mean` negligible compared to `sumOfSquares /
+  // count`. The `Math.max(0, ...)` below only guards the degenerate case of a perfectly constant Laplacian (a flat or
+  // linearly-shaded picture), for which the variance is 0 anyway.
   const variance = sumOfSquares / count - mean * mean;
   return { mean: 127 + mean, std: Math.sqrt(Math.max(0, variance)) };
 }

@@ -358,4 +358,103 @@ describe('useFrameSelection hook', () => {
 
     unmount();
   });
+
+  it('should not flush when the handle and the callbacks are re-created but flushTrigger is unchanged', async () => {
+    const initialProps = { ...createProps(), flushTrigger: 3 };
+    const { rerender, unmount } = renderHook(
+      (props: UseFrameSelectionParams) => useFrameSelection(props),
+      { initialProps },
+    );
+    const processingFunction = (useQueue as jest.Mock).mock.calls[0][0];
+    const image = { data: [1], width: 11, height: 12 } as unknown as ImageData;
+    await act(async () => {
+      await processingFunction(image);
+    });
+
+    const newProps = { ...createProps(), flushTrigger: 3 };
+    await act(async () => {
+      rerender(newProps);
+    });
+
+    expect(initialProps.handle.compressImage).not.toHaveBeenCalled();
+    expect(newProps.handle.compressImage).not.toHaveBeenCalled();
+    expect(initialProps.onFrameSelected).not.toHaveBeenCalled();
+    expect(newProps.onFrameSelected).not.toHaveBeenCalled();
+
+    await act(async () => {
+      rerender({ ...newProps, flushTrigger: 4 });
+    });
+
+    expect(newProps.handle.compressImage).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
+  it('should not flush when the initial flushTrigger value is observed again', async () => {
+    const initialProps = { ...createProps(), flushTrigger: 0 };
+    const { rerender, unmount } = renderHook(
+      (props: UseFrameSelectionParams) => useFrameSelection(props),
+      { initialProps },
+    );
+    const processingFunction = (useQueue as jest.Mock).mock.calls[0][0];
+    const image = { data: [1], width: 11, height: 12 } as unknown as ImageData;
+    await act(async () => {
+      await processingFunction(image);
+    });
+
+    await act(async () => {
+      rerender({ ...initialProps, flushTrigger: 0 });
+    });
+
+    expect(initialProps.handle.compressImage).not.toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should clear the queue and reset the processing counters when resetProcessingCounters is called', async () => {
+    const clear = jest.fn();
+    (useQueue as jest.Mock).mockReturnValue({
+      push: jest.fn(),
+      totalItems: 2,
+      processingCount: 0,
+      clear,
+    });
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useFrameSelection(initialProps));
+    const processingFunction = (useQueue as jest.Mock).mock.calls[0][0];
+    const image = { data: [1], width: 11, height: 12 } as unknown as ImageData;
+
+    try {
+      await act(async () => {
+        await processingFunction(image);
+      });
+      await act(async () => {
+        result.current.flushBestFrame();
+      });
+      expect(result.current.totalProcessingFrames).toEqual(3);
+
+      act(() => {
+        result.current.resetProcessingCounters();
+      });
+
+      expect(clear).toHaveBeenCalled();
+      expect(result.current.totalProcessingFrames).toEqual(2);
+      expect(result.current.processedFrames).toEqual(2);
+    } finally {
+      (useQueue as jest.Mock).mockReturnValue({
+        length: 0,
+        processingCount: 0,
+        onHoldCount: 0,
+        totalItems: 0,
+        isFull: false,
+        isAtMaxProcessing: false,
+        push: jest.fn(),
+        failedItems: [],
+        clearFailedItems: jest.fn(),
+        clear: jest.fn(),
+      });
+    }
+
+    unmount();
+  });
 });

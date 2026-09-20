@@ -27,15 +27,15 @@ jest.mock('../../../src/VideoCapture/hooks', () => ({
     onCaptureVideoFrame: jest.fn(),
     flushBestFrame: jest.fn(),
     discardBestFrame: jest.fn(),
+    resetProcessingCounters: jest.fn(),
   })),
   useSegmentFrameSelection: jest.fn(() => ({
     flushTrigger: 12,
     capturedFramesCount: 8,
-    targetFramesCount: 40,
+    effectiveTargetFramesCount: 40,
     startSegmentTracking: jest.fn(),
   })),
   useVideoRecording: jest.fn(() => ({
-    targetFramesCount: 40,
     isRecordingPaused: true,
     onClickRecordVideo: jest.fn(),
     onDiscardDialogKeepRecording: jest.fn(),
@@ -576,6 +576,68 @@ describe('VideoCaptureHUD component', () => {
     );
 
     unmount();
+  });
+
+  it('should reset the processing counters when the video is discarded', () => {
+    const props = createProps();
+    mockNotPaused();
+    const { unmount } = render(<VideoCaptureHUD {...props} />);
+
+    const { resetProcessingCounters } = (useFrameSelection as jest.Mock).mock.results[0].value;
+    const { onDiscardVideo } = (useVideoRecording as jest.Mock).mock.calls[0][0];
+    expect(resetProcessingCounters).not.toHaveBeenCalled();
+    act(() => {
+      onDiscardVideo();
+    });
+    expect(resetProcessingCounters).toHaveBeenCalled();
+
+    unmount();
+  });
+
+  it('should mark the capture as complete in adaptive upload rate mode once the target frame count is reached', () => {
+    const props = createProps();
+    const { unmount: unmountIncomplete } = render(<VideoCaptureHUD {...props} />);
+    // Default mocks: 8 captured frames out of 40.
+    expectPropsOnChildMock(VideoCaptureRecording, { isComplete: false });
+    unmountIncomplete();
+
+    const defaultImplementation = (useSegmentFrameSelection as jest.Mock).getMockImplementation();
+    (useSegmentFrameSelection as jest.Mock).mockImplementation(() => ({
+      flushTrigger: 12,
+      capturedFramesCount: 40,
+      effectiveTargetFramesCount: 40,
+      startSegmentTracking: jest.fn(),
+    }));
+    try {
+      const { unmount } = render(<VideoCaptureHUD {...props} />);
+      expectPropsOnChildMock(VideoCaptureRecording, { isComplete: true });
+      unmount();
+    } finally {
+      (useSegmentFrameSelection as jest.Mock).mockImplementation(defaultImplementation);
+    }
+  });
+
+  it('should mark the capture as complete in fixed upload rate mode once the walkaround coverage is reached', () => {
+    const props = { ...createProps(), videoUploadStrategy: VideoUploadStrategy.FIXED_UPLOAD_RATE };
+    const { unmount: unmountIncomplete } = render(<VideoCaptureHUD {...props} />);
+    // Default mocks: 85% of coverage, below MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE.
+    expectPropsOnChildMock(VideoCaptureRecording, { isComplete: false });
+    unmountIncomplete();
+
+    const defaultImplementation = (useVehicleWalkaround as jest.Mock).getMockImplementation();
+    (useVehicleWalkaround as jest.Mock).mockImplementation(() => ({
+      walkaroundPosition: 334,
+      startWalkaround: jest.fn(),
+      coveredSegments: [],
+      coveragePercentage: 88,
+    }));
+    try {
+      const { unmount } = render(<VideoCaptureHUD {...props} />);
+      expectPropsOnChildMock(VideoCaptureRecording, { isComplete: true });
+      unmount();
+    } finally {
+      (useVehicleWalkaround as jest.Mock).mockImplementation(defaultImplementation);
+    }
   });
 
   it('should flush the buffered frame before showing the processing screen when the recording completes', () => {

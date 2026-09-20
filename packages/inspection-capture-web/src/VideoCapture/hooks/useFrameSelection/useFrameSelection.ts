@@ -58,6 +58,15 @@ export interface FrameSelectionHandle {
    * angle at which the recording resumes), when a new walkaround starts, or when the current recording is discarded.
    */
   discardBestFrame: () => void;
+  /**
+   * Callback used to clear the processing queue and reset the `processedFrames` and `totalProcessingFrames` counters
+   * back to zero. Used when the current recording is discarded, so that the progress displayed during the processing
+   * of the next recording does not include the frames of the discarded one.
+   *
+   * Note: this should not be called when the recording is simply paused, since the frames processed so far are still
+   * part of the current recording.
+   */
+  resetProcessingCounters: () => void;
 }
 
 /**
@@ -94,7 +103,7 @@ export function useFrameSelection({
 
   const onCaptureVideoFrame = useCallback(() => {
     processingQueue.push(handle.getImageData());
-  }, [processingQueue.push]);
+  }, [processingQueue.push, handle]);
 
   const flushBestFrame = useCallback(() => {
     const frame = bestFrame.current;
@@ -122,13 +131,24 @@ export function useFrameSelection({
     bestFrame.current = null;
   }, []);
 
+  const resetProcessingCounters = useCallback(() => {
+    setStartedFlushes(0);
+    setSettledFlushes(0);
+    processingQueue.clear();
+  }, [processingQueue.clear]);
+
   useInterval(flushBestFrame, flushTrigger === undefined ? frameSelectionInterval : null);
 
+  const flushBestFrameRef = useRef(flushBestFrame);
+  flushBestFrameRef.current = flushBestFrame;
+  const lastFlushTrigger = useRef(flushTrigger);
+
   useEffect(() => {
-    if (flushTrigger === undefined) {
+    if (flushTrigger === undefined || flushTrigger === lastFlushTrigger.current) {
       return;
     }
-    flushBestFrame();
+    lastFlushTrigger.current = flushTrigger;
+    flushBestFrameRef.current();
   }, [flushTrigger]);
 
   return useObjectMemo({
@@ -137,5 +157,6 @@ export function useFrameSelection({
     onCaptureVideoFrame,
     flushBestFrame,
     discardBestFrame,
+    resetProcessingCounters,
   });
 }

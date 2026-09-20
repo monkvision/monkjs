@@ -133,6 +133,40 @@ export interface VideoRecordingHandle {
 export const MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE = 87;
 
 /**
+ * Params accepted by the isCaptureComplete utility function.
+ */
+export interface IsCaptureCompleteParams
+  extends Pick<
+    UseVideoRecordingParams,
+    'videoUploadStrategy' | 'capturedFramesCount' | 'targetFramesCount'
+  > {
+  /**
+   * The percentage of the vehicle walkaround that has been covered so far.
+   */
+  coveragePercentage: number;
+}
+
+/**
+ * Utility function indicating if the vehicle walkaround has been captured entirely, and the recording can therefore
+ * be completed by the user:
+ *
+ * - When `videoUploadStrategy` is set to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`, the walkaround is complete once
+ * `targetFramesCount` frames have been captured.
+ * - Otherwise, it is complete once the vehicle walkaround coverage reaches
+ * `MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE`.
+ */
+export function isCaptureComplete({
+  videoUploadStrategy,
+  capturedFramesCount,
+  targetFramesCount,
+  coveragePercentage,
+}: IsCaptureCompleteParams): boolean {
+  return videoUploadStrategy === VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE
+    ? capturedFramesCount >= targetFramesCount
+    : coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE;
+}
+
+/**
  * Custom hook used to manage the video recording (AKA : The process of taking screenshots of the video stream at a
  * given interval).
  */
@@ -199,11 +233,14 @@ export function useVideoRecording({
   const onClickRecordVideo = useCallback(() => {
     if (isRecording) {
       const isDurationTooShort = getRecordingDurationMs() < minRecordingDuration;
-      const isMissingCoverage = isAdaptiveUploadRate
-        ? capturedFramesCount < targetFramesCount
-        : coveragePercentage < MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE;
+      const isMissingCoverage = !isCaptureComplete({
+        videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount,
+        coveragePercentage,
+      });
       if (isDurationTooShort || isMissingCoverage) {
-        setIsMissingTargetFrames(isAdaptiveUploadRate && isMissingCoverage);
+        setIsMissingTargetFrames(!isDurationTooShort && isAdaptiveUploadRate && isMissingCoverage);
         pauseRecording();
         setDiscardDialogDisplayed(true);
       } else {
@@ -223,6 +260,7 @@ export function useVideoRecording({
     getRecordingDurationMs,
     minRecordingDuration,
     coveragePercentage,
+    videoUploadStrategy,
     isAdaptiveUploadRate,
     capturedFramesCount,
     targetFramesCount,
@@ -274,14 +312,17 @@ export function useVideoRecording({
 
   useEffect(() => {
     if (isRecording) {
-      const isCoverageReached = isAdaptiveUploadRate
-        ? capturedFramesCount >= targetFramesCount
-        : coveragePercentage > MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE;
+      const isCoverageReached = isCaptureComplete({
+        videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount,
+        coveragePercentage,
+      });
       setTooltip(isCoverageReached ? VideoRecordingTooltip.END : null);
     }
   }, [
     coveragePercentage,
-    isAdaptiveUploadRate,
+    videoUploadStrategy,
     capturedFramesCount,
     targetFramesCount,
     isRecording,

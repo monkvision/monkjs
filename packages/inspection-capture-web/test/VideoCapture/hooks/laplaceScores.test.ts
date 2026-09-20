@@ -99,6 +99,39 @@ function createCheckerboardPicture(width: number, height: number): Uint8ClampedA
   return pixels;
 }
 
+// Checkerboard with a very small amplitude around the mid-grey value, to simulate a low-contrast (foggy or overcast)
+// scene. The smaller the amplitude, the closer the laplacian values get to 0.
+function createLowContrastPicture(
+  width: number,
+  height: number,
+  amplitude: number,
+): Uint8ClampedArray {
+  const pixels = createPicture(width, height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const i = (y * width + x) * 4;
+      pixels[i + 1] = (x + y) % 2 === 0 ? 128 - amplitude : 128 + amplitude;
+      pixels[i + 3] = 255;
+    }
+  }
+  return pixels;
+}
+
+// Green channel following a quadratic ramp, which yields a constant *non-zero* laplacian over the whole scoring area :
+// the only shape for which the single-pass variance formula could theoretically suffer from catastrophic
+// cancellation.
+function createQuadraticRampPicture(width: number, height: number): Uint8ClampedArray {
+  const pixels = createPicture(width, height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const i = (y * width + x) * 4;
+      pixels[i + 1] = x * x;
+      pixels[i + 3] = 255;
+    }
+  }
+  return pixels;
+}
+
 function createGradientPicture(width: number, height: number): Uint8ClampedArray {
   const pixels = createPicture(width, height);
   for (let y = 0; y < height; y += 1) {
@@ -133,6 +166,21 @@ describe('calculateLaplaceScores', () => {
     const blurry = calculateLaplaceScores(createGradientPicture(16, 16), 16, 16);
 
     expect(sharp.std).toBeGreaterThan(blurry.std);
+  });
+
+  it('should still discriminate sharpness on low-contrast pictures', () => {
+    const sharper = calculateLaplaceScores(createLowContrastPicture(16, 16, 2), 16, 16);
+    const blurrier = calculateLaplaceScores(createLowContrastPicture(16, 16, 1), 16, 16);
+
+    expect(blurrier.std).toBeGreaterThan(0);
+    expect(sharper.std).toBeGreaterThan(blurrier.std);
+  });
+
+  it('should return an exact std of 0 for a constant non-zero laplacian', () => {
+    const scores = calculateLaplaceScores(createQuadraticRampPicture(16, 16), 16, 16);
+
+    expect(scores.std).toBe(0);
+    expect(scores.mean).toBe(129);
   });
 
   it('should ignore the red and blue channels', () => {

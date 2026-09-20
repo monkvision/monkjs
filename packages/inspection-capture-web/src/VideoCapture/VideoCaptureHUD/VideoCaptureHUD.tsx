@@ -11,7 +11,7 @@ import { VideoCaptureRecording } from './VideoCaptureRecording';
 import {
   FastMovementsDetectionHandle,
   FastMovementType,
-  MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
+  isCaptureComplete,
   useFrameSelection,
   useSegmentFrameSelection,
   useVehicleWalkaround,
@@ -178,6 +178,7 @@ export function VideoCaptureHUD({
     onCaptureVideoFrame,
     flushBestFrame,
     discardBestFrame,
+    resetProcessingCounters,
   } = useFrameSelection({
     handle,
     frameSelectionInterval,
@@ -193,8 +194,9 @@ export function VideoCaptureHUD({
 
   const handleDiscardVideo = useCallback(() => {
     discardBestFrame();
+    resetProcessingCounters();
     discardUploadedImages();
-  }, [discardBestFrame, discardUploadedImages]);
+  }, [discardBestFrame, resetProcessingCounters, discardUploadedImages]);
 
   const handleRecordingComplete = useCallback(() => {
     flushBestFrame();
@@ -273,11 +275,12 @@ export function VideoCaptureHUD({
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
             coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
-            isComplete={
-              isAdaptiveUploadRate
-                ? capturedFramesCount >= effectiveTargetFramesCount
-                : coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE
-            }
+            isComplete={isCaptureComplete({
+              videoUploadStrategy,
+              capturedFramesCount,
+              targetFramesCount: effectiveTargetFramesCount,
+              coveragePercentage,
+            })}
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
