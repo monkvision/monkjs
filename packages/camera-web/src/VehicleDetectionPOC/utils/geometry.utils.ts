@@ -185,8 +185,14 @@ export function getGuideBox(frame: PixelDimensions): CenterBox {
  * problem: one band covers every angle.
  *
  * "Too close" is therefore not an upper bound on size but the observation that the roof *and* the wheels have both
- * left the frame. That test is exact where a size threshold would be approximate, and it is the reason there is no
- * `verticalFill` maximum: once both edges are clipped the box necessarily spans the whole frame height anyway.
+ * left the frame. That test is exact where a size threshold would be approximate.
+ *
+ * What the state machine actually gates on is where the box's top and bottom *edges* sit relative to the guide lines,
+ * not how tall the box is. The distinction matters: a close-up of a single part — a wing mirror at arm's length —
+ * produces a box whose height is indistinguishable from a whole vehicle at a sensible distance, so a height-only
+ * test declares it well framed. That box floats in the middle of the frame with a gap above and below it, which the
+ * edge test rejects. The edge test also subsumes vertical centering, since two individually small gaps already imply
+ * the box is centered in the band.
  *
  * @param box The smoothed vehicle box.
  * @param frame The intrinsic dimensions of the camera frames.
@@ -195,10 +201,15 @@ export function getGuideBox(frame: PixelDimensions): CenterBox {
 export function getPositioningMetrics(box: CenterBox, frame: PixelDimensions): PositioningMetrics {
   const corners = toCornerBox(box);
   const bandHeight = getGuideBox(frame).height;
+  const bandTop = 0.5 - bandHeight / 2;
+  const bandBottom = 0.5 + bandHeight / 2;
 
   return {
+    // Clamped at zero on purpose : a vehicle taller than the band reads as no gap at all rather than as a negative
+    // one, so overshooting a guide line stays perfectly acceptable right up until the vehicle clips the frame.
+    topGap: Math.max(0, corners.y - bandTop) / bandHeight,
+    bottomGap: Math.max(0, bandBottom - (corners.y + corners.height)) / bandHeight,
     verticalFill: (box.height * getShortAxisScaleY(frame)) / VERTICAL_BAND_HEIGHT,
-    verticalCenterError: Math.abs(box.yCenter - 0.5) / bandHeight,
     horizontalCenterError: Math.abs(box.xCenter - 0.5),
     isTopClipped: corners.y <= EDGE_CLIP_EPSILON,
     isBottomClipped: corners.y + corners.height >= 1 - EDGE_CLIP_EPSILON,

@@ -1,12 +1,10 @@
 import {
+  EDGE_GAP_ENTER,
+  EDGE_GAP_EXIT,
   HORIZONTAL_CENTER_ENTER,
   HORIZONTAL_CENTER_EXIT,
   MIN_STATE_DURATION_MS,
   PERFECT_DWELL_MS,
-  VERTICAL_CENTER_ENTER,
-  VERTICAL_CENTER_EXIT,
-  VERTICAL_FILL_ENTER_MIN,
-  VERTICAL_FILL_EXIT_MIN,
 } from '../constants';
 import { PositioningMetrics, VehiclePositioningState } from '../types';
 
@@ -14,12 +12,12 @@ import { PositioningMetrics, VehiclePositioningState } from '../types';
  * Decides which instruction should be shown to the user, given the current geometry and the state that is currently
  * displayed.
  *
- * This function is total : every possible input maps to exactly one state. Only the vehicle's height and position are
- * consulted, never its width — see `getPositioningMetrics` for why a walkaround cannot require the vehicle to fit
- * inside the frame.
+ * This function is total : every possible input maps to exactly one state. Only the vehicle's vertical extent and
+ * position are consulted, never its width — see `getPositioningMetrics` for why a walkaround cannot require the
+ * vehicle to fit inside the frame.
  *
- * The vertical fill is partitioned into `(-inf, 0.42) | [0.42, 0.5) | [0.5, +inf)`. The middle band is not a gap to
- * be filled : it is exactly the shape of a hysteresis band. `0.5` is the threshold to *become* well framed and `0.42`
+ * The worst edge gap is partitioned into `[0, 0.1] | (0.1, 0.16] | (0.16, +inf)`. The middle band is not a gap to be
+ * filled : it is exactly the shape of a hysteresis band. `0.1` is the threshold to *become* well framed and `0.16`
  * the one to *remain* so, which is what keeps the state from flickering at the boundary.
  *
  * @param metrics The current positioning metrics, or null if no vehicle is tracked. The caller is expected to have
@@ -34,25 +32,27 @@ export function decideVehiclePositioningState(
   if (!metrics) {
     return VehiclePositioningState.NO_CAR_DETECTED;
   }
-  const {
-    verticalFill,
-    verticalCenterError,
-    horizontalCenterError,
-    isTopClipped,
-    isBottomClipped,
-  } = metrics;
-  // The exact "too close" signal : the roof and the wheels have both left the frame, so no amount of panning will
-  // bring the full height of the vehicle back into view. Checked before everything else because it is the one error
-  // the user cannot fix by aiming, and because a size threshold cannot tell it apart from a legitimately large
-  // broadside view.
-  const isTooClose = isTopClipped && isBottomClipped;
+  const { topGap, bottomGap, horizontalCenterError, isTopClipped, isBottomClipped } = metrics;
+  // The two gaps answer different questions, and the distinction is what makes the instructions useful. Room on
+  // *both* sides means the vehicle is small inside the band, so it is simply too far away. Room on only *one* side
+  // means the camera is tilted, or the box is a part of the vehicle rather than the whole of it.
+  const worstGap = Math.max(topGap, bottomGap);
+  const bestGap = Math.min(topGap, bottomGap);
+  // The "too close" signal : an edge has left the frame and *neither* edge still has room, so the vehicle is taller
+  // than the frame and no amount of aiming will bring its full height back into view.
+  //
+  // Both halves are needed. Requiring both edges to be clipped misses the vehicle that overruns the top while its
+  // bottom sits past the lower line — also too close, but only one edge reports it. Requiring merely one clipped
+  // edge would instead punish a camera tilted down at a vehicle that does fit, which is an aiming error and is
+  // handled below. Checked before the gaps because a clipped edge reads as no gap at all, which would otherwise look
+  // like an ideal framing.
+  const isTooClose = (isTopClipped || isBottomClipped) && worstGap <= 0;
 
   // Sticky PERFECT : once the framing is good, only the WIDE exit predicates can unseat it.
   if (
     previous === VehiclePositioningState.PERFECT &&
     !isTooClose &&
-    verticalFill >= VERTICAL_FILL_EXIT_MIN &&
-    verticalCenterError <= VERTICAL_CENTER_EXIT &&
+    worstGap <= EDGE_GAP_EXIT &&
     horizontalCenterError <= HORIZONTAL_CENTER_EXIT
   ) {
     return VehiclePositioningState.PERFECT;
@@ -62,29 +62,26 @@ export function decideVehiclePositioningState(
     return VehiclePositioningState.MOVE_FURTHER_AWAY;
   }
 
-  // Distance dominates aim : there is no point asking someone to center a vehicle that fills a tenth of the band, and
-  // doing so would make the instructions thrash between "move closer" and "center" while they walk. The WIDE bound is
-  // used here so that the hysteresis band is never reported as a distance error.
-  if (verticalFill < VERTICAL_FILL_EXIT_MIN) {
-    return VehiclePositioningState.MOVE_CLOSER;
-  }
-
-  // Roughly the right distance : aim is now the actionable instruction.
-  if (
-    verticalCenterError > VERTICAL_CENTER_ENTER ||
-    horizontalCenterError > HORIZONTAL_CENTER_ENTER
-  ) {
+  // Aiming at the wrong thing entirely dominates everything else : there is no point discussing distance while the
+  // camera is pointed past the vehicle.
+  if (horizontalCenterError > HORIZONTAL_CENTER_ENTER) {
     return VehiclePositioningState.CENTER_THE_CAR;
   }
 
-  // On target, and the vehicle's full height fills the band.
-  if (verticalFill >= VERTICAL_FILL_ENTER_MIN) {
-    return VehiclePositioningState.PERFECT;
+  // Too far. The WIDE bound is used here so that losing a good framing by stepping back reports a distance error
+  // immediately, rather than leaving a dead zone between the two tests.
+  if (bestGap > EDGE_GAP_EXIT) {
+    return VehiclePositioningState.MOVE_CLOSER;
   }
 
-  // On target, but inside the hysteresis band without having been well framed before : nudge in the right direction.
-  // This is the rule that makes the function total.
-  return VehiclePositioningState.MOVE_CLOSER;
+  // One edge short of its line : the camera is tilted, or this is a part of the vehicle and not the whole of it.
+  // Those two are geometrically indistinguishable from a bounding box, so the instruction deliberately states the
+  // goal instead of guessing a direction to move in.
+  if (worstGap > EDGE_GAP_ENTER) {
+    return VehiclePositioningState.CENTER_THE_CAR;
+  }
+
+  return VehiclePositioningState.PERFECT;
 }
 
 /**

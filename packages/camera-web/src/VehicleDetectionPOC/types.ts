@@ -174,15 +174,23 @@ export interface VideoContentRect {
  */
 export interface PositioningMetrics {
   /**
+   * The gap between the top of the vehicle box and the top guide line, as a fraction of the band height. Zero when
+   * the vehicle reaches or overshoots the line. Together with `bottomGap` this is what gates a good framing.
+   */
+  topGap: number;
+  /**
+   * The gap between the bottom of the vehicle box and the bottom guide line, as a fraction of the band height. Zero
+   * when the vehicle reaches or overshoots the line.
+   */
+  bottomGap: number;
+  /**
    * How much of the guide band the vehicle's height fills. A value of `1` means the vehicle spans the band exactly.
-   * This is the distance signal, and it is viewpoint-invariant because a vehicle is the same height from every angle.
+   * It is viewpoint-invariant because a vehicle is the same height from every angle.
+   *
+   * Note: Informational only — it gates nothing. The gaps above supersede it, because they also encode *where* the
+   * vehicle sits, which a height alone cannot. Kept because it is the number that maps directly to a distance.
    */
   verticalFill: number;
-  /**
-   * How far the center of the vehicle box is from the vertical center of the frame, as a fraction of the band height.
-   * This is what distinguishes a camera tilted up or down from one at the wrong distance.
-   */
-  verticalCenterError: number;
   /**
    * How far the center of the vehicle box is from the horizontal center of the frame, in frame width units. Only used
    * to catch the camera drifting off the vehicle entirely, never to judge how much of the vehicle is visible.

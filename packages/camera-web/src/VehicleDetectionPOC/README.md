@@ -2,12 +2,13 @@
 
 A proof of concept overlay that guides the user through a vehicle **walkaround** in real time. It runs
 [EfficientDet-Lite0](https://ai.google.dev/edge/mediapipe/solutions/vision/object_detector) through
-`@mediapipe/tasks-vision` over the live camera stream, smooths the detected bounding box, and compares its **height**
-to a guide band to produce a single instruction.
+`@mediapipe/tasks-vision` over the live camera stream, smooths the detected bounding box, and checks that its **top
+and bottom edges** reach a pair of guide lines to produce a single instruction.
 
-It judges height rather than containment on purpose: during a walkaround the vehicle's length is _expected_ to overrun
-the frame, and requiring it to fit would force the user too far back to resolve damage. See
-[Why only the vehicle's height is judged](#why-only-the-vehicles-height-is-judged).
+It judges the vertical axis rather than containment on purpose: during a walkaround the vehicle's length is _expected_
+to overrun the frame, and requiring it to fit would force the user too far back to resolve damage. See
+[Why only the vehicle's height is judged](#why-only-the-vehicles-height-is-judged) and
+[Why the box's edges are tested, not its height](#why-the-boxs-edges-are-tested-not-its-height).
 
 > **This is a POC, not a feature.** It ships without unit tests and without i18n (the instruction strings are English
 > constants in `constants.ts`), and it is excluded from the package's coverage thresholds in `jest.config.js`.
@@ -105,20 +106,33 @@ distance are simply incompatible during a walkaround.
 Height has no such problem. Because it is viewpoint-invariant, one band covers every angle at a fixed radius. So the
 vehicle is compared to a **guide band**, and its length is allowed to overrun the frame freely:
 
-| Metric                  | Definition                                                                   |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| `verticalFill`          | vehicle height ÷ band height, both in narrow-FOV units — the distance signal |
-| `verticalCenterError`   | vertical centre offset, as a fraction of the band height                     |
-| `horizontalCenterError` | horizontal centre offset, in frame width units                               |
-| `isTopClipped`          | the roof has left the frame                                                  |
-| `isBottomClipped`       | the wheels have left the frame                                               |
+| Metric                  | Definition                                                             |
+| ----------------------- | ---------------------------------------------------------------------- |
+| `topGap`                | gap from the box's top edge to the top guide line, ÷ band height       |
+| `bottomGap`             | gap from the box's bottom edge to the bottom guide line, ÷ band height |
+| `verticalFill`          | vehicle height ÷ band height, in narrow-FOV units — informational only |
+| `horizontalCenterError` | horizontal centre offset, in frame width units                         |
+| `isTopClipped`          | the roof has left the frame                                            |
+| `isBottomClipped`       | the wheels have left the frame                                         |
 
 Nothing measures the vehicle's width. `horizontalCenterError` is **not** a framing rule and is deliberately loose: it
 only catches the camera drifting off the vehicle altogether, never how much of the vehicle is visible.
 
-Simulating a 0→90° sweep at a 2m radius, `verticalFill` holds at 0.98 the whole way round while the box width goes
-from 0.56 to 1.13 — that is, the vehicle overruns the frame by 13% at broadside and the state stays good, which is
-the entire point.
+Simulating a 0→90° sweep at a 2m radius, both gaps hold constant the whole way round while the box width grows past
+1.27 — that is, the vehicle overruns the frame by 27% at broadside and the state stays good, which is the entire
+point.
+
+#### Why the box's edges are tested, not its height
+
+A height-only test cannot tell scale. A wing mirror at arm's length produces a box whose height is arithmetically
+identical to a whole vehicle at 2.5m, so a rule of the form `verticalFill >= x` declares it well framed — which it
+did, until this test replaced it. What separates the two is _where the box sits_: the mirror floats mid-frame with a
+gap above and below it, while a well-framed vehicle reaches both guide lines.
+
+So `topGap` and `bottomGap` must **each** be within `EDGE_GAP_ENTER`. Both are clamped at zero, so a vehicle taller
+than the band reads as no gap rather than a negative one — overshooting a line stays fine right up until the vehicle
+clips the frame. Testing the two edges separately is also strictly stronger than a height test plus a centring test,
+because it rejects a tall box shifted to one side, so `verticalCenterError` was dropped as redundant.
 
 #### Why the band is measured against the narrow field of view
 
@@ -134,18 +148,24 @@ The band is defined in those units too, so in normalised coordinates it shrinks 
 
 ### 3. The state machine — `utils/positioning.utils.ts`
 
-`decideVehiclePositioningState` is a pure, total function of `(metrics, previousState)`. `0.68` is the vertical fill
-to _become_ well framed and `0.58` the one to _remain_ so — the band in between is the hysteresis.
+`decideVehiclePositioningState` is a pure, total function of `(metrics, previousState)`. `0.10` is the worst edge gap
+to _become_ well framed and `0.13` the one to _remain_ so — the band in between is the hysteresis.
 
-**"Too close" is not a size threshold.** It is the observation that the roof _and_ the wheels have both left the
-frame, so no amount of panning can bring the vehicle's full height back into view. That test is exact where a size
-threshold would be approximate, and it is why `verticalFill` has no upper bound: once both edges are clipped the box
-necessarily spans the whole frame height anyway, making any maximum redundant and less precise.
+**The two gaps are read differently, and that is what makes the instructions useful.** Room on _both_ sides
+(`min(topGap, bottomGap)`) means the vehicle is small inside the band, so it is simply too far → "Move closer". Room
+on only _one_ side (`max(…)`) means the camera is tilted, or the box is a part of the vehicle rather than the whole
+of it → the neutral "Fit the vehicle between the lines", which states the goal rather than guessing a direction.
 
-With a ~50° narrow FOV this puts the usable range at roughly **1.6m to 3.0m**, at every angle and in both
-orientations. `VERTICAL_FILL_ENTER_MIN` is the single knob that sets the near-far working distance, and its ts-doc
-carries the fill-to-distance table; the far end alone moves with it, since the near end is fixed by the roof and
-wheels leaving the frame.
+**"Too close" is not a size threshold.** It is `(isTopClipped || isBottomClipped) && worstGap <= 0`: an edge has left
+the frame and neither edge still has room, so the vehicle is taller than the frame. Both halves are load bearing.
+Requiring _both_ edges to be clipped misses the vehicle overrunning the top while its bottom sits past the lower
+line. Requiring merely _one_ clipped edge would punish a camera tilted down at a vehicle that does fit, which is an
+aiming error and is handled separately. It is also why there is no `verticalFill` maximum — this test is exact where
+a size threshold would be approximate.
+
+With a ~50° narrow FOV this puts the usable range at roughly **1.6m to 2.4m**, at every angle and in both
+orientations. `EDGE_GAP_ENTER` is the single knob that sets the far end of that range, and its ts-doc carries the
+gap-to-distance table; the near end is fixed by the vehicle outgrowing the frame.
 
 Three independent layers keep the output stable, and all three are load bearing:
 
@@ -184,10 +204,17 @@ particular — it is the number that decides whether this approach is viable on 
   was ever seen by the camera. On a portrait phone receiving a landscape stream that rectangle can be a thin strip;
   the letterbox bars are dimmed so the active area reads correctly. The real fix is to request a preview aspect ratio
   matching the screen, which means changing `getMediaConstraints`.
-- **A bounding box carries no scale.** "Too close" is inferred from the roof and wheels both leaving the frame, which
-  is the best a box can do. It cannot distinguish a phone held against a door from a correctly framed broadside view
-  if the model happens to report a box spanning the frame in both cases. Part or wheel detection would give a true
-  scale reference.
+- **A bounding box carries no scale.** The edge test rejects the common close-up cases, but a vehicle part whose box
+  happens to span the guide band almost exactly will still pass, and inside the hysteresis band a part can hold a
+  good framing it already had. Nothing client-side in this monorepo can close that gap: `vehicle_fully_in_frame` and
+  `image_analysis.zoom` exist only in the Monk API response (`packages/network/src/api/models/compliance.ts`) and
+  need a full image upload, so they are unusable per frame. Wheel detection would give a true scale reference — a
+  wheel is ~0.65m across from every exterior angle — and the existing detector loop, downscale canvas, EMA and dwell
+  timer would all be reusable for a second model.
+- **"Move closer" can point the wrong way at very close range.** When both gaps are large the geometry is identical
+  whether the vehicle is far away or only a part of it is in view, so the instruction assumes the far case, which is
+  the one users actually hit. Standing 30cm from a mirror therefore reads "Move closer" — wrong, but it no longer
+  reads as well framed, which was the bug.
 - **`navigator.vibrate` does not exist on iOS Safari** — any version. The haptic simply never fires there, which is
   why the well-framed state is also obvious visually, on both the band and the vehicle box.
 - **Cold start is ~19MB** (WASM runtime plus model), so 20-40s on a poor connection. The banner shows a loading

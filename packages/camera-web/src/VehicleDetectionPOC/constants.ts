@@ -129,45 +129,42 @@ export const JUMP_IOU_MIN = 0.1;
 export const SCORE_TIEBREAK_WEIGHT = 0.01;
 
 /**
- * The minimum share of the guide band the vehicle's height must fill for the framing to *become* good.
+ * The maximum gap between a vehicle box edge and its guide line, as a fraction of the band height, for the framing
+ * to *become* good. Both the top and the bottom gap must be within it.
  *
- * This is the knob that sets the working distance, and it is the only one that does. For a 1.5m tall vehicle and a
- * 50 degree narrow field of view it works out at roughly:
+ * Testing the *edges* rather than the box's height is what stops a close-up of a single part from passing. A wing
+ * mirror at arm's length produces a box whose height happens to match a whole vehicle at a sensible distance, so a
+ * height-only test declares it well framed; but that box floats in the middle of the frame with a visible gap above
+ * and below, which this test rejects. It is also stronger than a height test plus a centering test, because it
+ * forbids a tall box shifted off to one side.
  *
- * | Vertical fill | Distance |
- * | ------------- | -------- |
- * | 0.50          | 4.0m     |
- * | 0.58          | 3.5m     |
- * | 0.68          | 3.0m     |
- * | 0.80          | 2.5m     |
- * | 1.00          | 2.0m     |
+ * This is the knob that sets the working distance, and it is the only one that does. For a 1.5m tall vehicle:
  *
- * The relationship is monotonic — a higher threshold always means "stand closer" — so tuning this needs no knowledge
+ * | Gap per edge | Implied vehicle height | Distance @50° FOV | @45° FOV |
+ * | ------------ | ---------------------- | ----------------- | -------- |
+ * | 0.04         | 92% of the band        | 2.14m             | 2.40m    |
+ * | 0.06         | 88%                    | 2.24m             | 2.51m    |
+ * | 0.10         | 80%                    | 2.48m             | 2.78m    |
+ * | 0.15         | 70%                    | 2.86m             | 3.19m    |
+ *
+ * The relationship is monotonic — a smaller tolerance always means "stand closer" — so tuning it needs no knowledge
  * of the device's optics, but the distances above scale with the actual field of view.
+ */
+export const EDGE_GAP_ENTER = 0.1;
+
+/**
+ * The maximum gap between a vehicle box edge and its guide line for the framing to *remain* good. Together with
+ * `EDGE_GAP_ENTER` this forms the hysteresis band that stops the state from flickering at the boundary.
  *
- * Note: There is deliberately no upper bound. A vertical fill above 1 means the vehicle is taller than the band,
- * which is not an error as long as its roof and wheels are both still visible — and once they are not, the vehicle
- * box necessarily spans the whole frame height, so the clipping rule catches it exactly. An upper threshold here
- * would be a second, redundant and less precise "too close" signal.
+ * Note: Deliberately also used as the "too far" cutoff, so that the moment a good framing is lost by drifting
+ * backwards the very next state is "move closer". Giving the two tests separate values would open a dead zone where
+ * the framing is no longer good but the user is told nothing actionable.
+ *
+ * Note: Kept close to `EDGE_GAP_ENTER`. The hysteresis band is the one place a part of a vehicle can still hold a
+ * good framing it already had — a wing mirror sits at a gap of roughly 0.14 — so widening this trades that failure
+ * back in. It cannot be closed entirely without a true scale reference; see the README's known limitations.
  */
-export const VERTICAL_FILL_ENTER_MIN = 0.68;
-
-/**
- * The lower vertical fill the vehicle must stay above for the framing to *remain* good. Together with
- * `VERTICAL_FILL_ENTER_MIN` this forms the hysteresis band that stops the state from flickering at the boundary.
- */
-export const VERTICAL_FILL_EXIT_MIN = 0.58;
-
-/**
- * The maximum vertical center error, in band units, for the vehicle to *become* vertically centered. This is what
- * catches a camera tilted too far up or down, which cuts the roof or the wheels off one side at a time.
- */
-export const VERTICAL_CENTER_ENTER = 0.25;
-
-/**
- * The maximum vertical center error, in band units, for the vehicle to *remain* vertically centered.
- */
-export const VERTICAL_CENTER_EXIT = 0.35;
+export const EDGE_GAP_EXIT = 0.13;
 
 /**
  * The maximum horizontal center error, in frame width units, for the vehicle to *become* on target.

@@ -1,9 +1,5 @@
 import { useMonkTheme } from '@monkvision/common';
-import {
-  HORIZONTAL_CENTER_ENTER,
-  VERTICAL_CENTER_ENTER,
-  VERTICAL_FILL_ENTER_MIN,
-} from '../constants';
+import { EDGE_GAP_ENTER, HORIZONTAL_CENTER_ENTER } from '../constants';
 import {
   DetectorDelegate,
   DetectorStatus,
@@ -78,11 +74,14 @@ export function VehicleDetectionDebugPanel({
   const rows: [string, string][] = [
     ['state', state],
     ['detector', `${detectorStatus}${delegate ? ` (${delegate})` : ''}`],
-    ['v-fill', metrics ? `${metrics.verticalFill.toFixed(3)} / >${VERTICAL_FILL_ENTER_MIN}` : '—'],
+    // The gaps are what actually gate a good framing, so they lead.
     [
-      'v-center',
-      metrics ? `${metrics.verticalCenterError.toFixed(3)} / <${VERTICAL_CENTER_ENTER}` : '—',
+      'gaps',
+      metrics
+        ? `${metrics.topGap.toFixed(3)} ${metrics.bottomGap.toFixed(3)} / <${EDGE_GAP_ENTER}`
+        : '—',
     ],
+    ['v-fill', metrics ? `${metrics.verticalFill.toFixed(3)} (info)` : '—'],
     [
       'h-center',
       metrics ? `${metrics.horizontalCenterError.toFixed(3)} / <${HORIZONTAL_CENTER_ENTER}` : '—',
