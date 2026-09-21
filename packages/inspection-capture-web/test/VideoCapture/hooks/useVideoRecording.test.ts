@@ -1,10 +1,13 @@
 import {
+  isCaptureComplete,
+  MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
   useVideoRecording,
   UseVideoRecordingParams,
   VideoRecordingTooltip,
 } from '../../../src/VideoCapture/hooks';
 import { renderHook, act } from '@testing-library/react';
 import { useInterval } from '@monkvision/common';
+import { VideoUploadStrategy } from '@monkvision/types';
 
 function createProps(): UseVideoRecordingParams {
   let isRecording = false;
@@ -19,6 +22,9 @@ function createProps(): UseVideoRecordingParams {
     startWalkaround: jest.fn(),
     screenshotInterval: 200,
     minRecordingDuration: 5000,
+    videoUploadStrategy: VideoUploadStrategy.FIXED_UPLOAD_RATE,
+    capturedFramesCount: 0,
+    targetFramesCount: 40,
     onCaptureVideoFrame: jest.fn(),
     onRecordingComplete: jest.fn(),
     resetFastMovementDetection: jest.fn(),
@@ -168,6 +174,105 @@ describe('useVideoRecording hook', () => {
     unmount();
   });
 
+  it('should display the discard warning with isMissingTargetFrames when the target frame count has not been reached in adaptive upload rate mode', () => {
+    const initialProps = createProps();
+    initialProps.videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
+    initialProps.capturedFramesCount = 10;
+    initialProps.targetFramesCount = 40;
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    jest.advanceTimersByTime(initialProps.minRecordingDuration + 1);
+    rerender(initialProps);
+    expect(result.current.isDiscardDialogDisplayed).toBe(false);
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    expect(result.current.isDiscardDialogDisplayed).toBe(true);
+    expect(result.current.isMissingTargetFrames).toBe(true);
+
+    unmount();
+  });
+
+  it('should not display isMissingTargetFrames when the discard warning is triggered by a short recording duration in adaptive upload rate mode', () => {
+    const initialProps = createProps();
+    initialProps.videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
+    initialProps.capturedFramesCount = 40;
+    initialProps.targetFramesCount = 40;
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
+    rerender(initialProps);
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    expect(result.current.isDiscardDialogDisplayed).toBe(true);
+    expect(result.current.isMissingTargetFrames).toBe(false);
+
+    unmount();
+  });
+
+  it('should not display isMissingTargetFrames when the recording is both too short and missing frames', () => {
+    const initialProps = createProps();
+    initialProps.videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
+    initialProps.capturedFramesCount = 10;
+    initialProps.targetFramesCount = 40;
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    jest.advanceTimersByTime(initialProps.minRecordingDuration - 1);
+    rerender(initialProps);
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    expect(result.current.isDiscardDialogDisplayed).toBe(true);
+    expect(result.current.isMissingTargetFrames).toBe(false);
+
+    unmount();
+  });
+
+  it('should allow completing the recording once the target frame count is reached in adaptive upload rate mode, regardless of coveragePercentage', () => {
+    const initialProps = createProps();
+    initialProps.videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
+    initialProps.coveragePercentage = 10;
+    initialProps.capturedFramesCount = 40;
+    initialProps.targetFramesCount = 40;
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    jest.advanceTimersByTime(initialProps.minRecordingDuration + 1);
+    rerender(initialProps);
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    expect(result.current.isDiscardDialogDisplayed).toBe(false);
+    expect(initialProps.isRecording).toBe(false);
+    expect(initialProps.onRecordingComplete).toHaveBeenCalled();
+
+    unmount();
+  });
+
   it('should resume the recording when the user presses on the keep recording button', () => {
     const initialProps = createProps();
     const { result, rerender, unmount } = renderHook(
@@ -302,5 +407,78 @@ describe('useVideoRecording hook', () => {
     expect(result.current.tooltip).toEqual(VideoRecordingTooltip.END);
 
     unmount();
+  });
+
+  it('should show the end tooltip once the target frame count is reached in adaptive upload rate mode', () => {
+    const initialProps = createProps();
+    initialProps.videoUploadStrategy = VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
+    initialProps.capturedFramesCount = 0;
+    initialProps.targetFramesCount = 40;
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    rerender({ ...initialProps, capturedFramesCount: 40 });
+    expect(result.current.tooltip).toEqual(VideoRecordingTooltip.END);
+
+    unmount();
+  });
+
+  it('should show the end tooltip as soon as the minimum coverage is exactly reached', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseVideoRecordingParams) => useVideoRecording(props),
+      { initialProps },
+    );
+
+    act(() => {
+      result.current.onClickRecordVideo();
+    });
+    rerender({
+      ...initialProps,
+      coveragePercentage: MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
+    });
+    expect(result.current.tooltip).toEqual(VideoRecordingTooltip.END);
+
+    unmount();
+  });
+});
+
+describe('isCaptureComplete utility function', () => {
+  it('should rely on the captured frames count in adaptive upload rate mode', () => {
+    const params = {
+      videoUploadStrategy: VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE,
+      targetFramesCount: 40,
+      coveragePercentage: 0,
+    };
+
+    expect(isCaptureComplete({ ...params, capturedFramesCount: 39 })).toBe(false);
+    expect(isCaptureComplete({ ...params, capturedFramesCount: 40 })).toBe(true);
+    expect(isCaptureComplete({ ...params, capturedFramesCount: 41 })).toBe(true);
+  });
+
+  it('should rely on the walkaround coverage in fixed upload rate mode', () => {
+    const params = {
+      videoUploadStrategy: VideoUploadStrategy.FIXED_UPLOAD_RATE,
+      capturedFramesCount: 0,
+      targetFramesCount: 40,
+    };
+
+    expect(
+      isCaptureComplete({
+        ...params,
+        coveragePercentage: MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE - 1,
+      }),
+    ).toBe(false);
+    expect(
+      isCaptureComplete({
+        ...params,
+        coveragePercentage: MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
+      }),
+    ).toBe(true);
   });
 });

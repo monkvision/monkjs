@@ -1,18 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { CameraHUDProps } from '@monkvision/camera-web';
 import { BackdropDialog, Spinner } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { LoadingState } from '@monkvision/common';
-import { DeviceRotation, VideoCaptureAppConfig } from '@monkvision/types';
+import { DeviceRotation, VideoCaptureAppConfig, VideoUploadStrategy } from '@monkvision/types';
 import { useMonitoring } from '@monkvision/monitoring';
 import { styles } from './VideoCaptureHUD.styles';
 import { VideoCaptureRecording } from './VideoCaptureRecording';
 import {
   FastMovementsDetectionHandle,
   FastMovementType,
-  MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE,
+  isCaptureComplete,
   useFrameSelection,
+  useSegmentFrameSelection,
   useVehicleWalkaround,
   useVideoRecording,
   UseVideoRecordingParams,
@@ -28,7 +29,10 @@ import { VideoCaptureComplete } from './VideoCaptureComplete';
  */
 export interface VideoCaptureHUDProps
   extends CameraHUDProps,
-    Pick<UseVideoRecordingParams, 'minRecordingDuration'>,
+    Pick<
+      UseVideoRecordingParams,
+      'minRecordingDuration' | 'videoUploadStrategy' | 'targetFramesCount'
+    >,
     Pick<VideoCaptureAppConfig, 'enforceOrientation' | 'enableHybridVideo'>,
     Pick<DeviceRotation, 'alpha'>,
     Pick<
@@ -48,6 +52,11 @@ export interface VideoCaptureHUDProps
    * The maximum number of retries for failed image uploads.
    */
   maxRetryCount: number;
+  /**
+   * The interval (in milliseconds) at which frames are selected and uploaded when `videoUploadStrategy` is set to
+   * `VideoUploadStrategy.FIXED_UPLOAD_RATE`.
+   */
+  frameSelectionInterval: number;
   /**
    * Boolean indicating if the video is currently recording or not.
    */
@@ -80,8 +89,7 @@ export interface VideoCaptureHUDProps
   showCloseVideoButton?: boolean;
 }
 
-const SCREENSHOT_INTERVAL_MS = 200;
-const FRAME_SELECTION_INTERVAL_MS = 1000;
+const SCREENSHOT_INTERVAL_MS = 100;
 
 enum VideoCaptureHUDScreen {
   RECORDING = 'recording',
@@ -127,7 +135,10 @@ export function VideoCaptureHUD({
   onWarningDismiss,
   resetDetection,
   maxRetryCount,
+  frameSelectionInterval,
   minRecordingDuration,
+  videoUploadStrategy,
+  targetFramesCount,
   startTasksLoading,
   inspectionLoading,
   enableHybridVideo,
@@ -138,6 +149,7 @@ export function VideoCaptureHUD({
   const [screen, setScreen] = useState(VideoCaptureHUDScreen.RECORDING);
   const { t } = useTranslation();
   const { handleError } = useMonitoring();
+  const isAdaptiveUploadRate = videoUploadStrategy === VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
   const { walkaroundPosition, startWalkaround, coveragePercentage, coveredSegments } =
     useVehicleWalkaround({
       alpha,
@@ -153,17 +165,53 @@ export function VideoCaptureHUD({
       alpha,
     });
 
-  const { processedFrames, totalProcessingFrames, onCaptureVideoFrame } = useFrameSelection({
+  const { flushTrigger, capturedFramesCount, effectiveTargetFramesCount, startSegmentTracking } =
+    useSegmentFrameSelection({
+      walkaroundPosition,
+      isRecording: isRecording && isAdaptiveUploadRate,
+      targetFramesCount,
+    });
+
+  const {
+    processedFrames,
+    totalProcessingFrames,
+    onCaptureVideoFrame,
+    flushBestFrame,
+    discardBestFrame,
+    resetProcessingCounters,
+  } = useFrameSelection({
     handle,
-    frameSelectionInterval: FRAME_SELECTION_INTERVAL_MS,
+    frameSelectionInterval,
+    flushTrigger: isAdaptiveUploadRate ? flushTrigger : undefined,
     onFrameSelected,
   });
+
+  const handleStartWalkaround = useCallback(() => {
+    discardBestFrame();
+    startWalkaround();
+    startSegmentTracking();
+  }, [discardBestFrame, startWalkaround, startSegmentTracking]);
+
+  const handleDiscardVideo = useCallback(() => {
+    discardBestFrame();
+    resetProcessingCounters();
+    discardUploadedImages();
+  }, [discardBestFrame, resetProcessingCounters, discardUploadedImages]);
+
+  const handleRecordingComplete = useCallback(() => {
+    flushBestFrame();
+    setScreen(
+      enableHybridVideo ? VideoCaptureHUDScreen.COMPLETE : VideoCaptureHUDScreen.PROCESSING,
+    );
+  }, [flushBestFrame, enableHybridVideo]);
+
   const {
     isRecordingPaused,
     onClickRecordVideo,
     onDiscardDialogKeepRecording,
     onDiscardDialogDiscardVideo,
     isDiscardDialogDisplayed,
+    isMissingTargetFrames,
     recordingDurationMs,
     pauseRecording,
     resumeRecording,
@@ -175,18 +223,21 @@ export function VideoCaptureHUD({
     minRecordingDuration,
     enforceOrientation,
     coveragePercentage,
-    startWalkaround,
+    videoUploadStrategy,
+    capturedFramesCount,
+    targetFramesCount: effectiveTargetFramesCount,
+    startWalkaround: handleStartWalkaround,
     onCaptureVideoFrame,
-    onRecordingComplete: () => {
-      if (enableHybridVideo) {
-        setScreen(VideoCaptureHUDScreen.COMPLETE);
-      } else {
-        setScreen(VideoCaptureHUDScreen.PROCESSING);
-      }
-    },
+    onRecordingComplete: handleRecordingComplete,
     resetFastMovementDetection: resetDetection,
-    onDiscardVideo: discardUploadedImages,
+    onDiscardVideo: handleDiscardVideo,
   });
+
+  useEffect(() => {
+    if (isRecordingPaused) {
+      discardBestFrame();
+    }
+  }, [isRecordingPaused, discardBestFrame]);
 
   const handleTakePictureClick = async () => {
     try {
@@ -224,7 +275,12 @@ export function VideoCaptureHUD({
             isRecording={isRecording}
             isRecordingPaused={isRecordingPaused}
             coveredSegments={isRecording || isRecordingPaused ? coveredSegments : undefined}
-            isComplete={coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE}
+            isComplete={isCaptureComplete({
+              videoUploadStrategy,
+              capturedFramesCount,
+              targetFramesCount: effectiveTargetFramesCount,
+              coveragePercentage,
+            })}
             recordingDurationMs={recordingDurationMs}
             onClickRecordVideo={onClickRecordVideo}
             onClickTakePicture={handleTakePictureClick}
@@ -251,7 +307,11 @@ export function VideoCaptureHUD({
       </div>
       <BackdropDialog
         show={isDiscardDialogDisplayed}
-        message={t('video.recording.discardDialog.message')}
+        message={t(
+          isMissingTargetFrames
+            ? 'video.recording.discardDialog.messageMissingFrames'
+            : 'video.recording.discardDialog.message',
+        )}
         confirmLabel={t('video.recording.discardDialog.keepRecording')}
         cancelLabel={t('video.recording.discardDialog.discardVideo')}
         onConfirm={onDiscardDialogKeepRecording}

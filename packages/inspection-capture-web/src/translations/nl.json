@@ -86,6 +86,7 @@
     "recording": {
       "discardDialog": {
         "message": "Wil je de video weggooien? Je hebt het voertuig nog niet helemaal rondgereden.",
+        "messageMissingFrames": "Wil je de video weggooien? Nog niet alle vereiste beelden zijn vastgelegd.",
         "keepRecording": "Opname behouden",
         "discardVideo": "Video weggooien"
       },

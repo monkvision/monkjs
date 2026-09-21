@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useInterval } from '@monkvision/common';
-import { VideoCaptureAppConfig } from '@monkvision/types';
+import { VideoCaptureAppConfig, VideoUploadStrategy } from '@monkvision/types';
 import { VehicleWalkaroundHandle } from './useVehicleWalkaround';
 import { useEnforceOrientation } from '../../hooks';
 
@@ -45,6 +45,24 @@ export interface UseVideoRecordingParams
    * vehicle walkaround.
    */
   minRecordingDuration: number;
+  /**
+   * The strategy used to decide when a frame of the video should be selected and uploaded.
+   *
+   * When set to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`, the recording can only be completed once
+   * `targetFramesCount` frames have been captured (in addition to `minRecordingDuration` being reached),
+   * instead of the vehicle walkaround coverage percentage.
+   */
+  videoUploadStrategy: VideoUploadStrategy;
+  /**
+   * The number of frames captured so far during the current walkaround. Only used when `videoUploadStrategy` is set
+   * to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`.
+   */
+  capturedFramesCount: number;
+  /**
+   * The target number of frames to capture over a full 360° walkaround. Only used when `videoUploadStrategy` is set
+   * to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`.
+   */
+  targetFramesCount: number;
   /**
    * Callback called when a screenshot of the video stream should be taken and then added to the processing queue.
    */
@@ -104,9 +122,49 @@ export interface VideoRecordingHandle {
    * The tooltip displayed to the user.
    */
   tooltip: VideoRecordingTooltip | null;
+  /**
+   * Boolean indicating if the discard dialog is displayed because the target frame count has not been reached yet
+   * (only relevant when `videoUploadStrategy` is set to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`), as opposed to
+   * the vehicle walkaround coverage not being high enough.
+   */
+  isMissingTargetFrames: boolean;
 }
 
 export const MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE = 87;
+
+/**
+ * Params accepted by the isCaptureComplete utility function.
+ */
+export interface IsCaptureCompleteParams
+  extends Pick<
+    UseVideoRecordingParams,
+    'videoUploadStrategy' | 'capturedFramesCount' | 'targetFramesCount'
+  > {
+  /**
+   * The percentage of the vehicle walkaround that has been covered so far.
+   */
+  coveragePercentage: number;
+}
+
+/**
+ * Utility function indicating if the vehicle walkaround has been captured entirely, and the recording can therefore
+ * be completed by the user:
+ *
+ * - When `videoUploadStrategy` is set to `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE`, the walkaround is complete once
+ * `targetFramesCount` frames have been captured.
+ * - Otherwise, it is complete once the vehicle walkaround coverage reaches
+ * `MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE`.
+ */
+export function isCaptureComplete({
+  videoUploadStrategy,
+  capturedFramesCount,
+  targetFramesCount,
+  coveragePercentage,
+}: IsCaptureCompleteParams): boolean {
+  return videoUploadStrategy === VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE
+    ? capturedFramesCount >= targetFramesCount
+    : coveragePercentage >= MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE;
+}
 
 /**
  * Custom hook used to manage the video recording (AKA : The process of taking screenshots of the video stream at a
@@ -119,6 +177,9 @@ export function useVideoRecording({
   minRecordingDuration,
   enforceOrientation,
   coveragePercentage,
+  videoUploadStrategy,
+  capturedFramesCount,
+  targetFramesCount,
   startWalkaround,
   onCaptureVideoFrame,
   onRecordingComplete,
@@ -129,9 +190,11 @@ export function useVideoRecording({
   const [additionalRecordingDuration, setAdditionalRecordingDuration] = useState(0);
   const [recordingStartTimestamp, setRecordingStartTimestamp] = useState<number | null>(null);
   const [isDiscardDialogDisplayed, setDiscardDialogDisplayed] = useState(false);
+  const [isMissingTargetFrames, setIsMissingTargetFrames] = useState(false);
   const [orientationPause, setOrientationPause] = useState(false);
   const [tooltip, setTooltip] = useState<VideoRecordingTooltip | null>(VideoRecordingTooltip.START);
   const isViolatingEnforcedOrientation = useEnforceOrientation(enforceOrientation);
+  const isAdaptiveUploadRate = videoUploadStrategy === VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE;
 
   const getRecordingDurationMs = useCallback(
     () =>
@@ -169,10 +232,15 @@ export function useVideoRecording({
 
   const onClickRecordVideo = useCallback(() => {
     if (isRecording) {
-      if (
-        getRecordingDurationMs() < minRecordingDuration ||
-        coveragePercentage < MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE
-      ) {
+      const isDurationTooShort = getRecordingDurationMs() < minRecordingDuration;
+      const isMissingCoverage = !isCaptureComplete({
+        videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount,
+        coveragePercentage,
+      });
+      if (isDurationTooShort || isMissingCoverage) {
+        setIsMissingTargetFrames(!isDurationTooShort && isAdaptiveUploadRate && isMissingCoverage);
         pauseRecording();
         setDiscardDialogDisplayed(true);
       } else {
@@ -192,6 +260,10 @@ export function useVideoRecording({
     getRecordingDurationMs,
     minRecordingDuration,
     coveragePercentage,
+    videoUploadStrategy,
+    isAdaptiveUploadRate,
+    capturedFramesCount,
+    targetFramesCount,
     pauseRecording,
     onRecordingComplete,
     setIsRecording,
@@ -240,13 +312,21 @@ export function useVideoRecording({
 
   useEffect(() => {
     if (isRecording) {
-      if (coveragePercentage > MINIMUM_PERCENTAGE_VEHICLE_WALKAROUND_COVERAGE) {
-        setTooltip(VideoRecordingTooltip.END);
-      } else {
-        setTooltip(null);
-      }
+      const isCoverageReached = isCaptureComplete({
+        videoUploadStrategy,
+        capturedFramesCount,
+        targetFramesCount,
+        coveragePercentage,
+      });
+      setTooltip(isCoverageReached ? VideoRecordingTooltip.END : null);
     }
-  }, [coveragePercentage, isRecording]);
+  }, [
+    coveragePercentage,
+    videoUploadStrategy,
+    capturedFramesCount,
+    targetFramesCount,
+    isRecording,
+  ]);
 
   return {
     isRecordingPaused,
@@ -255,6 +335,7 @@ export function useVideoRecording({
     onDiscardDialogKeepRecording,
     onDiscardDialogDiscardVideo,
     isDiscardDialogDisplayed,
+    isMissingTargetFrames,
     pauseRecording,
     resumeRecording,
     tooltip,

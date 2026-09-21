@@ -178,6 +178,39 @@ describe('useVideoUploadQueue hook', () => {
     unmount();
   });
 
+  it('should reset the upload counters and the frame index on discard', () => {
+    const initialProps = createProps();
+    const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));
+    const { onItemComplete } = (useQueue as jest.Mock).mock.calls[0][1];
+
+    const picture1 = { uri: 'test-uri-1' } as unknown as MonkPicture;
+    const picture2 = { uri: 'test-uri-2' } as unknown as MonkPicture;
+    act(() => {
+      result.current.onFrameSelected(picture1);
+      result.current.onFrameSelected(picture2);
+      onItemComplete({ picture: picture1, frameIndex: 0, timestamp: 0, retryCount: 0 });
+    });
+    expect(result.current.totalUploadingFrames).toEqual(2);
+    expect(result.current.uploadedFrames).toEqual(1);
+
+    act(() => {
+      result.current.discardUploadedImages();
+    });
+
+    expect(result.current.totalUploadingFrames).toEqual(0);
+    expect(result.current.uploadedFrames).toEqual(0);
+
+    const push = (useQueue as jest.Mock).mock.results.at(-1)?.value.push;
+    act(() => {
+      result.current.onFrameSelected(picture1);
+    });
+    expect(push).toHaveBeenCalledWith(
+      expect.objectContaining({ picture: picture1, frameIndex: 0, timestamp: 0 }),
+    );
+
+    unmount();
+  });
+
   it('should round the alpha value in the upload objects', () => {
     const initialProps = { ...createProps(), alpha: 45.6 };
     const { result, unmount } = renderHook(() => useVideoUploadQueue(initialProps));

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MonkPicture } from '@monkvision/types';
 import { useInterval, useObjectMemo, useQueue } from '@monkvision/common';
 import { CameraHandle } from '@monkvision/camera-web';
@@ -14,9 +14,16 @@ export interface UseFrameSelectionParams {
    */
   handle: CameraHandle;
   /**
-   * Interval (in milliseconds) at which camera frames should be taken.
+   * Interval (in milliseconds) at which camera frames should be taken. Ignored if `flushTrigger` is provided.
    */
   frameSelectionInterval: number;
+  /**
+   * If provided, the best buffered frame is flushed every time this value changes, instead of relying on
+   * `frameSelectionInterval`.
+   *
+   * Used for `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE` strategy.
+   */
+  flushTrigger?: number;
   /**
    * Callback called when a frame has been selected and should be uploaded to the API.
    */
@@ -39,6 +46,27 @@ export interface FrameSelectionHandle {
    * Callback called when a video frame should be captured.
    */
   onCaptureVideoFrame: () => void;
+  /**
+   * Callback used to upload the currently buffered best frame (if any) to the API, and reset the buffer. Used by the
+   * `VideoUploadStrategy.ADAPTIVE_UPLOAD_RATE` strategy to flush the frame captured in the last angular bucket of the
+   * walkaround, once the recording is complete.
+   */
+  flushBestFrame: () => void;
+  /**
+   * Callback used to discard the currently buffered best frame (if any), without uploading it. Used every time the
+   * buffered frame should not be trusted anymore: when the recording is paused (the frame may no longer match the
+   * angle at which the recording resumes), when a new walkaround starts, or when the current recording is discarded.
+   */
+  discardBestFrame: () => void;
+  /**
+   * Callback used to clear the processing queue and reset the `processedFrames` and `totalProcessingFrames` counters
+   * back to zero. Used when the current recording is discarded, so that the progress displayed during the processing
+   * of the next recording does not include the frames of the discarded one.
+   *
+   * Note: this should not be called when the recording is simply paused, since the frames processed so far are still
+   * part of the current recording.
+   */
+  resetProcessingCounters: () => void;
 }
 
 /**
@@ -50,18 +78,20 @@ export interface FrameSelectionHandle {
 export function useFrameSelection({
   handle,
   frameSelectionInterval,
+  flushTrigger,
   onFrameSelected,
 }: UseFrameSelectionParams): FrameSelectionHandle {
   const bestScore = useRef<number | null>(null);
   const bestFrame = useRef<ImageData | null>(null);
+  const generation = useRef(0);
+  const [startedFlushes, setStartedFlushes] = useState(0);
+  const [settledFlushes, setSettledFlushes] = useState(0);
   const { handleError } = useMonitoring();
 
   const processingQueue = useQueue(
     (image: ImageData) =>
       new Promise<void>((resolve) => {
-        // Note : Other array-copying methods might result in performance issues
-        const imagePixelsCopy = image.data.slice();
-        const laplaceScores = calculateLaplaceScores(imagePixelsCopy, image.width, image.height);
+        const laplaceScores = calculateLaplaceScores(image.data, image.width, image.height);
         if (bestScore.current === null || laplaceScores.std > bestScore.current) {
           bestScore.current = laplaceScores.std;
           bestFrame.current = image;
@@ -73,22 +103,60 @@ export function useFrameSelection({
 
   const onCaptureVideoFrame = useCallback(() => {
     processingQueue.push(handle.getImageData());
-  }, [processingQueue.push]);
+  }, [processingQueue.push, handle]);
 
-  useInterval(() => {
-    if (bestFrame.current !== null) {
-      handle
-        .compressImage(bestFrame.current)
-        .then((picture) => onFrameSelected?.(picture))
-        .catch(handleError);
-    }
+  const flushBestFrame = useCallback(() => {
+    const frame = bestFrame.current;
     bestScore.current = null;
     bestFrame.current = null;
-  }, frameSelectionInterval);
+    if (frame === null) {
+      return;
+    }
+    const flushGeneration = generation.current;
+    setStartedFlushes((count) => count + 1);
+    handle
+      .compressImage(frame)
+      .then((picture) => {
+        if (flushGeneration === generation.current) {
+          onFrameSelected?.(picture);
+        }
+      })
+      .catch(handleError)
+      .finally(() => setSettledFlushes((count) => count + 1));
+  }, [handle, onFrameSelected, handleError]);
+
+  const discardBestFrame = useCallback(() => {
+    generation.current += 1;
+    bestScore.current = null;
+    bestFrame.current = null;
+  }, []);
+
+  const resetProcessingCounters = useCallback(() => {
+    setStartedFlushes(0);
+    setSettledFlushes(0);
+    processingQueue.clear();
+  }, [processingQueue.clear]);
+
+  useInterval(flushBestFrame, flushTrigger === undefined ? frameSelectionInterval : null);
+
+  const flushBestFrameRef = useRef(flushBestFrame);
+  flushBestFrameRef.current = flushBestFrame;
+  const lastFlushTrigger = useRef(flushTrigger);
+
+  useEffect(() => {
+    if (flushTrigger === undefined || flushTrigger === lastFlushTrigger.current) {
+      return;
+    }
+    lastFlushTrigger.current = flushTrigger;
+    flushBestFrameRef.current();
+  }, [flushTrigger]);
 
   return useObjectMemo({
-    processedFrames: processingQueue.totalItems - processingQueue.processingCount,
-    totalProcessingFrames: processingQueue.totalItems,
+    processedFrames: processingQueue.totalItems - processingQueue.processingCount + settledFlushes,
+    totalProcessingFrames: processingQueue.totalItems + startedFlushes,
     onCaptureVideoFrame,
+    flushBestFrame,
+    discardBestFrame,
+    resetProcessingCounters,
   });
 }

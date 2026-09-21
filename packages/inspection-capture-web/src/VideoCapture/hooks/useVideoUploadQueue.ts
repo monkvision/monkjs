@@ -49,8 +49,8 @@ export interface VideoUploadQueueHandle {
    */
   onFrameSelected: (picture: MonkPicture) => void;
   /**
-   * Callback called when the video is discarded. Clears the upload queue and deletes all images
-   * associated with the inspection in bulk using the current Monk state.
+   * Callback called when the video is discarded. Clears the upload queue, resets the upload progress counters, and
+   * deletes all images associated with the inspection in bulk using the current Monk state.
    */
   discardUploadedImages: () => void;
 }
@@ -118,6 +118,10 @@ export function useVideoUploadQueue({
 
   const discardUploadedImages = useCallback(() => {
     queue.clear(true);
+    setUploadedFrames(0);
+    setTotalUploadingFrames(0);
+    frameIndex.current = 0;
+    frameTimestamp.current = null;
     const imageIds = getInspectionImages(inspectionId, state.images).map((img) => img.id);
     if (imageIds.length > 0) {
       deleteImagesBulk({ inspectionId, imageIds }).catch((err: unknown) => {
