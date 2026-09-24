@@ -165,7 +165,7 @@
     "de-CH": "Linker Motor",
     "en-IE": "Engine Left Side",
     "en-GB": "Engine Left Side",
-    "en-hag": "Driver Side Engine Bay"
+    "en-hag": "Passenger Side Engine Bay"
   },
   "engine-right-side": {
     "key": "engine-right-side",
@@ -186,7 +186,7 @@
     "de-CH": "Rechter Motor",
     "en-IE": "Engine Right Side",
     "en-GB": "Engine Right Side",
-    "en-hag": "Passenger Side Engine Bay"
+    "en-hag": "Driver Side Engine Bay"
   },
   "front": {
     "key": "front",
