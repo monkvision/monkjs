@@ -47,6 +47,18 @@
         "tip": "Tipp",
         "defaultTutorialWithImage": "Hier sehen Sie ein Referenzbild.\nBitte versuchen Sie, den Bildausschnitt möglichst genau nachzustellen.",
         "defaultTutorialWithoutImage": "Bitte positionieren Sie sich wie in der Abbildung links gezeigt\nund achten Sie darauf, dass sich die Kamera in der richtigen Höhe befindet."
+      },
+      "ocr": {
+        "invalidReading": "Der erkannte Wert ist ungültig. Bitte erneut scannen.",
+        "ocrFailed": "Text konnte nicht erkannt werden. Sie können zur nächsten Ansicht fortfahren.",
+        "imageAlt": "Erkannter Frame",
+        "shutterHint": "Verwenden Sie die Aufnahmetaste, um ein Foto aufzunehmen",
+        "close": "Schließen",
+        "continue": "Weiter",
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen",
+        "no": "Nein",
+        "yes": "Ja"
       }
     },
     "gallery": {

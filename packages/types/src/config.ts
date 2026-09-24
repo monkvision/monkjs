@@ -1,7 +1,7 @@
 import { CameraResolution, CompressionOptions } from './camera';
 import { SightGuideline, SightTutorial, SteeringWheelPosition, VehicleType } from './sights';
 import { MonkPalette } from './theme';
-import { ComplianceOptions, TaskName } from './state';
+import { ComplianceOptions, MileageUnit, TaskName } from './state';
 import { DeviceOrientation } from './utils';
 import { CreateInspectionOptions, MonkApiPermission } from './api';
 
@@ -632,4 +632,10 @@ export type LiveConfig = (PhotoCaptureAppConfig | VideoCaptureAppConfig) & {
    * Optional Thumbnail domain override.
    */
   thumbnailDomain?: string;
+  /**
+   * Default mileage unit used when OCR cannot detect a unit from an odometer reading.
+   *
+   * @default MileageUnit.KM
+   */
+  odometerUnit?: MileageUnit;
 };
