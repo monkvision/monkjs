@@ -77,7 +77,8 @@ export function useVehicleDynamicWireframe({
       const groupElement: SVGGElement | undefined = groups[0];
       let part: VehiclePart;
 
-      const isPricingPill = isPricingPillElement(groupElement!) || isPricingPillElement(element);
+      const isPricingPill =
+        (!!groupElement && isPricingPillElement(groupElement)) || isPricingPillElement(element);
       const isValidatedSeverityNoneElement =
         isPartValidated(element, validatedParts) || element.classList.contains('severity-none');
 

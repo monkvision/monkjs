@@ -248,6 +248,13 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     allowSkipRetake?: boolean;
     /**
+     * Boolean indicating if a "Rerun" button should be displayed in the gallery top bar when the inspection is
+     * completed. Clicking this button re-queues all inspection tasks so they can be processed again.
+     *
+     * @default false
+     */
+    allowRerunTasks?: boolean;
+    /**
      * Options for Add Damage. If disabled, the `Add Damage` button will be hidden.
      *
      * @default AddDamage.PART_SELECT.

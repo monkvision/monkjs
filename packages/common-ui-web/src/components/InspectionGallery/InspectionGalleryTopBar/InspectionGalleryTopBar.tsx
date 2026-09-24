@@ -18,6 +18,7 @@ export type InspectionGalleryTopBarProps = Pick<
   | 'onBack'
   | 'captureMode'
   | 'onValidate'
+  | 'onRerunTasks'
   | 'validateButtonLabel'
   | 'isInspectionCompleted'
   | 'enableBeautyShotExtraction'
@@ -86,6 +87,12 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
     [props.items, props.allowSkipRetake],
   );
 
+  const completedAction = props.onRerunTasks ? (
+    <Button onClick={props.onRerunTasks}>{t('topBar.rerun')}</Button>
+  ) : (
+    <div style={titleStyle}>{t('topBar.completed')}</div>
+  );
+
   return (
     <div style={barStyle}>
       <div style={leftContainerStyle}>
@@ -118,7 +125,7 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
         )}
       </div>
       {props.isInspectionCompleted ? (
-        <div style={titleStyle}>{t('topBar.completed')}</div>
+        completedAction
       ) : (
         <Button
           disabled={!isSubmitAvailable}

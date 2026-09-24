@@ -94,6 +94,7 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
         onBack={props.onBack}
         captureMode={props.captureMode}
         onValidate={props.onValidate}
+        onRerunTasks={props.onRerunTasks}
         allowSkipRetake={props.captureMode && !!props.allowSkipRetake}
         validateButtonLabel={props.validateButtonLabel}
         isInspectionCompleted={props.isInspectionCompleted}

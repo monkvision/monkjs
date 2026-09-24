@@ -9,7 +9,11 @@ import ky from 'ky';
 import { ProgressStatus, TaskName } from '@monkvision/types';
 import { MonkActionType } from '@monkvision/common';
 import { getDefaultOptions } from '../../../src/api/config';
-import { startInspectionTasks, updateTaskStatus } from '../../../src/api/task';
+import {
+  rerunInspectionTasks,
+  startInspectionTasks,
+  updateTaskStatus,
+} from '../../../src/api/task';
 
 const apiConfig = {
   apiDomain: 'apiDomain',
@@ -51,6 +55,49 @@ describe('Task requests', () => {
         response,
         body,
       });
+    });
+  });
+
+  describe('rerunInspectionTasks request', () => {
+    it('should make the proper API calls', async () => {
+      const inspectionId = 'test-inspection-id';
+      const names = [TaskName.WHEEL_ANALYSIS, TaskName.DAMAGE_DETECTION];
+      const dispatch = jest.fn();
+      const result = await rerunInspectionTasks({ inspectionId, names }, apiConfig, dispatch);
+      const response0 = await (ky.patch as jest.Mock).mock.results[0].value;
+      const body0 = await response0.json();
+      const response1 = await (ky.patch as jest.Mock).mock.results[1].value;
+      const body1 = await response1.json();
+
+      expect(getDefaultOptions).toHaveBeenCalledWith(apiConfig);
+      names.forEach((name) => {
+        expect(ky.patch).toHaveBeenCalledWith(`inspections/${inspectionId}/tasks/${name}`, {
+          ...getDefaultOptions(apiConfig),
+          json: { status: ProgressStatus.NOT_STARTED },
+          retry: {
+            methods: ['patch'],
+            limit: 4,
+            backoffLimit: 1500,
+          },
+        });
+      });
+      expect(dispatch).toHaveBeenCalledWith({
+        type: MonkActionType.UPDATED_MANY_TASKS,
+        payload: [
+          { id: undefined, status: ProgressStatus.NOT_STARTED },
+          { id: undefined, status: ProgressStatus.NOT_STARTED },
+        ],
+      });
+      expect(result).toEqual([
+        {
+          response: response0,
+          body: body0,
+        },
+        {
+          response: response1,
+          body: body1,
+        },
+      ]);
     });
   });
 
