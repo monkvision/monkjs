@@ -141,6 +141,9 @@ export function PhotoCaptureHUDOcrOverlay({
   const [isTimedOut, setIsTimedOut] = useState(false);
   const [hasFallbackImageData, setHasFallbackImageData] = useState(false);
   const [fallbackOcrFailed, setFallbackOcrFailed] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState<MileageUnit>(
+    defaultMileageUnit ?? MileageUnit.KM,
+  );
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
   const isPortrait = previewDimensions ? previewDimensions.height > previewDimensions.width : false;
@@ -157,7 +160,8 @@ export function PhotoCaptureHUDOcrOverlay({
     processedFallbackUriRef.current = null;
     setHasFallbackImageData(false);
     setFallbackOcrFailed(false);
-  }, [reset]);
+    setSelectedUnit(defaultMileageUnit ?? MileageUnit.KM);
+  }, [reset, defaultMileageUnit]);
 
   // Reset when the active sight changes.
   useEffect(() => {
@@ -393,7 +397,11 @@ export function PhotoCaptureHUDOcrOverlay({
     if (mode === 'vin' && isEditing && !isValidVinFormat(editText)) {
       return;
     }
-    onConfirm?.(isEditing ? editText : confirmedText ?? '', ocrPicture, mode, defaultMileageUnit);
+    onConfirm?.(isEditing ? editText : confirmedText ?? '', ocrPicture, mode, selectedUnit);
+    setIsEditing(false);
+    setEditText('');
+    setOcrPicture(null);
+    reset();
   };
 
   const handleReject = () => {
@@ -458,7 +466,7 @@ export function PhotoCaptureHUDOcrOverlay({
 
   const handleOcrFailed = () => {
     if (ocrPicture) {
-      onConfirm?.('', ocrPicture, mode, defaultMileageUnit);
+      onConfirm?.('', ocrPicture, mode, selectedUnit);
     }
     setFallbackOcrFailed(false);
     setIsEditing(false);
@@ -522,6 +530,8 @@ export function PhotoCaptureHUDOcrOverlay({
           onEditChange={setEditText}
           onEditCancel={handleEditCancel}
           mode={mode}
+          selectedUnit={selectedUnit}
+          onUnitChange={setSelectedUnit}
           isOcrLoading={isOcrLoading}
           ocrFailed={fallbackOcrFailed}
           onOcrFailed={handleOcrFailed}
