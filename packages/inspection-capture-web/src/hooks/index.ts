@@ -1,4 +1,5 @@
 export * from './useStartTasksOnComplete';
+export * from './useRerunInspectionTasks';
 export * from './useEnforceOrientation';
 export * from './useColorBackground';
 export * from './useAddDamageMode';

@@ -10,7 +10,8 @@
     "beautyShotsFilter": "Ulkonäkökuvat",
     "videoFilter": "Katso video",
     "manualFilter": "Valokuvat manuaalisesti",
-    "completed": "Tämä tarkastus on valmis"
+    "completed": "Tämä tarkastus on valmis",
+    "rerun": "Suorita tarkistus uudelleen"
   },
   "list": {
     "empty": {

@@ -110,6 +110,18 @@ export function useMonkApi(config: MonkApiConfig) {
      */
     startInspectionTasks: reactify(MonkApi.startInspectionTasks, config, dispatch, handleError),
     /**
+     * Rerun inspection tasks that have already been run (e.g. tasks in an ERROR or ABORTED state). This function
+     * makes one API call for each task provided, resetting each task to the TODO status.
+     *
+     * **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided
+     * in the TSDoc of the `updateTaskStatus` function.**
+     *
+     * @param options The options of the request.
+     *
+     * @see updateTaskStatus
+     */
+    rerunInspectionTasks: reactify(MonkApi.rerunInspectionTasks, config, dispatch, handleError),
+    /**
      * Fetch a webapp live configuration from the API.
      *
      * @param id The ID of the live config to get.

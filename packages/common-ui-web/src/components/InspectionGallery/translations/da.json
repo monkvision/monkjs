@@ -10,7 +10,8 @@
     "completed": "Denne inspektion er fuldført",
     "beautyShotsFilter": "Bedste billeder",
     "videoFilter": "Video",
-    "manualFilter": "Manuelle billeder"
+    "manualFilter": "Manuelle billeder",
+    "rerun": "Kør inspektion igen"
   },
   "list": {
     "empty": {

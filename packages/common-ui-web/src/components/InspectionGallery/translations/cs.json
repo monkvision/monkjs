@@ -10,7 +10,8 @@
     "beautyShotsFilter": "Fotografie zblízka",
     "videoFilter": "Záznam videa",
     "manualFilter": "Ruční fotografie",
-    "completed": "Kontrola byla dokončena"
+    "completed": "Kontrola byla dokončena",
+    "rerun": "Znovu spustit inspekci"
   },
   "list": {
     "empty": {

@@ -34,7 +34,7 @@ export type StartTasksFunction = () => Promise<void>;
 
 const TASKS_NOT_TO_START = [TaskName.HUMAN_IN_THE_LOOP];
 
-function getTasksToStart({
+export function getTasksToStart({
   sights,
   additionalTasks,
   tasksBySight,

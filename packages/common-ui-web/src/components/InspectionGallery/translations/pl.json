@@ -10,7 +10,8 @@
     "completed": "Inspekcja została zakończona.",
     "beautyShotsFilter": "Najlepsze ujęcia",
     "videoFilter": "Wideo",
-    "manualFilter": "Zdjęcia ręczne"
+    "manualFilter": "Zdjęcia ręczne",
+    "rerun": "Uruchom ponownie inspekcję"
   },
   "list": {
     "empty": {
