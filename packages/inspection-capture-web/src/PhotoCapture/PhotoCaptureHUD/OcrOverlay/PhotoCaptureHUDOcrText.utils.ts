@@ -25,8 +25,15 @@ export function parseOdometerText(raw: string): OdometerParseResult {
     unit = MileageUnit.MILES;
   }
 
-  const intStr = raw.replace(/[^0-9.]/g, '').split('.')[0];
-  const parsed = intStr ? parseInt(intStr, 10) : NaN;
+  // 1. Strip spaces (thousands sep in some locales, e.g. "123 456")
+  // 2. Drop decimal part: sep + 1–2 digits at numeric boundary (e.g. "123456,7" → "123456", "123.4" → "123")
+  // 3. Strip thousands separators: sep + exactly 3 digits (e.g. "1.234.567" → "1234567", "123,456" → "123456")
+  const digits = raw
+    .replace(/\s/g, '')
+    .replace(/[.,]\d{1,2}(?=\D|$)/g, '')
+    .replace(/[.,](?=\d{3})/g, '')
+    .replace(/\D/g, '');
+  const parsed = digits ? parseInt(digits, 10) : NaN;
   const value = Number.isNaN(parsed) || parsed < 0 || parsed > 1_000_000 ? null : parsed;
 
   return { value, unit };

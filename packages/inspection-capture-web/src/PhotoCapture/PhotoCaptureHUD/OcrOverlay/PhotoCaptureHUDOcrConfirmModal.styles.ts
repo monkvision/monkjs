@@ -11,8 +11,10 @@ interface ConfirmModalStyles {
   dialog: CSSProperties;
   spinner: CSSProperties;
   image: CSSProperties;
+  textRow: CSSProperties;
   text: CSSProperties;
   input: CSSProperties;
+  unitSelect: CSSProperties;
   errorMessage: CSSProperties;
   buttons: CSSProperties;
   button: CSSProperties;
@@ -67,6 +69,24 @@ export const styles: ConfirmModalStyles = {
     padding: '10px 12px',
     outline: 'none',
     boxSizing: 'border-box',
+  },
+  textRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    width: '100%',
+  },
+  unitSelect: {
+    background: '#2a2a2a',
+    border: '1.5px solid #444',
+    borderRadius: 8,
+    color: '#ffffff',
+    fontSize: 14,
+    padding: '6px 12px',
+    cursor: 'pointer',
+    outline: 'none',
+    flexShrink: 0,
   },
   errorMessage: {
     color: 'rgba(255,255,255,0.75)',

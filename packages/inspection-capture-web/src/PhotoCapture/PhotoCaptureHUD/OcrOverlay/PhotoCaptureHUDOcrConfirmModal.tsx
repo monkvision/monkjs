@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { BackdropDialog, Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
+import { MileageUnit } from '@monkvision/types';
 import { OcrMode } from '../../hooks';
 import { styles, SPINNER_KEYFRAMES } from './PhotoCaptureHUDOcrConfirmModal.styles';
 
@@ -26,6 +27,10 @@ export interface PhotoCaptureHUDOcrConfirmModalProps {
   onEditCancel?: () => void;
   /** OCR mode — determines the keyboard type and character filter for the input. */
   mode?: OcrMode;
+  /** Currently selected mileage unit (odometer mode only). */
+  selectedUnit?: MileageUnit;
+  /** Called when the user picks a different unit from the dropdown (odometer mode only). */
+  onUnitChange?: (unit: MileageUnit) => void;
   /** When true, shows a loading spinner while OCR processes the fallback image. */
   isOcrLoading?: boolean;
   /** When true, OCR failed to detect any text — shows an error message with a dismiss button. */
@@ -54,6 +59,8 @@ export function PhotoCaptureHUDOcrConfirmModal({
   onEditChange,
   onEditCancel,
   mode,
+  selectedUnit,
+  onUnitChange,
   isOcrLoading = false,
   ocrFailed = false,
   onOcrFailed,
@@ -173,11 +180,29 @@ export function PhotoCaptureHUDOcrConfirmModal({
     );
   }
 
+  const showUnitDropdown =
+    mode === 'odometer' &&
+    !isInvalidReading &&
+    !ocrFailed &&
+    !(isOcrLoading && !text && !editValue);
+
   const dialog = (
     <div style={styles.dialog}>
       <style>{SPINNER_KEYFRAMES}</style>
       <img src={imageUri} alt={t('photo.hud.ocr.imageAlt')} style={styles.image} />
-      {displayContent}
+      <div style={styles.textRow}>
+        {displayContent}
+        {showUnitDropdown && (
+          <select
+            style={styles.unitSelect}
+            value={selectedUnit ?? MileageUnit.KM}
+            onChange={(e) => onUnitChange?.(e.target.value as MileageUnit)}
+          >
+            <option value={MileageUnit.KM}>{MileageUnit.KM}</option>
+            <option value={MileageUnit.MILES}>{MileageUnit.MILES}</option>
+          </select>
+        )}
+      </div>
       <div style={styles.buttons}>{buttonContent}</div>
     </div>
   );
