@@ -30,7 +30,11 @@ describe('parseOdometerText', () => {
   });
 
   it('takes only the integer part of a decimal number', () => {
-    expect(parseOdometerText('123.456')).toEqual({ value: 123, unit: null });
+    expect(parseOdometerText('123.4')).toEqual({ value: 123, unit: null });
+  });
+
+  it('treats dot-separated groups of three as thousands separators', () => {
+    expect(parseOdometerText('123.456')).toEqual({ value: 123456, unit: null });
   });
 
   it('returns null value when no digits are present', () => {
