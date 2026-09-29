@@ -21,6 +21,7 @@ export default defineConfig({
     port: Number(process.env['PORT']) || 17201,
   },
   optimizeDeps: {
+    force: true,
     include: [
       '@monkvision/sentry',
       '@monkvision/common',
