@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/plugin-content-pages": "3.10.1",
-    "@docusaurus/preset-classic": "3.10.1",
-    "@docusaurus/theme-common": "3.10.1",
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/plugin-content-pages": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@docusaurus/theme-common": "^3.10.2",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@monkvision/common": "5.4.8",
@@ -36,7 +36,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.4.3",
+    "@docusaurus/module-type-aliases": "^3.10.2",
     "@monkvision/eslint-config-base": "5.4.8",
     "@monkvision/eslint-config-typescript": "5.4.8",
     "@monkvision/eslint-config-typescript-react": "5.4.8",
