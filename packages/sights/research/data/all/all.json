@@ -345,9 +345,10 @@
   "all-rj5mhm": {
     "id": "all-rj5mhm",
     "category": "interior",
-    "label": "back-seats",
+    "label": "back-seats-left-side",
     "overlay": "all-rj5mhm.svg",
     "vehicle": "all",
+    "mirror_sight": "all-RT8Pg28w",
     "tasks": ["compliances"],
     "positioning": {
       "position": 90,
@@ -355,6 +356,20 @@
       "distance": "close"
     },
     "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-rj5mhm.jpeg"
+  },
+  "all-RT8Pg28w": {
+    "id": "all-RT8Pg28w",
+    "category": "interior",
+    "label": "back-seats-right-side",
+    "overlay": "all-RT8Pg28w.svg",
+    "vehicle": "all",
+    "mirror_sight": "all-rj5mhm",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 270,
+      "height": "mid",
+      "distance": "close"
+    }
   },
   "all-sLu0CfOt": {
     "id": "all-sLu0CfOt",
