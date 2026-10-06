@@ -47,6 +47,18 @@
         "tip": "Tip",
         "defaultTutorialWithImage": "Here's a reference image\nTry to match your framing as closely as possible.",
         "defaultTutorialWithoutImage": "Position yourself as shown in the left diagram\nEnsuring the camera is at the correct height."
+      },
+      "ocr": {
+        "invalidReading": "The detected value is not valid. Please scan again.",
+        "ocrFailed": "Unable to detect the text. You can proceed to the next sight.",
+        "imageAlt": "Detected frame",
+        "shutterHint": "Use the shutter button to take a picture",
+        "close": "Close",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "no": "No",
+        "yes": "Yes"
       }
     },
     "gallery": {

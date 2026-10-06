@@ -47,6 +47,18 @@
         "tip": "Tip",
         "defaultTutorialWithImage": "Hier ziet u een referentieafbeelding.\nProbeer uw kadrering hier zo goed mogelijk op af te stemmen.",
         "defaultTutorialWithoutImage": "Positioneer uzelf zoals aangegeven in het diagram aan de linkerkant\nen zorg ervoor dat de camera zich op de juiste hoogte bevindt."
+      },
+      "ocr": {
+        "invalidReading": "De gedetecteerde waarde is niet geldig. Scan opnieuw.",
+        "ocrFailed": "Kan de tekst niet detecteren. U kunt doorgaan naar de volgende weergave.",
+        "imageAlt": "Gedetecteerd frame",
+        "shutterHint": "Gebruik de sluiterkop om een foto te maken",
+        "close": "Sluiten",
+        "continue": "Doorgaan",
+        "cancel": "Annuleren",
+        "confirm": "Bevestigen",
+        "no": "Nee",
+        "yes": "Ja"
       }
     },
     "gallery": {

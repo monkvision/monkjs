@@ -10,7 +10,8 @@ const mockUseInspectionReviewProvider = jest.fn();
 const mockUseTabViews = jest.fn();
 const mockUseMonkTheme = jest.fn();
 
-jest.mock('@monkvision/common/lib/theme/hooks', () => ({
+jest.mock('@monkvision/common', () => ({
+  ...jest.requireActual('@monkvision/common'),
   useMonkTheme: jest.fn(),
 }));
 
@@ -105,7 +106,7 @@ const setupMocks = () => {
     setCurrentView: jest.fn(),
   });
 
-  (require('@monkvision/common/lib/theme/hooks').useMonkTheme as jest.Mock).mockImplementation(
+  (require('@monkvision/common').useMonkTheme as jest.Mock).mockImplementation(
     mockUseMonkTheme,
   );
   mockUseMonkTheme.mockReturnValue({ palette: mockPalette });
