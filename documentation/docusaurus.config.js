@@ -14,10 +14,14 @@ const config = {
   projectName: 'monk',
   organizationName: 'monkvision',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+  },
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn'
+    }
   },
   presets: [
     [
