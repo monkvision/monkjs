@@ -1,5 +1,5 @@
 import { LoadingState, useObjectMemo } from '@monkvision/common';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAnalytics } from '@monkvision/analytics';
 import { useMonitoring } from '@monkvision/monitoring';
 import { PhotoCaptureAppConfig } from '@monkvision/types';
@@ -61,6 +61,8 @@ export function useInspectionComplete({
 }: InspectionCompleteParams): InspectionCompleteHandle {
   const analytics = useAnalytics();
   const monitoring = useMonitoring();
+  const sightStateRef = useRef(sightState);
+  sightStateRef.current = sightState;
 
   const handleInspectionCompleted = useCallback(async () => {
     const updatedDuration = await onUpdateDuration(true);
@@ -76,7 +78,7 @@ export function useInspectionComplete({
           sightSelected: 'inspection-completed',
         });
         onComplete?.();
-        sightState.setIsInspectionCompleted(true);
+        sightStateRef.current.setIsInspectionCompleted(true);
       })
       .catch((err) => {
         loading.onError(err);
@@ -85,7 +87,7 @@ export function useInspectionComplete({
   }, [cleanupImages]);
 
   useEffect(() => {
-    const { isInspectionCompliant, isInspectionCompleted } = sightState;
+    const { isInspectionCompliant, isInspectionCompleted } = sightStateRef.current;
     if (startTasksOnComplete && isInspectionCompliant && !isInspectionCompleted) {
       handleInspectionCompleted();
     }

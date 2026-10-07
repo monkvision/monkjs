@@ -33,6 +33,7 @@ export const PhotoCaptureAppConfigSchema = z
     tasksBySight: z.record(z.string(), z.array(z.nativeEnum(TaskName))).optional(),
     showCloseButton: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
+    allowRerunTasks: z.boolean().optional(),
     enableAddDamage: z.boolean().optional(),
     maxUploadDurationWarning: z.number().optional(),
     useAdaptiveImageQuality: z.boolean().optional(),

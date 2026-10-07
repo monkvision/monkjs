@@ -119,3 +119,54 @@ export async function startInspectionTasks(
   });
   return responses;
 }
+
+/**
+ * Options passed to the `rerunInspectionTasks` API request.
+ */
+export interface RerunInspectionTasksOptions {
+  /**
+   * The ID of the inspection.
+   */
+  inspectionId: string;
+  /**
+   * The names of the tasks to rerun.
+   */
+  names: TaskName[];
+}
+
+/**
+ * Rerun inspection tasks that have already been run (e.g. tasks in an ERROR or ABORTED state). This function
+ * makes one API call for each task provided using `updateTaskStatus`, resetting each task to the NOT_STARTED status.
+ *
+ * **Note : This API call is known to sometimes fail for unknown reasons. Please take note of the details provided in
+ * the TSDoc of the `updateTaskStatus` function.**
+ *
+ * @param options The options of the request.
+ * @param config The API config.
+ * @param [dispatch] Optional MonkState dispatch function that you can pass if you want this request to handle React
+ * state management for you.
+ *
+ * @see updateTaskStatus
+ */
+export async function rerunInspectionTasks(
+  options: RerunInspectionTasksOptions,
+  config: MonkApiConfig,
+  dispatch?: Dispatch<MonkUpdatedManyTasksAction>,
+): Promise<MonkApiResponse[]> {
+  const responses = await Promise.all(
+    options.names.map((name) =>
+      updateTaskStatus(
+        { inspectionId: options.inspectionId, name, status: ProgressStatus.NOT_STARTED },
+        config,
+      ),
+    ),
+  );
+  dispatch?.({
+    type: MonkActionType.UPDATED_MANY_TASKS,
+    payload: responses.map((response) => ({
+      id: response.id,
+      status: ProgressStatus.NOT_STARTED,
+    })),
+  });
+  return responses;
+}

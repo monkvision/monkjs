@@ -10,7 +10,8 @@
     "completed": "Deze inspectie is voltooid",
     "beautyShotsFilter": "Beste opnames",
     "videoFilter": "Video",
-    "manualFilter": "Handmatige foto's"
+    "manualFilter": "Handmatige foto's",
+    "rerun": "Inspectie herstarten"
   },
   "list": {
     "empty": {

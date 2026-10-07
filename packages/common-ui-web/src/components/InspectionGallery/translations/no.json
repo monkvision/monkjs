@@ -10,7 +10,8 @@
     "beautyShotsFilter": "Bilder for presentasjon",
     "videoFilter": "Video",
     "manualFilter": "Manuelle bilder",
-    "completed": "Inspeksjonen er fullført"
+    "completed": "Inspeksjonen er fullført",
+    "rerun": "Kjør inspeksjonen igjen"
   },
   "list": {
     "empty": {
