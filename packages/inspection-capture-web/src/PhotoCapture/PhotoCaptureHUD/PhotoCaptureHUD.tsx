@@ -299,7 +299,7 @@ export function PhotoCaptureHUD({
                 config={ocrConfig}
                 getImageData={stableGetImageData}
                 isCameraLoading={handle.isLoading}
-                isActive={!ocrSights?.length || !!matchedSight}
+                isActive={!ocrSights || !!matchedSight}
                 previewDimensions={handle.previewDimensions}
                 mode={matchedSight?.mode}
                 defaultMileageUnit={matchedSight?.defaultMileageUnit ?? odometerUnit}
@@ -325,7 +325,7 @@ export function PhotoCaptureHUD({
             handle.isLoading ||
             loading.isLoading ||
             (!!ocrConfig &&
-              (!ocrSights?.length || !!ocrSights.find((s) => s.sightId === selectedSight.id)) &&
+              (!ocrSights || !!ocrSights.find((s) => s.sightId === selectedSight.id)) &&
               !isOcrFallbackReady)
           }
           showCloseButton={showCloseButton}
