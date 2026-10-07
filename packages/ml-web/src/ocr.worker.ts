@@ -134,7 +134,7 @@ async function init(): Promise<void> {
   initPromise = (async () => {
     recSession = await ort.InferenceSession.create(currentCfg.recUrl, SESSION_OPTIONS);
     const resp = await fetch(currentCfg.dictUrl);
-    dictionary = (await resp.text()).split('\n').filter((l) => l !== '');
+    dictionary = (await resp.text()).split(/\r?\n/).filter((l) => l !== '');
     postMessage({ id: -1, ready: true } satisfies OcrWorkerResponse);
   })().catch((err) => {
     // Clear so the next call can retry rather than permanently returning the rejected promise.

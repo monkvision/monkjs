@@ -58,7 +58,7 @@ export function usePhotoCaptureOcrConfirm({
         }).catch(handleError);
       }
 
-      if (mode === 'vin') {
+      if (mode === 'vin' && text) {
         updateInspectionVehicle({
           inspectionId,
           vehicle: { vin: text },

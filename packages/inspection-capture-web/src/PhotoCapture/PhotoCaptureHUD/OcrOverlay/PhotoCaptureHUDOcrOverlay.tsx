@@ -144,6 +144,7 @@ export function PhotoCaptureHUDOcrOverlay({
   const [selectedUnit, setSelectedUnit] = useState<MileageUnit>(
     defaultMileageUnit ?? MileageUnit.KM,
   );
+  const [isManualVinError, setIsManualVinError] = useState(false);
 
   const isFallbackReady = retryCount >= maxOcrRetries || isTimedOut;
   const isPortrait = previewDimensions ? previewDimensions.height > previewDimensions.width : false;
@@ -155,12 +156,16 @@ export function PhotoCaptureHUDOcrOverlay({
 
   const resetOcrState = useCallback(() => {
     reset();
+    setOcrPicture(null);
+    setIsEditing(false);
+    setEditText('');
     setRetryCount(0);
     setIsTimedOut(false);
     processedFallbackUriRef.current = null;
     setHasFallbackImageData(false);
     setFallbackOcrFailed(false);
     setSelectedUnit(defaultMileageUnit ?? MileageUnit.KM);
+    setIsManualVinError(false);
   }, [reset, defaultMileageUnit]);
 
   // Reset when the active sight changes.
@@ -306,21 +311,30 @@ export function PhotoCaptureHUDOcrOverlay({
   // In normal (non-fallback) mode, create the ocrPicture blob from the crop canvas.
   useEffect(() => {
     if (!confirmedText || !cropCanvasRef.current || isFallbackReady) {
-      return;
+      return undefined;
     }
+    let cancelled = false;
     const canvas = cropCanvasRef.current;
     const { width, height } = canvas;
     const mimetype = 'image/jpeg';
     canvasToBlob(canvas, mimetype, 0.92)
       .then((blob) => {
+        if (cancelled) {
+          return;
+        }
         const uri = URL.createObjectURL(blob);
         setOcrPicture({ blob, uri, mimetype, width, height });
       })
       .catch(() => {
-        // Blob creation failed (e.g. CORS-tainted canvas, OOM). Reset so OCR can rescan
-        // rather than leaving confirmedText set with no modal to surface it.
-        reset();
+        if (!cancelled) {
+          // Blob creation failed (e.g. CORS-tainted canvas, OOM). Reset so OCR can rescan
+          // rather than leaving confirmedText set with no modal to surface it.
+          reset();
+        }
       });
+    return () => {
+      cancelled = true;
+    };
   }, [confirmedText, isFallbackReady, reset]);
 
   useInterval(
@@ -338,7 +352,11 @@ export function PhotoCaptureHUDOcrOverlay({
       try {
         const full = getImageData();
 
-        if (!cropCoordsRef.current || srcCanvasRef.current?.width !== full.width) {
+        if (
+          !cropCoordsRef.current ||
+          srcCanvasRef.current?.width !== full.width ||
+          srcCanvasRef.current?.height !== full.height
+        ) {
           cropCoordsRef.current = {
             sx: Math.round(cropRegion.x * full.width),
             sy: Math.round(cropRegion.y * full.height),
@@ -395,8 +413,10 @@ export function PhotoCaptureHUDOcrOverlay({
     // Prevent sending a malformed VIN: manual edits bypass the OCR stabilizer's
     // format check, so validate here before forwarding to the API.
     if (mode === 'vin' && isEditing && !isValidVinFormat(editText)) {
+      setIsManualVinError(true);
       return;
     }
+    setIsManualVinError(false);
     onConfirm?.(isEditing ? editText : confirmedText ?? '', ocrPicture, mode, selectedUnit);
     setIsEditing(false);
     setEditText('');
@@ -404,18 +424,16 @@ export function PhotoCaptureHUDOcrOverlay({
     reset();
   };
 
-  const handleReject = () => {
+  const handleRejection = () => {
     const newCount = retryCount + 1;
     setRetryCount(newCount);
     const nowFallback = newCount >= maxOcrRetries || isTimedOut;
 
     if (!nowFallback) {
-      // Not at limit yet — reset and let OCR re-scan.
       setOcrPicture(null);
       reset();
       onReject?.();
     } else if (config.allowManualInput) {
-      // Last chance: offer edit mode so the user can correct the reading.
       setIsEditing(true);
       const rawEdit = confirmedText ?? '';
       if (isOdometer && rawEdit) {
@@ -439,28 +457,12 @@ export function PhotoCaptureHUDOcrOverlay({
     onReject?.();
   };
 
-  const handleInvalidReading = () => {
-    const newCount = retryCount + 1;
-    setRetryCount(newCount);
-    const nowFallback = newCount >= maxOcrRetries || isTimedOut;
-
-    if (!nowFallback) {
-      setOcrPicture(null);
-      reset();
-      onReject?.();
-    } else if (config.allowManualInput) {
-      setIsEditing(true);
-      const rawEdit = confirmedText ?? '';
-      if (isOdometer && rawEdit) {
-        const { value } = parseOdometerText(rawEdit);
-        setEditText(value !== null ? String(value) : '');
-      } else {
-        setEditText(rawEdit);
-      }
+  const handleInvalidReadingClose = () => {
+    if (isManualVinError) {
+      // VIN format error during manual edit — stay in edit mode so the user can fix it.
+      setIsManualVinError(false);
     } else {
-      setOcrPicture(null);
-      reset();
-      onReject?.();
+      handleRejection();
     }
   };
 
@@ -524,10 +526,15 @@ export function PhotoCaptureHUDOcrOverlay({
           text={modalText}
           imageUri={ocrPicture?.uri ?? ''}
           onConfirm={handleConfirm}
-          onReject={handleReject}
+          onReject={handleRejection}
           isEditing={isEditing}
           editValue={editText}
-          onEditChange={setEditText}
+          onEditChange={(v) => {
+            setEditText(v);
+            if (isManualVinError) {
+              setIsManualVinError(false);
+            }
+          }}
           onEditCancel={handleEditCancel}
           mode={mode}
           selectedUnit={selectedUnit}
@@ -535,8 +542,8 @@ export function PhotoCaptureHUDOcrOverlay({
           isOcrLoading={isOcrLoading}
           ocrFailed={fallbackOcrFailed}
           onOcrFailed={handleOcrFailed}
-          isInvalidReading={isInvalidReading}
-          onInvalidReading={handleInvalidReading}
+          isInvalidReading={isInvalidReading || isManualVinError}
+          onInvalidReading={handleInvalidReadingClose}
         />
       )}
       <div style={overlayStyle}>
