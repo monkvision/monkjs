@@ -107,6 +107,11 @@ export type InspectionGalleryProps = {
    */
   onValidate?: () => void;
   /**
+   * Callback called when the user presses the "Rerun" button in the gallery top bar. When provided and the inspection
+   * is completed, a "Rerun" button is displayed instead of the "completed" label.
+   */
+  onRerunTasks?: () => void;
+  /**
    * Options for Add Damage. If disabled, the `Add Custom Damage` button will be hidden.
    *
    * @default AddDamage.PART_SELECT.

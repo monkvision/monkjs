@@ -10,7 +10,8 @@
     "completed": "Inspecția a fost finalizată.",
     "beautyShotsFilter": "Cele mai bune fotografii",
     "videoFilter": "Video",
-    "manualFilter": "Fotografii manuale"
+    "manualFilter": "Fotografii manuale",
+    "rerun": "Reia inspecția"
   },
   "list": {
     "empty": {

@@ -3,6 +3,7 @@
   "description": "Config for the local Demo App.",
   "workflow": "photo",
   "allowSkipRetake": true,
+  "allowRerunTasks": true,
   "addDamage": "part_select",
   "enableSightGuidelines": "ephemeral",
   "allowVehicleTypeSelection": true,

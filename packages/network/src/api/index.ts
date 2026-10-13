@@ -28,5 +28,6 @@ export {
   type UpdateProgressStatus,
   type UpdateTaskStatusOptions,
   type StartInspectionTasksOptions,
+  type RerunInspectionTasksOptions,
 } from './task';
 export { type UpdateInspectionVehicleOptions } from './vehicle';

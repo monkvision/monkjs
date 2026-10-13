@@ -26,6 +26,7 @@ import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
 import {
   useStartTasksOnComplete,
+  useRerunInspectionTasks,
   usePictureTaken,
   useAddDamageMode,
   useUploadQueue,
@@ -60,6 +61,7 @@ export interface PhotoCaptureProps
       | 'showCloseButton'
       | 'enforceOrientation'
       | 'allowSkipRetake'
+      | 'allowRerunTasks'
       | 'addDamage'
       | 'sightGuidelines'
       | 'enableSightGuidelines'
@@ -153,6 +155,7 @@ export function PhotoCapture({
   customComplianceThresholdsPerSight,
   useLiveCompliance = false,
   allowSkipRetake = false,
+  allowRerunTasks = false,
   addDamage = AddDamage.PART_SELECT,
   sightGuidelines,
   enableTutorial = PhotoCaptureTutorialOption.FIRST_TIME_ONLY,
@@ -235,6 +238,16 @@ export function PhotoCapture({
     complianceOptions,
     setIsInitialInspectionFetched,
     toggleSightTutorial,
+  });
+  const rerunTasks = useRerunInspectionTasks({
+    inspectionId,
+    apiConfig,
+    sights,
+    additionalTasks,
+    tasksBySight,
+    startTasksOnComplete,
+    loading,
+    setIsInspectionCompleted: sightState.setIsInspectionCompleted,
   });
   const { showSightGuidelines, handleDisableSightGuidelines } = usePhotoCaptureSightGuidelines({
     enableSightGuidelines,
@@ -356,6 +369,7 @@ export function PhotoCapture({
           onBack={handleGalleryBack}
           onNavigateToCapture={handleNavigateToCapture}
           onValidate={handleInspectionCompleted}
+          onRerunTasks={allowRerunTasks ? rerunTasks : undefined}
           addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}

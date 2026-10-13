@@ -69,6 +69,7 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
 
 jest.mock('../../src/hooks', () => ({
   useStartTasksOnComplete: jest.fn(() => jest.fn()),
+  useRerunInspectionTasks: jest.fn(() => jest.fn()),
   useAddDamageMode: jest.fn(() => ({
     mode: CaptureMode.SIGHT,
     handleAddDamage: jest.fn(),

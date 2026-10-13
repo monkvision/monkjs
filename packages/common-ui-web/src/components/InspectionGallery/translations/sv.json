@@ -10,7 +10,8 @@
     "completed": "Den här inspektionen är slutförd.",
     "beautyShotsFilter": "Bästa bilder",
     "videoFilter": "Video",
-    "manualFilter": "Manuella bilder"
+    "manualFilter": "Manuella bilder",
+    "rerun": "Kör inspektionen igen"
   },
   "list": {
     "empty": {
