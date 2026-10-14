@@ -15,8 +15,8 @@ export interface UsePhotoCaptureOcrConfirmParams {
 export interface UsePhotoCaptureOcrConfirmResult {
   /**
    * Sends the confirmed OCR reading to the Monk API.
-   * - `'odometer'`: parses the mileage value and unit, then calls `updateInspectionVehicle`.
-   * - `'vin'`: calls `updateInspectionVehicle` with the raw VIN string.
+   * - `OcrMode.ODOMETER`: parses the mileage value and unit, then calls `updateInspectionVehicle`.
+   * - `OcrMode.VIN`: calls `updateInspectionVehicle` with the raw VIN string.
    * No-ops when `mode` is undefined or the odometer value cannot be parsed.
    */
   handleOcrConfirm: (
@@ -28,8 +28,8 @@ export interface UsePhotoCaptureOcrConfirmResult {
 
 /**
  * Handles the side-effects triggered when the user confirms an OCR reading:
- * - `'odometer'` mode: parses the mileage value and unit, then calls updateInspectionVehicle.
- * - `'vin'` mode: calls updateInspectionVehicle with the confirmed VIN string.
+ * - `OcrMode.ODOMETER`: parses the mileage value and unit, then calls updateInspectionVehicle.
+ * - `OcrMode.VIN`: calls updateInspectionVehicle with the confirmed VIN string.
  */
 export function usePhotoCaptureOcrConfirm({
   inspectionId,
@@ -44,7 +44,7 @@ export function usePhotoCaptureOcrConfirm({
         return;
       }
 
-      if (mode === 'odometer') {
+      if (mode === OcrMode.ODOMETER) {
         const { value, unit } = parseOdometerText(text);
         if (value === null) {
           return;
@@ -58,7 +58,7 @@ export function usePhotoCaptureOcrConfirm({
         }).catch(handleError);
       }
 
-      if (mode === 'vin' && text) {
+      if (mode === OcrMode.VIN && text) {
         updateInspectionVehicle({
           inspectionId,
           vehicle: { vin: text },

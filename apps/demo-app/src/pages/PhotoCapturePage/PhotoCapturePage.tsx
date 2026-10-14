@@ -5,6 +5,7 @@ import {
   PhotoCapture,
   PhotoCaptureOcrConfig,
   OcrSightConfig,
+  OcrMode,
 } from '@monkvision/inspection-capture-web';
 import { OCR_MODEL_URLS } from '@monkvision/ml-web';
 import { CaptureWorkflow, VehicleType } from '@monkvision/types';
@@ -14,8 +15,8 @@ import { createInspectionReportLink } from './inspectionReport';
 const ocrConfig: PhotoCaptureOcrConfig = { ...OCR_MODEL_URLS, allowManualInput: true };
 
 const ocrSights: OcrSightConfig[] = [
-  { sightId: 'all-JOhPh4rx', mode: 'odometer' },
-  { sightId: 'all-sLu0CfOt', mode: 'vin' },
+  { sightId: 'all-JOhPh4rx', mode: OcrMode.ODOMETER },
+  { sightId: 'all-sLu0CfOt', mode: OcrMode.VIN },
 ];
 
 export function PhotoCapturePage() {

@@ -17,6 +17,7 @@ import {
   PhotoCaptureHUDOcrOverlay,
   PhotoCaptureHUDOcrOverlayProps,
 } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrOverlay';
+import { OcrMode } from '../../../../src/PhotoCapture/hooks/ocrTypes';
 
 function createOcrResult(overrides: Record<string, unknown> = {}) {
   return {
@@ -45,7 +46,7 @@ function createProps(
     isCameraLoading: false,
     isActive: true,
     previewDimensions: { width: 1920, height: 1080 },
-    mode: 'vin',
+    mode: OcrMode.VIN,
     ...overrides,
   };
 }
@@ -163,7 +164,7 @@ describe('PhotoCaptureHUDOcrOverlay', () => {
         <PhotoCaptureHUDOcrOverlay
           {...createProps({
             config: { recModelUrl: 'test-rec', dictUrl: 'test-dict', ocrTimeoutMs: 5000 },
-            mode: 'vin',
+            mode: OcrMode.VIN,
           })}
         />,
       );
@@ -182,7 +183,7 @@ describe('PhotoCaptureHUDOcrOverlay', () => {
     (useOcr as jest.Mock).mockReturnValue(
       createOcrResult({ confirmedText: 'INVALID!VIN', consistencyCount: 3 }),
     );
-    render(<PhotoCaptureHUDOcrOverlay {...createProps({ mode: 'vin' })} />);
+    render(<PhotoCaptureHUDOcrOverlay {...createProps({ mode: OcrMode.VIN })} />);
     expect(screen.queryByTestId('ocr-confirm-modal')).not.toBeInTheDocument();
   });
 });
