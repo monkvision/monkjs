@@ -3,10 +3,13 @@ import { MileageUnit } from '@monkvision/types';
 
 /**
  * How the confirmed OCR text is interpreted and what action is taken on confirmation.
- * - `'vin'`: detected text is treated as a Vehicle Identification Number.
- * - `'odometer'`: detected text is parsed as a mileage reading (integer value + optional unit).
  */
-export type OcrMode = 'vin' | 'odometer';
+export enum OcrMode {
+  /** Detected text is treated as a Vehicle Identification Number. */
+  VIN = 'vin',
+  /** Detected text is parsed as a mileage reading (integer value + optional unit). */
+  ODOMETER = 'odometer',
+}
 
 /**
  * Pairs a sight with the OCR mode that should be active when that sight is selected.
