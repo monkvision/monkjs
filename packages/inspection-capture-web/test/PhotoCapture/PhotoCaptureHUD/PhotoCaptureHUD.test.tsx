@@ -32,7 +32,7 @@ import { PhotoCaptureHUDOcrOverlay } from '../../../src/PhotoCapture/PhotoCaptur
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../../src/components';
 import { CaptureMode } from '../../../src/types';
 import { ImageStatus, Image, DeviceOrientation, MileageUnit, VehicleType } from '@monkvision/types';
-import { OcrSightConfig } from '../../../src/PhotoCapture/hooks';
+import { OcrSightConfig, OcrMode } from '../../../src/PhotoCapture/hooks';
 
 const cameraTestId = 'camera-test-id';
 
@@ -237,7 +237,7 @@ describe('PhotoCaptureHUD component', () => {
 
   describe('odometerUnit', () => {
     const ocrConfig = { recModelUrl: 'rec-url', dictUrl: 'dict-url' };
-    const ocrSights: OcrSightConfig[] = [{ sightId: 'test-sight-2', mode: 'odometer' }];
+    const ocrSights: OcrSightConfig[] = [{ sightId: 'test-sight-2', mode: OcrMode.ODOMETER }];
 
     it('should pass odometerUnit as defaultMileageUnit when the sight has no per-sight default', () => {
       const props = createProps();
@@ -259,7 +259,7 @@ describe('PhotoCaptureHUD component', () => {
 
     it('should let the per-sight defaultMileageUnit take precedence over odometerUnit', () => {
       const ocrSightsWithUnit: OcrSightConfig[] = [
-        { sightId: 'test-sight-2', mode: 'odometer', defaultMileageUnit: MileageUnit.KM },
+        { sightId: 'test-sight-2', mode: OcrMode.ODOMETER, defaultMileageUnit: MileageUnit.KM },
       ];
       const props = createProps();
       const { unmount } = render(

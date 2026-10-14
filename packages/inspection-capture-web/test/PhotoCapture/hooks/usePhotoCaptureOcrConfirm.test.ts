@@ -4,6 +4,7 @@ import { useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { flushPromises } from '@monkvision/test-utils';
 import { usePhotoCaptureOcrConfirm } from '../../../src/PhotoCapture/hooks/usePhotoCaptureOcrConfirm';
+import { OcrMode } from '../../../src/PhotoCapture/hooks/ocrTypes';
 
 const mockApiConfig = { authToken: 'test-token', apiDomain: 'test.api.monk.ai' };
 const mockInspectionId = 'test-inspection-id';
@@ -37,7 +38,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     it('calls updateInspectionVehicle with the confirmed vin string', async () => {
       const { result } = renderOcrConfirmHook();
       await act(async () => {
-        result.current.handleOcrConfirm('ABC123456DEF78901', 'vin', undefined);
+        result.current.handleOcrConfirm('ABC123456DEF78901', OcrMode.VIN, undefined);
         await flushPromises();
       });
       expect(mockUpdateInspectionVehicle).toHaveBeenCalledWith({
@@ -51,7 +52,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     it('calls updateInspectionVehicle with the parsed value and detected unit', async () => {
       const { result } = renderOcrConfirmHook();
       await act(async () => {
-        result.current.handleOcrConfirm('12345 km', 'odometer', undefined);
+        result.current.handleOcrConfirm('12345 km', OcrMode.ODOMETER, undefined);
         await flushPromises();
       });
       expect(mockUpdateInspectionVehicle).toHaveBeenCalledWith({
@@ -63,7 +64,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     it('uses defaultMileageUnit when no unit is detected in the text', async () => {
       const { result } = renderOcrConfirmHook();
       await act(async () => {
-        result.current.handleOcrConfirm('99999', 'odometer', MileageUnit.MILES);
+        result.current.handleOcrConfirm('99999', OcrMode.ODOMETER, MileageUnit.MILES);
         await flushPromises();
       });
       expect(mockUpdateInspectionVehicle).toHaveBeenCalledWith({
@@ -75,7 +76,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     it('falls back to MileageUnit.KM when no unit is detected and no defaultMileageUnit is provided', async () => {
       const { result } = renderOcrConfirmHook();
       await act(async () => {
-        result.current.handleOcrConfirm('99999', 'odometer', undefined);
+        result.current.handleOcrConfirm('99999', OcrMode.ODOMETER, undefined);
         await flushPromises();
       });
       expect(mockUpdateInspectionVehicle).toHaveBeenCalledWith({
@@ -87,7 +88,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     it('is a no-op when the odometer text cannot be parsed to a number', async () => {
       const { result } = renderOcrConfirmHook();
       await act(async () => {
-        result.current.handleOcrConfirm('no digits', 'odometer', undefined);
+        result.current.handleOcrConfirm('no digits', OcrMode.ODOMETER, undefined);
         await flushPromises();
       });
       expect(mockUpdateInspectionVehicle).not.toHaveBeenCalled();
@@ -108,7 +109,7 @@ describe('usePhotoCaptureOcrConfirm', () => {
     mockUpdateInspectionVehicle.mockReturnValue(Promise.reject(apiError));
     const { result } = renderOcrConfirmHook();
     await act(async () => {
-      result.current.handleOcrConfirm('ABC123', 'vin', undefined);
+      result.current.handleOcrConfirm('ABC123', OcrMode.VIN, undefined);
       await flushPromises();
     });
     expect(mockHandleError).toHaveBeenCalledWith(apiError);

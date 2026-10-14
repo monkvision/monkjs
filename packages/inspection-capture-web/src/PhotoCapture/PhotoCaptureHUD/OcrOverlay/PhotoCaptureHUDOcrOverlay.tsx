@@ -288,10 +288,21 @@ export function PhotoCaptureHUDOcrOverlay({
     return () => clearTimeout(timer);
   }, [hasFallbackImageData, confirmedText]);
 
+  // Sync the unit selector to the unit OCR detected in the confirmed text.
+  useEffect(() => {
+    if (mode !== OcrMode.ODOMETER || !confirmedText) {
+      return;
+    }
+    const { unit } = parseOdometerText(confirmedText);
+    if (unit !== null) {
+      setSelectedUnit(unit);
+    }
+  }, [confirmedText, mode]);
+
   // In allowManualInput fallback mode, auto-populate editText when OCR confirms.
   useEffect(() => {
     if (isFallbackReady && isEditing && confirmedText && !editText) {
-      if (mode === 'odometer') {
+      if (mode === OcrMode.ODOMETER) {
         const { value } = parseOdometerText(confirmedText);
         setEditText(value !== null ? String(value) : '');
       } else {
@@ -401,7 +412,7 @@ export function PhotoCaptureHUDOcrOverlay({
     return null;
   }
 
-  const isOdometer = mode === 'odometer';
+  const isOdometer = mode === OcrMode.ODOMETER;
   const isConfirmed = confirmedText !== null;
   // In fallback mode the modal shows as soon as ocrPicture is set (even before OCR confirms).
   const showModal = ocrPicture !== null && (isConfirmed || isFallbackReady);
@@ -412,7 +423,7 @@ export function PhotoCaptureHUDOcrOverlay({
     }
     // Prevent sending a malformed VIN: manual edits bypass the OCR stabilizer's
     // format check, so validate here before forwarding to the API.
-    if (mode === 'vin' && isEditing && !isValidVinFormat(editText)) {
+    if (mode === OcrMode.VIN && isEditing && !isValidVinFormat(editText)) {
       setIsManualVinError(true);
       return;
     }

@@ -10,6 +10,7 @@ import {
   PhotoCaptureHUDOcrConfirmModal,
   PhotoCaptureHUDOcrConfirmModalProps,
 } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrConfirmModal';
+import { OcrMode } from '../../../../src/PhotoCapture/hooks/ocrTypes';
 
 function createProps(
   overrides?: Partial<PhotoCaptureHUDOcrConfirmModalProps>,
@@ -129,7 +130,7 @@ describe('PhotoCaptureHUDOcrConfirmModal', () => {
       const onEditChange = jest.fn();
       render(
         <PhotoCaptureHUDOcrConfirmModal
-          {...createProps({ isEditing: true, editValue: '', mode: 'vin', onEditChange })}
+          {...createProps({ isEditing: true, editValue: '', mode: OcrMode.VIN, onEditChange })}
         />,
       );
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'abc' } });
@@ -140,7 +141,7 @@ describe('PhotoCaptureHUDOcrConfirmModal', () => {
       const onEditChange = jest.fn();
       render(
         <PhotoCaptureHUDOcrConfirmModal
-          {...createProps({ isEditing: true, editValue: '', mode: 'odometer', onEditChange })}
+          {...createProps({ isEditing: true, editValue: '', mode: OcrMode.ODOMETER, onEditChange })}
         />,
       );
       fireEvent.change(screen.getByRole('textbox'), { target: { value: 'abc123def' } });

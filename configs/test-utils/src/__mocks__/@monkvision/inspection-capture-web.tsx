@@ -1,5 +1,8 @@
+const { OcrMode } = jest.requireActual('@monkvision/inspection-capture-web');
+
 export = {
   /* Actual exports */
+  OcrMode,
   /* Mocks */
   PhotoCaptureHUDButtons: jest.fn(() => <></>),
   PhotoCaptureHUDAddDamagePreview: jest.fn(() => <></>),

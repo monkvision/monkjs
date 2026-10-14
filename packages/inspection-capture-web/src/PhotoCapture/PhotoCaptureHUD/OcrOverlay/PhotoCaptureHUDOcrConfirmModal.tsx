@@ -71,7 +71,7 @@ export function PhotoCaptureHUDOcrConfirmModal({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-    const filtered = mode === 'odometer' ? raw.replace(/[^0-9]/g, '') : raw.toUpperCase();
+    const filtered = mode === OcrMode.ODOMETER ? raw.replace(/[^0-9]/g, '') : raw.toUpperCase();
     onEditChange?.(filtered);
   };
 
@@ -98,7 +98,7 @@ export function PhotoCaptureHUDOcrConfirmModal({
         style={styles.input}
         value={editValue}
         onChange={handleInputChange}
-        inputMode={mode === 'odometer' ? 'numeric' : 'text'}
+        inputMode={mode === OcrMode.ODOMETER ? 'numeric' : 'text'}
       />
     );
   } else {
@@ -181,7 +181,7 @@ export function PhotoCaptureHUDOcrConfirmModal({
   }
 
   const showUnitDropdown =
-    mode === 'odometer' &&
+    mode === OcrMode.ODOMETER &&
     !isInvalidReading &&
     !ocrFailed &&
     !(isOcrLoading && !text && !editValue);
