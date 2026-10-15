@@ -47,6 +47,18 @@
         "tip": "Nápověda",
         "defaultTutorialWithImage": "Zde je referenční obrázek\nPokuste se co nejlépe napodobit jeho úhel pohledu.",
         "defaultTutorialWithoutImage": "Umístěte se podle obrázku vlevo.\nZajistěte, aby kamera byla ve správné výšce."
+      },
+      "ocr": {
+        "invalidReading": "Zjištěná hodnota není platná. Naskenujte znovu.",
+        "ocrFailed": "Text nelze zjistit. Můžete přejít na další pohled.",
+        "imageAlt": "Zjištěný snímek",
+        "shutterHint": "Pořiďte fotografii pomocí tlačítka spouště",
+        "close": "Zavřít",
+        "continue": "Pokračovat",
+        "cancel": "Zrušit",
+        "confirm": "Potvrdit",
+        "no": "Ne",
+        "yes": "Ano"
       }
     },
     "gallery": {

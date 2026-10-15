@@ -47,6 +47,18 @@
         "tip": "Consejo",
         "defaultTutorialWithImage": "Aquí hay una imagen de referencia.\nIntente que el encuadre de su foto se parezca lo más posible.",
         "defaultTutorialWithoutImage": "Colóquese como se muestra en el diagrama de la izquierda.\nAsegúrese de que la cámara esté a la altura correcta."
+      },
+      "ocr": {
+        "invalidReading": "El valor detectado no es válido. Por favor, escanee de nuevo.",
+        "ocrFailed": "No se puede detectar el texto. Puede continuar a la siguiente vista.",
+        "imageAlt": "Fotograma detectado",
+        "shutterHint": "Use el botón de obturador para tomar una foto",
+        "close": "Cerrar",
+        "continue": "Continuar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "no": "No",
+        "yes": "Sí"
       }
     },
     "gallery": {

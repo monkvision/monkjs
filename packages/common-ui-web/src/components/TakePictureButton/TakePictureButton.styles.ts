@@ -14,7 +14,7 @@ export const styles: Styles = {
     cursor: 'pointer',
   },
   outerLayerDisabled: {
-    opacity: 0.75,
+    opacity: 0.3,
     cursor: 'default',
   },
   innerLayer: {
