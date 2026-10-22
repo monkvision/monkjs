@@ -244,6 +244,11 @@ export function PhotoCaptureHUD({
   // Stable reference so PhotoCaptureHUDOcrOverlay's useEffect deps don't change on every render.
   const stableGetImageData = useRef(() => getImageDataRef.current()).current;
 
+  const matchedOcrSight = useMemo(
+    () => ocrSights?.find((s) => s.sightId === selectedSight.id),
+    [ocrSights, selectedSight.id],
+  );
+
   const retakeCount = useMemo(
     () =>
       images.filter(
@@ -255,6 +260,11 @@ export function PhotoCaptureHUD({
       ).length,
     [images],
   );
+
+  const isOcrBlockingShutter =
+    !!ocrConfig && (!ocrSights || !!matchedOcrSight) && !isOcrFallbackReady;
+  const isCaptureDisabled =
+    !!loading.error || !!handle.error || handle.isLoading || loading.isLoading;
 
   const handleCloseConfirm = () => {
     setShowCloseModal(false);
@@ -289,27 +299,23 @@ export function PhotoCaptureHUD({
           onDisableSightGuidelines={onDisableSightGuidelines}
           enableSightTutorial={enableSightTutorial}
           toggleSightTutorial={toggleSightTutorial}
-          hideSightOverlay={!!ocrSights?.some((s) => s.sightId === selectedSight.id)}
+          hideSightOverlay={!!matchedOcrSight}
         />
-        {ocrConfig &&
-          (() => {
-            const matchedSight = ocrSights?.find((s) => s.sightId === selectedSight.id);
-            return (
-              <PhotoCaptureHUDOcrOverlay
-                config={ocrConfig}
-                getImageData={stableGetImageData}
-                isCameraLoading={handle.isLoading}
-                isActive={!ocrSights || !!matchedSight}
-                previewDimensions={handle.previewDimensions}
-                mode={matchedSight?.mode}
-                defaultMileageUnit={matchedSight?.defaultMileageUnit ?? odometerUnit}
-                onConfirm={onOcrConfirm}
-                sightId={selectedSight.id}
-                onFallbackReady={onOcrFallbackReady}
-                fallbackPicture={ocrFallbackPicture}
-              />
-            );
-          })()}
+        {ocrConfig && (
+          <PhotoCaptureHUDOcrOverlay
+            config={ocrConfig}
+            getImageData={stableGetImageData}
+            isCameraLoading={handle.isLoading}
+            isActive={!ocrSights || !!matchedOcrSight}
+            previewDimensions={handle.previewDimensions}
+            mode={matchedOcrSight?.mode}
+            defaultMileageUnit={matchedOcrSight?.defaultMileageUnit ?? odometerUnit}
+            onConfirm={onOcrConfirm}
+            sightId={selectedSight.id}
+            onFallbackReady={onOcrFallbackReady}
+            fallbackPicture={ocrFallbackPicture}
+          />
+        )}
       </div>
       {mode !== CaptureMode.ADD_DAMAGE_PART_SELECT && (
         <HUDButtons
@@ -317,17 +323,9 @@ export function PhotoCaptureHUD({
           onTakePicture={handle?.takePicture}
           onClose={() => setShowCloseModal(true)}
           galleryPreview={lastPictureTakenUri ?? undefined}
-          closeDisabled={!!loading.error || !!handle.error}
-          galleryDisabled={!!loading.error || !!handle.error}
-          takePictureDisabled={
-            !!loading.error ||
-            !!handle.error ||
-            handle.isLoading ||
-            loading.isLoading ||
-            (!!ocrConfig &&
-              (!ocrSights || !!ocrSights.find((s) => s.sightId === selectedSight.id)) &&
-              !isOcrFallbackReady)
-          }
+          closeDisabled={isCaptureDisabled}
+          galleryDisabled={isCaptureDisabled}
+          takePictureDisabled={isCaptureDisabled || isOcrBlockingShutter}
           showCloseButton={showCloseButton}
           showGalleryBadge={retakeCount > 0}
           retakeCount={retakeCount}
