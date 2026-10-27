@@ -12,7 +12,7 @@ import {
   PhotoCaptureSightTutorialOption,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
-import { useI18nSync, useLoadingState } from '@monkvision/common';
+import { NetworkQuality, useI18nSync, useLoadingState, useNetworkStatus } from '@monkvision/common';
 import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render } from '@testing-library/react';
@@ -33,6 +33,7 @@ import {
   usePictureTaken,
   useUploadQueue,
   useCaptureDuration,
+  useNetworkWarning,
 } from '../../src/hooks';
 
 const { CaptureMode } = jest.requireActual('../../src/types');
@@ -79,6 +80,14 @@ jest.mock('../../src/hooks', () => ({
   usePictureTaken: jest.fn(() => jest.fn()),
   useUploadQueue: jest.fn(() => ({
     length: 3,
+    failedUploads: [{ mode: 'sight' }, { mode: 'sight' }],
+    retryingCount: 0,
+    retryFailed: jest.fn(),
+  })),
+  useNetworkWarning: jest.fn(() => ({
+    isNetworkWarningDialogDisplayed: false,
+    networkWarningQuality: null,
+    closeNetworkWarningDialog: jest.fn(),
   })),
   useBadConnectionWarning: jest.fn(() => ({
     isBadConnectionWarningDialogDisplayed: true,
@@ -306,6 +315,34 @@ describe('PhotoCapture component', () => {
         adaptiveConfigEventHandlers,
         badConnectionEventHandlers,
       ]),
+      networkStatus: (useNetworkStatus as jest.Mock).mock.results[0].value,
+      enableAutoRetry: true,
+    });
+
+    unmount();
+  });
+
+  it('should not monitor the network if enableNetworkMonitoring is false', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} enableNetworkMonitoring={false} />);
+
+    expect(useUploadQueue).toHaveBeenCalledWith(
+      expect.objectContaining({ networkStatus: undefined, enableAutoRetry: false }),
+    );
+    expect(useNetworkWarning).toHaveBeenCalledWith(expect.objectContaining({ enabled: false }));
+
+    unmount();
+  });
+
+  it('should pass the proper params to the useNetworkStatus and useNetworkWarning hooks', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} networkPoorThroughputKbps={300} />);
+
+    expect(useNetworkStatus).toHaveBeenCalledWith({ poorThroughputKbps: 300 });
+    expect(useNetworkWarning).toHaveBeenCalledWith({
+      enabled: true,
+      quality: (useNetworkStatus as jest.Mock).mock.results[0].value.quality,
+      failedUploadsCount: 2,
     });
 
     unmount();
@@ -529,6 +566,49 @@ describe('PhotoCapture component', () => {
     unmount();
   });
 
+  it('should pass the failed uploads and the resend callback to InspectionGallery', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    const { onOpenGallery } = (Camera as unknown as jest.Mock).mock.calls[0][0].hudProps;
+    act(() => onOpenGallery());
+
+    const { results } = (useUploadQueue as jest.Mock).mock;
+    const uploadQueue = results[results.length - 1].value;
+    expectPropsOnChildMock(InspectionGallery, {
+      failedUploadsCount: 2,
+      onResendFailedImages: uploadQueue.retryFailed,
+      isResendingFailedImages: false,
+    });
+
+    unmount();
+  });
+
+  it('should display the network warning dialog', () => {
+    (useNetworkWarning as jest.Mock).mockImplementationOnce(() => ({
+      isNetworkWarningDialogDisplayed: true,
+      networkWarningQuality: NetworkQuality.OFFLINE,
+      closeNetworkWarningDialog: jest.fn(),
+    }));
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} />);
+
+    const { closeNetworkWarningDialog } = (useNetworkWarning as jest.Mock).mock.results[0].value;
+    expectPropsOnChildMock(BackdropDialog, {
+      show: true,
+      dialogIcon: 'wifi-off',
+      message: 'photo.networkWarning.offline',
+      confirmLabel: 'photo.networkWarning.confirm',
+      onConfirm: closeNetworkWarningDialog,
+    });
+    expectPropsOnChildMock(BackdropDialog, {
+      show: false,
+      message: 'photo.badConnectionWarning.message',
+    });
+
+    unmount();
+  });
+
   it('should pass the proper params to the BackdropDialog component', () => {
     const props = createProps();
     const { unmount } = render(<PhotoCapture {...props} />);
@@ -545,7 +625,9 @@ describe('PhotoCapture component', () => {
       confirmLabel: 'photo.badConnectionWarning.confirm',
       onConfirm: expect.any(Function),
     });
-    const { onConfirm } = (BackdropDialog as unknown as jest.Mock).mock.calls[0][0];
+    const { onConfirm } = (BackdropDialog as unknown as jest.Mock).mock.calls.find(
+      ([dialogProps]) => dialogProps.message === 'photo.badConnectionWarning.message',
+    )[0];
     expect(closeBadConnectionWarningDialog).not.toHaveBeenCalled();
     onConfirm();
     expect(closeBadConnectionWarningDialog).toHaveBeenCalled();

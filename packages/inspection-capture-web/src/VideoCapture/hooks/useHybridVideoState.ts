@@ -103,6 +103,8 @@ export function useHybridVideoState({ props, allowRedirect }: UseHybridVideoStat
       enableSightTutorial: props.enableSightTutorial,
       sightTutorial: props.sightTutorial,
       useAdaptiveImageQuality: props.useAdaptiveImageQuality,
+      enableNetworkMonitoring: props.enableNetworkMonitoring,
+      networkPoorThroughputKbps: props.networkPoorThroughputKbps,
       autoDeletePreviousSightImages: props.autoDeletePreviousSightImages,
     } satisfies PhotoCaptureProps;
   }, [

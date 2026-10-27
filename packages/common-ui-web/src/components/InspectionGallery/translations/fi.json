@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Vahvista",
+    "resend": "Lähetä kuvat uudelleen ({{count}})",
     "title": "Valokuvat",
     "retakeFilter": "Uudelleen",
     "approvedFilter": "Hyväksytty",

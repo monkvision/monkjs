@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Bekreft",
+    "resend": "Send bilder på nytt ({{count}})",
     "title": "Bilder",
     "retakeFilter": "Ny prøve",
     "approvedFilter": "Godkjent",

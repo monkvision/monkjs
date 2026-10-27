@@ -296,6 +296,42 @@ describe('Image requests', () => {
       });
     });
 
+    it('should mark Safari network errors as upload fail', async () => {
+      const err = new TypeError('Load failed');
+      jest.spyOn(ky, 'post').mockImplementationOnce(() => {
+        throw err;
+      });
+      const options = createBeautyShotImageOptions();
+      const dispatch = jest.fn();
+      await expect(addImage(options, apiConfig, dispatch)).rejects.toThrow(err);
+
+      expect(dispatch).toHaveBeenLastCalledWith({
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({ status: ImageStatus.UPLOAD_FAILED }),
+        },
+      });
+    });
+
+    it('should use the given local image ID if provided', async () => {
+      const options = { ...createBeautyShotImageOptions(), localImageId: 'failed-local-id' };
+      const dispatch = jest.fn();
+      await addImage(options, apiConfig, dispatch);
+
+      expect(dispatch).toHaveBeenNthCalledWith(1, {
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: {
+          inspectionId: options.inspectionId,
+          image: expect.objectContaining({ id: 'failed-local-id' }),
+        },
+      });
+      expect(dispatch).toHaveBeenNthCalledWith(2, {
+        type: MonkActionType.CREATED_ONE_IMAGE,
+        payload: expect.objectContaining({ localId: 'failed-local-id' }),
+      });
+    });
+
     it('should properly update the state in case of upload timeout', async () => {
       const err = new Error('Ftest');
       err.name = 'TimeoutError';

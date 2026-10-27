@@ -4,6 +4,11 @@
       "message": "Meillä on yhteysongelmia. Kuvien lataaminen voi kestää kauemmin.",
       "confirm": "Ymmärrän"
     },
+    "networkWarning": {
+      "offline": "Olet offline-tilassa. Pidä tämä sivu auki, muuten kuvat menetetään.",
+      "poor": "Yhteytesi on liian heikko kuvien lataamiseen. Pidä tämä sivu auki, muuten kuvat menetetään.",
+      "confirm": "Ymmärrän"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Vaurio"

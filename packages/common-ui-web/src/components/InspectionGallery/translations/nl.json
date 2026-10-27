@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Valideer",
+    "resend": "Foto's opnieuw verzenden ({{count}})",
     "title": "Foto's",
     "retakeFilter": "Opnieuw genomen",
     "approvedFilter": "Goedgekeurd",

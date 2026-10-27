@@ -241,6 +241,22 @@ export type PhotoCaptureAppConfig = SharedCaptureAppConfig &
      */
     useAdaptiveImageQuality?: boolean;
     /**
+     * Boolean indicating if the network availability and quality should be monitored during the capture. When enabled,
+     * the user is warned when the connection is lost or too poor, and the pictures that failed to upload because of a
+     * bad connection are automatically uploaded again once the connection is back. When disabled, the failed pictures
+     * can still be uploaded again manually from the gallery.
+     *
+     * @default true
+     */
+    enableNetworkMonitoring?: boolean;
+    /**
+     * The upload throughput (in kilobits per second) under which the connection is considered too poor for pictures to
+     * be uploaded. Only used if `enableNetworkMonitoring` is set to `true`.
+     *
+     * @default 150
+     */
+    networkPoorThroughputKbps?: number;
+    /**
      * If compliance is enabled, this prop indicate if the user is allowed to skip the retaking process if pictures are
      * not compliant.
      *
@@ -539,6 +555,8 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
           | 'showCloseButton'
           | 'maxUploadDurationWarning'
           | 'useAdaptiveImageQuality'
+          | 'enableNetworkMonitoring'
+          | 'networkPoorThroughputKbps'
           | 'allowSkipRetake'
           | 'addDamage'
           | 'enableSightGuidelines'

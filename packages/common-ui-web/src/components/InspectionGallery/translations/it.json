@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Conferma",
+    "resend": "Invia di nuovo le foto ({{count}})",
     "title": "Foto",
     "retakeFilter": "Riprese",
     "approvedFilter": "Scattate e approvate",

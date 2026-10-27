@@ -1,4 +1,4 @@
-import { useQueue } from '@monkvision/common';
+import { NetworkQuality, useQueue } from '@monkvision/common';
 import { renderHook, act } from '@testing-library/react';
 import {
   AddDamage1stShotPictureUpload,
@@ -68,8 +68,12 @@ describe('useUploadQueue hook', () => {
         onItemFail: expect.any(Function),
       }),
     );
-    const queue = (useQueue as jest.Mock).mock.results[0].value;
-    expect(result.current).toBe(queue);
+    const { push: _push, ...queue } = (useQueue as jest.Mock).mock.results[0].value;
+    expect(result.current).toEqual(expect.objectContaining(queue));
+    expect(typeof result.current.push).toBe('function');
+    expect(result.current.failedUploads).toEqual([]);
+    expect(result.current.retryingCount).toEqual(0);
+    expect(typeof result.current.retryFailed).toBe('function');
 
     unmount();
   });
@@ -86,6 +90,7 @@ describe('useUploadQueue hook', () => {
       await process(defaultUploadOptions);
 
       expect(addImageMock).toHaveBeenCalledWith({
+        localImageId: expect.any(String),
         uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
@@ -111,6 +116,7 @@ describe('useUploadQueue hook', () => {
       await process({ ...defaultUploadOptions, tasks });
 
       expect(addImageMock).toHaveBeenCalledWith({
+        localImageId: expect.any(String),
         uploadType: ImageUploadType.BEAUTY_SHOT,
         picture: defaultUploadOptions.picture,
         sightId: defaultUploadOptions.sightId,
@@ -149,6 +155,7 @@ describe('useUploadQueue hook', () => {
         await process(upload1);
       });
       expect(addImageMock).toHaveBeenCalledWith({
+        localImageId: expect.any(String),
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload1.picture,
         siblingKey: expect.any(String),
@@ -173,6 +180,7 @@ describe('useUploadQueue hook', () => {
       await process(upload2);
 
       expect(addImageMock).toHaveBeenCalledWith({
+        localImageId: expect.any(String),
         uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
         picture: upload2.picture,
         siblingKey,
@@ -449,6 +457,221 @@ describe('useUploadQueue hook', () => {
       onItemFail(defaultUploadOptions);
       expect(push).not.toHaveBeenCalled();
 
+      unmount();
+    });
+  });
+  describe('deferred retry mechanism', () => {
+    const timeoutError = Object.assign(new Error('Load failed'), { name: 'TypeError' });
+    let defaultUseMonkApi: ReturnType<jest.Mock['getMockImplementation']>;
+
+    beforeEach(() => {
+      defaultUseMonkApi = (useMonkApi as jest.Mock).getMockImplementation();
+    });
+
+    afterEach(() => {
+      (useMonkApi as jest.Mock).mockImplementation(defaultUseMonkApi);
+    });
+
+    function getLastQueue() {
+      const { results } = (useQueue as jest.Mock).mock;
+      return results[results.length - 1].value;
+    }
+
+    async function failTwice(process: (item: unknown) => Promise<unknown>, upload: unknown) {
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      await expect(process(upload)).rejects.toBe(timeoutError);
+      act(() => onItemFail(upload));
+      await expect(process(upload)).rejects.toBe(timeoutError);
+      act(() => onItemFail(upload));
+    }
+
+    it('should keep the same sibling key and local image ID across retries', async () => {
+      const addImage = jest.fn(() => Promise.reject(timeoutError));
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const { unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const upload = {
+        mode: CaptureMode.ADD_DAMAGE_1ST_SHOT,
+        picture: defaultUploadOptions.picture,
+      };
+
+      await expect(process(upload)).rejects.toBe(timeoutError);
+      await expect(process(upload)).rejects.toBe(timeoutError);
+
+      const [first, second] = addImage.mock.calls.map((call) => (call as unknown[])[0] as any);
+      expect(second.siblingKey).toEqual(first.siblingKey);
+      expect(second.localImageId).toEqual(first.localImageId);
+
+      unmount();
+    });
+
+    it('should store the upload in failedUploads once the immediate retry is exhausted', async () => {
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await failTwice(process, defaultUploadOptions);
+
+      expect(result.current.failedUploads).toEqual([defaultUploadOptions]);
+      unmount();
+    });
+
+    it('should not store uploads failing with non-retryable errors', async () => {
+      const err = { response: { status: 400 } };
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(err)),
+      }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(err);
+      act(() => onItemFail(defaultUploadOptions));
+
+      expect(result.current.failedUploads).toEqual([]);
+      unmount();
+    });
+
+    it('should push the failed uploads back in the queue when calling retryFailed', async () => {
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemComplete } = (useQueue as jest.Mock).mock.calls[0][1];
+      await failTwice(process, defaultUploadOptions);
+
+      const { push } = getLastQueue();
+      act(() => result.current.retryFailed());
+
+      expect(push).toHaveBeenCalledWith(defaultUploadOptions);
+      expect(result.current.failedUploads).toEqual([]);
+      expect(result.current.retryingCount).toEqual(1);
+
+      act(() => onItemComplete(defaultUploadOptions));
+      expect(result.current.retryingCount).toEqual(0);
+      unmount();
+    });
+
+    it('should retry at most 2 uploads at a time and put them back if one fails', async () => {
+      const addImage = jest.fn(() => Promise.reject(timeoutError));
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      const uploads = [1, 2, 3].map((i) => ({ ...defaultUploadOptions, sightId: `sight-${i}` }));
+      await uploads.reduce(
+        (promise, upload) => promise.then(() => failTwice(process, upload)),
+        Promise.resolve(),
+      );
+      expect(result.current.failedUploads).toHaveLength(3);
+
+      const { push } = getLastQueue();
+      act(() => result.current.retryFailed());
+      expect(push).toHaveBeenCalledTimes(2);
+      expect(result.current.retryingCount).toEqual(3);
+
+      await expect(process(uploads[0])).rejects.toBe(timeoutError);
+      act(() => onItemFail(uploads[0]));
+
+      expect(result.current.failedUploads).toEqual(
+        expect.arrayContaining([uploads[0], uploads[2]]),
+      );
+      expect(result.current.retryingCount).toEqual(1);
+
+      unmount();
+    });
+
+    it('should discard the failed uploads of a sight when a new picture of this sight is pushed', async () => {
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      await failTwice(process, defaultUploadOptions);
+      expect(result.current.failedUploads).toHaveLength(1);
+
+      const { push } = getLastQueue();
+      const retake = { ...defaultUploadOptions };
+      act(() => result.current.push(retake));
+
+      expect(push).toHaveBeenCalledWith(retake);
+      expect(result.current.failedUploads).toHaveLength(0);
+      unmount();
+    });
+
+    it('should report the upload samples to the network status', async () => {
+      const networkStatus = {
+        isOnline: true,
+        quality: NetworkQuality.GOOD,
+        reportSample: jest.fn(),
+      };
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const { unmount } = renderHook(useUploadQueue, {
+        initialProps: { ...createParams(), networkStatus },
+      });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+      await expect(process(defaultUploadOptions)).rejects.toBe(timeoutError);
+      expect(networkStatus.reportSample).toHaveBeenCalledWith({ failed: true });
+
+      unmount();
+    });
+
+    it('should automatically retry failed uploads when the network quality becomes good', async () => {
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const reportSample = jest.fn();
+      const initialProps = {
+        ...createParams(),
+        enableAutoRetry: true,
+        networkStatus: { isOnline: false, quality: NetworkQuality.OFFLINE, reportSample },
+      };
+      const { result, rerender, unmount } = renderHook(useUploadQueue, { initialProps });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      await failTwice(process, defaultUploadOptions);
+      act(() => {
+        jest.runOnlyPendingTimers();
+      });
+      expect(result.current.failedUploads).toHaveLength(1);
+
+      rerender({
+        ...initialProps,
+        networkStatus: { isOnline: true, quality: NetworkQuality.GOOD, reportSample },
+      });
+      act(() => {
+        jest.runOnlyPendingTimers();
+      });
+
+      expect(result.current.failedUploads).toHaveLength(0);
+      expect(result.current.retryingCount).toEqual(1);
+      unmount();
+    });
+
+    it('should not automatically retry failed uploads if auto retry is disabled', async () => {
+      (useMonkApi as jest.Mock).mockImplementation(() => ({
+        addImage: jest.fn(() => Promise.reject(timeoutError)),
+      }));
+      const networkStatus = {
+        isOnline: true,
+        quality: NetworkQuality.GOOD,
+        reportSample: jest.fn(),
+      };
+      const { result, unmount } = renderHook(useUploadQueue, {
+        initialProps: { ...createParams(), networkStatus, enableAutoRetry: false },
+      });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      await failTwice(process, defaultUploadOptions);
+      act(() => {
+        jest.runOnlyPendingTimers();
+      });
+
+      expect(result.current.failedUploads).toHaveLength(1);
       unmount();
     });
   });

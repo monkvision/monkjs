@@ -138,6 +138,25 @@ export type InspectionGalleryProps = {
    * @default false
    */
   enableBeautyShotExtraction?: boolean;
+  /**
+   * The number of pictures that failed to upload (because of a bad connection for instance) and that can be uploaded
+   * again. If this value is greater than 0 and the `onResendFailedImages` callback is provided, a "Resend" button is
+   * displayed in the gallery top bar.
+   *
+   * @default 0
+   */
+  failedUploadsCount?: number;
+  /**
+   * Callback called when the user presses the "Resend" button of the gallery top bar.
+   */
+  onResendFailedImages?: () => void;
+  /**
+   * Boolean indicating if the failed pictures are currently being uploaded again. When `true`, the "Resend" button is
+   * displayed as loading.
+   *
+   * @default false
+   */
+  isResendingFailedImages?: boolean;
 } & (
   | ({
       /**

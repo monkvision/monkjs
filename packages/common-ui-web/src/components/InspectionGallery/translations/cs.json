@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Zkontrolovat",
+    "resend": "Znovu odeslat fotografie ({{count}})",
     "title": "Fotografie",
     "retakeFilter": "Zopakování",
     "approvedFilter": "Schváleno",

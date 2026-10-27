@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Valider",
+    "resend": "Send billeder igen ({{count}})",
     "title": "Billeder",
     "retakeFilter": "Gentagelser",
     "approvedFilter": "Godkendt",

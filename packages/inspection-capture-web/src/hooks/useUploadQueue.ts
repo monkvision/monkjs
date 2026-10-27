@@ -1,6 +1,8 @@
 import {
   isInternalServerError,
   isTimeoutError,
+  NetworkQuality,
+  NetworkStatusHandle,
   Queue,
   uniq,
   useMonkState,
@@ -14,19 +16,36 @@ import {
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';
 
 const MAX_RETRY_COUNT = 1;
+const MAX_CONCURRENT_DEFERRED_RETRIES = 2;
+const MIN_DEFERRED_RETRY_DELAY_MS = 5000;
+const MAX_DEFERRED_RETRY_DELAY_MS = 2 * 60 * 1000;
 
 /**
- * Retry bookkeeping kept for each upload : the number of times it has already been retried and whether its last failure
- * was a retryable error.
+ * Bookkeeping kept for each upload :
+ * - `siblingId` and `localImageId` are computed once, at the first upload attempt, so that retries keep the same 2-shot
+ * sibling key and replace the failed local image in the state instead of duplicating it.
+ * - `count` is the number of times it has already been retried immediately and `retryable` indicates whether its last
+ * failure was a retryable error.
+ * - `isDeferredRetry` indicates if the current upload attempt is a deferred retry (see `UploadQueue.retryFailed`).
  */
-interface RetryableRequest {
+interface UploadMetadata {
+  siblingId: number;
+  localImageId: string;
   count: number;
   retryable: boolean;
+  isDeferredRetry: boolean;
+}
+
+let localImageIdCounter = 0;
+
+function createLocalImageId(): string {
+  localImageIdCounter += 1;
+  return `local-image-${Date.now()}-${localImageIdCounter}`;
 }
 
 /**
@@ -89,6 +108,19 @@ export interface UploadQueueParams extends Pick<PhotoCaptureAppConfig, 'addition
    * A collection of event handlers listening to upload events.
    */
   eventHandlers?: UploadEventHandlers[];
+  /**
+   * The network status handle (created using the `useNetworkStatus` hook). If provided, every upload is reported to it
+   * in order to evaluate the network quality, and failed uploads are automatically retried when the connection becomes
+   * good again (if `enableAutoRetry` is set to `true`).
+   */
+  networkStatus?: NetworkStatusHandle;
+  /**
+   * Boolean indicating if uploads that failed because of a bad connection should be automatically retried once the
+   * network quality (given by `networkStatus`) is good again.
+   *
+   * @default false
+   */
+  enableAutoRetry?: boolean;
 }
 
 /**
@@ -168,6 +200,27 @@ export type PictureUpload =
   | AddDamage2ndShotPictureUpload
   | AddDamagePartSelectShotPictureUpload;
 
+/**
+ * The upload queue returned by the `useUploadQueue` hook. On top of the regular queue features, it keeps track of the
+ * uploads that failed because of a network or server issue, so that they can be retried later on without having to
+ * take the pictures again.
+ */
+export interface UploadQueue extends Queue<PictureUpload> {
+  /**
+   * The uploads that failed because of a network or server issue and that are waiting to be retried.
+   */
+  failedUploads: PictureUpload[];
+  /**
+   * The number of failed uploads currently being retried.
+   */
+  retryingCount: number;
+  /**
+   * Callback used to retry every failed upload (`failedUploads`). Uploads are retried at most 2 at a time. If one of
+   * them fails again, the remaining ones are put back in the `failedUploads` array.
+   */
+  retryFailed: () => void;
+}
+
 function createAddImageOptions(
   upload: PictureUpload,
   inspectionId: string,
@@ -219,36 +272,102 @@ export function useUploadQueue({
   additionalTasks,
   complianceOptions,
   eventHandlers,
-}: UploadQueueParams): Queue<PictureUpload> {
+  networkStatus,
+  enableAutoRetry = false,
+}: UploadQueueParams): UploadQueue {
   const { handleError } = useMonitoring();
   const siblingIdRef = useRef(0);
   const { addImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
-  const retryMapRef = useRef(new Map<PictureUpload, RetryableRequest>());
+  const metadataRef = useRef(new Map<PictureUpload, UploadMetadata>());
+  const [failedUploads, setFailedUploads] = useState<PictureUpload[]>([]);
+  const [retryingCount, setRetryingCount] = useState(0);
+  const failedUploadsRef = useRef(failedUploads);
+  failedUploadsRef.current = failedUploads;
+  const retryBacklogRef = useRef<PictureUpload[]>([]);
+  const inFlightRetriesRef = useRef(0);
+  const deferredRetryDelayRef = useRef(0);
+  const queueRef = useRef<Queue<PictureUpload> | null>(null);
 
   const wheelAnalysisCloseUp = state.tasks.find(
     (task) => task.name === TaskName.WHEEL_ANALYSIS && task.wheelAnalysisCloseUp,
   )?.wheelAnalysisCloseUp;
 
-  const queue = useQueue<PictureUpload>(
-    async (upload: PictureUpload) => {
+  const getMetadata = (upload: PictureUpload): UploadMetadata => {
+    let metadata = metadataRef.current.get(upload);
+    if (!metadata) {
       if (upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT) {
         siblingIdRef.current += 1;
       }
+      metadata = {
+        siblingId: siblingIdRef.current,
+        localImageId: createLocalImageId(),
+        count: 0,
+        retryable: false,
+        isDeferredRetry: false,
+      };
+      metadataRef.current.set(upload, metadata);
+    }
+    return metadata;
+  };
+
+  const pumpDeferredRetries = () => {
+    while (
+      inFlightRetriesRef.current < MAX_CONCURRENT_DEFERRED_RETRIES &&
+      retryBacklogRef.current.length > 0
+    ) {
+      const upload = retryBacklogRef.current.shift() as PictureUpload;
+      inFlightRetriesRef.current += 1;
+      queueRef.current?.push(upload);
+    }
+    setRetryingCount(inFlightRetriesRef.current + retryBacklogRef.current.length);
+  };
+
+  const onDeferredRetryEnd = (upload: PictureUpload, failed: boolean) => {
+    inFlightRetriesRef.current = Math.max(0, inFlightRetriesRef.current - 1);
+    if (failed) {
+      const uploadsToPutBack = [upload, ...retryBacklogRef.current];
+      retryBacklogRef.current = [];
+      uploadsToPutBack.forEach((u) => {
+        const metadata = metadataRef.current.get(u);
+        if (metadata) {
+          metadata.isDeferredRetry = false;
+        }
+      });
+      setFailedUploads((current) => [...current, ...uploadsToPutBack]);
+      deferredRetryDelayRef.current = Math.min(
+        Math.max(MIN_DEFERRED_RETRY_DELAY_MS, deferredRetryDelayRef.current * 2),
+        MAX_DEFERRED_RETRY_DELAY_MS,
+      );
+    } else {
+      metadataRef.current.delete(upload);
+      deferredRetryDelayRef.current = 0;
+    }
+    pumpDeferredRetries();
+  };
+
+  const queue = useQueue<PictureUpload>(
+    async (upload: PictureUpload) => {
+      const metadata = getMetadata(upload);
+      const startTs = Date.now();
       try {
-        const startTs = Date.now();
-        const result = await addImage(
-          createAddImageOptions(
+        const result = await addImage({
+          ...createAddImageOptions(
             upload,
             inspectionId,
-            siblingIdRef.current,
+            metadata.siblingId,
             true,
             additionalTasks,
             complianceOptions,
             wheelAnalysisCloseUp,
           ),
-        );
+          localImageId: metadata.localImageId,
+        });
         const uploadDurationMs = Date.now() - startTs;
+        networkStatus?.reportSample({
+          bytes: upload.picture.blob?.size,
+          durationMs: uploadDurationMs,
+        });
         const sightId = upload.mode === CaptureMode.SIGHT ? upload.sightId : undefined;
         eventHandlers?.forEach((handlers) =>
           handlers.onUploadSuccess?.({
@@ -257,15 +376,17 @@ export function useUploadQueue({
             imageId: result?.image?.id,
           }),
         );
-        retryMapRef.current.delete(upload);
       } catch (err) {
-        const retryData = retryMapRef.current.get(upload) ?? { count: 0, retryable: false };
         const retryable = isRetryableError(err);
-        const willRetry = retryable && retryData.count < MAX_RETRY_COUNT;
+        const willRetry =
+          retryable && !metadata.isDeferredRetry && metadata.count < MAX_RETRY_COUNT;
+        metadata.retryable = retryable;
 
-        retryMapRef.current.set(upload, { ...retryData, retryable });
-
-        if (!willRetry) {
+        if (isTimeoutError(err)) {
+          networkStatus?.reportSample({ failed: true });
+        }
+        // Errors of deferred retries have already been reported during the first upload attempt.
+        if (!willRetry && !(metadata.isDeferredRetry && retryable)) {
           if (isTimeoutError(err)) {
             eventHandlers?.forEach((handlers) => handlers.onUploadTimeout?.());
           }
@@ -275,17 +396,81 @@ export function useUploadQueue({
       }
     },
     {
-      onItemFail: (upload: PictureUpload) => {
-        const retryData = retryMapRef.current.get(upload);
-        if (retryData?.retryable && retryData.count < MAX_RETRY_COUNT) {
-          retryMapRef.current.set(upload, { count: retryData.count + 1, retryable: false });
-          queue.push(upload);
+      onItemComplete: (upload: PictureUpload) => {
+        if (metadataRef.current.get(upload)?.isDeferredRetry) {
+          onDeferredRetryEnd(upload, false);
         } else {
-          retryMapRef.current.delete(upload);
+          metadataRef.current.delete(upload);
+        }
+      },
+      onItemFail: (upload: PictureUpload) => {
+        const metadata = metadataRef.current.get(upload);
+        if (metadata?.isDeferredRetry) {
+          if (metadata.retryable) {
+            onDeferredRetryEnd(upload, true);
+          } else {
+            metadataRef.current.delete(upload);
+            onDeferredRetryEnd(upload, false);
+          }
+        } else if (metadata?.retryable && metadata.count < MAX_RETRY_COUNT) {
+          metadata.count += 1;
+          metadata.retryable = false;
+          queue.push(upload);
+        } else if (metadata?.retryable) {
+          setFailedUploads((current) => [...current, upload]);
+        } else {
+          metadataRef.current.delete(upload);
         }
       },
     },
   );
+  queueRef.current = queue;
 
-  return queue;
+  const retryFailed = useCallback(() => {
+    const uploadsToRetry = failedUploadsRef.current;
+    if (uploadsToRetry.length === 0) {
+      return;
+    }
+    setFailedUploads((current) => current.filter((upload) => !uploadsToRetry.includes(upload)));
+    uploadsToRetry.forEach((upload) => {
+      const metadata = metadataRef.current.get(upload);
+      if (metadata) {
+        metadata.isDeferredRetry = true;
+      }
+    });
+    retryBacklogRef.current.push(...uploadsToRetry);
+    pumpDeferredRetries();
+  }, []);
+
+  const quality = networkStatus?.quality;
+  const hasFailedUploads = failedUploads.length > 0;
+  useEffect(() => {
+    if (!enableAutoRetry || quality !== NetworkQuality.GOOD || !hasFailedUploads || retryingCount) {
+      return undefined;
+    }
+    const timeout = setTimeout(retryFailed, deferredRetryDelayRef.current);
+    return () => clearTimeout(timeout);
+  }, [enableAutoRetry, quality, hasFailedUploads, retryingCount, retryFailed]);
+
+  const push = useCallback(
+    (upload: PictureUpload) => {
+      if (upload.mode === CaptureMode.SIGHT) {
+        // A new picture of a sight replaces the failed uploads of this sight, which should not be retried anymore.
+        const isOutdated = (u: PictureUpload) =>
+          u.mode === CaptureMode.SIGHT && u.sightId === upload.sightId;
+        failedUploadsRef.current.filter(isOutdated).forEach((u) => metadataRef.current.delete(u));
+        setFailedUploads((current) => current.filter((u) => !isOutdated(u)));
+      }
+      queue.push(upload);
+    },
+    [queue.push],
+  );
+
+  return {
+    ...queue,
+    push,
+    failedUploads,
+    retryingCount,
+    retryFailed,
+  };
 }

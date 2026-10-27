@@ -4,6 +4,11 @@
       "message": "Er zijn momenteel verbindingsproblemen. Het uploaden van foto's kan langer duren dan normaal.",
       "confirm": "Ik begrijp het"
     },
+    "networkWarning": {
+      "offline": "Je bent offline. Houd deze pagina open, anders gaan de foto's verloren.",
+      "poor": "Je verbinding is te zwak om foto's te uploaden. Houd deze pagina open, anders gaan de foto's verloren.",
+      "confirm": "Ik begrijp het"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Schade"

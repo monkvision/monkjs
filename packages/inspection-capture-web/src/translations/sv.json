@@ -4,6 +4,11 @@
       "message": "Vi upplever problem med anslutningen. Det kan ta längre tid att ladda upp bilder än vanligt.",
       "confirm": "Jag förstår"
     },
+    "networkWarning": {
+      "offline": "Du är offline. Håll den här sidan öppen, annars försvinner bilderna.",
+      "poor": "Din anslutning är för svag för att ladda upp bilder. Håll den här sidan öppen, annars försvinner bilderna.",
+      "confirm": "Jag förstår"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Skada"

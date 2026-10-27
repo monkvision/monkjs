@@ -180,6 +180,33 @@ function useCustomApiCall() {
 Custom hook used to create a `LoadingState` object. This object can be used to track the processing of a task in the
 component. For instance, you can use this hook to handle the loading and errors of API calls in your components.
 
+### useNetworkStatus
+```tsx
+import { NetworkQuality, useNetworkStatus } from '@monkvision/common';
+
+function TestComponent() {
+  const { isOnline, quality, reportSample } = useNetworkStatus({ poorThroughputKbps: 150 });
+
+  const upload = async (blob: Blob) => {
+    const start = Date.now();
+    try {
+      await uploadBlob(blob);
+      reportSample({ bytes: blob.size, durationMs: Date.now() - start });
+    } catch (err) {
+      reportSample({ failed: true });
+    }
+  };
+
+  return quality === NetworkQuality.GOOD ? null : <div>Bad connection</div>;
+}
+```
+Custom hook used to monitor the network availability and quality of the device. Availability is detected using the
+browser `online` / `offline` events. Since there is no way to measure the network quality on every browser (the
+Network Information API is not available on Safari), the quality (`OFFLINE`, `POOR` or `GOOD`) is evaluated passively
+using the samples reported with the `reportSample` callback (failure streaks and upload throughput), and using the
+Network Information API as a hint when available. Quality upgrades are only applied after the connection has been
+stable for `recoveryStableMs` milliseconds, to avoid flapping.
+
 ### useObjectMemo
 ```tsx
 import { useMemo } from 'React';

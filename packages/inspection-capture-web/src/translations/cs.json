@@ -4,6 +4,11 @@
       "message": "Občasné problémy s připojením. Nahrávání obrázků může trvat déle.",
       "confirm": "Rozumím"
     },
+    "networkWarning": {
+      "offline": "Jste offline. Nechte tuto stránku otevřenou, jinak fotografie přijdete o.",
+      "poor": "Připojení je příliš slabé na nahrávání fotografií. Nechte tuto stránku otevřenou, jinak fotografie přijdete o.",
+      "confirm": "Rozumím"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Poškození"

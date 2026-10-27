@@ -2,6 +2,7 @@ import ky from 'ky';
 import { Dispatch } from 'react';
 import {
   getFileExtensions,
+  isTimeoutError,
   MonkActionType,
   MonkCreatedOneImageAction,
   vehiclePartLabels,
@@ -221,12 +222,20 @@ export interface AddVideoManualPhotoOptions {
 /**
  * Union type describing the different options that can be specified when adding a picture to an inspection.
  */
-export type AddImageOptions =
+export type AddImageOptions = (
   | AddBeautyShotImageOptions
   | Add2ShotCloseUpImageOptions
   | AddVideoFrameOptions
   | AddVideoManualPhotoOptions
-  | AddPartSelectCloseUpImageOptions;
+  | AddPartSelectCloseUpImageOptions
+) & {
+  /**
+   * The ID to give to the local image created in the state while the image is being uploaded. If not provided, a random
+   * ID is generated. Passing the ID of a previously failed local image (when retrying an upload for instance) replaces
+   * this failed image in the state instead of creating a duplicate.
+   */
+  localImageId?: string;
+};
 
 interface AddImageData {
   filename: string;
@@ -558,7 +567,7 @@ function createLocalImage(options: AddImageOptions): Image {
   const additionalData = getAdditionalData(options);
   const image: Image = {
     entityType: MonkEntityType.IMAGE,
-    id: v4(),
+    id: options.localImageId ?? v4(),
     inspectionId: options.inspectionId,
     path: options.picture.uri,
     thumbnailPath: options.picture.uri,
@@ -650,10 +659,7 @@ export async function addImage(
     });
     return { image, response, body };
   } catch (err) {
-    const status =
-      err instanceof Error && (err.name === 'TimeoutError' || err.message === 'Failed to fetch')
-        ? ImageStatus.UPLOAD_FAILED
-        : ImageStatus.UPLOAD_ERROR;
+    const status = isTimeoutError(err) ? ImageStatus.UPLOAD_FAILED : ImageStatus.UPLOAD_ERROR;
     dispatch?.({
       type: MonkActionType.CREATED_ONE_IMAGE,
       payload: {

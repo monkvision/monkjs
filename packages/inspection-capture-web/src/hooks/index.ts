@@ -6,6 +6,7 @@ export * from './useUploadQueue';
 export * from './usePictureTaken';
 export * from './usePhotoCaptureImages';
 export * from './useBadConnectionWarning';
+export * from './useNetworkWarning';
 export * from './useAdaptiveCameraConfig';
 export * from './useTracking';
 export * from './useCaptureDuration';

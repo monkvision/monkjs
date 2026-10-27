@@ -36,6 +36,8 @@ export const PhotoCaptureAppConfigSchema = z
     enableAddDamage: z.boolean().optional(),
     maxUploadDurationWarning: z.number().optional(),
     useAdaptiveImageQuality: z.boolean().optional(),
+    enableNetworkMonitoring: z.boolean().optional(),
+    networkPoorThroughputKbps: z.number().optional(),
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
     enableSightGuidelines: z.nativeEnum(PhotoCaptureSightGuidelinesOption).optional(),
     defaultVehicleType: z.nativeEnum(VehicleType),

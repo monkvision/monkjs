@@ -98,6 +98,9 @@ export const InspectionGallery = i18nWrap(function InspectionGallery(
         validateButtonLabel={props.validateButtonLabel}
         isInspectionCompleted={props.isInspectionCompleted}
         enableBeautyShotExtraction={props.enableBeautyShotExtraction}
+        failedUploadsCount={props.failedUploadsCount}
+        onResendFailedImages={props.onResendFailedImages}
+        isResendingFailedImages={props.isResendingFailedImages}
       />
       <div style={itemListStyle}>
         {filteredItems.length === 0 && <div style={emptyStyle}>{emptyLabel}</div>}

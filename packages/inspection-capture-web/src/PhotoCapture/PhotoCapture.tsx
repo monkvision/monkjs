@@ -1,6 +1,12 @@
 import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
-import { useI18nSync, useLoadingState, useObjectMemo } from '@monkvision/common';
+import {
+  NetworkQuality,
+  useI18nSync,
+  useLoadingState,
+  useNetworkStatus,
+  useObjectMemo,
+} from '@monkvision/common';
 import {
   BackdropDialog,
   InspectionGallery,
@@ -32,6 +38,7 @@ import {
   usePhotoCaptureImages,
   useAdaptiveCameraConfig,
   useBadConnectionWarning,
+  useNetworkWarning,
   useTracking,
   useCaptureDuration,
 } from '../hooks';
@@ -54,6 +61,8 @@ export interface PhotoCaptureProps
       | keyof CameraConfig
       | 'maxUploadDurationWarning'
       | 'useAdaptiveImageQuality'
+      | 'enableNetworkMonitoring'
+      | 'networkPoorThroughputKbps'
       | 'additionalTasks'
       | 'tasksBySight'
       | 'startTasksOnComplete'
@@ -161,6 +170,8 @@ export function PhotoCapture({
   sightTutorial,
   enableSightGuidelines = PhotoCaptureSightGuidelinesOption.EPHEMERAL,
   useAdaptiveImageQuality = true,
+  enableNetworkMonitoring = true,
+  networkPoorThroughputKbps = 150,
   lang,
   enforceOrientation,
   validateButtonLabel,
@@ -249,6 +260,7 @@ export function PhotoCapture({
     apiConfig,
     autoDeletePreviousSightImages,
   });
+  const networkStatus = useNetworkStatus({ poorThroughputKbps: networkPoorThroughputKbps });
   const uploadQueue = useUploadQueue({
     inspectionId,
     apiConfig,
@@ -259,7 +271,15 @@ export function PhotoCapture({
       badConnectionWarningUploadEventHandlers,
       cleanupEventHandlers,
     ],
+    networkStatus: enableNetworkMonitoring ? networkStatus : undefined,
+    enableAutoRetry: enableNetworkMonitoring,
   });
+  const { isNetworkWarningDialogDisplayed, networkWarningQuality, closeNetworkWarningDialog } =
+    useNetworkWarning({
+      enabled: enableNetworkMonitoring,
+      quality: networkStatus.quality,
+      failedUploadsCount: uploadQueue.failedUploads.length,
+    });
   const images = usePhotoCaptureImages(inspectionId);
   const handlePictureTaken = usePictureTaken({
     captureState: sightState,
@@ -359,11 +379,27 @@ export function PhotoCapture({
           addDamage={addDamage}
           validateButtonLabel={validateButtonLabel}
           isInspectionCompleted={sightState.isInspectionCompleted}
+          failedUploadsCount={uploadQueue.failedUploads.length}
+          onResendFailedImages={uploadQueue.retryFailed}
+          isResendingFailedImages={uploadQueue.retryingCount > 0}
           {...complianceOptions}
         />
       )}
       <BackdropDialog
-        show={isBadConnectionWarningDialogDisplayed}
+        show={isNetworkWarningDialogDisplayed}
+        showCancelButton={false}
+        dialogIcon='wifi-off'
+        dialogIconPrimaryColor='caution-base'
+        message={t(
+          networkWarningQuality === NetworkQuality.OFFLINE
+            ? 'photo.networkWarning.offline'
+            : 'photo.networkWarning.poor',
+        )}
+        confirmLabel={t('photo.networkWarning.confirm')}
+        onConfirm={closeNetworkWarningDialog}
+      />
+      <BackdropDialog
+        show={isBadConnectionWarningDialogDisplayed && !isNetworkWarningDialogDisplayed}
         showCancelButton={false}
         dialogIcon='warning-outline'
         dialogIconPrimaryColor='caution-base'
