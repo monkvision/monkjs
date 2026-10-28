@@ -686,5 +686,18 @@
       "height": "mid",
       "distance": "interior"
     }
+  },
+  "all-dHjxWa4L": {
+    "id": "all-dHjxWa4L",
+    "category": "interior",
+    "label": "rear-cargo-area",
+    "overlay": "all-dHjxWa4L.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    }
   }
 }

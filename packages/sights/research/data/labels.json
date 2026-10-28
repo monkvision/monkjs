@@ -2288,6 +2288,27 @@
     "en-GB": "Rear Seats",
     "en-hag": "Rear Seats Far"
   },
+  "rear-cargo-area": {
+    "key": "rear-cargo-area",
+    "en": "Rear Cargo Area",
+    "fr": "Zone de chargement arrière",
+    "de": "Hinterer Laderaum",
+    "nl": "Achterste laadruimte",
+    "it": "Vano di carico posteriore",
+    "pt": "Área de carga traseira",
+    "es": "Zona de carga trasera",
+    "sv": "Bakre lastutrymme",
+    "da": "Bagerste lasterum",
+    "pl": "Tylna przestrzeń ładunkowa",
+    "ro": "Zona de încărcare spate",
+    "no": "Bakre lasterom",
+    "cs": "Zadní nákladový prostor",
+    "fi": "Takatavaratila",
+    "de-CH": "Hinterer Laderaum",
+    "en-IE": "Rear Cargo Area",
+    "en-GB": "Rear Cargo Area",
+    "en-hag": "Rear Cargo Area"
+  },
   "dashboard-from-back-seat-left-hand-drive": {
     "key": "dashboard-from-back-seat-left-hand-drive",
     "en": "Dashboard From Back Seat",
