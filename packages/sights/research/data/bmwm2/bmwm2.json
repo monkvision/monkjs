@@ -1,0 +1,184 @@
+{
+  "bmwm2-l96AJ5de": {
+    "id": "bmwm2-l96AJ5de",
+    "category": "exterior",
+    "label": "front-low",
+    "overlay": "bmwm2-l96AJ5de.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 0,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-l96AJ5de.jpeg"
+  },
+  "bmwm2-xqXJ1997": {
+    "id": "bmwm2-xqXJ1997",
+    "category": "exterior",
+    "label": "front-bumper-side-left",
+    "overlay": "bmwm2-xqXJ1997.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 25,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-xqXJ1997.jpeg"
+  },
+  "bmwm2-AqF5mNz9": {
+    "id": "bmwm2-AqF5mNz9",
+    "category": "exterior",
+    "label": "front-fender-left",
+    "overlay": "bmwm2-AqF5mNz9.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 42,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-AqF5mNz9.jpeg"
+  },
+  "bmwm2-anqxUfEI": {
+    "id": "bmwm2-anqxUfEI",
+    "category": "exterior",
+    "label": "front-roof-left",
+    "overlay": "bmwm2-anqxUfEI.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 61,
+      "height": "high"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-anqxUfEI.jpeg"
+  },
+  "bmwm2-nklEijjQ": {
+    "id": "bmwm2-nklEijjQ",
+    "category": "exterior",
+    "label": "lateral-full-left",
+    "overlay": "bmwm2-nklEijjQ.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 92,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-nklEijjQ.jpeg"
+  },
+  "bmwm2-KKPVA9pW": {
+    "id": "bmwm2-KKPVA9pW",
+    "category": "exterior",
+    "label": "rear-lateral-left",
+    "overlay": "bmwm2-KKPVA9pW.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 130,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-KKPVA9pW.jpeg"
+  },
+  "bmwm2-MCaHu3iO": {
+    "id": "bmwm2-MCaHu3iO",
+    "category": "exterior",
+    "label": "rear-left",
+    "overlay": "bmwm2-MCaHu3iO.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 155,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-MCaHu3iO.jpeg"
+  },
+  "bmwm2-Srim23pu": {
+    "id": "bmwm2-Srim23pu",
+    "category": "exterior",
+    "label": "rear-low",
+    "overlay": "bmwm2-Srim23pu.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 180,
+      "height": "low"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-Srim23pu.jpeg"
+  },
+  "bmwm2-RJ0v9qoh": {
+    "id": "bmwm2-RJ0v9qoh",
+    "category": "exterior",
+    "label": "rear-right",
+    "overlay": "bmwm2-RJ0v9qoh.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 205,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-RJ0v9qoh.jpeg"
+  },
+  "bmwm2-9kWhK5rh": {
+    "id": "bmwm2-9kWhK5rh",
+    "category": "exterior",
+    "label": "rear-lateral-right",
+    "overlay": "bmwm2-9kWhK5rh.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 230,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-9kWhK5rh.jpeg"
+  },
+  "bmwm2-HyveV3Sl": {
+    "id": "bmwm2-HyveV3Sl",
+    "category": "exterior",
+    "label": "lateral-full-right",
+    "overlay": "bmwm2-HyveV3Sl.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 268,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-HyveV3Sl.jpeg"
+  },
+  "bmwm2-9fZT3SW8": {
+    "id": "bmwm2-9fZT3SW8",
+    "category": "exterior",
+    "label": "front-fender-right",
+    "overlay": "bmwm2-9fZT3SW8.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 317,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-9fZT3SW8.jpeg"
+  },
+  "bmwm2-ICfinBnB": {
+    "id": "bmwm2-ICfinBnB",
+    "category": "exterior",
+    "label": "front-bumper-side-right",
+    "overlay": "bmwm2-ICfinBnB.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection", "wheel_analysis"],
+    "positioning": {
+      "position": 335,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-ICfinBnB.jpeg"
+  },
+  "bmwm2-0bRfOVwd": {
+    "id": "bmwm2-0bRfOVwd",
+    "category": "exterior",
+    "label": "beauty-shot-left",
+    "overlay": "bmwm2-0bRfOVwd.svg",
+    "vehicle": "bmwm2",
+    "tasks": ["damage_detection"],
+    "positioning": {
+      "position": 34,
+      "height": "mid"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/bmwm2-0bRfOVwd.jpeg"
+  }
+}

@@ -9,6 +9,7 @@ import { VehicleTypeLargeSuvAsset } from './largeSuv';
 import { VehicleTypeMinivanAsset } from './minivan';
 import { VehicleTypeSuvAsset } from './suv';
 import { VehicleTypeHGVAsset } from './hgv';
+import { VehicleTypeCoupeAsset } from './coupe';
 
 export const VehicleTypeAssetsMap: Record<VehicleType, string> = {
   [VehicleType.HATCHBACK]: VehicleTypeHatchbackAsset,
@@ -21,4 +22,5 @@ export const VehicleTypeAssetsMap: Record<VehicleType, string> = {
   [VehicleType.MINIVAN]: VehicleTypeMinivanAsset,
   [VehicleType.SUV]: VehicleTypeSuvAsset,
   [VehicleType.HGV]: VehicleTypeHGVAsset,
+  [VehicleType.COUPE]: VehicleTypeCoupeAsset,
 };
