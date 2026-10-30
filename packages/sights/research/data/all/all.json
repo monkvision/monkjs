@@ -214,6 +214,20 @@
     },
     "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-9c2d7b19.jpeg"
   },
+  "all-mxr1Wkgs": {
+    "id": "all-mxr1Wkgs",
+    "category": "interior",
+    "label": "coupe-open-trunk",
+    "overlay": "all-mxr1Wkgs.svg",
+    "vehicle": "all",
+    "tasks": ["compliances"],
+    "positioning": {
+      "position": 180,
+      "height": "mid",
+      "distance": "close"
+    },
+    "referencePicture": "https://storage.googleapis.com/monk-sight-images/all-mxr1Wkgs.jpeg"
+  },
   "all-IqwSM3": {
     "id": "all-IqwSM3",
     "category": "interior",
