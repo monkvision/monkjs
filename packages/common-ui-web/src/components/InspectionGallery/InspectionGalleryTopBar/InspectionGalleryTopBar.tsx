@@ -152,7 +152,7 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
           </Button>
         )}
         {props.isInspectionCompleted ? (
-          <div style={titleStyle}>{t('topBar.completed')}</div>
+          completedAction
         ) : (
           <Button
             disabled={!isSubmitAvailable}

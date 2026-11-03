@@ -59,6 +59,9 @@ review of specific files or a PR.
   through descriptive naming.
 - Functional logic (state, effects, handlers, derived values) lives in an existing or new hook in
   `<Feature>/hooks/useX.ts`. **`.tsx` files only render.**
+- Module constants sit at the top of the file, before any enum, interface or function. Enums and
+  shared interfaces live in `@monkvision/types`; a hook file keeps only its options and handle
+  interfaces (`<Thing>Params` / `<Thing>Options`, `<Thing>Handle`).
 - Files stay short and readable by a person. Judge case by case: flag a file that does more than
   one job or that a person can't comfortably read through (roughly 300–500 lines).
 - React components are arrow functions.

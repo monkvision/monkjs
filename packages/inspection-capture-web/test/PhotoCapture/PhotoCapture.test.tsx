@@ -12,7 +12,8 @@ import {
   PhotoCaptureSightTutorialOption,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
-import { NetworkQuality, useI18nSync, useLoadingState, useNetworkStatus } from '@monkvision/common';
+import { useI18nSync, useLoadingState, useNetworkStatus } from '@monkvision/common';
+import { NetworkQuality } from '@monkvision/types';
 import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render } from '@testing-library/react';

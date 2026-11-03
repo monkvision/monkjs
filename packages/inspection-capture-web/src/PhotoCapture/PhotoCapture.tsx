@@ -1,12 +1,6 @@
 import { useAnalytics } from '@monkvision/analytics';
 import { Camera, CameraHUDProps } from '@monkvision/camera-web';
-import {
-  NetworkQuality,
-  useI18nSync,
-  useLoadingState,
-  useNetworkStatus,
-  useObjectMemo,
-} from '@monkvision/common';
+import { useI18nSync, useLoadingState, useNetworkStatus, useObjectMemo } from '@monkvision/common';
 import {
   BackdropDialog,
   InspectionGallery,
@@ -19,6 +13,7 @@ import {
   CameraConfig,
   ComplianceOptions,
   MonkPicture,
+  NetworkQuality,
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
   PhotoCaptureTutorialOption,

@@ -1,4 +1,4 @@
-import { InteractiveStatus } from '@monkvision/types';
+import { InteractiveStatus, NetworkQuality } from '@monkvision/types';
 
 function createMockLoadingState() {
   return {
@@ -46,7 +46,6 @@ const {
   isNetworkError,
   isInternalServerError,
   getAngleDifference,
-  NetworkQuality,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -86,7 +85,6 @@ export = {
   isNetworkError,
   isInternalServerError,
   getAngleDifference,
-  NetworkQuality,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),

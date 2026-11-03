@@ -1,13 +1,13 @@
 import {
   isInternalServerError,
   isTimeoutError,
-  NetworkQuality,
   NetworkStatusHandle,
   Queue,
   uniq,
   useMonkState,
   useQueue,
 } from '@monkvision/common';
+import { NetworkQuality } from '@monkvision/types';
 import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
   PhotoCaptureAppConfig,

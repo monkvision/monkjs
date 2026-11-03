@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { NetworkQuality } from '@monkvision/common';
+import { NetworkQuality } from '@monkvision/types';
 import { NetworkWarningParams, useNetworkWarning } from '../../src/hooks';
 
 function createParams(overrides: Partial<NetworkWarningParams> = {}): NetworkWarningParams {

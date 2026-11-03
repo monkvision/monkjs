@@ -17,6 +17,13 @@ file grows noticeably.
 - **No IIFEs in JSX.** Compute values before `return`, or in the hook.
 - **One job per file.** A file that renders two unrelated things, or a hook that manages two
   unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
+- **Constants first.** Module-level constants are declared at the top of the file, above any enum,
+  interface, type or function. A constant placed after a type declaration is a Minor finding.
+- **Shared types live in `@monkvision/types`.** Enums and interfaces that describe data or
+  browser/API shapes (e.g. `NetworkQuality`, `NetworkSample`) go in `packages/types/src/<area>.ts`
+  and are re-exported from its `index.ts`. A hook or component file keeps only the interfaces
+  specific to it: its options (`<Thing>Options` / `<Thing>Params`) and its handle (`<Thing>Handle`)
+  or props. Flag an enum or shared interface declared in a hook/component file as Major.
 - **Styles** live in `<Component>.styles.ts`, not inline objects in the `.tsx`.
 - **Barrel exports.** Every new public symbol is re-exported from the folder's `index.ts` up to
   `src/index.ts`.

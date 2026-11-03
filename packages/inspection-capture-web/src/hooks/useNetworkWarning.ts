@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { NetworkQuality, useObjectMemo } from '@monkvision/common';
+import { useObjectMemo } from '@monkvision/common';
+import { NetworkQuality } from '@monkvision/types';
 
 /**
  * Parameters accepted by the useNetworkWarning hook.
