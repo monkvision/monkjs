@@ -24,6 +24,7 @@ const MAX_RETRY_COUNT = 1;
 const MAX_CONCURRENT_DEFERRED_RETRIES = 2;
 const MIN_DEFERRED_RETRY_DELAY_MS = 5000;
 const MAX_DEFERRED_RETRY_DELAY_MS = 2 * 60 * 1000;
+const MAX_AUTO_RETRY_FAILURES = 5;
 
 /**
  * Bookkeeping kept for each upload :
@@ -287,6 +288,7 @@ export function useUploadQueue({
   const retryBacklogRef = useRef<PictureUpload[]>([]);
   const inFlightRetriesRef = useRef(0);
   const deferredRetryDelayRef = useRef(0);
+  const autoRetryFailuresRef = useRef(0);
   const queueRef = useRef<Queue<PictureUpload> | null>(null);
 
   const wheelAnalysisCloseUp = state.tasks.find(
@@ -335,6 +337,7 @@ export function useUploadQueue({
         }
       });
       setFailedUploads((current) => [...current, ...uploadsToPutBack]);
+      autoRetryFailuresRef.current += 1;
       deferredRetryDelayRef.current = Math.min(
         Math.max(MIN_DEFERRED_RETRY_DELAY_MS, deferredRetryDelayRef.current * 2),
         MAX_DEFERRED_RETRY_DELAY_MS,
@@ -342,6 +345,7 @@ export function useUploadQueue({
     } else {
       metadataRef.current.delete(upload);
       deferredRetryDelayRef.current = 0;
+      autoRetryFailuresRef.current = 0;
     }
     pumpDeferredRetries();
   };
@@ -426,7 +430,7 @@ export function useUploadQueue({
   );
   queueRef.current = queue;
 
-  const retryFailed = useCallback(() => {
+  const retryFailedUploads = useCallback(() => {
     const uploadsToRetry = failedUploadsRef.current;
     if (uploadsToRetry.length === 0) {
       return;
@@ -442,15 +446,26 @@ export function useUploadQueue({
     pumpDeferredRetries();
   }, []);
 
+  const retryFailed = useCallback(() => {
+    autoRetryFailuresRef.current = 0;
+    retryFailedUploads();
+  }, [retryFailedUploads]);
+
   const quality = networkStatus?.quality;
   const hasFailedUploads = failedUploads.length > 0;
   useEffect(() => {
-    if (!enableAutoRetry || quality !== NetworkQuality.GOOD || !hasFailedUploads || retryingCount) {
+    if (
+      !enableAutoRetry ||
+      quality !== NetworkQuality.GOOD ||
+      !hasFailedUploads ||
+      retryingCount ||
+      autoRetryFailuresRef.current >= MAX_AUTO_RETRY_FAILURES
+    ) {
       return undefined;
     }
-    const timeout = setTimeout(retryFailed, deferredRetryDelayRef.current);
+    const timeout = setTimeout(retryFailedUploads, deferredRetryDelayRef.current);
     return () => clearTimeout(timeout);
-  }, [enableAutoRetry, quality, hasFailedUploads, retryingCount, retryFailed]);
+  }, [enableAutoRetry, quality, hasFailedUploads, retryingCount, retryFailedUploads]);
 
   const push = useCallback(
     (upload: PictureUpload) => {

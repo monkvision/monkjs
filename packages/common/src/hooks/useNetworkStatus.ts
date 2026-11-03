@@ -33,8 +33,7 @@ export interface NetworkSample {
    */
   durationMs?: number;
   /**
-   * Boolean indicating if the request failed because of a network error (offline, timeout...). Requests failing for
-   * other reasons (4xx errors etc.) should not be reported as failed samples.
+   * Boolean indicating if the request failed because of a network error (offline, timeout...), not for other reasons.
    */
   failed?: boolean;
 }
@@ -56,18 +55,14 @@ export interface NetworkStatusOptions {
    */
   poorFailureStreak?: number;
   /**
-   * The amount of time (in milliseconds) the connection must stay stable before the quality is upgraded (e.g. from
-   * `OFFLINE` to `GOOD`). This prevents the quality from flapping on unstable connections.
+   * The time (in milliseconds) the connection must stay stable before the quality is upgraded.
    *
    * @default 3000
    */
   recoveryStableMs?: number;
   /**
-   * Since network quality is evaluated passively (using the reported samples), a `POOR` connection can only be
-   * detected as better once a new sample is reported. To avoid staying stuck in the `POOR` state, the poor status is
-   * automatically lifted after this delay (in milliseconds), giving the app a chance to try again. This delay is
-   * doubled every time the connection is detected as poor again, up to 5 minutes, and is reset after a successful
-   * sample.
+   * The delay (in milliseconds) after which the `POOR` status is lifted so that uploads can be tried again. It doubles
+   * on every new poor detection (up to 5 minutes) and resets after a successful sample.
    *
    * @default 30000
    */
