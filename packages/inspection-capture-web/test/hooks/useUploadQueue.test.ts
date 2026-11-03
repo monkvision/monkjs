@@ -1,4 +1,4 @@
-import { useQueue } from '@monkvision/common';
+import { createEmptyMonkState, useMonkState, useQueue } from '@monkvision/common';
 import { renderHook, act } from '@testing-library/react';
 import {
   AddDamage1stShotPictureUpload,
@@ -7,7 +7,7 @@ import {
   useUploadQueue,
 } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
+import { ComplianceIssue, Image, ImageStatus, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 
@@ -93,6 +93,7 @@ describe('useUploadQueue hook', () => {
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
         useThumbnailCaching: true,
+        retakeCount: 0,
       });
 
       unmount();
@@ -122,6 +123,7 @@ describe('useUploadQueue hook', () => {
         ]),
         compliance: initialProps.complianceOptions,
         inspectionId: initialProps.inspectionId,
+        retakeCount: 0,
       });
 
       unmount();
@@ -314,6 +316,62 @@ describe('useUploadQueue hook', () => {
       expect(handleErrorMock).toHaveBeenCalledWith(err);
 
       unmount();
+    });
+
+    describe('retakeCount computation', () => {
+      it('should pass retakeCount: 0 for the first upload of a sight when no prior images exist', async () => {
+        const initialProps = createParams();
+        const { unmount } = renderHook(useUploadQueue, { initialProps });
+        const addImageMock = (useMonkApi as jest.Mock).mock.results[0].value.addImage;
+        const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+        await process(defaultUploadOptions);
+
+        expect(addImageMock).toHaveBeenCalledWith(expect.objectContaining({ retakeCount: 0 }));
+        unmount();
+      });
+
+      it('should pass retakeCount as previous retake_count + 1 when a prior image exists', async () => {
+        const initialProps = createParams();
+        const state = createEmptyMonkState();
+        state.images.push({
+          id: 'prior-image',
+          inspectionId: initialProps.inspectionId,
+          sightId: defaultUploadOptions.sightId,
+          createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
+          status: ImageStatus.NOT_COMPLIANT,
+          additionalData: { retake_count: 1 },
+        } as unknown as Image);
+        (useMonkState as jest.Mock).mockImplementation(() => ({ state, dispatch: jest.fn() }));
+
+        const { unmount } = renderHook(useUploadQueue, { initialProps });
+        const addImageMock = (useMonkApi as jest.Mock).mock.results[0].value.addImage;
+        const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+        await process(defaultUploadOptions);
+
+        expect(addImageMock).toHaveBeenCalledWith(expect.objectContaining({ retakeCount: 2 }));
+        unmount();
+      });
+
+      it('should not include retakeCount for non-sight uploads', async () => {
+        const initialProps = createParams();
+        const { unmount } = renderHook(useUploadQueue, { initialProps });
+        const addImageMock = (useMonkApi as jest.Mock).mock.results[0].value.addImage;
+        const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+        const upload1: AddDamage1stShotPictureUpload = {
+          mode: CaptureMode.ADD_DAMAGE_1ST_SHOT,
+          picture: { uri: 'test-uri', mimetype: 'test-mimetype', height: 100, width: 200 },
+        };
+        await act(async () => {
+          await process(upload1);
+        });
+
+        const call = addImageMock.mock.calls[0][0];
+        expect(call.retakeCount).toBeUndefined();
+        unmount();
+      });
     });
   });
 
