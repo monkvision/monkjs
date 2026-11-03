@@ -95,5 +95,11 @@
     "make": "Tesla",
     "model": "Cybertruck",
     "type": "pickup"
+  },
+  "bmwm2": {
+    "id": "bmwm2",
+    "make": "BMW",
+    "model": "M2",
+    "type": "coupe"
   }
 }

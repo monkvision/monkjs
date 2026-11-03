@@ -70,6 +70,10 @@ export const VehicleType = {
    * Huge transportation trucks.
    */
   HGV: 'hgv',
+  /**
+   * A two-door passenger car with a fixed roof and a sloping rear roofline.
+   */
+  COUPE: 'coupe',
 } as const;
 
 /**
@@ -145,6 +149,10 @@ export const VehicleModel = {
    * Tesla Cybertruck (Pickup)
    */
   TESLAC: 'teslac',
+  /**
+   * BMW M2 (Coupe)
+   */
+  BMWM2: 'bmwm2',
 } as const;
 
 /**
