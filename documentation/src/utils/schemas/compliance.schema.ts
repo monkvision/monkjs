@@ -5,6 +5,14 @@ import {
   validateSightIds,
 } from '@site/src/utils/schemas/sights.validator';
 
+const ComplianceBlockingOptionsSchema = z.object({
+  mandatorySights: z
+    .array(z.string())
+    .optional()
+    .refine(validateSightIds, getInvalidSightIdsMessage),
+  maxRetakes: z.number().int().gte(1).optional(),
+});
+
 export const CustomComplianceThresholdsSchema = z
   .object({
     blurriness: z.number().gte(0).lte(1).optional(),
@@ -27,7 +35,7 @@ export const CustomComplianceThresholdsSchema = z
   });
 
 export const ComplianceOptionsSchema = z.object({
-  enableCompliance: z.boolean().optional(),
+  enableCompliance: z.union([z.boolean(), ComplianceBlockingOptionsSchema]).optional(),
   enableCompliancePerSight: z
     .array(z.string())
     .optional()

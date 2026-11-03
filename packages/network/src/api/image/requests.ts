@@ -100,6 +100,11 @@ export interface AddBeautyShotImageOptions {
   compliance?: ComplianceOptions;
 
   wheelAnalysisCloseUp?: boolean;
+  /**
+   * The number of times this sight has been uploaded before this image (0 for the first upload, 1 for the first
+   * retake, etc.). When provided, this value is stored in the image's `additional_data.retake_count` field.
+   */
+  retakeCount?: number;
 }
 
 /**
@@ -342,6 +347,9 @@ function getAdditionalData(options: AddImageOptions): ImageAdditionalData {
   };
   if (options.uploadType === ImageUploadType.BEAUTY_SHOT) {
     additionalData.sight_id = options.sightId;
+    if (options.retakeCount !== undefined) {
+      additionalData.retake_count = options.retakeCount;
+    }
   }
   if (options.uploadType === ImageUploadType.VIDEO_FRAME) {
     additionalData.frame_index = options.frameIndex;
@@ -373,7 +381,8 @@ function createBeautyShotImageData(
   tasks.push({
     name: TaskName.COMPLIANCES,
     image_details: { sight_id: options.sightId },
-    wait_for_result: options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
+    wait_for_result:
+      !!options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
   });
 
   if (options.tasks.includes(TaskName.HUMAN_IN_THE_LOOP)) {
@@ -448,7 +457,7 @@ function create2ShotCloseUpImageData(
       {
         name: TaskName.COMPLIANCES,
         wait_for_result:
-          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
+          !!options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
       },
     ],
     additional_data: getAdditionalData(options),
@@ -474,7 +483,7 @@ function createPartSelectCloseUpImageData(
       {
         name: TaskName.COMPLIANCES,
         wait_for_result:
-          options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
+          !!options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
       },
     ],
     detailed_viewpoint: {

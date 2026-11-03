@@ -1,5 +1,10 @@
 import { renderHook, act } from '@testing-library/react';
-import { LoadingState, useAsyncEffect, useMonkState } from '@monkvision/common';
+import {
+  createEmptyMonkState,
+  LoadingState,
+  useAsyncEffect,
+  useMonkState,
+} from '@monkvision/common';
 import {
   ComplianceIssue,
   Image,
@@ -452,5 +457,211 @@ describe('usePhotoCaptureSightState hook', () => {
     act(() => onResolve(apiResponse));
     expect(result.current.isInspectionCompleted).toBe(false);
     unmount();
+  });
+
+  describe('isInspectionCompliant', () => {
+    function buildStateWithImages(
+      inspectionId: string,
+      captureSights: Sight[],
+      options: { nonCompliantIndex?: number; retakeCount?: number } = {},
+    ) {
+      const state = createEmptyMonkState();
+      captureSights.forEach((sight, i) => {
+        state.images.push({
+          id: `img-${i}`,
+          inspectionId,
+          sightId: sight.id,
+          createdAt: Date.parse('2020-01-01T01:01:01.001Z'),
+          status: i === options.nonCompliantIndex ? ImageStatus.NOT_COMPLIANT : ImageStatus.SUCCESS,
+          additionalData:
+            i === options.nonCompliantIndex && options.retakeCount !== undefined
+              ? { retake_count: options.retakeCount }
+              : undefined,
+        } as Image);
+      });
+      return state;
+    }
+
+    function takeAllSights(
+      result: ReturnType<typeof renderHook<any, PhotoCaptureSightsParams>>['result'],
+    ) {
+      act(() => result.current.takeSelectedSight());
+      act(() => result.current.takeSelectedSight());
+      act(() => result.current.takeSelectedSight());
+      act(() => result.current.takeSelectedSight());
+    }
+
+    it('should be false when not all sights have been taken', () => {
+      const initialProps = createParams();
+      const { result, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+      expect(result.current.isInspectionCompliant).toBe(false);
+      unmount();
+    });
+
+    it('should be true when all sights are taken and all images are compliant', () => {
+      const initialProps = createParams();
+      const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+      takeAllSights(result);
+      (useMonkState as jest.Mock).mockImplementation(() => ({
+        state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights),
+        dispatch: jest.fn(),
+      }));
+      rerender(initialProps);
+      expect(result.current.isInspectionCompliant).toBe(true);
+      unmount();
+    });
+
+    it('should be false when a sight is NOT_COMPLIANT with enableCompliance: true', () => {
+      const initialProps = createParams(); // enableCompliance: true
+      const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, { initialProps });
+      takeAllSights(result);
+      (useMonkState as jest.Mock).mockImplementation(() => ({
+        state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+          nonCompliantIndex: 0,
+        }),
+        dispatch: jest.fn(),
+      }));
+      rerender(initialProps);
+      expect(result.current.isInspectionCompliant).toBe(false);
+      unmount();
+    });
+
+    describe('with mandatorySights', () => {
+      it('should be true when only non-mandatory sights are NOT_COMPLIANT', () => {
+        const mandatorySightId = sights['test-sight-1'].id;
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: { enableCompliance: { mandatorySights: [mandatorySightId] } },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 1, // test-sight-2 is NOT_COMPLIANT (non-mandatory)
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(true);
+        unmount();
+      });
+
+      it('should be false when a mandatory sight is NOT_COMPLIANT', () => {
+        const mandatorySightId = sights['test-sight-1'].id;
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: { enableCompliance: { mandatorySights: [mandatorySightId] } },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 0, // test-sight-1 is NOT_COMPLIANT (mandatory)
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(false);
+        unmount();
+      });
+    });
+
+    describe('with maxRetakes', () => {
+      it('should be true when a NOT_COMPLIANT sight has retake_count >= maxRetakes', () => {
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: { enableCompliance: { maxRetakes: 2 } },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 0,
+            retakeCount: 2,
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(true);
+        unmount();
+      });
+
+      it('should be false when a NOT_COMPLIANT sight has retake_count < maxRetakes', () => {
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: { enableCompliance: { maxRetakes: 2 } },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 0,
+            retakeCount: 1,
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(false);
+        unmount();
+      });
+    });
+
+    describe('with mandatorySights and maxRetakes combined', () => {
+      it('should still block a mandatory sight even when retake_count >= maxRetakes', () => {
+        const mandatorySightId = sights['test-sight-1'].id;
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: {
+            enableCompliance: { mandatorySights: [mandatorySightId], maxRetakes: 2 },
+          },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 0, // mandatory sight with retake_count above maxRetakes
+            retakeCount: 3,
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(false);
+        unmount();
+      });
+
+      it('should be true when only non-mandatory sights are NOT_COMPLIANT (forgiven immediately)', () => {
+        const mandatorySightId = sights['test-sight-1'].id;
+        const initialProps: PhotoCaptureSightsParams = {
+          ...createParams(),
+          complianceOptions: {
+            enableCompliance: { mandatorySights: [mandatorySightId], maxRetakes: 2 },
+          },
+        };
+        const { result, rerender, unmount } = renderHook(usePhotoCaptureSightState, {
+          initialProps,
+        });
+        takeAllSights(result);
+        (useMonkState as jest.Mock).mockImplementation(() => ({
+          state: buildStateWithImages(initialProps.inspectionId, initialProps.captureSights, {
+            nonCompliantIndex: 1, // test-sight-2 is NOT_COMPLIANT (non-mandatory)
+            retakeCount: 0,
+          }),
+          dispatch: jest.fn(),
+        }));
+        rerender(initialProps);
+        expect(result.current.isInspectionCompliant).toBe(true);
+        unmount();
+      });
+    });
   });
 });
