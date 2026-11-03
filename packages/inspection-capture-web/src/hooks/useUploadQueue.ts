@@ -12,6 +12,7 @@ import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@mo
 import {
   PhotoCaptureAppConfig,
   ComplianceOptions,
+  Image,
   MonkPicture,
   TaskName,
   VehiclePart,
@@ -227,6 +228,7 @@ function createAddImageOptions(
   inspectionId: string,
   siblingId: number,
   enableThumbnail: boolean,
+  retakeCount?: number,
   additionalTasks?: PhotoCaptureAppConfig['additionalTasks'],
   compliance?: ComplianceOptions,
   wheelAnalysisCloseUp?: boolean,
@@ -241,6 +243,7 @@ function createAddImageOptions(
       compliance,
       useThumbnailCaching: enableThumbnail,
       wheelAnalysisCloseUp,
+      retakeCount,
     };
   }
   if (upload.mode === CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT) {
@@ -354,6 +357,19 @@ export function useUploadQueue({
     async (upload: PictureUpload) => {
       const metadata = getMetadata(upload);
       const startTs = Date.now();
+      const retakeCount = (() => {
+        if (upload.mode !== CaptureMode.SIGHT) {
+          return undefined;
+        }
+        const latestSightImage = state.images
+          .filter((img) => img.sightId === upload.sightId && img.inspectionId === inspectionId)
+          .reduce<Image | undefined>(
+            (latest, img) =>
+              !latest || (img.createdAt ?? 0) > (latest.createdAt ?? 0) ? img : latest,
+            undefined,
+          );
+        return latestSightImage ? (latestSightImage.additionalData?.retake_count ?? 0) + 1 : 0;
+      })();
       try {
         const result = await addImage({
           ...createAddImageOptions(
@@ -361,6 +377,7 @@ export function useUploadQueue({
             inspectionId,
             metadata.siblingId,
             true,
+            retakeCount,
             additionalTasks,
             complianceOptions,
             wheelAnalysisCloseUp,

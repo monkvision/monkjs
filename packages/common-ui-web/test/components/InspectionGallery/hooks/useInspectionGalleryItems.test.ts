@@ -663,6 +663,154 @@ describe('useInspectionGalleryItems hook', () => {
     unmount();
   });
 
+  describe('forgiven non-compliant display', () => {
+    it('should display a non-mandatory NOT_COMPLIANT sight as SUCCESS when mandatorySights is set', () => {
+      const mandatorySightId = sights['test-sight-1'].id;
+      const initialProps: InspectionGalleryProps = {
+        ...createProps(),
+        enableCompliance: { mandatorySights: [mandatorySightId] },
+      };
+      const state = createEmptyMonkState();
+      state.images.push({
+        id: 'nc-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-2', // non-mandatory
+        status: ImageStatus.NOT_COMPLIANT,
+      } as unknown as Image);
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+      const { result, unmount } = renderHook(
+        (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+        { initialProps },
+      );
+
+      const item = result.current.find(
+        (i) => !i.isAddDamage && i.isTaken && i.image.sightId === 'test-sight-2',
+      );
+      expect(item).toBeDefined();
+      expect(!item!.isAddDamage && item!.isTaken && item!.image.status).toBe(ImageStatus.SUCCESS);
+      unmount();
+    });
+
+    it('should keep a mandatory NOT_COMPLIANT sight as NOT_COMPLIANT', () => {
+      const mandatorySightId = sights['test-sight-1'].id;
+      const initialProps: InspectionGalleryProps = {
+        ...createProps(),
+        enableCompliance: { mandatorySights: [mandatorySightId] },
+      };
+      const state = createEmptyMonkState();
+      state.images.push({
+        id: 'nc-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-1', // mandatory
+        status: ImageStatus.NOT_COMPLIANT,
+      } as unknown as Image);
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+      const { result, unmount } = renderHook(
+        (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+        { initialProps },
+      );
+
+      const item = result.current.find(
+        (i) => !i.isAddDamage && i.isTaken && i.image.sightId === 'test-sight-1',
+      );
+      expect(item).toBeDefined();
+      expect(!item!.isAddDamage && item!.isTaken && item!.image.status).toBe(
+        ImageStatus.NOT_COMPLIANT,
+      );
+      unmount();
+    });
+
+    it('should display a NOT_COMPLIANT sight as SUCCESS when retake_count >= maxRetakes', () => {
+      const initialProps: InspectionGalleryProps = {
+        ...createProps(),
+        enableCompliance: { maxRetakes: 2 },
+      };
+      const state = createEmptyMonkState();
+      state.images.push({
+        id: 'nc-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-1',
+        status: ImageStatus.NOT_COMPLIANT,
+        additionalData: { retake_count: 2 },
+      } as unknown as Image);
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+      const { result, unmount } = renderHook(
+        (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+        { initialProps },
+      );
+
+      const item = result.current.find(
+        (i) => !i.isAddDamage && i.isTaken && i.image.sightId === 'test-sight-1',
+      );
+      expect(item).toBeDefined();
+      expect(!item!.isAddDamage && item!.isTaken && item!.image.status).toBe(ImageStatus.SUCCESS);
+      unmount();
+    });
+
+    it('should keep a NOT_COMPLIANT sight as NOT_COMPLIANT when retake_count < maxRetakes', () => {
+      const initialProps: InspectionGalleryProps = {
+        ...createProps(),
+        enableCompliance: { maxRetakes: 2 },
+      };
+      const state = createEmptyMonkState();
+      state.images.push({
+        id: 'nc-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-1',
+        status: ImageStatus.NOT_COMPLIANT,
+        additionalData: { retake_count: 1 },
+      } as unknown as Image);
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+      const { result, unmount } = renderHook(
+        (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+        { initialProps },
+      );
+
+      const item = result.current.find(
+        (i) => !i.isAddDamage && i.isTaken && i.image.sightId === 'test-sight-1',
+      );
+      expect(item).toBeDefined();
+      expect(!item!.isAddDamage && item!.isTaken && item!.image.status).toBe(
+        ImageStatus.NOT_COMPLIANT,
+      );
+      unmount();
+    });
+
+    it('should not apply forgiveness when enableCompliance is a plain boolean', () => {
+      const initialProps: InspectionGalleryProps = {
+        ...createProps(),
+        enableCompliance: true,
+      };
+      const state = createEmptyMonkState();
+      state.images.push({
+        id: 'nc-image',
+        inspectionId: initialProps.inspectionId,
+        sightId: 'test-sight-1',
+        status: ImageStatus.NOT_COMPLIANT,
+        additionalData: { retake_count: 99 },
+      } as unknown as Image);
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+      const { result, unmount } = renderHook(
+        (props: InspectionGalleryProps) => useInspectionGalleryItems(props),
+        { initialProps },
+      );
+
+      const item = result.current.find(
+        (i) => !i.isAddDamage && i.isTaken && i.image.sightId === 'test-sight-1',
+      );
+      expect(item).toBeDefined();
+      expect(!item!.isAddDamage && item!.isTaken && item!.image.status).toBe(
+        ImageStatus.NOT_COMPLIANT,
+      );
+      unmount();
+    });
+  });
+
   it('should not create a beauty shot for a viewpoint with no matching images', () => {
     const initialProps = createProps();
     initialProps.captureMode = false;
