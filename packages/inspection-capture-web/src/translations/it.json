@@ -4,6 +4,11 @@
       "message": "Stiamo riscontrando problemi di connessione. Il caricamento delle foto potrebbe richiedere più tempo del solito.",
       "confirm": "Ho capito"
     },
+    "networkWarning": {
+      "offline": "Sei offline. Tieni aperta questa pagina, altrimenti le foto andranno perse.",
+      "poor": "Connessione troppo debole per caricare le foto. Tieni aperta questa pagina, altrimenti le foto andranno perse.",
+      "confirm": "Ho capito"
+    },
     "hud": {
       "sight": { "addDamageBtn": "Danno" },
       "addDamage": {

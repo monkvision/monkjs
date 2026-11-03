@@ -12,7 +12,7 @@ jest.mock(
 
 import { act, render, screen } from '@testing-library/react';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
-import { Image, ImageStatus } from '@monkvision/types';
+import { Image, ImageStatus, MonkE2eId } from '@monkvision/types';
 import { Button } from '../../../../src';
 import { InspectionGalleryFilterPill } from '../../../../src/components/InspectionGallery/InspectionGalleryTopBar/InspectionGalleryFilterPill';
 import {
@@ -563,5 +563,73 @@ describe('InspectionGalleryTopBar component', () => {
         } as any,
       }),
     ).toEqual(true);
+  });
+
+  describe('Resend button', () => {
+    function getResendButtonCall() {
+      return (Button as unknown as jest.Mock).mock.calls.find(
+        ([callProps]) => callProps['data-e2e'] === MonkE2eId.GALLERY_RESEND,
+      );
+    }
+
+    afterEach(() => {
+      (Button as unknown as jest.Mock).mockClear();
+    });
+
+    it('should not be displayed if the resend props are not provided', () => {
+      const { unmount } = render(<InspectionGalleryTopBar {...createProps()} />);
+      expect(getResendButtonCall()).toBeUndefined();
+      unmount();
+    });
+
+    it('should not be displayed if there are no failed uploads', () => {
+      const props = { ...createProps(), failedUploadsCount: 0, onResendFailedImages: jest.fn() };
+      const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+      expect(getResendButtonCall()).toBeUndefined();
+      unmount();
+    });
+
+    it('should not be displayed outside of capture mode', () => {
+      const props = {
+        ...createProps(),
+        captureMode: false,
+        failedUploadsCount: 2,
+        onResendFailedImages: jest.fn(),
+      };
+      const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+      expect(getResendButtonCall()).toBeUndefined();
+      unmount();
+    });
+
+    it('should be displayed with the failed uploads count and call the resend callback', () => {
+      const onResendFailedImages = jest.fn();
+      const props = { ...createProps(), failedUploadsCount: 3, onResendFailedImages };
+      const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+      const { results } = (useTranslation as jest.Mock).mock;
+      const { t } = results[results.length - 1].value;
+      expect(t).toHaveBeenCalledWith('topBar.resend', { count: 3 });
+      const call = getResendButtonCall();
+      expect(call).toBeDefined();
+      expect(call[0].loading).toBeFalsy();
+      call[0].onClick();
+      expect(onResendFailedImages).toHaveBeenCalled();
+
+      unmount();
+    });
+
+    it('should be displayed as loading while resending', () => {
+      const props = {
+        ...createProps(),
+        failedUploadsCount: 0,
+        isResendingFailedImages: true,
+        onResendFailedImages: jest.fn(),
+      };
+      const { unmount } = render(<InspectionGalleryTopBar {...props} />);
+
+      expect(getResendButtonCall()[0].loading).toBe(true);
+
+      unmount();
+    });
   });
 });

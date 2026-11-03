@@ -4,6 +4,11 @@
       "message": "Estamos com problemas de conexão. O envio de imagens pode demorar mais do que o normal.",
       "confirm": "Entendi"
     },
+    "networkWarning": {
+      "offline": "Você está offline. Mantenha esta página aberta, senão as fotos serão perdidas.",
+      "poor": "Sua conexão está fraca demais para enviar fotos. Mantenha esta página aberta, senão as fotos serão perdidas.",
+      "confirm": "Entendi"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Danos"

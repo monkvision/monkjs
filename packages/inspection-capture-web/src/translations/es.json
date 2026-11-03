@@ -4,6 +4,11 @@
       "message": "Estamos experimentando problemas de conexión. La carga de imágenes podría tardar más de lo habitual.",
       "confirm": "Entiendo"
     },
+    "networkWarning": {
+      "offline": "Sin conexión. Mantenga esta página abierta o se perderán las fotos.",
+      "poor": "La conexión es demasiado débil para enviar fotos. Mantenga esta página abierta o se perderán las fotos.",
+      "confirm": "Entiendo"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Daños"

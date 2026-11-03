@@ -11,6 +11,7 @@ export type MonkTestId = (typeof MonkTestId)[keyof typeof MonkTestId];
 
 export const MonkE2eId = {
   GALLERY_SUBMIT: 'gallery-submit',
+  GALLERY_RESEND: 'gallery-resend',
   GALLERY_FILTER_MANUAL: 'gallery-filter-manual',
   GALLERY_FILTER_BEAUTY_SHOTS: 'gallery-filter-beauty-shots',
   GALLERY_FILTER_VIDEO: 'gallery-filter-video',

@@ -1,6 +1,24 @@
-import { isInternalServerError, isTimeoutError } from '../../src';
+import { isInternalServerError, isNetworkError, isTimeoutError } from '../../src';
 
 describe('Request utils', () => {
+  describe('isNetworkError function', () => {
+    it('should return true for Chrome, Safari and Firefox network errors', () => {
+      expect(isNetworkError(new TypeError('Failed to fetch'))).toBe(true);
+      expect(isNetworkError(new TypeError('Load failed'))).toBe(true);
+      expect(isNetworkError(new TypeError('NetworkError when attempting to fetch resource.'))).toBe(
+        true,
+      );
+    });
+
+    it('should return false for HTTP errors and other values', () => {
+      const httpError = Object.assign(new Error('Failed to fetch'), { response: { status: 500 } });
+      expect(isNetworkError(httpError)).toBe(false);
+      expect(isNetworkError(new Error('Something went wrong'))).toBe(false);
+      expect(isNetworkError(null)).toBe(false);
+      expect(isNetworkError('Failed to fetch')).toBe(false);
+    });
+  });
+
   describe('isTimeoutError function', () => {
     it('should return true for a TimeoutError', () => {
       const err = new Error('test');
@@ -10,6 +28,13 @@ describe('Request utils', () => {
 
     it('should return true for a "Failed to fetch" error', () => {
       expect(isTimeoutError(new Error('Failed to fetch'))).toBe(true);
+    });
+
+    it('should return true for Safari and Firefox network errors', () => {
+      expect(isTimeoutError(new TypeError('Load failed'))).toBe(true);
+      expect(isTimeoutError(new TypeError('NetworkError when attempting to fetch resource.'))).toBe(
+        true,
+      );
     });
 
     it('should return false for other errors', () => {

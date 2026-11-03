@@ -4,6 +4,11 @@
       "message": "Vi opplever problemer med tilkobling. Lasting av bilder kan ta lengre tid.",
       "confirm": "Jeg forstår"
     },
+    "networkWarning": {
+      "offline": "Du er frakoblet. Hold denne siden åpen, ellers går bildene tapt.",
+      "poor": "Tilkoblingen er for svak til å laste opp bilder. Hold denne siden åpen, ellers går bildene tapt.",
+      "confirm": "Jeg forstår"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Skade"

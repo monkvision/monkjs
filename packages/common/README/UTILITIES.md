@@ -263,6 +263,17 @@ This function creates and returns a new Promise that will resolve to void after 
 ---
 
 # Request Utils
+### isNetworkError
+```typescript
+import { isNetworkError } from '@monkvision/common';
+
+console.log(isNetworkError(err));
+// Output : true or false
+```
+Checks if an error is a network error, meaning that the request could not reach the server at all (no connection,
+connection dropped...). This check works on every browser (Chrome `Failed to fetch`, Safari `Load failed` and Firefox
+`NetworkError when attempting to fetch resource.`).
+
 ### isTimeoutError
 ```typescript
 import { isTimeoutError } from '@monkvision/common';

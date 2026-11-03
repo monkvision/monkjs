@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Valider",
+    "resend": "Renvoyer les photos ({{count}})",
     "title": "Photos",
     "retakeFilter": "Reprises",
     "approvedFilter": "Prises et approuvées",

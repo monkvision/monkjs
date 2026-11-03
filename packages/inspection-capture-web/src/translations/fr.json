@@ -4,6 +4,11 @@
       "message": "Nous rencontrons des problèmes de connexion. Le téléchargement des photos pourrait prendre plus de temps que d'habitude.",
       "confirm": "J'ai compris"
     },
+    "networkWarning": {
+      "offline": "Vous êtes hors ligne. Gardez cette page ouverte, sinon les photos seront perdues.",
+      "poor": "Connexion trop faible pour envoyer les photos. Gardez cette page ouverte, sinon les photos seront perdues.",
+      "confirm": "J'ai compris"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Dégât"

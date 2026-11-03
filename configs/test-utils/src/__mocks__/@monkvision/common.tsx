@@ -43,8 +43,10 @@ const {
   viewpointLabels,
   vehiclePartLabels,
   isTimeoutError,
+  isNetworkError,
   isInternalServerError,
   getAngleDifference,
+  NetworkQuality,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -81,8 +83,10 @@ export = {
   viewpointLabels,
   vehiclePartLabels,
   isTimeoutError,
+  isNetworkError,
   isInternalServerError,
   getAngleDifference,
+  NetworkQuality,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
@@ -160,5 +164,10 @@ export = {
     requestCompassPermission: jest.fn(() => Promise.resolve()),
   })),
   useSafeTimeout: jest.fn(() => jest.fn()),
+  useNetworkStatus: jest.fn(() => ({
+    isOnline: true,
+    quality: NetworkQuality.GOOD,
+    reportSample: jest.fn(),
+  })),
   useMonkSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
 };
