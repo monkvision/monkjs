@@ -610,6 +610,13 @@ export async function addImage(
   dispatch?: Dispatch<MonkCreatedOneImageAction>,
 ): Promise<MonkApiResponse<AddImageResponse, ApiImage>> {
   const localImage = createLocalImage(options);
+  // Defer the optimistic dispatch by one microtask to avoid firing a synchronous React state
+  // update inside an already-running async queue callback (useQueue.processItem calls
+  // setProcessedItems and then immediately awaits process(item)). Without this deferral, two
+  // concurrent setState calls collide in React 17's legacy synchronous reconciler and cause a
+  // torn render that crashes with "NotFoundError: Failed to execute 'insertBefore' on 'Node'".
+  // See: https://sentry.io/organizations/monkai/issues/DRIVE-APP-Q/
+  await Promise.resolve();
   dispatch?.({
     type: MonkActionType.CREATED_ONE_IMAGE,
     payload: {
