@@ -78,7 +78,7 @@
     "prettier": "^2.7.1",
     "ts-jest": "^29.4.11",
     "typescript-eslint": "^8.54.0",
-    "vite": "^7.2.4"
+    "vite": "^7.3.7"
   },
   "prettier": "@monkvision/prettier-config",
   "browserslist": {
