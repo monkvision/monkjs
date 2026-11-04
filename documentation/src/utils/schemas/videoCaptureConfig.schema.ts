@@ -7,7 +7,7 @@ export const VideoCaptureAppConfigSchema = z
     workflow: z.literal(CaptureWorkflow.VIDEO),
     minRecordingDuration: z.number().optional(),
     maxRetryCount: z.number().optional(),
-    videoUploadStrategy: z.nativeEnum(VideoUploadStrategy).optional(),
+    videoUploadStrategy: z.enum(VideoUploadStrategy).optional(),
     frameSelectionInterval: z.number().optional(),
     targetFramesCount: z.number().optional(),
     enableFastWalkingWarning: z.boolean().optional(),

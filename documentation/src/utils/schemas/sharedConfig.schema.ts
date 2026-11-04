@@ -62,12 +62,12 @@ export const DomainsSchema = z
 
 export const SharedCaptureAppConfigSchema = z
   .object({
-    additionalTasks: z.array(z.nativeEnum(TaskName)).optional(),
-    startTasksOnComplete: z.array(z.nativeEnum(TaskName)).or(z.boolean()).optional(),
-    enforceOrientation: z.nativeEnum(DeviceOrientation).optional(),
+    additionalTasks: z.array(z.enum(TaskName)).optional(),
+    startTasksOnComplete: z.array(z.enum(TaskName)).or(z.boolean()).optional(),
+    enforceOrientation: z.enum(DeviceOrientation).optional(),
     allowManualLogin: z.boolean().optional(),
     fetchFromSearchParams: z.boolean().optional(),
-    requiredApiPermissions: z.array(z.nativeEnum(MonkApiPermission)).optional(),
+    requiredApiPermissions: z.array(z.enum(MonkApiPermission)).optional(),
     palette: MonkPaletteSchema.partial().optional(),
   })
   .and(CameraConfigSchema)

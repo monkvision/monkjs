@@ -1,9 +1,6 @@
 import { z } from 'zod';
 import { ComplianceIssue } from '@monkvision/types';
-import {
-  getInvalidSightIdsMessage,
-  validateSightIds,
-} from '@site/src/utils/schemas/sights.validator';
+import { invalidSightIdsError, validateSightIds } from '@site/src/utils/schemas/sights.validator';
 
 export const CustomComplianceThresholdsSchema = z
   .object({
@@ -31,16 +28,16 @@ export const ComplianceOptionsSchema = z.object({
   enableCompliancePerSight: z
     .array(z.string())
     .optional()
-    .refine(validateSightIds, getInvalidSightIdsMessage),
-  complianceIssues: z.array(z.nativeEnum(ComplianceIssue)).optional(),
+    .refine(validateSightIds, invalidSightIdsError),
+  complianceIssues: z.array(z.enum(ComplianceIssue)).optional(),
   complianceIssuesPerSight: z
-    .record(z.string(), z.array(z.nativeEnum(ComplianceIssue)))
+    .record(z.string(), z.array(z.enum(ComplianceIssue)))
     .optional()
-    .refine(validateSightIds, getInvalidSightIdsMessage),
+    .refine(validateSightIds, invalidSightIdsError),
   useLiveCompliance: z.boolean().optional(),
   customComplianceThresholds: CustomComplianceThresholdsSchema.optional(),
   customComplianceThresholdsPerSight: z
     .record(z.string(), CustomComplianceThresholdsSchema)
     .optional()
-    .refine(validateSightIds, getInvalidSightIdsMessage),
+    .refine(validateSightIds, invalidSightIdsError),
 });

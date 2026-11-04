@@ -17,7 +17,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@adobe/css-tools@npm:^4.0.1, @adobe/css-tools@npm:^4.4.0":
+"@adobe/css-tools@npm:^4.0.1, @adobe/css-tools@npm:^4.4.0, @adobe/css-tools@npm:^4.5.0":
   version: 4.5.0
   resolution: "@adobe/css-tools@npm:4.5.0"
   checksum: 22bcd73a76f41dfaba1017ddedd5ab5ea34e60034f432cbc87edc85c53b0da29b71246038499827ad80936a8efe6703dc420336dff4865e4fdd46eb19ff78591
@@ -4767,6 +4767,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@monkvision/common-ui-web@workspace:packages/common-ui-web"
   dependencies:
+    "@adobe/css-tools": ^4.5.0
     "@babel/core": ^7.22.9
     "@monkvision/common": 5.4.9
     "@monkvision/eslint-config-base": 5.4.9
@@ -4783,14 +4784,12 @@ __metadata:
     "@testing-library/react": ^16.3.0
     "@testing-library/user-event": ^14.6.1
     "@types/babel__core": ^7
-    "@types/css": ^0.0.34
     "@types/jest": ^30
     "@types/node": ^24.5.2
     "@types/react": ^19.1
     "@types/react-dom": ^19.1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
-    css: ^3.0.0
     eslint: ^8.29.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-prettier: ^8.5.0
@@ -5005,7 +5004,6 @@ __metadata:
     "@testing-library/react": ^16.3.0
     "@testing-library/user-event": ^14.6.1
     "@types/babel__core": ^7
-    "@types/css": ^0.0.34
     "@types/file-saver": ^2
     "@types/jest": ^30
     "@types/node": ^24.5.2
@@ -5013,7 +5011,6 @@ __metadata:
     "@types/react-dom": ^19.1
     "@typescript-eslint/eslint-plugin": ^5.43.0
     "@typescript-eslint/parser": ^5.43.0
-    css: ^3.0.0
     eslint: ^8.29.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-prettier: ^8.5.0
@@ -6296,13 +6293,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.23.4":
-  version: 1.23.4
-  resolution: "@remix-run/router@npm:1.23.4"
-  checksum: 3ce599f1660be4d4ed32c61e378c66fce44c0640b4af90ca8700453a51e1dc423d732a12051871f5227269d3ee7b894700d44212966220cc5a779a748e8b7316
-  languageName: node
-  linkType: hard
-
 "@rolldown/pluginutils@npm:1.0.0-rc.3":
   version: 1.0.0-rc.3
   resolution: "@rolldown/pluginutils@npm:1.0.0-rc.3"
@@ -7190,13 +7180,6 @@ __metadata:
   version: 2.4.4
   resolution: "@types/copyfiles@npm:2.4.4"
   checksum: 0513199240828feda5f6ed04c69d6a642c47e6ab66b81214716807f948ed3e865e9b3d2b69f75cbcc6fbe2154630755c47ca473b3913f0a831179366c709a8cc
-  languageName: node
-  linkType: hard
-
-"@types/css@npm:^0.0.34":
-  version: 0.0.34
-  resolution: "@types/css@npm:0.0.34"
-  checksum: fc9e9e2ad065368bcfdbc6d4a642c8e0465e83b44bd89166eaa6781e32cbc3e3aa8e75b02f3dd16ea757cd4655a44f6657583937fad451d25670278e7bd84bd1
   languageName: node
   linkType: hard
 
@@ -8952,15 +8935,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"atob@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "atob@npm:2.1.2"
-  bin:
-    atob: bin/atob.js
-  checksum: dfeeeb70090c5ebea7be4b9f787f866686c645d9f39a0d184c817252d0cf08455ed25267d79c03254d3be1f03ac399992a792edcd5ffb9c91e097ab5ef42833a
-  languageName: node
-  linkType: hard
-
 "autoprefixer@npm:^10.4.19, autoprefixer@npm:^10.4.23":
   version: 10.5.5
   resolution: "autoprefixer@npm:10.5.5"
@@ -10705,17 +10679,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "css@npm:3.0.0"
-  dependencies:
-    inherits: ^2.0.4
-    source-map: ^0.6.1
-    source-map-resolve: ^0.6.0
-  checksum: 4273ac816ddf99b99acb9c1d1a27d86d266a533cc01118369d941d8e8a78277a83cad3315e267a398c509d930fbb86504e193ea1ebc620a4a4212e06fe76e8be
-  languageName: node
-  linkType: hard
-
 "cssdb@npm:^8.6.0":
   version: 8.11.0
   resolution: "cssdb@npm:8.11.0"
@@ -10967,13 +10930,6 @@ __metadata:
   dependencies:
     character-entities: ^2.0.0
   checksum: 82eb1208abf59d1f1e368285b6880201a3c3f147a4d7ce74e44cd41374ef00c9a376e8595e38002031db63291f91f7f3ff56b9724f715befff8f5566593d6de0
-  languageName: node
-  linkType: hard
-
-"decode-uri-component@npm:^0.2.0":
-  version: 0.2.2
-  resolution: "decode-uri-component@npm:0.2.2"
-  checksum: 95476a7d28f267292ce745eac3524a9079058bbb35767b76e3ee87d42e34cd0275d2eb19d9d08c3e167f97556e8a2872747f5e65cbebcac8b0c98d83e285f139
   languageName: node
   linkType: hard
 
@@ -18381,10 +18337,9 @@ __metadata:
     prism-react-renderer: ^2.4.1
     react: ^19.2.3
     react-dom: ^19.2.3
-    react-router-dom: ^6.22.3
     svgo: ^3.0.2
     typescript: ^5.9.2
-    zod: ^3.23.8
+    zod: ^4.6.6
   languageName: unknown
   linkType: soft
 
@@ -21257,19 +21212,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.22.3":
-  version: 6.30.6
-  resolution: "react-router-dom@npm:6.30.6"
-  dependencies:
-    "@remix-run/router": 1.23.4
-    react-router: 6.30.6
-  peerDependencies:
-    react: ">=16.8"
-    react-dom: ">=16.8"
-  checksum: 72db183e647d8640761fca91491e7c35c023ccc646e656853898ef18837d0c6f6d43cb92d686346df919e45df0be51c2471c5855e5210c1224a9e4f5dc205789
-  languageName: node
-  linkType: hard
-
 "react-router-dom@npm:^7.9.4":
   version: 7.18.3
   resolution: "react-router-dom@npm:7.18.3"
@@ -21298,17 +21240,6 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 892d4e274a23bf4f39abc2efca54472fb646d3aed4b584020cf49654d2f50d09a2bacebe7c92b4ec7cb8925077376dfcd0664bad6442a73604397cefec9f01f9
-  languageName: node
-  linkType: hard
-
-"react-router@npm:6.30.6":
-  version: 6.30.6
-  resolution: "react-router@npm:6.30.6"
-  dependencies:
-    "@remix-run/router": 1.23.4
-  peerDependencies:
-    react: ">=16.8"
-  checksum: 72bd5caaa4dba7f9e5c88d7abd583614eecd46eff11b2a9f21bd3baf6af1dfeb469416f23fa8ea032b70a298fbe170fde3c8d93b422f13dd17a4cc92a7af9e2a
   languageName: node
   linkType: hard
 
@@ -22680,16 +22611,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-resolve@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "source-map-resolve@npm:0.6.0"
-  dependencies:
-    atob: ^2.1.2
-    decode-uri-component: ^0.2.0
-  checksum: fe503b9e5dac1c54be835282fcfec10879434e7b3ee08a9774f230299c724a8d403484d9531276d1670c87390e0e4d1d3f92b14cca6e4a2445ea3016b786ecd4
-  languageName: node
-  linkType: hard
-
 "source-map-support@npm:0.5.13":
   version: 0.5.13
   resolution: "source-map-support@npm:0.5.13"
@@ -23427,10 +23348,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinypool@npm:^1.0.2":
-  version: 1.1.1
-  resolution: "tinypool@npm:1.1.1"
-  checksum: 0258abe108df8be395a2cbdc8b4390c94908850250530f7bea83a129fa33d49a8c93246f76bf81cd458534abd81322f4d4cb3a40690254f8d9044ff449f328a8
+"tinypool@npm:^2.1.2":
+  version: 2.2.0
+  resolution: "tinypool@npm:2.2.0"
+  checksum: df0adec480c5d7600a71ffe3ee14af2eb2c9455ced5f7744e4662512e8b678810cf17db49094ac8baa950f6f55b089f9c9f37f9776881b4d39fb8661f7779b26
   languageName: node
   linkType: hard
 
@@ -25122,13 +25043,6 @@ __metadata:
   peerDependencies:
     zod: ^3.25.0 || ^4.0.0
   checksum: f16ccbc08c5345f28788beea814d82e1f047978414f1511bd97a171580d7dbe63cecc368caa352c1391e201539288c241d61145e57c6b84cb19112dc88a72098
-  languageName: node
-  linkType: hard
-
-"zod@npm:^3.23.8":
-  version: 3.25.76
-  resolution: "zod@npm:3.25.76"
-  checksum: c9a403a62b329188a5f6bd24d5d935d2bba345f7ab8151d1baa1505b5da9f227fb139354b043711490c798e91f3df75991395e40142e6510a4b16409f302b849
   languageName: node
   linkType: hard
 
