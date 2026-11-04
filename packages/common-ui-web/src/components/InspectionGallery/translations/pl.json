@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Zatwierdź",
+    "resend": "Wyślij ponownie zdjęcia ({{count}})",
     "title": "Zdjęcia",
     "retakeFilter": "Ponowne zdjęcia",
     "approvedFilter": "Zatwierdzono",

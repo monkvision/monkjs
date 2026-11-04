@@ -1,4 +1,4 @@
-import { InteractiveStatus } from '@monkvision/types';
+import { InteractiveStatus, NetworkQuality } from '@monkvision/types';
 
 function createMockLoadingState() {
   return {
@@ -43,6 +43,7 @@ const {
   viewpointLabels,
   vehiclePartLabels,
   isTimeoutError,
+  isNetworkError,
   isInternalServerError,
   getAngleDifference,
 } = jest.requireActual('@monkvision/common');
@@ -81,6 +82,7 @@ export = {
   viewpointLabels,
   vehiclePartLabels,
   isTimeoutError,
+  isNetworkError,
   isInternalServerError,
   getAngleDifference,
 
@@ -160,5 +162,10 @@ export = {
     requestCompassPermission: jest.fn(() => Promise.resolve()),
   })),
   useSafeTimeout: jest.fn(() => jest.fn()),
+  useNetworkStatus: jest.fn(() => ({
+    isOnline: true,
+    quality: NetworkQuality.GOOD,
+    reportSample: jest.fn(),
+  })),
   useMonkSearchParams: jest.fn(() => ({ get: jest.fn(() => null) })),
 };

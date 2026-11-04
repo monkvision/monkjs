@@ -4,6 +4,11 @@
       "message": "În prezent, avem probleme cu conexiunea. Încărcarea imaginilor poate dura mai mult decât de obicei.",
       "confirm": "Am înțeles"
     },
+    "networkWarning": {
+      "offline": "Sunteți offline. Mențineți această pagină deschisă, altfel fotografiile vor fi pierdute.",
+      "poor": "Conexiunea este prea slabă pentru a încărca fotografiile. Mențineți această pagină deschisă, altfel fotografiile vor fi pierdute.",
+      "confirm": "Am înțeles"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Deteriorare"

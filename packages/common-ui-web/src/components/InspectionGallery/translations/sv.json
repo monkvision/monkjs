@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Verifiera",
+    "resend": "Skicka bilder igen ({{count}})",
     "title": "Bilder",
     "retakeFilter": "Omtagningar",
     "approvedFilter": "Godkänt",

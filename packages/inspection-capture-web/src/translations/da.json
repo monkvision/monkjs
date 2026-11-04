@@ -4,6 +4,11 @@
       "message": "Vi oplever problemer med forbindelsen. Upload af billeder kan tage længere tid end normalt.",
       "confirm": "Jeg forstår"
     },
+    "networkWarning": {
+      "offline": "Du er offline. Hold siden åben, ellers går billederne tabt.",
+      "poor": "Din forbindelse er for svag til at uploade billeder. Hold siden åben, ellers går billederne tabt.",
+      "confirm": "Jeg forstår"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Skade"

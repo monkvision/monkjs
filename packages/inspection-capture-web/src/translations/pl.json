@@ -4,6 +4,11 @@
       "message": "Występują problemy z połączeniem. Przesyłanie zdjęć może trwać dłużej niż zwykle.",
       "confirm": "Rozumiem"
     },
+    "networkWarning": {
+      "offline": "Brak połączenia. Nie zamykaj tej strony, bo zdjęcia zostaną utracone.",
+      "poor": "Połączenie jest zbyt słabe, aby przesłać zdjęcia. Nie zamykaj tej strony, bo zdjęcia zostaną utracone.",
+      "confirm": "Rozumiem"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Uszkodzenie"

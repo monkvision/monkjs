@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Validieren",
+    "resend": "Fotos erneut senden ({{count}})",
     "title": "Fotos",
     "retakeFilter": "Wiederholungen",
     "approvedFilter": "Genehmigt",

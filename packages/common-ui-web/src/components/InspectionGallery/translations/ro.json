@@ -4,6 +4,7 @@
   },
   "topBar": {
     "submit": "Validează",
+    "resend": "Retrimiteți fotografiile ({{count}})",
     "title": "Fotografii",
     "retakeFilter": "Reluări",
     "approvedFilter": "Aprobat",

@@ -7,5 +7,6 @@ export * from './config';
 export * from './i18n';
 export * from './api';
 export * from './utils';
+export * from './network';
 export * from './typeUtils';
 export * from './testIds';

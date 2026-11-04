@@ -4,6 +4,11 @@
       "message": "We are experiencing connectivity issues. Picture uploads might take longer than usual.",
       "confirm": "I Understand"
     },
+    "networkWarning": {
+      "offline": "You are offline. Keep this page open, or your pictures will be lost.",
+      "poor": "Your connection is too weak to upload pictures. Keep this page open, or your pictures will be lost.",
+      "confirm": "I Understand"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Damage"

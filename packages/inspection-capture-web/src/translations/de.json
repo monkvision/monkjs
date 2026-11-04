@@ -4,6 +4,11 @@
       "message": "Wir haben derzeit Verbindungsprobleme. Das Hochladen von Bildern kann länger als gewöhnlich dauern.",
       "confirm": "Ich verstehe"
     },
+    "networkWarning": {
+      "offline": "Sie sind offline. Lassen Sie diese Seite geöffnet, sonst gehen die Fotos verloren.",
+      "poor": "Ihre Verbindung ist zu schwach zum Hochladen. Lassen Sie diese Seite geöffnet, sonst gehen die Fotos verloren.",
+      "confirm": "Ich verstehe"
+    },
     "hud": {
       "sight": {
         "addDamageBtn": "Schaden"

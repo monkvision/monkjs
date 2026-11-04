@@ -28,6 +28,11 @@ export const styles: Styles = {
     display: 'flex',
     alignItems: 'center',
   },
+  rightContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+  },
   pillContainer: {
     display: 'flex',
   },

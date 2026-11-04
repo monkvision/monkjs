@@ -12,6 +12,7 @@ export function useInspectionGalleryTopBarStyles() {
       backgroundColor: palette.background.base,
     },
     leftContainerStyle: styles['leftContainer'],
+    rightContainerStyle: styles['rightContainer'],
     pillContainerStyle: {
       ...styles['pillContainer'],
       ...responsive(styles['pillContainerSmallScreen']),

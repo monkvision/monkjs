@@ -22,6 +22,9 @@ export type InspectionGalleryTopBarProps = Pick<
   | 'validateButtonLabel'
   | 'isInspectionCompleted'
   | 'enableBeautyShotExtraction'
+  | 'failedUploadsCount'
+  | 'onResendFailedImages'
+  | 'isResendingFailedImages'
 > & {
   items: InspectionGalleryItem[];
   currentFilter: InspectionGalleryFilter | null;
@@ -70,8 +73,20 @@ export const FILTERS_EXTRACT_BEAUTY_SHOTS: InspectionGalleryFilter[] = [
 
 export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
   const { t } = useTranslation();
-  const { barStyle, leftContainerStyle, pillContainerStyle, backButtonStyle, titleStyle } =
-    useInspectionGalleryTopBarStyles();
+  const {
+    barStyle,
+    leftContainerStyle,
+    rightContainerStyle,
+    pillContainerStyle,
+    backButtonStyle,
+    titleStyle,
+  } = useInspectionGalleryTopBarStyles();
+  const failedUploadsCount = props.failedUploadsCount ?? 0;
+  const isResendAvailable =
+    !!props.captureMode &&
+    !props.isInspectionCompleted &&
+    !!props.onResendFailedImages &&
+    (failedUploadsCount > 0 || !!props.isResendingFailedImages);
 
   const isSubmitAvailable = useMemo(
     () =>
@@ -124,17 +139,30 @@ export function InspectionGalleryTopBar(props: InspectionGalleryTopBarProps) {
           </div>
         )}
       </div>
-      {props.isInspectionCompleted ? (
-        completedAction
-      ) : (
-        <Button
-          disabled={!isSubmitAvailable}
-          onClick={props.onValidate}
-          data-e2e={MonkE2eId.GALLERY_SUBMIT}
-        >
-          {props.validateButtonLabel || t('topBar.submit')}
-        </Button>
-      )}
+      <div style={rightContainerStyle}>
+        {isResendAvailable && (
+          <Button
+            variant='outline'
+            icon='refresh'
+            loading={props.isResendingFailedImages}
+            onClick={props.onResendFailedImages}
+            data-e2e={MonkE2eId.GALLERY_RESEND}
+          >
+            {t('topBar.resend', { count: failedUploadsCount })}
+          </Button>
+        )}
+        {props.isInspectionCompleted ? (
+          completedAction
+        ) : (
+          <Button
+            disabled={!isSubmitAvailable}
+            onClick={props.onValidate}
+            data-e2e={MonkE2eId.GALLERY_SUBMIT}
+          >
+            {props.validateButtonLabel || t('topBar.submit')}
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
