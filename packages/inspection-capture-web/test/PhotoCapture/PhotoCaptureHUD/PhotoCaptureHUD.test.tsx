@@ -31,8 +31,15 @@ import { PhotoCaptureHUD, PhotoCaptureHUDElements, PhotoCaptureHUDProps } from '
 import { PhotoCaptureHUDOcrOverlay } from '../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay';
 import { HUDButtons, HUDOverlay, OrientationEnforcer } from '../../../src/components';
 import { CaptureMode } from '../../../src/types';
-import { ImageStatus, Image, DeviceOrientation, MileageUnit, VehicleType } from '@monkvision/types';
-import { OcrSightConfig, OcrMode } from '../../../src/PhotoCapture/hooks';
+import {
+  ImageStatus,
+  Image,
+  DeviceOrientation,
+  MileageUnit,
+  VehicleType,
+  OcrSightConfig,
+  OcrMode,
+} from '@monkvision/types';
 
 const cameraTestId = 'camera-test-id';
 

@@ -10,7 +10,7 @@ import {
   PhotoCaptureHUDOcrConfirmModal,
   PhotoCaptureHUDOcrConfirmModalProps,
 } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrConfirmModal';
-import { OcrMode } from '../../../../src/PhotoCapture/hooks/ocrTypes';
+import { OcrMode } from '@monkvision/types';
 
 function createProps(
   overrides?: Partial<PhotoCaptureHUDOcrConfirmModalProps>,

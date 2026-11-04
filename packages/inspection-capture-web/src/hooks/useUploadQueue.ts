@@ -7,6 +7,7 @@ import {
   useQueue,
 } from '@monkvision/common';
 import {
+  NetworkQuality,
   PhotoCaptureAppConfig,
   ComplianceOptions,
   Image,

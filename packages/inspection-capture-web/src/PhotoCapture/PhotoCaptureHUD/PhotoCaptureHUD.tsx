@@ -5,6 +5,8 @@ import {
   ImageStatus,
   MonkPicture,
   MonkTestId,
+  OcrMode,
+  OcrSightConfig,
   Sight,
   VehiclePart,
   VehicleType,
@@ -16,7 +18,7 @@ import { CameraHUDProps } from '@monkvision/camera-web';
 import { LoadingState } from '@monkvision/common';
 import { useAnalytics } from '@monkvision/analytics';
 import { usePhotoCaptureHUDStyle } from './hooks';
-import { TutorialSteps, PhotoCaptureOcrConfig, OcrMode, OcrSightConfig } from '../hooks';
+import { TutorialSteps, PhotoCaptureOcrConfig } from '../hooks';
 import { PhotoCaptureHUDElements } from './PhotoCaptureHUDElements';
 import { PhotoCaptureHUDTutorial } from './PhotoCaptureHUDTutorial';
 import { CaptureMode } from '../../types';

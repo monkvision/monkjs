@@ -8,8 +8,6 @@ import type {
 import { OCR_RECOGNITION_CONFIG, OCR_IMAGE_PROCESSING } from './ocr.config';
 import { createCanvas, get2dContext } from './ocr.utils';
 
-// ─── Session state ────────────────────────────────────────────────────────────
-
 let recSession: ort.InferenceSession | null = null;
 let dictionary: string[] = [];
 let initPromise: Promise<void> | null = null;
@@ -20,8 +18,6 @@ const SESSION_OPTIONS: ort.InferenceSession.SessionOptions = {
   enableMemPattern: false,
   graphOptimizationLevel: 'basic',
 };
-
-// ─── Recognition pre-processing ───────────────────────────────────────────────
 
 const { imagenetMean: _m, imagenetStd: _s } = OCR_IMAGE_PROCESSING;
 
@@ -121,8 +117,6 @@ async function runRecognition(
   return decoded;
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
-
 async function init(): Promise<void> {
   if (initPromise) {
     return initPromise;
@@ -143,8 +137,6 @@ async function init(): Promise<void> {
   });
   return initPromise;
 }
-
-// ─── Message handler ──────────────────────────────────────────────────────────
 
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', async (e: MessageEvent) => {

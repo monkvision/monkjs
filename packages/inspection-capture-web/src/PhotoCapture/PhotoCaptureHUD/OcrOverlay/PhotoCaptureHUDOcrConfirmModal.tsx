@@ -1,9 +1,48 @@
-import React, { useEffect, useRef } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { BackdropDialog, Button } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
-import { MileageUnit } from '@monkvision/types';
-import { OcrMode } from '../../hooks';
+import { MileageUnit, OcrMode } from '@monkvision/types';
 import { styles, SPINNER_KEYFRAMES } from './PhotoCaptureHUDOcrConfirmModal.styles';
+
+interface OcrConfirmDialogContentProps {
+  imageUri: string;
+  displayContent: ReactNode;
+  buttonContent: ReactNode;
+  showUnitDropdown: boolean;
+  selectedUnit?: MileageUnit;
+  onUnitChange?: (unit: MileageUnit) => void;
+}
+
+function OcrConfirmDialogContent({
+  imageUri,
+  displayContent,
+  buttonContent,
+  showUnitDropdown,
+  selectedUnit,
+  onUnitChange,
+}: OcrConfirmDialogContentProps) {
+  const { t } = useTranslation();
+  return (
+    <div style={styles.dialog}>
+      <style>{SPINNER_KEYFRAMES}</style>
+      <img src={imageUri} alt={t('photo.hud.ocr.imageAlt')} style={styles.image} />
+      <div style={styles.textRow}>
+        {displayContent}
+        {showUnitDropdown && (
+          <select
+            style={styles.unitSelect}
+            value={selectedUnit ?? MileageUnit.KM}
+            onChange={(e) => onUnitChange?.(e.target.value as MileageUnit)}
+          >
+            <option value={MileageUnit.KM}>{MileageUnit.KM}</option>
+            <option value={MileageUnit.MILES}>{MileageUnit.MILES}</option>
+          </select>
+        )}
+      </div>
+      <div style={styles.buttons}>{buttonContent}</div>
+    </div>
+  );
+}
 
 export interface PhotoCaptureHUDOcrConfirmModalProps {
   /** The confirmed text to display below the image. */
@@ -186,26 +225,19 @@ export function PhotoCaptureHUDOcrConfirmModal({
     !ocrFailed &&
     !(isOcrLoading && !text && !editValue);
 
-  const dialog = (
-    <div style={styles.dialog}>
-      <style>{SPINNER_KEYFRAMES}</style>
-      <img src={imageUri} alt={t('photo.hud.ocr.imageAlt')} style={styles.image} />
-      <div style={styles.textRow}>
-        {displayContent}
-        {showUnitDropdown && (
-          <select
-            style={styles.unitSelect}
-            value={selectedUnit ?? MileageUnit.KM}
-            onChange={(e) => onUnitChange?.(e.target.value as MileageUnit)}
-          >
-            <option value={MileageUnit.KM}>{MileageUnit.KM}</option>
-            <option value={MileageUnit.MILES}>{MileageUnit.MILES}</option>
-          </select>
-        )}
-      </div>
-      <div style={styles.buttons}>{buttonContent}</div>
-    </div>
+  return (
+    <BackdropDialog
+      show
+      dialog={
+        <OcrConfirmDialogContent
+          imageUri={imageUri}
+          displayContent={displayContent}
+          buttonContent={buttonContent}
+          showUnitDropdown={showUnitDropdown}
+          selectedUnit={selectedUnit}
+          onUnitChange={onUnitChange}
+        />
+      }
+    />
   );
-
-  return <BackdropDialog show dialog={dialog} />;
 }

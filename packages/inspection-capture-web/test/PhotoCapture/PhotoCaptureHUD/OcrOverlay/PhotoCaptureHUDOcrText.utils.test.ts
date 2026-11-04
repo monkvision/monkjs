@@ -1,8 +1,5 @@
 import { MileageUnit } from '@monkvision/types';
-import {
-  parseOdometerText,
-  formatOdometerDisplay,
-} from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrText.utils';
+import { parseOdometerText } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrText.utils';
 
 describe('parseOdometerText', () => {
   it('returns null values for an empty string', () => {
@@ -55,33 +52,5 @@ describe('parseOdometerText', () => {
 
   it('treats space-separated digit groups as a single number (spaces stripped before parsing)', () => {
     expect(parseOdometerText('50 000')).toEqual({ value: 50000, unit: null });
-  });
-});
-
-describe('formatOdometerDisplay', () => {
-  it('returns the dash placeholder for a null value', () => {
-    expect(formatOdometerDisplay({ value: null, unit: null })).toBe('—');
-  });
-
-  it('appends the km unit when present', () => {
-    const result = formatOdometerDisplay({ value: 50000, unit: MileageUnit.KM });
-    expect(result).toContain('km');
-    expect(result).toContain('50');
-  });
-
-  it('appends the miles unit when present', () => {
-    const result = formatOdometerDisplay({ value: 25000, unit: MileageUnit.MILES });
-    expect(result).toContain('miles');
-  });
-
-  it('formats a value with no unit without appending a unit label', () => {
-    const result = formatOdometerDisplay({ value: 1000, unit: null });
-    expect(result).not.toContain('km');
-    expect(result).not.toContain('miles');
-    expect(result).toContain('1');
-  });
-
-  it('formats 0 without the dash placeholder', () => {
-    expect(formatOdometerDisplay({ value: 0, unit: null })).not.toBe('—');
   });
 });

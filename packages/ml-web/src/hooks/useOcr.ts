@@ -74,7 +74,6 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     fuzzyTolerance = OCR_STABILIZER_CONFIG.fuzzyTolerance,
   } = config;
 
-  // ── Worker lifecycle ────────────────────────────────────────────────────────
   const workerRef = useRef<Worker | null>(null);
   const [workerKey, setWorkerKey] = useState(0);
 
@@ -82,7 +81,6 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
   const [isLoading, setIsLoading] = useState(false);
   const [fatalError, setFatalError] = useState<string | null>(null);
 
-  // ── Inference state ─────────────────────────────────────────────────────────
   const inFlightRef = useRef(false);
   const reqIdRef = useRef(0);
   const [isInferring, setIsInferring] = useState(false);
@@ -90,14 +88,13 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
   const [detectedText, setDetectedText] = useState('');
   const [chars, setChars] = useState<OcrCharResult[]>([]);
 
-  // ── Stabilizer state (all in refs to avoid updater-nesting bugs) ────────────
+  // Refs avoid updater-nesting bugs when multiple state updates fire in one message handler.
   const consistencyCountRef = useRef(0);
   const [consistencyCount, setConsistencyCount] = useState(0);
   const prevRawRef = useRef('');
   const isLockedRef = useRef(false);
   const [confirmedText, setConfirmedText] = useState<string | null>(null);
 
-  // ── Worker setup ─────────────────────────────────────────────────────────────
   useEffect(() => {
     setIsReady(false);
     setIsLoading(false);
@@ -140,7 +137,6 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
       const text = resolvedChars.map((c) => c.char).join('');
       setDetectedText(text);
 
-      // ── Stabilizer ────────────────────────────────────────────────────────
       if (isLockedRef.current) {
         return;
       }
@@ -182,7 +178,6 @@ export function useOcr(config: UseOcrConfig): UseOcrResult {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workerKey, workerUrl, recModelUrl, dictUrl, wasmBaseUrl, appearanceCount, fuzzyTolerance]);
 
-  // ── Public API ───────────────────────────────────────────────────────────────
   const loadModels = useCallback(() => {
     if (!workerRef.current || isReady || isLoading) {
       return;
