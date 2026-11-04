@@ -15,6 +15,8 @@ import {
   MileageUnit,
   MonkPicture,
   NetworkQuality,
+  OcrMode,
+  OcrSightConfig,
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
   PhotoCaptureTutorialOption,
@@ -48,8 +50,6 @@ import {
   useInspectionComplete,
   usePhotoCaptureOcrConfirm,
   PhotoCaptureOcrConfig,
-  OcrMode,
-  OcrSightConfig,
 } from './hooks';
 import { useImagesCleanup } from './hooks/useImagesCleanup';
 

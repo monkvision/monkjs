@@ -17,7 +17,7 @@ import {
   PhotoCaptureHUDOcrOverlay,
   PhotoCaptureHUDOcrOverlayProps,
 } from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrOverlay';
-import { OcrMode } from '../../../../src/PhotoCapture/hooks/ocrTypes';
+import { OcrMode } from '@monkvision/types';
 
 function createOcrResult(overrides: Record<string, unknown> = {}) {
   return {

@@ -1,10 +1,9 @@
 import { renderHook, act } from '@testing-library/react';
-import { MileageUnit } from '@monkvision/types';
+import { MileageUnit, OcrMode } from '@monkvision/types';
 import { useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 import { flushPromises } from '@monkvision/test-utils';
 import { usePhotoCaptureOcrConfirm } from '../../../src/PhotoCapture/hooks/usePhotoCaptureOcrConfirm';
-import { OcrMode } from '../../../src/PhotoCapture/hooks/ocrTypes';
 
 const mockApiConfig = { authToken: 'test-token', apiDomain: 'test.api.monk.ai' };
 const mockInspectionId = 'test-inspection-id';

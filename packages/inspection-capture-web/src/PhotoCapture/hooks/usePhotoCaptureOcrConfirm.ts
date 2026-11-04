@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
-import { MileageUnit } from '@monkvision/types';
+import { MileageUnit, OcrMode } from '@monkvision/types';
 import { parseOdometerText } from '../PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrText.utils';
-import { OcrMode } from './ocrTypes';
 
 export interface UsePhotoCaptureOcrConfirmParams {
   /** ID of the inspection this OCR reading will be stored against. */
