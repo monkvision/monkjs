@@ -323,7 +323,6 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
-  // When ocrSights is omitted, OCR is always active on every sight.
   const isOcrSightActive = useMemo(
     () => !ocrSights || ocrSights.some((s) => s.sightId === sightState.selectedSight.id),
     [ocrSights, sightState.selectedSight.id],

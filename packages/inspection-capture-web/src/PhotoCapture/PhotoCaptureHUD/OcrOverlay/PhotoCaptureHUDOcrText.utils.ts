@@ -20,9 +20,6 @@ export function parseOdometerText(raw: string): OdometerParseResult {
     unit = MileageUnit.MILES;
   }
 
-  // 1. Strip spaces (thousands sep in some locales, e.g. "123 456")
-  // 2. Drop decimal part: sep + 1–2 digits at numeric boundary (e.g. "123456,7" → "123456", "123.4" → "123")
-  // 3. Strip thousands separators: sep + exactly 3 digits (e.g. "1.234.567" → "1234567", "123,456" → "123456")
   const digits = raw
     .replace(/\s/g, '')
     .replace(/[.,]\d{1,2}(?=\D|$)/g, '')
