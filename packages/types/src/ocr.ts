@@ -23,7 +23,7 @@ export interface OcrSightConfig {
   mode: OcrMode;
   /**
    * Fallback mileage unit used when OCR cannot detect one from the text (odometer mode only).
-   * Without this, the unit defaults to KM when undetected.
+   * @default MileageUnit.KM
    */
   defaultMileageUnit?: MileageUnit;
 }
