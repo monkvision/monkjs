@@ -9,7 +9,7 @@ jest.mock('react-i18next', () => ({
 import {
   PhotoCaptureHUDOcrConfirmModal,
   PhotoCaptureHUDOcrConfirmModalProps,
-} from '../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrConfirmModal';
+} from '../../../../../src/PhotoCapture/PhotoCaptureHUD/OcrOverlay/PhotoCaptureHUDOcrConfirmModal';
 import { OcrMode } from '@monkvision/types';
 
 function createProps(

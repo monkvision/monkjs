@@ -8,7 +8,6 @@ export interface OdometerParseResult {
 }
 
 const KM_RE = /km|kilo(?:met(?:er|re)s?)?/i;
-// Covers: mi, mil, mile, miles — and common OCR confusions (ml, m1, mii)
 const MILES_RE = /m(?:i|l|1){1,2}(?:l?e?s?)?(?!\p{L})/u;
 
 /** Extracts the mileage value and unit from a raw odometer OCR string. */

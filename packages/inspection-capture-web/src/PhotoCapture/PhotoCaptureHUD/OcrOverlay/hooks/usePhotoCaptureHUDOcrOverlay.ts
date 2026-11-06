@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInterval } from '@monkvision/common';
 import { useOcr, OCR_STABILIZER_CONFIG, createCanvas, get2dContext } from '@monkvision/ml-web';
 import { MonkPicture, MileageUnit, OcrMode } from '@monkvision/types';
-import { PhotoCaptureOcrConfig } from '../../hooks';
-import { parseOdometerText } from './PhotoCaptureHUDOcrText.utils';
-import { getCropRegion } from './PhotoCaptureHUDOcrOverlay.styles';
+import { PhotoCaptureOcrConfig } from '../../../hooks';
+import { parseOdometerText } from '../PhotoCaptureHUDOcrText.utils';
+import { getCropRegion } from '../PhotoCaptureHUDOcrOverlay.styles';
 
 const FALLBACK_OCR_READ_TIMEOUT_MS = 8_000;
 
