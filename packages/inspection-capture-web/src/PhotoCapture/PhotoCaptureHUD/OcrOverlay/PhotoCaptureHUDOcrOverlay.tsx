@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { MonkPicture, MileageUnit, OcrMode } from '@monkvision/types';
-import { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal';
+import { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal/PhotoCaptureHUDOcrConfirmModal';
 import { PhotoCaptureOcrConfig } from '../../hooks';
 import {
   getCropBoxStyle,
@@ -13,7 +13,7 @@ import {
   getOverlayStyle,
   styles,
 } from './PhotoCaptureHUDOcrOverlay.styles';
-import { usePhotoCaptureHUDOcrOverlay } from './usePhotoCaptureHUDOcrOverlay';
+import { usePhotoCaptureHUDOcrOverlay } from './hooks/usePhotoCaptureHUDOcrOverlay';
 
 export interface PhotoCaptureHUDOcrOverlayProps {
   /** OCR and capture configuration (models, intervals, retry limits). */

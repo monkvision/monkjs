@@ -13,7 +13,7 @@ interface OcrDisplayProps {
   isEditing: boolean;
   editValue: string;
   mode?: OcrMode;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -196,7 +196,7 @@ export interface PhotoCaptureHUDOcrConfirmModalProps {
  * Switches to an editable input when `isEditing` is true, and shows error states for invalid
  * readings and OCR failures.
  */
-export const PhotoCaptureHUDOcrConfirmModal = ({
+export function PhotoCaptureHUDOcrConfirmModal({
   text,
   imageUri,
   onConfirm,
@@ -213,7 +213,7 @@ export const PhotoCaptureHUDOcrConfirmModal = ({
   onOcrFailed,
   isInvalidReading = false,
   onInvalidReading,
-}: PhotoCaptureHUDOcrConfirmModalProps) => {
+}: PhotoCaptureHUDOcrConfirmModalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (isEditing) {
@@ -273,4 +273,4 @@ export const PhotoCaptureHUDOcrConfirmModal = ({
       }
     />
   );
-};
+}
