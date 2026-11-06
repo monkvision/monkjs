@@ -1,4 +1,4 @@
-import { NetworkQuality } from '@monkvision/types';
+import { NetworkQuality, ComplianceIssue, TaskName } from '@monkvision/types';
 import { useQueue } from '@monkvision/common';
 import { renderHook, act } from '@testing-library/react';
 import {
@@ -8,7 +8,6 @@ import {
   useUploadQueue,
 } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 

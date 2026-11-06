@@ -7,15 +7,15 @@ import {
   useMonkState,
   useQueue,
 } from '@monkvision/common';
-import { NetworkQuality } from '@monkvision/types';
-import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
+  NetworkQuality,
   PhotoCaptureAppConfig,
   ComplianceOptions,
   MonkPicture,
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
+import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';

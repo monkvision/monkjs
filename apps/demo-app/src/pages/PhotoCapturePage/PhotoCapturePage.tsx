@@ -1,10 +1,23 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMonkAppState } from '@monkvision/common';
-import { PhotoCapture } from '@monkvision/inspection-capture-web';
+import {
+  PhotoCapture,
+  PhotoCaptureOcrConfig,
+  OcrSightConfig,
+  OcrMode,
+} from '@monkvision/inspection-capture-web';
+import { OCR_MODEL_URLS } from '@monkvision/ml-web';
 import { CaptureWorkflow, VehicleType } from '@monkvision/types';
 import styles from './PhotoCapturePage.module.css';
 import { createInspectionReportLink } from './inspectionReport';
+
+const ocrConfig: PhotoCaptureOcrConfig = { ...OCR_MODEL_URLS, allowManualInput: true };
+
+const ocrSights: OcrSightConfig[] = [
+  { sightId: 'all-JOhPh4rx', mode: OcrMode.ODOMETER },
+  { sightId: 'all-sLu0CfOt', mode: OcrMode.VIN },
+];
 
 export function PhotoCapturePage() {
   const { i18n } = useTranslation();
@@ -37,6 +50,8 @@ export function PhotoCapturePage() {
         onComplete={handleComplete}
         lang={i18n.language}
         vehicleType={vehicleType ?? VehicleType.SEDAN}
+        ocrConfig={ocrConfig}
+        ocrSights={ocrSights}
       />
     </div>
   );

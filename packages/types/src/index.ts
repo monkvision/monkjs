@@ -1,4 +1,5 @@
 export * from './state';
+export * from './ocr';
 export * from './sights';
 export * from './theme';
 export * from './jsx';

@@ -92,6 +92,10 @@ export interface PhotoCaptureHUDElementsProps
    * Callback called when the user clicks on the "help" button in PhotoCapture.
    */
   toggleSightTutorial?: () => void;
+  /**
+   * When true, the sight wireframe overlay is hidden.
+   */
+  hideSightOverlay?: boolean;
 }
 
 /**
@@ -119,6 +123,7 @@ export function PhotoCaptureHUDElements(params: PhotoCaptureHUDElementsProps) {
         onDisableSightGuidelines={params.onDisableSightGuidelines}
         enableSightTutorial={params.enableSightTutorial}
         toggleSightTutorial={params.toggleSightTutorial}
+        hideSightOverlay={params.hideSightOverlay}
       />
     );
   }
