@@ -14,6 +14,8 @@ file grows noticeably.
   boolean. Once it depends on several sources, it moves into the hook.
 - **Extract JSX blocks into components.** A JSX chunk stored in a variable (`const dialog = (...)`)
   or rendered conditionally with its own props becomes a sub-component with a props interface.
+- **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` render. Create a
+  separate SVG component with a props interface.
 - **No IIFEs in JSX.** Compute values before `return`, or in the hook.
 - **One job per file.** A file that renders two unrelated things, or a hook that manages two
   unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
@@ -165,6 +167,80 @@ export const PhotoCaptureHUDOcrOverlay = (props: PhotoCaptureHUDOcrOverlayProps)
   );
 };
 ```
+
+### Extract inline SVG into its own component
+
+Bad:
+
+```tsx
+return (
+  <div style={styles.container}>
+    <svg viewBox={`0 0 ${boxW} ${boxH}`} style={styles.svg} xmlns='http://www.w3.org/2000/svg'>
+      <rect {...rectProps} stroke='#FFFFFF' strokeWidth={STROKE} opacity={0.2} />
+      <rect
+        {...rectProps}
+        stroke={COLOR_IDLE}
+        strokeWidth={STROKE}
+        strokeDasharray='8 6'
+        opacity={consistencyCount > 0 || fillFraction >= 1 ? 0 : 0.6}
+        style={styles.rectOpacity}
+      />
+      <rect
+        {...rectProps}
+        stroke={COLOR_CONFIRMED}
+        strokeWidth={STROKE}
+        strokeDasharray={`${filledLength} ${perimeter}`}
+        strokeLinecap='round'
+        style={styles.rectDash}
+      />
+    </svg>
+  </div>
+);
+```
+
+Good:
+
+```tsx
+// ProgressRect.tsx
+/**
+ * Props accepted by the ProgressRect component.
+ */
+export interface ProgressRectProps {
+  boxW: number;
+  boxH: number;
+  rectProps: SVGProps<SVGRectElement>;
+  isIdleHidden: boolean;
+  filledLength: number;
+  perimeter: number;
+}
+
+/**
+ * Rectangle outline that fills up as the detection is confirmed.
+ */
+export const ProgressRect = ({
+  boxW,
+  boxH,
+  rectProps,
+  isIdleHidden,
+  filledLength,
+  perimeter,
+}: ProgressRectProps) => (
+  <svg viewBox={`0 0 ${boxW} ${boxH}`} style={styles['svg']} xmlns='http://www.w3.org/2000/svg'>
+    ...
+  </svg>
+);
+```
+
+```tsx
+return (
+  <div style={styles['container']}>
+    <ProgressRect {...progressRectProps} />
+  </div>
+);
+```
+
+Compute `isIdleHidden` (`consistencyCount > 0 || fillFraction >= 1`) in the parent or its hook, not
+in the SVG markup.
 
 ### No IIFEs in JSX
 

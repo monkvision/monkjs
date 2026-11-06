@@ -43,6 +43,7 @@ review of specific files or a PR.
    | `.tsx` changed, new file/hook/component, a file grows noticeably                                          | [structure.md](structure.md)                       |
    | Added comments, new or changed exported symbols, new names                                                | [comments-docs-naming.md](comments-docs-naming.md) |
    | `useEffect`/`useMemo`/`useCallback`, listeners, timers, streams, lists, heavy work                        | [performance-react.md](performance-react.md)       |
+   | Regexes, parsing, string/number normalization, thresholds or conditions deciding behavior                 | [logic-correctness.md](logic-correctness.md)       |
    | Network, storage, env, auth/tokens, `dangerouslySetInnerHTML`, URLs, UI strings, new logic without a test | [security-i18n-tests.md](security-i18n-tests.md)   |
 
 4. **Review** against the core standards below plus the rules of every loaded file.
