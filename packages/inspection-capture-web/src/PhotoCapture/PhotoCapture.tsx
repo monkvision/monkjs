@@ -143,7 +143,6 @@ export interface PhotoCaptureProps
   ocrConfig?: PhotoCaptureOcrConfig;
   /**
    * Maps sight IDs to their OCR mode. OCR overlay is only active on listed sights.
-   * If omitted while ocrConfig is set, OCR is always active with no mode-specific behavior.
    */
   ocrSights?: OcrSightConfig[];
   /**
@@ -323,19 +322,19 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
-  const isOcrSightActive = useMemo(
-    () => !ocrSights || ocrSights.some((s) => s.sightId === sightState.selectedSight.id),
+  const isOcrSight = useMemo(
+    () => ocrSights?.some((s) => s.sightId === sightState.selectedSight.id) ?? false,
     [ocrSights, sightState.selectedSight.id],
   );
   const handlePictureTaken = useCallback(
     (picture: MonkPicture) => {
-      if (isOcrFallbackReady && isOcrSightActive) {
+      if (isOcrFallbackReady && isOcrSight) {
         setOcrFallbackPicture(picture);
       } else {
         basePictureTaken(picture);
       }
     },
-    [isOcrFallbackReady, isOcrSightActive, basePictureTaken],
+    [isOcrFallbackReady, isOcrSight, basePictureTaken],
   );
 
   // Reset OCR fallback state whenever the selected sight changes.

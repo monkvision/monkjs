@@ -263,8 +263,7 @@ export function PhotoCaptureHUD({
     [images],
   );
 
-  const isOcrBlockingShutter =
-    !!ocrConfig && (!ocrSights || !!matchedOcrSight) && !isOcrFallbackReady;
+  const isOcrBlockingShutter = !!ocrConfig && !!matchedOcrSight && !isOcrFallbackReady;
   const isCaptureDisabled =
     !!loading.error || !!handle.error || handle.isLoading || loading.isLoading;
 
@@ -308,7 +307,7 @@ export function PhotoCaptureHUD({
             config={ocrConfig}
             getImageData={stableGetImageData}
             isCameraLoading={handle.isLoading}
-            isActive={!ocrSights || !!matchedOcrSight}
+            isActive={!!matchedOcrSight}
             previewDimensions={handle.previewDimensions}
             mode={matchedOcrSight?.mode}
             defaultMileageUnit={matchedOcrSight?.defaultMileageUnit ?? odometerUnit}
