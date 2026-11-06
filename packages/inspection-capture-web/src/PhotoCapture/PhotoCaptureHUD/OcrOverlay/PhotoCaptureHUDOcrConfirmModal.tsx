@@ -5,6 +5,153 @@ import { MileageUnit, OcrMode } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDOcrConfirmModal.styles';
 import { OcrConfirmDialogContent } from './OcrConfirmDialogContent';
 
+interface OcrDisplayProps {
+  isInvalidReading: boolean;
+  ocrFailed: boolean;
+  isOcrLoading: boolean;
+  text: string;
+  isEditing: boolean;
+  editValue: string;
+  mode?: OcrMode;
+  inputRef: React.RefObject<HTMLInputElement>;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+function OcrDisplay({
+  isInvalidReading,
+  ocrFailed,
+  isOcrLoading,
+  text,
+  isEditing,
+  editValue,
+  mode,
+  inputRef,
+  onChange,
+}: OcrDisplayProps) {
+  const { t } = useTranslation();
+  if (isInvalidReading) {
+    return <div style={styles.errorMessage}>{t('photo.hud.ocr.invalidReading')}</div>;
+  }
+  if (ocrFailed) {
+    return <div style={styles.errorMessage}>{t('photo.hud.ocr.ocrFailed')}</div>;
+  }
+  if (isOcrLoading && !text && !editValue) {
+    return <div style={styles.spinner} />;
+  }
+  if (isEditing) {
+    return (
+      <input
+        ref={inputRef}
+        style={styles.input}
+        value={editValue}
+        onChange={onChange}
+        inputMode={mode === OcrMode.ODOMETER ? 'numeric' : 'text'}
+      />
+    );
+  }
+  return <div style={styles.text}>{text}</div>;
+}
+
+interface OcrButtonsProps {
+  isInvalidReading: boolean;
+  ocrFailed: boolean;
+  isEditing: boolean;
+  confirmDisabled: boolean;
+  onConfirm: () => void;
+  onReject: () => void;
+  onEditCancel?: () => void;
+  onInvalidReading?: () => void;
+  onOcrFailed?: () => void;
+}
+
+function OcrButtons({
+  isInvalidReading,
+  ocrFailed,
+  isEditing,
+  confirmDisabled,
+  onConfirm,
+  onReject,
+  onEditCancel,
+  onInvalidReading,
+  onOcrFailed,
+}: OcrButtonsProps) {
+  const { t } = useTranslation();
+  if (isInvalidReading) {
+    return (
+      <Button
+        variant='outline'
+        primaryColor='alert-light'
+        secondaryColor='background-dark'
+        style={styles.button}
+        onClick={onInvalidReading}
+      >
+        {t('photo.hud.ocr.close')}
+      </Button>
+    );
+  }
+  if (ocrFailed) {
+    return (
+      <Button
+        variant='outline'
+        primaryColor='primary-xlight'
+        secondaryColor='background-dark'
+        style={styles.button}
+        onClick={onOcrFailed}
+      >
+        {t('photo.hud.ocr.continue')}
+      </Button>
+    );
+  }
+  if (isEditing) {
+    return (
+      <>
+        <Button
+          variant='outline'
+          primaryColor='alert-light'
+          secondaryColor='background-dark'
+          style={styles.button}
+          onClick={onEditCancel}
+        >
+          {t('photo.hud.ocr.cancel')}
+        </Button>
+        <Button
+          variant='outline'
+          primaryColor='primary-xlight'
+          secondaryColor='background-dark'
+          style={styles.button}
+          disabled={confirmDisabled}
+          onClick={onConfirm}
+        >
+          {t('photo.hud.ocr.confirm')}
+        </Button>
+      </>
+    );
+  }
+  return (
+    <>
+      <Button
+        variant='outline'
+        primaryColor='alert-light'
+        secondaryColor='background-dark'
+        style={styles.button}
+        onClick={onReject}
+      >
+        {t('photo.hud.ocr.no')}
+      </Button>
+      <Button
+        variant='outline'
+        primaryColor='primary-xlight'
+        secondaryColor='background-dark'
+        style={styles.button}
+        disabled={confirmDisabled}
+        onClick={onConfirm}
+      >
+        {t('photo.hud.ocr.yes')}
+      </Button>
+    </>
+  );
+}
+
 export interface PhotoCaptureHUDOcrConfirmModalProps {
   /** The confirmed text to display below the image. */
   text: string;
@@ -49,7 +196,7 @@ export interface PhotoCaptureHUDOcrConfirmModalProps {
  * Switches to an editable input when `isEditing` is true, and shows error states for invalid
  * readings and OCR failures.
  */
-export function PhotoCaptureHUDOcrConfirmModal({
+export const PhotoCaptureHUDOcrConfirmModal = ({
   text,
   imageUri,
   onConfirm,
@@ -66,8 +213,13 @@ export function PhotoCaptureHUDOcrConfirmModal({
   onOcrFailed,
   isInvalidReading = false,
   onInvalidReading,
-}: PhotoCaptureHUDOcrConfirmModalProps) {
-  const { t } = useTranslation();
+}: PhotoCaptureHUDOcrConfirmModalProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current?.focus();
+    }
+  }, [isEditing]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -76,110 +228,6 @@ export function PhotoCaptureHUDOcrConfirmModal({
   };
 
   const confirmDisabled = isEditing ? !editValue : isOcrLoading && !text;
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (isEditing) {
-      inputRef.current?.focus();
-    }
-  }, [isEditing]);
-
-  let displayContent: React.ReactNode;
-  if (isInvalidReading) {
-    displayContent = <div style={styles.errorMessage}>{t('photo.hud.ocr.invalidReading')}</div>;
-  } else if (ocrFailed) {
-    displayContent = <div style={styles.errorMessage}>{t('photo.hud.ocr.ocrFailed')}</div>;
-  } else if (isOcrLoading && !text && !editValue) {
-    displayContent = <div style={styles.spinner} />;
-  } else if (isEditing) {
-    displayContent = (
-      <input
-        ref={inputRef}
-        style={styles.input}
-        value={editValue}
-        onChange={handleInputChange}
-        inputMode={mode === OcrMode.ODOMETER ? 'numeric' : 'text'}
-      />
-    );
-  } else {
-    displayContent = <div style={styles.text}>{text}</div>;
-  }
-
-  let buttonContent: React.ReactNode;
-  if (isInvalidReading) {
-    buttonContent = (
-      <Button
-        variant='outline'
-        primaryColor='alert-light'
-        secondaryColor='background-dark'
-        style={styles.button}
-        onClick={onInvalidReading}
-      >
-        {t('photo.hud.ocr.close')}
-      </Button>
-    );
-  } else if (ocrFailed) {
-    buttonContent = (
-      <Button
-        variant='outline'
-        primaryColor='primary-xlight'
-        secondaryColor='background-dark'
-        style={styles.button}
-        onClick={onOcrFailed}
-      >
-        {t('photo.hud.ocr.continue')}
-      </Button>
-    );
-  } else if (isEditing) {
-    buttonContent = (
-      <>
-        <Button
-          variant='outline'
-          primaryColor='alert-light'
-          secondaryColor='background-dark'
-          style={styles.button}
-          onClick={onEditCancel}
-        >
-          {t('photo.hud.ocr.cancel')}
-        </Button>
-        <Button
-          variant='outline'
-          primaryColor='primary-xlight'
-          secondaryColor='background-dark'
-          style={styles.button}
-          disabled={confirmDisabled}
-          onClick={onConfirm}
-        >
-          {t('photo.hud.ocr.confirm')}
-        </Button>
-      </>
-    );
-  } else {
-    buttonContent = (
-      <>
-        <Button
-          variant='outline'
-          primaryColor='alert-light'
-          secondaryColor='background-dark'
-          style={styles.button}
-          onClick={onReject}
-        >
-          {t('photo.hud.ocr.no')}
-        </Button>
-        <Button
-          variant='outline'
-          primaryColor='primary-xlight'
-          secondaryColor='background-dark'
-          style={styles.button}
-          disabled={confirmDisabled}
-          onClick={onConfirm}
-        >
-          {t('photo.hud.ocr.yes')}
-        </Button>
-      </>
-    );
-  }
-
   const showUnitDropdown =
     mode === OcrMode.ODOMETER &&
     !isInvalidReading &&
@@ -192,8 +240,32 @@ export function PhotoCaptureHUDOcrConfirmModal({
       dialog={
         <OcrConfirmDialogContent
           imageUri={imageUri}
-          displayContent={displayContent}
-          buttonContent={buttonContent}
+          displayContent={
+            <OcrDisplay
+              isInvalidReading={isInvalidReading}
+              ocrFailed={ocrFailed}
+              isOcrLoading={isOcrLoading}
+              text={text}
+              isEditing={isEditing}
+              editValue={editValue}
+              mode={mode}
+              inputRef={inputRef}
+              onChange={handleInputChange}
+            />
+          }
+          buttonContent={
+            <OcrButtons
+              isInvalidReading={isInvalidReading}
+              ocrFailed={ocrFailed}
+              isEditing={isEditing}
+              confirmDisabled={confirmDisabled}
+              onConfirm={onConfirm}
+              onReject={onReject}
+              onEditCancel={onEditCancel}
+              onInvalidReading={onInvalidReading}
+              onOcrFailed={onOcrFailed}
+            />
+          }
           showUnitDropdown={showUnitDropdown}
           selectedUnit={selectedUnit}
           onUnitChange={onUnitChange}
@@ -201,4 +273,4 @@ export function PhotoCaptureHUDOcrConfirmModal({
       }
     />
   );
-}
+};
