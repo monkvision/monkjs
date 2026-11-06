@@ -1,19 +1,19 @@
 import { toCamelCase, capitalize } from '@monkvision/common';
-import type { AtRule, Comment, Declaration, Rule } from 'css';
-import cssParse from 'css/lib/parse';
+import { CssTypes, parse as cssParse } from '@adobe/css-tools';
+import type { CssAtRuleAST, CssDeclarationAST, CssRuleAST } from '@adobe/css-tools';
 import { CSSProperties } from 'react';
 
-type CSSRule = Rule | Comment | AtRule;
-
-function isRegularRule(rule: CSSRule): rule is Rule {
-  return rule.type === 'rule';
+function isRegularRule(rule: CssAtRuleAST | undefined): rule is CssRuleAST {
+  return rule?.type === CssTypes.rule;
 }
 
-function isDeclaration(declaration: Comment | Declaration): declaration is Declaration {
-  return declaration.type === 'declaration';
+function isDeclaration(
+  declaration: CssRuleAST['declarations'][number],
+): declaration is CssDeclarationAST {
+  return declaration.type === CssTypes.declaration;
 }
 
-function transformCssDeclaration(declaration: Declaration | Comment): CSSProperties {
+function transformCssDeclaration(declaration: CssRuleAST['declarations'][number]): CSSProperties {
   if (!isDeclaration(declaration) || !declaration.property || !declaration.value) {
     return {};
   }

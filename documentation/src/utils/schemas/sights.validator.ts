@@ -1,7 +1,6 @@
 import { VehicleType } from '@monkvision/types';
 import { flatten } from '@monkvision/common';
 import { sights } from '@monkvision/sights';
-import { CustomErrorParams } from 'zod';
 
 export function getAllSightsByVehicleType(
   vehicleSights?: Partial<Record<VehicleType, string[]>>,
@@ -23,12 +22,20 @@ export function validateSightIds(value?: string[] | Record<string, unknown>): bo
 
 export function getInvalidSightIdsMessage(
   value?: string[] | Record<string, unknown>,
-): CustomErrorParams {
+): string | undefined {
   if (!value) {
-    return {};
+    return undefined;
   }
   const sightIds = Array.isArray(value) ? value : Object.keys(value);
   const invalidIds = sightIds.filter((sightId) => !isValidSightId(sightId)).join(', ');
   const plural = invalidIds.length > 1 ? 's' : '';
-  return { message: `Invalid sight ID${plural} : ${invalidIds}` };
+  return `Invalid sight ID${plural} : ${invalidIds}`;
 }
+
+/**
+ * Zod refinement params reporting the invalid sight IDs found in the validated value.
+ */
+export const invalidSightIdsError = {
+  error: (issue: { input?: unknown }) =>
+    getInvalidSightIdsMessage(issue.input as string[] | Record<string, unknown> | undefined),
+};

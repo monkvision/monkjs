@@ -30,7 +30,7 @@ export const SightTutorialSchema = z.object({
 export const PhotoCaptureAppConfigSchema = z
   .object({
     workflow: z.literal(CaptureWorkflow.PHOTO),
-    tasksBySight: z.record(z.string(), z.array(z.nativeEnum(TaskName))).optional(),
+    tasksBySight: z.record(z.string(), z.array(z.enum(TaskName))).optional(),
     showCloseButton: z.boolean().optional(),
     allowSkipRetake: z.boolean().optional(),
     allowRerunTasks: z.boolean().optional(),
@@ -40,12 +40,12 @@ export const PhotoCaptureAppConfigSchema = z
     enableNetworkMonitoring: z.boolean().optional(),
     networkPoorThroughputKbps: z.number().optional(),
     sightGuidelines: z.array(SightGuidelineSchema).optional(),
-    enableSightGuidelines: z.nativeEnum(PhotoCaptureSightGuidelinesOption).optional(),
-    defaultVehicleType: z.nativeEnum(VehicleType),
+    enableSightGuidelines: z.enum(PhotoCaptureSightGuidelinesOption).optional(),
+    defaultVehicleType: z.enum(VehicleType),
     allowVehicleTypeSelection: z.boolean(),
-    enableTutorial: z.nativeEnum(PhotoCaptureTutorialOption).optional(),
+    enableTutorial: z.enum(PhotoCaptureTutorialOption).optional(),
     allowSkipTutorial: z.boolean().optional(),
-    enableSightTutorial: z.nativeEnum(PhotoCaptureSightTutorialOption).optional(),
+    enableSightTutorial: z.enum(PhotoCaptureSightTutorialOption).optional(),
     sightTutorial: z.array(SightTutorialSchema).optional(),
     autoDeletePreviousSightImages: z.boolean().optional(),
   })
