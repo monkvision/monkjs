@@ -12,8 +12,8 @@ introduces new names.
 - **TS-doc sits on the symbol it describes.** A doc about a parser belongs on the parser, not on
   the constants above it.
 - **Comments are the exception.** Keep one only for a _why_ the code can't express: a browser bug
-  workaround, a backend quirk, a non-obvious constraint. Delete _what_ comments, section banners and
-  commented-out code.
+  workaround, a backend quirk, a non-obvious constraint. Delete _what_ comments, step-by-step
+  numbered comments, section banners and commented-out code.
 - **If a comment is needed to explain _what_, rename instead.** Extract a well-named variable or
   function.
 - **Naming reads like a story:**
@@ -79,6 +79,42 @@ Kept, because the code can't say it:
 // Safari fires `online` before the connection is usable; wait before retrying.
 const ONLINE_RETRY_DELAY_MS = 1000;
 ```
+
+### Step-by-step comments narrating a chain
+
+Bad:
+
+```ts
+// 1. Strip spaces (thousands sep in some locales, e.g. "123 456")
+// 2. Drop decimal part: sep + 1–2 digits at numeric boundary (e.g. "123456,7" → "123456", "123.4" → "123")
+// 3. Strip thousands separators: sep + exactly 3 digits (e.g. "1.234.567" → "1234567", "123,456" → "123456")
+const digits = raw
+  .replace(/\s/g, '')
+  .replace(/[.,]\d{1,2}(?=\D|$)/g, '')
+  .replace(/.,/g, '')
+  .replace(/\D/g, '');
+const parsed = digits ? parseInt(digits, 10) : NaN;
+const value = Number.isNaN(parsed) || parsed < 0 || parsed > 1_000_000 ? null : parsed;
+```
+
+Good:
+
+```ts
+const MAX_MILEAGE = 1_000_000;
+
+const digits = raw
+  .replace(/\s/g, '')
+  .replace(/[.,]\d{1,2}(?=\D|$)/g, '')
+  .replace(/\D/g, '');
+const parsed = digits ? parseInt(digits, 10) : NaN;
+const value = Number.isNaN(parsed) || parsed < 0 || parsed > MAX_MILEAGE ? null : parsed;
+```
+
+The numbered comments restate what each `.replace` already says, and they drift from the code. If
+the chain is hard to follow, extract it into a well-named function (e.g. `extractDigits`) instead of
+narrating it. Keep a comment only for a non-obvious _why_. The magic `1_000_000` becomes a named
+constant. The original also hid a logic bug (the `.replace(/.,/g, '')` step), see
+[logic-correctness.md](logic-correctness.md).
 
 ### Bloated vs missing TS-doc
 

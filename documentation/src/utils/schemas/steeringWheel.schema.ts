@@ -7,11 +7,13 @@ import {
 } from '@site/src/utils/schemas/sights.validator';
 
 export const SightsByVehicleTypeSchema = z
-  .record(z.nativeEnum(VehicleType), z.array(z.string()))
-  .refine(
-    (vehicleSights) => validateSightIds(getAllSightsByVehicleType(vehicleSights)),
-    (vehicleSights) => getInvalidSightIdsMessage(getAllSightsByVehicleType(vehicleSights)),
-  );
+  .partialRecord(z.enum(VehicleType), z.array(z.string()))
+  .refine((vehicleSights) => validateSightIds(getAllSightsByVehicleType(vehicleSights)), {
+    error: (issue) =>
+      getInvalidSightIdsMessage(
+        getAllSightsByVehicleType(issue.input as Partial<Record<VehicleType, string[]>>),
+      ),
+  });
 
 export const SteeringWheelDiscriminatedUnionSchema = z.discriminatedUnion(
   'enableSteeringWheelPosition',
@@ -22,8 +24,8 @@ export const SteeringWheelDiscriminatedUnionSchema = z.discriminatedUnion(
     }),
     z.object({
       enableSteeringWheelPosition: z.literal(true),
-      defaultSteeringWheelPosition: z.nativeEnum(SteeringWheelPosition),
-      sights: z.record(z.nativeEnum(SteeringWheelPosition), SightsByVehicleTypeSchema),
+      defaultSteeringWheelPosition: z.enum(SteeringWheelPosition),
+      sights: z.partialRecord(z.enum(SteeringWheelPosition), SightsByVehicleTypeSchema),
     }),
   ],
 );

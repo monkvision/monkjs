@@ -43,7 +43,7 @@ export const CreateWheelAnalysisTaskOptionsSchema = z.object({
 });
 
 export const InspectionCreateTaskSchema = z
-  .nativeEnum(TaskName)
+  .enum(TaskName)
   .or(CreateDamageDetectionTaskOptionsSchema)
   .or(CreateHinlTaskOptionsSchema)
   .or(CreatePricingTaskOptionsSchema)
@@ -56,9 +56,9 @@ export const InspectionCreateVehicleSchema = z.object({
   model: z.string().optional(),
   plate: z.string().optional(),
   type: z.string().optional(),
-  mileageUnit: z.nativeEnum(MileageUnit).optional(),
+  mileageUnit: z.enum(MileageUnit).optional(),
   mileageValue: z.number().optional(),
-  marketValueUnit: z.nativeEnum(CurrencyCode).optional(),
+  marketValueUnit: z.enum(CurrencyCode).optional(),
   marketValue: z.number().optional(),
   vin: z.string().optional(),
   color: z.string().optional(),
@@ -70,7 +70,7 @@ export const InspectionCreateVehicleSchema = z.object({
   carRegistration: z.boolean().optional(),
   vehicleQuotation: z.number().optional(),
   tradeInOffer: z.number().optional(),
-  ownerInfo: z.record(z.string().optional(), z.unknown()).optional(),
+  ownerInfo: z.record(z.string(), z.unknown()).optional(),
   additionalData: AdditionalDataSchema.optional(),
 });
 
