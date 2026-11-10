@@ -1,3 +1,5 @@
+export { OcrButtons } from './OcrButtons';
+export type { OcrButtonsProps } from './OcrButtons';
 export { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal';
 export type { PhotoCaptureHUDOcrConfirmModalProps } from './PhotoCaptureHUDOcrConfirmModal';
 export { OcrConfirmDialogContent } from './OcrConfirmDialogContent';

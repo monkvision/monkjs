@@ -14,8 +14,8 @@ file grows noticeably.
   boolean. Once it depends on several sources, it moves into the hook.
 - **Extract JSX blocks into components.** A JSX chunk stored in a variable (`const dialog = (...)`)
   or rendered conditionally with its own props becomes a sub-component with a props interface.
-- **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` render. Create a
-  separate SVG component with a props interface.
+- **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` return — flag it
+  as **Major**. Create a separate SVG component with a props interface.
 - **No IIFEs anywhere.** Compute values before `return` in JSX, or extract a named function in a
   hook. An immediately-invoked function expression (`(() => { ... })()`) is always replaceable by a
   named function and is a Minor finding wherever it appears.

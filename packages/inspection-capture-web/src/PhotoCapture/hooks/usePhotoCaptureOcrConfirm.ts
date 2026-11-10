@@ -11,7 +11,7 @@ export interface UsePhotoCaptureOcrConfirmParams {
   apiConfig: MonkApiConfig;
 }
 
-export interface UsePhotoCaptureOcrConfirmResult {
+export interface UsePhotoCaptureOcrConfirmHandle {
   /**
    * Sends the confirmed OCR reading to the Monk API.
    * - `OcrMode.ODOMETER`: parses the mileage value and unit, then calls `updateInspectionVehicle`.
@@ -33,7 +33,7 @@ export interface UsePhotoCaptureOcrConfirmResult {
 export function usePhotoCaptureOcrConfirm({
   inspectionId,
   apiConfig,
-}: UsePhotoCaptureOcrConfirmParams): UsePhotoCaptureOcrConfirmResult {
+}: UsePhotoCaptureOcrConfirmParams): UsePhotoCaptureOcrConfirmHandle {
   const { updateInspectionVehicle } = useMonkApi(apiConfig);
   const { handleError } = useMonitoring();
 

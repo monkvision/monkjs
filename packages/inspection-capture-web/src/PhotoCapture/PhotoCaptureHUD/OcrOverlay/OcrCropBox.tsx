@@ -14,7 +14,7 @@ export interface OcrCropBoxProps {
 }
 
 /** Animated rounded-rectangle frame drawn over the OCR crop region. */
-export function OcrCropBox({ boxW, boxH, isIdleHidden, filledLength, perimeter }: OcrCropBoxProps) {
+export const OcrCropBox = ({ boxW, boxH, isIdleHidden, filledLength, perimeter }: OcrCropBoxProps) => {
   const rectProps = {
     x: STROKE / 2,
     y: STROKE / 2,
