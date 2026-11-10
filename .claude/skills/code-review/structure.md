@@ -16,7 +16,9 @@ file grows noticeably.
   or rendered conditionally with its own props becomes a sub-component with a props interface.
 - **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` render. Create a
   separate SVG component with a props interface.
-- **No IIFEs in JSX.** Compute values before `return`, or in the hook.
+- **No IIFEs anywhere.** Compute values before `return` in JSX, or extract a named function in a
+  hook. An immediately-invoked function expression (`(() => { ... })()`) is always replaceable by a
+  named function and is a Minor finding wherever it appears.
 - **One job per file.** A file that renders two unrelated things, or a hook that manages two
   unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
 - **Constants first.** Module-level constants are declared at the top of the file, above any enum,
@@ -241,6 +243,40 @@ return (
 
 Compute `isIdleHidden` (`consistencyCount > 0 || fillFraction >= 1`) in the parent or its hook, not
 in the SVG markup.
+
+### No IIFEs in hooks
+
+Bad:
+
+```ts
+const queue = useQueue<PictureUpload>(async (upload) => {
+  const retakeCount = (() => {
+    if (upload.mode !== CaptureMode.SIGHT) return undefined;
+    const latest = state.images
+      .filter((img) => img.sightId === upload.sightId)
+      .reduce<Image | undefined>(...);
+    return latest ? (latest.additionalData?.retake_count ?? 0) + 1 : 0;
+  })();
+  // ...
+});
+```
+
+Good: extract a named function at hook scope and call it.
+
+```ts
+const getRetakeCount = (upload: PictureUpload): number | undefined => {
+  if (upload.mode !== CaptureMode.SIGHT) return undefined;
+  const latest = state.images
+    .filter((img) => img.sightId === upload.sightId)
+    .reduce<Image | undefined>(...);
+  return latest ? (latest.additionalData?.retake_count ?? 0) + 1 : 0;
+};
+
+const queue = useQueue<PictureUpload>(async (upload) => {
+  const retakeCount = getRetakeCount(upload);
+  // ...
+});
+```
 
 ### No IIFEs in JSX
 
