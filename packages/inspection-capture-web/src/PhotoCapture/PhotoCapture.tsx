@@ -15,7 +15,6 @@ import {
   MileageUnit,
   MonkPicture,
   NetworkQuality,
-  OcrMode,
   OcrSightConfig,
   PhotoCaptureAppConfig,
   PhotoCaptureSightGuidelinesOption,
@@ -24,7 +23,7 @@ import {
   Sight,
   VehicleType,
 } from '@monkvision/types';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PhotoCapture.styles';
 import { PhotoCaptureHUD, PhotoCaptureHUDProps } from './PhotoCaptureHUD';
@@ -48,7 +47,7 @@ import {
   usePhotoCaptureSightGuidelines,
   usePhotoCaptureSightTutorial,
   useInspectionComplete,
-  usePhotoCaptureOcrConfirm,
+  usePhotoCaptureOcr,
   PhotoCaptureOcrConfig,
 } from './hooks';
 import { useImagesCleanup } from './hooks/useImagesCleanup';
@@ -215,8 +214,6 @@ export function PhotoCapture({
   });
   const { t } = useTranslation();
   const [currentScreen, setCurrentScreen] = useState(PhotoCaptureScreen.CAMERA);
-  const [isOcrFallbackReady, setIsOcrFallbackReady] = useState(false);
-  const [ocrFallbackPicture, setOcrFallbackPicture] = useState<MonkPicture | null>(null);
   const analytics = useAnalytics();
   const loading = useLoadingState();
   const handleOpenGallery = () => {
@@ -322,56 +319,25 @@ export function PhotoCapture({
     tasksBySight,
     onPictureTaken,
   });
-  const isOcrSight = useMemo(
-    () => ocrSights?.some((s) => s.sightId === sightState.selectedSight.id) ?? false,
-    [ocrSights, sightState.selectedSight.id],
-  );
-  const handlePictureTaken = useCallback(
-    (picture: MonkPicture) => {
-      if (isOcrFallbackReady && isOcrSight) {
-        setOcrFallbackPicture(picture);
-      } else {
-        basePictureTaken(picture);
-      }
-    },
-    [isOcrFallbackReady, isOcrSight, basePictureTaken],
-  );
-
-  // Reset OCR fallback state whenever the selected sight changes.
-  const prevSightIdRef = useRef(sightState.selectedSight.id);
-  useEffect(() => {
-    if (sightState.selectedSight.id === prevSightIdRef.current) {
-      return;
-    }
-    prevSightIdRef.current = sightState.selectedSight.id;
-    setIsOcrFallbackReady(false);
-    setOcrFallbackPicture(null);
-  }, [sightState.selectedSight.id]);
+  const {
+    isOcrFallbackReady,
+    ocrFallbackPicture,
+    onOcrFallbackReady,
+    resetOcrFallback,
+    handlePictureTaken,
+    handleOcrConfirm,
+  } = usePhotoCaptureOcr({
+    inspectionId,
+    apiConfig,
+    selectedSightId: sightState.selectedSight.id,
+    ocrSights,
+    basePictureTaken,
+  });
   const { updateDuration } = useCaptureDuration({
     inspectionId,
     apiConfig,
     isInspectionCompleted: sightState.isInspectionCompleted,
   });
-  const { handleOcrConfirm: handleOcrVehicleUpdate } = usePhotoCaptureOcrConfirm({
-    inspectionId,
-    apiConfig,
-  });
-  const handleOcrConfirm = useCallback(
-    (
-      text: string,
-      cropPicture: MonkPicture,
-      mode: OcrMode | undefined,
-      defaultMileageUnit: MileageUnit | undefined,
-    ) => {
-      basePictureTaken(cropPicture);
-      if (text) {
-        handleOcrVehicleUpdate(text, mode, defaultMileageUnit);
-      }
-      setOcrFallbackPicture(null);
-      setIsOcrFallbackReady(false);
-    },
-    [basePictureTaken, handleOcrVehicleUpdate],
-  );
   const { handleInspectionCompleted } = useInspectionComplete({
     startTasks,
     sightState,
@@ -386,8 +352,7 @@ export function PhotoCapture({
   // reset every subsequent shutter press silently drops pictures on the same OCR sight.
   const handleGalleryBack = () => {
     setCurrentScreen(PhotoCaptureScreen.CAMERA);
-    setIsOcrFallbackReady(false);
-    setOcrFallbackPicture(null);
+    resetOcrFallback();
   };
   const handleNavigateToCapture = (options: NavigateToCaptureOptions) => {
     if (options.reason === NavigateToCaptureReason.ADD_DAMAGE) {
@@ -442,7 +407,7 @@ export function PhotoCapture({
     odometerUnit,
     onOcrConfirm: handleOcrConfirm,
     isOcrFallbackReady,
-    onOcrFallbackReady: () => setIsOcrFallbackReady(true),
+    onOcrFallbackReady,
     ocrFallbackPicture,
   };
 
