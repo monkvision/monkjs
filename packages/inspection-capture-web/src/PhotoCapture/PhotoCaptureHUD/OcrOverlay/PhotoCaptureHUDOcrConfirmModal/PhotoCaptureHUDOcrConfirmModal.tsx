@@ -4,53 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { MileageUnit, OcrMode } from '@monkvision/types';
 import { styles } from './PhotoCaptureHUDOcrConfirmModal.styles';
 import { OcrConfirmDialogContent } from './OcrConfirmDialogContent';
-
-interface OcrDisplayProps {
-  isInvalidReading: boolean;
-  ocrFailed: boolean;
-  isOcrLoading: boolean;
-  text: string;
-  isEditing: boolean;
-  editValue: string;
-  mode?: OcrMode;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-function OcrDisplay({
-  isInvalidReading,
-  ocrFailed,
-  isOcrLoading,
-  text,
-  isEditing,
-  editValue,
-  mode,
-  inputRef,
-  onChange,
-}: OcrDisplayProps) {
-  const { t } = useTranslation();
-  if (isInvalidReading) {
-    return <div style={styles.errorMessage}>{t('photo.hud.ocr.invalidReading')}</div>;
-  }
-  if (ocrFailed) {
-    return <div style={styles.errorMessage}>{t('photo.hud.ocr.ocrFailed')}</div>;
-  }
-  if (isOcrLoading && !text && !editValue) {
-    return <div style={styles.spinner} />;
-  }
-  if (isEditing) {
-    return (
-      <input
-        ref={inputRef}
-        style={styles.input}
-        value={editValue}
-        onChange={onChange}
-        inputMode={mode === OcrMode.ODOMETER ? 'numeric' : 'text'}
-      />
-    );
-  }
-  return <div style={styles.text}>{text}</div>;
-}
+import { OcrDisplay } from './OcrDisplay';
 
 interface OcrButtonsProps {
   isInvalidReading: boolean;

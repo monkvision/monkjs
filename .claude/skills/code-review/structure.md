@@ -29,6 +29,9 @@ file grows noticeably.
   specific to it: its options (`<Thing>Options` / `<Thing>Params`) and its handle (`<Thing>Handle`)
   or props. Flag an enum or shared interface declared in a hook/component file as Major.
 - **No IIFEs in JSX.** Compute values before `return`, or in the hook.
+- **One component per file.** A sub-component with its own props interface must live in its own
+  `.tsx` file, even if it is only used by one parent. Flag any unexported component defined
+  alongside an exported one as a Minor finding.
 - **One job per file.** A file that renders two unrelated things, or a hook that manages two
   unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
 - **Constants first.** Module-level constants are declared at the top of the file, above any enum,
