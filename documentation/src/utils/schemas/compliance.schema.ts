@@ -3,10 +3,7 @@ import { ComplianceIssue } from '@monkvision/types';
 import { invalidSightIdsError, validateSightIds } from '@site/src/utils/schemas/sights.validator';
 
 const ComplianceBlockingOptionsSchema = z.object({
-  mandatorySights: z
-    .array(z.string())
-    .optional()
-    .refine(validateSightIds, getInvalidSightIdsMessage),
+  mandatorySights: z.array(z.string()).optional().refine(validateSightIds, invalidSightIdsError),
   maxRetakes: z.number().int().gte(1).optional(),
 });
 
