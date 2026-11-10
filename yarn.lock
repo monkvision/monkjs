@@ -6473,13 +6473,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.23.4":
-  version: 1.23.4
-  resolution: "@remix-run/router@npm:1.23.4"
-  checksum: 3ce599f1660be4d4ed32c61e378c66fce44c0640b4af90ca8700453a51e1dc423d732a12051871f5227269d3ee7b894700d44212966220cc5a779a748e8b7316
-  languageName: node
-  linkType: hard
-
 "@rolldown/pluginutils@npm:1.0.0-rc.3":
   version: 1.0.0-rc.3
   resolution: "@rolldown/pluginutils@npm:1.0.0-rc.3"

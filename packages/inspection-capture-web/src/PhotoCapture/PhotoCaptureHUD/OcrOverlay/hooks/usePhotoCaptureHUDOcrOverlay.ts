@@ -195,12 +195,10 @@ export function usePhotoCaptureHUDOcrOverlay({
     setIsManualVinError(false);
   }, [reset, defaultMileageUnit]);
 
-  // Reset when the active sight changes.
   useEffect(() => {
     resetOcrState();
   }, [sightId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Also reset when the hook becomes inactive (non-OCR sight selected).
   useEffect(() => {
     if (!isActive) {
       resetOcrState();
@@ -216,7 +214,6 @@ export function usePhotoCaptureHUDOcrOverlay({
     return () => clearTimeout(timer);
   }, [isActive, isFallbackReady, confirmedText, ocrTimeoutMs]);
 
-  // Notify parent once limits are reached.
   useEffect(() => {
     if (isFallbackReady) {
       onFallbackReady?.();
@@ -286,9 +283,7 @@ export function usePhotoCaptureHUDOcrOverlay({
           }
         });
 
-      // Clear any in-flight live-OCR state before starting fallback OCR.
       reset();
-      // Signal the interval to start feeding the crop canvas to OCR.
       setHasFallbackImageData(true);
     };
     return () => {
@@ -297,7 +292,6 @@ export function usePhotoCaptureHUDOcrOverlay({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fallbackPicture, isFallbackReady, config.allowManualInput]);
 
-  // Stop the fallback OCR interval once text is confirmed.
   useEffect(() => {
     if (isFallbackReady && confirmedText !== null) {
       setHasFallbackImageData(false);
@@ -316,7 +310,6 @@ export function usePhotoCaptureHUDOcrOverlay({
     return () => clearTimeout(timer);
   }, [hasFallbackImageData, confirmedText]);
 
-  // Sync the unit selector to the unit OCR detected in the confirmed text.
   useEffect(() => {
     if (mode !== OcrMode.ODOMETER || !confirmedText) {
       return;
@@ -339,7 +332,6 @@ export function usePhotoCaptureHUDOcrOverlay({
     }
   }, [isFallbackReady, isEditing, confirmedText, editText, mode]);
 
-  // In normal (non-fallback) mode, clear editing state when OCR resets.
   useEffect(() => {
     if (!confirmedText && !isFallbackReady) {
       setIsEditing(false);
@@ -347,7 +339,6 @@ export function usePhotoCaptureHUDOcrOverlay({
     }
   }, [confirmedText, isFallbackReady]);
 
-  // In normal (non-fallback) mode, create the ocrPicture blob from the crop canvas.
   useEffect(() => {
     if (!confirmedText || !cropCanvasRef.current || isFallbackReady) {
       return undefined;

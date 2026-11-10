@@ -5,7 +5,7 @@ import type {
   OcrWorkerRequest,
   OcrWorkerResponse,
 } from './ocr.types';
-import { OCR_RECOGNITION_CONFIG, OCR_IMAGE_PROCESSING } from './ocr.config';
+import { OCR_RECOGNITION_CONFIG } from './ocr.config';
 import { createCanvas, get2dContext } from './ocr.utils';
 
 let recSession: ort.InferenceSession | null = null;
@@ -19,7 +19,6 @@ const SESSION_OPTIONS: ort.InferenceSession.SessionOptions = {
   graphOptimizationLevel: 'basic',
 };
 
-const { imagenetMean: _m, imagenetStd: _s } = OCR_IMAGE_PROCESSING;
 
 let recSrcCanvas: OffscreenCanvas | HTMLCanvasElement | null = null;
 let recSrcCtx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D | null = null;
@@ -60,14 +59,14 @@ function preprocessForRec(pixels: Uint8ClampedArray, width: number, height: numb
   const sh = height * scale;
   dstCtx.drawImage(recSrcCanvas, (targetWidth - sw) / 2, (targetHeight - sh) / 2, sw, sh);
   const img = dstCtx.getImageData(0, 0, targetWidth, targetHeight).data;
-  const pc = targetHeight * targetWidth;
-  const td = new Float32Array(3 * pc);
-  for (let i = 0, j = 0; i < pc; i++, j += 4) {
-    td[i] = img[j] / 127.5 - 1;
-    td[pc + i] = img[j + 1] / 127.5 - 1;
-    td[2 * pc + i] = img[j + 2] / 127.5 - 1;
+  const pixelCount = targetHeight * targetWidth;
+  const tensorData = new Float32Array(3 * pixelCount);
+  for (let i = 0, j = 0; i < pixelCount; i++, j += 4) {
+    tensorData[i] = img[j] / 127.5 - 1;
+    tensorData[pixelCount + i] = img[j + 1] / 127.5 - 1;
+    tensorData[2 * pixelCount + i] = img[j + 2] / 127.5 - 1;
   }
-  return new ort.Tensor('float32', td, [1, 3, targetHeight, targetWidth]);
+  return new ort.Tensor('float32', tensorData, [1, 3, targetHeight, targetWidth]);
 }
 
 function ctcDecode(

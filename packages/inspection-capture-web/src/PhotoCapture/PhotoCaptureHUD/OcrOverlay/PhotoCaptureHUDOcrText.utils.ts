@@ -22,7 +22,6 @@ export function parseOdometerText(raw: string): OdometerParseResult {
   const digits = raw
     .replace(/\s/g, '')
     .replace(/[.,]\d{1,2}(?=\D|$)/g, '')
-    .replace(/[.,](?=\d{3})/g, '')
     .replace(/\D/g, '');
   const parsed = digits ? parseInt(digits, 10) : NaN;
   const value = Number.isNaN(parsed) || parsed < 0 || parsed > 1_000_000 ? null : parsed;
