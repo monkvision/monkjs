@@ -1,17 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { MonkPicture, MileageUnit, OcrMode } from '@monkvision/types';
 import { PhotoCaptureHUDOcrConfirmModal } from './PhotoCaptureHUDOcrConfirmModal/PhotoCaptureHUDOcrConfirmModal';
+import { OcrCropBox } from './OcrCropBox';
 import { PhotoCaptureOcrConfig } from '../../hooks';
 import {
   getCropBoxStyle,
   getShutterHintStyle,
-  RADIUS,
-  STROKE,
-  COLOR_IDLE,
-  COLOR_CONFIRMED,
   getPerimeter,
   getOverlayStyle,
-  styles,
 } from './PhotoCaptureHUDOcrOverlay.styles';
 import { usePhotoCaptureHUDOcrOverlay } from './hooks/usePhotoCaptureHUDOcrOverlay';
 
@@ -116,15 +112,7 @@ export function PhotoCaptureHUDOcrOverlay({
   const boxH = containerH * cropRegion.h;
   const perimeter = getPerimeter(boxW, boxH);
   const filledLength = fillFraction * perimeter;
-
-  const rectProps = {
-    x: STROKE / 2,
-    y: STROKE / 2,
-    width: boxW - STROKE,
-    height: boxH - STROKE,
-    rx: RADIUS,
-    fill: 'none',
-  };
+  const isIdleHidden = consistencyCount > 0 || fillFraction >= 1;
 
   return (
     <>
@@ -153,29 +141,13 @@ export function PhotoCaptureHUDOcrOverlay({
           <div style={getShutterHintStyle(cropRegion)}>{t('photo.hud.ocr.shutterHint')}</div>
         )}
         <div style={getCropBoxStyle(cropRegion)}>
-          <svg
-            viewBox={`0 0 ${boxW} ${boxH}`}
-            style={styles.svg}
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <rect {...rectProps} stroke='#ffffff' strokeWidth={STROKE} opacity={0.2} />
-            <rect
-              {...rectProps}
-              stroke={COLOR_IDLE}
-              strokeWidth={STROKE}
-              strokeDasharray='8 6'
-              opacity={consistencyCount > 0 || fillFraction >= 1 ? 0 : 0.6}
-              style={styles.rectOpacity}
-            />
-            <rect
-              {...rectProps}
-              stroke={COLOR_CONFIRMED}
-              strokeWidth={STROKE}
-              strokeDasharray={`${filledLength} ${perimeter}`}
-              strokeLinecap='round'
-              style={styles.rectDash}
-            />
-          </svg>
+          <OcrCropBox
+            boxW={boxW}
+            boxH={boxH}
+            isIdleHidden={isIdleHidden}
+            filledLength={filledLength}
+            perimeter={perimeter}
+          />
         </div>
       </div>
     </>
