@@ -1,4 +1,10 @@
-import { styles, STROKE, RADIUS, COLOR_IDLE, COLOR_CONFIRMED } from './PhotoCaptureHUDOcrOverlay.styles';
+import {
+  styles,
+  STROKE,
+  RADIUS,
+  COLOR_IDLE,
+  COLOR_CONFIRMED,
+} from './PhotoCaptureHUDOcrOverlay.styles';
 
 export interface OcrCropBoxProps {
   /** Width of the crop box in pixels. */
@@ -14,7 +20,7 @@ export interface OcrCropBoxProps {
 }
 
 /** Animated rounded-rectangle frame drawn over the OCR crop region. */
-export const OcrCropBox = ({ boxW, boxH, isIdleHidden, filledLength, perimeter }: OcrCropBoxProps) => {
+export function OcrCropBox({ boxW, boxH, isIdleHidden, filledLength, perimeter }: OcrCropBoxProps) {
   const rectProps = {
     x: STROKE / 2,
     y: STROKE / 2,

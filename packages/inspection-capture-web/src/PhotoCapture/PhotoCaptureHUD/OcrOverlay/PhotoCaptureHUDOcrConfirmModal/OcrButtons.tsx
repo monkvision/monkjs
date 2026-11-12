@@ -24,7 +24,7 @@ export interface OcrButtonsProps {
 }
 
 /** Action buttons for the OCR confirmation dialog, adapting to the current dialog state. */
-export const OcrButtons = ({
+export function OcrButtons({
   isInvalidReading,
   ocrFailed,
   isEditing,
@@ -34,7 +34,7 @@ export const OcrButtons = ({
   onEditCancel,
   onInvalidReading,
   onOcrFailed,
-}: OcrButtonsProps) => {
+}: OcrButtonsProps) {
   const { t } = useTranslation();
   if (isInvalidReading) {
     return (
@@ -110,4 +110,4 @@ export const OcrButtons = ({
       </Button>
     </>
   );
-};
+}
