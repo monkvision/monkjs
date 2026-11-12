@@ -99,6 +99,7 @@ function createProps(): VideoCaptureHUDProps {
     inspectionLoading: { isLoading: false } as unknown as LoadingState,
     onComplete: jest.fn(),
     resetDetection: jest.fn(),
+    onSelectedFrameScore: jest.fn(),
     onCloseVideo: jest.fn(),
     showCloseVideoButton: true,
   };
@@ -226,6 +227,7 @@ describe('VideoCaptureHUD component', () => {
         frameSelectionInterval: props.frameSelectionInterval,
         flushTrigger,
         onFrameSelected,
+        onFrameScored: props.onSelectedFrameScore,
       }),
     );
 
@@ -498,6 +500,18 @@ describe('VideoCaptureHUD component', () => {
     expectPropsOnChildMock(BackdropDialog, {
       show: true,
       message: 'video.recording.fastMovementsDialog.phoneShaking',
+      confirmLabel: 'video.recording.fastMovementsDialog.confirm',
+      onConfirm: props.onWarningDismiss,
+      showCancelButton: false,
+      dialogIcon: 'warning-outline',
+      dialogIconPrimaryColor: 'caution',
+    });
+    props.fastMovementsWarning = FastMovementType.BLURRY_FRAMES;
+    (BackdropDialog as jest.Mock).mockClear();
+    rerender(<VideoCaptureHUD {...props} />);
+    expectPropsOnChildMock(BackdropDialog, {
+      show: true,
+      message: 'video.recording.fastMovementsDialog.blurryFrames',
       confirmLabel: 'video.recording.fastMovementsDialog.confirm',
       onConfirm: props.onWarningDismiss,
       showCancelButton: false,

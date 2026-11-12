@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Vous allez trop vite ! Ralentissez un peu. Il devrait vous falloir environ une minute pour faire le tour du véhicule.",
         "phoneShaking": "Votre appareil tremble trop ! Essayez de garder l'appareil photo stable pendant l'enregistrement de votre véhicule.",
+        "blurryFrames": "Les images sont floues ! Ralentissez et gardez votre téléphone stable pendant l'enregistrement de votre véhicule.",
         "confirm": "OK"
       },
       "tooltip": {
