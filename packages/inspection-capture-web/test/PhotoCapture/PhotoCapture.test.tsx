@@ -71,6 +71,14 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   usePhotoCaptureOcrConfirm: jest.fn(() => ({
     handleOcrConfirm: jest.fn(),
   })),
+  usePhotoCaptureOcr: jest.fn(() => ({
+    isOcrFallbackReady: false,
+    ocrFallbackPicture: null,
+    onOcrFallbackReady: jest.fn(),
+    resetOcrFallback: jest.fn(),
+    handlePictureTaken: jest.fn(),
+    handleOcrConfirm: jest.fn(),
+  })),
 }));
 
 jest.mock('../../src/hooks', () => ({
