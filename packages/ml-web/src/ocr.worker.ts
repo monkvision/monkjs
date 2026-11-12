@@ -19,7 +19,6 @@ const SESSION_OPTIONS: ort.InferenceSession.SessionOptions = {
   graphOptimizationLevel: 'basic',
 };
 
-
 let recSrcCanvas: OffscreenCanvas | HTMLCanvasElement | null = null;
 let recSrcCtx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D | null = null;
 let recSrcW = 0;

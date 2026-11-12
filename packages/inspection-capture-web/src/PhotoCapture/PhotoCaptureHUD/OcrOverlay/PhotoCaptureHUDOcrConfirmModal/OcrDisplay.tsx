@@ -25,7 +25,7 @@ export interface OcrDisplayProps {
 }
 
 /** Renders the OCR text, input field, spinner, or error message based on the current state. */
-export const OcrDisplay = ({
+export function OcrDisplay({
   isInvalidReading,
   ocrFailed,
   isOcrLoading,
@@ -35,7 +35,7 @@ export const OcrDisplay = ({
   mode,
   inputRef,
   onChange,
-}: OcrDisplayProps) => {
+}: OcrDisplayProps) {
   const { t } = useTranslation();
   if (isInvalidReading) {
     return <div style={styles.errorMessage}>{t('photo.hud.ocr.invalidReading')}</div>;

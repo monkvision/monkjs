@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { BackdropDialog } from '@monkvision/common-ui-web';
 import { MileageUnit, OcrMode } from '@monkvision/types';
-import { styles } from './PhotoCaptureHUDOcrConfirmModal.styles';
 import { OcrButtons } from './OcrButtons';
 import { OcrConfirmDialogContent } from './OcrConfirmDialogContent';
 import { OcrDisplay } from './OcrDisplay';

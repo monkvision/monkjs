@@ -19,14 +19,14 @@ export interface OcrConfirmDialogContentProps {
 }
 
 /** Layout shell for the OCR confirmation dialog: image, content slot, unit dropdown, and buttons. */
-export const OcrConfirmDialogContent = ({
+export function OcrConfirmDialogContent({
   imageUri,
   displayContent,
   buttonContent,
   showUnitDropdown,
   selectedUnit,
   onUnitChange,
-}: OcrConfirmDialogContentProps) => {
+}: OcrConfirmDialogContentProps) {
   const { t } = useTranslation();
   return (
     <div style={styles.dialog}>

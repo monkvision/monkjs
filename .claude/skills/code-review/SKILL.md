@@ -74,7 +74,7 @@ review of specific files or a PR.
   interfaces (`<Thing>Params` / `<Thing>Options`, `<Thing>Handle`).
 - Files stay short and readable by a person. Flag (Minor) a changed source file over 400 lines
   that does more than one job, and name the job that could move out. Quote the measured length.
-- React components are arrow functions.
+- React components use **function declarations** (`export function MyComponent`), not arrow functions. Flag arrow-function components as a Minor finding.
 - Each package has a flat barrel: new exports are re-exported from `src/index.ts`.
 - Code lives in feature folders: `src/<Feature>/` with component, `hooks/` and `*.styles.ts`.
 - No `console` outside tests. Errors go through the `@monkvision/monitoring` adapter.
