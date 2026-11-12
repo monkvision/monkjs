@@ -84,6 +84,8 @@ export function VideoCapture(props: VideoCaptureProps) {
     enablePhoneShakingWarning = false,
     fastWalkingWarningCooldown = 1000,
     phoneShakingWarningCooldown = 1000,
+    enableBlurryFramesWarning = true,
+    blurryFramesWarningCooldown = 1000,
     enableVideoTutorial = true,
     enableBeautyShotExtraction = true,
     onComplete,
@@ -95,14 +97,21 @@ export function VideoCapture(props: VideoCaptureProps) {
   const [screen, setScreen] = useState(VideoCaptureScreen.PERMISSIONS);
   const [isRecording, setIsRecording] = useState(false);
   const { handleError } = useMonitoring();
-  const { onDeviceOrientationEvent, fastMovementsWarning, onWarningDismiss, resetDetection } =
-    useFastMovementsDetection({
-      isRecording,
-      enableFastWalkingWarning,
-      enablePhoneShakingWarning,
-      fastWalkingWarningCooldown,
-      phoneShakingWarningCooldown,
-    });
+  const {
+    onDeviceOrientationEvent,
+    onSelectedFrameScore,
+    fastMovementsWarning,
+    onWarningDismiss,
+    resetDetection,
+  } = useFastMovementsDetection({
+    isRecording,
+    enableFastWalkingWarning,
+    enablePhoneShakingWarning,
+    fastWalkingWarningCooldown,
+    phoneShakingWarningCooldown,
+    enableBlurryFramesWarning,
+    blurryFramesWarningCooldown,
+  });
   const { alpha, requestCompassPermission } = useDeviceOrientation({ onDeviceOrientationEvent });
   const { allowRedirect } = usePreventExit(true);
   const { enableHybridVideo, photoCaptureConfig } = useHybridVideoState({ props, allowRedirect });
@@ -174,6 +183,7 @@ export function VideoCapture(props: VideoCaptureProps) {
     fastMovementsWarning,
     onWarningDismiss,
     resetDetection,
+    onSelectedFrameScore,
     startTasksLoading,
     inspectionLoading,
     enableHybridVideo,

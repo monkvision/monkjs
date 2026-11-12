@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Du rör dig för snabbt! Sänk farten lite, det bör ta ungefär en minut att inspektera fordonet.",
         "phoneShaking": "Din enhet skakar för mycket! Försök att hålla kameran stilla när du filmar fordonet.",
+        "blurryFrames": "Bilderna är suddiga! Sakta ner och håll telefonen stilla när du filmar fordonet.",
         "confirm": "OK"
       },
       "tooltip": {

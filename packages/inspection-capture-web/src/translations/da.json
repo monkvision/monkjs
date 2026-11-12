@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Du kører for hurtigt! Sænk farten lidt, det burde tage dig omkring et minut at gennemføre inspektionen af køretøjet.",
         "phoneShaking": "Din enhed ryster for meget! Prøv at holde kameraet stille, mens du optager dit køretøj.",
+        "blurryFrames": "Billederne er slørede! Sæt farten ned, og hold telefonen stille, mens du optager dit køretøj.",
         "confirm": "OK"
       },
       "tooltip": {

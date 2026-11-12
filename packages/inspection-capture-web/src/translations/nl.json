@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Je gaat te snel! Doe het wat rustiger aan, het zou ongeveer een minuut moeten duren om de walkaround van het voertuig te voltooien.",
         "phoneShaking": "Je toestel trilt te veel! Probeer de camera stil te houden terwijl je je voertuig opneemt.",
+        "blurryFrames": "De beelden zijn wazig! Ga langzamer en houd je telefoon stil terwijl je je voertuig opneemt.",
         "confirm": "OK"
       },
       "tooltip": {

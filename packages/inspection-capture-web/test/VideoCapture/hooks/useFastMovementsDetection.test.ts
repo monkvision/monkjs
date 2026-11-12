@@ -16,16 +16,38 @@ import {
   UseFastMovementsDetectionParams,
 } from '../../../src/VideoCapture/hooks';
 import { detectFastMovements } from '../../../src/VideoCapture/hooks/useFastMovementsDetection/fastMovementsDetection';
+import {
+  BLUR_CONSECUTIVE_FRAMES,
+  BLUR_WARMUP_FRAMES,
+} from '../../../src/VideoCapture/hooks/useFastMovementsDetection/blurDetection';
 
-function createProps(): UseFastMovementsDetectionParams {
+function createProps(): Required<UseFastMovementsDetectionParams> {
   return {
     isRecording: true,
     enableFastWalkingWarning: true,
     enablePhoneShakingWarning: true,
     fastWalkingWarningCooldown: 2000,
     phoneShakingWarningCooldown: 3000,
+    enableBlurryFramesWarning: true,
+    blurryFramesWarningCooldown: 4000,
   };
 }
+
+const SHARP_SCORE = 20;
+const BLURRY_SCORE = 2;
+
+function feedScores(onSelectedFrameScore: (score: number) => void, scores: number[]): void {
+  scores.forEach((score) => {
+    act(() => {
+      onSelectedFrameScore(score);
+    });
+  });
+}
+
+const BLURRY_WALKAROUND = [
+  ...new Array(BLUR_WARMUP_FRAMES).fill(SHARP_SCORE),
+  ...new Array(BLUR_CONSECUTIVE_FRAMES).fill(BLURRY_SCORE),
+];
 
 function createRotation(): DeviceRotation {
   return {
@@ -256,5 +278,106 @@ describe('useFastMovementsDetection hook', () => {
     expect(result.current.fastMovementsWarning).toEqual(FastMovementType.PHONE_SHAKING);
 
     unmount();
+  });
+
+  describe('blurry frames detection', () => {
+    it('should display the blurry frames warning after consecutive blurry frames', () => {
+      const initialProps = createProps();
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND.slice(0, -1));
+      expect(result.current.fastMovementsWarning).toBeNull();
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND.slice(-1));
+      expect(result.current.fastMovementsWarning).toEqual(FastMovementType.BLURRY_FRAMES);
+
+      unmount();
+    });
+
+    it('should not display the blurry frames warning if the frames are sharp', () => {
+      const initialProps = createProps();
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, new Array(20).fill(SHARP_SCORE));
+      expect(result.current.fastMovementsWarning).toBeNull();
+
+      unmount();
+    });
+
+    it('should not display the blurry frames warning if the video is not recording', () => {
+      const initialProps = createProps();
+      initialProps.isRecording = false;
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND);
+      expect(result.current.fastMovementsWarning).toBeNull();
+
+      unmount();
+    });
+
+    it('should not display the blurry frames warning if it is disabled', () => {
+      const initialProps = createProps();
+      initialProps.enableBlurryFramesWarning = false;
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND);
+      expect(result.current.fastMovementsWarning).toBeNull();
+
+      unmount();
+    });
+
+    it('should be enabled by default', () => {
+      const initialProps: UseFastMovementsDetectionParams = createProps();
+      delete initialProps.enableBlurryFramesWarning;
+      delete initialProps.blurryFramesWarningCooldown;
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND);
+      expect(result.current.fastMovementsWarning).toEqual(FastMovementType.BLURRY_FRAMES);
+
+      unmount();
+    });
+
+    it('should respect the blurry frames warning cooldown', () => {
+      const initialProps = createProps();
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(result.current.onSelectedFrameScore, BLURRY_WALKAROUND);
+      act(() => {
+        result.current.onWarningDismiss();
+      });
+
+      jest.advanceTimersByTime(initialProps.blurryFramesWarningCooldown - 1);
+      feedScores(
+        result.current.onSelectedFrameScore,
+        new Array(BLUR_CONSECUTIVE_FRAMES).fill(BLURRY_SCORE),
+      );
+      expect(result.current.fastMovementsWarning).toBeNull();
+
+      jest.advanceTimersByTime(2);
+      feedScores(result.current.onSelectedFrameScore, [BLURRY_SCORE]);
+      expect(result.current.fastMovementsWarning).toEqual(FastMovementType.BLURRY_FRAMES);
+
+      unmount();
+    });
+
+    it('should reset the blurry frames baseline when resetDetection is called', () => {
+      const initialProps = createProps();
+      const { result, unmount } = renderHook(useFastMovementsDetection, { initialProps });
+
+      feedScores(
+        result.current.onSelectedFrameScore,
+        new Array(BLUR_WARMUP_FRAMES).fill(SHARP_SCORE),
+      );
+      act(() => {
+        result.current.resetDetection();
+      });
+      feedScores(
+        result.current.onSelectedFrameScore,
+        new Array(BLUR_CONSECUTIVE_FRAMES).fill(BLURRY_SCORE),
+      );
+      expect(result.current.fastMovementsWarning).toBeNull();
+
+      unmount();
+    });
   });
 });

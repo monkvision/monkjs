@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Vă deplasați prea repede! Reduceți puțin viteza, ar trebui să dureze aproximativ un minut pentru a finaliza inspecția vizuală a vehiculului.",
         "phoneShaking": "Dispozitivul dumneavoastră vibrează prea mult! Încercați să mențineți camera stabilă în timpul înregistrării vehiculului.",
+        "blurryFrames": "Imaginile sunt neclare! Încetiniți și țineți telefonul stabil în timpul înregistrării vehiculului.",
         "confirm": "OK"
       },
       "tooltip": {
