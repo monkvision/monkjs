@@ -5,15 +5,16 @@ import {
   ComplianceIssue,
   CompressionFormat,
   DeviceOrientation,
+  MileageUnit,
   PhotoCaptureTutorialOption,
   PhotoCaptureSightGuidelinesOption,
   TaskName,
   VehicleType,
   PhotoCaptureSightTutorialOption,
+  NetworkQuality,
 } from '@monkvision/types';
 import { Camera } from '@monkvision/camera-web';
 import { useI18nSync, useLoadingState, useNetworkStatus } from '@monkvision/common';
-import { NetworkQuality } from '@monkvision/types';
 import { BackdropDialog, InspectionGallery } from '@monkvision/common-ui-web';
 import { expectPropsOnChildMock } from '@monkvision/test-utils';
 import { act, render } from '@testing-library/react';
@@ -66,6 +67,17 @@ jest.mock('../../src/PhotoCapture/hooks', () => ({
   usePhotoCaptureSightTutorial: jest.fn(() => ({
     showSightTutorial: false,
     toggleSightTutorial: jest.fn(),
+  })),
+  usePhotoCaptureOcrConfirm: jest.fn(() => ({
+    handleOcrConfirm: jest.fn(),
+  })),
+  usePhotoCaptureOcr: jest.fn(() => ({
+    isOcrFallbackReady: false,
+    ocrFallbackPicture: null,
+    onOcrFallbackReady: jest.fn(),
+    resetOcrFallback: jest.fn(),
+    handlePictureTaken: jest.fn(),
+    handleOcrConfirm: jest.fn(),
   })),
 }));
 
@@ -421,8 +433,8 @@ describe('PhotoCapture component', () => {
     const { unmount } = render(<PhotoCapture {...props} />);
 
     expect(usePictureTaken).toHaveBeenCalled();
-    const handlePictureTaken = (usePictureTaken as jest.Mock).mock.results[0].value;
-    expectPropsOnChildMock(Camera, { onPictureTaken: handlePictureTaken });
+    // onPictureTaken is now a useCallback wrapper around usePictureTaken's result (OCR fallback support).
+    expectPropsOnChildMock(Camera, { onPictureTaken: expect.any(Function) });
 
     unmount();
   });
@@ -443,7 +455,7 @@ describe('PhotoCapture component', () => {
     const sightGuidelines = (usePhotoCaptureSightGuidelines as jest.Mock).mock.results[0].value;
     const sightTutorial = (usePhotoCaptureSightTutorial as jest.Mock).mock.results[0].value;
     expectPropsOnChildMock(Camera, {
-      hudProps: {
+      hudProps: expect.objectContaining({
         sights: props.sights,
         selectedSight: sightState.selectedSight,
         sightsTaken: sightState.sightsTaken,
@@ -472,7 +484,25 @@ describe('PhotoCapture component', () => {
         sightTutorial: props.sightTutorial,
         showSightTutorial: sightTutorial.showSightTutorial,
         toggleSightTutorial: sightTutorial.toggleSightTutorial,
-      },
+        ocrConfig: undefined,
+        ocrSights: undefined,
+        odometerUnit: undefined,
+        onOcrConfirm: expect.any(Function),
+        isOcrFallbackReady: false,
+        onOcrFallbackReady: expect.any(Function),
+        ocrFallbackPicture: null,
+      }),
+    });
+
+    unmount();
+  });
+
+  it('should forward odometerUnit to the HUD component', () => {
+    const props = createProps();
+    const { unmount } = render(<PhotoCapture {...props} odometerUnit={MileageUnit.MILES} />);
+
+    expectPropsOnChildMock(Camera, {
+      hudProps: expect.objectContaining({ odometerUnit: MileageUnit.MILES }),
     });
 
     unmount();

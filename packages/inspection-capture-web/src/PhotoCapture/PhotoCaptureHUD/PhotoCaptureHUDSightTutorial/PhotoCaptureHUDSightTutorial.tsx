@@ -2,12 +2,12 @@ import { PhotoCaptureAppConfig, PhotoCaptureSightTutorialOption, Sight } from '@
 import {
   Button,
   IconVerticalPosition,
+  IconVerticalPositionVariant,
   SightOverlay,
   VehicleWalkaroundIndicator,
 } from '@monkvision/common-ui-web';
 import { useTranslation } from 'react-i18next';
 import { getLanguage } from '@monkvision/common';
-import { IconVerticalPositionVariant } from '@monkvision/common-ui-web/lib/components/IconVerticalPosition/IconVerticalPosition.types';
 import { useEffect, useState } from 'react';
 import {
   usePhotoCaptureHUDSightTutorialStyles,

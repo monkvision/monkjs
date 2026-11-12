@@ -32,7 +32,7 @@ Workspace roots:
 
 - **Prettier**: 100-char print width, 2-space indent, single quotes, trailing commas everywhere, LF, semicolons
 - **ESLint**: airbnb-base + TypeScript rules; React packages also include `jsx-a11y/recommended`
-- React components must be **arrow functions** (`react/function-component-definition`)
+- React components use **function declarations** (`export function MyComponent`)
 - `no-console` is an error in all non-test, non-types packages
 
 ## Publishing
