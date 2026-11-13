@@ -1,4 +1,4 @@
-import { NetworkQuality } from '@monkvision/types';
+import { NetworkQuality, ComplianceIssue, TaskName } from '@monkvision/types';
 import { useQueue } from '@monkvision/common';
 import { renderHook, act } from '@testing-library/react';
 import {
@@ -8,7 +8,6 @@ import {
   useUploadQueue,
 } from '../../src/hooks';
 import { CaptureMode } from '../../src/types';
-import { ComplianceIssue, TaskName } from '@monkvision/types';
 import { ImageUploadType, useMonkApi } from '@monkvision/network';
 import { useMonitoring } from '@monkvision/monitoring';
 
@@ -600,6 +599,110 @@ describe('useUploadQueue hook', () => {
 
       expect(push).toHaveBeenCalledWith(retake);
       expect(result.current.failedUploads).toHaveLength(0);
+      unmount();
+    });
+
+    it('should not upload a retried picture still in the backlog when its sight is retaken', async () => {
+      const addImage = jest.fn(() => Promise.reject(timeoutError));
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const uploads = [1, 2, 3].map((i) => ({ ...defaultUploadOptions, sightId: `sight-${i}` }));
+      await uploads.reduce(
+        (promise, upload) => promise.then(() => failTwice(process, upload)),
+        Promise.resolve(),
+      );
+      act(() => result.current.retryFailed());
+      expect(result.current.retryingCount).toEqual(3);
+
+      const { push } = getLastQueue();
+      push.mockClear();
+      const retake = { ...uploads[2] };
+      act(() => result.current.push(retake));
+
+      expect(result.current.retryingCount).toEqual(2);
+      expect(push).toHaveBeenCalledTimes(1);
+      expect(push.mock.calls[0][0]).toBe(retake);
+      unmount();
+    });
+
+    it('should skip a retried picture already pushed to the queue when its sight is retaken', async () => {
+      const addImage = jest.fn(() => Promise.reject(timeoutError));
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemComplete } = (useQueue as jest.Mock).mock.calls[0][1];
+      await failTwice(process, defaultUploadOptions);
+      act(() => result.current.retryFailed());
+      act(() => result.current.push({ ...defaultUploadOptions }));
+      addImage.mockClear();
+
+      await expect(process(defaultUploadOptions)).resolves.toBeUndefined();
+      expect(addImage).not.toHaveBeenCalled();
+      act(() => onItemComplete(defaultUploadOptions));
+      expect(result.current.retryingCount).toEqual(0);
+      unmount();
+    });
+
+    it('should flag the success of a retried picture whose sight was retaken as outdated', async () => {
+      let resolveUpload: (value: unknown) => void = () => {};
+      const addImage = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.reject(timeoutError))
+        .mockImplementationOnce(() => Promise.reject(timeoutError))
+        .mockImplementationOnce(
+          () =>
+            new Promise((resolve) => {
+              resolveUpload = resolve;
+            }),
+        );
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const params = createParams();
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: params });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      await failTwice(process, defaultUploadOptions);
+      act(() => result.current.retryFailed());
+
+      const promise = process(defaultUploadOptions);
+      act(() => result.current.push({ ...defaultUploadOptions }));
+      resolveUpload({ image: { id: 'old-image-id' } });
+      await promise;
+
+      params.eventHandlers?.forEach((handlers) =>
+        expect(handlers.onUploadSuccess).toHaveBeenCalledWith(
+          expect.objectContaining({ imageId: 'old-image-id', isOutdated: true }),
+        ),
+      );
+      unmount();
+    });
+
+    it('should not put back in failedUploads a retried picture whose sight was retaken', async () => {
+      let rejectUpload: (err: unknown) => void = () => {};
+      const addImage = jest
+        .fn()
+        .mockImplementationOnce(() => Promise.reject(timeoutError))
+        .mockImplementationOnce(() => Promise.reject(timeoutError))
+        .mockImplementationOnce(
+          () =>
+            new Promise((_resolve, reject) => {
+              rejectUpload = reject;
+            }),
+        );
+      (useMonkApi as jest.Mock).mockImplementation(() => ({ addImage }));
+      const { result, unmount } = renderHook(useUploadQueue, { initialProps: createParams() });
+      const process = (useQueue as jest.Mock).mock.calls[0][0];
+      const { onItemFail } = (useQueue as jest.Mock).mock.calls[0][1];
+      await failTwice(process, defaultUploadOptions);
+      act(() => result.current.retryFailed());
+
+      const promise = process(defaultUploadOptions);
+      act(() => result.current.push({ ...defaultUploadOptions }));
+      rejectUpload(timeoutError);
+      await expect(promise).rejects.toBe(timeoutError);
+      act(() => onItemFail(defaultUploadOptions));
+
+      expect(result.current.failedUploads).toEqual([]);
+      expect(result.current.retryingCount).toEqual(0);
       unmount();
     });
 

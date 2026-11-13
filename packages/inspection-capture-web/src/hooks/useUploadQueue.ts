@@ -7,15 +7,15 @@ import {
   useMonkState,
   useQueue,
 } from '@monkvision/common';
-import { NetworkQuality } from '@monkvision/types';
-import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import {
+  NetworkQuality,
   PhotoCaptureAppConfig,
   ComplianceOptions,
   MonkPicture,
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
+import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';
@@ -27,19 +27,34 @@ const MAX_DEFERRED_RETRY_DELAY_MS = 2 * 60 * 1000;
 const MAX_AUTO_RETRY_FAILURES = 5;
 
 /**
- * Bookkeeping kept for each upload :
- * - `siblingId` and `localImageId` are computed once, at the first upload attempt, so that retries keep the same 2-shot
- * sibling key and replace the failed local image in the state instead of duplicating it.
- * - `count` is the number of times it has already been retried immediately and `retryable` indicates whether its last
- * failure was a retryable error.
- * - `isDeferredRetry` indicates if the current upload attempt is a deferred retry (see `UploadQueue.retryFailed`).
+ * Bookkeeping kept for each upload.
  */
 interface UploadMetadata {
+  /**
+   * Sibling key index of the 2-shot add damage process, computed at the first attempt and kept across retries.
+   */
   siblingId: number;
+  /**
+   * ID of the local image in the state, kept across retries so that the failed image is replaced, not duplicated.
+   */
   localImageId: string;
+  /**
+   * Number of immediate retries already made.
+   */
   count: number;
+  /**
+   * Whether the last failure was a retryable error.
+   */
   retryable: boolean;
+  /**
+   * Whether the current attempt is a deferred retry (see `UploadQueue.retryFailed`).
+   */
   isDeferredRetry: boolean;
+  /**
+   * Whether a new picture of the same sight has been pushed since: the upload is no longer retried, and its image is
+   * discarded if it still ends up being uploaded.
+   */
+  isOutdated: boolean;
 }
 
 let localImageIdCounter = 0;
@@ -73,6 +88,11 @@ export interface UploadSuccessPayload {
    * The ID of the uploaded image.
    */
   imageId?: string;
+  /**
+   * Set to `true` if a new picture of the same sight has been taken while this one was being uploaded (during a
+   * deferred retry for instance). In that case, the uploaded image is outdated and should be discarded.
+   */
+  isOutdated?: true;
 }
 
 /**
@@ -307,6 +327,7 @@ export function useUploadQueue({
         count: 0,
         retryable: false,
         isDeferredRetry: false,
+        isOutdated: false,
       };
       metadataRef.current.set(upload, metadata);
     }
@@ -328,14 +349,18 @@ export function useUploadQueue({
   const onDeferredRetryEnd = (upload: PictureUpload, failed: boolean) => {
     inFlightRetriesRef.current = Math.max(0, inFlightRetriesRef.current - 1);
     if (failed) {
-      const uploadsToPutBack = [upload, ...retryBacklogRef.current];
-      retryBacklogRef.current = [];
-      uploadsToPutBack.forEach((u) => {
+      const uploadsToPutBack = [upload, ...retryBacklogRef.current].filter((u) => {
         const metadata = metadataRef.current.get(u);
+        if (metadata?.isOutdated) {
+          metadataRef.current.delete(u);
+          return false;
+        }
         if (metadata) {
           metadata.isDeferredRetry = false;
         }
+        return true;
       });
+      retryBacklogRef.current = [];
       setFailedUploads((current) => [...current, ...uploadsToPutBack]);
       autoRetryFailuresRef.current += 1;
       deferredRetryDelayRef.current = Math.min(
@@ -343,9 +368,12 @@ export function useUploadQueue({
         MAX_DEFERRED_RETRY_DELAY_MS,
       );
     } else {
+      const wasOutdated = metadataRef.current.get(upload)?.isOutdated;
       metadataRef.current.delete(upload);
-      deferredRetryDelayRef.current = 0;
-      autoRetryFailuresRef.current = 0;
+      if (!wasOutdated) {
+        deferredRetryDelayRef.current = 0;
+        autoRetryFailuresRef.current = 0;
+      }
     }
     pumpDeferredRetries();
   };
@@ -353,6 +381,9 @@ export function useUploadQueue({
   const queue = useQueue<PictureUpload>(
     async (upload: PictureUpload) => {
       const metadata = getMetadata(upload);
+      if (metadata.isOutdated) {
+        return;
+      }
       const startTs = Date.now();
       try {
         const result = await addImage({
@@ -378,6 +409,7 @@ export function useUploadQueue({
             durationMs: uploadDurationMs,
             sightId,
             imageId: result?.image?.id,
+            ...(metadata.isOutdated ? { isOutdated: true as const } : {}),
           }),
         );
       } catch (err) {
@@ -416,6 +448,8 @@ export function useUploadQueue({
             metadataRef.current.delete(upload);
             onDeferredRetryEnd(upload, false);
           }
+        } else if (metadata?.isOutdated) {
+          metadataRef.current.delete(upload);
         } else if (metadata?.retryable && metadata.count < MAX_RETRY_COUNT) {
           metadata.count += 1;
           metadata.retryable = false;
@@ -470,11 +504,23 @@ export function useUploadQueue({
   const push = useCallback(
     (upload: PictureUpload) => {
       if (upload.mode === CaptureMode.SIGHT) {
-        // A new picture of a sight replaces the failed uploads of this sight, which should not be retried anymore.
+        // A new picture of a sight replaces the previous uploads of this sight (failed, waiting to be retried or being
+        // retried), which should not be retried anymore.
         const isOutdated = (u: PictureUpload) =>
           u.mode === CaptureMode.SIGHT && u.sightId === upload.sightId;
+        metadataRef.current.forEach((metadata, u) => {
+          if (isOutdated(u)) {
+            // eslint-disable-next-line no-param-reassign
+            metadata.isOutdated = true;
+          }
+        });
         failedUploadsRef.current.filter(isOutdated).forEach((u) => metadataRef.current.delete(u));
         setFailedUploads((current) => current.filter((u) => !isOutdated(u)));
+        if (retryBacklogRef.current.some(isOutdated)) {
+          retryBacklogRef.current.filter(isOutdated).forEach((u) => metadataRef.current.delete(u));
+          retryBacklogRef.current = retryBacklogRef.current.filter((u) => !isOutdated(u));
+          setRetryingCount(inFlightRetriesRef.current + retryBacklogRef.current.length);
+        }
       }
       queue.push(upload);
     },

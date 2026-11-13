@@ -51,6 +51,28 @@ describe('useImagesCleanup hook', () => {
     unmount();
   });
 
+  it('should only delete the uploaded image if it is outdated', () => {
+    const deleteImage = jest.fn(() => Promise.resolve());
+    (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
+    (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+
+    const { result, unmount } = renderHook(useImagesCleanup, {
+      initialProps: createInitialProps(),
+    });
+
+    act(() => {
+      result.current.cleanupEventHandlers.onUploadSuccess?.({
+        sightId: 'sight-1',
+        imageId: 'id-1',
+        isOutdated: true,
+      });
+    });
+    expect(deleteImage).toHaveBeenCalledTimes(1);
+    expect(deleteImage).toHaveBeenCalledWith({ imageId: 'id-1', id: inspectionId });
+
+    unmount();
+  });
+
   it('should not clean up images if no upload success event is triggered', () => {
     const deleteImage = jest.fn(() => Promise.resolve());
     (useMonkApi as jest.Mock).mockImplementation(() => ({ deleteImage }));
