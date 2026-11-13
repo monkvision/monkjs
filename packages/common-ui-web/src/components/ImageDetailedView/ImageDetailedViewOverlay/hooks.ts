@@ -56,6 +56,15 @@ export function useRetakeOverlay(props: ImageDetailedViewOverlayProps): {
     buttonColor: 'primary',
   };
 
+  if (props.captureMode && props.image.status === ImageStatus.UPLOADING) {
+    return {
+      title: tObj(imageStatusLabels[ImageStatus.UPLOADING].title),
+      description: tObj(imageStatusLabels[ImageStatus.UPLOADING].description),
+      iconColor: 'text-secondary',
+      icon: 'processing',
+      buttonColor: 'primary',
+    };
+  }
   if (isImageValid(props)) {
     return success;
   }

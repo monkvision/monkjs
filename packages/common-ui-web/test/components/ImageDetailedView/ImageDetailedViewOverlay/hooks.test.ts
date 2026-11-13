@@ -71,6 +71,35 @@ describe('ImageDetailedViewOverlay hooks', () => {
       unmount();
     });
 
+    it('should return the pending properties when the image is being uploaded', () => {
+      const tObj = jest.fn((obj) => {
+        if (obj === imageStatusLabels[ImageStatus.UPLOADING].title) {
+          return 'uploading-title';
+        }
+        if (obj === imageStatusLabels[ImageStatus.UPLOADING].description) {
+          return 'uploading-description';
+        }
+        return null;
+      });
+      (useObjectTranslation as jest.Mock).mockImplementation(() => ({ tObj }));
+      const { result, unmount } = renderHook(useRetakeOverlay, {
+        initialProps: {
+          captureMode: true,
+          image: { status: ImageStatus.UPLOADING },
+        } as ImageDetailedViewOverlayProps,
+      });
+
+      expect(result.current).toEqual({
+        title: 'uploading-title',
+        description: 'uploading-description',
+        iconColor: 'text-secondary',
+        icon: 'processing',
+        buttonColor: 'primary',
+      });
+
+      unmount();
+    });
+
     it('should return the proper properties when the image upload failed', () => {
       const tObj = jest.fn((obj) => {
         if (obj === imageStatusLabels[ImageStatus.UPLOAD_FAILED].title) {
