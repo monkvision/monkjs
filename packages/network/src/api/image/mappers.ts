@@ -29,8 +29,9 @@ function getActiveComplianceOptions(
   complianceIssues: ComplianceIssue[];
   customComplianceThresholds?: CustomComplianceThresholds;
 } {
-  const enableComplianceGlobal =
-    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance;
+  const enableComplianceGlobal = !!(
+    complianceOptions?.enableCompliance ?? DEFAULT_COMPLIANCE_OPTIONS.enableCompliance
+  );
   const enableCompliance =
     sightId && complianceOptions?.enableCompliancePerSight
       ? complianceOptions.enableCompliancePerSight.includes(sightId)

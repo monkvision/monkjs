@@ -50,6 +50,11 @@ export interface ImageAdditionalData extends AdditionalData {
    * accelerometer data of the phone, and it is a value between 0 and 360.
    */
   alpha?: number;
+  /**
+   * The number of times this sight has been uploaded before this image (0 for the first upload, 1 for the first
+   * retake, etc.). Present only for beautyshot images when `maxRetakes` is configured.
+   */
+  retake_count?: number;
 }
 
 /**
@@ -414,17 +419,42 @@ export interface CustomComplianceThresholds {
 }
 
 /**
+ * Options that configure which sights block inspection completion when non-compliant. Used as the
+ * object form of `ComplianceOptions.enableCompliance`.
+ */
+export interface ComplianceBlockingOptions {
+  /**
+   * An array of Sight IDs that must be compliant to allow inspection completion. Only sights in
+   * this list block completion if non-compliant; others may still show as non-compliant visually
+   * but will not prevent the inspection from being launched. Takes priority over `maxRetakeCount`.
+   */
+  mandatorySights?: string[];
+  /**
+   * The maximum number of retakes allowed for a given sight before it is considered "compliant
+   * enough" and no longer blocks inspection completion. Ignored for sights in `mandatorySights`.
+   *
+   * @example Setting this to 3 means that after 3 retakes, a sight no longer blocks completion.
+   */
+  maxRetakes?: number;
+}
+
+/**
  * Options used to configure the compliance checks at the application level. Note that these options do NOT affect
  * anything at the API level, and are only here to specify how the compliance should behave in the Front-End
  * applications.
  */
 export interface ComplianceOptions {
   /**
-   * Boolean indicating if compliance checks should be enabled or not.
+   * Controls whether compliance checks are enabled.
+   *
+   * - `true` (default): compliance is enabled, all non-compliant sights block completion.
+   * - `false`: compliance is disabled entirely.
+   * - Object: compliance is enabled, and the object configures which sights block completion
+   *   (`mandatorySights`) and after how many uploads a sight is forgiven (`maxRetakeCount`).
    *
    * @default true
    */
-  enableCompliance?: boolean;
+  enableCompliance?: boolean | ComplianceBlockingOptions;
   /**
    * An array of Sight IDs that indicates for which sight IDs the compliance should be enabled. If this property is
    * defined, it overrides the value of the `enableCompliance` property, meaning that for images taken for a specific

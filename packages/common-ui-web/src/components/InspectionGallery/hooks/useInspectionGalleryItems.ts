@@ -118,6 +118,25 @@ function getBeautyShots(
   }, []);
 }
 
+function isForgivenNonCompliant(
+  image: Image,
+  mandatorySights?: string[],
+  maxRetakes?: number,
+): boolean {
+  if (image.status !== ImageStatus.NOT_COMPLIANT || !image.sightId) {
+    return false;
+  }
+  if (mandatorySights?.length) {
+    return !mandatorySights.includes(image.sightId);
+  }
+  if (maxRetakes !== undefined) {
+    if ((image.additionalData?.retake_count ?? 0) >= maxRetakes) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function getItems(
   inspectionId: string,
   captureMode: boolean,
@@ -126,16 +145,19 @@ function getItems(
   addDamage?: AddDamage,
   filterByImageType?: ImageType,
   extractBeautyShots?: boolean,
+  mandatorySights?: string[],
+  maxRetakes?: number,
 ): InspectionGalleryItem[] {
   const images = getInspectionImages(inspectionId, entities.images, filterByImageType, captureMode);
   const beautyShotItems: InspectionGalleryItem[] = extractBeautyShots
     ? getBeautyShots(images, entities, inspectionId)
     : [];
-  const items: InspectionGalleryItem[] = images.map((image) => ({
-    isTaken: true,
-    isAddDamage: false,
-    image,
-  }));
+  const items: InspectionGalleryItem[] = images.map((image) => {
+    const effectiveImage = isForgivenNonCompliant(image, mandatorySights, maxRetakes)
+      ? { ...image, status: ImageStatus.SUCCESS }
+      : image;
+    return { isTaken: true, isAddDamage: false, image: effectiveImage };
+  });
   inspectionSights?.forEach((sight) => {
     if (
       captureMode &&
@@ -167,6 +189,10 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
   const inspectionSights = props.captureMode ? props.sights : undefined;
   const { state } = useMonkState();
 
+  const blockingOptions =
+    props.captureMode && typeof props.enableCompliance === 'object' ? props.enableCompliance : {};
+  const { mandatorySights, maxRetakes } = blockingOptions;
+
   const items = useMemo(
     () =>
       getItems(
@@ -177,6 +203,8 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
         props.addDamage,
         props.filterByImageType,
         props.enableBeautyShotExtraction,
+        mandatorySights,
+        maxRetakes,
       ),
     [
       props.inspectionId,
@@ -186,6 +214,8 @@ export function useInspectionGalleryItems(props: InspectionGalleryProps): Inspec
       props.addDamage,
       props.filterByImageType,
       props.enableBeautyShotExtraction,
+      mandatorySights,
+      maxRetakes,
     ],
   );
   const shouldFetch = useMemo(() => shouldContinueToFetch(items), [items]);

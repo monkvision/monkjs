@@ -303,8 +303,27 @@ export function usePhotoCaptureSightState({
       state,
       Object.values(ImageStatus).filter((status) => status !== ImageStatus.SUCCESS),
     );
-    return !notCapturedSights.length && !notCompliantSights.length;
-  }, [state.images]);
+    const blockingOptions =
+      typeof complianceOptions.enableCompliance === 'object'
+        ? complianceOptions.enableCompliance
+        : {};
+    const { mandatorySights, maxRetakes } = blockingOptions;
+    const blockingNonCompliantSights = notCompliantSights.filter((sight) => {
+      if (mandatorySights?.length) {
+        return mandatorySights.includes(sight.id);
+      }
+      if (maxRetakes !== undefined) {
+        const latestImage = getInspectionImages(inspectionId, state.images, undefined, true).find(
+          (img) => img.sightId === sight.id,
+        );
+        if ((latestImage?.additionalData?.retake_count ?? 0) >= maxRetakes) {
+          return false;
+        }
+      }
+      return true;
+    });
+    return !notCapturedSights.length && !blockingNonCompliantSights.length;
+  }, [state.images, complianceOptions.enableCompliance]);
 
   const takeSelectedSight = useCallback(() => {
     const isRetake = sightsTaken.includes(selectedSight);

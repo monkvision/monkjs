@@ -24,7 +24,18 @@
   "quality": 0.6,
   "resolution": "4K",
   "allowImageUpscaling": false,
-  "enableCompliance": true,
+  "enableCompliance": {
+    "mandatorySights": [
+      "jgc21-QIvfeg0X",
+      "fesc20-H1dfdfvH",
+      "haccord-8YjMcu0D",
+      "ffocus18-XlfgjQb9",
+      "ftransit18-wyXf7MTv",
+      "tsienna20-YwrRNr9n",
+      "ff150-zXbg0l3z"
+    ],
+    "maxRetakes": 3
+  },
   "useLiveCompliance": true,
   "complianceIssues": [
     "blurriness",
