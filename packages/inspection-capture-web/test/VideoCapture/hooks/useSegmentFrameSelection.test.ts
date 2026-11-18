@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import {
+  BUCKET_ENTRY_MARGIN_DEG,
   MAX_TARGET_FRAMES_COUNT,
   MIN_TARGET_FRAMES_COUNT,
   useSegmentFrameSelection,
@@ -28,9 +29,76 @@ describe('useSegmentFrameSelection hook', () => {
     expect(result.current.capturedFramesCount).toBe(1);
 
     const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
-    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize * 1.5 });
     expect(result.current.flushTrigger).toBe(initialFlushTrigger + 1);
     expect(result.current.capturedFramesCount).toBe(2);
+
+    unmount();
+  });
+
+  it('should not enter a new bucket until the position goes past the bucket edge by BUCKET_ENTRY_MARGIN_DEG', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
+      { initialProps },
+    );
+
+    const initialFlushTrigger = result.current.flushTrigger;
+    const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + BUCKET_ENTRY_MARGIN_DEG / 2 });
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger);
+    expect(result.current.capturedFramesCount).toBe(1);
+
+    rerender({ ...initialProps, walkaroundPosition: bucketSize + BUCKET_ENTRY_MARGIN_DEG });
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger + 1);
+    expect(result.current.capturedFramesCount).toBe(2);
+
+    unmount();
+  });
+
+  it('should not capture the last bucket when the compass slightly drifts backwards at the start', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
+      { initialProps },
+    );
+    act(() => {
+      result.current.startSegmentTracking();
+    });
+
+    const initialFlushTrigger = result.current.flushTrigger;
+    const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
+    rerender({ ...initialProps, walkaroundPosition: 360 - BUCKET_ENTRY_MARGIN_DEG / 2 });
+    rerender({ ...initialProps, walkaroundPosition: 0.5 });
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger);
+    expect(result.current.capturedFramesCount).toBe(1);
+
+    for (let bucket = 1; bucket < DEFAULT_TARGET_FRAMES_COUNT; bucket += 1) {
+      rerender({ ...initialProps, walkaroundPosition: bucket * bucketSize + bucketSize / 2 });
+    }
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger + DEFAULT_TARGET_FRAMES_COUNT - 1);
+    expect(result.current.capturedFramesCount).toBe(DEFAULT_TARGET_FRAMES_COUNT);
+
+    unmount();
+  });
+
+  it('should capture every bucket during a counter-clockwise walkaround', () => {
+    const initialProps = createProps();
+    const { result, rerender, unmount } = renderHook(
+      (props: UseSegmentFrameSelectionParams) => useSegmentFrameSelection(props),
+      { initialProps },
+    );
+    act(() => {
+      result.current.startSegmentTracking();
+    });
+
+    const initialFlushTrigger = result.current.flushTrigger;
+    const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
+    for (let bucket = DEFAULT_TARGET_FRAMES_COUNT - 1; bucket >= 1; bucket -= 1) {
+      rerender({ ...initialProps, walkaroundPosition: bucket * bucketSize + bucketSize / 2 });
+    }
+    expect(result.current.flushTrigger).toBe(initialFlushTrigger + DEFAULT_TARGET_FRAMES_COUNT - 1);
+    expect(result.current.capturedFramesCount).toBe(DEFAULT_TARGET_FRAMES_COUNT);
 
     unmount();
   });
@@ -146,12 +214,12 @@ describe('useSegmentFrameSelection hook', () => {
     );
 
     const bucketSize = 360 / DEFAULT_TARGET_FRAMES_COUNT;
-    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize * 1.5 });
     const flushTriggerAfterNewBucket = result.current.flushTrigger;
 
-    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
-    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
-    rerender({ ...initialProps, walkaroundPosition: bucketSize + 1 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize * 1.5 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize * 1.5 });
+    rerender({ ...initialProps, walkaroundPosition: bucketSize * 1.5 });
 
     expect(result.current.flushTrigger).toBe(flushTriggerAfterNewBucket);
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useObjectMemo } from '@monkvision/common';
+import { getAngleDifference, useObjectMemo } from '@monkvision/common';
 
 /**
  * Lower bound of the target frame count, corresponding to the widest allowed spacing between two captured frames
@@ -13,8 +13,26 @@ export const MIN_TARGET_FRAMES_COUNT = 36;
  */
 export const MAX_TARGET_FRAMES_COUNT = 72;
 
+/**
+ * Hysteresis (in degrees) past the current bucket's edges before a new bucket is entered, so compass jitter doesn't
+ * register unreached buckets. Capped at half a bucket so that small buckets can still be entered.
+ */
+export const BUCKET_ENTRY_MARGIN_DEG = 4;
+
 function clampTargetFramesCount(targetFramesCount: number): number {
   return Math.min(MAX_TARGET_FRAMES_COUNT, Math.max(MIN_TARGET_FRAMES_COUNT, targetFramesCount));
+}
+
+function getDistanceToBucketEdges(
+  position: number,
+  bucket: number,
+  bucketSizeDegrees: number,
+): number {
+  const bucketStart = bucket * bucketSizeDegrees;
+  return Math.min(
+    Math.abs(getAngleDifference(position, bucketStart)),
+    Math.abs(getAngleDifference(position, bucketStart + bucketSizeDegrees)),
+  );
 }
 
 /**
@@ -82,26 +100,43 @@ export function useSegmentFrameSelection({
     [targetFramesCount],
   );
   const bucketSizeDegrees = 360 / totalBuckets;
+  const bucketEntryMargin = Math.min(BUCKET_ENTRY_MARGIN_DEG, bucketSizeDegrees / 2);
 
   const [flushTrigger, setFlushTrigger] = useState(0);
   const capturedBuckets = useRef<Set<number>>(new Set());
+  const currentBucket = useRef<number | null>(null);
   const [capturedFramesCount, setCapturedFramesCount] = useState(0);
 
   useEffect(() => {
     if (!isRecording) {
       return;
     }
-    const currentBucket = Math.floor(walkaroundPosition / bucketSizeDegrees) % totalBuckets;
-    if (capturedBuckets.current.has(currentBucket)) {
+    const bucket = Math.floor(walkaroundPosition / bucketSizeDegrees) % totalBuckets;
+    if (currentBucket.current !== null) {
+      if (bucket === currentBucket.current) {
+        return;
+      }
+      const distance = getDistanceToBucketEdges(
+        walkaroundPosition,
+        currentBucket.current,
+        bucketSizeDegrees,
+      );
+      if (distance < bucketEntryMargin) {
+        return;
+      }
+    }
+    currentBucket.current = bucket;
+    if (capturedBuckets.current.has(bucket)) {
       return;
     }
-    capturedBuckets.current.add(currentBucket);
+    capturedBuckets.current.add(bucket);
     setCapturedFramesCount(capturedBuckets.current.size);
     setFlushTrigger((value) => value + 1);
-  }, [walkaroundPosition, isRecording, bucketSizeDegrees, totalBuckets]);
+  }, [walkaroundPosition, isRecording, bucketSizeDegrees, bucketEntryMargin, totalBuckets]);
 
   const startSegmentTracking = useCallback(() => {
     capturedBuckets.current = new Set([0]);
+    currentBucket.current = 0;
     setCapturedFramesCount(1);
   }, []);
 
