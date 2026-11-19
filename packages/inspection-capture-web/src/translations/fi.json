@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Liikut liian nopeasti! Hidasta hieman, tarkastuksen suorittaminen kestää noin minuutin.",
         "phoneShaking": "Laitteesi tärisee liikaa! Pyri pitämään kamera vakaana, kun kuvaat ajoneuvoasi.",
+        "blurryFrames": "Kuvat ovat epätarkkoja! Hidasta ja pidä puhelin vakaana, kun kuvaat ajoneuvoasi.",
         "confirm": "Hyväksy"
       },
       "tooltip": {

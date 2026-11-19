@@ -4,6 +4,7 @@ jest.mock('../../src/VideoCapture/hooks', () => ({
   FastMovementType,
   useFastMovementsDetection: jest.fn(() => ({
     onDeviceOrientationEvent: jest.fn(),
+    onSelectedFrameScore: jest.fn(),
     fastMovementsWarning: FastMovementType.PHONE_SHAKING,
     onWarningDismiss: jest.fn(),
   })),
@@ -70,6 +71,8 @@ function createProps(): VideoCaptureProps {
     enablePhoneShakingWarning: false,
     fastWalkingWarningCooldown: 4321,
     phoneShakingWarningCooldown: 6543,
+    enableBlurryFramesWarning: false,
+    blurryFramesWarningCooldown: 7654,
     onComplete: jest.fn(),
     lang: 'us',
     onCloseVideo: jest.fn(),
@@ -107,6 +110,8 @@ describe('VideoCapture component', () => {
         enablePhoneShakingWarning: props.enablePhoneShakingWarning,
         fastWalkingWarningCooldown: props.fastWalkingWarningCooldown,
         phoneShakingWarningCooldown: props.phoneShakingWarningCooldown,
+        enableBlurryFramesWarning: props.enableBlurryFramesWarning,
+        blurryFramesWarningCooldown: props.blurryFramesWarningCooldown,
       }),
     );
 
@@ -233,7 +238,7 @@ describe('VideoCapture component', () => {
     const { alpha } = useDeviceOrientationResults[useDeviceOrientationResults.length - 1].value;
 
     const useFastMovementsDetectionResults = (useFastMovementsDetection as jest.Mock).mock.results;
-    const { fastMovementsWarning, onWarningDismiss } =
+    const { fastMovementsWarning, onWarningDismiss, onSelectedFrameScore } =
       useFastMovementsDetectionResults[useFastMovementsDetectionResults.length - 1].value;
 
     expectPropsOnChildMock(Camera, {
@@ -251,6 +256,7 @@ describe('VideoCapture component', () => {
         alpha,
         fastMovementsWarning,
         onWarningDismiss,
+        onSelectedFrameScore,
         startTasksLoading: expect.anything(),
         inspectionLoading: expect.anything(),
         enableHybridVideo: false,

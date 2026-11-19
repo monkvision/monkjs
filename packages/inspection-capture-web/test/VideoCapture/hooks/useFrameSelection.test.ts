@@ -186,6 +186,34 @@ describe('useFrameSelection hook', () => {
     unmount();
   });
 
+  it('should call onFrameScored with the score of the flushed frame', async () => {
+    const initialProps = { ...createProps(), onFrameScored: jest.fn() };
+    const { result, unmount } = renderHook(() => useFrameSelection(initialProps));
+    const processingFunction = (useQueue as jest.Mock).mock.calls[0][0];
+    (calculateLaplaceScores as jest.Mock).mockImplementation((data) => ({
+      mean: 0,
+      std: data[0] === 1 ? 0.4 : 0.7,
+    }));
+
+    await act(async () => {
+      result.current.flushBestFrame();
+    });
+    expect(initialProps.onFrameScored).not.toHaveBeenCalled();
+
+    await act(async () => {
+      await processingFunction({ data: [1], width: 11, height: 12 } as unknown as ImageData);
+      await processingFunction({ data: [2], width: 11, height: 12 } as unknown as ImageData);
+    });
+    await act(async () => {
+      result.current.flushBestFrame();
+    });
+    expect(initialProps.onFrameScored).toHaveBeenCalledTimes(1);
+    expect(initialProps.onFrameScored).toHaveBeenCalledWith(0.7);
+
+    (calculateLaplaceScores as jest.Mock).mockImplementation(() => ({ mean: 0, std: 0 }));
+    unmount();
+  });
+
   it('should reset the buffer after a flush', async () => {
     const initialProps = createProps();
     const { result, unmount } = renderHook(() => useFrameSelection(initialProps));

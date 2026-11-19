@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Du kjører for fort! Reduser farten litt, det burde ta omtrent én minutt å fullføre inspeksjonen.",
         "phoneShaking": "Enheten din vibrerer for mye! Prøv å holde kameraet stabilt mens du tar opp kjøretøyet.",
+        "blurryFrames": "Bildene er uskarpe! Senk farten og hold telefonen stabil mens du tar opp kjøretøyet.",
         "confirm": "Bekreft"
       },
       "tooltip": {

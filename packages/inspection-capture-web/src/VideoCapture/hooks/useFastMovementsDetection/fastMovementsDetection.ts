@@ -22,10 +22,12 @@ export const WALKING_DETECTION_MIN_WINDOW_MS = 350;
  * Sustained compass rotation speed (in degrees per second) above which the user is considered to be walking too
  * fast around the vehicle.
  *
- * Derived from the target walkaround duration of ~50 seconds for a full 360° turn (an average speed of
- * ~9 deg/sec), with a safety margin applied on top of that average.
+ * The compass rotation speed is not uniform around the vehicle: a normal-pace walkaround averages ~13 deg/sec, but
+ * peaks at 25-35 deg/sec around the corners of the vehicle. This threshold is therefore only meant to catch clearly
+ * excessive speeds (it is reached in less than 10% of normal-pace walkarounds), before angular buckets start getting
+ * skipped (~40 deg/sec). Motion blur itself is detected from the frames sharpness (see `updateBlurDetection`).
  */
-export const WALKING_VELOCITY_THRESHOLD_DEG_PER_SEC = 24;
+export const WALKING_VELOCITY_THRESHOLD_DEG_PER_SEC = 35;
 
 /**
  * Enumeration of the different fast movements that can be detected.
@@ -39,6 +41,10 @@ export enum FastMovementType {
    * The user is shaking their phone too much.
    */
   PHONE_SHAKING = 'phone_shaking',
+  /**
+   * The frames recently captured are too blurry (because of fast movements, low lighting, or a combination of both).
+   */
+  BLURRY_FRAMES = 'blurry_frames',
 }
 
 /**

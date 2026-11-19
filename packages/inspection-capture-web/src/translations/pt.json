@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Você está se movendo muito rápido! Diminua a velocidade um pouco; a inspeção completa do veículo deve levar cerca de um minuto.",
         "phoneShaking": "Seu dispositivo está tremendo muito! Tente manter a câmera estável durante a gravação do veículo.",
+        "blurryFrames": "As imagens estão borradas! Diminua o ritmo e mantenha o celular estável durante a gravação do veículo.",
         "confirm": "OK"
       },
       "tooltip": {

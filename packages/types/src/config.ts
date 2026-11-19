@@ -421,6 +421,22 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          */
         phoneShakingWarningCooldown?: number;
         /**
+         * Boolean indicating if a warning should be shown to the user when the frames recently captured are too blurry
+         * (because of fast movements, low lighting, or a combination of both). Blurriness is measured from the
+         * sharpness of the frames selected for upload, relative to the sharpness of the previous frames of the
+         * walkaround.
+         *
+         * @default true
+         */
+        enableBlurryFramesWarning?: boolean;
+        /**
+         * The duration (in milliseconds) to wait between blurry frames warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 1000
+         */
+        blurryFramesWarningCooldown?: number;
+        /**
          * Boolean indicating if the video tutorial should be enabled or not.
          *
          * @default true
@@ -513,6 +529,22 @@ export type VideoCaptureAppConfig = SharedCaptureAppConfig &
          * @default 4000
          */
         phoneShakingWarningCooldown?: number;
+        /**
+         * Boolean indicating if a warning should be shown to the user when the frames recently captured are too blurry
+         * (because of fast movements, low lighting, or a combination of both). Blurriness is measured from the
+         * sharpness of the frames selected for upload, relative to the sharpness of the previous frames of the
+         * walkaround.
+         *
+         * @default true
+         */
+        enableBlurryFramesWarning?: boolean;
+        /**
+         * The duration (in milliseconds) to wait between blurry frames warnings. We recommend setting this value to at
+         * least 1000.
+         *
+         * @default 1000
+         */
+        blurryFramesWarningCooldown?: number;
         /**
          * Boolean indicating if the video tutorial should be enabled or not.
          *

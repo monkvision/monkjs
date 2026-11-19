@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Jste příliš rychlý! Zpomalte, prohlídka vozidla by vám měla trvat přibližně jednu minutu.",
         "phoneShaking": "Vaše zařízení se příliš třese! Snažte se, aby kamera byla během nahrávání vozidla stabilní.",
+        "blurryFrames": "Snímky jsou rozmazané! Zpomalte a během nahrávání vozidla držte telefon stabilně.",
         "confirm": "Zavřít"
       },
       "tooltip": {

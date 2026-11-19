@@ -7,20 +7,22 @@ import {
   FastMovementType,
   pruneAlphaHistory,
 } from './fastMovementsDetection';
+import { BlurDetectionState, createBlurDetectionState, updateBlurDetection } from './blurDetection';
 
 /**
  * Params accepted by the useFastMovementsDetection hook.
  */
 export interface UseFastMovementsDetectionParams
   extends Required<
-    Pick<
-      VideoCaptureAppConfig,
-      | 'enableFastWalkingWarning'
-      | 'enablePhoneShakingWarning'
-      | 'fastWalkingWarningCooldown'
-      | 'phoneShakingWarningCooldown'
-    >
-  > {
+      Pick<
+        VideoCaptureAppConfig,
+        | 'enableFastWalkingWarning'
+        | 'enablePhoneShakingWarning'
+        | 'fastWalkingWarningCooldown'
+        | 'phoneShakingWarningCooldown'
+      >
+    >,
+    Pick<VideoCaptureAppConfig, 'enableBlurryFramesWarning' | 'blurryFramesWarningCooldown'> {
   /**
    * Boolean indicating if the video is currently recording or not.
    */
@@ -35,6 +37,11 @@ export interface FastMovementsDetectionHandle {
    * Event listener for device rotation updates.
    */
   onDeviceOrientationEvent: (rotation: DeviceRotation) => void;
+  /**
+   * Callback called with the Laplace score (sharpness) of every frame selected for upload, used to detect blurry
+   * frames.
+   */
+  onSelectedFrameScore: (score: number) => void;
   /**
    * The type of fast movements warning that should be displayed to the user. If this value is null, no warning should
    * be displayed.
@@ -51,8 +58,8 @@ export interface FastMovementsDetectionHandle {
 }
 
 /**
- * Custom hook used to display warnings to the user when they walk too fast around the car or shake their phone too
- * much.
+ * Custom hook used to display warnings to the user when they walk too fast around the car, shake their phone too
+ * much, or when the frames captured are too blurry.
  */
 export function useFastMovementsDetection({
   isRecording,
@@ -60,13 +67,17 @@ export function useFastMovementsDetection({
   enablePhoneShakingWarning,
   fastWalkingWarningCooldown,
   phoneShakingWarningCooldown,
+  enableBlurryFramesWarning = true,
+  blurryFramesWarningCooldown = 1000,
 }: UseFastMovementsDetectionParams): FastMovementsDetectionHandle {
   const [fastMovementsWarning, setFastMovementsWarning] = useState<FastMovementType | null>(null);
   const lastRotation = useRef<DeviceRotation | null>(null);
   const alphaHistory = useRef<AlphaSample[]>([]);
+  const blurDetection = useRef<BlurDetectionState>(createBlurDetectionState());
   const warningTimestamps = useRef<Record<FastMovementType, number>>({
     [FastMovementType.WALKING_TOO_FAST]: 0,
     [FastMovementType.PHONE_SHAKING]: 0,
+    [FastMovementType.BLURRY_FRAMES]: 0,
   });
 
   const isWarningEnabled = useCallback(
@@ -76,11 +87,13 @@ export function useFastMovementsDetection({
           return enableFastWalkingWarning;
         case FastMovementType.PHONE_SHAKING:
           return enablePhoneShakingWarning;
+        case FastMovementType.BLURRY_FRAMES:
+          return enableBlurryFramesWarning;
         default:
           return false;
       }
     },
-    [enableFastWalkingWarning, enablePhoneShakingWarning],
+    [enableFastWalkingWarning, enablePhoneShakingWarning, enableBlurryFramesWarning],
   );
 
   const getWarningCooldown = useCallback(
@@ -90,11 +103,28 @@ export function useFastMovementsDetection({
           return fastWalkingWarningCooldown;
         case FastMovementType.PHONE_SHAKING:
           return phoneShakingWarningCooldown;
+        case FastMovementType.BLURRY_FRAMES:
+          return blurryFramesWarningCooldown;
         default:
           return Infinity;
       }
     },
-    [fastWalkingWarningCooldown, phoneShakingWarningCooldown],
+    [fastWalkingWarningCooldown, phoneShakingWarningCooldown, blurryFramesWarningCooldown],
+  );
+
+  const raiseWarning = useCallback(
+    (type: FastMovementType, now: number): boolean => {
+      if (
+        !isWarningEnabled(type) ||
+        now - warningTimestamps.current[type] <= getWarningCooldown(type)
+      ) {
+        return false;
+      }
+      setFastMovementsWarning(type);
+      warningTimestamps.current[type] = now;
+      return true;
+    },
+    [isWarningEnabled, getWarningCooldown],
   );
 
   const onDeviceOrientationEvent = useCallback(
@@ -117,18 +147,27 @@ export function useFastMovementsDetection({
           alphaHistory.current,
         );
 
-        if (
-          type &&
-          isWarningEnabled(type) &&
-          now - warningTimestamps.current[type] > getWarningCooldown(type)
-        ) {
-          setFastMovementsWarning(type);
-          warningTimestamps.current[type] = now;
+        if (type) {
+          raiseWarning(type, now);
         }
       }
       lastRotation.current = { alpha, beta, gamma };
     },
-    [isRecording, isWarningEnabled, getWarningCooldown],
+    [isRecording, raiseWarning],
+  );
+
+  const onSelectedFrameScore = useCallback(
+    (score: number) => {
+      if (!isRecording) {
+        return;
+      }
+      const { state, isBlurry } = updateBlurDetection(blurDetection.current, score);
+      blurDetection.current = state;
+      if (isBlurry && raiseWarning(FastMovementType.BLURRY_FRAMES, Date.now())) {
+        blurDetection.current = { ...state, consecutiveLow: 0 };
+      }
+    },
+    [isRecording, raiseWarning],
   );
 
   const onWarningDismiss = useCallback(() => setFastMovementsWarning(null), []);
@@ -136,11 +175,13 @@ export function useFastMovementsDetection({
   const resetDetection = useCallback(() => {
     lastRotation.current = null;
     alphaHistory.current = [];
+    blurDetection.current = createBlurDetectionState();
     setFastMovementsWarning(null);
   }, []);
 
   return useObjectMemo({
     onDeviceOrientationEvent,
+    onSelectedFrameScore,
     fastMovementsWarning,
     onWarningDismiss,
     resetDetection,

@@ -28,6 +28,11 @@ export interface UseFrameSelectionParams {
    * Callback called when a frame has been selected and should be uploaded to the API.
    */
   onFrameSelected?: (picture: MonkPicture) => void;
+  /**
+   * Callback called with the Laplace score (sharpness, see `calculateLaplaceScores`) of every frame selected to be
+   * uploaded to the API, at the moment it is selected.
+   */
+  onFrameScored?: (score: number) => void;
 }
 
 /**
@@ -80,6 +85,7 @@ export function useFrameSelection({
   frameSelectionInterval,
   flushTrigger,
   onFrameSelected,
+  onFrameScored,
 }: UseFrameSelectionParams): FrameSelectionHandle {
   const bestScore = useRef<number | null>(null);
   const bestFrame = useRef<ImageData | null>(null);
@@ -107,10 +113,14 @@ export function useFrameSelection({
 
   const flushBestFrame = useCallback(() => {
     const frame = bestFrame.current;
+    const score = bestScore.current;
     bestScore.current = null;
     bestFrame.current = null;
     if (frame === null) {
       return;
+    }
+    if (score !== null) {
+      onFrameScored?.(score);
     }
     const flushGeneration = generation.current;
     setStartedFlushes((count) => count + 1);
@@ -123,7 +133,7 @@ export function useFrameSelection({
       })
       .catch(handleError)
       .finally(() => setSettledFlushes((count) => count + 1));
-  }, [handle, onFrameSelected, handleError]);
+  }, [handle, onFrameSelected, onFrameScored, handleError]);
 
   const discardBestFrame = useCallback(() => {
     generation.current += 1;

@@ -37,7 +37,7 @@ export interface VideoCaptureHUDProps
     Pick<DeviceRotation, 'alpha'>,
     Pick<
       FastMovementsDetectionHandle,
-      'fastMovementsWarning' | 'onWarningDismiss' | 'resetDetection'
+      'fastMovementsWarning' | 'onWarningDismiss' | 'resetDetection' | 'onSelectedFrameScore'
     > {
   /**
    * The ID of the inspection to add the video frames to.
@@ -103,6 +103,8 @@ function getFastMovementsWarningMessage(type: FastMovementType | null): string {
       return 'video.recording.fastMovementsDialog.walkingTooFast';
     case FastMovementType.PHONE_SHAKING:
       return 'video.recording.fastMovementsDialog.phoneShaking';
+    case FastMovementType.BLURRY_FRAMES:
+      return 'video.recording.fastMovementsDialog.blurryFrames';
     default:
       return '';
   }
@@ -134,6 +136,7 @@ export function VideoCaptureHUD({
   fastMovementsWarning,
   onWarningDismiss,
   resetDetection,
+  onSelectedFrameScore,
   maxRetryCount,
   frameSelectionInterval,
   minRecordingDuration,
@@ -184,6 +187,7 @@ export function VideoCaptureHUD({
     frameSelectionInterval,
     flushTrigger: isAdaptiveUploadRate ? flushTrigger : undefined,
     onFrameSelected,
+    onFrameScored: onSelectedFrameScore,
   });
 
   const handleStartWalkaround = useCallback(() => {

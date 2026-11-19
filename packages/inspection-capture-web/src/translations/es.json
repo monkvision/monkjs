@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "¡Está moviendo el dispositivo demasiado rápido! Reduzca la velocidad un poco; el recorrido completo del vehículo debería tomar aproximadamente un minuto.",
         "phoneShaking": "¡Su dispositivo se está moviendo demasiado! Intente mantener la cámara estable mientras graba su vehículo.",
+        "blurryFrames": "¡Las imágenes están borrosas! Vaya más despacio y mantenga su teléfono estable mientras graba su vehículo.",
         "confirm": "Aceptar"
       },
       "tooltip": {

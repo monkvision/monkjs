@@ -98,6 +98,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Poruszasz się zbyt szybko! Zwolnij, cały proces powinien zająć około jednej minuty.",
         "phoneShaking": "Twoje urządzenie zbyt mocno się trzęsie! Spróbuj ustabilizować kamerę podczas nagrywania obrazu pojazdu.",
+        "blurryFrames": "Obrazy są rozmazane! Zwolnij i trzymaj telefon stabilnie podczas nagrywania obrazu pojazdu.",
         "confirm": "OK"
       },
       "tooltip": {

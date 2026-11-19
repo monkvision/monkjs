@@ -92,6 +92,7 @@
       "fastMovementsDialog": {
         "walkingTooFast": "Stai andando troppo veloce! Rallenta un po'. Dovresti impiegare circa un minuto per girare intorno al veicolo.",
         "phoneShaking": "Il tuo dispositivo sta tremando troppo! Cerca di tenere la fotocamera stabile durante la registrazione.",
+        "blurryFrames": "Le immagini sono sfocate! Rallenta e tieni il telefono fermo durante la registrazione.",
         "confirm": "OK"
       },
       "tooltip": {
