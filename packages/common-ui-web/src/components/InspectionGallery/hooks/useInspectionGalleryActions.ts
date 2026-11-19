@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, ImageType, Viewpoint } from '@monkvision/types';
 import { useMonkState } from '@monkvision/common';
 import { MonkApiConfig, useMonkApi } from '@monkvision/network';
@@ -8,6 +8,7 @@ import {
   NavigateToCaptureOptions,
   NavigateToCaptureReason,
 } from '../types';
+import { findLiveImage } from './findLiveImage';
 
 export interface UseInspectionGalleryActionsParams {
   inspectionId: string;
@@ -39,11 +40,22 @@ export function useInspectionGalleryActions({
   captureMode,
   onNavigateToCapture,
 }: UseInspectionGalleryActionsParams): UseInspectionGalleryActionsResult {
-  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [clickedImage, setClickedImage] = useState<Image | null>(null);
   const [selectedBeautyShotCandidates, setSelectedBeautyShotCandidates] =
     useState<BeautyShotCandidates | null>(null);
   const { state } = useMonkState();
   const { updateAdditionalData } = useMonkApi(apiConfig);
+
+  // Upload retries regenerate `created_at`, so the latest resolved image is the lookup reference.
+  const latestImageRef = useRef<Image | null>(null);
+  const selectedImage = useMemo(
+    () =>
+      clickedImage ? findLiveImage(state.images, latestImageRef.current ?? clickedImage) : null,
+    [clickedImage, state.images],
+  );
+  useEffect(() => {
+    latestImageRef.current = selectedImage;
+  }, [selectedImage]);
 
   const handleItemClick = (item: InspectionGalleryItem) => {
     if (item.isAddDamage && captureMode) {
@@ -54,7 +66,8 @@ export function useInspectionGalleryActions({
         sightId: item.sightId,
       });
     } else if (!item.isAddDamage && item.isTaken) {
-      setSelectedImage(item.image);
+      latestImageRef.current = null;
+      setClickedImage(item.image);
       if (item.beautyShotCandidates?.candidates) {
         setSelectedBeautyShotCandidates(item.beautyShotCandidates);
       }
@@ -90,7 +103,8 @@ export function useInspectionGalleryActions({
   };
 
   const handleCloseImageDetailedView = () => {
-    setSelectedImage(null);
+    latestImageRef.current = null;
+    setClickedImage(null);
     setSelectedBeautyShotCandidates(null);
   };
 
