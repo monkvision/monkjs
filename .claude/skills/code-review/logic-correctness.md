@@ -34,6 +34,14 @@ Trace checklist. Run it for every counter, flag, delay or backlog that callbacks
    round. Manual actions (e.g. a retry button) and automatic ones share the same state correctly.
 5. **Check the tests.** If no test covers 2+ concurrent items with mixed outcomes, that is part of
    the finding.
+6. **Check values recomputed on every attempt.** For each value sent to an API from inside a
+   queue/retry callback (counts, indexes, ids, timestamps), ask: _is it derived from state that
+   the attempt itself writes?_ Optimistic dispatches (a local image, a placeholder, a "failed"
+   entry) put the upload's own data in that state, so attempt 2 reads attempt 1's output. Trace
+   **attempt 1, fail, attempt 2** with the state after the failure. A value that must stay the same
+   across retries is computed once and cached with the upload's metadata (like `siblingId` and
+   `localImageId`). Run this check on pre-existing code the retry path calls: it is in scope.
+   Tests must cover a failed first attempt followed by a retry, not only a single call.
 
 ### Per-item update of a per-round counter
 
@@ -65,6 +73,27 @@ const onRetryEnd = (upload: PictureUpload, failed: boolean) => {
   }
 };
 ```
+
+### Retry recomputes a value from state its own failed attempt wrote
+
+Bad: `addImage` dispatches a local image (`retake_count: 0`) before the request. After a timeout
+it stays in `state.images` as failed, so the retry computes `0 + 1` and sends `retakeCount: 1`
+for the same picture. Each further retry adds 1.
+
+```ts
+const retakeCount = getRetakeCount(upload); // reads state.images on every attempt
+await addImage({ ...options, retakeCount });
+```
+
+Good: compute once at first registration and reuse.
+
+```ts
+metadata = { siblingId, localImageId, retakeCount: getRetakeCount(upload), count: 0 };
+await addImage({ ...options, retakeCount: metadata.retakeCount });
+```
+
+Test: fail attempt 1, push the failed local image into the mocked state, run attempt 2, and
+assert both calls sent the same value.
 
 Severity: a wrong result for realistic input is **Major** (**Blocker** if it corrupts data sent to
 the API). Dead but harmless logic is **Minor**.

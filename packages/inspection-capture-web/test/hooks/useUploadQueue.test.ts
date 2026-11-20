@@ -362,6 +362,33 @@ describe('useUploadQueue hook', () => {
         unmount();
       });
 
+      it('should keep the same retakeCount when the upload is retried after its own failed image is in the state', async () => {
+        const initialProps = createParams();
+        const state = createEmptyMonkState();
+        (useMonkState as jest.Mock).mockImplementation(() => ({ state, dispatch: jest.fn() }));
+
+        const { unmount } = renderHook(useUploadQueue, { initialProps });
+        const addImageMock = (useMonkApi as jest.Mock).mock.results[0].value.addImage;
+        const process = (useQueue as jest.Mock).mock.calls[0][0];
+
+        addImageMock.mockRejectedValueOnce(new Error('timeout'));
+        await expect(process(defaultUploadOptions)).rejects.toThrow();
+        state.images.push({
+          id: 'failed-local-image',
+          inspectionId: initialProps.inspectionId,
+          sightId: defaultUploadOptions.sightId,
+          createdAt: Date.now(),
+          status: ImageStatus.UPLOAD_FAILED,
+          additionalData: { retake_count: 0 },
+        } as unknown as Image);
+        await process(defaultUploadOptions);
+
+        expect(addImageMock).toHaveBeenCalledTimes(2);
+        expect(addImageMock.mock.calls[0][0].retakeCount).toBe(0);
+        expect(addImageMock.mock.calls[1][0].retakeCount).toBe(0);
+        unmount();
+      });
+
       it('should not include retakeCount for non-sight uploads', async () => {
         const initialProps = createParams();
         const { unmount } = renderHook(useUploadQueue, { initialProps });

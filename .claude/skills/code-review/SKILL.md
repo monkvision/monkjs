@@ -34,6 +34,9 @@ review of specific files or a PR.
    - **Always** read the whole enclosing function or hook when a hunk touches shared mutable state
      (refs, counters, backlogs, queues, retry/backoff, caches) or a callback called from async
      work. These bugs live in the interaction between hunks and their unchanged neighbors.
+   - For retry/queue code, also follow every value the callback sends to an API back to where it
+     is computed, and read the request function it calls (e.g. what it dispatches to state before
+     and after the call). Don't stop at the diff boundary.
    - Run `wc -l` on every changed source file. Don't estimate lengths.
    - Before suggesting a new hook or util, grep for an existing one (`packages/common/src`,
      the feature's `hooks/`).
@@ -49,6 +52,7 @@ review of specific files or a PR.
    | `useEffect`/`useMemo`/`useCallback`, listeners, timers, streams, lists, heavy work                        | [performance-react.md](performance-react.md)       |
    | Regexes, parsing, string/number normalization, thresholds or conditions deciding behavior                 | [logic-correctness.md](logic-correctness.md)       |
    | `async`/promises, queue or event callbacks, refs mutated from callbacks, counters, retries, concurrency   | [logic-correctness.md](logic-correctness.md)       |
+| Values sent to an API from a retried callback, optimistic state dispatches (local/placeholder items)     | [logic-correctness.md](logic-correctness.md)       |
    | Network, storage, env, auth/tokens, `dangerouslySetInnerHTML`, URLs, UI strings, new logic without a test | [security-i18n-tests.md](security-i18n-tests.md)   |
 
 4. **Review** against the core standards below plus the rules of every loaded file.

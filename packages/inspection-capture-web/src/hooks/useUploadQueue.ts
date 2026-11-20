@@ -38,6 +38,11 @@ interface UploadMetadata extends DeferredRetryMetadata {
    */
   localImageId: string;
   /**
+   * Retake count of the upload, computed at the first attempt and kept across retries (the failed local image of this
+   * upload is in the state on retry and would otherwise inflate it).
+   */
+  retakeCount?: number;
+  /**
    * Number of immediate retries already made.
    */
   count: number;
@@ -283,6 +288,7 @@ export function useUploadQueue({
       metadata = {
         siblingId: siblingIdRef.current,
         localImageId: createLocalImageId(),
+        retakeCount: getRetakeCount(upload),
         count: 0,
         retryable: false,
         isDeferredRetry: false,
@@ -300,7 +306,6 @@ export function useUploadQueue({
         return;
       }
       const startTs = Date.now();
-      const retakeCount = getRetakeCount(upload);
       try {
         const result = await addImage({
           ...createAddImageOptions(
@@ -308,7 +313,7 @@ export function useUploadQueue({
             inspectionId,
             metadata.siblingId,
             true,
-            retakeCount,
+            metadata.retakeCount,
             additionalTasks,
             complianceOptions,
             wheelAnalysisCloseUp,
