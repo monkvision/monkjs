@@ -357,9 +357,10 @@ describe('Image requests', () => {
 
     it('should share the same additional data between the local image and the POST body', async () => {
       let tick = 0;
-      const toISOStringSpy = jest
-        .spyOn(Date.prototype, 'toISOString')
-        .mockImplementation(() => `2024-01-01T00:00:00.${String((tick += 1)).padStart(3, '0')}Z`);
+      const toISOStringSpy = jest.spyOn(Date.prototype, 'toISOString').mockImplementation(() => {
+        tick += 1;
+        return `2024-01-01T00:00:00.${String(tick).padStart(3, '0')}Z`;
+      });
       try {
         const dispatch = jest.fn();
         await addImage(createBeautyShotImageOptions(), apiConfig, dispatch);
