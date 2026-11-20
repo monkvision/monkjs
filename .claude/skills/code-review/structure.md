@@ -28,6 +28,9 @@ file grows noticeably.
   and are re-exported from its `index.ts`. A hook or component file keeps only the interfaces
   specific to it: its options (`<Thing>Options` / `<Thing>Params`) and its handle (`<Thing>Handle`)
   or props. Flag an enum or shared interface declared in a hook/component file as Major.
+- **No IIFEs in JSX.** Compute values before `return`, or in the hook.
+- **One job per file.** A file that renders two unrelated things, or a hook that manages two
+  unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
 - **Styles** live in `<Component>.styles.ts`, not inline objects in the `.tsx`.
 - **Barrel exports.** Every new public symbol is re-exported from the folder's `index.ts` up to
   `src/index.ts`.
