@@ -815,6 +815,113 @@ describe('useUploadQueue hook', () => {
       unmount();
     });
 
+    describe('auto retry backoff with concurrent retries', () => {
+      const uploads = [1, 2].map((i) => ({ ...defaultUploadOptions, sightId: `sight-${i}` }));
+
+      async function setupTwoFailedUploads() {
+        (useMonkApi as jest.Mock).mockImplementation(() => ({
+          addImage: jest.fn(() => Promise.reject(timeoutError)),
+        }));
+        const reportSample = jest.fn();
+        const hook = renderHook(useUploadQueue, {
+          initialProps: {
+            ...createParams(),
+            enableAutoRetry: true,
+            networkStatus: { isOnline: true, quality: NetworkQuality.GOOD, reportSample },
+          },
+        });
+        const process = (useQueue as jest.Mock).mock.calls[0][0];
+        await failTwice(process, uploads[0]);
+        await failTwice(process, uploads[1]);
+        return { ...hook, process };
+      }
+
+      async function endRound(
+        process: (item: unknown) => Promise<unknown>,
+        outcomes: ('fail' | 'success')[],
+      ) {
+        const { onItemFail, onItemComplete } = (useQueue as jest.Mock).mock.calls[0][1];
+        await outcomes.reduce(
+          (promise, outcome, i) =>
+            promise.then(async () => {
+              if (outcome === 'fail') {
+                await expect(process(uploads[i])).rejects.toBe(timeoutError);
+                act(() => onItemFail(uploads[i]));
+              } else {
+                act(() => onItemComplete(uploads[i]));
+              }
+            }),
+          Promise.resolve(),
+        );
+      }
+
+      function startRound(delayMs: number) {
+        act(() => {
+          jest.advanceTimersByTime(delayMs);
+        });
+      }
+
+      it('should double the backoff once per round when concurrent retries both fail', async () => {
+        const { result, process, unmount } = await setupTwoFailedUploads();
+        startRound(0);
+        expect(result.current.retryingCount).toEqual(2);
+
+        await endRound(process, ['fail', 'fail']);
+        expect(result.current.failedUploads).toHaveLength(2);
+
+        startRound(4999);
+        expect(result.current.retryingCount).toEqual(0);
+        startRound(1);
+        expect(result.current.retryingCount).toEqual(2);
+        unmount();
+      });
+
+      it('should count a round with a failure and a success as one failure', async () => {
+        const { result, process, unmount } = await setupTwoFailedUploads();
+        startRound(0);
+        await endRound(process, ['fail', 'success']);
+        expect(result.current.failedUploads).toEqual([uploads[0]]);
+
+        startRound(4999);
+        expect(result.current.retryingCount).toEqual(0);
+        startRound(1);
+        expect(result.current.retryingCount).toEqual(1);
+        unmount();
+      });
+
+      it('should count a round with a success then a failure as one failure', async () => {
+        const { result, process, unmount } = await setupTwoFailedUploads();
+        startRound(0);
+        await endRound(process, ['success', 'fail']);
+        expect(result.current.failedUploads).toEqual([uploads[1]]);
+
+        startRound(4999);
+        expect(result.current.retryingCount).toEqual(0);
+        startRound(1);
+        expect(result.current.retryingCount).toEqual(1);
+        unmount();
+      });
+
+      it('should give up auto retry after 5 failed rounds, not 5 failed items', async () => {
+        const { result, process, unmount } = await setupTwoFailedUploads();
+        const delays = [0, 5000, 10000, 20000, 40000];
+        await delays.reduce(
+          (promise, delay) =>
+            promise.then(async () => {
+              startRound(delay);
+              expect(result.current.retryingCount).toEqual(2);
+              await endRound(process, ['fail', 'fail']);
+            }),
+          Promise.resolve(),
+        );
+
+        startRound(10 * 60 * 1000);
+        expect(result.current.retryingCount).toEqual(0);
+        expect(result.current.failedUploads).toHaveLength(2);
+        unmount();
+      });
+    });
+
     it('should not automatically retry failed uploads if auto retry is disabled', async () => {
       (useMonkApi as jest.Mock).mockImplementation(() => ({
         addImage: jest.fn(() => Promise.reject(timeoutError)),
