@@ -3,12 +3,10 @@ import {
   isTimeoutError,
   NetworkStatusHandle,
   Queue,
-  uniq,
   useMonkState,
   useQueue,
 } from '@monkvision/common';
 import {
-  NetworkQuality,
   PhotoCaptureAppConfig,
   ComplianceOptions,
   Image,
@@ -16,34 +14,43 @@ import {
   TaskName,
   VehiclePart,
 } from '@monkvision/types';
-import { AddImageOptions, ImageUploadType, MonkApiConfig, useMonkApi } from '@monkvision/network';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { MonkApiConfig, useMonkApi } from '@monkvision/network';
+import { useCallback, useRef } from 'react';
 import { useMonitoring } from '@monkvision/monitoring';
 import { CaptureMode } from '../types';
+import { createAddImageOptions } from './createAddImageOptions';
+import { DeferredRetryMetadata, useUploadRetryQueue } from './useUploadRetryQueue';
 
 const MAX_RETRY_COUNT = 1;
-const MAX_CONCURRENT_DEFERRED_RETRIES = 2;
-const MIN_DEFERRED_RETRY_DELAY_MS = 5000;
-const MAX_DEFERRED_RETRY_DELAY_MS = 2 * 60 * 1000;
-const MAX_AUTO_RETRY_FAILURES = 5;
-
-/**
- * Bookkeeping kept for each upload :
- * - `siblingId` and `localImageId` are computed once, at the first upload attempt, so that retries keep the same 2-shot
- * sibling key and replace the failed local image in the state instead of duplicating it.
- * - `count` is the number of times it has already been retried immediately and `retryable` indicates whether its last
- * failure was a retryable error.
- * - `isDeferredRetry` indicates if the current upload attempt is a deferred retry (see `UploadQueue.retryFailed`).
- */
-interface UploadMetadata {
-  siblingId: number;
-  localImageId: string;
-  count: number;
-  retryable: boolean;
-  isDeferredRetry: boolean;
-}
 
 let localImageIdCounter = 0;
+
+/**
+ * Bookkeeping kept for each upload.
+ */
+interface UploadMetadata extends DeferredRetryMetadata {
+  /**
+   * Sibling key index of the 2-shot add damage process, computed at the first attempt and kept across retries.
+   */
+  siblingId: number;
+  /**
+   * ID of the local image in the state, kept across retries so that the failed image is replaced, not duplicated.
+   */
+  localImageId: string;
+  /**
+   * Retake count of the upload, computed at the first attempt and kept across retries (the failed local image of this
+   * upload is in the state on retry and would otherwise inflate it).
+   */
+  retakeCount?: number;
+  /**
+   * Number of immediate retries already made.
+   */
+  count: number;
+  /**
+   * Whether the last failure was a retryable error.
+   */
+  retryable: boolean;
+}
 
 function createLocalImageId(): string {
   localImageIdCounter += 1;
@@ -74,6 +81,11 @@ export interface UploadSuccessPayload {
    * The ID of the uploaded image.
    */
   imageId?: string;
+  /**
+   * Set to `true` if a new picture of the same sight has been taken while this one was being uploaded (during a
+   * deferred retry for instance). In that case, the uploaded image is outdated and should be discarded.
+   */
+  isOutdated?: true;
 }
 
 /**
@@ -223,50 +235,6 @@ export interface UploadQueue extends Queue<PictureUpload> {
   retryFailed: () => void;
 }
 
-function createAddImageOptions(
-  upload: PictureUpload,
-  inspectionId: string,
-  siblingId: number,
-  enableThumbnail: boolean,
-  retakeCount?: number,
-  additionalTasks?: PhotoCaptureAppConfig['additionalTasks'],
-  compliance?: ComplianceOptions,
-  wheelAnalysisCloseUp?: boolean,
-): AddImageOptions {
-  if (upload.mode === CaptureMode.SIGHT) {
-    return {
-      uploadType: ImageUploadType.BEAUTY_SHOT,
-      picture: upload.picture,
-      sightId: upload.sightId,
-      tasks: additionalTasks ? uniq([...upload.tasks, ...additionalTasks]) : upload.tasks,
-      inspectionId,
-      compliance,
-      useThumbnailCaching: enableThumbnail,
-      wheelAnalysisCloseUp,
-      retakeCount,
-    };
-  }
-  if (upload.mode === CaptureMode.ADD_DAMAGE_PART_SELECT_SHOT) {
-    return {
-      uploadType: ImageUploadType.PART_SELECT_SHOT,
-      picture: upload.picture,
-      inspectionId,
-      vehicleParts: upload.vehicleParts,
-      compliance,
-      useThumbnailCaching: enableThumbnail,
-    };
-  }
-  return {
-    uploadType: ImageUploadType.CLOSE_UP_2_SHOT,
-    picture: upload.picture,
-    siblingKey: `closeup-sibling-key-${siblingId}`,
-    firstShot: upload.mode === CaptureMode.ADD_DAMAGE_1ST_SHOT,
-    inspectionId,
-    compliance,
-    useThumbnailCaching: enableThumbnail,
-  };
-}
-
 /**
  * Custom hook used to generate the UploadQueue (using the `useQueue` hook) for the PhotoCapture component.
  */
@@ -284,15 +252,15 @@ export function useUploadQueue({
   const { addImage } = useMonkApi(apiConfig);
   const { state } = useMonkState();
   const metadataRef = useRef(new Map<PictureUpload, UploadMetadata>());
-  const [failedUploads, setFailedUploads] = useState<PictureUpload[]>([]);
-  const [retryingCount, setRetryingCount] = useState(0);
-  const failedUploadsRef = useRef(failedUploads);
-  failedUploadsRef.current = failedUploads;
-  const retryBacklogRef = useRef<PictureUpload[]>([]);
-  const inFlightRetriesRef = useRef(0);
-  const deferredRetryDelayRef = useRef(0);
-  const autoRetryFailuresRef = useRef(0);
   const queueRef = useRef<Queue<PictureUpload> | null>(null);
+  const {
+    failedUploads,
+    retryingCount,
+    retryFailed,
+    addFailedUpload,
+    onDeferredRetryEnd,
+    discardOutdated,
+  } = useUploadRetryQueue({ metadataRef, queueRef, networkStatus, enableAutoRetry });
 
   const wheelAnalysisCloseUp = state.tasks.find(
     (task) => task.name === TaskName.WHEEL_ANALYSIS && task.wheelAnalysisCloseUp,
@@ -320,57 +288,24 @@ export function useUploadQueue({
       metadata = {
         siblingId: siblingIdRef.current,
         localImageId: createLocalImageId(),
+        retakeCount: getRetakeCount(upload),
         count: 0,
         retryable: false,
         isDeferredRetry: false,
+        isOutdated: false,
       };
       metadataRef.current.set(upload, metadata);
     }
     return metadata;
   };
 
-  const pumpDeferredRetries = () => {
-    while (
-      inFlightRetriesRef.current < MAX_CONCURRENT_DEFERRED_RETRIES &&
-      retryBacklogRef.current.length > 0
-    ) {
-      const upload = retryBacklogRef.current.shift() as PictureUpload;
-      inFlightRetriesRef.current += 1;
-      queueRef.current?.push(upload);
-    }
-    setRetryingCount(inFlightRetriesRef.current + retryBacklogRef.current.length);
-  };
-
-  const onDeferredRetryEnd = (upload: PictureUpload, failed: boolean) => {
-    inFlightRetriesRef.current = Math.max(0, inFlightRetriesRef.current - 1);
-    if (failed) {
-      const uploadsToPutBack = [upload, ...retryBacklogRef.current];
-      retryBacklogRef.current = [];
-      uploadsToPutBack.forEach((u) => {
-        const metadata = metadataRef.current.get(u);
-        if (metadata) {
-          metadata.isDeferredRetry = false;
-        }
-      });
-      setFailedUploads((current) => [...current, ...uploadsToPutBack]);
-      autoRetryFailuresRef.current += 1;
-      deferredRetryDelayRef.current = Math.min(
-        Math.max(MIN_DEFERRED_RETRY_DELAY_MS, deferredRetryDelayRef.current * 2),
-        MAX_DEFERRED_RETRY_DELAY_MS,
-      );
-    } else {
-      metadataRef.current.delete(upload);
-      deferredRetryDelayRef.current = 0;
-      autoRetryFailuresRef.current = 0;
-    }
-    pumpDeferredRetries();
-  };
-
   const queue = useQueue<PictureUpload>(
     async (upload: PictureUpload) => {
       const metadata = getMetadata(upload);
+      if (metadata.isOutdated) {
+        return;
+      }
       const startTs = Date.now();
-      const retakeCount = getRetakeCount(upload);
       try {
         const result = await addImage({
           ...createAddImageOptions(
@@ -378,7 +313,7 @@ export function useUploadQueue({
             inspectionId,
             metadata.siblingId,
             true,
-            retakeCount,
+            metadata.retakeCount,
             additionalTasks,
             complianceOptions,
             wheelAnalysisCloseUp,
@@ -396,6 +331,7 @@ export function useUploadQueue({
             durationMs: uploadDurationMs,
             sightId,
             imageId: result?.image?.id,
+            ...(metadata.isOutdated ? { isOutdated: true as const } : {}),
           }),
         );
       } catch (err) {
@@ -434,12 +370,14 @@ export function useUploadQueue({
             metadataRef.current.delete(upload);
             onDeferredRetryEnd(upload, false);
           }
+        } else if (metadata?.isOutdated) {
+          metadataRef.current.delete(upload);
         } else if (metadata?.retryable && metadata.count < MAX_RETRY_COUNT) {
           metadata.count += 1;
           metadata.retryable = false;
           queue.push(upload);
         } else if (metadata?.retryable) {
-          setFailedUploads((current) => [...current, upload]);
+          addFailedUpload(upload);
         } else {
           metadataRef.current.delete(upload);
         }
@@ -448,55 +386,24 @@ export function useUploadQueue({
   );
   queueRef.current = queue;
 
-  const retryFailedUploads = useCallback(() => {
-    const uploadsToRetry = failedUploadsRef.current;
-    if (uploadsToRetry.length === 0) {
-      return;
-    }
-    setFailedUploads((current) => current.filter((upload) => !uploadsToRetry.includes(upload)));
-    uploadsToRetry.forEach((upload) => {
-      const metadata = metadataRef.current.get(upload);
-      if (metadata) {
-        metadata.isDeferredRetry = true;
-      }
-    });
-    retryBacklogRef.current.push(...uploadsToRetry);
-    pumpDeferredRetries();
-  }, []);
-
-  const retryFailed = useCallback(() => {
-    autoRetryFailuresRef.current = 0;
-    retryFailedUploads();
-  }, [retryFailedUploads]);
-
-  const quality = networkStatus?.quality;
-  const hasFailedUploads = failedUploads.length > 0;
-  useEffect(() => {
-    if (
-      !enableAutoRetry ||
-      quality !== NetworkQuality.GOOD ||
-      !hasFailedUploads ||
-      retryingCount ||
-      autoRetryFailuresRef.current >= MAX_AUTO_RETRY_FAILURES
-    ) {
-      return undefined;
-    }
-    const timeout = setTimeout(retryFailedUploads, deferredRetryDelayRef.current);
-    return () => clearTimeout(timeout);
-  }, [enableAutoRetry, quality, hasFailedUploads, retryingCount, retryFailedUploads]);
-
   const push = useCallback(
     (upload: PictureUpload) => {
       if (upload.mode === CaptureMode.SIGHT) {
-        // A new picture of a sight replaces the failed uploads of this sight, which should not be retried anymore.
+        // A new picture of a sight replaces the previous uploads of this sight (failed, waiting to be retried or being
+        // retried), which should not be retried anymore.
         const isOutdated = (u: PictureUpload) =>
           u.mode === CaptureMode.SIGHT && u.sightId === upload.sightId;
-        failedUploadsRef.current.filter(isOutdated).forEach((u) => metadataRef.current.delete(u));
-        setFailedUploads((current) => current.filter((u) => !isOutdated(u)));
+        metadataRef.current.forEach((metadata, u) => {
+          if (isOutdated(u)) {
+            // eslint-disable-next-line no-param-reassign
+            metadata.isOutdated = true;
+          }
+        });
+        discardOutdated(isOutdated);
       }
       queue.push(upload);
     },
-    [queue.push],
+    [queue.push, discardOutdated],
   );
 
   return {

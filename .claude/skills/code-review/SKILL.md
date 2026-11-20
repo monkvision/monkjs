@@ -31,6 +31,13 @@ review of specific files or a PR.
    needed:
 
    - Read the full file only when judging its length or structure, or when a hunk lacks context.
+   - **Always** read the whole enclosing function or hook when a hunk touches shared mutable state
+     (refs, counters, backlogs, queues, retry/backoff, caches) or a callback called from async
+     work. These bugs live in the interaction between hunks and their unchanged neighbors.
+   - For retry/queue code, also follow every value the callback sends to an API back to where it
+     is computed, and read the request function it calls (e.g. what it dispatches to state before
+     and after the call). Don't stop at the diff boundary.
+   - Run `wc -l` on every changed source file. Don't estimate lengths.
    - Before suggesting a new hook or util, grep for an existing one (`packages/common/src`,
      the feature's `hooks/`).
    - Investigate adjacent files one at a time. Stop when the question is answered.
@@ -44,6 +51,8 @@ review of specific files or a PR.
    | Added comments, new or changed exported symbols, new names                                                | [comments-docs-naming.md](comments-docs-naming.md) |
    | `useEffect`/`useMemo`/`useCallback`, listeners, timers, streams, lists, heavy work                        | [performance-react.md](performance-react.md)       |
    | Regexes, parsing, string/number normalization, thresholds or conditions deciding behavior                 | [logic-correctness.md](logic-correctness.md)       |
+   | `async`/promises, queue or event callbacks, refs mutated from callbacks, counters, retries, concurrency   | [logic-correctness.md](logic-correctness.md)       |
+| Values sent to an API from a retried callback, optimistic state dispatches (local/placeholder items)     | [logic-correctness.md](logic-correctness.md)       |
    | Network, storage, env, auth/tokens, `dangerouslySetInnerHTML`, URLs, UI strings, new logic without a test | [security-i18n-tests.md](security-i18n-tests.md)   |
 
 4. **Review** against the core standards below plus the rules of every loaded file.
@@ -63,8 +72,8 @@ review of specific files or a PR.
 - Module constants sit at the top of the file, before any enum, interface or function. Enums and
   shared interfaces live in `@monkvision/types`; a hook file keeps only its options and handle
   interfaces (`<Thing>Params` / `<Thing>Options`, `<Thing>Handle`).
-- Files stay short and readable by a person. Judge case by case: flag a file that does more than
-  one job or that a person can't comfortably read through (roughly 300–500 lines).
+- Files stay short and readable by a person. Flag (Minor) a changed source file over 400 lines
+  that does more than one job, and name the job that could move out. Quote the measured length.
 - React components are arrow functions.
 - Each package has a flat barrel: new exports are re-exported from `src/index.ts`.
 - Code lives in feature folders: `src/<Feature>/` with component, `hooks/` and `*.styles.ts`.
@@ -84,7 +93,9 @@ review of specific files or a PR.
 ## Don't flag
 
 - Anything Prettier or ESLint already catches (formatting, import order, unused vars).
-- Pre-existing code outside the diff, unless the change makes it worse.
+- Pre-existing code outside the diff, unless the change makes it worse. **In scope anyway:**
+  unchanged code in the same function/hook as a hunk, and pre-existing logic that the branch's
+  feature relies on. Report those findings with the tag _(pre-existing)_.
 - Speculative issues without a concrete failure scenario.
 
 ## No diminishing returns
@@ -113,6 +124,16 @@ none. Fewer, correct findings beat a long list.
 
 If the diff contains an API key, token, password or certificate: report it as a **Blocker**,
 **never reproduce the value**, and direct rotation via security@acvauctions.com.
+
+## Consistency
+
+Two runs of this skill on the same diff should produce the same findings. To get there:
+
+- Follow the routing table literally: load every file whose signal is present, even when the diff
+  looks simple.
+- Apply each loaded file's **trace checklist** to every unit it covers. Don't sample.
+- Use the measured numbers (`wc -l`, constants, limits) in findings, not estimates.
+- If a check was skipped (e.g. a file was too large to trace), say so under the verdict.
 
 ## Output format
 

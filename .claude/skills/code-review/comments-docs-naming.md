@@ -7,6 +7,8 @@ introduces new names.
 
 - **TS-doc on every export.** One short sentence saying what it is or does. Props and handle
   interfaces document each field in one line. Add `@default` for defaulted options.
+- **Each field gets its own TS-doc.** Never describe fields in a bullet list on the interface doc,
+  exported or not (see the example below).
 - **TS-doc doesn't restate the signature.** No `@param x the x` or `@returns the result`, and no
   bullet lists of implementation steps.
 - **TS-doc sits on the symbol it describes.** A doc about a parser belongs on the parser, not on
@@ -53,6 +55,62 @@ const MILES_RE = /m(?:i|l|1){1,2}(?:l?e?s?)?(?!\p{L})/u;
 The doc described a parser but was attached to a non-exported regex, and its bullets narrated the
 implementation. If the parser is exported, it gets one line, e.g.
 `/** Extracts the mileage value and unit from a raw odometer OCR string. */`.
+
+### One interface-level doc vs a TS-doc per field
+
+Bad:
+
+```ts
+/**
+ * Bookkeeping kept for each upload :
+ * - `siblingId` and `localImageId` are computed once, at the first upload attempt, so that retries
+ * keep the same 2-shot sibling key and replace the failed local image in the state.
+ * - `count` is the number of times it has already been retried immediately and `retryable`
+ * indicates whether its last failure was a retryable error.
+ * - `isDeferredRetry` indicates if the current upload attempt is a deferred retry.
+ */
+interface UploadMetadata {
+  siblingId: number;
+  localImageId: string;
+  count: number;
+  retryable: boolean;
+  isDeferredRetry: boolean;
+}
+```
+
+Good:
+
+```ts
+/**
+ * Bookkeeping kept for each upload.
+ */
+interface UploadMetadata {
+  /**
+   * Sibling key index of the 2-shot add damage process, kept across retries.
+   */
+  siblingId: number;
+  /**
+   * ID of the local image in the state, kept across retries so the failed image is replaced.
+   */
+  localImageId: string;
+  /**
+   * Number of immediate retries already made.
+   */
+  count: number;
+  /**
+   * Whether the last failure was a retryable error.
+   */
+  retryable: boolean;
+  /**
+   * Whether the current attempt is a deferred retry.
+   */
+  isDeferredRetry: boolean;
+}
+```
+
+A bullet list in the interface doc is a doc for several fields at once: it can't be seen in IDE
+hovers and drifts out of sync. Every field (including non-exported interfaces) gets its own
+one-line TS-doc; the interface doc stays a single short sentence.
 
 ### "What" comment vs "why" comment
 
