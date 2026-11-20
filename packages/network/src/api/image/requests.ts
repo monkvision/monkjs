@@ -374,6 +374,7 @@ const MULTIPART_KEY_JSON = 'json';
 function createBeautyShotImageData(
   options: AddBeautyShotImageOptions,
   filetype: string,
+  additionalData: ImageAdditionalData,
 ): AddImageData {
   const filename = `${options.sightId}-${options.inspectionId}-${Date.now()}.${filetype}`;
   const tasks = options.tasks.filter(
@@ -440,7 +441,7 @@ function createBeautyShotImageData(
     },
     image_type: ImageType.BEAUTY_SHOT,
     tasks,
-    additional_data: getAdditionalData(options),
+    additional_data: additionalData,
   };
 
   return { filename, body };
@@ -449,6 +450,7 @@ function createBeautyShotImageData(
 function create2ShotCloseUpImageData(
   options: Add2ShotCloseUpImageOptions,
   filetype: string,
+  additionalData: ImageAdditionalData,
 ): AddImageData {
   const prefix = options.firstShot ? 'closeup-part' : 'closeup-damage';
   const filename = `${prefix}-${options.inspectionId}-${Date.now()}.${filetype}`;
@@ -469,7 +471,7 @@ function create2ShotCloseUpImageData(
           !!options.compliance?.enableCompliance && options.compliance?.useLiveCompliance,
       },
     ],
-    additional_data: getAdditionalData(options),
+    additional_data: additionalData,
   };
 
   return { filename, body };
@@ -478,6 +480,7 @@ function create2ShotCloseUpImageData(
 function createPartSelectCloseUpImageData(
   options: AddPartSelectCloseUpImageOptions,
   filetype: string,
+  additionalData: ImageAdditionalData,
 ): AddImageData {
   const filename = `part-select-${options.inspectionId}-${Date.now()}.${filetype}`;
 
@@ -498,13 +501,17 @@ function createPartSelectCloseUpImageData(
     detailed_viewpoint: {
       centers_on: options.vehicleParts as ApiCenterOnElement[],
     },
-    additional_data: getAdditionalData(options),
+    additional_data: additionalData,
   };
 
   return { filename, body };
 }
 
-function createVideoFrameData(options: AddVideoFrameOptions, filetype: string): AddImageData {
+function createVideoFrameData(
+  options: AddVideoFrameOptions,
+  filetype: string,
+  additionalData: ImageAdditionalData,
+): AddImageData {
   const filename = `video-frame-${options.frameIndex}.${filetype}`;
 
   const body: ApiImagePost = {
@@ -513,7 +520,7 @@ function createVideoFrameData(options: AddVideoFrameOptions, filetype: string): 
       file_key: MULTIPART_KEY_IMAGE,
     },
     tasks: [TaskName.DAMAGE_DETECTION],
-    additional_data: getAdditionalData(options),
+    additional_data: additionalData,
   };
 
   return { filename, body };
@@ -522,6 +529,7 @@ function createVideoFrameData(options: AddVideoFrameOptions, filetype: string): 
 function createVideoManualPhotoData(
   options: AddVideoManualPhotoOptions,
   filetype: string,
+  additionalData: ImageAdditionalData,
 ): AddImageData {
   const filename = `video-manual-photo-${Date.now()}.${filetype}`;
 
@@ -531,37 +539,44 @@ function createVideoManualPhotoData(
       file_key: MULTIPART_KEY_IMAGE,
     },
     tasks: [TaskName.DAMAGE_DETECTION],
-    additional_data: getAdditionalData(options),
+    additional_data: additionalData,
   };
 
   return { filename, body };
 }
 
-function getAddImageData(options: AddImageOptions, filetype: string): AddImageData {
+function getAddImageData(
+  options: AddImageOptions,
+  filetype: string,
+  additionalData: ImageAdditionalData,
+): AddImageData {
   switch (options.uploadType) {
     case ImageUploadType.BEAUTY_SHOT:
-      return createBeautyShotImageData(options, filetype);
+      return createBeautyShotImageData(options, filetype, additionalData);
     case ImageUploadType.CLOSE_UP_2_SHOT:
-      return create2ShotCloseUpImageData(options, filetype);
+      return create2ShotCloseUpImageData(options, filetype, additionalData);
     case ImageUploadType.PART_SELECT_SHOT:
-      return createPartSelectCloseUpImageData(options, filetype);
+      return createPartSelectCloseUpImageData(options, filetype, additionalData);
     case ImageUploadType.VIDEO_FRAME:
-      return createVideoFrameData(options, filetype);
+      return createVideoFrameData(options, filetype, additionalData);
     case ImageUploadType.VIDEO_MANUAL_PHOTO:
-      return createVideoManualPhotoData(options, filetype);
+      return createVideoManualPhotoData(options, filetype, additionalData);
     default:
       throw new Error('Unknown image upload type.');
   }
 }
 
-async function createImageFormData(options: AddImageOptions): Promise<FormData> {
+async function createImageFormData(
+  options: AddImageOptions,
+  additionalData: ImageAdditionalData,
+): Promise<FormData> {
   const extensions = getFileExtensions(options.picture.mimetype);
   if (!extensions) {
     throw new Error(`Unknown picture mimetype : ${options.picture.mimetype}`);
   }
   const filetype = extensions[0];
 
-  const { filename, body } = getAddImageData(options, filetype);
+  const { filename, body } = getAddImageData(options, filetype, additionalData);
 
   const file = new File([options.picture.blob], filename, { type: filetype });
 
@@ -572,8 +587,7 @@ async function createImageFormData(options: AddImageOptions): Promise<FormData> 
   return data;
 }
 
-function createLocalImage(options: AddImageOptions): Image {
-  const additionalData = getAdditionalData(options);
+function createLocalImage(options: AddImageOptions, additionalData: ImageAdditionalData): Image {
   const image: Image = {
     entityType: MonkEntityType.IMAGE,
     id: options.localImageId ?? v4(),
@@ -627,7 +641,8 @@ export async function addImage(
   config: MonkApiConfig,
   dispatch?: Dispatch<MonkCreatedOneImageAction>,
 ): Promise<MonkApiResponse<AddImageResponse, ApiImage>> {
-  const localImage = createLocalImage(options);
+  const additionalData = getAdditionalData(options);
+  const localImage = createLocalImage(options, additionalData);
   dispatch?.({
     type: MonkActionType.CREATED_ONE_IMAGE,
     payload: {
@@ -637,7 +652,7 @@ export async function addImage(
   });
   try {
     const kyOptions = getDefaultOptions(config);
-    const formData = await createImageFormData(options);
+    const formData = await createImageFormData(options, additionalData);
     const response = await ky.post(`inspections/${options.inspectionId}/images`, {
       ...kyOptions,
       body: formData,

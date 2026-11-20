@@ -355,6 +355,26 @@ describe('Image requests', () => {
       });
     });
 
+    it('should share the same additional data between the local image and the POST body', async () => {
+      let tick = 0;
+      const toISOStringSpy = jest.spyOn(Date.prototype, 'toISOString').mockImplementation(() => {
+        tick += 1;
+        return `2024-01-01T00:00:00.${String(tick).padStart(3, '0')}Z`;
+      });
+      try {
+        const dispatch = jest.fn();
+        await addImage(createBeautyShotImageOptions(), apiConfig, dispatch);
+
+        const localImage = dispatch.mock.calls[0][0].payload.image;
+        const formData = (ky.post as jest.Mock).mock.calls[0][1].body as FormData;
+        const { additional_data: postedData } = JSON.parse(formData.get('json') as string);
+        expect(postedData.created_at).toBeDefined();
+        expect(localImage.additionalData.created_at).toBe(postedData.created_at);
+      } finally {
+        toISOStringSpy.mockRestore();
+      }
+    });
+
     it('should properly create the formdata for a beautyshot', async () => {
       const options = createBeautyShotImageOptions();
       await addImage(options, apiConfig);

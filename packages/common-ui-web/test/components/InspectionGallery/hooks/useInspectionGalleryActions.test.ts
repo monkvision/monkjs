@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useMonkState, createEmptyMonkState } from '@monkvision/common';
 import { useMonkApi } from '@monkvision/network';
-import { Image, ImageType, Inspection, Viewpoint } from '@monkvision/types';
+import { Image, ImageStatus, ImageType, Inspection, Viewpoint } from '@monkvision/types';
 import { useInspectionGalleryActions } from '../../../../src/components/InspectionGallery/hooks';
 import {
   UseInspectionGalleryActionsParams,
@@ -42,6 +42,66 @@ describe('useInspectionGalleryActions hook', () => {
     expect(result.current.selectedImage).toBeNull();
     expect(result.current.selectedBeautyShotCandidates).toBeNull();
     unmount();
+  });
+
+  describe('selectedImage live updates', () => {
+    const local = {
+      id: 'local-id',
+      inspectionId: 'test-inspection-id',
+      status: ImageStatus.UPLOADING,
+      additionalData: { created_at: '2026-01-01T00:00:00.000Z' },
+    } as unknown as Image;
+
+    function selectLocal(images: Image[]) {
+      const state = { ...createEmptyMonkState(), images };
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+      const hook = renderHook(useInspectionGalleryActions, { initialProps: createParams() });
+      act(() => {
+        hook.result.current.handleItemClick({
+          isAddDamage: false,
+          isTaken: true,
+          image: local,
+        } as any);
+      });
+      return { state, ...hook };
+    }
+
+    it('should return the updated image when its status changes in the state', () => {
+      const { result, unmount } = selectLocal([{ ...local, status: ImageStatus.SUCCESS } as Image]);
+      expect(result.current.selectedImage?.status).toEqual(ImageStatus.SUCCESS);
+      unmount();
+    });
+
+    it('should return the server image that replaced the local one after upload', () => {
+      const server = { ...local, id: 'server-id', status: ImageStatus.SUCCESS } as Image;
+      const { result, unmount } = selectLocal([server]);
+      expect(result.current.selectedImage?.id).toEqual('server-id');
+      unmount();
+    });
+
+    it('should keep following the image when created_at changes after the ID swap', () => {
+      const server = { ...local, id: 'server-id', status: ImageStatus.SUCCESS } as Image;
+      const { rerender, result, unmount } = selectLocal([server]);
+      const retried = {
+        ...server,
+        status: ImageStatus.UPLOADING,
+        additionalData: { created_at: '2026-02-02T00:00:00.000Z' },
+      } as unknown as Image;
+      const state = { ...createEmptyMonkState(), images: [retried] };
+      (useMonkState as jest.Mock).mockImplementation(() => ({ state }));
+      rerender(createParams());
+      expect(result.current.selectedImage?.status).toEqual(ImageStatus.UPLOADING);
+      expect(result.current.selectedImage?.id).toEqual('server-id');
+      unmount();
+    });
+
+    it('should reset selectedImage when closing the detailed view', () => {
+      const { result, unmount } = selectLocal([local]);
+      expect(result.current.selectedImage).not.toBeNull();
+      act(() => result.current.handleCloseImageDetailedView());
+      expect(result.current.selectedImage).toBeNull();
+      unmount();
+    });
   });
 
   describe('handleItemClick', () => {
