@@ -46,6 +46,7 @@ const {
   isNetworkError,
   isInternalServerError,
   getAngleDifference,
+  NetworkQuality,
 } = jest.requireActual('@monkvision/common');
 
 export = {
@@ -85,6 +86,7 @@ export = {
   isNetworkError,
   isInternalServerError,
   getAngleDifference,
+  NetworkQuality,
 
   /* Mocks */
   useMonkTheme: jest.fn(() => createTheme()),
