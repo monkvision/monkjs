@@ -105,8 +105,21 @@ export function useImagesCleanup({
   []);
 
   const onUploadSuccess = useCallback(
-    ({ sightId, imageId }: UploadSuccessPayload) => {
+    ({ sightId, imageId, isOutdated }: UploadSuccessPayload) => {
       if (!sightId || !autoDeletePreviousSightImages) {
+        return;
+      }
+
+      if (isOutdated) {
+        if (imageId && !pendingDeletionIds.current.has(imageId)) {
+          pendingDeletionIds.current.add(imageId);
+          cleanupImages([
+            deleteImage({ imageId, id: inspectionId }).catch((err) => {
+              pendingDeletionIds.current.delete(imageId);
+              throw err;
+            }),
+          ]);
+        }
         return;
       }
 

@@ -4,6 +4,7 @@ export * from './useEnforceOrientation';
 export * from './useColorBackground';
 export * from './useAddDamageMode';
 export * from './useUploadQueue';
+export * from './useUploadRetryQueue';
 export * from './usePictureTaken';
 export * from './usePhotoCaptureImages';
 export * from './useBadConnectionWarning';
