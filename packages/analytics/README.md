@@ -42,6 +42,23 @@ render((
 ), container);
 ```
 
+## Using Multiple Adapters
+To send your analytics to multiple platforms (or projects), pass extra adapters using the optional
+`additionalAdapters` prop. Every call is forwarded to the main `adapter` and to each additional adapter. The main
+`adapter` is the primary one, used to return values (e.g. `getUserId`).
+
+```tsx
+const container = document.getElementById('root');
+render((
+  <AnalyticsProvider adapter={primaryAdapter} additionalAdapters={[secondaryAdapter]}>
+    <App/>
+  </AnalyticsProvider>
+), container);
+```
+
+Instantiate the adapters once, outside of your components, and keep the `additionalAdapters` array stable between
+renders.
+
 ## useAnalytics hook
 Once you have wrapped up your application in the `AnalyticsProvider` component, you can now access every Analytics
 features in your app components using the `useAnalytics` hook :
@@ -183,4 +200,19 @@ class MyCustomAnalyticsAdapter extends EmptyAnalyticsAdapter {
     // ...
   }
 }
+```
+
+### CompositeAnalyticsAdapter
+#### Description
+This Analytics Adapter forwards every call to a list of adapters. It is used by the `AnalyticsProvider` when
+`additionalAdapters` is given, and can also be used directly. The first adapter is the primary one, used to return
+values (e.g. `getUserId`). If an adapter throws, the remaining ones are still called and the first error is re-thrown
+afterwards.
+
+#### Examples of Usage
+```typescript
+import { CompositeAnalyticsAdapter } from '@monkvision/analytics';
+
+const adapter = new CompositeAnalyticsAdapter([primaryAdapter, secondaryAdapter]);
+adapter.trackEvent('Project Created'); // Sent to both adapters.
 ```
