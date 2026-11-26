@@ -47,6 +47,7 @@ A Posthog Adapter logs everything in the posthog platform. This can be used in y
 | `api_host`    | The URL of the Posthog application.                                                                         |          | `https://eu.pothog.com` |
 | `release`     | Release version of application                                                                              |          | `1.0.0`                 |
 | `projectName` | The name of the project or client.                                                                          |          | `monkjs`                |
+| `instanceName` | Name of the Posthog instance used by the adapter. Use a unique name per adapter to send analytics to multiple projects. |          | Global Posthog instance |
 
 ### Examples of Usage
 ```tsx
@@ -68,3 +69,28 @@ render((
   </AnalyticsProvider>
 ), container);
 ```
+
+### Sending Analytics to Multiple Posthog Projects
+To send your analytics to multiple Posthog projects, create one adapter per project, give each additional adapter a
+unique `instanceName`, and pass them to the `AnalyticsProvider` using the `additionalAdapters` prop :
+
+```tsx
+import { PosthogAnalyticsAdapter } from '@monkvision/posthog';
+import { AnalyticsProvider } from '@monkvision/analytics';
+
+const primaryAdapter = new PosthogAnalyticsAdapter({ token: 'FIRST_PROJECT_TOKEN' });
+const secondaryAdapter = new PosthogAnalyticsAdapter({
+  token: 'SECOND_PROJECT_TOKEN',
+  instanceName: 'secondary',
+});
+
+const container = document.getElementById('root');
+render((
+  <AnalyticsProvider adapter={primaryAdapter} additionalAdapters={[secondaryAdapter]}>
+    <App/>
+  </AnalyticsProvider>
+), container);
+```
+
+If no `instanceName` is given and the global Posthog instance already belongs to another project, the adapter creates a
+`monk-<token>` instance automatically.

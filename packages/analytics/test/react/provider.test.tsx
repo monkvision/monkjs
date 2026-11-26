@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { AnalyticsAdapter, AnalyticsProvider, useAnalytics } from '../../src';
+import { AnalyticsAdapter, AnalyticsContext, AnalyticsProvider, useAnalytics } from '../../src';
 
 function TestComponent() {
   const { setUserId, setUserProperties, trackEvent, resetUser, setEventsProperties, getUserId } =
@@ -73,6 +73,63 @@ describe('AnalyticsProvider component', () => {
     expect(setEventsPropertiesSpy).toHaveBeenCalledTimes(1);
     fireEvent.click(screen.getByTestId('get-user-id-btn'));
     expect(getUserId).toHaveBeenCalledTimes(1);
+    unmount();
+  });
+
+  function createMockAdapter(userId = 'test-user-id'): AnalyticsAdapter {
+    return {
+      setUserId: jest.fn(),
+      setUserProperties: jest.fn(),
+      resetUser: jest.fn(),
+      trackEvent: jest.fn(),
+      setEventsProperties: jest.fn(),
+      getUserId: jest.fn(() => userId),
+    };
+  }
+
+  it('should provide the given adapter as-is when no additional adapters are given', () => {
+    const adapter = createMockAdapter();
+    let contextValue: AnalyticsAdapter | null = null;
+    const { unmount } = render(
+      <AnalyticsProvider adapter={adapter} additionalAdapters={[]}>
+        <AnalyticsContext.Consumer>
+          {(value) => {
+            contextValue = value;
+            return null;
+          }}
+        </AnalyticsContext.Consumer>
+      </AnalyticsProvider>,
+    );
+    expect(contextValue).toBe(adapter);
+    unmount();
+  });
+
+  it('should forward the analytics calls to the additional adapters', () => {
+    const adapter = createMockAdapter('primary');
+    const additionalAdapters = [createMockAdapter('a'), createMockAdapter('b')];
+
+    const { unmount } = render(
+      <AnalyticsProvider adapter={adapter} additionalAdapters={additionalAdapters}>
+        <TestComponent />
+      </AnalyticsProvider>,
+    );
+
+    fireEvent.click(screen.getByTestId('set-user-id-btn'));
+    fireEvent.click(screen.getByTestId('set-user-properties-btn'));
+    fireEvent.click(screen.getByTestId('reset-user-btn'));
+    fireEvent.click(screen.getByTestId('track-event-btn'));
+    fireEvent.click(screen.getByTestId('set-events-properties-btn'));
+    fireEvent.click(screen.getByTestId('get-user-id-btn'));
+
+    [adapter, ...additionalAdapters].forEach((a) => {
+      expect(a.setUserId).toHaveBeenCalledWith('test', undefined);
+      expect(a.setUserProperties).toHaveBeenCalledWith({ test: 'test' });
+      expect(a.resetUser).toHaveBeenCalledTimes(1);
+      expect(a.trackEvent).toHaveBeenCalledWith('test event', { test: 'test' });
+      expect(a.setEventsProperties).toHaveBeenCalledWith({ test: 'test' });
+    });
+    expect(adapter.getUserId).toHaveBeenCalledTimes(1);
+    additionalAdapters.forEach((a) => expect(a.getUserId).not.toHaveBeenCalled());
     unmount();
   });
 });

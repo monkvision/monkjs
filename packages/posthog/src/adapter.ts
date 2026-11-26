@@ -1,6 +1,6 @@
 import { AnalyticsAdapter } from '@monkvision/analytics';
 import { Primitive } from '@monkvision/types';
-import posthog from 'posthog-js';
+import posthog, { PostHog } from 'posthog-js';
 
 /**
  * Config required when instantiating the Posthog Analytics Adapter.
@@ -34,6 +34,12 @@ export interface PosthogConfig {
    * @default '1.0.0'
    */
   release: string;
+  /**
+   * Name of the Posthog instance used by this adapter. Use a unique name per adapter to send analytics to multiple
+   * Posthog projects. Defaults to the global instance, or to a `monk-<token>` instance if the global one already
+   * belongs to another project.
+   */
+  instanceName?: string;
 }
 
 /**
@@ -63,43 +69,62 @@ const defaultOptions: Omit<PosthogConfig, 'token'> = {
 export class PosthogAnalyticsAdapter implements AnalyticsAdapter {
   private readonly posthogOptions: PosthogConfig;
 
+  private readonly client: PostHog;
+
   constructor(optionsParam: PosthogAdapterConfig) {
     this.posthogOptions = {
       ...defaultOptions,
       ...optionsParam,
     };
 
-    posthog.init(this.posthogOptions.token, {
-      api_host: this.posthogOptions.api_host,
-    });
-    posthog.setPersonProperties({
+    this.client = this.initClient();
+    this.client.setPersonProperties({
       environnement: this.posthogOptions?.environnement,
       projectName: this.posthogOptions?.projectName,
       release: this.posthogOptions?.release,
     });
   }
 
+  /**
+   * Returns the global Posthog instance, or a named one if requested or if the global one is bound to another project.
+   */
+  private initClient(): PostHog {
+    const { token, api_host: apiHost } = this.posthogOptions;
+    const isDefaultInstanceUsedByAnotherProject =
+      // eslint-disable-next-line no-underscore-dangle
+      !!posthog.__loaded && !!posthog.config?.token && posthog.config.token !== token;
+    const instanceName =
+      this.posthogOptions.instanceName ??
+      (isDefaultInstanceUsedByAnotherProject ? `monk-${token}` : undefined);
+
+    if (!instanceName) {
+      posthog.init(token, { api_host: apiHost });
+      return posthog;
+    }
+    return posthog.init(token, { api_host: apiHost }, instanceName) ?? posthog;
+  }
+
   setUserId(id: string, context?: Record<string, Primitive>): void {
-    posthog.identify(id, context);
+    this.client.identify(id, context);
   }
 
   setUserProperties(context: Record<string, Primitive>): void {
-    posthog.setPersonProperties(context);
+    this.client.setPersonProperties(context);
   }
 
   resetUser(): void {
-    posthog.reset();
+    this.client.reset();
   }
 
   trackEvent(name: string, context?: Record<string, Primitive>): void {
-    posthog.capture(name, context);
+    this.client.capture(name, context);
   }
 
   setEventsProperties(context: Record<string, Primitive>): void {
-    posthog.register(context);
+    this.client.register(context);
   }
 
   getUserId(): string {
-    return posthog.get_distinct_id();
+    return this.client.get_distinct_id();
   }
 }

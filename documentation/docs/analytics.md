@@ -92,3 +92,24 @@ This Analytics Adapter is the default adapter used in MonkJs web applications. I
 log and report analytics events in your web applications. If you are one of our clients, and plan on using this adapter in
 your application, Monk should give you a token value to add to this adapter in order to link it to our
 infrastructure.
+
+## Using Multiple Analytics Adapters
+To send your analytics to multiple platforms or projects, pass extra adapters to the `additionalAdapters` prop of the
+`AnalyticsProvider`. When using multiple `PosthogAnalyticsAdapter`s, give each additional adapter a unique
+`instanceName` :
+
+```tsx
+const primaryAdapter = new PosthogAnalyticsAdapter({ token: 'FIRST_PROJECT_TOKEN' });
+const secondaryAdapter = new PosthogAnalyticsAdapter({
+  token: 'SECOND_PROJECT_TOKEN',
+  instanceName: 'secondary',
+});
+
+function App() {
+  return (
+    <AnalyticsProvider adapter={primaryAdapter} additionalAdapters={[secondaryAdapter]}>
+      ...
+    </AnalyticsProvider>
+  );
+}
+```
