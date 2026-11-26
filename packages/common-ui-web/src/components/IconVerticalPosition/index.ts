@@ -1,2 +1,5 @@
 export { IconVerticalPosition } from './IconVerticalPosition';
-export { type IconVerticalPositionProps } from './IconVerticalPosition.types';
+export {
+  IconVerticalPositionVariant,
+  type IconVerticalPositionProps,
+} from './IconVerticalPosition.types';

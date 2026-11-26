@@ -14,8 +14,8 @@ file grows noticeably.
   boolean. Once it depends on several sources, it moves into the hook.
 - **Extract JSX blocks into components.** A JSX chunk stored in a variable (`const dialog = (...)`)
   or rendered conditionally with its own props becomes a sub-component with a props interface.
-- **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` render. Create a
-  separate SVG component with a props interface.
+- **SVGs are their own component.** Never write an inline `<svg>` inside a `.tsx` return — flag it
+  as **Major**. Create a separate SVG component with a props interface.
 - **No IIFEs anywhere.** Compute values before `return` in JSX, or extract a named function in a
   hook. An immediately-invoked function expression (`(() => { ... })()`) is always replaceable by a
   named function and is a Minor finding wherever it appears.
@@ -29,6 +29,9 @@ file grows noticeably.
   specific to it: its options (`<Thing>Options` / `<Thing>Params`) and its handle (`<Thing>Handle`)
   or props. Flag an enum or shared interface declared in a hook/component file as Major.
 - **No IIFEs in JSX.** Compute values before `return`, or in the hook.
+- **One component per file.** A sub-component with its own props interface must live in its own
+  `.tsx` file, even if it is only used by one parent. Flag any unexported component defined
+  alongside an exported one as a Minor finding.
 - **One job per file.** A file that renders two unrelated things, or a hook that manages two
   unrelated concerns, is split. Length is a symptom: around 300–500 lines, ask if it does one job.
 - **Constants first.** Module-level constants are declared at the top of the file, above any enum,

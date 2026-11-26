@@ -5,3 +5,6 @@ export * from './usePhotoCaptureSightGuidelines';
 export * from './useInspectionComplete';
 export * from './usePhotoCaptureSightTutorial';
 export * from './useImagesCleanup';
+export * from './ocrTypes';
+export * from './usePhotoCaptureOcr';
+export * from './usePhotoCaptureOcrConfirm';
